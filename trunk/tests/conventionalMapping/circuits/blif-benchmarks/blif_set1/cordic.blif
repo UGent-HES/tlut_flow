@@ -1,0 +1,217 @@
+.model TOP
+.inputs a6 a4 a3 a2 a5 v x0 x1 x2 x3 y0 y1 y2 y3 z0 z1 z2 ex0 ex1 ex2 ey0 ey1 \
+ey2
+.outputs d dn
+.names n2 n3 n4 n5 n6 n7 n8 n9 d
+1------- 1
+-1------ 1
+--1----- 1
+---1---- 1
+----1--- 1
+-----1-- 1
+------1- 1
+-------1 1
+.names n1 dn
+0 1
+.names n38 n36 n37 a2 n1
+11-- 1
+1-1- 1
+1--1 1
+.names y0 n95 n96 n2
+011 1
+.names n97 n95 y0 n3
+111 1
+.names v a6 n48 n4
+11- 1
+1-1 1
+.names x0 n87 n95 n5
+011 1
+.names n91 n95 x0 n6
+111 1
+.names v n42 a2 a3 n7
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names n46 n43 n44 n68 n8
+11-- 1
+1-1- 1
+1--0 1
+.names n47 n42 n9
+11 1
+.names a6 a4 n10
+01 1
+.names x2 x3 n13
+0- 1
+-0 1
+.names x2 x3 n14
+1- 1
+-1 1
+.names y0 n13 n14 n12
+1-- 1
+-11 1
+.names x2 x3 n16
+1- 1
+-0 1
+.names x2 x3 n17
+0- 1
+-1 1
+.names y0 n16 n17 n15
+1-- 1
+-11 1
+.names v x0 x1 n19
+001 1
+.names v x0 x1 n20
+010 1
+.names n15 n19 n20 n18
+01- 1
+0-1 1
+.names v x0 x1 n23
+1-- 1
+-1- 1
+--1 1
+.names v x0 x1 n24
+1-- 1
+-0- 1
+--0 1
+.names n12 n18 n23 n24 n22
+10-- 1
+-011 1
+.names y0 n13 n14 n26
+0-- 1
+-11 1
+.names y0 n16 n17 n28
+0-- 1
+-11 1
+.names n19 n20 n28 n29
+1-0 1
+-10 1
+.names n23 n24 n26 n29 n31
+--10 1
+11-0 1
+.names n22 n31 n96 n97 n33
+11-- 1
+1-0- 1
+-1-0 1
+--00 1
+.names n33 n65 n66 n80 n82 n83 n38
+1----- 1
+-1---- 1
+--1--- 1
+---0-- 1
+----1- 1
+-----1 1
+.names a6 v n49 n36
+11- 1
+1-1 1
+.names a6 a3 n48 n37
+01- 1
+0-1 1
+.names a6 a4 a3 a5 n39
+100- 1
+-001 1
+.names n63 n64 n65 n66 n42
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names z0 z1 z2 n85 n46
+1--0 1
+-110 1
+.names a6 a3 n43
+01 1
+.names a4 a3 n44
+11 1
+.names a6 a4 n48 n47
+10- 1
+0-1 1
+-01 1
+.names a5 a4 n48
+1- 1
+-1 1
+.names a4 a3 n49
+11 1
+00 1
+.names ex0 ex1 ex2 n63
+01- 1
+-10 1
+.names ex0 ex1 ex2 n64
+10- 1
+-01 1
+.names ey0 ey1 ey2 n65
+01- 1
+-10 1
+.names ey0 ey1 ey2 n66
+10- 1
+-01 1
+.names n39 a2 n67
+1- 1
+-1 1
+.names a6 n48 n67 n68
+1-0 1
+-00 1
+.names y1 y2 y3 n72
+010 1
+.names y1 y2 y3 n73
+100 1
+.names y1 y2 y3 n74
+001 1
+.names y3 y2 y1 n75
+111 1
+.names y1 y2 y3 n76
+000 1
+.names y1 y2 y3 n77
+110 1
+.names y1 y2 y3 n78
+011 1
+.names y1 y2 y3 n79
+101 1
+.names z0 z1 z2 n81
+0-- 1
+-1- 1
+--1 1
+.names z0 z1 z2 n81 n80
+1--1 1
+-0-1 1
+--01 1
+.names ex0 ex1 ex2 n82
+1-0 1
+-10 1
+.names ex0 ex1 ex2 n83
+0-1 1
+-01 1
+.names z0 z2 z1 n85
+11- 1
+1-1 1
+.names x1 n16 n17 n90
+1-- 1
+-0- 1
+--0 1
+.names x1 n13 n14 n90 n87
+0--1 1
+-0-1 1
+--01 1
+.names x1 n13 n14 n94
+1-- 1
+-0- 1
+--0 1
+.names x1 n16 n17 n94 n91
+0--1 1
+-0-1 1
+--01 1
+.names n10 n67 n43 n44 n95
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names n74 n75 n72 n73 n96
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names n78 n79 n76 n77 n97
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.end

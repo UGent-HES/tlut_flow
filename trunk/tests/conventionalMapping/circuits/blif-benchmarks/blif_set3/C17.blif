@@ -1,0 +1,58 @@
+#
+# Written by e2fmt Tue Mar 31 16:13:19 1998
+############################################
+.model top
+.inputs p_1gat_0_ p_6gat_3_ p_7gat_4_ p_2gat_1_ p_3gat_2_
+.outputs p_22gat_10_ p_23gat_9_
+# connect ports to nets with different names
+.names n_n11 p_22gat_10_
+1  1
+.names p_1gat_0_ n_n16
+1  1
+.names p_6gat_3_ n_n13
+1  1
+.names p_7gat_4_ n_n12
+1  1
+.names p_2gat_1_ n_n15
+1  1
+.names p_3gat_2_ n_n14
+1  1
+.names n_n10 p_23gat_9_
+1  1
+# instance g_g9
+.names n_n12 n_n9  n_n3
+11  1
+# instance g_g5
+.names n_n0  n_n11
+0  1
+# instance g_g6
+.names n_n6 n_n8  n_n0
+11  1
+# instance g_g7
+.names n_n7 n_n6  n_n1
+11  1
+# instance g_g8
+.names n_n9 n_n15  n_n2
+11  1
+# instance g_g1
+.names n_n4  n_n8
+0  1
+# instance g_g2
+.names n_n3  n_n7
+0  1
+# instance g_g3
+.names n_n2  n_n6
+0  1
+# instance g_g4
+.names n_n1  n_n10
+0  1
+# instance g_g0
+.names n_n5  n_n9
+0  1
+# instance g_g10
+.names n_n14 n_n16  n_n4
+11  1
+# instance g_g11
+.names n_n13 n_n14  n_n5
+11  1
+.end

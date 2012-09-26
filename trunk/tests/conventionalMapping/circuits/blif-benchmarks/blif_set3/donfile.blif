@@ -1,0 +1,29 @@
+#
+# Written by e2fmt Tue Mar 31 16:15:52 1998
+############################################
+.model top
+.inputs donfile_in_1_ donfile_in_0_ clock
+.outputs donfile_out
+# connect ports to nets with different names
+.names donfile_in_1_ n_n6
+1  1
+.names donfile_in_0_ n_n5
+1  1
+.names n_n2 donfile_out
+1  1
+.names clock n__clk
+1  1
+# instance g_g1
+.names  n_n0
+  -
+# instance g_g70
+.names  n_n4
+  1
+# instance g_gd76
+.names  n_n3
+  0
+# instance g_g0
+.names n_n4 n_n0 n_n3  n_n2
+1-0  1
+-11  1
+.end

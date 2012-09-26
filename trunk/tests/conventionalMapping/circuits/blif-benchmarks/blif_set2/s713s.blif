@@ -1,0 +1,152 @@
+.model s713.bench
+.inputs G1 G2 G3 G4 G5 G6 G8 G9 G10 G11 G12 G13 G14 G15 G16 G17 G18 G19 G20 \
+G21 G22 G23 G24 G25 G26 G27 G28 G29 G30 G31 G32 G33 G34 G35 G36
+.outputs G103BF G104BF G105BF G106BF G107 G83 G84 G85 G86BF G87BF G88BF G89BF \
+G90 G91 G92 G94 G95BF G96BF G97BF G98BF G99BF G100BF G101BF
+.wire_load_slope 0.00 
+.latch    G150 G64   0
+.latch    G262 G65   0
+.latch    G158 G66   0
+.latch    G133 G69   0
+.latch    G138 G70   0
+.latch    G139 G71   0
+.latch    G140 G72   0
+.latch    G141 G73   0
+.latch    G142 G74   0
+.latch    G125 G75   0
+.latch    G126 G76   0
+.latch    G127 G77   0
+.latch    G129 G79   0
+.latch    G131 G81   0
+.names G14 G150 G103BF
+0- 1
+-0 1
+.names G3 G15 G87BF G76 G104BF
+-0-- 1
+---0 1
+0-1- 1
+.names G16 G158 G105BF
+0- 1
+-0 1
+.names G106BF
+ 1
+.names G4 G18 G79 G107
+011 1
+.names G4 G19 G65 G83
+011 1
+.names G4 G20 G81 G84
+011 1
+.names G85
+.names G2 G3 G9 G10 G11 G13 G22 G64 G262 G158 G86BF
+------0--- 1
+-0--0----- 1
+-000-0---- 1
+0------100 1
+.names G3 G9 G10 G11 G13 G23 G65 G87BF
+-----0- 1
+------1 1
+0--0--- 1
+001-0-- 1
+.names G2 G3 G9 G10 G11 G13 G24 G66 G88BF
+------0- 1
+-0--0--- 1
+0------1 1
+-010-0-- 1
+.names G3 G9 G10 G11 G13 G25 G89BF
+-----0 1
+0--0-- 1
+011-0- 1
+.names G26 G270 G90
+10 1
+.names G11 G12 G13 G28 G92
+1111 1
+.names G30 G86BF G74 G95BF
+0-- 1
+-1- 1
+--0 1
+.names G4 G31 G73 G96BF
+1-- 1
+-0- 1
+--0 1
+.names G32 G87BF G72 G97BF
+0-- 1
+-1- 1
+--0 1
+.names G4 G33 G71 G98BF
+1-- 1
+-0- 1
+--0 1
+.names G34 G88BF G70 G99BF
+0-- 1
+-1- 1
+--0 1
+.names G4 G35 G69 G100BF
+1-- 1
+-0- 1
+--0 1
+.names G101BF
+ 1
+.names G2 G3 G87BF G76 G158 G262
+01-10 1
+0-010 1
+.names G279 G133
+0 1
+.names G4 G88BF G69 G70 G138
+1--- 1
+--0- 1
+-0-1 1
+.names G87BF G140 G72 G139
+10- 1
+0-1 1
+.names G4 G87BF G71 G72 G140
+1--- 1
+--0- 1
+-0-1 1
+.names G287 G141
+0 1
+.names G4 G86BF G73 G74 G142
+1--- 1
+--0- 1
+-0-1 1
+.names G2 G3 G4 G8 G86BF G87BF G73 G76 G158 G150 G287 G125
+0--------1- 1
+---1-----1- 1
+--010-100-0 1
+-001011-0-0 1
+.names G2 G3 G4 G5 G87BF G71 G140 G76 G158 G150 G126
+01-----1-- 1
+-1-1---1-- 1
+0---0--1-- 1
+---10--1-- 1
+--01-11-00 1
+.names G3 G4 G6 G87BF G88BF G69 G76 G131 G158 G279 G150 G127
+-------1--- 1
+--1-----1-- 1
+-01-010--00 1
+001101---00 1
+.names G2 G262 G158 G150 G129
+0001 1
+.names G2 G158 G131
+01 1
+.names G3 G88BF G77 G158
+1-1 1
+-01 1
+.names G88BF G138 G70 G279
+11- 1
+0-0 1
+.names G3 G86BF G75 G150
+1-1 1
+-01 1
+.names G86BF G142 G74 G287
+11- 1
+0-0 1
+.names G4 G9 G10 G12 G13 G86BF G88BF G69 G71 G140 G73 G279 G287 G270
+---0--------- 1
+001-0---11--- 1
+010-0-01---0- 1
+000-00----1-0 1
+.names G27 G91
+1 1
+.names G29 G94
+1 1
+.end

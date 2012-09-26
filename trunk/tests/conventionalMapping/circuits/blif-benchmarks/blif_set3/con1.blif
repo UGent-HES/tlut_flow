@@ -1,0 +1,93 @@
+#
+# Written by e2fmt Tue Mar 31 16:29:26 1998
+############################################
+.model top
+.inputs a b c d f g h
+.outputs f0 f1
+# connect ports to nets with different names
+.names a na
+1  1
+.names b nb
+1  1
+.names c nc
+1  1
+.names d nd
+1  1
+.names f nf
+1  1
+.names g ng
+1  1
+.names h nh
+1  1
+.names nf0 f0
+1  1
+.names nf1 f1
+1  1
+# instance g_g9
+.names nd  n_n7
+0  1
+# instance g_g5
+.names nc  n_n3
+0  1
+# instance g_g6
+.names na  n_n4
+0  1
+# instance g_g7
+.names ng  n_n5
+0  1
+# instance g_g8
+.names nf  n_n6
+0  1
+# instance g_g1
+.names n_n15 n_n16 n_n14  n_n0
+1--  1
+-1-  1
+--1  1
+# instance g_g2
+.names n_n1 n_n2  nf1
+1-  1
+-1  1
+# instance g_g3
+.names n_n13 n_n12  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names n_n10 n_n11 n_n9  n_n2
+1--  1
+-1-  1
+--1  1
+# instance g_g0
+.names n_n17 n_n0  nf0
+1-  1
+-1  1
+# instance g_g10
+.names nb  n_n8
+0  1
+# instance g_g11
+.names n_n8 n_n7 nf  n_n9
+111  1
+# instance g_g12
+.names nb na n_n6  n_n10
+111  1
+# instance g_g13
+.names n_n5 n_n6  n_n11
+11  1
+# instance g_g14
+.names n_n4 nf  n_n12
+11  1
+# instance g_g15
+.names n_n4 n_n8  n_n13
+11  1
+# instance g_g16
+.names nb nh n_n6  n_n14
+111  1
+# instance g_g17
+.names n_n3 nd n_n8  n_n15
+111  1
+# instance g_g18
+.names nc nd nf  n_n16
+111  1
+# instance g_g19
+.names na nb  n_n17
+11  1
+.end

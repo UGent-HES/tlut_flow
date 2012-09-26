@@ -1,0 +1,392 @@
+.model minmax10
+.inputs clear<0> enable<0> reset<0> in<9> in<8> in<7> in<6> in<5> in<4> in<3>
+.inputs in<2> in<1> in<0> 
+.outputs out<9> out<8> out<7> out<6> out<5> out<4> out<3> out<2> out<1> out<0>
+.latch ns_min<9> ps_min<9>  1
+.latch ns_min<8> ps_min<8>  1
+.latch ns_min<7> ps_min<7>  1
+.latch ns_min<6> ps_min<6>  1
+.latch ns_min<5> ps_min<5>  1
+.latch ns_min<4> ps_min<4>  1
+.latch ns_min<3> ps_min<3>  1
+.latch ns_min<2> ps_min<2>  1
+.latch ns_min<1> ps_min<1>  1
+.latch ns_min<0> ps_min<0>  1
+.latch ns_last<9> ps_last<9>  0
+.latch ns_last<8> ps_last<8>  0
+.latch ns_last<7> ps_last<7>  0
+.latch ns_last<6> ps_last<6>  0
+.latch ns_last<5> ps_last<5>  0
+.latch ns_last<4> ps_last<4>  0
+.latch ns_last<3> ps_last<3>  0
+.latch ns_last<2> ps_last<2>  0
+.latch ns_last<1> ps_last<1>  0
+.latch ns_last<0> ps_last<0>  0
+.latch ns_max<9> ps_max<9>  0
+.latch ns_max<8> ps_max<8>  0
+.latch ns_max<7> ps_max<7>  0
+.latch ns_max<6> ps_max<6>  0
+.latch ns_max<5> ps_max<5>  0
+.latch ns_max<4> ps_max<4>  0
+.latch ns_max<3> ps_max<3>  0
+.latch ns_max<2> ps_max<2>  0
+.latch ns_max<1> ps_max<1>  0
+.latch ns_max<0> ps_max<0>  0
+.names enable<0> __COND0<0>2.1
+0 1
+.names in<9> ps_max<9> main__GTR_10_1_test<0>6.1
+01 1
+10 1
+.names in<8> ps_max<8> main__GTR_10_1_test<0>10.1
+01 1
+10 1
+.names in<7> ps_max<7> main__GTR_10_1_test<0>14.1
+01 1
+10 1
+.names in<6> ps_max<6> main__GTR_10_1_test<0>18.1
+01 1
+10 1
+.names in<5> ps_max<5> main__GTR_10_1_test<0>22.1
+01 1
+10 1
+.names in<4> ps_max<4> main__GTR_10_1_test<0>26.1
+01 1
+10 1
+.names in<3> ps_max<3> main__GTR_10_1_test<0>30.1
+01 1
+10 1
+.names in<2> ps_max<2> main__GTR_10_1_test<0>34.1
+01 1
+10 1
+.names in<1> ps_max<1> main__GTR_10_1_test<0>38.1
+01 1
+10 1
+.names in<0> ps_max<0> main__GTR_10_1_test<0>42.1
+01 1
+10 1
+.names main__GTR_10_1_test<0>6.1 main__GTR_10_1_test<0>10.1 main__GTR_10_1_test<0>14.1 main__GTR_10_1_test<0>18.1 main__GTR_10_1_test<0>22.1 main__GTR_10_1_test<0>26.1 main__GTR_10_1_test<0>30.1 main__GTR_10_1_test<0>34.1 main__GTR_10_1_test<0>38.1 main__GTR_10_1_test<0>42.1 in<9> in<8> in<7> in<6> in<5> in<4> in<3> in<2> in<1> in<0> main__GTR_10_1___GTR_10<0>6.2
+1---------1--------- 1
+01---------1-------- 1
+001---------1------- 1
+0001---------1------ 1
+00001---------1----- 1
+000001---------1---- 1
+0000001---------1--- 1
+00000001---------1-- 1
+000000001---------1- 1
+0000000001---------1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<0> in<0> main_1_sup<0>6.1
+01- 1
+1-1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<1> in<1> main_1_sup<1>6.1
+01- 1
+1-1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<2> in<2> main_1_sup<2>6.1
+01- 1
+1-1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<3> in<3> main_1_sup<3>6.1
+01- 1
+1-1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<4> in<4> main_1_sup<4>6.1
+01- 1
+1-1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<5> in<5> main_1_sup<5>6.1
+01- 1
+1-1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<6> in<6> main_1_sup<6>6.1
+01- 1
+1-1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<7> in<7> main_1_sup<7>6.1
+01- 1
+1-1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<8> in<8> main_1_sup<8>6.1
+01- 1
+1-1 1
+.names main__GTR_10_1___GTR_10<0>6.2 ps_max<9> in<9> main_1_sup<9>6.1
+01- 1
+1-1 1
+.names in<9> ps_min<9> main__LSS_10_1_test<0>6.1
+01 1
+10 1
+.names in<8> ps_min<8> main__LSS_10_1_test<0>52.1
+01 1
+10 1
+.names in<7> ps_min<7> main__LSS_10_1_test<0>56.1
+01 1
+10 1
+.names in<6> ps_min<6> main__LSS_10_1_test<0>60.1
+01 1
+10 1
+.names in<5> ps_min<5> main__LSS_10_1_test<0>64.1
+01 1
+10 1
+.names in<4> ps_min<4> main__LSS_10_1_test<0>68.1
+01 1
+10 1
+.names in<3> ps_min<3> main__LSS_10_1_test<0>72.1
+01 1
+10 1
+.names in<2> ps_min<2> main__LSS_10_1_test<0>76.1
+01 1
+10 1
+.names in<1> ps_min<1> main__LSS_10_1_test<0>80.1
+01 1
+10 1
+.names in<0> ps_min<0> main__LSS_10_1_test<0>84.1
+01 1
+10 1
+.names main__LSS_10_1_test<0>6.1 main__LSS_10_1_test<0>52.1 main__LSS_10_1_test<0>56.1 main__LSS_10_1_test<0>60.1 main__LSS_10_1_test<0>64.1 main__LSS_10_1_test<0>68.1 main__LSS_10_1_test<0>72.1 main__LSS_10_1_test<0>76.1 main__LSS_10_1_test<0>80.1 main__LSS_10_1_test<0>84.1 ps_min<9> ps_min<8> ps_min<7> ps_min<6> ps_min<5> ps_min<4> ps_min<3> ps_min<2> ps_min<1> ps_min<0> main__LSS_10_1___LSS_10<0>6.2
+1---------1--------- 1
+01---------1-------- 1
+001---------1------- 1
+0001---------1------ 1
+00001---------1----- 1
+000001---------1---- 1
+0000001---------1--- 1
+00000001---------1-- 1
+000000001---------1- 1
+0000000001---------1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<0> in<0> main_1_inf<0>6.1
+01- 1
+1-1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<1> in<1> main_1_inf<1>6.1
+01- 1
+1-1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<2> in<2> main_1_inf<2>6.1
+01- 1
+1-1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<3> in<3> main_1_inf<3>6.1
+01- 1
+1-1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<4> in<4> main_1_inf<4>6.1
+01- 1
+1-1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<5> in<5> main_1_inf<5>6.1
+01- 1
+1-1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<6> in<6> main_1_inf<6>6.1
+01- 1
+1-1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<7> in<7> main_1_inf<7>6.1
+01- 1
+1-1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<8> in<8> main_1_inf<8>6.1
+01- 1
+1-1 1
+.names main__LSS_10_1___LSS_10<0>6.2 ps_min<9> in<9> main_1_inf<9>6.1
+01- 1
+1-1 1
+.names main_1_sup<0>6.1 main_1_inf<0>6.1 main__PLUS_12_1_c<0>6.2
+11 1
+.names main_1_sup<1>6.1 main_1_inf<1>6.1 main__PLUS_12_1_c<0>6.2 main__PLUS_12_1_sum<1>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1_sup<1>6.1 main__PLUS_12_1_c<0>6.2 main_1_inf<1>6.1 main__PLUS_12_1_c<0>6.3
+11- 1
+1-1 1
+-11 1
+.names main_1_sup<2>6.1 main_1_inf<2>6.1 main__PLUS_12_1_c<0>6.3 main__PLUS_12_1_sum<2>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1_sup<2>6.1 main__PLUS_12_1_c<0>6.3 main_1_inf<2>6.1 main__PLUS_12_1_c<0>6.4
+11- 1
+1-1 1
+-11 1
+.names main_1_sup<3>6.1 main_1_inf<3>6.1 main__PLUS_12_1_c<0>6.4 main__PLUS_12_1_sum<3>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1_sup<3>6.1 main__PLUS_12_1_c<0>6.4 main_1_inf<3>6.1 main__PLUS_12_1_c<0>6.5
+11- 1
+1-1 1
+-11 1
+.names main_1_sup<4>6.1 main_1_inf<4>6.1 main__PLUS_12_1_c<0>6.5 main__PLUS_12_1_sum<4>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1_sup<4>6.1 main__PLUS_12_1_c<0>6.5 main_1_inf<4>6.1 main__PLUS_12_1_c<0>6.6
+11- 1
+1-1 1
+-11 1
+.names main_1_sup<5>6.1 main_1_inf<5>6.1 main__PLUS_12_1_c<0>6.6 main__PLUS_12_1_sum<5>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1_sup<5>6.1 main__PLUS_12_1_c<0>6.6 main_1_inf<5>6.1 main__PLUS_12_1_c<0>6.7
+11- 1
+1-1 1
+-11 1
+.names main_1_sup<6>6.1 main_1_inf<6>6.1 main__PLUS_12_1_c<0>6.7 main__PLUS_12_1_sum<6>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1_sup<6>6.1 main__PLUS_12_1_c<0>6.7 main_1_inf<6>6.1 main__PLUS_12_1_c<0>6.8
+11- 1
+1-1 1
+-11 1
+.names main_1_sup<7>6.1 main_1_inf<7>6.1 main__PLUS_12_1_c<0>6.8 main__PLUS_12_1_sum<7>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1_sup<7>6.1 main__PLUS_12_1_c<0>6.8 main_1_inf<7>6.1 main__PLUS_12_1_c<0>6.9
+11- 1
+1-1 1
+-11 1
+.names main_1_sup<8>6.1 main_1_inf<8>6.1 main__PLUS_12_1_c<0>6.9 main__PLUS_12_1_sum<8>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1_sup<8>6.1 main__PLUS_12_1_c<0>6.9 main_1_inf<8>6.1 main__PLUS_12_1_c<0>6.10
+11- 1
+1-1 1
+-11 1
+.names main_1_sup<9>6.1 main_1_inf<9>6.1 main__PLUS_12_1_c<0>6.10 main__PLUS_12_1_sum<9>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1_sup<9>6.1 main__PLUS_12_1_c<0>6.10 main_1_inf<9>6.1 main__PLUS_12_1_c<0>6.11
+11- 1
+1-1 1
+-11 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_sum<1>6.1 in<0> ps_last<0> out<0>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_sum<2>6.1 in<1> ps_last<1> out<1>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_sum<3>6.1 in<2> ps_last<2> out<2>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_sum<4>6.1 in<3> ps_last<3> out<3>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_sum<5>6.1 in<4> ps_last<4> out<4>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_sum<6>6.1 in<5> ps_last<5> out<5>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_sum<7>6.1 in<6> ps_last<6> out<6>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_sum<8>6.1 in<7> ps_last<7> out<7>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_sum<9>6.1 in<8> ps_last<8> out<8>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 reset<0> main__PLUS_12_1_c<0>6.11 in<9> ps_last<9> out<9>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> __COND0<0>2.1 in<0> ns_last<0>
+001 1
+.names clear<0> __COND0<0>2.1 in<1> ns_last<1>
+001 1
+.names clear<0> __COND0<0>2.1 in<2> ns_last<2>
+001 1
+.names clear<0> __COND0<0>2.1 in<3> ns_last<3>
+001 1
+.names clear<0> __COND0<0>2.1 in<4> ns_last<4>
+001 1
+.names clear<0> __COND0<0>2.1 in<5> ns_last<5>
+001 1
+.names clear<0> __COND0<0>2.1 in<6> ns_last<6>
+001 1
+.names clear<0> __COND0<0>2.1 in<7> ns_last<7>
+001 1
+.names clear<0> __COND0<0>2.1 in<8> ns_last<8>
+001 1
+.names clear<0> __COND0<0>2.1 in<9> ns_last<9>
+001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<0>6.1 ns_max<0>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<1>6.1 ns_max<1>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<2>6.1 ns_max<2>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<3>6.1 ns_max<3>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<4>6.1 ns_max<4>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<5>6.1 ns_max<5>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<6>6.1 ns_max<6>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<7>6.1 ns_max<7>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<8>6.1 ns_max<8>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_sup<9>6.1 ns_max<9>
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<0>6.1 ns_min<0>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<1>6.1 ns_min<1>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<2>6.1 ns_min<2>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<3>6.1 ns_min<3>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<4>6.1 ns_min<4>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<5>6.1 ns_min<5>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<6>6.1 ns_min<6>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<7>6.1 ns_min<7>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<8>6.1 ns_min<8>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> __COND0<0>2.1 reset<0> main_1_inf<9>6.1 ns_min<9>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.end

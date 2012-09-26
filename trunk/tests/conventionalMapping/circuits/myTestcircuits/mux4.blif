@@ -1,0 +1,35 @@
+# Benchmark "" written by ABC on Sun Nov 22 19:06:20 2009
+.model 
+.inputs i0 i1 i2 i3 s0 s1
+.outputs o0
+# 13
+.names i0 s0 n7
+10 1
+# 14
+.names i1 s0 n8
+11 1
+# 15
+.names n7 n8 n9
+00 1
+# 16
+.names s1 n9 n10
+00 1
+# 17
+.names i2 s0 n11
+10 1
+# 18
+.names i3 s0 n12
+11 1
+# 19
+.names n11 n12 n13
+00 1
+# 20
+.names s1 n13 n14
+10 1
+# 21
+.names n10 n14 n15
+00 1
+# 22
+.names n15 o0
+0 1
+.end

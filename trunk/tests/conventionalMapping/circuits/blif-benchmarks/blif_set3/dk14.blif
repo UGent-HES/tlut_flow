@@ -1,0 +1,317 @@
+#
+# Written by e2fmt Tue Mar 31 16:15:05 1998
+############################################
+.model top
+.inputs dk14_in_2_ dk14_in_0_ dk14_in_1_ clock
+.outputs dk14_out_1_ dk14_out_0_ dk14_out_4_ dk14_out_3_ dk14_out_2_
+# connect ports to nets with different names
+.names dk14_in_2_ n_n84
+1  1
+.names dk14_in_0_ n_n82
+1  1
+.names dk14_in_1_ n_n83
+1  1
+.names n_n8 dk14_out_1_
+1  1
+.names n_n7 dk14_out_0_
+1  1
+.names clock n__clk
+1  1
+.names n_n11 dk14_out_4_
+1  1
+.names n_n10 dk14_out_3_
+1  1
+.names n_n9 dk14_out_2_
+1  1
+# instance g_g148
+.names n_n75 n_n74 n_n77 n_n76 n_n78 n_n73 n_n72  n_n30
+1------  1
+-1-----  1
+--1----  1
+---1---  1
+----1--  1
+-----1-  1
+------1  1
+# instance g_g149
+.names n_n68 n_n67 n_n70 n_n69 n_n71 n_n66 n_n65  n_n29
+1------  1
+-1-----  1
+--1----  1
+---1---  1
+----1--  1
+-----1-  1
+------1  1
+# instance g_g9
+.names n_n1 n_n79 n_n82  n_n69
+111  1
+# instance g_g5
+.names n_n82 n_n2 n_n5  n_n73
+111  1
+# instance g_g151
+.names n_n57 n_n56 n_n59 n_n58 n_n60 n_n53 n_n55 n_n54  n_n27
+1-------  1
+-1------  1
+--1-----  1
+---1----  1
+----1---  1
+-----1--  1
+------1-  1
+-------1  1
+# instance g_g6
+.names n_n5 n_n80 n_n84  n_n72
+111  1
+# instance g_g150
+.names n_n61 n_n63 n_n62 n_n64  n_n28
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g7
+.names n_n1 n_n83 n_n81 n_n84  n_n71
+1111  1
+# instance g_g153
+.names n_n45 n_n44 n_n47 n_n46 n_n48 n_n43 n_n42  n_n25
+1------  1
+-1-----  1
+--1----  1
+---1---  1
+----1--  1
+-----1-  1
+------1  1
+# instance g_g8
+.names n_n1 n_n79 n_n3  n_n70
+111  1
+# instance g_g152
+.names n_n49 n_n51 n_n50 n_n52  n_n26
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g1
+.names n_n4 n_n83 n_n81 n_n3  n_n77
+1111  1
+# instance g_g155
+.names n_n33 n_n32 n_n35 n_n34 n_n36 n_n31  n_n23
+1-----  1
+-1----  1
+--1---  1
+---1--  1
+----1-  1
+-----1  1
+# instance g_g2
+.names n_n82 n_n79 n_n5  n_n76
+111  1
+# instance g_g154
+.names n_n38 n_n37 n_n40 n_n39 n_n41  n_n24
+1----  1
+-1---  1
+--1--  1
+---1-  1
+----1  1
+# instance g_g3
+.names n_n6 n_n1 n_n84  n_n75
+111  1
+# instance g_g4
+.names n_n80 n_n83 n_n6 n_n3  n_n74
+1111  1
+# instance g_g61
+.names n_n83  n_n5
+0  1
+# instance g_g50
+.names n_n28 n_n0 n_n20  n_n12
+1-0  1
+-11  1
+# instance g_gd55
+.names  n_n15
+  0
+# instance g_g60
+.names n_n79  n_n4
+0  1
+# instance g_g51
+.names n_n27 n_n0 n_n19  n_n11
+1-0  1
+-11  1
+# instance g_g52
+.names n_n26 n_n0 n_n18  n_n10
+1-0  1
+-11  1
+# instance g_g0
+.names n_n4 n_n6 n_n2 n_n83  n_n78
+1111  1
+# instance g_gd48
+.names  n_n22
+  0
+# instance g_la0
+.latch n_n12 n_n79 re n__clk 2
+# instance g_g62
+.names n_n82  n_n6
+0  1
+# instance g_g53
+.names n_n25 n_n0 n_n17  n_n9
+1-0  1
+-11  1
+# instance g_g10
+.names n_n5 n_n2 n_n3  n_n68
+111  1
+# instance g_g21
+.names n_n80 n_n6 n_n2 n_n5  n_n57
+1111  1
+# instance g_g32
+.names n_n1 n_n83 n_n81 n_n84  n_n46
+1111  1
+# instance g_g43
+.names n_n79 n_n6 n_n80 n_n83  n_n35
+1111  1
+# instance g_gd49
+.names  n_n21
+  0
+# instance g_la1
+.latch n_n13 n_n80 re n__clk 2
+# instance g_g11
+.names n_n2 n_n4 n_n82  n_n67
+111  1
+# instance g_g20
+.names n_n79 n_n5 n_n82 n_n84  n_n58
+1111  1
+# instance g_g33
+.names n_n79 n_n6 n_n80 n_n83  n_n45
+1111  1
+# instance g_g42
+.names n_n80 n_n4 n_n81  n_n36
+111  1
+# instance g_la2
+.latch n_n14 n_n81 re n__clk 2
+# instance g_g12
+.names n_n2 n_n4 n_n3  n_n66
+111  1
+# instance g_g23
+.names n_n80 n_n6 n_n81 n_n83  n_n55
+1111  1
+# instance g_g30
+.names n_n80 n_n6 n_n81 n_n83  n_n48
+1111  1
+# instance g_g41
+.names n_n6 n_n2 n_n5  n_n37
+111  1
+# instance g_g13
+.names n_n82 n_n79 n_n3  n_n65
+111  1
+# instance g_g22
+.names n_n80 n_n5 n_n2 n_n3  n_n56
+1111  1
+# instance g_g31
+.names n_n79 n_n83 n_n82 n_n3  n_n47
+1111  1
+# instance g_g40
+.names n_n5 n_n2 n_n3  n_n38
+111  1
+# instance g_g14
+.names n_n1 n_n79 n_n83 n_n6 n_n3  n_n64
+11111  1
+# instance g_g25
+.names n_n80 n_n79 n_n82  n_n53
+111  1
+# instance g_g36
+.names n_n80 n_n82 n_n81 n_n3  n_n42
+1111  1
+# instance g_g47
+.names n_n81 n_n80 n_n6  n_n31
+111  1
+# instance g_g58
+.names n_n81  n_n2
+0  1
+# instance g_g15
+.names n_n1 n_n79 n_n5 n_n6 n_n84  n_n63
+11111  1
+# instance g_g24
+.names n_n80 n_n82 n_n81 n_n84  n_n54
+1111  1
+# instance g_g37
+.names n_n79 n_n5 n_n1 n_n3  n_n41
+1111  1
+# instance g_g46
+.names n_n81 n_n4 n_n5  n_n32
+111  1
+# instance g_g59
+.names n_n84  n_n3
+0  1
+# instance g_g16
+.names n_n2 n_n5 n_n6 n_n84  n_n62
+1111  1
+# instance g_g27
+.names n_n2 n_n4 n_n83  n_n51
+111  1
+# instance g_g34
+.names n_n4 n_n82 n_n81 n_n3  n_n44
+1111  1
+# instance g_g45
+.names n_n81 n_n4 n_n3  n_n33
+111  1
+# instance g_gd50
+.names  n_n20
+  0
+# instance g_g17
+.names n_n4 n_n6 n_n2 n_n83  n_n61
+1111  1
+# instance g_g26
+.names n_n80 n_n6 n_n81 n_n5  n_n52
+1111  1
+# instance g_g35
+.names n_n79 n_n82 n_n1 n_n84  n_n43
+1111  1
+# instance g_g44
+.names n_n79 n_n82 n_n80 n_n84  n_n34
+1111  1
+# instance g_g18
+.names n_n79 n_n2  n_n60
+11  1
+# instance g_g29
+.names n_n4 n_n82 n_n2 n_n84  n_n49
+1111  1
+# instance g_gd52
+.names  n_n18
+  0
+# instance g_g54
+.names n_n24 n_n0 n_n16  n_n8
+1-0  1
+-11  1
+# instance g_g19
+.names n_n83 n_n79 n_n3  n_n59
+111  1
+# instance g_g28
+.names n_n4 n_n6 n_n81 n_n5  n_n50
+1111  1
+# instance g_gd51
+.names  n_n19
+  0
+# instance g_g55
+.names n_n23 n_n0 n_n15  n_n7
+1-0  1
+-11  1
+# instance g_g38
+.names n_n79 n_n6 n_n1 n_n5  n_n40
+1111  1
+# instance g_gd54
+.names  n_n16
+  0
+# instance g_g56
+.names  n_n0
+  -
+# instance g_g49
+.names n_n29 n_n0 n_n21  n_n13
+1-0  1
+-11  1
+# instance g_g39
+.names n_n2 n_n4 n_n84  n_n39
+111  1
+# instance g_gd53
+.names  n_n17
+  0
+# instance g_g57
+.names n_n80  n_n1
+0  1
+# instance g_g48
+.names n_n30 n_n0 n_n22  n_n14
+1-0  1
+-11  1
+.end

@@ -1,0 +1,30 @@
+.model spfd_eqn
+.inputs x1 x2 x3
+.outputs f1 f2 g4
+.names x1 x2 x3 g3
+1-- 1
+-01 1
+-10 1
+.names x1 x2 x3 g1
+--1 1
+11- 1
+.names x1 x3 g2
+01 1
+10 1
+.names g3 g1 g2 f1
+111 1
+100 1
+.names x1 x2 g4
+1- 1
+-0 1
+.names g1 g2 g4 f2
+-00 1
+111 1
+.exdc
+.inputs x1 x2 x3
+.outputs f1 f2
+.names x1 x2 x3 f1
+111 1
+.names x1 x2 x3 f2
+111 1
+.end

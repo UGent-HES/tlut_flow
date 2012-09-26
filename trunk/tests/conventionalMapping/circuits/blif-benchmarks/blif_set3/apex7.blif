@@ -1,0 +1,901 @@
+#
+# Written by e2fmt Tue Mar 31 16:18:12 1998
+############################################
+.model top
+.inputs pdel1 pratr pbull1 pbull0 pwatch povacc pverr_n porwd_n pvlenesr\
+ pmmerr paccrpy pvacc pcat4 pvst1 pcapsd pcat3 pcat2 pcat1 plsd pvst0 pcat0\
+ pibt2 pkbg_n pmarssr pend pvsumesr pbull5 ppluto4 pstar2 pbull4 ppluto5\
+ ppy pstar3 pbull3 pcomppar pibt1 pstar0 pbull2 pibt0 pstar1 ppluto0 pfbi\
+ powl_n ppluto1 piclr ppluto2 pbull6 pcat5 ppluto3
+.outputs pbull2_p pend_p pbull3_p porwd_f pbull4_p ppluto3_p pwatch_p pbull5_p\
+ pbull6_p ppluto5_p ppy_p ppluto4_p plsd_p pvlenesr_p pfbi_p pstar1_p pvsumesr_p\
+ paccrpy_p pkbg_f pmarssr_p pstar0_p pstar3_p pdel1_p pstar2_p pvst0_p pcomppar_p\
+ powl_f psdo pvst1_p ppluto1_p pratr_p ppluto0_p povacc_p ppluto2_p pbull0_p\
+ pverr_f pbull1_p
+# connect ports to nets with different names
+.names nbull2_p pbull2_p
+1  1
+.names pdel1 ndel1
+1  1
+.names nend_p pend_p
+1  1
+.names nbull3_p pbull3_p
+1  1
+.names norwd_f porwd_f
+1  1
+.names nbull4_p pbull4_p
+1  1
+.names npluto3_p ppluto3_p
+1  1
+.names nwatch_p pwatch_p
+1  1
+.names nbull5_p pbull5_p
+1  1
+.names pratr nratr
+1  1
+.names pbull1 nbull1
+1  1
+.names nbull6_p pbull6_p
+1  1
+.names npluto5_p ppluto5_p
+1  1
+.names npy_p ppy_p
+1  1
+.names pbull0 nbull0
+1  1
+.names pwatch nwatch
+1  1
+.names povacc novacc
+1  1
+.names pverr_n nverr_n
+1  1
+.names npluto4_p ppluto4_p
+1  1
+.names nlsd_p plsd_p
+1  1
+.names nvlenesr_p pvlenesr_p
+1  1
+.names porwd_n norwd_n
+1  1
+.names nfbi_p pfbi_p
+1  1
+.names pvlenesr nvlenesr
+1  1
+.names nstar1_p pstar1_p
+1  1
+.names nvsumesr_p pvsumesr_p
+1  1
+.names naccrpy_p paccrpy_p
+1  1
+.names nkbg_f pkbg_f
+1  1
+.names nmarssr_p pmarssr_p
+1  1
+.names pmmerr nmmerr
+1  1
+.names nstar0_p pstar0_p
+1  1
+.names paccrpy naccrpy
+1  1
+.names nstar3_p pstar3_p
+1  1
+.names ndel1_p pdel1_p
+1  1
+.names nstar2_p pstar2_p
+1  1
+.names pvacc nvacc
+1  1
+.names pcat4 ncat4
+1  1
+.names pvst1 nvst1
+1  1
+.names pcapsd ncapsd
+1  1
+.names pcat3 ncat3
+1  1
+.names pcat2 ncat2
+1  1
+.names nvst0_p pvst0_p
+1  1
+.names pcat1 ncat1
+1  1
+.names plsd nlsd
+1  1
+.names pvst0 nvst0
+1  1
+.names pcat0 ncat0
+1  1
+.names ncomppar_p pcomppar_p
+1  1
+.names pibt2 nibt2
+1  1
+.names pkbg_n nkbg_n
+1  1
+.names nowl_f powl_f
+1  1
+.names pmarssr nmarssr
+1  1
+.names nvst0 psdo
+1  1
+.names pend nend
+1  1
+.names nvst1_p pvst1_p
+1  1
+.names pvsumesr nvsumesr
+1  1
+.names pbull5 nbull5
+1  1
+.names npluto1_p ppluto1_p
+1  1
+.names ppluto4 npluto4
+1  1
+.names pstar2 nstar2
+1  1
+.names pbull4 nbull4
+1  1
+.names ppluto5 npluto5
+1  1
+.names ppy npy
+1  1
+.names pstar3 nstar3
+1  1
+.names pbull3 nbull3
+1  1
+.names pcomppar ncomppar
+1  1
+.names pibt1 nibt1
+1  1
+.names nratr_p pratr_p
+1  1
+.names pstar0 nstar0
+1  1
+.names pbull2 nbull2
+1  1
+.names pibt0 nibt0
+1  1
+.names npluto0_p ppluto0_p
+1  1
+.names pstar1 nstar1
+1  1
+.names ppluto0 npluto0
+1  1
+.names pfbi nfbi
+1  1
+.names novacc_p povacc_p
+1  1
+.names powl_n nowl_n
+1  1
+.names ppluto1 npluto1
+1  1
+.names npluto2_p ppluto2_p
+1  1
+.names nbull0_p pbull0_p
+1  1
+.names piclr niclr
+1  1
+.names ppluto2 npluto2
+1  1
+.names nverr_f pverr_f
+1  1
+.names nbull1_p pbull1_p
+1  1
+.names pbull6 nbull6
+1  1
+.names pcat5 ncat5
+1  1
+.names ppluto3 npluto3
+1  1
+# instance g_g203
+.names n_n121 n_n146  naccrpy_p
+1-  1
+-1  1
+# instance g_g159
+.names n_n9 n_n35 n_n40  n_n119
+111  1
+# instance g_g148
+.names n_n2 nkbg_n  n_n111
+11  1
+# instance g_g137
+.names n_n102 n_n103  nvst1_p
+1-  1
+-1  1
+# instance g_g126
+.names n_n92 n_n94 n_n93 n_n95  nstar2_p
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g115
+.names n_n20 n_n42  n_n87
+11  1
+# instance g_g104
+.names n_n78 n_n77 n_n79  nbull4_p
+1--  1
+-1-  1
+--1  1
+# instance g_g204
+.names n_n35 n_n14 n_n6 nfbi  n_n147
+1111  1
+# instance g_g158
+.names n_n9 n_n35 n_n37  n_n118
+111  1
+# instance g_g149
+.names n_n110 n_n109 n_n111  nkbg_f
+1--  1
+-1-  1
+--1  1
+# instance g_g136
+.names n__89_m_ nvst1  n_n103
+11  1
+# instance g_g127
+.names n_n37 n_n13 nstar0  n_n96
+111  1
+# instance g_g114
+.names nowl_n n_n41 nbull0  n_n86
+111  1
+# instance g_g105
+.names n_n16 n_n45 nowl_n  n_n80
+111  1
+# instance g_g205
+.names nlsd nowl_n nc2g5  n_n148
+111  1
+# instance g_g179
+.names n_n130 n_n131  npluto3_p
+1-  1
+-1  1
+# instance g_g168
+.names nkbg_n n_n34 n_n19 n_n41  n_n125
+1111  1
+# instance g_g135
+.names n__90_m_ npy  n_n102
+11  1
+# instance g_g124
+.names n_n6 n__99_m_  n_n94
+11  1
+# instance g_g117
+.names n__80_m_ n_n14 n_n9 nstar2  n_n88
+1111  1
+# instance g_g106
+.names nbull3 n__226_m_ nowl_n  n_n81
+111  1
+# instance g_g206
+.names nlsd nowl_n n_n14  n_n149
+111  1
+# instance g_g178
+.names nowl_n npluto3  n_n131
+11  1
+# instance g_g169
+.names n_n124 n_n125  nowl_f
+1-  1
+-1  1
+# instance g_g134
+.names n_n100 n_n101  nstar0_p
+1-  1
+-1  1
+# instance g_g125
+.names n_n7 nstar2  n_n95
+11  1
+# instance g_g116
+.names n_n86 n_n87  nbull0_p
+1-  1
+-1  1
+# instance g_g107
+.names n_n80 n_n81  nbull3_p
+1-  1
+-1  1
+# instance g_g199
+.names n_n2 n_n0 nverr_n  n_n144
+111  1
+# instance g_g188
+.names n_n136 n_n137  npluto0_p
+1-  1
+-1  1
+# instance g_g133
+.names n_n9 n_n5  n_n101
+11  1
+# instance g_g122
+.names n__80_m_ n_n13 n_n8  n_n92
+111  1
+# instance g_g111
+.names nbull0 n_n20 n_n43  n_n84
+111  1
+# instance g_g100
+.names n_n73 n_n75 n_n74 n_n76  nbull5_p
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g9
+.names n__254_m__inv  n_n9
+0  1
+# instance g_g200
+.names n_n41 n_n2 nverr_n  n_n145
+111  1
+# instance g_g198
+.names n__42_m_ n_n0 nverr_n  n_n143
+111  1
+# instance g_g189
+.names n_n22 nvst1  n_n138
+11  1
+# instance g_g132
+.names n_n7 nstar0  n_n100
+11  1
+# instance g_g123
+.names n__2087_m_ nstar2  n_n93
+11  1
+# instance g_g110
+.names n_n82 n_n83  nbull2_p
+1-  1
+-1  1
+# instance g_g101
+.names nowl_n n__226_m_ nbull4  n_n77
+111  1
+# instance g_g201
+.names n_n143 n_n145 n_n144 n_n109  nverr_f
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g131
+.names n_n96 n_n98 n_n97 n_n99  nstar1_p
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g120
+.names n_n7 nstar3  n_n91
+11  1
+# instance g_g113
+.names n_n84 n_n85  nbull1_p
+1-  1
+-1  1
+# instance g_g102
+.names nowl_n n_n16 nbull4  n_n78
+111  1
+# instance g_g202
+.names nowl_n naccrpy  n_n146
+11  1
+# instance g_g130
+.names n_n7 nstar1  n_n99
+11  1
+# instance g_g121
+.names n_n88 n_n90 n_n89 n_n91  nstar3_p
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g112
+.names n__1214_m_ nbull1  n_n85
+11  1
+# instance g_g103
+.names n__873_m_ n_n10  n_n79
+11  1
+# instance g_g195
+.names n_n59 n_n141  nmarssr_p
+1-  1
+-1  1
+# instance g_g184
+.names nowl_n npluto1  n_n135
+11  1
+# instance g_g173
+.names n_n126 n_n127  npluto5_p
+1-  1
+-1  1
+# instance g_g162
+.names n_n13 n_n2  n_n121
+11  1
+# instance g_g151
+.names nowl_n novacc n_n1  n_n112
+111  1
+# instance g_g140
+.names n_n104 n_n105  nvst0_p
+1-  1
+-1  1
+# instance g_g5
+.names nstar0  n_n5
+0  1
+# instance g_g194
+.names nowl_n nmarssr  n_n141
+11  1
+# instance g_g185
+.names n_n134 n_n135  npluto1_p
+1-  1
+-1  1
+# instance g_g172
+.names nowl_n npluto5  n_n127
+11  1
+# instance g_g163
+.names n_n121 n_n22  nend_p
+1-  1
+-1  1
+# instance g_g150
+.names n_n34 nvacc  novacc_p
+11  1
+# instance g_g141
+.names ncomppar nowl_n n_n3  n_n106
+111  1
+# instance g_g6
+.names nc2g5  n_n6
+0  1
+# instance g_g197
+.names n_n142 n_n58 n__886_m_  nratr_p
+1--  1
+-1-  1
+--1  1
+# instance g_g186
+.names n__1015_m_ n__894_m_ n_n31  n_n136
+111  1
+# instance g_g171
+.names n__1015_m_ nibt0 nibt2 nibt1  n_n126
+1111  1
+# instance g_g160
+.names n_n35 nfbi  n_n120
+11  1
+# instance g_g153
+.names n__2087_m_ nc2g5 nstar2 n__99_m_  n_n113
+1111  1
+# instance g_g142
+.names ncomppar nowl_n n_n33  n_n107
+111  1
+# instance g_g7
+.names n__44_m__inv  n_n7
+0  1
+# instance g_g196
+.names nowl_n nratr  n_n142
+11  1
+# instance g_g187
+.names nowl_n npluto0  n_n137
+11  1
+# instance g_g170
+.names n_n12 n_n41  norwd_f
+1-  1
+-1  1
+# instance g_g161
+.names n_n117 n_n116 n_n119 n_n118 n_n120 n_n113 n_n115 n_n114  nfbi_p
+1-------  1
+-1------  1
+--1-----  1
+---1----  1
+----1---  1
+-----1--  1
+------1-  1
+-------1  1
+# instance g_g152
+.names n_n112 n_n20  nwatch_p
+1-  1
+-1  1
+# instance g_g143
+.names n_n21 n_n13 ndel1  n_n108
+111  1
+# instance g_g8
+.names nstar2  n_n8
+0  1
+# instance g_g207
+.names nlsd nowl_n n_n33  n_n150
+111  1
+# instance g_g191
+.names n_n138 n_n139  nvsumesr_p
+1-  1
+-1  1
+# instance g_g180
+.names n__1015_m_ n_n31 nibt2 n_n30  n_n132
+1111  1
+# instance g_g177
+.names n__1015_m_ nibt0 nibt2 n_n30  n_n130
+1111  1
+# instance g_g166
+.names n_n122 n_n123  npy_p
+1-  1
+-1  1
+# instance g_g155
+.names nc2g5 n_n13 n_n37  n_n115
+111  1
+# instance g_g144
+.names n_n107 n_n106 n_n108  ncomppar_p
+1--  1
+-1-  1
+--1  1
+# instance g_g119
+.names n__2087_m_ nstar3  n_n90
+11  1
+# instance g_g108
+.names n_n20 n_n44 nbull0 nbull1  n_n82
+1111  1
+# instance g_g1
+.names nvacc  n_n1
+0  1
+# instance g_g208
+.names n_n147 n_n149 n_n148 n_n150  nlsd_p
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g190
+.names nowl_n nvsumesr  n_n139
+11  1
+# instance g_g181
+.names nowl_n npluto2  n_n133
+11  1
+# instance g_g176
+.names n_n128 n_n129  npluto4_p
+1-  1
+-1  1
+# instance g_g167
+.names nkbg_n n_n34 n_n19 n_n0  n_n124
+1111  1
+# instance g_g154
+.names n__2087_m_ nc2g5 nstar2 nfbi  n_n114
+1111  1
+# instance g_g145
+.names n_n34 ncapsd  ndel1_p
+11  1
+# instance g_g118
+.names n_n8 nstar3 nowl_n  n_n89
+111  1
+# instance g_g109
+.names n__1214_m_ nbull2  n_n83
+11  1
+# instance g_g2
+.names n__199_m__inv  n_n2
+0  1
+# instance g_g193
+.names n_n56 n_n140  nvlenesr_p
+1-  1
+-1  1
+# instance g_g182
+.names n_n132 n_n133  npluto2_p
+1-  1
+-1  1
+# instance g_g175
+.names nowl_n npluto4  n_n129
+11  1
+# instance g_g164
+.names n__90_m_ ndel1  n_n122
+11  1
+# instance g_g157
+.names nc2g5 n_n13 n_n40  n_n117
+111  1
+# instance g_g146
+.names n__219_m_ n_n38  n_n109
+11  1
+# instance g_g139
+.names n__89_m_ nvst0  n_n105
+11  1
+# instance g_g128
+.names nstar1 n__2087_m_ n_n5  n_n97
+111  1
+# instance g_g3
+.names ndel1  n_n3
+0  1
+# instance g_g192
+.names nowl_n nvlenesr  n_n140
+11  1
+# instance g_g183
+.names n__1015_m_ n__894_m_ nibt0  n_n134
+111  1
+# instance g_g174
+.names n__1015_m_ n_n31 nibt2 nibt1  n_n128
+1111  1
+# instance g_g165
+.names n__89_m_ npy  n_n123
+11  1
+# instance g_g156
+.names nc2g5 n_n13 nfbi  n_n116
+111  1
+# instance g_g147
+.names n__42_m_ nkbg_n  n_n110
+11  1
+# instance g_g138
+.names n__90_m_ nvst1  n_n104
+11  1
+# instance g_g129
+.names n_n4 n__99_m_ nstar0  n_n98
+111  1
+# instance g_g4
+.names nstar1  n_n4
+0  1
+# instance g_g94
+.names n__1214_m_ nbull6  n_n72
+11  1
+# instance g_g83
+.names nc2g5 n_n13  n_n64
+11  1
+# instance g_g72
+.names n_n57 n_n56 n_n59 n_n58 n__886_m_  n__1015_m_
+1----  1
+-1---  1
+--1--  1
+---1-  1
+----1  1
+# instance g_g61
+.names nibt2 nibt0 n_n30 n_n29  n_n51
+1111  1
+# instance g_g50
+.names n_n42 nowl_n  n_n48
+11  1
+# instance g_g95
+.names n_n69 n_n68 n_n71 n_n70 n_n72 n_n67 n_n66  nbull6_p
+1------  1
+-1-----  1
+--1----  1
+---1---  1
+----1--  1
+-----1-  1
+------1  1
+# instance g_g82
+.names n_n33 n_n38  n__219_m_
+1-  1
+-1  1
+# instance g_g73
+.names n_n41 n_n38  nc29g7
+1-  1
+-1  1
+# instance g_g60
+.names nibt2 n_n31 n_n30 n_n32  n_n50
+1111  1
+# instance g_g51
+.names n_n47 n_n46 n_n48  n__1214_m_
+1--  1
+-1-  1
+--1  1
+# instance g_g96
+.names nowl_n n__226_m_ nbull5  n_n73
+111  1
+# instance g_g81
+.names n_n60 n_n62 n_n61 n_n63  n__42_m_
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g70
+.names n_n22 n_n21  n_n58
+11  1
+# instance g_g63
+.names nibt2 nibt0 nibt1 n_n27  n_n53
+1111  1
+# instance g_g52
+.names n_n39 n_n40  n_n49
+11  1
+# instance g_g97
+.names nowl_n n_n16 nbull5  n_n74
+111  1
+# instance g_g80
+.names n_n39 n_n14  n_n63
+11  1
+# instance g_g71
+.names ntimot n_n20  n_n59
+11  1
+# instance g_g62
+.names nibt2 n_n31 nibt1 n_n28  n_n52
+1111  1
+# instance g_g53
+.names nfbi n_n49 n_n38  n__44_m__inv
+1--  1
+-1-  1
+--1  1
+# instance g_g0
+.names ntimot  n_n0
+0  1
+# instance g_g98
+.names nbull4 n__873_m_ n_n15  n_n75
+111  1
+# instance g_g43
+.names nbull1  n_n43
+0  1
+# instance g_g32
+.names ncat2  n_n32
+0  1
+# instance g_g21
+.names ncomppar  n_n21
+0  1
+# instance g_g10
+.names nbull4  n_n10
+0  1
+# instance g_g99
+.names nbull4_p nbull5  n_n76
+11  1
+# instance g_g42
+.names nbull0  n_n42
+0  1
+# instance g_g33
+.names nfbi  n_n33
+0  1
+# instance g_g20
+.names nc29g7  n_n20
+0  1
+# instance g_g11
+.names nbull6  n_n11
+0  1
+# instance g_g41
+.names nwatch  n_n41
+0  1
+# instance g_g30
+.names nibt1  n_n30
+0  1
+# instance g_g23
+.names nkbg_n  n_n23
+0  1
+# instance g_g12
+.names nc1g3  n_n12
+0  1
+# instance g_g40
+.names norwd_n  n_n40
+0  1
+# instance g_g31
+.names nibt0  n_n31
+0  1
+# instance g_g22
+.names n__58_m__inv  n_n22
+0  1
+# instance g_g13
+.names n__219_m_  n_n13
+0  1
+# instance g_g69
+.names nvst1 n_n22  n_n57
+11  1
+# instance g_g58
+.names nfbi n_n34  n__90_m_
+11  1
+# instance g_g47
+.names n_n44 n_n42 n_n43 n_n41  n__226_m_
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g36
+.names n__99_m_  n_n36
+0  1
+# instance g_g25
+.names ncat1  n_n25
+0  1
+# instance g_g14
+.names nstar3  n_n14
+0  1
+# instance g_g68
+.names n_n23 nowl_n  n_n56
+11  1
+# instance g_g59
+.names n_n33 n_n34  n__89_m_
+11  1
+# instance g_g46
+.names nbull3 n_n45 nowl_n  n__873_m_
+111  1
+# instance g_g37
+.names n__80_m_  n_n37
+0  1
+# instance g_g24
+.names nibt2  n_n24
+0  1
+# instance g_g15
+.names nbull5  n_n15
+0  1
+# instance g_g89
+.names n__873_m_ nbull5 n_n11 nbull4  n_n67
+1111  1
+# instance g_g78
+.names n_n26 n__894_m_ n_n25 nwatch n_n14  n_n61
+11111  1
+# instance g_g45
+.names n__226_m_  n_n45
+0  1
+# instance g_g34
+.names niclr  n_n34
+0  1
+# instance g_g27
+.names ncat5  n_n27
+0  1
+# instance g_g16
+.names nbull3  n_n16
+0  1
+# instance g_g88
+.names n__1214_m_ n_n45 nbull4 nbull5 nbull3  n_n66
+11111  1
+# instance g_g79
+.names nc2g5 n_n39  n_n62
+11  1
+# instance g_g44
+.names nbull2  n_n44
+0  1
+# instance g_g35
+.names n__260_m_  n_n35
+0  1
+# instance g_g26
+.names ncat0  n_n26
+0  1
+# instance g_g17
+.names nvst0  n_n17
+0  1
+# instance g_g90
+.names nbull6 nowl_n n_n15  n_n68
+111  1
+# instance g_g87
+.names n_n37 nstar2  nc2g5
+1-  1
+-1  1
+# instance g_g76
+.names n_n15 nbull6 n_n16 nbull4 n_n42 nbull1 n_n44  ntimot
+1111111  1
+# instance g_g65
+.names nibt0 n__894_m_ n_n25  n_n55
+111  1
+# instance g_g54
+.names n_n37 nowl_n  n__2087_m_
+11  1
+# instance g_g29
+.names ncat3  n_n29
+0  1
+# instance g_g18
+.names nmmerr  n_n18
+0  1
+# instance g_g91
+.names nbull6 nowl_n n_n10  n_n69
+111  1
+# instance g_g86
+.names nc29g7 n_n12  n__260_m_
+1-  1
+-1  1
+# instance g_g77
+.names n_n26 n__894_m_ n_n25 nwatch nc2g5  n_n60
+11111  1
+# instance g_g64
+.names n__894_m_ n_n26 n_n31  n_n54
+111  1
+# instance g_g55
+.names n__219_m_ n_n36  n__254_m__inv
+11  1
+# instance g_g28
+.names ncat4  n_n28
+0  1
+# instance g_g19
+.names nend  n_n19
+0  1
+# instance g_g92
+.names nbull6 nowl_n n_n16  n_n70
+111  1
+# instance g_g85
+.names n_n64 n_n65  n__199_m__inv
+1-  1
+-1  1
+# instance g_g74
+.names n_n19 n_n38  n__58_m__inv
+1-  1
+-1  1
+# instance g_g67
+.names n_n24 nibt1  n__894_m_
+11  1
+# instance g_g56
+.names nstar1 nstar0  n__80_m_
+11  1
+# instance g_g49
+.names n_n43 nowl_n  n_n47
+11  1
+# instance g_g38
+.names nowl_n  n_n38
+0  1
+# instance g_g93
+.names nbull6 nowl_n n_n44  n_n71
+111  1
+# instance g_g84
+.names n_n13 n_n39  n_n65
+11  1
+# instance g_g75
+.names n_n17 n_n22 n_n18  n__886_m_
+111  1
+# instance g_g66
+.names n_n52 n_n51 n_n54 n_n53 n_n55 n_n50  nc1g3
+1-----  1
+-1----  1
+--1---  1
+---1--  1
+----1-  1
+-----1  1
+# instance g_g57
+.names n_n35 n_n40  n__99_m_
+11  1
+# instance g_g48
+.names n_n41 nowl_n  n_n46
+11  1
+# instance g_g39
+.names norwd_f  n_n39
+0  1
+.end

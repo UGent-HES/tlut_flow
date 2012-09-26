@@ -1,0 +1,1031 @@
+.model TOP
+.inputs PwdcntXXXXstate3 PwdcntXXXXstate2 PwdcntXXXXstate1 PphysrecXXXXstate1 \
+PphysrecXXXXstate0 PVTM1l PVTM0l PVTM0i PVSACKi PVACKl PVACKi PTag_Match PTM1l \
+PTM1i PTM0i PSlotSpace_Id_Match PSingleStep PSTARTo PSTARTi PSBCResetPCC \
+PRQSTi PRESETi PPCCsync PPCCSawReset PPCCReqCode3 PPCCReqCode2 PPCCReqCode1 \
+PPCCReqCode0 PPCCReq PPCCConfirm PPCCAckCode PPCCAck PNuBusActive PLastRQSTi \
+PGRANTi PCoherencyState2i PCoherencyState1i PCLK PBUS_Inactive PACKl PACKi
+.outputs PwdcntXXXXwd_cnt2 PwdcntXXXXwd_cnt1 PwdcntXXXXwd_cnt0 \
+PwdcntXXXXNextState3 PwdcntXXXXNextState2 PwdcntXXXXNextState1 \
+PvirmachXXXXSBCsetDirty PvirmachXXXXSBCConfigure PvirmachXXXXSBCCacheRelease \
+PvirmachXXXXEn_VDBufo PslaveXXXXSnoopVTag_W PslaveXXXXSnoopVTagState_R \
+PslaveXXXXSnoopState_W PslaveXXXXSnoopAddrFromProc PslaveXXXXSBCReqCode2 \
+PslaveXXXXSBCReqCode1 PslaveXXXXSBCReqCode0 PslaveXXXXSBCReq \
+PslaveXXXXL_VABufi PslaveXXXXGenerateNextState PresetXXXXSBCResetPCC \
+PresetXXXXReset PphysrecXXXXNextState1 PphysrecXXXXNextState0 PorXXXXVTM1o \
+PorXXXXVTM0o PorXXXXVSACKo PorXXXXVACKo PorXXXXTM1o PorXXXXTM0o PorXXXXSTARTo \
+PorXXXXSBCAckCodelatch PorXXXXSBCAckCode3 PorXXXXSBCAckCode2 \
+PorXXXXSBCAckCode1 PorXXXXSBCAckCode0 PorXXXXSBCAck PorXXXXRESETo \
+PorXXXXL_DBufo PorXXXXEn_VCNTL PorXXXXEn_START PorXXXXEn_CNTL PorXXXXACKo \
+PnubusXXXXNuBusActive PnubusXXXXL_PABufi PnextstateXXXXCoherencyState2o \
+PmasterXXXXSBC_WriteCache PmasterXXXXRQSTo PmasterXXXXL_PDBufi \
+PmasterXXXXL_DBufo_if_TM0 PmasterXXXXEn_VDBufi PmasterXXXXEn_PDBufo \
+PmasterXXXXEn_PDBufi PmasterXXXXEn_ABufo PmasterXXXXArb_active \
+PencodemuxXXXXMX_AD_8
+.latch    NmasterXXXXNextState0 NmasterXXXXstate0 re PCLK 2
+.latch    NmasterXXXXNextState1 NmasterXXXXstate1 re PCLK 2
+.latch    NmasterXXXXNextState2 NmasterXXXXstate2 re PCLK 2
+.latch    NmasterXXXXNextState3 NmasterXXXXstate3 re PCLK 2
+.latch    NnubusXXXXNextState0 NnubusXXXXstate0 re PCLK 2
+.latch    NnubusXXXXNextState1 NnubusXXXXstate1 re PCLK 2
+.latch    NslaveXXXXNextState0 NslaveXXXXstate0 re PCLK 2
+.latch    NslaveXXXXNextState1 NslaveXXXXstate1 re PCLK 2
+.latch    NslaveXXXXNextState2 NslaveXXXXstate2 re PCLK 2
+.latch    NresetXXXXNextState0 NresetXXXXstate0 re PCLK 2
+.latch    NresetXXXXNextState1 NresetXXXXstate1 re PCLK 2
+.latch    NresetXXXXNextState2 NresetXXXXstate2 re PCLK 2
+.latch    NvirmachXXXXNextState0 NvirmachXXXXstate0 re PCLK 2
+.latch    NvirmachXXXXNextState1 NvirmachXXXXstate1 re PCLK 2
+.latch    NwdcntXXXXNextState0 NwdcntXXXXstate0 re PCLK 2
+.latch    NorXXXXGen_Reset NGen_Reset re PCLK 2
+.latch    NnubusXXXXIntr_req NIntr_req re PCLK 2
+.latch    NslaveXXXXIntr_done NIntr_done re PCLK 2
+.latch    NmasterXXXXUpdateReq NUpdateReq re PCLK 2
+.latch    [41] NUpdateDone re PCLK 2
+.latch    NorXXXXReset_wd_cnt_x NReset_wd_cnt re PCLK 2
+.latch    NorXXXXSet_ex_wd_cnt1 NSet_ex_wd_cnt1 re PCLK 2
+.latch    NorXXXXIncr_wd_cnt NIncr_wd_cnt re PCLK 2
+.latch    NwdcntXXXXwd_cnt_test Nwd_cnt_test re PCLK 2
+.latch    NmasterXXXXP_receive_begin NP_receive_begin re PCLK 2
+.latch    NmasterXXXXV_receive_begin NV_receive_begin re PCLK 2
+.latch    NslaveXXXXV_transmit_begin NV_transmit_begin re PCLK 2
+.names n136 PwdcntXXXXwd_cnt2
+0 1
+.names n353 PwdcntXXXXwd_cnt1
+0 1
+.names PwdcntXXXXstate3 n141 n149 [31]
+110 1
+.names n353 PwdcntXXXXNextState2
+0 1
+.names n136 PwdcntXXXXNextState1
+0 1
+.names PVTM0i PVACKi n156 PvirmachXXXXSBCsetDirty
+110 1
+.names n96 PvirmachXXXXSBCConfigure
+0 1
+.names Nwd_cnt_test PvirmachXXXXEn_VDBufo PvirmachXXXXSBCCacheRelease
+11 1
+.names PSBCResetPCC NvirmachXXXXstate1 NvirmachXXXXstate0 \
+PvirmachXXXXEn_VDBufo
+001 1
+.names n110 n109 n181 n280 PslaveXXXXSnoopVTagState_R
+11-- 1
+1-00 1
+.names PslaveXXXXGenerateNextState [41] PslaveXXXXSnoopState_W
+1- 1
+-1 1
+.names PRESETi n163 n183 NUpdateReq [41]
+0011 1
+.names n354 PslaveXXXXSBCReqCode2
+0 1
+.names n89 PslaveXXXXSBCReqCode1
+0 1
+.names n84 PslaveXXXXSBCReqCode0
+0 1
+.names PslaveXXXXGenerateNextState n354 PslaveXXXXSBCReq
+1- 1
+-0 1
+.names n72 n73 PRESETi n74 PslaveXXXXL_VABufi
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names NslaveXXXXV_transmit_begin n62 PslaveXXXXGenerateNextState
+1- 1
+-1 1
+.names NresetXXXXstate0 n124 PRESETi NresetXXXXstate2 PresetXXXXSBCResetPCC
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names NresetXXXXstate2 PRESETi PresetXXXXReset
+11 1
+.names n103 PphysrecXXXXNextState1
+0 1
+.names n99 n97 n132 PphysrecXXXXNextState0
+11- 1
+1-0 1
+.names PPCCReqCode1 n28 PorXXXXVTM1o
+10 1
+.names n18 n26 NslaveXXXXV_transmit_begin n162 PorXXXXVTM0o
+1--- 1
+-1-- 1
+--1- 1
+---0 1
+.names PslaveXXXXSnoopVTagState_R n16 n17 n18 n20 n162 PorXXXXVSACKo
+1----- 1
+-1---- 1
+--1--- 1
+---1-- 1
+----1- 1
+-----0 1
+.names PvirmachXXXXSBCCacheRelease n100 PorXXXXVACKo
+1- 1
+-1 1
+.names n23 PorXXXXTM1o
+0 1
+.names n30 PorXXXXTM0o
+0 1
+.names PSingleStep PSBCResetPCC n67 n350 PorXXXXSTARTo
+001- 1
+00-0 1
+.names n44 PorXXXXSBCAckCodelatch
+0 1
+.names n69 n247 PorXXXXSBCAckCode3
+0- 1
+-0 1
+.names n42 PorXXXXSBCAckCode2
+0 1
+.names n83 PorXXXXSBCAckCode1
+0 1
+.names n43 PorXXXXSBCAckCode0
+0 1
+.names PorXXXXSBCAck
+.names n68 PorXXXXRESETo
+0 1
+.names n29 PorXXXXL_DBufo
+0 1
+.names PvirmachXXXXEn_VDBufo n20 NslaveXXXXV_transmit_begin n366 \
+PorXXXXEn_VCNTL
+1--- 1
+-1-- 1
+--1- 1
+---0 1
+.names n52 n53 [79] n54 PorXXXXEn_START
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names n71 PorXXXXEn_CNTL
+0 1
+.names PorXXXXACKo
+.names n104 PnubusXXXXNuBusActive
+0 1
+.names n86 PnubusXXXXL_PABufi
+0 1
+.names PVTM1l n219 PnextstateXXXXCoherencyState2o
+01 1
+.names PmasterXXXXEn_VDBufi n80 n81 PmasterXXXXSBC_WriteCache
+0-- 1
+-1- 1
+--1 1
+.names n56 PmasterXXXXRQSTo
+0 1
+.names PSBCResetPCC NmasterXXXXstate0 PmasterXXXXEn_VDBufi
+01 1
+.names PmasterXXXXEn_VDBufi n115 NmasterXXXXstate3 [79]
+110 1
+.names n81 n121 n138 n294 [80]
+11-- 1
+1-1- 1
+1--0 1
+.names PSBCResetPCC n57 n343 PmasterXXXXEn_ABufo
+010 1
+.names PSBCResetPCC n45 n46 n286 PmasterXXXXArb_active
+01-- 1
+0-1- 1
+0--0 1
+.names PPCCReqCode3 PPCCReqCode2 PPCCReqCode1 PPCCReqCode0 \
+PencodemuxXXXXMX_AD_8
+001- 1
+00-0 1
+.names PPCCAck n109 NslaveXXXXstate2 n16
+010 1
+.names n167 n216 n218 n219 n17
+0-1- 1
+-11- 1
+0--1 1
+-1-1 1
+.names n34 n28 n18
+1- 1
+-1 1
+.names PSBCResetPCC n151 NvirmachXXXXstate0 n20
+000 1
+.names n336 NUpdateDone n21
+10 1
+.names PPCCReqCode2 PPCCReqCode1 n22
+1- 1
+-0 1
+.names n21 n22 n18 NmasterXXXXUpdateReq
+1-- 1
+-1- 1
+--1 1
+.names PPCCReqCode2 PPCCReqCode1 n22 n213 n25
+0-0- 1
+-10- 1
+0--1 1
+-1-1 1
+.names PPCCReqCode0 n25 n30 n23
+010 1
+.names PPCCAckCode PvirmachXXXXEn_VDBufo n26
+01 1
+.names n171 n219 NslaveXXXXV_transmit_begin
+11 1
+.names PSBCResetPCC n305 n320 n322 n27
+0-1- 1
+01-1 1
+.names PmasterXXXXEn_VDBufi n27 NmasterXXXXNextState1
+1- 1
+-1 1
+.names n28 NmasterXXXXP_receive_begin
+0 1
+.names PPCCReqCode0 n34 n213 n28
+00- 1
+-01 1
+.names n162 n260 n20 PPCCAck n29
+111- 1
+11-1 1
+.names NIntr_done n100 n220 n30
+00- 1
+-01 1
+.names PPCCReqCode2 PPCCReqCode0 n33
+00 1
+.names PPCCReqCode0 PPCCReqCode2 n34
+11 1
+.names PPCCReqCode1 n33 n34 n213 NorXXXXSet_ex_wd_cnt1
+11-- 1
+1-1- 1
+-1-0 1
+--10 1
+.names PVTM0i PVSACKi n81 n337 NmasterXXXXV_receive_begin
+1110 1
+.names PRESETi n183 n180 n181 n35
+0110 1
+.names PPCCReqCode2 n213 n36
+01 1
+.names PPCCReqCode1 PPCCReqCode0 n213 n37
+1-0 1
+-10 1
+.names NmasterXXXXV_receive_begin n35 n36 n37 NorXXXXReset_wd_cnt_x
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names PRESETi n183 n194 n355 n38
+1-1- 1
+-11- 1
+--10 1
+.names n38 NslaveXXXXNextState1
+0 1
+.names n81 n293 n312 n316 n39
+0-01 1
+-101 1
+.names n39 NmasterXXXXNextState3
+0 1
+.names n319 NmasterXXXXstate1 n317 n318 n40
+11-- 1
+1-11 1
+.names PmasterXXXXEn_VDBufi n21 n40 n129 NmasterXXXXNextState2
+1--- 1
+-1-- 1
+--1- 1
+---0 1
+.names NresetXXXXstate1 n247 PSBCResetPCC n245 n42
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names n241 PSBCResetPCC n233 n43
+11- 1
+1-1 1
+.names PSBCResetPCC n233 n236 n361 n44
+1-10 1
+-110 1
+.names PSTARTi n347 n45
+11 1
+.names n306 PGRANTi NmasterXXXXstate2 n46
+111 1
+.names n185 n186 n280 n48
+10- 1
+1-0 1
+.names PRESETi n179 n184 n191 n49
+01-- 1
+0-1- 1
+0--1 1
+.names n77 n109 NslaveXXXXstate2 NslaveXXXXstate1 n50
+1110 1
+.names PPCCsync n110 n109 n280 n51
+011- 1
+01-0 1
+.names n48 n49 n50 n51 NslaveXXXXNextState2
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names PSBCResetPCC n273 n275 n52
+01- 1
+0-1 1
+.names n99 n140 n53
+10 1
+.names PSBCResetPCC NP_receive_begin n140 n54
+011 1
+.names n109 n195 n198 n55
+0-1 1
+-11 1
+.names n55 NslaveXXXXNextState0
+0 1
+.names n290 PSBCResetPCC n286 n289 n56
+11-- 1
+1-11 1
+.names NmasterXXXXstate0 NmasterXXXXstate3 n57
+01 1
+.names n81 n111 n323 NmasterXXXXstate2 n59
+11-- 1
+1-11 1
+.names PmasterXXXXEn_VDBufi n80 n294 n356 n60
+11-- 1
+1-0- 1
+1--0 1
+.names [79] n59 n60 n384 NmasterXXXXNextState0
+1--- 1
+-1-- 1
+--1- 1
+---0 1
+.names PCoherencyState2i PCoherencyState1i n167 n171 n62
+--01 1
+01-1 1
+.names n46 n334 n67
+11 1
+.names n305 n335 n64
+0- 1
+-1 1
+.names PSingleStep PPCCConfirm n67 n64 n63
+001- 1
+0-11 1
+.names n259 n69 PSTARTi n258 n68
+111- 1
+11-1 1
+.names n240 n241 PSBCResetPCC n234 n69
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names n69 NorXXXXGen_Reset
+0 1
+.names PSBCResetPCC n275 n277 n71
+1-1 1
+-01 1
+.names PACKi NslaveXXXXstate0 n199 n72
+100 1
+.names PSTARTi n110 n183 n73
+011 1
+.names PVSACKi n185 NIntr_req n202 n74
+0101 1
+.names PVTM0l PTM1l PCoherencyState2i PCoherencyState1i n76
+10-- 1
+1-0- 1
+1--0 1
+.names PTag_Match n176 n77
+0- 1
+-1 1
+.names n76 n77 NslaveXXXXstate1 n75
+1-0 1
+-10 1
+.names PVSACKi PSTARTi n115 n80
+1-1 1
+-01 1
+.names PmasterXXXXEn_VDBufi NmasterXXXXstate3 n81
+11 1
+.names PTM0i PSBCResetPCC n250 n254 n83
+1-0- 1
+-10- 1
+--01 1
+.names PVTM1l NslaveXXXXV_transmit_begin n173 n84
+0-1 1
+-01 1
+.names PPCCAck n155 n158 n162 n85
+01-1 1
+-101 1
+.names n85 NvirmachXXXXNextState0
+0 1
+.names n281 PSTARTi PACKi n87
+1-- 1
+-1- 1
+--1 1
+.names PACKi n282 n88
+0- 1
+-1 1
+.names PRESETi NIntr_done n87 n88 n86
+1111 1
+.names n167 n171 n173 n89
+1-1 1
+-01 1
+.names PVTM0i PSBCResetPCC NV_transmit_begin n90
+100 1
+.names [79] PTM0i PSTARTi n91
+11- 1
+1-1 1
+.names PphysrecXXXXstate1 PphysrecXXXXstate0 PTM0i n99 NV_receive_begin \
+Nwd_cnt_test n92
+101100 1
+.names n90 n91 n92 n162 NorXXXXIncr_wd_cnt
+1--- 1
+-1-- 1
+--1- 1
+---0 1
+.names PwdcntXXXXstate2 PwdcntXXXXstate1 NwdcntXXXXNextState0 n357 n93
+0-0- 1
+-00- 1
+--00 1
+.names n93 NwdcntXXXXwd_cnt_test
+0 1
+.names PwdcntXXXXstate3 PwdcntXXXXstate2 NwdcntXXXXstate0 n141 n94
+0011 1
+.names PwdcntXXXXstate1 PSBCResetPCC NSet_ex_wd_cnt1 NReset_wd_cnt n95
+0011 1
+.names n94 n95 NwdcntXXXXNextState0
+1- 1
+-1 1
+.names PPCCAck PvirmachXXXXEn_VDBufo n20 n96
+10- 1
+-01 1
+.names PSBCResetPCC PACKi n99
+00 1
+.names Nwd_cnt_test PphysrecXXXXstate1 PTM0i n97
+111 1
+.names PVSACKi PSingleStep n81 n112 n100
+0011 1
+.names PPCCAck n155 n158 n101
+11- 1
+-10 1
+.names n101 NvirmachXXXXNextState1
+0 1
+.names n278 NnubusXXXXstate0 PTM1i n280 n102
+11-- 1
+1-1- 1
+1--1 1
+.names n102 NnubusXXXXNextState0
+0 1
+.names n54 n99 n207 n103
+00- 1
+0-1 1
+.names n278 NIntr_done n280 n281 n104
+11-- 1
+1-1- 1
+1--1 1
+.names PRESETi PPCCSawReset NresetXXXXstate2 n206 n105
+-01- 1
+00-1 1
+.names n105 PresetXXXXReset NresetXXXXNextState1
+1- 1
+-1 1
+.names n284 NIntr_done n220 n106
+11- 1
+1-1 1
+.names n106 NnubusXXXXIntr_req
+0 1
+.names NslaveXXXXstate2 NslaveXXXXstate1 n110
+00 1
+.names PRESETi NslaveXXXXstate0 n109
+01 1
+.names NmasterXXXXstate1 NmasterXXXXstate2 n112
+00 1
+.names n112 PSingleStep PVSACKi n111
+11- 1
+1-1 1
+.names PRESETi PresetXXXXReset NGen_Reset n206 n113
+00-- 1
+-010 1
+.names n113 NresetXXXXNextState2
+0 1
+.names PACKl NmasterXXXXstate2 n115
+01 1
+.names PSingleStep NmasterXXXXstate3 NmasterXXXXstate1 n305 n116
+--00 1
+010- 1
+.names PRESETi NGen_Reset NresetXXXXstate2 n206 NresetXXXXNextState0
+1100 1
+.names PSTARTi PVSACKi n123
+11 1
+.names PVSACKi PSTARTi n115 n123 n121
+--11 1
+001- 1
+.names PPCCSawReset NresetXXXXstate1 n124
+01 1
+.names PRESETi NslaveXXXXstate0 n191 NslaveXXXXIntr_done
+1-0 1
+-10 1
+.names PVTM0i PVSACKi NmasterXXXXstate2 n129
+0-0 1
+-10 1
+.names PphysrecXXXXstate1 PphysrecXXXXstate0 NV_receive_begin n132
+00- 1
+-00 1
+.names PwdcntXXXXstate2 PwdcntXXXXstate1 n141 n147 n136
+00-- 1
+0-0- 1
+-0-1 1
+--01 1
+.names PACKl n129 n138
+01 1
+.names PphysrecXXXXstate0 PphysrecXXXXstate1 n140
+11 1
+.names NReset_wd_cnt PSBCResetPCC n141
+11 1
+.names PwdcntXXXXstate3 n141 NIncr_wd_cnt n147
+0-- 1
+-0- 1
+--0 1
+.names PwdcntXXXXstate2 PwdcntXXXXstate1 NwdcntXXXXstate0 NIncr_wd_cnt n149
+0-01 1
+-001 1
+.names NV_receive_begin NV_transmit_begin NvirmachXXXXstate1 n151
+1-0 1
+-00 1
+.names PSBCResetPCC NV_receive_begin NvirmachXXXXstate1 NvirmachXXXXstate0 \
+n157
+1--- 1
+-0-- 1
+--1- 1
+---1 1
+.names PSBCResetPCC NvirmachXXXXstate1 NvirmachXXXXstate0 n156
+1-- 1
+-0- 1
+--0 1
+.names n157 PVACKi n156 n155
+11- 1
+1-1 1
+.names PSBCResetPCC NV_transmit_begin NvirmachXXXXstate1 NvirmachXXXXstate0 \
+n158
+01-0 1
+0-10 1
+.names PvirmachXXXXEn_VDBufo Nwd_cnt_test n162
+0- 1
+-1 1
+.names PSTARTi n110 n185 n397 n163
+-00- 1
+1-00 1
+.names PVTM1l PTM1l PCoherencyState1i PnextstateXXXXCoherencyState2o n167
+1--0 1
+-1-0 1
+--10 1
+.names n218 NslaveXXXXstate2 n171
+11 1
+.names PTM1l PCoherencyState2i PCoherencyState1i n171 n173
+0--- 1
+-1-- 1
+--0- 1
+---0 1
+.names PVTM1l PTM1l PCoherencyState2i PCoherencyState1i n176
+--00 1
+000- 1
+.names PACKi NslaveXXXXstate0 n183
+00 1
+.names PSTARTi n110 n180
+11 1
+.names PVTM0l PSTARTo n181
+0- 1
+-1 1
+.names n183 n180 n181 n358 n179
+1--0 1
+111- 1
+.names NslaveXXXXstate2 NslaveXXXXstate1 n185
+11 1
+.names n185 NslaveXXXXstate0 PVSACKi n184
+111 1
+.names PACKi PRESETi n187
+1- 1
+-1 1
+.names PNuBusActive n187 NIntr_req n186
+0-- 1
+-1- 1
+--1 1
+.names PPCCAck NslaveXXXXstate2 NslaveXXXXstate1 n191
+101 1
+.names n75 n109 NslaveXXXXstate2 NslaveXXXXstate1 n194
+0--0 1
+-0-0 1
+--00 1
+.names PVSACKi n75 NslaveXXXXstate2 NslaveXXXXstate1 n195
+001- 1
+-010 1
+.names PVTM0l n110 n280 n198
+0-- 1
+-0- 1
+--1 1
+.names n180 n185 NslaveXXXXstate2 n359 n199
+001- 1
+00-0 1
+.names PSTARTi PACKi n326 n202
+11- 1
+0-1 1
+-11 1
+.names NresetXXXXstate1 NresetXXXXstate0 n206
+1- 1
+-1 1
+.names PphysrecXXXXstate1 n97 n140 NV_receive_begin n207
+000- 1
+-001 1
+.names PSingleStep PSBCResetPCC n57 n305 n213
+0011 1
+.names PCoherencyState2i PCoherencyState1i n216
+01 1
+.names PVTM0l PTag_Match n109 NslaveXXXXstate1 n218
+1110 1
+.names PTM1l PCoherencyState2i n219
+01 1
+.names NnubusXXXXstate1 n279 NnubusXXXXstate0 n220
+1-- 1
+-1- 1
+--0 1
+.names NmasterXXXXstate3 n337 n225
+1- 1
+-1 1
+.names NmasterXXXXstate3 n225 NmasterXXXXstate1 n223
+01- 1
+-10 1
+.names PPCCReqCode2 PPCCReqCode1 NmasterXXXXstate3 n234 n226
+-1-0 1
+1-10 1
+.names n57 n318 n335 n231
+0-- 1
+-1- 1
+--1 1
+.names PPCCReq n112 n226 n231 n228
+0-0- 1
+-00- 1
+--01 1
+.names NmasterXXXXstate0 n338 n234
+1- 1
+-1 1
+.names PPCCReqCode0 n63 n228 n234 n233
+001- 1
+-011 1
+.names PSBCResetPCC n140 n253 n254 n236
+11-- 1
+1-0- 1
+-1-1 1
+--01 1
+.names Nwd_cnt_test NV_receive_begin PTM0i n238
+11- 1
+1-1 1
+.names n238 NV_receive_begin PTM1i n239
+11- 1
+1-1 1
+.names PPCCReqCode0 n339 n240
+0- 1
+-1 1
+.names PphysrecXXXXstate1 PphysrecXXXXstate0 n239 n253 n241
+0--- 1
+-1-- 1
+--1- 1
+---0 1
+.names PphysrecXXXXstate1 n238 n249 n244
+0-1 1
+-11 1
+.names PTM1i PTM0i n243
+1- 1
+-0 1
+.names n132 n140 n244 n243 n242
+101- 1
+-011 1
+.names PACKi n242 n363 n246
+0-1 1
+-11 1
+.names n34 n228 n234 n246 n245
+01-1 1
+-111 1
+.names PRESETi NresetXXXXstate2 n247
+1- 1
+-0 1
+.names PTM1i PTM0i n249
+0- 1
+-1 1
+.names n249 Nwd_cnt_test NV_receive_begin n243 n248
+111- 1
+11-1 1
+.names PSBCResetPCC PACKi n253
+01 1
+.names PTM0i n132 n253 n365 n250
+--10 1
+001- 1
+.names PACKl NmasterXXXXstate0 n223 n254
+0-- 1
+-0- 1
+--1 1
+.names PRESETi n187 NnubusXXXXstate1 n342 n256
+11-- 1
+1-1- 1
+-1-0 1
+--10 1
+.names PSTARTi n256 NnubusXXXXstate0 n259
+0-- 1
+-1- 1
+--0 1
+.names PRESETi PACKi NIntr_done n281 n258
+1--- 1
+-0-- 1
+--1- 1
+---1 1
+.names PPCCReqCode2 PPCCReqCode0 n34 n213 n260
+1-1- 1
+-11- 1
+1--0 1
+-1-0 1
+.names PRQSTi n112 n263
+1- 1
+-0 1
+.names PPCCConfirm n67 NmasterXXXXstate3 n263 n262
+0-0- 1
+-00- 1
+0--1 1
+-0-1 1
+.names n81 n115 n123 n112 n265
+11-- 1
+1-11 1
+.names PACKl NmasterXXXXstate0 n270
+11 1
+.names PLastRQSTi n270 NmasterXXXXstate1 n337 n267
+011- 1
+01-0 1
+.names PPCCReqCode3 PPCCReq NmasterXXXXstate0 n240 n272
+0--- 1
+-0-- 1
+--1- 1
+---1 1
+.names NmasterXXXXstate3 n272 n112 n271
+111 1
+.names Nwd_cnt_test NV_receive_begin PTM1i PTM0i n274
+11-- 1
+1-11 1
+.names PphysrecXXXXstate1 PphysrecXXXXstate0 PLastRQSTi n274 n273
+-10- 1
+1-01 1
+.names n267 n271 n368 n275
+1-- 1
+-1- 1
+--0 1
+.names n342 n345 n279 n277
+1-- 1
+-1- 1
+--1 1
+.names PSTARTi n187 n279
+1- 1
+-1 1
+.names n220 n279 n342 n278
+11- 1
+1-0 1
+.names PSTARTi n187 n280
+0- 1
+-1 1
+.names NnubusXXXXstate0 NnubusXXXXstate1 n281
+1- 1
+-1 1
+.names PSTARTi n281 n389 n282
+0-1 1
+-11 1
+.names PSlotSpace_Id_Match PSTARTi PACKi NnubusXXXXstate1 n283
+1-0- 1
+-10- 1
+--00 1
+.names n282 n283 PRESETi NIntr_done NnubusXXXXNextState1
+111- 1
+11-1 1
+.names n279 n342 n345 n284
+1-- 1
+-0- 1
+--0 1
+.names n57 NmasterXXXXstate1 NmasterXXXXstate2 n288
+0-- 1
+-0- 1
+--1 1
+.names PRQSTi n116 n288 n307 n286
+1-1- 1
+-11- 1
+--10 1
+.names PmasterXXXXEn_VDBufi n112 NmasterXXXXstate3 n290
+0-- 1
+-0- 1
+--1 1
+.names n300 n306 NmasterXXXXstate2 n289
+1-- 1
+-0- 1
+--0 1
+.names PVSACKi n225 NmasterXXXXstate2 n390 n291
+11-0 1
+-100 1
+.names PACKl NmasterXXXXstate1 n294
+1- 1
+-0 1
+.names PACKl n115 n123 n375 n296
+10-- 1
+-00- 1
+1--1 1
+--01 1
+.names PLastRQSTi NmasterXXXXstate1 n297
+1- 1
+-0 1
+.names n111 n129 n263 n294 n296 n297 n293
+001111 1
+.names PSingleStep PGRANTi n334 n300
+011 1
+.names PPCCConfirm n300 n305 n369 n298
+01-- 1
+-10- 1
+-1-0 1
+.names PPCCReqCode1 PPCCReqCode0 n302
+0- 1
+-1 1
+.names PSingleStep PPCCReqCode3 PPCCReq n339 n303
+-11- 1
+0-11 1
+.names n34 n302 n303 n301
+011 1
+.names NmasterXXXXstate0 NmasterXXXXstate2 n307
+00 1
+.names NmasterXXXXstate3 NmasterXXXXstate1 n306
+01 1
+.names PPCCReqCode3 PPCCReq n305
+01 1
+.names NmasterXXXXstate3 n307 n306 n305 n304
+-11- 1
+01-1 1
+.names NmasterXXXXstate1 NmasterXXXXstate2 n298 NmasterXXXXstate3 n308
+111- 1
+11-1 1
+.names PRQSTi n57 NmasterXXXXstate2 n370 n309
+0--0 1
+011- 1
+.names PSBCResetPCC n45 n308 n372 n312
+01-- 1
+0-1- 1
+0--0 1
+.names PLastRQSTi PACKl PmasterXXXXEn_VDBufi n291 n316
+1--- 1
+-0-- 1
+--0- 1
+---1 1
+.names PSBCResetPCC n57 n319
+01 1
+.names PPCCReqCode1 PPCCReqCode0 n22 n305 n317
+--01 1
+00-1 1
+.names PSingleStep PRQSTi n318
+00 1
+.names PVSACKi NmasterXXXXstate2 n343 n348 n321
+1-1- 1
+-11- 1
+1--0 1
+-1-0 1
+.names PGRANTi n306 n321 n320
+111 1
+.names PRQSTi n116 n240 n307 n322
+10-- 1
+-00- 1
+1--1 1
+--01 1
+.names PVTM0i PVSACKi PSTARTi n323
+10- 1
+1-0 1
+-10 1
+.names PACKi NslaveXXXXstate0 n326
+01 1
+.names PVSACKi PBUS_Inactive n334
+01 1
+.names PPCCReqCode2 PPCCReqCode1 n335
+11 1
+.names PSBCResetPCC NmasterXXXXstate0 NmasterXXXXstate1 n336
+000 1
+.names PSTARTi NmasterXXXXstate2 n337
+1- 1
+-0 1
+.names PPCCReqCode3 PPCCReq n112 n338
+0-- 1
+-0- 1
+--0 1
+.names PPCCReqCode2 PPCCReqCode1 n339
+1- 1
+-1 1
+.names NIntr_done NnubusXXXXstate1 n342
+01 1
+.names PSingleStep n64 n343
+1- 1
+-1 1
+.names PSlotSpace_Id_Match NnubusXXXXstate0 n345
+10 1
+.names NmasterXXXXstate0 n112 NmasterXXXXstate3 n347
+110 1
+.names n334 PPCCConfirm n348
+11 1
+.names n57 n64 n263 n350
+0-- 1
+-1- 1
+--1 1
+.names PwdcntXXXXstate3 PwdcntXXXXstate1 n141 NIncr_wd_cnt n352
+0-1- 1
+-11- 1
+--10 1
+.names PwdcntXXXXstate2 n147 n352 n353
+01- 1
+1-0 1
+-10 1
+.names NslaveXXXXstate0 n386 n387 n354
+0-1 1
+-11 1
+.names PPCCsync NslaveXXXXstate2 n359 n388 n355
+-0-1 1
+1-11 1
+.names PVSACKi PVACKl n306 n356
+00- 1
+0-1 1
+-00 1
+.names n141 PwdcntXXXXstate3 NIncr_wd_cnt n357
+11- 1
+1-1 1
+.names NIntr_req PSlotSpace_Id_Match n359
+1- 1
+-1 1
+.names PPCCsync n185 NslaveXXXXstate2 n359 n358
+-00- 1
+00-1 1
+.names NmasterXXXXstate2 n336 NUpdateDone n362
+111 1
+.names n100 n247 n362 n361
+1-- 1
+-0- 1
+--1 1
+.names n243 n249 n254 n399 n363
+--10 1
+11-0 1
+.names PphysrecXXXXstate1 n140 n248 n365
+00- 1
+-01 1
+.names PSBCResetPCC n262 n265 n343 n366
+1-0- 1
+-10- 1
+--01 1
+.names PBUS_Inactive n46 n57 NmasterXXXXstate2 n368
+1-0- 1
+-10- 1
+1--0 1
+-1-0 1
+.names n34 n302 n339 n369
+011 1
+.names n57 NmasterXXXXstate1 n301 n304 n370
+0--0 1
+-1-0 1
+--10 1
+.names n57 n240 n309 n338 n372
+0-0- 1
+-00- 1
+--01 1
+.names PVSACKi PSTARTi n375
+1- 1
+-1 1
+.names PGRANTi n306 n343 n348 n379
+01-- 1
+-101 1
+.names PSTARTi NmasterXXXXstate2 n347 n379 n381
+10-- 1
+-00- 1
+1--0 1
+--00 1
+.names PSingleStep PSBCResetPCC n350 n381 n384
+10-- 1
+-01- 1
+1--0 1
+--10 1
+.names PVSACKi PPCCsync PNuBusActive n185 NIntr_req n279 n386
+1----- 1
+-1---- 1
+--0--- 1
+---0-- 1
+----0- 1
+-----1 1
+.names NslaveXXXXstate0 n187 NslaveXXXXstate2 NslaveXXXXstate1 n387
+1--- 1
+-1-- 1
+--0- 1
+---1 1
+.names PTM1l PSTARTi NslaveXXXXstate2 n388
+1-- 1
+-0- 1
+--1 1
+.names PSTARTi NnubusXXXXstate1 NnubusXXXXstate0 n389
+1-- 1
+-0- 1
+--0 1
+.names PVSACKi PVACKl NmasterXXXXstate1 n390
+10- 1
+1-0 1
+.names PVTM0l PSTARTo n397
+11 1
+.names PSingleStep PPCCConfirm n67 n64 n399
+0111 1
+.names [31] PwdcntXXXXwd_cnt0
+1 1
+.names [31] PwdcntXXXXNextState3
+1 1
+.names [41] PslaveXXXXSnoopVTag_W
+1 1
+.names [41] PslaveXXXXSnoopAddrFromProc
+1 1
+.names [80] PmasterXXXXL_PDBufi
+1 1
+.names [79] PmasterXXXXL_DBufo_if_TM0
+1 1
+.names [79] PmasterXXXXEn_PDBufo
+1 1
+.names [80] PmasterXXXXEn_PDBufi
+1 1
+.end

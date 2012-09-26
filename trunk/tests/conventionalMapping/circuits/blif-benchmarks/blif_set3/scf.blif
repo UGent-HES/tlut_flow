@@ -1,0 +1,2308 @@
+#
+# Written by e2fmt Tue Mar 31 16:16:43 1998
+############################################
+.model top
+.inputs scf_in_20_ scf_in_10_ scf_in_11_ scf_in_22_ scf_in_12_ scf_in_21_\
+ scf_in_13_ scf_in_24_ scf_in_14_ scf_in_23_ scf_in_15_ scf_in_26_ scf_in_16_\
+ scf_in_25_ scf_in_17_ scf_in_18_ scf_in_19_ scf_in_2_ scf_in_3_ scf_in_0_\
+ scf_in_1_ scf_in_6_ scf_in_7_ scf_in_4_ scf_in_5_ scf_in_8_ scf_in_9_ clock
+.outputs scf_out_14_ scf_out_27_ scf_out_15_ scf_out_26_ scf_out_12_ scf_out_29_\
+ scf_out_13_ scf_out_28_ scf_out_18_ scf_out_23_ scf_out_19_ scf_out_22_\
+ scf_out_16_ scf_out_25_ scf_out_17_ scf_out_24_ scf_out_5_ scf_out_4_ scf_out_7_\
+ scf_out_21_ scf_out_6_ scf_out_20_ scf_out_1_ scf_out_10_ scf_out_0_ scf_out_11_\
+ scf_out_3_ scf_out_2_ scf_out_50_ scf_out_51_ scf_out_9_ scf_out_41_ scf_out_8_\
+ scf_out_40_ scf_out_30_ scf_out_31_ scf_out_32_ scf_out_45_ scf_out_33_\
+ scf_out_44_ scf_out_34_ scf_out_43_ scf_out_35_ scf_out_42_ scf_out_36_\
+ scf_out_49_ scf_out_54_ scf_out_37_ scf_out_48_ scf_out_55_ scf_out_38_\
+ scf_out_47_ scf_out_52_ scf_out_39_ scf_out_46_ scf_out_53_
+# connect ports to nets with different names
+.names n_n47 scf_out_14_
+1  1
+.names n_n60 scf_out_27_
+1  1
+.names n_n48 scf_out_15_
+1  1
+.names n_n59 scf_out_26_
+1  1
+.names scf_in_20_ n_n602
+1  1
+.names n_n45 scf_out_12_
+1  1
+.names n_n62 scf_out_29_
+1  1
+.names scf_in_10_ n_n592
+1  1
+.names n_n46 scf_out_13_
+1  1
+.names n_n61 scf_out_28_
+1  1
+.names scf_in_11_ n_n593
+1  1
+.names scf_in_22_ n_n604
+1  1
+.names n_n51 scf_out_18_
+1  1
+.names n_n56 scf_out_23_
+1  1
+.names scf_in_12_ n_n594
+1  1
+.names scf_in_21_ n_n603
+1  1
+.names n_n52 scf_out_19_
+1  1
+.names n_n55 scf_out_22_
+1  1
+.names scf_in_13_ n_n595
+1  1
+.names scf_in_24_ n_n606
+1  1
+.names n_n49 scf_out_16_
+1  1
+.names n_n58 scf_out_25_
+1  1
+.names scf_in_14_ n_n596
+1  1
+.names scf_in_23_ n_n605
+1  1
+.names n_n50 scf_out_17_
+1  1
+.names n_n57 scf_out_24_
+1  1
+.names scf_in_15_ n_n597
+1  1
+.names scf_in_26_ n_n608
+1  1
+.names n_n38 scf_out_5_
+1  1
+.names scf_in_16_ n_n598
+1  1
+.names scf_in_25_ n_n607
+1  1
+.names n_n37 scf_out_4_
+1  1
+.names scf_in_17_ n_n599
+1  1
+.names n_n40 scf_out_7_
+1  1
+.names n_n54 scf_out_21_
+1  1
+.names scf_in_18_ n_n600
+1  1
+.names n_n39 scf_out_6_
+1  1
+.names n_n53 scf_out_20_
+1  1
+.names scf_in_19_ n_n601
+1  1
+.names n_n34 scf_out_1_
+1  1
+.names n_n43 scf_out_10_
+1  1
+.names n_n33 scf_out_0_
+1  1
+.names n_n44 scf_out_11_
+1  1
+.names n_n36 scf_out_3_
+1  1
+.names n_n35 scf_out_2_
+1  1
+.names scf_in_2_ n_n584
+1  1
+.names n_n83 scf_out_50_
+1  1
+.names scf_in_3_ n_n585
+1  1
+.names n_n84 scf_out_51_
+1  1
+.names scf_in_0_ n_n582
+1  1
+.names scf_in_1_ n_n583
+1  1
+.names scf_in_6_ n_n588
+1  1
+.names n_n42 scf_out_9_
+1  1
+.names n_n74 scf_out_41_
+1  1
+.names scf_in_7_ n_n589
+1  1
+.names n_n41 scf_out_8_
+1  1
+.names n_n73 scf_out_40_
+1  1
+.names scf_in_4_ n_n586
+1  1
+.names n_n63 scf_out_30_
+1  1
+.names scf_in_5_ n_n587
+1  1
+.names n_n64 scf_out_31_
+1  1
+.names n_n65 scf_out_32_
+1  1
+.names n_n78 scf_out_45_
+1  1
+.names n_n66 scf_out_33_
+1  1
+.names n_n77 scf_out_44_
+1  1
+.names scf_in_8_ n_n590
+1  1
+.names n_n67 scf_out_34_
+1  1
+.names n_n76 scf_out_43_
+1  1
+.names scf_in_9_ n_n591
+1  1
+.names n_n68 scf_out_35_
+1  1
+.names n_n75 scf_out_42_
+1  1
+.names clock n__clk
+1  1
+.names n_n69 scf_out_36_
+1  1
+.names n_n82 scf_out_49_
+1  1
+.names n_n87 scf_out_54_
+1  1
+.names n_n70 scf_out_37_
+1  1
+.names n_n81 scf_out_48_
+1  1
+.names n_n88 scf_out_55_
+1  1
+.names n_n71 scf_out_38_
+1  1
+.names n_n80 scf_out_47_
+1  1
+.names n_n85 scf_out_52_
+1  1
+.names n_n72 scf_out_39_
+1  1
+.names n_n79 scf_out_46_
+1  1
+.names n_n86 scf_out_53_
+1  1
+# instance g_g104
+.names n_n578 n_n31 n_n581 n_n29 n_n608 n_n26  n_n470
+111111  1
+# instance g_g115
+.names n_n578 n_n577 n_n20 n_n32 n_n608 n_n576 n_n575  n_n459
+1111111  1
+# instance g_g126
+.names n_n578 n_n576 n_n581 n_n580 n_n608 n_n575  n_n448
+111111  1
+# instance g_g137
+.names n_n576 n_n575 n_n579 n_n27 n_n608  n_n437
+11111  1
+# instance g_g148
+.names n_n32 n_n28 n_n607 n_n30 n_n608 n_n577 n_n575  n_n426
+1111111  1
+# instance g_g159
+.names n_n579 n_n28 n_n595 n_n29 n_n608 n_n575 n_n27 n_n31  n_n415
+11111111  1
+# instance g_g203
+.names n_n28 n_n27 n_n581 n_n580 n_n608 n_n576 n_n26  n_n371
+1111111  1
+# instance g_g214
+.names n_n29 n_n32 n_n584 n_n581 n_n608 n_n576 n_n575 n_n28 n_n577  n_n360
+111111111  1
+# instance g_g225
+.names n_n27 n_n576 n_n32 n_n578 n_n608 n_n575  n_n349
+111111  1
+# instance g_g236
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n31  n_n338
+1111111  1
+# instance g_g247
+.names n_n32 n_n578 n_n30 n_n580 n_n608 n_n27 n_n31  n_n327
+1111111  1
+# instance g_g258
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n31  n_n316
+11111111  1
+# instance g_g269
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n576 n_n575  n_n305
+1111111  1
+# instance g_g302
+.names n_n579 n_n27 n_n581 n_n580 n_n608 n_n31 n_n575  n_n272
+1111111  1
+# instance g_g324
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n252
+11111111  1
+# instance g_g335
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n241
+11111111  1
+# instance g_g346
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n577 n_n575  n_n230
+1111111  1
+# instance g_g357
+.names n_n32 n_n578 n_n581 n_n580 n_n608 n_n577 n_n31  n_n220
+1111111  1
+# instance g_g368
+.names n_n579 n_n27 n_n581 n_n580 n_n608 n_n31 n_n575  n_n210
+1111111  1
+# instance g_g1383
+.names n_n485 n_n484 n_n487 n_n486 n_n488 n_n472 n_n471 n_n470 n_n469 n_n465 n_n476 n_n466 n_n475 n_n463 n_n474 n_n464 n_n473 n_n467 n_n478 n_n468 n_n477 n_n479 n_n481 n_n480 n_n483 n_n482  n_n200
+1-------------------------  1
+-1------------------------  1
+--1-----------------------  1
+---1----------------------  1
+----1---------------------  1
+-----1--------------------  1
+------1-------------------  1
+-------1------------------  1
+--------1-----------------  1
+---------1----------------  1
+----------1---------------  1
+-----------1--------------  1
+------------1-------------  1
+-------------1------------  1
+--------------1-----------  1
+---------------1----------  1
+----------------1---------  1
+-----------------1--------  1
+------------------1-------  1
+-------------------1------  1
+--------------------1-----  1
+---------------------1----  1
+----------------------1---  1
+-----------------------1--  1
+------------------------1-  1
+-------------------------1  1
+# instance g_g1394
+.names n_n321 n_n320 n_n323 n_n322 n_n324 n_n319 n_n318  n_n191
+1------  1
+-1-----  1
+--1----  1
+---1---  1
+----1--  1
+-----1-  1
+------1  1
+# instance g_g456
+.names n_n583  n_n22
+0  1
+# instance g_g445
+.names n_n600  n_n11
+0  1
+# instance g_g434
+.names  n_n0
+  -
+# instance g_g423
+.names n_n216 n_n0 n_n106  n_n43
+1-0  1
+-11  1
+# instance g_g412
+.names n_n244 n_n0 n_n117  n_n54
+1-0  1
+-11  1
+# instance g_g401
+.names n_n177 n_n0 n_n128  n_n65
+1-0  1
+-11  1
+# instance g_g379
+.names n_n340 n_n0 n_n150  n_n87
+1-0  1
+-11  1
+# instance g_g313
+.names n_n203 n_n0 n_n158  n_n95
+1-0  1
+-11  1
+# instance g_g105
+.names n_n578 n_n27 n_n30 n_n32 n_n608 n_n31 n_n575  n_n469
+1111111  1
+# instance g_g114
+.names n_n578 n_n27 n_n10 n_n581 n_n608 n_n576 n_n575  n_n460
+1111111  1
+# instance g_g127
+.names n_n577 n_n31 n_n30 n_n578 n_n608  n_n447
+11111  1
+# instance g_g136
+.names n_n579 n_n578 n_n23 n_n29 n_n608 n_n575 n_n577 n_n31  n_n438
+11111111  1
+# instance g_g149
+.names n_n32 n_n576 n_n605 n_n580 n_n608 n_n575  n_n425
+111111  1
+# instance g_g158
+.names n_n579 n_n577 n_n593 n_n29 n_n608 n_n31 n_n575  n_n416
+1111111  1
+# instance g_g204
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n576 n_n575  n_n370
+1111111  1
+# instance g_g213
+.names n_n29 n_n32 n_n22 n_n581 n_n608 n_n576 n_n575 n_n28 n_n577  n_n361
+111111111  1
+# instance g_g226
+.names n_n577 n_n576 n_n32 n_n578 n_n608 n_n26  n_n348
+111111  1
+# instance g_g235
+.names n_n579 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n31  n_n339
+11111111  1
+# instance g_g248
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n27 n_n26  n_n326
+1111111  1
+# instance g_g257
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n26 n_n27 n_n31  n_n317
+11111111  1
+# instance g_g279
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n26 n_n577 n_n576  n_n295
+11111111  1
+# instance g_g303
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n31  n_n271
+1111111  1
+# instance g_g312
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26 n_n577 n_n31  n_n262
+11111111  1
+# instance g_g325
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n575 n_n577 n_n31  n_n251
+11111111  1
+# instance g_g334
+.names n_n579 n_n28 n_n581 n_n29 n_n608 n_n26 n_n577 n_n31  n_n242
+11111111  1
+# instance g_g347
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n31  n_n229
+11111111  1
+# instance g_g356
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n26 n_n577 n_n576  n_n221
+11111111  1
+# instance g_g369
+.names n_n32 n_n578 n_n581 n_n580 n_n608 n_n577 n_n31  n_n209
+1111111  1
+# instance g_g1384
+.names n_n459 n_n458 n_n461 n_n460 n_n462 n_n435 n_n446 n_n436 n_n445 n_n433 n_n444 n_n434 n_n443 n_n439 n_n450 n_n440 n_n449 n_n430 n_n437 n_n448 n_n438 n_n447 n_n432 n_n431 n_n441 n_n452 n_n442 n_n451 n_n453 n_n455 n_n454 n_n457 n_n456  n_n199
+1--------------------------------  1
+-1-------------------------------  1
+--1------------------------------  1
+---1-----------------------------  1
+----1----------------------------  1
+-----1---------------------------  1
+------1--------------------------  1
+-------1-------------------------  1
+--------1------------------------  1
+---------1-----------------------  1
+----------1----------------------  1
+-----------1---------------------  1
+------------1--------------------  1
+-------------1-------------------  1
+--------------1------------------  1
+---------------1-----------------  1
+----------------1----------------  1
+-----------------1---------------  1
+------------------1--------------  1
+-------------------1-------------  1
+--------------------1------------  1
+---------------------1-----------  1
+----------------------1----------  1
+-----------------------1---------  1
+------------------------1--------  1
+-------------------------1-------  1
+--------------------------1------  1
+---------------------------1-----  1
+----------------------------1----  1
+-----------------------------1---  1
+------------------------------1--  1
+-------------------------------1-  1
+--------------------------------1  1
+# instance g_g1393
+.names n_n326 n_n325 n_n328 n_n327 n_n329  n_n192
+1----  1
+-1---  1
+--1--  1
+---1-  1
+----1  1
+# instance g_g455
+.names n_n604  n_n21
+0  1
+# instance g_g446
+.names n_n594  n_n12
+0  1
+# instance g_g433
+.names n_n159 n_n0 n_n96  n_n33
+1-0  1
+-11  1
+# instance g_g424
+.names n_n163 n_n0 n_n105  n_n42
+1-0  1
+-11  1
+# instance g_g411
+.names n_n171 n_n0 n_n118  n_n55
+1-0  1
+-11  1
+# instance g_g402
+.names n_n262 n_n0 n_n127  n_n64
+1-0  1
+-11  1
+# instance g_g378
+.names n_n341 n_n0 n_n151  n_n88
+1-0  1
+-11  1
+# instance g_g106
+.names n_n28 n_n577 n_n580 n_n32 n_n608 n_n31 n_n26  n_n468
+1111111  1
+# instance g_g117
+.names n_n29 n_n579 n_n599 n_n581 n_n608 n_n575 n_n578 n_n27  n_n457
+11111111  1
+# instance g_g124
+.names n_n578 n_n577 n_n30 n_n29 n_n608 n_n575  n_n450
+111111  1
+# instance g_g135
+.names n_n579 n_n28 n_n601 n_n581 n_n608 n_n576 n_n575  n_n439
+1111111  1
+# instance g_g168
+.names n_n579 n_n578 n_n30 n_n29 n_n608 n_n27  n_n406
+111111  1
+# instance g_g179
+.names n_n28 n_n27 n_n580 n_n579 n_n608 n_n26  n_n395
+111111  1
+# instance g_g205
+.names n_n578 n_n577 n_n30 n_n32 n_n608 n_n575  n_n369
+111111  1
+# instance g_g216
+.names n_n29 n_n32 n_n586 n_n581 n_n608 n_n576 n_n575 n_n28 n_n577  n_n358
+111111111  1
+# instance g_g223
+.names n_n32 n_n28 n_n24 n_n581 n_n608 n_n575 n_n27 n_n31  n_n351
+11111111  1
+# instance g_g234
+.names n_n579 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n340
+11111111  1
+# instance g_g249
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n31 n_n26  n_n325
+1111111  1
+# instance g_g267
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n576 n_n26  n_n307
+1111111  1
+# instance g_g278
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n26 n_n27 n_n31  n_n296
+11111111  1
+# instance g_g304
+.names n_n28 n_n577 n_n580 n_n32 n_n608 n_n31 n_n575  n_n270
+1111111  1
+# instance g_g315
+.names n_n28 n_n27 n_n581 n_n579 n_n608 n_n576 n_n26  n_n260
+1111111  1
+# instance g_g322
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n575 n_n577 n_n576  n_n254
+11111111  1
+# instance g_g333
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n31  n_n243
+11111111  1
+# instance g_g348
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n228
+11111111  1
+# instance g_g359
+.names n_n578 n_n581  n_n218
+11  1
+# instance g_g366
+.names n_n579 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n212
+11111111  1
+# instance g_g377
+.names n_n31 n_n30  n_n204
+11  1
+# instance g_g1385
+.names n_n426 n_n425 n_n428 n_n427 n_n429 n_n391 n_n402 n_n413 n_n390 n_n403 n_n412 n_n393 n_n400 n_n411 n_n392 n_n401 n_n410 n_n395 n_n406 n_n417 n_n394 n_n407 n_n416 n_n397 n_n404 n_n415 n_n387 n_n396 n_n405 n_n414 n_n388 n_n399 n_n389 n_n398 n_n408 n_n419 n_n409 n_n418 n_n420 n_n422 n_n421 n_n424 n_n423  n_n198
+1------------------------------------------  1
+-1-----------------------------------------  1
+--1----------------------------------------  1
+---1---------------------------------------  1
+----1--------------------------------------  1
+-----1-------------------------------------  1
+------1------------------------------------  1
+-------1-----------------------------------  1
+--------1----------------------------------  1
+---------1---------------------------------  1
+----------1--------------------------------  1
+-----------1-------------------------------  1
+------------1------------------------------  1
+-------------1-----------------------------  1
+--------------1----------------------------  1
+---------------1---------------------------  1
+----------------1--------------------------  1
+-----------------1-------------------------  1
+------------------1------------------------  1
+-------------------1-----------------------  1
+--------------------1----------------------  1
+---------------------1---------------------  1
+----------------------1--------------------  1
+-----------------------1-------------------  1
+------------------------1------------------  1
+-------------------------1-----------------  1
+--------------------------1----------------  1
+---------------------------1---------------  1
+----------------------------1--------------  1
+-----------------------------1-------------  1
+------------------------------1------------  1
+-------------------------------1-----------  1
+--------------------------------1----------  1
+---------------------------------1---------  1
+----------------------------------1--------  1
+-----------------------------------1-------  1
+------------------------------------1------  1
+-------------------------------------1-----  1
+--------------------------------------1----  1
+---------------------------------------1---  1
+----------------------------------------1--  1
+-----------------------------------------1-  1
+------------------------------------------1  1
+# instance g_g1396
+.names n_n315 n_n314 n_n316  n_n190
+1--  1
+-1-  1
+--1  1
+# instance g_gd409
+.names  n_n129
+  0
+# instance g_g465
+.names n_n581  n_n30
+0  1
+# instance g_g458
+.names n_n602  n_n24
+0  1
+# instance g_g447
+.names n_n595  n_n13
+0  1
+# instance g_g432
+.names n_n204 n_n0 n_n97  n_n34
+1-0  1
+-11  1
+# instance g_g421
+.names n_n165 n_n0 n_n108  n_n45
+1-0  1
+-11  1
+# instance g_g414
+.names n_n170 n_n0 n_n115  n_n52
+1-0  1
+-11  1
+# instance g_g403
+.names n_n31 n_n0 n_n126  n_n63
+1-0  1
+-11  1
+# instance g_g107
+.names n_n578 n_n27 n_n581 n_n580 n_n608 n_n576  n_n467
+111111  1
+# instance g_g116
+.names n_n27 n_n31 n_n581 n_n580 n_n608 n_n26  n_n458
+111111  1
+# instance g_g125
+.names n_n579 n_n28 n_n581 n_n580 n_n608  n_n449
+11111  1
+# instance g_g134
+.names n_n579 n_n28 n_n593 n_n581 n_n608 n_n575 n_n577 n_n31  n_n440
+11111111  1
+# instance g_g169
+.names n_n5 n_n4 n_n7 n_n6 n_n608 n_n28 n_n577 n_n576 n_n29 n_n32 n_n581 n_n1 n_n583 n_n3 n_n2  n_n405
+111111111111111  1
+# instance g_g178
+.names n_n32 n_n578 n_n30 n_n580 n_n608 n_n31  n_n396
+111111  1
+# instance g_g206
+.names n_n32 n_n28 n_n30 n_n29 n_n608 n_n27 n_n576  n_n368
+1111111  1
+# instance g_g215
+.names n_n29 n_n32 n_n585 n_n581 n_n608 n_n576 n_n575 n_n28 n_n577  n_n359
+111111111  1
+# instance g_g224
+.names n_n32 n_n27 n_n25 n_n29 n_n608 n_n576 n_n575  n_n350
+1111111  1
+# instance g_g233
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n575 n_n577 n_n31  n_n341
+11111111  1
+# instance g_g259
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n26 n_n577 n_n576  n_n315
+11111111  1
+# instance g_g268
+.names n_n579 n_n27 n_n581 n_n580 n_n608 n_n31 n_n575  n_n306
+1111111  1
+# instance g_g277
+.names n_n28 n_n577 n_n30 n_n32 n_n608 n_n576 n_n575  n_n297
+1111111  1
+# instance g_g305
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n26 n_n577 n_n31  n_n269
+11111111  1
+# instance g_g314
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n261
+11111111  1
+# instance g_g323
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n27 n_n31  n_n253
+1111111  1
+# instance g_g332
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26 n_n577 n_n576  n_n244
+11111111  1
+# instance g_g349
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26 n_n577 n_n31  n_n227
+11111111  1
+# instance g_g358
+.names n_n28 n_n580  n_n219
+11  1
+# instance g_g367
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n577 n_n576  n_n211
+1111111  1
+# instance g_g1386
+.names n_n383 n_n382 n_n385 n_n384 n_n386 n_n348 n_n359 n_n370 n_n347 n_n360 n_n369 n_n350 n_n357 n_n368 n_n349 n_n358 n_n367 n_n352 n_n363 n_n374 n_n342 n_n351 n_n364 n_n373 n_n343 n_n354 n_n361 n_n372 n_n344 n_n353 n_n362 n_n371 n_n345 n_n356 n_n346 n_n355 n_n365 n_n376 n_n366 n_n375 n_n377 n_n379 n_n378 n_n381 n_n380  n_n197
+1--------------------------------------------  1
+-1-------------------------------------------  1
+--1------------------------------------------  1
+---1-----------------------------------------  1
+----1----------------------------------------  1
+-----1---------------------------------------  1
+------1--------------------------------------  1
+-------1-------------------------------------  1
+--------1------------------------------------  1
+---------1-----------------------------------  1
+----------1----------------------------------  1
+-----------1---------------------------------  1
+------------1--------------------------------  1
+-------------1-------------------------------  1
+--------------1------------------------------  1
+---------------1-----------------------------  1
+----------------1----------------------------  1
+-----------------1---------------------------  1
+------------------1--------------------------  1
+-------------------1-------------------------  1
+--------------------1------------------------  1
+---------------------1-----------------------  1
+----------------------1----------------------  1
+-----------------------1---------------------  1
+------------------------1--------------------  1
+-------------------------1-------------------  1
+--------------------------1------------------  1
+---------------------------1-----------------  1
+----------------------------1----------------  1
+-----------------------------1---------------  1
+------------------------------1--------------  1
+-------------------------------1-------------  1
+--------------------------------1------------  1
+---------------------------------1-----------  1
+----------------------------------1----------  1
+-----------------------------------1---------  1
+------------------------------------1--------  1
+-------------------------------------1-------  1
+--------------------------------------1------  1
+---------------------------------------1-----  1
+----------------------------------------1----  1
+-----------------------------------------1---  1
+------------------------------------------1--  1
+-------------------------------------------1-  1
+--------------------------------------------1  1
+# instance g_gd408
+.names  n_n130
+  0
+# instance g_g466
+.names n_n579  n_n32
+0  1
+# instance g_g457
+.names n_n593  n_n23
+0  1
+# instance g_g448
+.names n_n596  n_n14
+0  1
+# instance g_g431
+.names n_n160 n_n0 n_n98  n_n35
+1-0  1
+-11  1
+# instance g_g422
+.names n_n164 n_n0 n_n107  n_n44
+1-0  1
+-11  1
+# instance g_g413
+.names n_n243 n_n0 n_n116  n_n53
+1-0  1
+-11  1
+# instance g_g404
+.names n_n176 n_n0 n_n125  n_n62
+1-0  1
+-11  1
+# instance g_g376
+.names n_n197 n_n0 n_n152  n_n89
+1-0  1
+-11  1
+# instance g_g9
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n576 n_n26  n_n565
+1111111  1
+# instance g_g100
+.names n_n29 n_n579 n_n23 n_n581 n_n608 n_n576 n_n578 n_n577  n_n474
+11111111  1
+# instance g_g111
+.names n_n27 n_n576 n_n30 n_n28 n_n608 n_n575  n_n463
+111111  1
+# instance g_g122
+.names n_n578 n_n27 n_n30 n_n29 n_n608 n_n576 n_n26  n_n452
+1111111  1
+# instance g_g133
+.names n_n578 n_n577 n_n605 n_n32 n_n608 n_n31  n_n441
+111111  1
+# instance g_g188
+.names n_n18 n_n581 n_n17 n_n11 n_n608 n_n575 n_n577 n_n576 n_n579 n_n28  n_n386
+1111111111  1
+# instance g_g199
+.names n_n578 n_n27 n_n30 n_n32 n_n608 n_n31 n_n26  n_n375
+1111111  1
+# instance g_g210
+.names n_n28 n_n27 n_n30 n_n579 n_n608 n_n26  n_n364
+111111  1
+# instance g_g221
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n577 n_n31  n_n353
+1111111  1
+# instance g_g232
+.names n_n27 n_n31 n_n580 n_n579 n_n608 n_n575  n_n342
+111111  1
+# instance g_g287
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n26 n_n577 n_n31  n_n287
+11111111  1
+# instance g_g298
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n27 n_n575  n_n276
+1111111  1
+# instance g_g320
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n31  n_n256
+1111111  1
+# instance g_g331
+.names n_n32 n_n578 n_n581 n_n580 n_n608 n_n27  n_n245
+111111  1
+# instance g_g1398
+.names n_n309 n_n310  n_n188
+1-  1
+-1  1
+# instance g_gd418
+.names  n_n120
+  0
+# instance g_gd429
+.names  n_n109
+  0
+# instance g_g449
+.names n_n597  n_n15
+0  1
+# instance g_g430
+.names n_n161 n_n0 n_n99  n_n36
+1-0  1
+-11  1
+# instance g_g397
+.names n_n181 n_n0 n_n132  n_n69
+1-0  1
+-11  1
+# instance g_g386
+.names n_n317 n_n0 n_n143  n_n80
+1-0  1
+-11  1
+# instance g_g101
+.names n_n27 n_n580 n_n579 n_n608  n_n473
+1111  1
+# instance g_g110
+.names n_n27 n_n575 n_n580 n_n28 n_n608  n_n464
+11111  1
+# instance g_g123
+.names n_n577 n_n26 n_n30 n_n580 n_n608  n_n451
+11111  1
+# instance g_g132
+.names n_n28 n_n27 n_n581 n_n29 n_n608 n_n576  n_n442
+111111  1
+# instance g_g189
+.names n_n13 n_n12 n_n15 n_n14 n_n608 n_n575 n_n27 n_n31 n_n579 n_n28  n_n385
+1111111111  1
+# instance g_g198
+.names n_n29 n_n579 n_n593 n_n581 n_n608 n_n575 n_n578 n_n576  n_n376
+11111111  1
+# instance g_g200
+.names n_n579 n_n26 n_n30 n_n580 n_n608  n_n374
+11111  1
+# instance g_g222
+.names n_n579 n_n28 n_n23 n_n581 n_n608 n_n575 n_n27 n_n576  n_n352
+11111111  1
+# instance g_g231
+.names n_n28 n_n577 n_n29 n_n32 n_n608 n_n31 n_n26  n_n343
+1111111  1
+# instance g_g288
+.names n_n32 n_n578 n_n30 n_n580 n_n608 n_n27 n_n576  n_n286
+1111111  1
+# instance g_g297
+.names n_n28 n_n577 n_n581 n_n580 n_n608 n_n31  n_n277
+111111  1
+# instance g_g321
+.names n_n579 n_n27 n_n581 n_n580 n_n608 n_n31 n_n575  n_n255
+1111111  1
+# instance g_g330
+.names n_n32 n_n578 n_n581 n_n580 n_n608 n_n576  n_n246
+111111  1
+# instance g_g1397
+.names n_n312 n_n311 n_n313  n_n189
+1--  1
+-1-  1
+--1  1
+# instance g_gd419
+.names  n_n119
+  0
+# instance g_gd428
+.names  n_n110
+  0
+# instance g_g459
+.names n_n603  n_n25
+0  1
+# instance g_g420
+.names n_n578 n_n0 n_n109  n_n46
+1-0  1
+-11  1
+# instance g_g396
+.names n_n182 n_n0 n_n133  n_n70
+1-0  1
+-11  1
+# instance g_g387
+.names n_n190 n_n0 n_n142  n_n79
+1-0  1
+-11  1
+# instance g_g102
+.names n_n578 n_n26 n_n581 n_n579 n_n608  n_n472
+11111  1
+# instance g_g113
+.names n_n29 n_n579 n_n600 n_n581 n_n608 n_n575 n_n578 n_n27  n_n461
+11111111  1
+# instance g_g120
+.names n_n28 n_n575 n_n580 n_n579 n_n608  n_n454
+11111  1
+# instance g_g131
+.names n_n32 n_n28 n_n604 n_n581 n_n608 n_n575 n_n577 n_n31  n_n443
+11111111  1
+# instance g_g201
+.names n_n578 n_n576 n_n30 n_n580 n_n608 n_n26  n_n373
+111111  1
+# instance g_g212
+.names n_n27 n_n31 n_n30 n_n579 n_n608 n_n575  n_n362
+111111  1
+# instance g_g230
+.names n_n577 n_n31 n_n580 n_n32 n_n608 n_n575  n_n344
+111111  1
+# instance g_g289
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n31  n_n285
+11111111  1
+# instance g_g300
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n577 n_n26  n_n274
+1111111  1
+# instance g_g311
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n577 n_n26  n_n263
+1111111  1
+# instance g_g1389
+.names n_n338 n_n339  n_n196
+1-  1
+-1  1
+# instance g_gd438
+.names  n_n100
+  0
+# instance g_g410
+.names n_n172 n_n0 n_n119  n_n56
+1-0  1
+-11  1
+# instance g_g399
+.names n_n179 n_n0 n_n130  n_n67
+1-0  1
+-11  1
+# instance g_g388
+.names n_n189 n_n0 n_n141  n_n78
+1-0  1
+-11  1
+# instance g_g103
+.names n_n28 n_n577 n_n30 n_n32 n_n608  n_n471
+11111  1
+# instance g_g112
+.names n_n29 n_n579 n_n601 n_n581 n_n608 n_n575 n_n578 n_n27  n_n462
+11111111  1
+# instance g_g121
+.names n_n31 n_n575 n_n30 n_n580 n_n608  n_n453
+11111  1
+# instance g_g130
+.names n_n579 n_n28 n_n600 n_n581 n_n608 n_n576 n_n575  n_n444
+1111111  1
+# instance g_g202
+.names n_n29 n_n578 n_n599 n_n581 n_n608 n_n575 n_n27 n_n31  n_n372
+11111111  1
+# instance g_g211
+.names n_n577 n_n31 n_n30 n_n29 n_n608 n_n26  n_n363
+111111  1
+# instance g_g220
+.names n_n29 n_n32 n_n590 n_n581 n_n608 n_n576 n_n575 n_n28 n_n577  n_n354
+111111111  1
+# instance g_g299
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n576 n_n26  n_n275
+1111111  1
+# instance g_g301
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n577 n_n576  n_n273
+1111111  1
+# instance g_g310
+.names n_n28 n_n577 n_n580 n_n32 n_n608 n_n31 n_n575  n_n264
+1111111  1
+# instance g_g1399
+.names n_n307 n_n308  n_n187
+1-  1
+-1  1
+# instance g_gd439
+.names  n_n99
+  0
+# instance g_g400
+.names n_n178 n_n0 n_n129  n_n66
+1-0  1
+-11  1
+# instance g_g398
+.names n_n180 n_n0 n_n131  n_n68
+1-0  1
+-11  1
+# instance g_g389
+.names n_n188 n_n0 n_n140  n_n77
+1-0  1
+-11  1
+# instance g_g5
+.names n_n29 n_n28 n_n596 n_n581 n_n608 n_n27  n_n569
+111111  1
+# instance g_g140
+.names n_n31 n_n26 n_n579 n_n27 n_n608  n_n434
+11111  1
+# instance g_g151
+.names n_n28 n_n27 n_n581 n_n32 n_n608 n_n31 n_n26  n_n423
+1111111  1
+# instance g_g162
+.names n_n579 n_n578 n_n30 n_n580 n_n608 n_n576 n_n26  n_n412
+1111111  1
+# instance g_g173
+.names n_n29 n_n578 n_n9 n_n581 n_n608 n_n577 n_n31  n_n401
+1111111  1
+# instance g_g184
+.names n_n578 n_n31 n_n581 n_n29 n_n608 n_n26  n_n390
+111111  1
+# instance g_g195
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n31 n_n575  n_n379
+1111111  1
+# instance g_g250
+.names n_n28 n_n577 n_n581 n_n579 n_n608 n_n31 n_n26  n_n324
+1111111  1
+# instance g_g261
+.names n_n28 n_n577 n_n580 n_n32 n_n608 n_n31 n_n575  n_n313
+1111111  1
+# instance g_g272
+.names n_n32 n_n578 n_n30 n_n580 n_n608 n_n27 n_n576  n_n302
+1111111  1
+# instance g_g283
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n575 n_n577 n_n576  n_n291
+11111111  1
+# instance g_g294
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n280
+11111111  1
+# instance g_g360
+.names n_n27 n_n578  n_n217
+11  1
+# instance g_g371
+.names n_n579 n_n28 n_n581 n_n29 n_n608 n_n26 n_n577 n_n576  n_n207
+11111111  1
+# instance g_g1400
+.names n_n303 n_n302 n_n305 n_n304 n_n306 n_n299 n_n298 n_n301 n_n300  n_n186
+1--------  1
+-1-------  1
+--1------  1
+---1-----  1
+----1----  1
+-----1---  1
+------1--  1
+-------1-  1
+--------1  1
+# instance g_g1433
+.names n_n214 n_n215  n_n163
+1-  1
+-1  1
+# instance g_g409
+.names n_n173 n_n0 n_n120  n_n57
+1-0  1
+-11  1
+# instance g_g393
+.names n_n184 n_n0 n_n136  n_n73
+1-0  1
+-11  1
+# instance g_g382
+.names n_n194 n_n0 n_n147  n_n84
+1-0  1
+-11  1
+# instance g_g6
+.names n_n29 n_n578 n_n606 n_n581 n_n608 n_n577  n_n568
+111111  1
+# instance g_g141
+.names n_n577 n_n576 n_n580 n_n28 n_n608 n_n26  n_n433
+111111  1
+# instance g_g150
+.names n_n579 n_n28 n_n596 n_n29 n_n608 n_n575 n_n27 n_n31  n_n424
+11111111  1
+# instance g_g163
+.names n_n578 n_n577 n_n30 n_n579 n_n608 n_n31 n_n575  n_n411
+1111111  1
+# instance g_g172
+.names n_n32 n_n578 n_n20 n_n581 n_n608 n_n575 n_n577 n_n576  n_n402
+11111111  1
+# instance g_g185
+.names n_n28 n_n27 n_n30 n_n32 n_n608 n_n576 n_n575  n_n389
+1111111  1
+# instance g_g194
+.names n_n32 n_n578 n_n20 n_n29 n_n608 n_n576 n_n575  n_n380
+1111111  1
+# instance g_g240
+.names n_n32 n_n27 n_n30 n_n580 n_n608 n_n576 n_n26  n_n334
+1111111  1
+# instance g_g262
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n26 n_n577 n_n31  n_n312
+11111111  1
+# instance g_g271
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n303
+11111111  1
+# instance g_g284
+.names n_n579 n_n27 n_n581 n_n580 n_n608 n_n576 n_n26  n_n290
+1111111  1
+# instance g_g293
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n26 n_n27 n_n31  n_n281
+11111111  1
+# instance g_g361
+.names n_n578 n_n577 n_n30  n_n216
+111  1
+# instance g_g370
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n26 n_n577 n_n576  n_n208
+11111111  1
+# instance g_g1401
+.names  n_n185
+  0
+# instance g_g1410
+.names n_n263 n_n264  n_n177
+1-  1
+-1  1
+# instance g_g1423
+.names n_n241 n_n242  n_n170
+1-  1
+-1  1
+# instance g_g460
+.names n_n575  n_n26
+0  1
+# instance g_g419
+.names n_n166 n_n0 n_n110  n_n47
+1-0  1
+-11  1
+# instance g_g392
+.names n_n185 n_n0 n_n137  n_n74
+1-0  1
+-11  1
+# instance g_g383
+.names n_n193 n_n0 n_n146  n_n83
+1-0  1
+-11  1
+# instance g_g7
+.names n_n578 n_n27 n_n601 n_n29 n_n608 n_n575  n_n567
+111111  1
+# instance g_g142
+.names n_n578 n_n31 n_n30 n_n32 n_n608 n_n575  n_n432
+111111  1
+# instance g_g153
+.names n_n28 n_n577 n_n30 n_n32 n_n608 n_n31 n_n575  n_n421
+1111111  1
+# instance g_g160
+.names n_n578 n_n577 n_n29 n_n579 n_n608 n_n31 n_n575  n_n414
+1111111  1
+# instance g_g171
+.names n_n580 n_n32 n_n8 n_n30 n_n608 n_n575  n_n403
+111111  1
+# instance g_g186
+.names n_n579 n_n577 n_n30 n_n29 n_n608 n_n575  n_n388
+111111  1
+# instance g_g197
+.names n_n29 n_n578 n_n600 n_n581 n_n608 n_n575 n_n27 n_n31  n_n377
+11111111  1
+# instance g_g241
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n576  n_n333
+1111111  1
+# instance g_g252
+.names n_n28 n_n27 n_n580 n_n32 n_n608 n_n576 n_n26  n_n322
+1111111  1
+# instance g_g270
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n26 n_n27 n_n31  n_n304
+11111111  1
+# instance g_g285
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n577 n_n31  n_n289
+1111111  1
+# instance g_g296
+.names n_n579 n_n27 n_n581 n_n580 n_n608 n_n31 n_n575  n_n278
+1111111  1
+# instance g_g340
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26 n_n27 n_n31  n_n236
+11111111  1
+# instance g_g351
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n31  n_n225
+1111111  1
+# instance g_g1402
+.names n_n294 n_n293 n_n296 n_n295 n_n297 n_n292 n_n291  n_n184
+1------  1
+-1-----  1
+--1----  1
+---1---  1
+----1--  1
+-----1-  1
+------1  1
+# instance g_g1413
+.names n_n260 n_n261  n_n176
+1-  1
+-1  1
+# instance g_g1420
+.names n_n245 n_n247 n_n246 n_n248  n_n171
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g1431
+.names n_n218 n_n217 n_n219  n_n164
+1--  1
+-1-  1
+--1  1
+# instance g_g450
+.names n_n599  n_n16
+0  1
+# instance g_g429
+.names n_n31 n_n0 n_n100  n_n37
+1-0  1
+-11  1
+# instance g_g395
+.names n_n282 n_n0 n_n134  n_n71
+1-0  1
+-11  1
+# instance g_g384
+.names n_n192 n_n0 n_n145  n_n82
+1-0  1
+-11  1
+# instance g_g8
+.names n_n29 n_n28 n_n595 n_n581 n_n608 n_n27  n_n566
+111111  1
+# instance g_g143
+.names n_n28 n_n577 n_n30 n_n579 n_n608 n_n576 n_n26  n_n431
+1111111  1
+# instance g_g152
+.names n_n27 n_n576 n_n580 n_n28 n_n608 n_n26  n_n422
+111111  1
+# instance g_g161
+.names n_n579 n_n578 n_n599 n_n29 n_n608 n_n31 n_n575  n_n413
+1111111  1
+# instance g_g170
+.names n_n29 n_n579 n_n17 n_n16 n_n608 n_n576 n_n575 n_n28 n_n577  n_n404
+111111111  1
+# instance g_g187
+.names n_n579 n_n31 n_n30 n_n29 n_n608 n_n575  n_n387
+111111  1
+# instance g_g196
+.names n_n32 n_n28 n_n21 n_n581 n_n608 n_n575 n_n577 n_n31  n_n378
+11111111  1
+# instance g_g242
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n27 n_n31  n_n332
+1111111  1
+# instance g_g251
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n575 n_n27 n_n576  n_n323
+11111111  1
+# instance g_g260
+.names n_n28 n_n577 n_n30 n_n32 n_n608 n_n576 n_n575  n_n314
+1111111  1
+# instance g_g286
+.names n_n28 n_n577 n_n580 n_n32 n_n608 n_n576 n_n26  n_n288
+1111111  1
+# instance g_g295
+.names n_n578 n_n577 n_n581 n_n579 n_n608 n_n576 n_n26  n_n279
+1111111  1
+# instance g_g341
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n577 n_n31  n_n235
+1111111  1
+# instance g_g350
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n575 n_n27 n_n576  n_n226
+11111111  1
+# instance g_g1403
+.names n_n287 n_n286 n_n289 n_n288 n_n290 n_n283 n_n285 n_n284  n_n183
+1-------  1
+-1------  1
+--1-----  1
+---1----  1
+----1---  1
+-----1--  1
+------1-  1
+-------1  1
+# instance g_g1430
+.names n_n220 n_n222 n_n221 n_n223  n_n165
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g440
+.names n_n589  n_n6
+0  1
+# instance g_g439
+.names n_n588  n_n5
+0  1
+# instance g_g394
+.names n_n183 n_n0 n_n135  n_n72
+1-0  1
+-11  1
+# instance g_g385
+.names n_n191 n_n0 n_n144  n_n81
+1-0  1
+-11  1
+# instance g_g1
+.names n_n29 n_n28 n_n597 n_n581 n_n608 n_n27  n_n573
+111111  1
+# instance g_g108
+.names n_n576 n_n575 n_n30 n_n580 n_n608  n_n466
+11111  1
+# instance g_g119
+.names n_n578 n_n577 n_n580 n_n32 n_n608 n_n31  n_n455
+111111  1
+# instance g_g144
+.names n_n32 n_n578 n_n581 n_n580 n_n608 n_n27  n_n430
+111111  1
+# instance g_g155
+.names n_n579 n_n578 n_n600 n_n29 n_n608 n_n31 n_n575  n_n419
+1111111  1
+# instance g_g166
+.names n_n578 n_n27 n_n581 n_n580 n_n608 n_n575  n_n408
+111111  1
+# instance g_g177
+.names n_n29 n_n579 n_n593 n_n581 n_n608 n_n576 n_n28 n_n27  n_n397
+11111111  1
+# instance g_g180
+.names n_n28 n_n577 n_n29 n_n32 n_n608 n_n576 n_n26  n_n394
+1111111  1
+# instance g_g191
+.names n_n29 n_n578 n_n18 n_n581 n_n608 n_n575 n_n27 n_n31  n_n383
+11111111  1
+# instance g_g207
+.names n_n28 n_n577 n_n30 n_n580 n_n608  n_n367
+11111  1
+# instance g_g218
+.names n_n29 n_n32 n_n588 n_n581 n_n608 n_n576 n_n575 n_n28 n_n577  n_n356
+111111111  1
+# instance g_g229
+.names n_n577 n_n576 n_n30 n_n580 n_n608  n_n345
+11111  1
+# instance g_g243
+.names n_n32 n_n578 n_n581 n_n580 n_n608 n_n577 n_n31  n_n331
+1111111  1
+# instance g_g254
+.names n_n579 n_n577 n_n581 n_n580 n_n608 n_n31  n_n320
+111111  1
+# instance g_g265
+.names n_n28 n_n27 n_n581 n_n579 n_n608 n_n576 n_n26  n_n309
+1111111  1
+# instance g_g276
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n27 n_n26  n_n298
+1111111  1
+# instance g_g290
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n27 n_n26  n_n284
+1111111  1
+# instance g_g306
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n577 n_n26  n_n268
+1111111  1
+# instance g_g317
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n576 n_n575  n_n258
+1111111  1
+# instance g_g328
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n27 n_n31  n_n248
+1111111  1
+# instance g_g339
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n26 n_n27 n_n576  n_n237
+11111111  1
+# instance g_g342
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n576  n_n234
+1111111  1
+# instance g_g1390
+.names n_n336 n_n337  n_n195
+1-  1
+-1  1
+# instance g_g1426
+.names n_n230 n_n231  n_n167
+1-  1
+-1  1
+# instance g_g1440
+.names n_n577 n_n579  n_n160
+1-  1
+-1  1
+# instance g_g463
+.names n_n580  n_n29
+0  1
+# instance g_g452
+.names n_n598  n_n18
+0  1
+# instance g_g441
+.names n_n590  n_n7
+0  1
+# instance g_g438
+.names n_n587  n_n4
+0  1
+# instance g_g427
+.names n_n162 n_n0 n_n102  n_n39
+1-0  1
+-11  1
+# instance g_g416
+.names n_n168 n_n0 n_n113  n_n50
+1-0  1
+-11  1
+# instance g_g405
+.names n_n175 n_n0 n_n124  n_n61
+1-0  1
+-11  1
+# instance g_g375
+.names n_n198 n_n0 n_n153  n_n90
+1-0  1
+-11  1
+# instance g_g364
+.names n_n200 n_n0 n_n155  n_n92
+1-0  1
+-11  1
+# instance g_g353
+.names n_n201 n_n0 n_n156  n_n93
+1-0  1
+-11  1
+# instance g_g2
+.names n_n32 n_n27 n_n582 n_n30 n_n608 n_n576 n_n575  n_n572
+1111111  1
+# instance g_g109
+.names n_n27 n_n31 n_n581 n_n579 n_n608 n_n26  n_n465
+111111  1
+# instance g_g118
+.names n_n579 n_n578 n_n593 n_n29 n_n608 n_n576 n_n575  n_n456
+1111111  1
+# instance g_g145
+.names n_n16 n_n581 n_n17 n_n11 n_n608 n_n575 n_n27 n_n31 n_n32 n_n578  n_n429
+1111111111  1
+# instance g_g154
+.names n_n578 n_n577 n_n30 n_n580 n_n608 n_n576 n_n26  n_n420
+1111111  1
+# instance g_g167
+.names n_n578 n_n576 n_n581 n_n580 n_n608 n_n575  n_n407
+111111  1
+# instance g_g176
+.names n_n29 n_n32 n_n24 n_n581 n_n608 n_n31 n_n28 n_n27  n_n398
+11111111  1
+# instance g_g181
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n26  n_n393
+111111  1
+# instance g_g190
+.names n_n18 n_n581 n_n17 n_n16 n_n608 n_n575 n_n577 n_n576 n_n579 n_n28  n_n384
+1111111111  1
+# instance g_g208
+.names n_n579 n_n578 n_n30 n_n29 n_n608 n_n27 n_n576  n_n366
+1111111  1
+# instance g_g217
+.names n_n29 n_n32 n_n587 n_n581 n_n608 n_n576 n_n575 n_n28 n_n577  n_n357
+111111111  1
+# instance g_g239
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n576 n_n26  n_n335
+1111111  1
+# instance g_g244
+.names n_n579 n_n577 n_n581 n_n580 n_n608 n_n576 n_n26  n_n330
+1111111  1
+# instance g_g253
+.names n_n32 n_n577 n_n30 n_n580 n_n608 n_n31  n_n321
+111111  1
+# instance g_g266
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n577 n_n576  n_n308
+1111111  1
+# instance g_g275
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n576  n_n299
+1111111  1
+# instance g_g280
+.names n_n579 n_n27 n_n581 n_n580 n_n608 n_n31 n_n575  n_n294
+1111111  1
+# instance g_g307
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n575 n_n27 n_n576  n_n267
+11111111  1
+# instance g_g316
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n31  n_n259
+1111111  1
+# instance g_g329
+.names n_n32 n_n578 n_n30 n_n580 n_n608 n_n577 n_n31  n_n247
+1111111  1
+# instance g_g338
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n27  n_n238
+111111  1
+# instance g_g343
+.names n_n32 n_n578 n_n30 n_n580 n_n608 n_n577 n_n31  n_n233
+1111111  1
+# instance g_g352
+.names n_n579 n_n577 n_n581 n_n580 n_n608 n_n31 n_n575  n_n224
+1111111  1
+# instance g_g365
+.names n_n31 n_n580  n_n213
+11  1
+# instance g_g374
+.names n_n32 n_n578 n_n581 n_n580 n_n608 n_n577 n_n31  n_n205
+1111111  1
+# instance g_g1380
+.names n_n571 n_n570 n_n573 n_n572 n_n574 n_n547 n_n558 n_n548 n_n557 n_n545 n_n556 n_n546 n_n555 n_n551 n_n562 n_n552 n_n561 n_n549 n_n560 n_n550 n_n559 n_n544 n_n553 n_n564 n_n554 n_n563 n_n565 n_n567 n_n566 n_n569 n_n568  n_n203
+1------------------------------  1
+-1-----------------------------  1
+--1----------------------------  1
+---1---------------------------  1
+----1--------------------------  1
+-----1-------------------------  1
+------1------------------------  1
+-------1-----------------------  1
+--------1----------------------  1
+---------1---------------------  1
+----------1--------------------  1
+-----------1-------------------  1
+------------1------------------  1
+-------------1-----------------  1
+--------------1----------------  1
+---------------1---------------  1
+----------------1--------------  1
+-----------------1-------------  1
+------------------1------------  1
+-------------------1-----------  1
+--------------------1----------  1
+---------------------1---------  1
+----------------------1--------  1
+-----------------------1-------  1
+------------------------1------  1
+-------------------------1-----  1
+--------------------------1----  1
+---------------------------1---  1
+----------------------------1--  1
+-----------------------------1-  1
+------------------------------1  1
+# instance g_g1405
+.names n_n278 n_n277 n_n280 n_n279 n_n281 n_n274 n_n276 n_n275  n_n182
+1-------  1
+-1------  1
+--1-----  1
+---1----  1
+----1---  1
+-----1--  1
+------1-  1
+-------1  1
+# instance g_g1414
+.names n_n258 n_n259  n_n175
+1-  1
+-1  1
+# instance g_g1436
+.names n_n209 n_n208 n_n211 n_n210 n_n212  n_n162
+1----  1
+-1---  1
+--1--  1
+---1-  1
+----1  1
+# instance g_g464
+.names n_n576  n_n31
+0  1
+# instance g_g451
+.names n_n601  n_n17
+0  1
+# instance g_g442
+.names n_n591  n_n8
+0  1
+# instance g_g437
+.names n_n586  n_n3
+0  1
+# instance g_g428
+.names n_n207 n_n0 n_n101  n_n38
+1-0  1
+-11  1
+# instance g_g415
+.names n_n169 n_n0 n_n114  n_n51
+1-0  1
+-11  1
+# instance g_g406
+.names n_n577 n_n0 n_n123  n_n60
+1-0  1
+-11  1
+# instance g_g3
+.names n_n580 n_n32 n_n8 n_n30 n_n608 n_n31 n_n575  n_n571
+1111111  1
+# instance g_g128
+.names n_n577 n_n26 n_n580 n_n579 n_n608  n_n446
+11111  1
+# instance g_g139
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n576  n_n435
+111111  1
+# instance g_g146
+.names n_n579 n_n28 n_n597 n_n29 n_n608 n_n575 n_n27 n_n31  n_n428
+11111111  1
+# instance g_g157
+.names n_n579 n_n578 n_n23 n_n29 n_n608 n_n575 n_n27 n_n576  n_n417
+11111111  1
+# instance g_g164
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n577 n_n26  n_n410
+1111111  1
+# instance g_g175
+.names n_n32 n_n578 n_n10 n_n581 n_n608 n_n575 n_n27 n_n576  n_n399
+11111111  1
+# instance g_g182
+.names n_n32 n_n27 n_n581 n_n580 n_n608 n_n576  n_n392
+111111  1
+# instance g_g193
+.names n_n32 n_n27 n_n19 n_n30 n_n608 n_n576 n_n575  n_n381
+1111111  1
+# instance g_g209
+.names n_n579 n_n27 n_n581 n_n29 n_n608 n_n31 n_n26  n_n365
+1111111  1
+# instance g_g227
+.names n_n27 n_n31 n_n580 n_n32 n_n608 n_n26  n_n347
+111111  1
+# instance g_g238
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n575 n_n577 n_n576  n_n336
+11111111  1
+# instance g_g245
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n575 n_n577 n_n576  n_n329
+11111111  1
+# instance g_g256
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n27  n_n318
+111111  1
+# instance g_g263
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n577 n_n26  n_n311
+1111111  1
+# instance g_g274
+.names n_n32 n_n578 n_n581 n_n580 n_n608 n_n577 n_n31  n_n300
+1111111  1
+# instance g_g281
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n31  n_n293
+1111111  1
+# instance g_g292
+.names n_n577 n_n32  n_n282
+11  1
+# instance g_g308
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n31  n_n266
+1111111  1
+# instance g_g319
+.names n_n579 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n257
+11111111  1
+# instance g_g326
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n26 n_n27 n_n576  n_n250
+11111111  1
+# instance g_g337
+.names n_n28 n_n27 n_n581 n_n32 n_n608 n_n576 n_n26  n_n239
+1111111  1
+# instance g_g344
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n577 n_n26  n_n232
+1111111  1
+# instance g_g355
+.names n_n579 n_n27 n_n581 n_n580 n_n608 n_n31 n_n575  n_n222
+1111111  1
+# instance g_g362
+.names n_n28 n_n32  n_n215
+11  1
+# instance g_g373
+.names n_n579 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n206
+11111111  1
+# instance g_g1381
+.names n_n540 n_n539 n_n542 n_n541 n_n543 n_n516 n_n527 n_n517 n_n526 n_n514 n_n525 n_n515 n_n524 n_n520 n_n531 n_n521 n_n530 n_n518 n_n529 n_n519 n_n528 n_n522 n_n533 n_n523 n_n532 n_n534 n_n536 n_n535 n_n538 n_n537  n_n202
+1-----------------------------  1
+-1----------------------------  1
+--1---------------------------  1
+---1--------------------------  1
+----1-------------------------  1
+-----1------------------------  1
+------1-----------------------  1
+-------1----------------------  1
+--------1---------------------  1
+---------1--------------------  1
+----------1-------------------  1
+-----------1------------------  1
+------------1-----------------  1
+-------------1----------------  1
+--------------1---------------  1
+---------------1--------------  1
+----------------1-------------  1
+-----------------1------------  1
+------------------1-----------  1
+-------------------1----------  1
+--------------------1---------  1
+---------------------1--------  1
+----------------------1-------  1
+-----------------------1------  1
+------------------------1-----  1
+-------------------------1----  1
+--------------------------1---  1
+---------------------------1--  1
+----------------------------1-  1
+-----------------------------1  1
+# instance g_g1392
+.names n_n330 n_n332 n_n331 n_n333  n_n193
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g1406
+.names  n_n181
+  0
+# instance g_g1417
+.names n_n255 n_n254 n_n256  n_n174
+1--  1
+-1-  1
+--1  1
+# instance g_g1424
+.names n_n239 n_n238 n_n240  n_n169
+1--  1
+-1-  1
+--1  1
+# instance g_g1442
+.names n_n577 n_n32  n_n159
+1-  1
+-1  1
+# instance g_g461
+.names n_n577  n_n27
+0  1
+# instance g_g454
+.names n_n606  n_n20
+0  1
+# instance g_g443
+.names n_n605  n_n9
+0  1
+# instance g_g436
+.names n_n585  n_n2
+0  1
+# instance g_g425
+.names n_n577 n_n0 n_n104  n_n41
+1-0  1
+-11  1
+# instance g_g418
+.names n_n229 n_n0 n_n111  n_n48
+1-0  1
+-11  1
+# instance g_g407
+.names n_n257 n_n0 n_n122  n_n59
+1-0  1
+-11  1
+# instance g_g391
+.names n_n186 n_n0 n_n138  n_n75
+1-0  1
+-11  1
+# instance g_g380
+.names n_n196 n_n0 n_n149  n_n86
+1-0  1
+-11  1
+# instance g_g4
+.names n_n32 n_n28 n_n607 n_n29 n_n608 n_n576 n_n575  n_n570
+1111111  1
+# instance g_g129
+.names n_n31 n_n575 n_n580 n_n28 n_n608  n_n445
+11111  1
+# instance g_g138
+.names n_n578 n_n577 n_n29 n_n32 n_n608 n_n26  n_n436
+111111  1
+# instance g_g147
+.names n_n579 n_n578 n_n601 n_n29 n_n608 n_n31 n_n575  n_n427
+1111111  1
+# instance g_g156
+.names n_n579 n_n578 n_n593 n_n29 n_n608 n_n577 n_n575  n_n418
+1111111  1
+# instance g_g165
+.names n_n28 n_n577 n_n29 n_n579 n_n608 n_n31 n_n26  n_n409
+1111111  1
+# instance g_g174
+.names n_n32 n_n28 n_n21 n_n29 n_n608 n_n575 n_n577 n_n31  n_n400
+11111111  1
+# instance g_g183
+.names n_n27 n_n576 n_n579 n_n28 n_n608 n_n26  n_n391
+111111  1
+# instance g_g192
+.names n_n29 n_n578 n_n601 n_n581 n_n608 n_n575 n_n27 n_n31  n_n382
+11111111  1
+# instance g_g219
+.names n_n29 n_n32 n_n589 n_n581 n_n608 n_n576 n_n575 n_n28 n_n577  n_n355
+111111111  1
+# instance g_g228
+.names n_n577 n_n576 n_n580 n_n578 n_n608 n_n26  n_n346
+111111  1
+# instance g_g237
+.names n_n579 n_n28 n_n581 n_n29 n_n608 n_n26 n_n577 n_n576  n_n337
+11111111  1
+# instance g_g246
+.names n_n32 n_n578 n_n30 n_n580 n_n608 n_n577 n_n576  n_n328
+1111111  1
+# instance g_g255
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n577 n_n26  n_n319
+1111111  1
+# instance g_g264
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n310
+11111111  1
+# instance g_g273
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n26 n_n577 n_n576  n_n301
+11111111  1
+# instance g_g282
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n27 n_n575  n_n292
+1111111  1
+# instance g_g291
+.names n_n579 n_n28 n_n581 n_n580 n_n608 n_n577 n_n576  n_n283
+1111111  1
+# instance g_g309
+.names n_n579 n_n577 n_n581 n_n580 n_n608 n_n31 n_n575  n_n265
+1111111  1
+# instance g_g327
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n31  n_n249
+11111111  1
+# instance g_g336
+.names n_n32 n_n28 n_n30 n_n580 n_n608 n_n577 n_n31  n_n240
+1111111  1
+# instance g_g345
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n231
+11111111  1
+# instance g_g354
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26 n_n27 n_n576  n_n223
+11111111  1
+# instance g_g363
+.names n_n578 n_n577 n_n581  n_n214
+111  1
+# instance g_g1382
+.names n_n510 n_n509 n_n512 n_n511 n_n513 n_n497 n_n496 n_n495 n_n494 n_n490 n_n501 n_n491 n_n500 n_n499 n_n489 n_n498 n_n492 n_n503 n_n493 n_n502 n_n504 n_n506 n_n505 n_n508 n_n507  n_n201
+1------------------------  1
+-1-----------------------  1
+--1----------------------  1
+---1---------------------  1
+----1--------------------  1
+-----1-------------------  1
+------1------------------  1
+-------1-----------------  1
+--------1----------------  1
+---------1---------------  1
+----------1--------------  1
+-----------1-------------  1
+------------1------------  1
+-------------1-----------  1
+--------------1----------  1
+---------------1---------  1
+----------------1--------  1
+-----------------1-------  1
+------------------1------  1
+-------------------1-----  1
+--------------------1----  1
+---------------------1---  1
+----------------------1--  1
+-----------------------1-  1
+------------------------1  1
+# instance g_g1391
+.names n_n334 n_n335  n_n194
+1-  1
+-1  1
+# instance g_g1407
+.names n_n272 n_n271 n_n273  n_n180
+1--  1
+-1-  1
+--1  1
+# instance g_g1425
+.names n_n234 n_n233 n_n236 n_n235 n_n237 n_n232  n_n168
+1-----  1
+-1----  1
+--1---  1
+---1--  1
+----1-  1
+-----1  1
+# instance g_g462
+.names n_n578  n_n28
+0  1
+# instance g_g453
+.names n_n582  n_n19
+0  1
+# instance g_g444
+.names n_n592  n_n10
+0  1
+# instance g_g435
+.names n_n584  n_n1
+0  1
+# instance g_g426
+.names n_n213 n_n0 n_n103  n_n40
+1-0  1
+-11  1
+# instance g_g417
+.names n_n167 n_n0 n_n112  n_n49
+1-0  1
+-11  1
+# instance g_g408
+.names n_n174 n_n0 n_n121  n_n58
+1-0  1
+-11  1
+# instance g_g390
+.names n_n187 n_n0 n_n139  n_n76
+1-0  1
+-11  1
+# instance g_g381
+.names n_n195 n_n0 n_n148  n_n85
+1-0  1
+-11  1
+# instance g_g372
+.names n_n199 n_n0 n_n154  n_n91
+1-0  1
+-11  1
+# instance g_g318
+.names n_n202 n_n0 n_n157  n_n94
+1-0  1
+-11  1
+# instance g_g50
+.names n_n579 n_n28 n_n597 n_n581 n_n608 n_n31 n_n575  n_n524
+1111111  1
+# instance g_g61
+.names n_n13 n_n579 n_n15 n_n14 n_n608 n_n31 n_n575 n_n28 n_n27  n_n513
+111111111  1
+# instance g_g72
+.names n_n28 n_n577 n_n581 n_n32 n_n608 n_n576 n_n575  n_n502
+1111111  1
+# instance g_g83
+.names n_n28 n_n31 n_n30 n_n579 n_n608  n_n491
+11111  1
+# instance g_g94
+.names n_n578 n_n577 n_n30 n_n29 n_n608 n_n26  n_n480
+111111  1
+# instance g_gd386
+.names  n_n152
+  0
+# instance g_gd397
+.names  n_n141
+  0
+# instance g_g1408
+.names n_n269 n_n268 n_n270  n_n179
+1--  1
+-1-  1
+--1  1
+# instance g_g1419
+.names n_n250 n_n249 n_n251  n_n172
+1--  1
+-1-  1
+--1  1
+# instance g_g51
+.names n_n578 n_n27 n_n581 n_n579 n_n608 n_n576 n_n575  n_n523
+1111111  1
+# instance g_g60
+.names n_n579 n_n577 n_n30 n_n29 n_n608 n_n576 n_n575  n_n514
+1111111  1
+# instance g_g73
+.names n_n578 n_n31 n_n581 n_n579 n_n608 n_n575  n_n501
+111111  1
+# instance g_g82
+.names n_n32 n_n28 n_n581 n_n580 n_n608 n_n576  n_n492
+111111  1
+# instance g_g95
+.names n_n579 n_n31 n_n581 n_n580 n_n608 n_n575  n_n479
+111111  1
+# instance g_gd385
+.names  n_n153
+  0
+# instance g_gd398
+.names  n_n140
+  0
+# instance g_g1409
+.names n_n266 n_n265 n_n267  n_n178
+1--  1
+-1-  1
+--1  1
+# instance g_g1418
+.names n_n252 n_n253  n_n173
+1-  1
+-1  1
+# instance g_g52
+.names n_n578 n_n27 n_n30 n_n32 n_n608 n_n576 n_n26  n_n522
+1111111  1
+# instance g_g63
+.names n_n581 n_n28 n_n17 n_n16 n_n608 n_n575 n_n577 n_n576  n_n511
+11111111  1
+# instance g_g70
+.names n_n578 n_n26 n_n580 n_n579 n_n608  n_n504
+11111  1
+# instance g_g81
+.names n_n577 n_n31 n_n30 n_n579 n_n608 n_n26  n_n493
+111111  1
+# instance g_g96
+.names n_n28 n_n577 n_n29 n_n32 n_n608 n_n576  n_n478
+111111  1
+# instance g_gd384
+.names  n_n154
+  0
+# instance g_gd399
+.names  n_n139
+  0
+# instance g_g1428
+.names n_n225 n_n224 n_n227 n_n226 n_n228  n_n166
+1----  1
+-1---  1
+--1--  1
+---1-  1
+----1  1
+# instance g_g1439
+.names n_n205 n_n206  n_n161
+1-  1
+-1  1
+# instance g_g0
+.names n_n29 n_n578 n_n599 n_n598 n_n608 n_n27 n_n575  n_n574
+1111111  1
+# instance g_g53
+.names n_n577 n_n31 n_n581 n_n579 n_n608 n_n575  n_n521
+111111  1
+# instance g_g62
+.names n_n581 n_n28 n_n17 n_n11 n_n608 n_n575 n_n577 n_n576  n_n512
+11111111  1
+# instance g_g71
+.names n_n579 n_n27 n_n581 n_n580 n_n608 n_n575  n_n503
+111111  1
+# instance g_g80
+.names n_n578 n_n27 n_n30 n_n32 n_n608 n_n575  n_n494
+111111  1
+# instance g_g97
+.names n_n28 n_n30 n_n580 n_n608  n_n477
+1111  1
+# instance g_gd383
+.names  n_n155
+  0
+# instance g_la0
+.latch n_n89 n_n575 re n__clk 2
+# instance g_g10
+.names n_n28 n_n577 n_n30 n_n32 n_n608 n_n31 n_n575  n_n564
+1111111  1
+# instance g_g21
+.names n_n27 n_n576 n_n581 n_n29 n_n608 n_n575  n_n553
+111111  1
+# instance g_g32
+.names n_n28 n_n577 n_n11 n_n581 n_n608 n_n576 n_n575  n_n542
+1111111  1
+# instance g_g43
+.names n_n579 n_n26 n_n581 n_n580 n_n608  n_n531
+11111  1
+# instance g_g98
+.names n_n32 n_n28 n_n602 n_n581 n_n608 n_n575 n_n27 n_n31  n_n476
+11111111  1
+# instance g_gd393
+.names  n_n145
+  0
+# instance g_la1
+.latch n_n90 n_n576 re n__clk 2
+# instance g_g11
+.names n_n32 n_n28 n_n30 n_n29 n_n608 n_n577 n_n26  n_n563
+1111111  1
+# instance g_g20
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n26  n_n554
+111111  1
+# instance g_g33
+.names n_n28 n_n577 n_n599 n_n581 n_n608 n_n576 n_n575  n_n541
+1111111  1
+# instance g_g42
+.names n_n579 n_n578 n_n30 n_n580 n_n608 n_n577  n_n532
+111111  1
+# instance g_g99
+.names n_n32 n_n578 n_n592 n_n581 n_n608 n_n575 n_n27 n_n576  n_n475
+11111111  1
+# instance g_gd389
+.names  n_n149
+  0
+# instance g_gd394
+.names  n_n144
+  0
+# instance g_la2
+.latch n_n91 n_n577 re n__clk 2
+# instance g_g12
+.names n_n578 n_n27 n_n600 n_n29 n_n608 n_n575  n_n562
+111111  1
+# instance g_g23
+.names n_n32 n_n577 n_n30 n_n580 n_n608 n_n576  n_n551
+111111  1
+# instance g_g30
+.names n_n27 n_n576 n_n29 n_n32 n_n608 n_n575  n_n544
+111111  1
+# instance g_g41
+.names n_n28 n_n577 n_n581 n_n580 n_n608 n_n576 n_n575  n_n533
+1111111  1
+# instance g_gd388
+.names  n_n150
+  0
+# instance g_gd395
+.names  n_n143
+  0
+# instance g_la3
+.latch n_n92 n_n578 re n__clk 2
+# instance g_g13
+.names n_n28 n_n27 n_n30 n_n579 n_n608 n_n31  n_n561
+111111  1
+# instance g_g22
+.names n_n579 n_n577 n_n581 n_n29 n_n608 n_n26  n_n552
+111111  1
+# instance g_g31
+.names n_n28 n_n577 n_n601 n_n581 n_n608 n_n576 n_n575  n_n543
+1111111  1
+# instance g_g40
+.names n_n579 n_n578 n_n23 n_n29 n_n608 n_n577 n_n576  n_n534
+1111111  1
+# instance g_gd387
+.names  n_n151
+  0
+# instance g_gd396
+.names  n_n142
+  0
+# instance g_la4
+.latch n_n93 n_n579 re n__clk 2
+# instance g_g14
+.names n_n28 n_n27 n_n581 n_n579 n_n608 n_n576 n_n26  n_n560
+1111111  1
+# instance g_g25
+.names n_n29 n_n579 n_n593 n_n581 n_n608 n_n577 n_n31  n_n549
+1111111  1
+# instance g_g36
+.names n_n577 n_n576 n_n579 n_n578 n_n608 n_n26  n_n538
+111111  1
+# instance g_g47
+.names n_n579 n_n28 n_n596 n_n581 n_n608 n_n31 n_n575  n_n527
+1111111  1
+# instance g_g58
+.names n_n577 n_n31 n_n581 n_n580 n_n608 n_n26  n_n516
+111111  1
+# instance g_g69
+.names n_n578 n_n575 n_n30 n_n580 n_n608  n_n505
+11111  1
+# instance g_gd403
+.names  n_n135
+  0
+# instance g_gd414
+.names  n_n124
+  0
+# instance g_gd425
+.names  n_n113
+  0
+# instance g_gd436
+.names  n_n102
+  0
+# instance g_la5
+.latch n_n94 n_n580 re n__clk 2
+# instance g_g15
+.names n_n579 n_n578 n_n581 n_n580 n_n608 n_n27 n_n31  n_n559
+1111111  1
+# instance g_g24
+.names n_n579 n_n28 n_n30 n_n580 n_n608 n_n27  n_n550
+111111  1
+# instance g_g37
+.names n_n577 n_n576 n_n580 n_n578 n_n608 n_n26  n_n537
+111111  1
+# instance g_g46
+.names n_n29 n_n32 n_n600 n_n581 n_n608 n_n31 n_n575 n_n578 n_n27  n_n528
+111111111  1
+# instance g_g59
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n577 n_n576  n_n515
+1111111  1
+# instance g_g68
+.names n_n577 n_n575 n_n580 n_n28 n_n608  n_n506
+11111  1
+# instance g_gd390
+.names  n_n148
+  0
+# instance g_gd402
+.names  n_n136
+  0
+# instance g_gd415
+.names  n_n123
+  0
+# instance g_gd424
+.names  n_n114
+  0
+# instance g_gd437
+.names  n_n101
+  0
+# instance g_la6
+.latch n_n95 n_n581 re n__clk 2
+# instance g_g16
+.names n_n28 n_n577 n_n581 n_n32 n_n608 n_n576 n_n575  n_n558
+1111111  1
+# instance g_g27
+.names n_n32 n_n28 n_n581 n_n29 n_n608 n_n27  n_n547
+111111  1
+# instance g_g34
+.names n_n579 n_n31 n_n581 n_n580 n_n608  n_n540
+11111  1
+# instance g_g45
+.names n_n579 n_n28 n_n595 n_n581 n_n608 n_n31 n_n575  n_n529
+1111111  1
+# instance g_g78
+.names n_n28 n_n577 n_n30 n_n580 n_n608  n_n496
+11111  1
+# instance g_g89
+.names n_n28 n_n27 n_n603 n_n32 n_n608 n_n576 n_n575  n_n485
+1111111  1
+# instance g_gd391
+.names  n_n147
+  0
+# instance g_gd401
+.names  n_n137
+  0
+# instance g_gd416
+.names  n_n122
+  0
+# instance g_gd427
+.names  n_n111
+  0
+# instance g_gd434
+.names  n_n104
+  0
+# instance g_g17
+.names n_n578 n_n577 n_n581 n_n32 n_n608 n_n31  n_n557
+111111  1
+# instance g_g26
+.names n_n27 n_n31 n_n30 n_n28 n_n608 n_n26  n_n548
+111111  1
+# instance g_g35
+.names n_n577 n_n31 n_n580 n_n578 n_n608 n_n575  n_n539
+111111  1
+# instance g_g44
+.names n_n581 n_n29 n_n599 n_n598 n_n608 n_n575 n_n27 n_n31 n_n32 n_n578  n_n530
+1111111111  1
+# instance g_g79
+.names n_n578 n_n31 n_n581 n_n580 n_n608  n_n495
+11111  1
+# instance g_g88
+.names n_n16 n_n581 n_n17 n_n11 n_n608 n_n27 n_n31 n_n29 n_n578  n_n486
+111111111  1
+# instance g_gd392
+.names  n_n146
+  0
+# instance g_gd400
+.names  n_n138
+  0
+# instance g_gd417
+.names  n_n121
+  0
+# instance g_gd426
+.names  n_n112
+  0
+# instance g_gd435
+.names  n_n103
+  0
+# instance g_g18
+.names n_n31 n_n26 n_n29 n_n27 n_n608  n_n556
+11111  1
+# instance g_g29
+.names n_n578 n_n27 n_n30 n_n29 n_n608  n_n545
+11111  1
+# instance g_g54
+.names n_n29 n_n32 n_n606 n_n581 n_n608 n_n575 n_n577 n_n576  n_n520
+11111111  1
+# instance g_g65
+.names n_n28 n_n576 n_n580 n_n32 n_n608 n_n575  n_n509
+111111  1
+# instance g_g76
+.names n_n577 n_n31 n_n581 n_n578 n_n608 n_n575  n_n498
+111111  1
+# instance g_g87
+.names n_n16 n_n581 n_n17 n_n600 n_n608 n_n577 n_n576 n_n579 n_n28  n_n487
+111111111  1
+# instance g_g90
+.names n_n577 n_n576 n_n30 n_n32 n_n608 n_n575  n_n484
+111111  1
+# instance g_gd382
+.names  n_n156
+  0
+# instance g_gd407
+.names  n_n131
+  0
+# instance g_gd410
+.names  n_n128
+  0
+# instance g_gd421
+.names  n_n117
+  0
+# instance g_gd432
+.names  n_n106
+  0
+# instance g_g19
+.names n_n579 n_n578 n_n581 n_n29 n_n608 n_n577  n_n555
+111111  1
+# instance g_g28
+.names n_n577 n_n31 n_n581 n_n32 n_n608 n_n26  n_n546
+111111  1
+# instance g_g55
+.names n_n579 n_n27 n_n23 n_n581 n_n608 n_n576 n_n575  n_n519
+1111111  1
+# instance g_g64
+.names n_n579 n_n28 n_n593 n_n581 n_n608 n_n575 n_n27 n_n576  n_n510
+11111111  1
+# instance g_g77
+.names n_n29 n_n579 n_n23 n_n581 n_n608 n_n578 n_n575  n_n497
+1111111  1
+# instance g_g86
+.names n_n18 n_n29 n_n17 n_n11 n_n608 n_n575 n_n27 n_n31 n_n32 n_n578  n_n488
+1111111111  1
+# instance g_g91
+.names n_n579 n_n27 n_n593 n_n581 n_n608 n_n576 n_n575  n_n483
+1111111  1
+# instance g_gd381
+.names  n_n157
+  0
+# instance g_gd406
+.names  n_n132
+  0
+# instance g_gd411
+.names  n_n127
+  0
+# instance g_gd420
+.names  n_n118
+  0
+# instance g_gd433
+.names  n_n105
+  0
+# instance g_gd442
+.names  n_n96
+  0
+# instance g_g38
+.names n_n578 n_n577 n_n581 n_n579 n_n608 n_n26  n_n536
+111111  1
+# instance g_g49
+.names n_n29 n_n32 n_n601 n_n581 n_n608 n_n31 n_n575 n_n578 n_n27  n_n525
+111111111  1
+# instance g_g56
+.names n_n579 n_n578 n_n30 n_n29 n_n608 n_n575 n_n27 n_n31  n_n518
+11111111  1
+# instance g_g67
+.names n_n578 n_n27 n_n30 n_n579 n_n608 n_n576  n_n507
+111111  1
+# instance g_g74
+.names n_n28 n_n577 n_n607 n_n32 n_n608 n_n576 n_n575  n_n500
+1111111  1
+# instance g_g85
+.names n_n28 n_n576 n_n29 n_n579 n_n608 n_n26  n_n489
+111111  1
+# instance g_g92
+.names n_n28 n_n575 n_n580 n_n579 n_n608  n_n482
+11111  1
+# instance g_gd380
+.names  n_n158
+  0
+# instance g_gd405
+.names  n_n133
+  0
+# instance g_gd412
+.names  n_n126
+  0
+# instance g_gd423
+.names  n_n115
+  0
+# instance g_gd430
+.names  n_n108
+  0
+# instance g_gd441
+.names  n_n97
+  0
+# instance g_g39
+.names n_n28 n_n27 n_n580 n_n579 n_n608 n_n576 n_n575  n_n535
+1111111  1
+# instance g_g48
+.names n_n32 n_n27 n_n30 n_n580 n_n608  n_n526
+11111  1
+# instance g_g57
+.names n_n32 n_n576 n_n30 n_n580 n_n608  n_n517
+11111  1
+# instance g_g66
+.names n_n28 n_n26 n_n30 n_n579 n_n608  n_n508
+11111  1
+# instance g_g75
+.names n_n32 n_n578 n_n581 n_n29 n_n608 n_n27 n_n576  n_n499
+1111111  1
+# instance g_g84
+.names n_n577 n_n26 n_n579 n_n28 n_n608  n_n490
+11111  1
+# instance g_g93
+.names n_n577 n_n576 n_n581 n_n579 n_n608 n_n26  n_n481
+111111  1
+# instance g_gd404
+.names  n_n134
+  0
+# instance g_gd413
+.names  n_n125
+  0
+# instance g_gd422
+.names  n_n116
+  0
+# instance g_gd431
+.names  n_n107
+  0
+# instance g_gd440
+.names  n_n98
+  0
+.end

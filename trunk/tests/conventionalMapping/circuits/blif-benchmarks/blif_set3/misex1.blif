@@ -1,0 +1,215 @@
+#
+# Written by e2fmt Tue Mar 31 16:13:18 1998
+############################################
+.model top
+.inputs rmwb yskip page xskip dmpst0 dmpst1 dmpst2 dmpst3
+.outputs adctlp0b adctlp1b adctlp2b dmnst0b dmnst1b dmnst2b dmnst3b
+# connect ports to nets with different names
+.names nadctlp0b adctlp0b
+1  1
+.names nadctlp1b adctlp1b
+1  1
+.names rmwb nrmwb
+1  1
+.names nadctlp2b adctlp2b
+1  1
+.names yskip nyskip
+1  1
+.names page npage
+1  1
+.names xskip nxskip
+1  1
+.names ndmnst0b dmnst0b
+1  1
+.names dmpst0 ndmpst0
+1  1
+.names ndmnst1b dmnst1b
+1  1
+.names dmpst1 ndmpst1
+1  1
+.names ndmnst2b dmnst2b
+1  1
+.names dmpst2 ndmpst2
+1  1
+.names ndmnst3b dmnst3b
+1  1
+.names dmpst3 ndmpst3
+1  1
+# instance g_g9
+.names n_n18 n_n24  n_n2
+11  1
+# instance g_g5
+.names nxskip n_n33  n_n39
+11  1
+# instance g_g6
+.names n_n1 n_n5  n_n38
+11  1
+# instance g_g7
+.names n_n23 n_n24  n_n1
+11  1
+# instance g_g8
+.names n_n2 n_n3  n_n37
+11  1
+# instance g_g1
+.names ndmpst2 ndmpst1 n_n22  n_n0
+111  1
+# instance g_g2
+.names ndmpst0 n_n5  n_n42
+11  1
+# instance g_g3
+.names nyskip n_n5  n_n41
+11  1
+# instance g_g4
+.names npage n_n26  n_n40
+11  1
+# instance g_g50
+.names ndmpst1 n_n24 n_n25  n_n27
+111  1
+# instance g_g0
+.names ndmpst0 n_n0  n_n43
+11  1
+# instance g_g43
+.names ndmpst0  n_n24
+0  1
+# instance g_g32
+.names n_n15 n_n16  nadctlp1b
+1-  1
+-1  1
+# instance g_g21
+.names n_n8 n_n9  ndmnst2b
+1-  1
+-1  1
+# instance g_g10
+.names n_n25 n_n21 n_n22  n_n3
+111  1
+# instance g_g42
+.names nyskip  n_n23
+0  1
+# instance g_g33
+.names n_n32 n_n33 n_n30  n_n15
+1--  1
+-1-  1
+--1  1
+# instance g_g20
+.names n_n20 n_n33  n_n28
+11  1
+# instance g_g11
+.names n_n23 n_n27  n_n36
+11  1
+# instance g_g41
+.names ndmpst3  n_n22
+0  1
+# instance g_g30
+.names n_n33 n_n32  n_n13
+1-  1
+-1  1
+# instance g_g23
+.names n_n41 n_n30 n_n40  n_n9
+1--  1
+-1-  1
+--1  1
+# instance g_g12
+.names n_n19 n_n33  n_n35
+11  1
+# instance g_g40
+.names ndmpst1  n_n21
+0  1
+# instance g_g31
+.names n_n26 n_n27 n_n30  n_n14
+1--  1
+-1-  1
+--1  1
+# instance g_g22
+.names n_n33 n_n42  n_n8
+1-  1
+-1  1
+# instance g_g13
+.names n_n4 n_n33  n_n34
+11  1
+# instance g_g47
+.names ndmpst1 ndmpst0 n_n22  n_n32
+111  1
+# instance g_g36
+.names n_n28 n_n29 n_n36  n_n17
+1--  1
+-1-  1
+--1  1
+# instance g_g25
+.names n_n31 n_n30  n_n10
+1-  1
+-1  1
+# instance g_g14
+.names n_n20 n_n24  n_n4
+11  1
+# instance g_g46
+.names ndmpst2 ndmpst0 n_n22  n_n31
+111  1
+# instance g_g37
+.names npage  n_n18
+0  1
+# instance g_g24
+.names n_n10 n_n11  ndmnst1b
+1-  1
+-1  1
+# instance g_g15
+.names n_n25 ndmpst1 n_n22  n_n5
+111  1
+# instance g_g45
+.names n_n43 n_n29  ndmnst3b
+1-  1
+-1  1
+# instance g_g34
+.names n_n41 n_n29 n_n40  n_n16
+1--  1
+-1-  1
+--1  1
+# instance g_g27
+.names n_n29 n_n12  ndmnst0b
+1-  1
+-1  1
+# instance g_g16
+.names ndmpst0 n_n6  n_n30
+11  1
+# instance g_g44
+.names ndmpst2  n_n25
+0  1
+# instance g_g35
+.names n_n10 n_n17  nadctlp0b
+1-  1
+-1  1
+# instance g_g26
+.names n_n38 n_n39 n_n37  n_n11
+1--  1
+-1-  1
+--1  1
+# instance g_g17
+.names n_n25 n_n21 ndmpst3  n_n6
+111  1
+# instance g_g29
+.names n_n13 n_n14  nadctlp2b
+1-  1
+-1  1
+# instance g_g18
+.names n_n24 n_n7  n_n29
+11  1
+# instance g_g28
+.names n_n35 n_n36 n_n34  n_n12
+1--  1
+-1-  1
+--1  1
+# instance g_g19
+.names n_n25 ndmpst1 ndmpst3  n_n7
+111  1
+# instance g_g49
+.names n_n21 n_n24 n_n22  n_n26
+111  1
+# instance g_g38
+.names nrmwb  n_n19
+0  1
+# instance g_g48
+.names ndmpst2 n_n21 n_n22  n_n33
+111  1
+# instance g_g39
+.names nxskip  n_n20
+0  1
+.end

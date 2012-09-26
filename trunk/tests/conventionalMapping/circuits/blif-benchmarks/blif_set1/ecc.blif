@@ -1,0 +1,6 @@
+.model Cencode_1
+.inputs Pnew_data_0_0_
+.outputs PT1_0_0_
+.names Pnew_data_0_0_ PT1_0_0_
+0 1
+.end

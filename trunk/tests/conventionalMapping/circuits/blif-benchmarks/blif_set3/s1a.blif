@@ -1,0 +1,102 @@
+#
+# Written by e2fmt Tue Mar 31 16:25:06 1998
+############################################
+.model top
+.inputs s1a_in_1_ s1a_in_0_ s1a_in_5_ s1a_in_4_ s1a_in_3_ s1a_in_2_ clock\
+ s1a_in_7_ s1a_in_6_
+.outputs s1a_out_2_ s1a_out_1_ s1a_out_0_ s1a_out_5_ s1a_out_4_ s1a_out_3_
+# connect ports to nets with different names
+.names s1a_in_1_ n_n21
+1  1
+.names s1a_in_0_ n_n20
+1  1
+.names n_n4 s1a_out_2_
+1  1
+.names n_n3 s1a_out_1_
+1  1
+.names n_n2 s1a_out_0_
+1  1
+.names n_n7 s1a_out_5_
+1  1
+.names n_n6 s1a_out_4_
+1  1
+.names n_n5 s1a_out_3_
+1  1
+.names s1a_in_5_ n_n25
+1  1
+.names s1a_in_4_ n_n24
+1  1
+.names s1a_in_3_ n_n23
+1  1
+.names s1a_in_2_ n_n22
+1  1
+.names clock n__clk
+1  1
+.names s1a_in_7_ n_n27
+1  1
+.names s1a_in_6_ n_n26
+1  1
+# instance g_g1131
+.names  n_n14
+  0
+# instance g_g1127
+.names  n_n18
+  0
+# instance g_g1128
+.names  n_n17
+  0
+# instance g_g1126
+.names  n_n19
+  0
+# instance g_g5
+.names n_n14 n_n0 n_n8  n_n2
+1-0  1
+-11  1
+# instance g_gd130
+.names  n_n9
+  0
+# instance g_g6
+.names  n_n0
+  -
+# instance g_g1129
+.names  n_n16
+  0
+# instance g_g1
+.names n_n18 n_n0 n_n12  n_n6
+1-0  1
+-11  1
+# instance g_g2
+.names n_n17 n_n0 n_n11  n_n5
+1-0  1
+-11  1
+# instance g_g3
+.names n_n16 n_n0 n_n10  n_n4
+1-0  1
+-11  1
+# instance g_g4
+.names n_n15 n_n0 n_n9  n_n3
+1-0  1
+-11  1
+# instance g_gd126
+.names  n_n13
+  0
+# instance g_gd128
+.names  n_n11
+  0
+# instance g_gd127
+.names  n_n12
+  0
+# instance g_g0
+.names n_n19 n_n0 n_n13  n_n7
+1-0  1
+-11  1
+# instance g_gd131
+.names  n_n8
+  0
+# instance g_g1130
+.names  n_n15
+  0
+# instance g_gd129
+.names  n_n10
+  0
+.end

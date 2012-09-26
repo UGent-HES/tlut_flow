@@ -1,0 +1,110 @@
+.model s526.bench
+.inputs G0 G1 G2
+.outputs G198 G213 G147 G199 G214 G148
+.wire_load_slope 0.00 
+.latch    G60 G10   0
+.latch    G61 G11   0
+.latch    G62 G12   0
+.latch    G69 G13   0
+.latch    G79 G14   0
+.latch    G84 G15   0
+.latch    G89 G16   0
+.latch    G96 G17   0
+.latch    G101 G18   0
+.latch    G106 G19   0
+.latch    G115 G20   0
+.latch    G127 G21   0
+.latch    G137 G22   0
+.latch    G167 G23   0
+.latch    G173 G24   0
+.latch    G183 G26   0
+.latch    G194 G28   0
+.latch    G200 G29   0
+.latch    G206 G30   0
+.names G0 G10 G60
+00 1
+.names G0 G60 G10 G11 G15 G61
+-1-1- 1
+0-100 1
+.names G0 G12 G21 [271] [509] G62
+-1--1 1
+010-- 1
+0011- 1
+.names G0 G62 G12 G13 [509] G69
+---11 1
+001-- 1
+.names G0 G10 G11 G14 G79
+00-1 1
+0-01 1
+0110 1
+.names G0 G60 G79 G14 G15 G84
+-1--1 1
+0-01- 1
+.names G16 [257] [508] G89
+10- 1
+-01 1
+.names G0 G17 G19 [257] G96
+-1-0 1
+0001 1
+.names G0 G17 G18 [257] G101
+--10 1
+001- 1
+0101 1
+.names G0 G101 G18 G19 [257] G106
+---10 1
+001-- 1
+.names G19 G20 [257] [509] G115
+-1-1 1
+1-11 1
+.names G0 G13 G21 [271] [509] G127
+--1-1 1
+0001- 1
+.names G0 G193 G137
+01 1
+.names G12 G193 G167
+10 1
+.names G179 G194 G173
+10 1
+.names G12 G13 G20 G193 G179
+00-0 1
+0-10 1
+.names G18 G179 G193 G183
+0-1 1
+-00 1
+.names G12 G20 G21 G193 G194
+0110 1
+.names G0 G2 G29 G200
+001 1
+010 1
+.names G0 G1 G30 G206
+001 1
+010 1
+.names G12 G20 G21 G22 G29 G193
+0--1- 1
+-0-1- 1
+--11- 1
+---11 1
+100-1 1
+.names G0 G16 [508] [257]
+1-- 1
+-11 1
+.names G16 G19 G20 [508] [271]
+1111 1
+.names G10 G15 G30 [508]
+--1 1
+11- 1
+.names G0 [271] [509]
+00 1
+.names G28 G24 G198
+1- 1
+-1 1
+.names G23 G26 G213
+01 1
+.names G23 G147
+1 1
+.names G24 G148
+1 1
+.names G26 G199
+1 1
+.names G28 G214
+1 1

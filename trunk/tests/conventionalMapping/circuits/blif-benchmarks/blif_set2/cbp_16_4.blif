@@ -1,0 +1,217 @@
+# BLIF file for carry-lookahead adder, 16 bits, 4 block size
+.model CLA16
+.inputs cout0 b1 b2 b3 b4 b5 b6 b7 b8 b9  b10 b11 b12 b13 b14 b15 b16 
+.outputs s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 cout16
+.latch s1 a1  0
+.latch s2 a2  0
+.latch s3 a3  0
+.latch s4 a4  0
+.latch s5 a5  0
+.latch s6 a6  0
+.latch s7 a7  0
+.latch s8 a8  0
+.latch s9 a9  0
+.latch s10 a10  0
+.latch s11 a11  0
+.latch s12 a12  0
+.latch s13 a13  0
+.latch s14 a14  0
+.latch s15 a15  0
+.latch s16 a16  0
+.names p1 cout0 s1
+10 1
+01 1
+.names a1 b1 p1
+10 1
+01 1
+.names a1 b1 g1
+11 1
+.names g1 p1 cout0 c1
+1-- 1
+-11 1
+.names p2 c1 s2
+10 1
+01 1
+.names a2 b2 p2
+10 1
+01 1
+.names a2 b2 g2
+11 1
+.names g2 p2 c1 c2
+1-- 1
+-11 1
+.names p3 c2 s3
+10 1
+01 1
+.names a3 b3 p3
+10 1
+01 1
+.names a3 b3 g3
+11 1
+.names g3 p3 c2 c3
+1-- 1
+-11 1
+.names p4 c3 s4
+10 1
+01 1
+.names a4 b4 p4
+10 1
+01 1
+.names a4 b4 g4
+11 1
+.names g4 p4 c3 c4
+1-- 1
+-11 1
+.names p1 p2 p3 p4 bypass0
+1111 1
+.names bypass0 c4 cout0 cout4
+1-1 1
+01- 1
+.names p5 cout4 s5
+10 1
+01 1
+.names a5 b5 p5
+10 1
+01 1
+.names a5 b5 g5
+11 1
+.names g5 p5 cout4 c5
+1-- 1
+-11 1
+.names p6 c5 s6
+10 1
+01 1
+.names a6 b6 p6
+10 1
+01 1
+.names a6 b6 g6
+11 1
+.names g6 p6 c5 c6
+1-- 1
+-11 1
+.names p7 c6 s7
+10 1
+01 1
+.names a7 b7 p7
+10 1
+01 1
+.names a7 b7 g7
+11 1
+.names g7 p7 c6 c7
+1-- 1
+-11 1
+.names p8 c7 s8
+10 1
+01 1
+.names a8 b8 p8
+10 1
+01 1
+.names a8 b8 g8
+11 1
+.names g8 p8 c7 c8
+1-- 1
+-11 1
+.names p5 p6 p7 p8 bypass4
+1111 1
+.names bypass4 c8 cout4 cout8
+1-1 1
+01- 1
+.names p9 cout8 s9
+10 1
+01 1
+.names a9 b9 p9
+10 1
+01 1
+.names a9 b9 g9
+11 1
+.names g9 p9 cout8 c9
+1-- 1
+-11 1
+.names p10 c9 s10
+10 1
+01 1
+.names a10 b10 p10
+10 1
+01 1
+.names a10 b10 g10
+11 1
+.names g10 p10 c9 c10
+1-- 1
+-11 1
+.names p11 c10 s11
+10 1
+01 1
+.names a11 b11 p11
+10 1
+01 1
+.names a11 b11 g11
+11 1
+.names g11 p11 c10 c11
+1-- 1
+-11 1
+.names p12 c11 s12
+10 1
+01 1
+.names a12 b12 p12
+10 1
+01 1
+.names a12 b12 g12
+11 1
+.names g12 p12 c11 c12
+1-- 1
+-11 1
+.names p9 p10 p11 p12 bypass8
+1111 1
+.names bypass8 c12 cout8 cout12
+1-1 1
+01- 1
+.names p13 cout12 s13
+10 1
+01 1
+.names a13 b13 p13
+10 1
+01 1
+.names a13 b13 g13
+11 1
+.names g13 p13 cout12 c13
+1-- 1
+-11 1
+.names p14 c13 s14
+10 1
+01 1
+.names a14 b14 p14
+10 1
+01 1
+.names a14 b14 g14
+11 1
+.names g14 p14 c13 c14
+1-- 1
+-11 1
+.names p15 c14 s15
+10 1
+01 1
+.names a15 b15 p15
+10 1
+01 1
+.names a15 b15 g15
+11 1
+.names g15 p15 c14 c15
+1-- 1
+-11 1
+.names p16 c15 s16
+10 1
+01 1
+.names a16 b16 p16
+10 1
+01 1
+.names a16 b16 g16
+11 1
+.names g16 p16 c15 c16
+1-- 1
+-11 1
+.names p13 p14 p15 p16 bypass12
+1111 1
+.names bypass12 c16 cout12 cout16
+1-1 1
+01- 1
+.end

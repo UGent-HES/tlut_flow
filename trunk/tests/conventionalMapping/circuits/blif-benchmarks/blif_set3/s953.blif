@@ -1,0 +1,2178 @@
+#
+# Written by e2fmt Tue Mar 31 16:15:49 1998
+############################################
+.model top
+.inputs rdy1bmhs1 fullihs1 rdy2bmhs1 ck wantbmhs1 outpuths1 wantrths1 outavhs1\
+ tparrayhs1 fullohs1 prog_0 prog_1 prog_2 rttshs1 indonehs1 rdy1rths1 rdy2rths1
+.outputs sefullihs1 newtrhs1 mode2hs1 mode1hs1 tgwhbufhs1 rerttshs1 mode0hs1\
+ rewhbufhs1 sefullohs1 loadihhs1 actrths1 dumpihs1 lxhinhs1 shftorhs1 seoutavhs1\
+ newlinehs1 gobmhs1 actbmhs1 loadohhs1 txhinhs1 ldproghs1 gorths1 shftirhs1
+# connect ports to nets with different names
+.names nsefullihs1 sefullihs1
+1  1
+.names nnewtrhs1 newtrhs1
+1  1
+.names nmode2hs1 mode2hs1
+1  1
+.names nmode1hs1 mode1hs1
+1  1
+.names ntgwhbufhs1 tgwhbufhs1
+1  1
+.names rdy1bmhs1 nrdy1bmhs1
+1  1
+.names fullihs1 nfullihs1
+1  1
+.names rdy2bmhs1 nrdy2bmhs1
+1  1
+.names ck nck
+1  1
+.names wantbmhs1 nwantbmhs1
+1  1
+.names nrerttshs1 rerttshs1
+1  1
+.names nmode0hs1 mode0hs1
+1  1
+.names nrewhbufhs1 rewhbufhs1
+1  1
+.names outpuths1 noutpuths1
+1  1
+.names nsefullohs1 sefullohs1
+1  1
+.names nloadihhs1 loadihhs1
+1  1
+.names nactrths1 actrths1
+1  1
+.names wantrths1 nwantrths1
+1  1
+.names ndumpihs1 dumpihs1
+1  1
+.names outavhs1 noutavhs1
+1  1
+.names nlxhinhs1 lxhinhs1
+1  1
+.names tparrayhs1 ntparrayhs1
+1  1
+.names nshftorhs1 shftorhs1
+1  1
+.names fullohs1 nfullohs1
+1  1
+.names nseoutavhs1 seoutavhs1
+1  1
+.names prog_0 nprog_0
+1  1
+.names nnewlinehs1 newlinehs1
+1  1
+.names prog_1 nprog_1
+1  1
+.names ngobmhs1 gobmhs1
+1  1
+.names nactbmhs1 actbmhs1
+1  1
+.names prog_2 nprog_2
+1  1
+.names nloadohhs1 loadohhs1
+1  1
+.names rttshs1 nrttshs1
+1  1
+.names indonehs1 nindonehs1
+1  1
+.names ntxhinhs1 txhinhs1
+1  1
+.names nldproghs1 ldproghs1
+1  1
+.names rdy1rths1 nrdy1rths1
+1  1
+.names rdy2rths1 nrdy2rths1
+1  1
+.names ngorths1 gorths1
+1  1
+.names nshftirhs1 shftirhs1
+1  1
+# instance g_g643
+.latch ni8 nactrths1 re nck 2
+# instance g_g632
+.latch ni19 nshftirhs1 re nck 2
+# instance g_g621
+.latch ni30 ndumpihs1 re nck 2
+# instance g_g610
+.names nfullohs1  ni274
+0  1
+# instance g_g599
+.names ni624  ni625
+0  1
+# instance g_g588
+.names ni487  ni486
+0  1
+# instance g_g577
+.names ni323  ni16
+0  1
+# instance g_g566
+.names ni434  ni435
+0  1
+# instance g_g555
+.names ni422  ni423
+0  1
+# instance g_g544
+.names ni662  ni663
+0  1
+# instance g_g533
+.names ni610 ni612  ni850_1
+11  1
+# instance g_g522
+.names ni486 ni506  ni1184_1
+11  1
+# instance g_g511
+.names ni317 ni428  ni1034_1
+11  1
+# instance g_g500
+.names ni274 ni596  ni1143_2
+11  1
+# instance g_g489
+.names ni271 ni573  ni1140_1
+11  1
+# instance g_g478
+.names ni269 ni625  ni892_2
+1-  1
+-1  1
+# instance g_g467
+.names ni267 ni371  ni1154_1
+1-  1
+-1  1
+# instance g_g456
+.names ni585 ni587  ni1091_1
+1-  1
+-1  1
+# instance g_g445
+.names nfullohs1 nfullihs1  n_n222
+11  1
+# instance g_g434
+.names n_n217  ni537
+0  1
+# instance g_g423
+.names nrdy2bmhs1 ni274  n_n211
+11  1
+# instance g_g412
+.names n_n206  ni509
+0  1
+# instance g_g401
+.names ni266 ni506  n_n200
+11  1
+# instance g_g379
+.names ni281 nstate_2 ni508  n_n189
+111  1
+# instance g_g368
+.names n_n184  ni340
+0  1
+# instance g_g357
+.names nprog_0 ni450  n_n178
+11  1
+# instance g_g346
+.names n_n173  ni445
+0  1
+# instance g_g335
+.names ni279 ni382  n_n167
+11  1
+# instance g_g324
+.names n_n162  ni553
+0  1
+# instance g_g313
+.names ni1118_1 ni323  n_n156
+11  1
+# instance g_g302
+.names n_n151  ni599
+0  1
+# instance g_g269
+.names ni329 ni423  n_n134
+11  1
+# instance g_g258
+.names n_n129  ni742
+0  1
+# instance g_g247
+.names ni1213_1 ni553  n_n123
+11  1
+# instance g_g236
+.names n_n118  ni22
+0  1
+# instance g_g225
+.names ni814_1 ni767  n_n112
+11  1
+# instance g_g214
+.names n_n107  ni27
+0  1
+# instance g_g203
+.names ni280 nstate_0  n_n101
+1-  1
+-1  1
+# instance g_g159
+.names nstate_2 ni278 ni441  n_n79
+1--  1
+-1-  1
+--1  1
+# instance g_g148
+.names n_n74  ni382
+0  1
+# instance g_g137
+.names ni263 nrdy2rths1 ni449  n_n68
+1--  1
+-1-  1
+--1  1
+# instance g_g126
+.names n_n63  ni466
+0  1
+# instance g_g115
+.names ni342 ni1193_1  n_n57
+1-  1
+-1  1
+# instance g_g104
+.names n_n52  ni731
+0  1
+# instance g_g644
+.latch ni7 nstate_0 re nck 2
+# instance g_g631
+.latch ni20 nlxhinhs1 re nck 2
+# instance g_g622
+.latch ni29 nldproghs1 re nck 2
+# instance g_g600
+.names ni326  ni327
+0  1
+# instance g_g598
+.names ni495  ni494
+0  1
+# instance g_g589
+.names ni425  ni424
+0  1
+# instance g_g576
+.names ni323  ni322
+0  1
+# instance g_g567
+.names ni430  ni431
+0  1
+# instance g_g554
+.names ni328  ni329
+0  1
+# instance g_g545
+.names ni297  ni20
+0  1
+# instance g_g532
+.names ni335 ni345  ni963_1
+11  1
+# instance g_g523
+.names ni424 ni521  ni1193_1
+11  1
+# instance g_g510
+.names ni345 ni531  ni1163_1
+11  1
+# instance g_g501
+.names nstate_1 ni376  ni1188_1
+11  1
+# instance g_g499
+.names nwantbmhs1 ni384  ni1100_1
+11  1
+# instance g_g477
+.names ni279 ni320  ni896_1
+1-  1
+-1  1
+# instance g_g468
+.names ni465 ni489  ni1216_2
+1-  1
+-1  1
+# instance g_g455
+.names ni547 ni575  ni829_1
+1-  1
+-1  1
+# instance g_g446
+.names n_n223  ni519
+0  1
+# instance g_g433
+.names ni271 ni284  n_n216
+11  1
+# instance g_g424
+.names n_n212  ni539
+0  1
+# instance g_g411
+.names ni473 ni357  n_n205
+11  1
+# instance g_g402
+.names n_n201  ni360
+0  1
+# instance g_g378
+.names n_n189  ni425
+0  1
+# instance g_g369
+.names ni861_1 ni861_2  n_n184
+11  1
+# instance g_g356
+.names n_n178  ni429
+0  1
+# instance g_g347
+.names ni374 ni534  n_n173
+11  1
+# instance g_g334
+.names n_n167  ni371
+0  1
+# instance g_g325
+.names nstate_1 ni500  n_n162
+11  1
+# instance g_g312
+.names n_n156  ni682
+0  1
+# instance g_g303
+.names ni275 ni354  n_n151
+11  1
+# instance g_g279
+.names ni1148_1 ni481  n_n139
+11  1
+# instance g_g257
+.names ni1091_1 ni329  n_n128
+11  1
+# instance g_g248
+.names n_n124  ni11
+0  1
+# instance g_g235
+.names ni665 ni663  n_n117
+11  1
+# instance g_g226
+.names n_n113  ni6
+0  1
+# instance g_g213
+.names noutavhs1 ni326  n_n106
+1-  1
+-1  1
+# instance g_g204
+.names n_n102  ni386
+0  1
+# instance g_g158
+.names n_n79  ni29
+0  1
+# instance g_g149
+.names nprog_2 ni276 ni485  n_n74
+1--  1
+-1-  1
+--1  1
+# instance g_g136
+.names n_n68  ni540
+0  1
+# instance g_g127
+.names nrdy1bmhs1 ni503  n_n63
+1-  1
+-1  1
+# instance g_g114
+.names n_n57  ni733
+0  1
+# instance g_g105
+.names ni540 ni474  n_n52
+1-  1
+-1  1
+# instance g_g645
+.latch ni6 nstate_1 re nck 2
+# instance g_g630
+.latch ni21 ntxhinhs1 re nck 2
+# instance g_g612
+.names nprog_2  ni282
+0  1
+# instance g_g601
+.names ni345  ni344
+0  1
+# instance g_g575
+.names ni399  ni398
+0  1
+# instance g_g564
+.names ni371  ni370
+0  1
+# instance g_g557
+.names ni362  ni363
+0  1
+# instance g_g546
+.names ni660  ni661
+0  1
+# instance g_g531
+.names ni335 ni357  ni966_1
+11  1
+# instance g_g520
+.names ni284 ni382  ni1107_1
+11  1
+# instance g_g513
+.names ni357 ni529  ni1166_1
+11  1
+# instance g_g502
+.names ni269 ni376  ni1184_2
+11  1
+# instance g_g476
+.names ni263 ni455  ni861_1
+1-  1
+-1  1
+# instance g_g465
+.names ni593 ni595  ni1132_1
+1-  1
+-1  1
+# instance g_g458
+.names ni274 ni599  ni1157_1
+1-  1
+-1  1
+# instance g_g447
+.names nrdy2bmhs1 nwantbmhs1  n_n223
+11  1
+# instance g_g432
+.names n_n216  ni575
+0  1
+# instance g_g421
+.names ni280 ni281  n_n210
+11  1
+# instance g_g414
+.names n_n207  ni525
+0  1
+# instance g_g403
+.names ni881_1 ni881_2  n_n201
+11  1
+# instance g_g377
+.names nstate_3 ni508  n_n188
+11  1
+# instance g_g366
+.names n_n183  ni485
+0  1
+# instance g_g359
+.names ni318 nstate_0 ni436  n_n179
+111  1
+# instance g_g348
+.names n_n174  ni551
+0  1
+# instance g_g333
+.names ni445 ni381  n_n166
+11  1
+# instance g_g322
+.names n_n161  ni403
+0  1
+# instance g_g315
+.names ni1113_1 ni343  n_n157
+11  1
+# instance g_g304
+.names n_n152  ni12
+0  1
+# instance g_g278
+.names n_n139  ni702
+0  1
+# instance g_g267
+.names ni655 ni657  n_n133
+11  1
+# instance g_g249
+.names ni669 ni475 ni667  n_n124
+111  1
+# instance g_g234
+.names n_n117  ni750
+0  1
+# instance g_g223
+.names nfullohs1 nfullihs1  n_n111
+1-  1
+-1  1
+# instance g_g216
+.names n_n108  ni610
+0  1
+# instance g_g205
+.names nstate_2 ni280  n_n102
+1-  1
+-1  1
+# instance g_g179
+.names nstate_3 ni513  n_n89
+1-  1
+-1  1
+# instance g_g168
+.names n_n84  ni534
+0  1
+# instance g_g135
+.names nprog_2 ni451  n_n67
+1-  1
+-1  1
+# instance g_g124
+.names n_n62  ni388
+0  1
+# instance g_g117
+.names ni345 ni397  n_n58
+1-  1
+-1  1
+# instance g_g106
+.names n_n53  ni717
+0  1
+# instance g_g646
+.latch ni5 nstate_2 re nck 2
+# instance g_g620
+.names nrdy1bmhs1  ni265
+0  1
+# instance g_g611
+.names nfullihs1  ni275
+0  1
+# instance g_g602
+.names nindonehs1  ni267
+0  1
+# instance g_g574
+.names ni429  ni428
+0  1
+# instance g_g565
+.names ni466  ni467
+0  1
+# instance g_g556
+.names ni378  ni379
+0  1
+# instance g_g547
+.names ni404  ni405
+0  1
+# instance g_g530
+.names nrdy2bmhs1 ni325  ni1025_1
+11  1
+# instance g_g521
+.names nprog_0 ni382  ni1080_1
+11  1
+# instance g_g512
+.names ni281 ni412  ni1160_1
+11  1
+# instance g_g503
+.names ni278 ni580  ni789_1
+11  1
+# instance g_g475
+.names nstate_0 ni589  ni1121_1
+1-  1
+-1  1
+# instance g_g466
+.names ni367 ni493  ni1028_1
+1-  1
+-1  1
+# instance g_g457
+.names ni339 ni421  ni1210_1
+1-  1
+-1  1
+# instance g_g448
+.names n_n224  ni345
+0  1
+# instance g_g431
+.names ni282 ni283  n_n215
+11  1
+# instance g_g422
+.names n_n211  ni595
+0  1
+# instance g_g413
+.names ni276 ni277  n_n206
+11  1
+# instance g_g404
+.names n_n202  ni568
+0  1
+# instance g_g376
+.names n_n188  ni487
+0  1
+# instance g_g367
+.names ni277 ni548  n_n183
+11  1
+# instance g_g358
+.names n_n179  ni577
+0  1
+# instance g_g349
+.names ni279 ni442  n_n174
+11  1
+# instance g_g332
+.names n_n166  ni680
+0  1
+# instance g_g323
+.names ni434 ni634 ni494  n_n161
+111  1
+# instance g_g314
+.names n_n157  ni676
+0  1
+# instance g_g305
+.names ni377 ni469  n_n152
+11  1
+# instance g_g277
+.names ni1028_1 ni355  n_n138
+11  1
+# instance g_g268
+.names n_n134  ni678
+0  1
+# instance g_g259
+.names ni1210_1 ni551  n_n129
+11  1
+# instance g_g233
+.names ni829_1 ni351  n_n116
+11  1
+# instance g_g224
+.names n_n112  ni25
+0  1
+# instance g_g215
+.names noutavhs1 ni275  n_n107
+1-  1
+-1  1
+# instance g_g206
+.names n_n103  ni624
+0  1
+# instance g_g178
+.names n_n89  ni548
+0  1
+# instance g_g169
+.names nstate_4 ni571  n_n84
+1-  1
+-1  1
+# instance g_g134
+.names n_n67  ni430
+0  1
+# instance g_g125
+.names ni320 ni459  n_n62
+1-  1
+-1  1
+# instance g_g116
+.names n_n58  ni580
+0  1
+# instance g_g107
+.names ni322 ni1170_1  n_n53
+1-  1
+-1  1
+# instance g_g647
+.latch ni4 nstate_3 re nck 2
+# instance g_g595
+.names ni570  ni571
+0  1
+# instance g_g584
+.names ni534  ni535
+0  1
+# instance g_g559
+.names ni411  ni410
+0  1
+# instance g_g548
+.names ni476  ni477
+0  1
+# instance g_g496
+.names nstate_4 ni566  ni1176_1
+11  1
+# instance g_g485
+.names ni264 ni284  ni1047_1
+1-  1
+-1  1
+# instance g_g449
+.names nrdy1rths1 nrdy2rths1  n_n224
+11  1
+# instance g_g430
+.names n_n215  ni393
+0  1
+# instance g_g397
+.names ni495 ni511  n_n198
+11  1
+# instance g_g386
+.names n_n193  ni318
+0  1
+# instance g_g331
+.names ni412 ni532  n_n165
+11  1
+# instance g_g320
+.names n_n160  ni609
+0  1
+# instance g_g298
+.names n_n149  ni545
+0  1
+# instance g_g287
+.names ni719 ni717  n_n143
+11  1
+# instance g_g232
+.names n_n116  ni30
+0  1
+# instance g_g221
+.names noutavhs1 nfullihs1  n_n110
+1-  1
+-1  1
+# instance g_g210
+.names n_n105  ni612
+0  1
+# instance g_g199
+.names ni271 ni473  n_n99
+1-  1
+-1  1
+# instance g_g188
+.names n_n94  ni532
+0  1
+# instance g_g133
+.names ni282 ni451  n_n66
+1-  1
+-1  1
+# instance g_g122
+.names n_n61  ni416
+0  1
+# instance g_g111
+.names ni322 ni1077_1  n_n55
+1-  1
+-1  1
+# instance g_g100
+.names n_n50  ni565
+0  1
+# instance g_g9
+.names ni740 ni738  n_n4
+1-  1
+-1  1
+# instance g_g648
+.latch ni3 nstate_4 re nck 2
+# instance g_g594
+.names ni330  ni331
+0  1
+# instance g_g585
+.names ni458  ni459
+0  1
+# instance g_g558
+.names ni354  ni355
+0  1
+# instance g_g549
+.names ni768  ni769
+0  1
+# instance g_g495
+.names ni317 ni556  ni1097_1
+11  1
+# instance g_g486
+.names nindonehs1 nprog_2  ni881_1
+1-  1
+-1  1
+# instance g_g459
+.names nfullohs1 ni355  ni814_1
+1-  1
+-1  1
+# instance g_g420
+.names n_n210  ni495
+0  1
+# instance g_g396
+.names n_n198  ni320
+0  1
+# instance g_g387
+.names ni834_1 ni277  n_n193
+11  1
+# instance g_g330
+.names n_n165  ni407
+0  1
+# instance g_g321
+.names ni265 ni434  n_n160
+11  1
+# instance g_g297
+.names ni274 ni422  n_n148
+11  1
+# instance g_g288
+.names n_n144  ni690
+0  1
+# instance g_g231
+.names ni403 ni351  n_n115
+11  1
+# instance g_g222
+.names n_n111  ni326
+0  1
+# instance g_g200
+.names n_n100  ni570
+0  1
+# instance g_g198
+.names n_n99  ni498
+0  1
+# instance g_g189
+.names nstate_4 ni327  n_n94
+1-  1
+-1  1
+# instance g_g132
+.names n_n66  ni432
+0  1
+# instance g_g123
+.names ni461 ni535  n_n61
+1-  1
+-1  1
+# instance g_g110
+.names n_n55  ni655
+0  1
+# instance g_g101
+.names ni444 ni1040_1  n_n50
+1-  1
+-1  1
+# instance g_g649
+.latch ni2 nstate_5 re nck 2
+# instance g_g597
+.names ni512  ni513
+0  1
+# instance g_g586
+.names ni450  ni451
+0  1
+# instance g_g579
+.names ni414  ni415
+0  1
+# instance g_g568
+.names ni474  ni475
+0  1
+# instance g_g498
+.names ni378 ni568  ni1128_1
+11  1
+# instance g_g487
+.names nrdy1bmhs1 nprog_0  ni1047_2
+1-  1
+-1  1
+# instance g_g469
+.names ni463 ni491  ni1203_1
+1-  1
+-1  1
+# instance g_g410
+.names n_n205  ni336
+0  1
+# instance g_g399
+.names ni282 ni506  n_n199
+11  1
+# instance g_g388
+.names n_n194  ni338
+0  1
+# instance g_g311
+.names ni1203_1 ni1203_2  n_n155
+11  1
+# instance g_g300
+.names n_n150  ni447
+0  1
+# instance g_g289
+.names ni1132_1 ni1132_2  n_n144
+11  1
+# instance g_g230
+.names n_n115  ni700
+0  1
+# instance g_g212
+.names n_n106  ni24
+0  1
+# instance g_g201
+.names ni276 nstate_3  n_n100
+1-  1
+-1  1
+# instance g_g131
+.names ni281 ni453  n_n65
+1-  1
+-1  1
+# instance g_g120
+.names n_n60  ni463
+0  1
+# instance g_g113
+.names ni281 ni479  n_n56
+1-  1
+-1  1
+# instance g_g102
+.names n_n51  ni567
+0  1
+# instance g_g596
+.names ni509  ni508
+0  1
+# instance g_g587
+.names ni436  ni437
+0  1
+# instance g_g578
+.names ni468  ni469
+0  1
+# instance g_g569
+.names ni366  ni367
+0  1
+# instance g_g497
+.names ni280 ni358  ni1056_1
+11  1
+# instance g_g488
+.names nwantrths1 ni582  ni1094_1
+11  1
+# instance g_g479
+.names ni265 ni457  ni861_2
+1-  1
+-1  1
+# instance g_g400
+.names n_n200  ni457
+0  1
+# instance g_g398
+.names n_n199  ni461
+0  1
+# instance g_g389
+.names ni857_1 ni439  n_n194
+11  1
+# instance g_g310
+.names n_n155  ni738
+0  1
+# instance g_g301
+.names nrdy2rths1 ni362  n_n150
+11  1
+# instance g_g299
+.names ni272 ni362  n_n149
+11  1
+# instance g_g220
+.names n_n110  ni28
+0  1
+# instance g_g211
+.names nrdy1rths1 ni274  n_n105
+1-  1
+-1  1
+# instance g_g202
+.names n_n101  ni512
+0  1
+# instance g_g130
+.names n_n65  ni500
+0  1
+# instance g_g121
+.names ni390 ni963_1  n_n60
+1-  1
+-1  1
+# instance g_g112
+.names n_n56  ni376
+0  1
+# instance g_g103
+.names ni388 ni1044_1  n_n51
+1-  1
+-1  1
+# instance g_g629
+.latch ni22 nloadohhs1 re nck 2
+# instance g_g618
+.names nrdy1rths1  ni263
+0  1
+# instance g_g607
+.names nstate_2  ni279
+0  1
+# instance g_g591
+.names ni338  ni339
+0  1
+# instance g_g580
+.names ni396  ni397
+0  1
+# instance g_g519
+.names nstate_5 ni418  ni1103_1
+11  1
+# instance g_g508
+.names nprog_2 ni452  ni1166_2
+11  1
+# instance g_g492
+.names ni364 ni562  ni810_1
+11  1
+# instance g_g481
+.names ni279 ni495  ni892_1
+1-  1
+-1  1
+# instance g_g470
+.names nstate_1 ni479  ni1118_1
+1-  1
+-1  1
+# instance g_g409
+.names nwantbmhs1 ni493  n_n204
+11  1
+# instance g_g393
+.names ni506 ni570  n_n196
+11  1
+# instance g_g382
+.names n_n191  ni343
+0  1
+# instance g_g371
+.names ni896_1 ni461  n_n185
+11  1
+# instance g_g360
+.names n_n180  ni399
+0  1
+# instance g_g294
+.names n_n147  ni585
+0  1
+# instance g_g283
+.names ni381 ni725 ni551  n_n141
+111  1
+# instance g_g272
+.names n_n136  ni686
+0  1
+# instance g_g261
+.names nwantrths1 ni446  n_n130
+11  1
+# instance g_g250
+.names n_n125  ni9
+0  1
+# instance g_g195
+.names ni344 ni873_1  n_n97
+1-  1
+-1  1
+# instance g_g184
+.names n_n92  ni482
+0  1
+# instance g_g173
+.names ni279 ni571  n_n86
+1-  1
+-1  1
+# instance g_g162
+.names n_n81  ni391
+0  1
+# instance g_g151
+.names ni264 ni333  n_n75
+1-  1
+-1  1
+# instance g_g140
+.names n_n70  ni474
+0  1
+# instance g_g5
+.names ni750 ni789_1  n_n2
+1-  1
+-1  1
+# instance g_g639
+.latch ni12 nnewtrhs1 re nck 2
+# instance g_g617
+.names nrdy2rths1  ni264
+0  1
+# instance g_g608
+.names nstate_1  ni280
+0  1
+# instance g_g590
+.names ni343  ni342
+0  1
+# instance g_g581
+.names ni340  ni341
+0  1
+# instance g_g518
+.names ni345 ni418  ni1196_1
+11  1
+# instance g_g509
+.names ni282 ni590  ni1136_1
+11  1
+# instance g_g491
+.names ni338 ni364  ni1199_1
+11  1
+# instance g_g482
+.names nfullihs1 ni523  ni834_1
+1-  1
+-1  1
+# instance g_g460
+.names nprog_0 ni526  ni1087_1
+1-  1
+-1  1
+# instance g_g419
+.names nrttshs1 ni278  n_n209
+11  1
+# instance g_g392
+.names n_n196  ni489
+0  1
+# instance g_g383
+.names ni394 ni276 ni482  n_n191
+111  1
+# instance g_g370
+.names n_n185  ni374
+0  1
+# instance g_g361
+.names ni284 ni436  n_n180
+11  1
+# instance g_g293
+.names ni264 ni358  n_n146
+11  1
+# instance g_g284
+.names n_n142  ni15
+0  1
+# instance g_g271
+.names ni517 ni545  n_n135
+11  1
+# instance g_g262
+.names n_n131  ni660
+0  1
+# instance g_g240
+.names n_n120  ni778
+0  1
+# instance g_g194
+.names n_n97  ni353
+0  1
+# instance g_g185
+.names nstate_2 nstate_3 ni525  n_n92
+1--  1
+-1-  1
+--1  1
+# instance g_g172
+.names n_n86  ni458
+0  1
+# instance g_g163
+.names nstate_2 ni910_1  n_n81
+1-  1
+-1  1
+# instance g_g150
+.names n_n75  ni634
+0  1
+# instance g_g141
+.names ni493 ni577  n_n70
+1-  1
+-1  1
+# instance g_g6
+.names n_n3  ni767
+0  1
+# instance g_g638
+.latch ni13 nrerttshs1 re nck 2
+# instance g_g627
+.latch ni24 nseoutavhs1 re nck 2
+# instance g_g609
+.names nstate_0  ni281
+0  1
+# instance g_g593
+.names ni440  ni441
+0  1
+# instance g_g582
+.names ni391  ni390
+0  1
+# instance g_g539
+.names ni287  ni10
+0  1
+# instance g_g528
+.names nwantrths1 ni614  ni850_2
+11  1
+# instance g_g494
+.names ni348 ni554  ni1180_2
+11  1
+# instance g_g483
+.names nprog_0 ni493  ni857_1
+1-  1
+-1  1
+# instance g_g450
+.names n_n225  ni357
+0  1
+# instance g_g429
+.names nprog_0 ni317  n_n214
+11  1
+# instance g_g395
+.names ni264 ni512  n_n197
+11  1
+# instance g_g384
+.names n_n192  ni497
+0  1
+# instance g_g351
+.names ni277 ni504  n_n175
+11  1
+# instance g_g340
+.names n_n170  ni481
+0  1
+# instance g_g296
+.names n_n148  ni421
+0  1
+# instance g_g285
+.names ni796_1 ni675  n_n142
+11  1
+# instance g_g270
+.names n_n135  ni573
+0  1
+# instance g_g252
+.names n_n126  ni2
+0  1
+# instance g_g241
+.names ni737 ni735  n_n120
+11  1
+# instance g_g197
+.names ni272 ni514  n_n98
+1-  1
+-1  1
+# instance g_g186
+.names n_n93  ni614
+0  1
+# instance g_g171
+.names ni335 ni320 ni571  n_n85
+1--  1
+-1-  1
+--1  1
+# instance g_g160
+.names n_n80  ni333
+0  1
+# instance g_g153
+.names ni386 nstate_0 ni487  n_n76
+1--  1
+-1-  1
+--1  1
+# instance g_g142
+.names n_n71  ni412
+0  1
+# instance g_g7
+.names ni704 ni702  n_n3
+1-  1
+-1  1
+# instance g_g637
+.latch ni14 nmode0hs1 re nck 2
+# instance g_g628
+.latch ni23 nloadihhs1 re nck 2
+# instance g_g619
+.names nrdy2bmhs1  ni266
+0  1
+# instance g_g592
+.names ni505  ni504
+0  1
+# instance g_g583
+.names ni555  ni554
+0  1
+# instance g_g538
+.names ni300  ni23
+0  1
+# instance g_g529
+.names ni277 ni360  ni910_1
+11  1
+# instance g_g493
+.names nprog_0 ni600  ni1176_2
+11  1
+# instance g_g484
+.names ni282 ni326  ni881_2
+1-  1
+-1  1
+# instance g_g440
+.names n_n220  ni543
+0  1
+# instance g_g439
+.names ni265 ni266  n_n219
+11  1
+# instance g_g394
+.names n_n197  ni455
+0  1
+# instance g_g385
+.names ni455 ni457  n_n192
+11  1
+# instance g_g350
+.names n_n175  ni503
+0  1
+# instance g_g341
+.names ni372 ni486  n_n170
+11  1
+# instance g_g295
+.names ni353 ni422  n_n147
+11  1
+# instance g_g286
+.names n_n143  ni768
+0  1
+# instance g_g260
+.names n_n130  ni547
+0  1
+# instance g_g251
+.names ni661 ni377 ni659  n_n125
+111  1
+# instance g_g242
+.names n_n121  ni3
+0  1
+# instance g_g196
+.names n_n98  ni315
+0  1
+# instance g_g187
+.names ni523 ni575  n_n93
+1-  1
+-1  1
+# instance g_g170
+.names n_n85  ni470
+0  1
+# instance g_g161
+.names ni850_1 ni850_2  n_n80
+1-  1
+-1  1
+# instance g_g152
+.names n_n76  ni468
+0  1
+# instance g_g143
+.names ni282 ni437  n_n71
+1-  1
+-1  1
+# instance g_g8
+.names n_n4  ni777
+0  1
+# instance g_g636
+.latch ni15 nmode1hs1 re nck 2
+# instance g_g625
+.latch ni26 nsefullihs1 re nck 2
+# instance g_g614
+.names nprog_0  ni284
+0  1
+# instance g_g603
+.names ntparrayhs1  ni269
+0  1
+# instance g_g573
+.names ni453  ni452
+0  1
+# instance g_g562
+.names ni359  ni358
+0  1
+# instance g_g551
+.names ni770  ni771
+0  1
+# instance g_g540
+.names ni311  ni7
+0  1
+# instance g_g537
+.names ni303  ni26
+0  1
+# instance g_g526
+.names ni458 ni512  ni1077_1
+11  1
+# instance g_g515
+.names ni267 ni322  ni1180_1
+11  1
+# instance g_g504
+.names ni267 ni380  ni1199_2
+11  1
+# instance g_g474
+.names ni283 ni323  ni796_1
+1-  1
+-1  1
+# instance g_g463
+.names ni267 ni565  ni1148_1
+1-  1
+-1  1
+# instance g_g452
+.names ni405 ni537  ni1151_1
+1-  1
+-1  1
+# instance g_g441
+.names ni265 nrdy2bmhs1  n_n220
+11  1
+# instance g_g438
+.names n_n219  ni473
+0  1
+# instance g_g427
+.names ni274 nprog_2  n_n213
+11  1
+# instance g_g416
+.names n_n208  ni335
+0  1
+# instance g_g405
+.names ni1047_1 ni1047_2  n_n202
+11  1
+# instance g_g375
+.names ni1037_1 ni439  n_n187
+11  1
+# instance g_g364
+.names n_n182  ni491
+0  1
+# instance g_g353
+.names ni327 ni277 ni504  n_n176
+111  1
+# instance g_g342
+.names n_n171  ni479
+0  1
+# instance g_g339
+.names ni399 ni489  n_n169
+11  1
+# instance g_g328
+.names n_n164  ni593
+0  1
+# instance g_g317
+.names ni371 ni323  n_n158
+11  1
+# instance g_g306
+.names n_n153  ni706
+0  1
+# instance g_g290
+.names n_n145  ni770
+0  1
+# instance g_g276
+.names n_n138  ni556
+0  1
+# instance g_g265
+.names ni671 ni673  n_n132
+11  1
+# instance g_g254
+.names n_n127  ni21
+0  1
+# instance g_g243
+.names ni721 ni723  n_n121
+11  1
+# instance g_g229
+.names ni1157_1 ni351  n_n114
+11  1
+# instance g_g218
+.names n_n109  ni514
+0  1
+# instance g_g207
+.names nstate_2 ni511  n_n103
+1-  1
+-1  1
+# instance g_g191
+.names ni327 nstate_0 ni357  n_n95
+1--  1
+-1-  1
+--1  1
+# instance g_g180
+.names n_n90  ni347
+0  1
+# instance g_g177
+.names nstate_1 ni505  n_n88
+1-  1
+-1  1
+# instance g_g166
+.names n_n83  ni555
+0  1
+# instance g_g155
+.names ni425 nstate_1 ni521  n_n77
+1--  1
+-1-  1
+--1  1
+# instance g_g144
+.names n_n72  ni366
+0  1
+# instance g_g119
+.names ni390 ni966_1  n_n59
+1-  1
+-1  1
+# instance g_g108
+.names n_n54  ni659
+0  1
+# instance g_g1
+.names ni706 ni708  n_n0
+1-  1
+-1  1
+# instance g_g640
+.latch ni11 ngobmhs1 re nck 2
+# instance g_g635
+.latch ni16 nmode2hs1 re nck 2
+# instance g_g626
+.latch ni25 nsefullohs1 re nck 2
+# instance g_g613
+.names nprog_1  ni283
+0  1
+# instance g_g604
+.names nstate_5  ni276
+0  1
+# instance g_g572
+.names ni445  ni444
+0  1
+# instance g_g563
+.names ni376  ni377
+0  1
+# instance g_g550
+.names ni690  ni691
+0  1
+# instance g_g541
+.names ni778  ni779
+0  1
+# instance g_g536
+.names nprog_1 nprog_0  ni840_2
+11  1
+# instance g_g527
+.names ni497 ni570  ni1044_1
+11  1
+# instance g_g514
+.names ni317 ni398  ni1031_1
+11  1
+# instance g_g505
+.names ni267 ni388  ni1188_2
+11  1
+# instance g_g473
+.names ni543 ni577  ni1203_2
+1-  1
+-1  1
+# instance g_g464
+.names ni281 ni467  ni1132_2
+1-  1
+-1  1
+# instance g_g451
+.names nrdy1bmhs1 nrdy2bmhs1  n_n225
+11  1
+# instance g_g442
+.names n_n221  ni511
+0  1
+# instance g_g437
+.names nrdy1bmhs1 ni266  n_n218
+11  1
+# instance g_g428
+.names n_n214  ni587
+0  1
+# instance g_g415
+.names ni277 ni280  n_n207
+11  1
+# instance g_g406
+.names n_n203  ni439
+0  1
+# instance g_g374
+.names n_n187  ni562
+0  1
+# instance g_g365
+.names nstate_5 ni548  n_n182
+11  1
+# instance g_g352
+.names n_n176  ni453
+0  1
+# instance g_g343
+.names ni279 ni486  n_n171
+11  1
+# instance g_g338
+.names n_n169  ni529
+0  1
+# instance g_g329
+.names ni284 ni430  n_n164
+11  1
+# instance g_g316
+.names n_n158  ni19
+0  1
+# instance g_g307
+.names ni1154_1 ni403  n_n153
+11  1
+# instance g_g280
+.names n_n140  ni5
+0  1
+# instance g_g275
+.names ni1121_1 ni1121_2  n_n137
+11  1
+# instance g_g266
+.names n_n133  ni8
+0  1
+# instance g_g253
+.names ni771 ni711 ni769  n_n126
+111  1
+# instance g_g244
+.names n_n122  ni740
+0  1
+# instance g_g239
+.names ni1151_1 ni329  n_n119
+11  1
+# instance g_g217
+.names nprog_2 ni284  n_n108
+1-  1
+-1  1
+# instance g_g208
+.names n_n104  ni506
+0  1
+# instance g_g190
+.names n_n95  ni394
+0  1
+# instance g_g181
+.names nstate_3 ni394  n_n90
+1-  1
+-1  1
+# instance g_g176
+.names n_n88  ni436
+0  1
+# instance g_g167
+.names ni330 ni1025_1  n_n83
+1-  1
+-1  1
+# instance g_g154
+.names n_n77  ni414
+0  1
+# instance g_g145
+.names ni335 nstate_0 ni399  n_n72
+1--  1
+-1-  1
+--1  1
+# instance g_g118
+.names n_n59  ni465
+0  1
+# instance g_g109
+.names ni322 ni1083_1  n_n54
+1-  1
+-1  1
+# instance g_g2
+.names n_n1  ni300
+0  1
+# instance g_g641
+.latch ni10 ngorths1 re nck 2
+# instance g_g634
+.latch ni17 nnewlinehs1 re nck 2
+# instance g_g623
+.latch ni28 nrewhbufhs1 re nck 2
+# instance g_g616
+.names nwantbmhs1  ni271
+0  1
+# instance g_g605
+.names nstate_4  ni277
+0  1
+# instance g_g571
+.names ni381  ni380
+0  1
+# instance g_g560
+.names ni567  ni566
+0  1
+# instance g_g553
+.names ni295  ni18
+0  1
+# instance g_g542
+.names ni350  ni351
+0  1
+# instance g_g535
+.names ni263 ni264  ni873_1
+11  1
+# instance g_g524
+.names ni393 ni414  ni1170_1
+11  1
+# instance g_g517
+.names noutpuths1 ni322  ni1040_1
+11  1
+# instance g_g506
+.names ni277 ni388  ni1110_1
+11  1
+# instance g_g490
+.names ni353 ni404  ni1143_1
+11  1
+# instance g_g472
+.names ni449 ni537  ni1216_1
+1-  1
+-1  1
+# instance g_g461
+.names nrdy2rths1 ni561  ni1125_1
+1-  1
+-1  1
+# instance g_g454
+.names ni498 ni547  ni1213_1
+1-  1
+-1  1
+# instance g_g443
+.names nstate_1 nstate_0  n_n221
+11  1
+# instance g_g436
+.names n_n218  ni493
+0  1
+# instance g_g425
+.names ni263 ni274  n_n212
+11  1
+# instance g_g418
+.names n_n209  ni521
+0  1
+# instance g_g407
+.names nprog_0 ni514  n_n203
+11  1
+# instance g_g391
+.names ni279 ni570  n_n195
+11  1
+# instance g_g380
+.names n_n190  ni589
+0  1
+# instance g_g373
+.names ni892_1 ni892_2  n_n186
+11  1
+# instance g_g362
+.names n_n181  ni323
+0  1
+# instance g_g355
+.names ni318 nstate_1 ni450  n_n177
+111  1
+# instance g_g344
+.names n_n172  ni381
+0  1
+# instance g_g337
+.names ni429 ni491  n_n168
+11  1
+# instance g_g326
+.names n_n163  ni359
+0  1
+# instance g_g319
+.names nprog_0 ni279 ni416  n_n159
+111  1
+# instance g_g308
+.names n_n154  ni746
+0  1
+# instance g_g292
+.names n_n146  ni517
+0  1
+# instance g_g281
+.names ni733 ni731 ni729 ni397  n_n140
+1111  1
+# instance g_g274
+.names n_n137  ni684
+0  1
+# instance g_g263
+.names ni1087_1 ni469  n_n131
+11  1
+# instance g_g256
+.names n_n128  ni662
+0  1
+# instance g_g245
+.names ni1207_1 ni477  n_n122
+11  1
+# instance g_g238
+.names n_n119  ni704
+0  1
+# instance g_g227
+.names ni779 ni377 ni777  n_n113
+111  1
+# instance g_g209
+.names nstate_1 ni281  n_n104
+1-  1
+-1  1
+# instance g_g193
+.names ni840_1 ni840_2  n_n96
+1-  1
+-1  1
+# instance g_g182
+.names n_n91  ni440
+0  1
+# instance g_g175
+.names nstate_0 ni505  n_n87
+1-  1
+-1  1
+# instance g_g164
+.names n_n82  ni442
+0  1
+# instance g_g157
+.names ni280 ni425  n_n78
+1-  1
+-1  1
+# instance g_g146
+.names n_n73  ni418
+0  1
+# instance g_g139
+.names ni429 ni539  n_n69
+1-  1
+-1  1
+# instance g_g128
+.names n_n64  ni434
+0  1
+# instance g_g3
+.names ni700 ni810_1  n_n1
+1-  1
+-1  1
+# instance g_g642
+.latch ni9 nactbmhs1 re nck 2
+# instance g_g633
+.latch ni18 nshftorhs1 re nck 2
+# instance g_g624
+.latch ni27 ntgwhbufhs1 re nck 2
+# instance g_g615
+.names nwantrths1  ni272
+0  1
+# instance g_g606
+.names nstate_3  ni278
+0  1
+# instance g_g570
+.names ni415  ni13
+0  1
+# instance g_g561
+.names ni553  ni552
+0  1
+# instance g_g552
+.names ni447  ni446
+0  1
+# instance g_g543
+.names ni294  ni17
+0  1
+# instance g_g534
+.names ni283 ni284  ni840_1
+11  1
+# instance g_g525
+.names ni458 ni506  ni1083_1
+11  1
+# instance g_g516
+.names nprog_0 ni322  ni1103_2
+11  1
+# instance g_g507
+.names ni263 ni466  ni1173_1
+11  1
+# instance g_g480
+.names nprog_0 ni336  ni1037_1
+1-  1
+-1  1
+# instance g_g471
+.names ni282 ni415  ni1113_1
+1-  1
+-1  1
+# instance g_g462
+.names nrdy2bmhs1 ni559  ni1121_2
+1-  1
+-1  1
+# instance g_g453
+.names ni519 ni579  ni1207_1
+1-  1
+-1  1
+# instance g_g444
+.names n_n222  ni317
+0  1
+# instance g_g435
+.names ni263 nrdy2rths1  n_n217
+11  1
+# instance g_g426
+.names n_n213  ni523
+0  1
+# instance g_g417
+.names ni277 ni282  n_n208
+11  1
+# instance g_g408
+.names n_n204  ni330
+0  1
+# instance g_g390
+.names n_n195  ni505
+0  1
+# instance g_g381
+.names nprog_2 ni482  n_n190
+11  1
+# instance g_g372
+.names n_n186  ni372
+0  1
+# instance g_g363
+.names ni281 nstate_4 ni436  n_n181
+111  1
+# instance g_g354
+.names n_n177  ni449
+0  1
+# instance g_g345
+.names nstate_3 ni396  n_n172
+11  1
+# instance g_g336
+.names n_n168  ni531
+0  1
+# instance g_g327
+.names ni432 nrdy1rths1 ni532  n_n163
+111  1
+# instance g_g318
+.names n_n159  ni411
+0  1
+# instance g_g309
+.names ni1216_1 ni1216_2  n_n154
+11  1
+# instance g_g291
+.names ni715 ni713  n_n145
+11  1
+# instance g_g282
+.names n_n141  ni4
+0  1
+# instance g_g273
+.names ni1125_1 ni441  n_n136
+11  1
+# instance g_g264
+.names n_n132  ni14
+0  1
+# instance g_g255
+.names ni693 ni689 ni691  n_n127
+111  1
+# instance g_g246
+.names n_n123  ni744
+0  1
+# instance g_g237
+.names ni699 ni697 ni695 ni481  n_n118
+1111  1
+# instance g_g228
+.names n_n114  ni708
+0  1
+# instance g_g219
+.names ni263 nrdy2rths1  n_n109
+1-  1
+-1  1
+# instance g_g192
+.names n_n96  ni325
+0  1
+# instance g_g183
+.names ni495 ni509  n_n91
+1-  1
+-1  1
+# instance g_g174
+.names n_n87  ni450
+0  1
+# instance g_g165
+.names ni347 nstate_1 ni509  n_n82
+1--  1
+-1-  1
+--1  1
+# instance g_g156
+.names n_n78  ni396
+0  1
+# instance g_g147
+.names ni279 ni485  n_n73
+1-  1
+-1  1
+# instance g_g138
+.names n_n69  ni590
+0  1
+# instance g_g129
+.names nfullihs1 ni503  n_n64
+1-  1
+-1  1
+# instance g_g4
+.names n_n2  ni287
+0  1
+# instance g_g94
+.names n_n47  ni596
+0  1
+# instance g_g83
+.names ni470 ni1163_1  n_n41
+1-  1
+-1  1
+# instance g_g72
+.names n_n36  ni408
+0  1
+# instance g_g61
+.names ni1188_1 ni1188_2  n_n30
+1-  1
+-1  1
+# instance g_g50
+.names n_n25  ni673
+0  1
+# instance g_g95
+.names ni336 ni367  n_n47
+1-  1
+-1  1
+# instance g_g82
+.names n_n41  ni713
+0  1
+# instance g_g73
+.names ni435 ni341 ni523  n_n36
+1--  1
+-1-  1
+--1  1
+# instance g_g60
+.names n_n30  ni729
+0  1
+# instance g_g51
+.names ni410 ni1107_1  n_n25
+1-  1
+-1  1
+# instance g_g96
+.names n_n48  ni354
+0  1
+# instance g_g81
+.names ni376 ni1136_1  n_n40
+1-  1
+-1  1
+# instance g_g70
+.names n_n35  ni328
+0  1
+# instance g_g63
+.names ni1184_1 ni1184_2  n_n31
+1-  1
+-1  1
+# instance g_g52
+.names n_n26  ni657
+0  1
+# instance g_g97
+.names ni367 ni543  n_n48
+1-  1
+-1  1
+# instance g_g80
+.names n_n40  ni693
+0  1
+# instance g_g71
+.names ni511 ni609 ni539  n_n35
+1--  1
+-1-  1
+--1  1
+# instance g_g62
+.names n_n31  ni725
+0  1
+# instance g_g53
+.names ni410 ni1080_1  n_n26
+1-  1
+-1  1
+# instance g_g0
+.names n_n0  ni303
+0  1
+# instance g_g98
+.names n_n49  ni671
+0  1
+# instance g_g43
+.names ni342 ni1100_1  n_n21
+1-  1
+-1  1
+# instance g_g32
+.names n_n16  ni579
+0  1
+# instance g_g21
+.names ni325 ni477  n_n10
+1-  1
+-1  1
+# instance g_g10
+.names n_n5  ni311
+0  1
+# instance g_g99
+.names ni1103_1 ni1103_2  n_n49
+1-  1
+-1  1
+# instance g_g42
+.names n_n21  ni669
+0  1
+# instance g_g33
+.names ni446 ni1056_1  n_n16
+1-  1
+-1  1
+# instance g_g20
+.names n_n10  ni350
+0  1
+# instance g_g11
+.names ni746 ni742 ni744  n_n5
+1--  1
+-1-  1
+--1  1
+# instance g_g41
+.names ni379 ni274 ni525  n_n20
+1--  1
+-1-  1
+--1  1
+# instance g_g30
+.names n_n15  ni297
+0  1
+# instance g_g23
+.names ni1176_1 ni1176_2  n_n11
+1-  1
+-1  1
+# instance g_g12
+.names n_n6  ni665
+0  1
+# instance g_g40
+.names n_n20  ni364
+0  1
+# instance g_g31
+.names ni686 ni376 ni684  n_n15
+1--  1
+-1-  1
+--1  1
+# instance g_g22
+.names n_n11  ni721
+0  1
+# instance g_g13
+.names ni540 ni1094_1  n_n6
+1-  1
+-1  1
+# instance g_g69
+.names ni500 ni1173_1  n_n34
+1-  1
+-1  1
+# instance g_g58
+.names n_n29  ni295
+0  1
+# instance g_g47
+.names ni331 ni447  n_n23
+1-  1
+-1  1
+# instance g_g36
+.names n_n18  ni404
+0  1
+# instance g_g25
+.names ni1180_1 ni1180_2  n_n12
+1-  1
+-1  1
+# instance g_g14
+.names n_n7  ni697
+0  1
+# instance g_g68
+.names n_n34  ni719
+0  1
+# instance g_g59
+.names ni682 ni376 ni680  n_n29
+1--  1
+-1-  1
+--1  1
+# instance g_g46
+.names n_n23  ni600
+0  1
+# instance g_g37
+.names ni284 ni421  n_n18
+1-  1
+-1  1
+# instance g_g24
+.names n_n12  ni723
+0  1
+# instance g_g15
+.names ni384 ni1140_1  n_n7
+1-  1
+-1  1
+# instance g_g89
+.names ni407 ni315 ni493  n_n44
+1--  1
+-1-  1
+--1  1
+# instance g_g78
+.names n_n39  ni378
+0  1
+# instance g_g45
+.names ni519 ni545  n_n22
+1-  1
+-1  1
+# instance g_g34
+.names n_n17  ni582
+0  1
+# instance g_g27
+.names ni328 ni1097_1  n_n13
+1-  1
+-1  1
+# instance g_g16
+.names n_n8  ni699
+0  1
+# instance g_g88
+.names n_n44  ni384
+0  1
+# instance g_g79
+.names nfullihs1 ni431  n_n39
+1-  1
+-1  1
+# instance g_g44
+.names n_n22  ni476
+0  1
+# instance g_g35
+.names ni331 ni517  n_n17
+1-  1
+-1  1
+# instance g_g26
+.names n_n13  ni667
+0  1
+# instance g_g17
+.names ni1143_1 ni1143_2  n_n8
+1-  1
+-1  1
+# instance g_g90
+.names n_n45  ni362
+0  1
+# instance g_g87
+.names ni388 ni1160_1  n_n43
+1-  1
+-1  1
+# instance g_g76
+.names n_n38  ni422
+0  1
+# instance g_g65
+.names ni370 ni416  n_n32
+1-  1
+-1  1
+# instance g_g54
+.names n_n27  ni695
+0  1
+# instance g_g29
+.names ni678 ni408 ni676  n_n14
+1--  1
+-1-  1
+--1  1
+# instance g_g18
+.names n_n9  ni737
+0  1
+# instance g_g91
+.names nstate_0 ni407  n_n45
+1-  1
+-1  1
+# instance g_g86
+.names n_n43  ni711
+0  1
+# instance g_g77
+.names ni431 ni525  n_n38
+1-  1
+-1  1
+# instance g_g64
+.names n_n32  ni526
+0  1
+# instance g_g55
+.names ni408 ni328  n_n27
+1-  1
+-1  1
+# instance g_g28
+.names n_n14  ni294
+0  1
+# instance g_g19
+.names ni1199_1 ni1199_2  n_n9
+1-  1
+-1  1
+# instance g_g92
+.names n_n46  ni559
+0  1
+# instance g_g85
+.names ni432 ni1034_1  n_n42
+1-  1
+-1  1
+# instance g_g74
+.names n_n37  ni715
+0  1
+# instance g_g67
+.names ni470 ni1110_1  n_n33
+1-  1
+-1  1
+# instance g_g56
+.names n_n28  ni735
+0  1
+# instance g_g49
+.names ni315 ni363  n_n24
+1-  1
+-1  1
+# instance g_g38
+.names n_n19  ni689
+0  1
+# instance g_g93
+.names ni412 ni1031_1  n_n46
+1-  1
+-1  1
+# instance g_g84
+.names n_n42  ni561
+0  1
+# instance g_g75
+.names ni1166_1 ni1166_2  n_n37
+1-  1
+-1  1
+# instance g_g66
+.names n_n33  ni675
+0  1
+# instance g_g57
+.names ni552 ni1196_1  n_n28
+1-  1
+-1  1
+# instance g_g48
+.names n_n24  ni348
+0  1
+# instance g_g39
+.names ni440 ni1128_1  n_n19
+1-  1
+-1  1
+.end

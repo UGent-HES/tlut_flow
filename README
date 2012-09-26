@@ -1,0 +1,10 @@
+dependencies:
+aiger
+URL: http://fmv.jku.at/aiger/
+
+abc (tested with version 91222p)
+URL: http://www.eecs.berkeley.edu/~alanmi/abc/
+
+Python (tested with version 2.7)
+
+Quartus II (tested with version 7.2)

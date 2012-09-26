@@ -1,0 +1,249 @@
+#
+# Written by e2fmt Tue Mar 31 16:21:29 1998
+############################################
+.model top
+.inputs pv27_3 pv7_2 pv7_1 pv10_0 pv11_0 pv14_0 pv22_5 pv27_0 pv7_7 pv15_0\
+ pv22_4 pv12_0 pv29_0 pv13_0 pv7_4 pv18_0 pv7_3 pv8_0 pv7_6 pv9_0 pv16_0\
+ pv22_3 pv7_5 pv17_0 pv22_2
+.outputs pv27_4 pv32_0 pv33_0 pv34_0 pv35_0 pv36_0 pv37_0 pv38_0 pv27_2\
+ pv27_1 pv28_0 pv30_0 pv31_0
+# connect ports to nets with different names
+.names nv27_4 pv27_4
+1  1
+.names pv27_3 nv27_3
+1  1
+.names nv32_0 pv32_0
+1  1
+.names nv33_0 pv33_0
+1  1
+.names pv7_2 nv7_2
+1  1
+.names nv34_0 pv34_0
+1  1
+.names pv7_1 nv7_1
+1  1
+.names nv35_0 pv35_0
+1  1
+.names pv10_0 nv10_0
+1  1
+.names nv36_0 pv36_0
+1  1
+.names pv11_0 nv11_0
+1  1
+.names nv37_0 pv37_0
+1  1
+.names nv38_0 pv38_0
+1  1
+.names pv14_0 nv14_0
+1  1
+.names pv22_5 nv22_5
+1  1
+.names pv27_0 nv27_0
+1  1
+.names pv7_7 nv7_7
+1  1
+.names pv15_0 nv15_0
+1  1
+.names pv22_4 nv22_4
+1  1
+.names pv12_0 nv12_0
+1  1
+.names nv27_2 pv27_2
+1  1
+.names pv29_0 nv29_0
+1  1
+.names pv13_0 nv13_0
+1  1
+.names nv27_1 pv27_1
+1  1
+.names nv28_0 pv28_0
+1  1
+.names pv7_4 nv7_4
+1  1
+.names pv18_0 nv18_0
+1  1
+.names pv7_3 nv7_3
+1  1
+.names pv8_0 nv8_0
+1  1
+.names pv7_6 nv7_6
+1  1
+.names pv9_0 nv9_0
+1  1
+.names pv16_0 nv16_0
+1  1
+.names pv22_3 nv22_3
+1  1
+.names nv30_0 pv30_0
+1  1
+.names pv7_5 nv7_5
+1  1
+.names pv17_0 nv17_0
+1  1
+.names pv22_2 nv22_2
+1  1
+.names nv31_0 pv31_0
+1  1
+# instance g_g9
+.names nv9_0  nv57
+0  1
+# instance g_g5
+.names nv7_6  nv48
+0  1
+# instance g_g6
+.names nv7_7  nv50
+0  1
+# instance g_g7
+.names nv27_0  nv52
+0  1
+# instance g_g8
+.names nv8_0  nv55
+0  1
+# instance g_g1
+.names nv7_2  nv40
+0  1
+# instance g_g2
+.names nv7_3  nv42
+0  1
+# instance g_g3
+.names nv7_4  nv44
+0  1
+# instance g_g4
+.names nv7_5  nv46
+0  1
+# instance g_g50
+.names nv56 nv57  nv58
+11  1
+# instance g_g51
+.names nv29_0 nv51 nv55  nv56
+111  1
+# instance g_g52
+.names nv29_0 nv52  nv53
+11  1
+# instance g_g53
+.names nv39 nv40 nv46 nv42 nv50 nv44 nv48  nv51
+1111111  1
+# instance g_g0
+.names nv7_1  nv39
+0  1
+# instance g_g43
+.names n_n7 n_n8  n_n17
+11  1
+# instance g_g32
+.names nv15_0  n_n14
+0  1
+# instance g_g21
+.names n_n17  nv28_0
+0  1
+# instance g_g10
+.names nv51  nv62
+0  1
+# instance g_g42
+.names nv18_0 nv22_5  nv30_0
+11  1
+# instance g_g33
+.names n_n11 n_n13 n_n12 n_n14  n_n15
+1111  1
+# instance g_g20
+.names nv27_3  n_n6
+0  1
+# instance g_g11
+.names n_n20  nv27_1
+0  1
+# instance g_g41
+.names nv11_0 nv66  nv67
+11  1
+# instance g_g30
+.names nv12_0  n_n12
+0  1
+# instance g_g23
+.names nv56  n_n8
+0  1
+# instance g_g12
+.names nv58  n_n0
+0  1
+# instance g_g40
+.names nv11_0 nv22_5  nv32_0
+11  1
+# instance g_g31
+.names nv13_0  n_n13
+0  1
+# instance g_g22
+.names nv10_0  n_n7
+0  1
+# instance g_g13
+.names nv53  n_n1
+0  1
+# instance g_g47
+.names nv8_0 nv51 nv29_0 nv57  nv64
+1111  1
+# instance g_g36
+.names nv17_0 nv22_4 nv66  nv36_0
+111  1
+# instance g_g25
+.names n_n16  nv31_0
+0  1
+# instance g_g14
+.names nv60  n_n2
+0  1
+# instance g_g46
+.names n_n1 n_n0 n_n2  n_n20
+111  1
+# instance g_g37
+.names nv14_0 nv22_4 nv66  nv35_0
+111  1
+# instance g_g24
+.names nv22_5  nv66
+0  1
+# instance g_g15
+.names n_n19  nv27_2
+0  1
+# instance g_g45
+.names n_n3 n_n4  n_n19
+11  1
+# instance g_g34
+.names n_n9 n_n10  n_n16
+11  1
+# instance g_g27
+.names nv32_0  n_n10
+0  1
+# instance g_g16
+.names nv63  n_n3
+0  1
+# instance g_g44
+.names n_n5 n_n6  n_n18
+11  1
+# instance g_g35
+.names nv16_0 nv66  nv37_0
+11  1
+# instance g_g26
+.names nv67  n_n9
+0  1
+# instance g_g17
+.names nv64  n_n4
+0  1
+# instance g_g29
+.names nv14_0  n_n11
+0  1
+# instance g_g18
+.names n_n18  nv27_4
+0  1
+# instance g_g28
+.names n_n15  nv38_0
+0  1
+# instance g_g19
+.names nv22_2  n_n5
+0  1
+# instance g_g49
+.names nv8_0 nv51 nv29_0 nv9_0  nv60
+1111  1
+# instance g_g38
+.names nv17_0 nv22_3 nv66  nv34_0
+111  1
+# instance g_g48
+.names nv29_0 nv27_0 nv62  nv63
+111  1
+# instance g_g39
+.names nv14_0 nv22_3 nv66  nv33_0
+111  1
+.end

@@ -1,0 +1,101 @@
+#
+# Written by e2fmt Tue Mar 31 16:24:48 1998
+############################################
+.model top
+.inputs pa pb pc pd pe pf
+.outputs pg ph pi pj pk pl pm pn
+# connect ports to nets with different names
+.names pa na
+1  1
+.names pb nb
+1  1
+.names pc nc
+1  1
+.names pd nd
+1  1
+.names pe ne
+1  1
+.names pf nf
+1  1
+.names ng pg
+1  1
+.names nh ph
+1  1
+.names ni pi
+1  1
+.names nj pj
+1  1
+.names nk pk
+1  1
+.names nl pl
+1  1
+.names nm pm
+1  1
+.names nn pn
+1  1
+# instance g_g9
+.names nj0 n_n1 nc n_n0  nj
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g5
+.names nj0 n_n1 n_n2 n_n0  nn
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g6
+.names nj0 n_n1 n_n2 na  nm
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g7
+.names nj0 nb n_n2 n_n0  nl
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g8
+.names nj0 nb n_n2 na  nk
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g1
+.names nb  n_n1
+0  1
+# instance g_g2
+.names nc  n_n2
+0  1
+# instance g_g3
+.names nd  n_n3
+0  1
+# instance g_g4
+.names ne n_n3 nf  nj0
+1--  1
+-1-  1
+--1  1
+# instance g_g0
+.names na  n_n0
+0  1
+# instance g_g10
+.names nj0 n_n1 nc na  ni
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g11
+.names nj0 nb nc n_n0  nh
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g12
+.names nj0 nb nc na  ng
+1---  1
+-1--  1
+--1-  1
+---1  1
+.end
