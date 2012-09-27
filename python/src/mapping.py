@@ -3,20 +3,16 @@ import sys
 import commands
 import subprocess
 
-def check_setup(path):
-    if not os.path.exists('abc.rc'):
-        print 'Error: No abc.rc file found at path: '+path
-        exit(3)
 
-def simpleMapper(fname, K, checkFunctionality,verboseFlag=False):
+def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
     ext = fname.split('.')[-1]
-    basename = '.'.join(fname.split('.')[:-1])
+    basefname = fname[:-len(ext)-1]
     assert ext
     assert basename
     
-    blifFile = basename + ".blif"
-    aigFile  = basename + ".aig"
-    aagFile  = basename + ".aag"
+    blifFile = basefname + ".blif"
+    aigFile  = basefname + ".aig"
+    aagFile  = basefname + ".aag"
     outFile =  basename + "-simple.blif"
     
     if ext == 'blif':
@@ -27,7 +23,9 @@ def simpleMapper(fname, K, checkFunctionality,verboseFlag=False):
     elif ext == 'aag':
         subprocess.check_call(['aigtoaig', aagFile, aigFile])
     
+    # Actual mapping using Java tool
     cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.simple.SimpleMapper']
+    # args: input aag file, inputs per LUT, output blif file
     args = [aagFile, str(K), outFile]
     if verboseFlag:
         print ' '.join(cmd + args)
@@ -35,26 +33,28 @@ def simpleMapper(fname, K, checkFunctionality,verboseFlag=False):
     if verboseFlag:
         print output
     
+    # Extracting results
     data = output.splitlines()[-1].split()
     numLuts = float(data[0])
     depth   = float(data[1])
     
+    # Verification of resulting mapping using satsolver
     if checkFunctionality:
         check = miter(aigFile, outFile, verboseFlag)
     else:
         check = "SKIPPED"
     return (numLuts, depth, check)
 
-def simpleTMapper(fname, paramFileName, K, checkFunctionality, verboseFlag=False):
+def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verboseFlag=False):
     try:
         ext = fname.split('.')[-1]
-        basename = '.'.join(fname.split('.')[:-1])
+        basefname = fname[:-len(ext)-1]
         assert basename
         assert ext
         
-        blifFile = basename + ".blif"
-        aigFile  = basename + ".aig"
-        aagFile  = basename + ".aag"
+        blifFile = basefname + ".blif"
+        aigFile  = basefname + ".aig"
+        aagFile  = basefname + ".aag"
         
         if ext == 'blif':
             subprocess.check_call(['abc', '-c', 'strash; write '+aigFile, blifFile])
@@ -63,38 +63,46 @@ def simpleTMapper(fname, paramFileName, K, checkFunctionality, verboseFlag=False
             subprocess.check_call(['aigtoaig', aigFile, aagFile])
         elif ext == 'aag':
             subprocess.check_call(['aigtoaig', aagFile, aigFile])
+        else:
+            assert ext in ('blif','aig','aag')
             
-        outFile =  basename + "-simpletmap.blif"
+        outFile =  'dummy' #basename + "-simpletmap.blif"
         parconfFile = basename + "-parconfig.aag"
         lutstructFile = basename + "-lutstruct.blif"
-        vhdFile = basename[:-len('-sweep-ordered')] + ".vhd"
-        outVhdFile = basename[:-len('-sweep-ordered')] + "-simpletmap.vhd"
-        assert basename.endswith('-sweep-ordered')
+        vhdFile = basename + ".vhd"
+        outVhdFile = basename + "-simpletmap.vhd"
         
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
-        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile, vhdFile, outVhdFile]
+        # args: input aag of design, input file with parameters, number of inputs per LUT, unused, output parameterised configuration bits as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
+        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile] #, vhdFile, outVhdFile]
         if verboseFlag:
             print ' '.join(cmd + args)
         output = subprocess.check_output(cmd + args)
         if verboseFlag:
             print output
         
+        # Extracting results
         data = output.splitlines()[-1].split()
-        numLuts = float(data[0])
-        depth   = float(data[1])
-        numTLuts =  float(data[2])
-        avDup = float(data[3])
+        try:
+            numLuts = float(data[0])
+            depth   = float(data[1])
+            numTLuts =  float(data[2])
+            avDup = float(data[3])
+        except ValueError:
+            if not verboseFlag:
+                print ' '.join(cmd + args)
+                print output,
+            print "Error: unexpected output from java TMapSimple."
+            exit(2)
         
-        # Parameterizable Configuration
+        # Extracting results
         cmd = ['abc','-c','resyn3; print_stats',aagtoaig(aagFile)]
-        # print cmd
         output = subprocess.check_output(cmd)
         if verboseFlag:
             print ' '.join(cmd)
             print output,
         data = output.splitlines()[-1].split()
-        # print data
         try:
             origAnds = float(data[data.index('and')+2])
         except ValueError:
@@ -104,14 +112,14 @@ def simpleTMapper(fname, paramFileName, K, checkFunctionality, verboseFlag=False
             print "Error: unexpected output from abc print_stats."
             exit(2)
     
+    
+        # Extracting results: Parameterizable Configuration
         cmd = ['abc','-c','resyn3; print_stats',aagtoaig(parconfFile)]
-        # print cmd
         output = subprocess.check_output(cmd)
         if verboseFlag:
             print ' '.join(cmd)
             print output,
         data = output.splitlines()[-1].split()
-        # print data
         try:
             paramAnds = float(data[data.index('and')+2])
         except ValueError:
@@ -121,15 +129,16 @@ def simpleTMapper(fname, paramFileName, K, checkFunctionality, verboseFlag=False
             print "Error: unexpected output from abc print_stats."
             exit(2)
         
+        # Verification of resulting mapping using satsolver
         if checkFunctionality:
             # Merging the LUT-structure and the parameterizable configuration.
             mergedFile =  basename + "-merge.aag"
             cmd  = ['java','be.ugent.elis.recomp.aig.MergeAag']
+            # args: input parameterized configuration in aag, input lut structure, output aag
             args = [parconfFile, bliftoaag(lutstructFile), mergedFile]
             if verboseFlag:
                 print ' '.join(cmd + args)
             output = subprocess.check_output(cmd + args);
-            #print output
         
             # Check if the merge of the LUT-structure and the parameterizable 
             # configuration have the same functionality as the input circuit.    
@@ -139,28 +148,35 @@ def simpleTMapper(fname, paramFileName, K, checkFunctionality, verboseFlag=False
             check = "SKIPPED"
     except subprocess.CalledProcessError as e:
         print e
+        raise
         exit(2)
     
     return (numLuts, numTLuts, depth, avDup, origAnds, paramAnds, check)    
 
-def fpgaMapper(path, fname, verboseFlag=False):
+def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
     ext = '.blif'
-    basename = fname[:-len(ext)]
     assert fname.endswith(ext)
     assert basename
-    inFile = path + "/" + fname
+    inFile = fname
     outFile =  basename + "-fpga.blif"
     
-    cmd = ['abc', '-c', 'strash; fpga; print_stats; write '+outFile, inFile]
+    cmd = ['abc', '-c', 'strash; fpga -K '+str(K)+'; write '+outFile+'; print_stats', inFile]
     if verboseFlag:
         print cmd
     output = subprocess.check_output(cmd)
     if verboseFlag:
         print output
     
-    numLuts = float(output.split()[-10])
-    depth   = float(output.split()[-1])
-    check   = miter(inFile, outFile, verboseFlag)
+    try:
+        numLuts = float(output.split()[-10])
+        depth   = float(output.split()[-1])
+    except ValueError:
+        print "Error: unexpected output from abc print_stats."
+        exit(2)
+    if checkFunctionality:
+        check   = miter(inFile, outFile, verboseFlag)
+    else:
+        check = "SKIPPED"
     return (numLuts, depth, check)
     
 
@@ -248,7 +264,9 @@ def synthesize(top, submodules, verboseFlag=False):
         print cmd
     output = commands.getoutput(cmd);
     print output
-    assert output.index(' 0 errors')!=-1
+    if output.find(' 0 errors')==-1:
+        print 'Error: quartus_map unsuccesful'
+        exit(3)
     print 'Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.'
     
     blifFileName  = basename + ".blif"
