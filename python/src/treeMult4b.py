@@ -5,6 +5,7 @@ Created on Dec 15, 2009
 '''
 
 import os
+import shutil
 import sys
 import commands
 from mapping import *   
@@ -12,31 +13,38 @@ from mapping import *
 
 baseNameIn = "treeMult4b"
 
-os.system('mkdir -p work')
-assert not os.system('cp '+baseNameIn+'-preprocessor.vhd work/')
-assert not os.system('cp abc.rc work/')
+try:
+    os.system('mkdir -p work')
+    shutil.copy(baseNameIn+'-preprocessor.vhd', 'work')
+    shutil.copy('abc.rc','work')
+except IOError as e:
+    print e
+    exit(3)
 
 os.chdir('work')
 check_setup('.')
 
+# Generate parameter file from VHDL
 parameterFileName = baseNameIn+'.par'
-assert not os.system('genParameters.py '+baseNameIn+'-preprocessor.vhd > '+baseNameIn+'.par')
+try:
+    assert not os.system('genParameters.py '+baseNameIn+'-preprocessor.vhd > '+baseNameIn+'.par')
+except AssertionError:
+    exit(3)
 
 # Synthesis
 blifFileName = synthesize(baseNameIn+'-preprocessor.vhd', [])
 
-treeMultBlif = blifFileName 
-
-
-#Convert BLIF to aig
+# Convert BLIF to aig
 aagFileName = bliftoaag(blifFileName)
 
-numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper('.', aagFileName, parameterFileName, 4, True)
+# Unleash TMAP
+numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(aagFileName, parameterFileName, 4, True)
 output = str(numLuts) + '\t' + str(numTLUTs) + '\t' + str(depth) + '\t' + check
 print 'Luts\tTLUTs\tdepth\tcheck'
 print output
 
-numLuts, depth, check = simpleMapper('.', aagFileName, 4, True)
+# Run regular MAP
+numLuts, depth, check = simpleMapper(aagFileName, 4, True)
 output = str(numLuts) + '\t' + str(depth) + '\t' + check 
 print 'Luts\tdepth\tcheck'
 print output

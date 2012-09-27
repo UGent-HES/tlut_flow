@@ -8,13 +8,13 @@ def check_setup(path):
         print 'Error: No abc.rc file found at path: '+path
         exit(3)
 
-def simpleMapper(path, fname,K, checkFunctionality,verboseFlag=False):
+def simpleMapper(fname, K, checkFunctionality,verboseFlag=False):
     ext = fname.split('.')[-1]
     basename = '.'.join(fname.split('.')[:-1])
     assert ext
     assert basename
     
-    blifFile = path + "/" + basename + ".blif"
+    blifFile = basename + ".blif"
     aigFile  = basename + ".aig"
     aagFile  = basename + ".aag"
     outFile =  basename + "-simple.blif"
@@ -45,7 +45,7 @@ def simpleMapper(path, fname,K, checkFunctionality,verboseFlag=False):
         check = "SKIPPED"
     return (numLuts, depth, check)
 
-def simpleTMapper(path, fname, paramFileName, K, checkFunctionality, verboseFlag=False):
+def simpleTMapper(fname, paramFileName, K, checkFunctionality, verboseFlag=False):
     ext = fname.split('.')[-1]
     basename = '.'.join(fname.split('.')[:-1])
     assert basename
@@ -137,6 +137,26 @@ def simpleTMapper(path, fname, paramFileName, K, checkFunctionality, verboseFlag
         check = "SKIPPED"
     return (numLuts, numTLuts, depth, avDup, origAnds, paramAnds, check)    
 
+def fpgaMapper(path, fname, verboseFlag=False):
+    ext = '.blif'
+    basename = fname[:-len(ext)]
+    assert fname.endswith(ext)
+    assert basename
+    inFile = path + "/" + fname
+    outFile =  basename + "-fpga.blif"
+    
+    cmd = ['abc', '-c', 'strash; fpga; print_stats; write '+outFile, inFile]
+    if verboseFlag:
+        print cmd
+    output = subprocess.check_output(cmd)
+    if verboseFlag:
+        print output
+    
+    numLuts = float(output.split()[-10])
+    depth   = float(output.split()[-1])
+    check   = miter(inFile, outFile, verboseFlag)
+    return (numLuts, depth, check)
+    
 
 def aagtoaig(aagFileName):
     ext = '.aag'
@@ -174,26 +194,6 @@ def bliftoaag(blifFileName):
     return aagFileName
 
 
-def fpgaMapper(path, fname, verboseFlag=False):
-    ext = '.blif'
-    basename = fname[:-len(ext)]
-    assert fname.endswith(ext)
-    assert basename
-    inFile = path + "/" + fname
-    outFile =  basename + "-fpga.blif"
-    
-    cmd = ['abc', '-c', 'strash; fpga; print_stats; write '+outFile, inFile]
-    if verboseFlag:
-        print cmd
-    output = subprocess.check_output(cmd)
-    if verboseFlag:
-        print output
-    
-    numLuts = float(output.split()[-10])
-    depth   = float(output.split()[-1])
-    check   = miter(inFile, outFile, verboseFlag)
-    return (numLuts, depth, check)
-    
 def miter(circuit0, circuit1, verboseFlag=False):
     cmd = ['abc', '-c', 'miter ' + circuit0 + ' ' + circuit1 + '; prove']
     if verboseFlag:
