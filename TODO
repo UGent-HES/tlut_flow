@@ -2,3 +2,4 @@ get it working
 remove -preprocessor.vhd from Java
 cleanup
 makefile
+make possible to map modules with submodules

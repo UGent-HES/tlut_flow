@@ -1,0 +1,92 @@
+Flow report for treeMult4b
+Thu Sep 27 14:15:44 2012
+Quartus II Version 7.2 Build 203 02/05/2008 Service Pack 2 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow Log
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2007 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++--------------------------------------------------------------------------+
+; Flow Summary                                                             ;
++--------------------------+-----------------------------------------------+
+; Flow Status              ; Flow Failed - Thu Sep 27 14:15:43 2012        ;
+; Quartus II Version       ; 7.2 Build 203 02/05/2008 SP 2 SJ Full Version ;
+; Revision Name            ; treeMult4b                                    ;
+; Top-level Entity Name    ; treeMult4b                                    ;
+; Family                   ; Stratix                                       ;
+; Met timing requirements  ; N/A                                           ;
+; Total logic elements     ; N/A until Partition Merge                     ;
+; Total pins               ; N/A until Partition Merge                     ;
+; Total virtual pins       ; N/A until Partition Merge                     ;
+; Total memory bits        ; N/A until Partition Merge                     ;
+; DSP block 9-bit elements ; N/A until Partition Merge                     ;
+; Total PLLs               ; N/A until Partition Merge                     ;
+; Total DLLs               ; N/A until Partition Merge                     ;
++--------------------------+-----------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 09/27/2012 14:15:40 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; treeMult4b          ;
++-------------------+---------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                      ;
++-----------------+------------------------------------------------------------------------------------------+---------------+-------------+------------+
+; Assignment Name ; Value                                                                                    ; Default Value ; Entity Name ; Section Id ;
++-----------------+------------------------------------------------------------------------------------------+---------------+-------------+------------+
+; INI_VARS        ; no_add_ops=on;opt_dont_use_mac=on;dump_blif_after_lut_map=on;abort_after_dumping_blif=on ; --            ; --          ; --         ;
++-----------------+------------------------------------------------------------------------------------------+---------------+-------------+------------+
+
+
++---------------------------------------------------------------+
+; Flow Elapsed Time                                             ;
++----------------------+--------------+-------------------------+
+; Module Name          ; Elapsed Time ; Average Processors Used ;
++----------------------+--------------+-------------------------+
+; Analysis & Synthesis ; 00:00:04     ; 1.0                     ;
+; Total                ; 00:00:04     ; --                      ;
++----------------------+--------------+-------------------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map treeMult4b.qsf
+
+
+
