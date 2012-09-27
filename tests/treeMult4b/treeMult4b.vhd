@@ -103,97 +103,97 @@ treeMult4b_LUT2_a40not: LUT2
 generic map (
 	INIT =>X"1")
 port map (O => a40not,
-	I0 => a(0),
-	I1 => a(1));
+	I0 => a(1),
+	I1 => a(0));
 
 treeMult4b_LUT3_a68not: LUT3
 generic map (
 	INIT =>X"1")
 port map (O => a68not,
-	I0 => a(0),
+	I0 => a(1),
 	I1 => a(2),
-	I2 => a(1));
+	I2 => a(0));
 
 treeMult4b_LUT4_a138not: LUT4
 generic map (
 	INIT =>X"1")
 port map (O => a138not,
-	I0 => a(0),
+	I0 => a(1),
 	I1 => a(2),
 	I2 => a(3),
-	I3 => a(1));
+	I3 => a(0));
 
 treeMult4b_LUT4_a214not: LUT4
 generic map (
 	INIT =>X"1")
 port map (O => a214not,
-	I0 => a(0),
+	I0 => a(1),
 	I1 => a(2),
 	I2 => a(3),
-	I3 => a(1));
+	I3 => a(0));
 
 treeMult4b_LUT4_a296not: LUT4
 generic map (
 	INIT =>X"1")
 port map (O => a296not,
-	I0 => a(0),
+	I0 => a(1),
 	I1 => a(2),
 	I2 => a(3),
-	I3 => a(1));
+	I3 => a(0));
 
 treeMult4b_LUT4_a382not: LUT4
 generic map (
 	INIT =>X"1")
 port map (O => a382not,
-	I0 => a(0),
-	I1 => a(2),
-	I2 => a(3),
-	I3 => a(1));
+	I0 => a(1),
+	I1 => a(3),
+	I2 => a(2),
+	I3 => a(0));
 
 treeMult4b_LUT4_a470not: LUT4
 generic map (
 	INIT =>X"1")
 port map (O => a470not,
-	I0 => a(0),
+	I0 => a(1),
 	I1 => a(2),
 	I2 => a(3),
-	I3 => a(1));
+	I3 => a(0));
 
 treeMult4b_LUT4_a546not: LUT4
 generic map (
 	INIT =>X"1")
 port map (O => a546not,
-	I0 => a(0),
-	I1 => a(2),
-	I2 => a(3),
-	I3 => a(1));
+	I0 => a(1),
+	I1 => a(3),
+	I2 => a(2),
+	I3 => a(0));
 
 treeMult4b_LUT4_a614not: LUT4
 generic map (
 	INIT =>X"1")
 port map (O => a614not,
-	I0 => a(0),
-	I1 => a(2),
-	I2 => a(3),
-	I3 => a(1));
+	I0 => a(1),
+	I1 => a(3),
+	I2 => a(2),
+	I3 => a(0));
 
 treeMult4b_LUT4_a652not: LUT4
 generic map (
 	INIT =>X"1")
 port map (O => a652not,
-	I0 => a(0),
+	I0 => a(1),
 	I1 => a(2),
 	I2 => a(3),
-	I3 => a(1));
+	I3 => a(0));
 
 treeMult4b_LUT4_a660not: LUT4
 generic map (
 	INIT =>X"1")
 port map (O => a660not,
-	I0 => a(0),
-	I1 => a(2),
-	I2 => a(3),
-	I3 => a(1));
+	I0 => a(1),
+	I1 => a(3),
+	I2 => a(2),
+	I3 => a(0));
 o(0) <= a26;
 o(1) <= a40not;
 o(2) <= a68not;

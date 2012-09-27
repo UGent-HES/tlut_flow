@@ -4,13 +4,11 @@ Created on Dec 15, 2009
 @author: kbruneel
 '''
 
-import os;
-import sys;
-import commands;
-from mapping import *;    
+import os
+import sys
+import commands
+from mapping import *   
 
-
-# widths = [2]
 
 resultFileName = 'result.csv'
 fres = open(resultFileName, "w")
@@ -40,7 +38,7 @@ treeMultBlif = blifFileName
 aagFileName = bliftoaag(blifFileName)
 print aagFileName
 
-numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper('.', aagFileName, parameterFileName, 4 , True)
+numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper('.', aagFileName, parameterFileName, 4, True)
 output = str(numLuts) + '\t' + str(numTLUTs) + '\t' + str(depth) + '\t' + check
 print 'Luts\tTLUTs\tdepth\tcheck'
 print output

@@ -84,7 +84,8 @@ def simpleTMapper(path, fname, paramFileName, K, checkFunctionality, verboseFlag
     # print cmd
     output = subprocess.check_output(cmd)
     if verboseFlag:
-        print output
+        print ' '.join(cmd)
+        print output,
     data = output.splitlines()[-1].split()
     # print data
     origAnds = float(data[data.index('and')+2])
@@ -93,7 +94,8 @@ def simpleTMapper(path, fname, paramFileName, K, checkFunctionality, verboseFlag
     # print cmd
     output = subprocess.check_output(cmd)
     if verboseFlag:
-        print output
+        print ' '.join(cmd)
+        print output,
     data = output.splitlines()[-1].split()
     # print data
     paramAnds = float(data[data.index('and')+2])
@@ -143,10 +145,11 @@ def bliftoaag(blifFileName):
     assert basename
 
     # There seems to be a bug in bliftoaig when input file is large.
-#    commands.getoutput('bliftoaig '+ blifFileName +' '+ aagFileName)
+#    subprocess.check_call('bliftoaig',blifFileName,aagFileName])
 
     cmd = ['abc', '-c', 'strash; zero; write '+aigFileName, blifFileName]
     subprocess.check_call(cmd)
+    print 'Please ignore the error message "Error: The current network is combinational".'
     
     aagFileName = aigtoaag(aigFileName)
     return aagFileName
@@ -182,7 +185,7 @@ def miter(circuit0, circuit1, verboseFlag=False):
         print ex.output
         exit(2)
     if verboseFlag:
-        print output
+        print output,
     if "UNSATISFIABLE" in output:
         return "PASSED"
     elif " SATISFIABLE" in output:
@@ -218,9 +221,12 @@ def synthesize(top, submodules, verboseFlag=False):
     fout.close()
 
     cmd = 'quartus_map ' + qsfFileName
+    if verboseFlag:
+        print cmd
     output = commands.getoutput(cmd);
     print output
     assert output.index(' 0 errors')!=-1
+    print 'Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.'
     
     blifFileName  = basename + ".blif"
     sweepFileName = basename + "-sweep.blif"

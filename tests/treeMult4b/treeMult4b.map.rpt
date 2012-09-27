@@ -1,5 +1,5 @@
 Analysis & Synthesis report for treeMult4b
-Thu Sep 27 14:15:44 2012
+Thu Sep 27 14:31:16 2012
 Quartus II Version 7.2 Build 203 02/05/2008 Service Pack 2 SJ Full Version
 
 
@@ -36,7 +36,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                ;
 +-----------------------------+-----------------------------------------------+
-; Analysis & Synthesis Status ; Failed - Thu Sep 27 14:15:43 2012             ;
+; Analysis & Synthesis Status ; Failed - Thu Sep 27 14:31:16 2012             ;
 ; Quartus II Version          ; 7.2 Build 203 02/05/2008 SP 2 SJ Full Version ;
 ; Revision Name               ; treeMult4b                                    ;
 ; Top-level Entity Name       ; treeMult4b                                    ;
@@ -147,7 +147,7 @@ Info: Running Quartus II Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Thu Sep 27 14:15:39 2012
+    Info: Processing started: Thu Sep 27 14:31:13 2012
 Info: Command: quartus_map treeMult4b.qsf
 Info: Found 2 design units, including 1 entities, in source file treeMult4b-preprocessor.vhd
     Info: Found design unit 1: treeMult4b-behavior
@@ -155,7 +155,7 @@ Info: Found 2 design units, including 1 entities, in source file treeMult4b-prep
 Info: Elaborating entity "treeMult4b" for the top level hierarchy
 Info (10008): Verilog HDL or VHDL information: EDA Netlist Writer cannot regroup multidimensional array "intermediate" into its bus
 Error: Quartus II Analysis & Synthesis was unsuccessful. 0 errors, 0 warnings
-    Error: Processing ended: Thu Sep 27 14:15:44 2012
-    Error: Elapsed time: 00:00:05
+    Error: Processing ended: Thu Sep 27 14:31:16 2012
+    Error: Elapsed time: 00:00:03
 
 

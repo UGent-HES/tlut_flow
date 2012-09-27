@@ -1,5 +1,5 @@
 Flow report for treeMult4b
-Thu Sep 27 14:15:44 2012
+Thu Sep 27 14:31:16 2012
 Quartus II Version 7.2 Build 203 02/05/2008 Service Pack 2 SJ Full Version
 
 
@@ -37,7 +37,7 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------+
 ; Flow Summary                                                             ;
 +--------------------------+-----------------------------------------------+
-; Flow Status              ; Flow Failed - Thu Sep 27 14:15:43 2012        ;
+; Flow Status              ; Flow Failed - Thu Sep 27 14:31:16 2012        ;
 ; Quartus II Version       ; 7.2 Build 203 02/05/2008 SP 2 SJ Full Version ;
 ; Revision Name            ; treeMult4b                                    ;
 ; Top-level Entity Name    ; treeMult4b                                    ;
@@ -58,7 +58,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 09/27/2012 14:15:40 ;
+; Start date & time ; 09/27/2012 14:31:13 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; treeMult4b          ;
 +-------------------+---------------------+
@@ -78,8 +78,8 @@ applicable agreement for further details.
 +----------------------+--------------+-------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ;
 +----------------------+--------------+-------------------------+
-; Analysis & Synthesis ; 00:00:04     ; 1.0                     ;
-; Total                ; 00:00:04     ; --                      ;
+; Analysis & Synthesis ; 00:00:03     ; 1.0                     ;
+; Total                ; 00:00:03     ; --                      ;
 +----------------------+--------------+-------------------------+
 
 
