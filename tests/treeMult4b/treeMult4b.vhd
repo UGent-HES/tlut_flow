@@ -146,8 +146,8 @@ generic map (
 	INIT =>X"1")
 port map (O => a382not,
 	I0 => a(1),
-	I1 => a(3),
-	I2 => a(2),
+	I1 => a(2),
+	I2 => a(3),
 	I3 => a(0));
 
 treeMult4b_LUT4_a470not: LUT4
@@ -164,8 +164,8 @@ generic map (
 	INIT =>X"1")
 port map (O => a546not,
 	I0 => a(1),
-	I1 => a(3),
-	I2 => a(2),
+	I1 => a(2),
+	I2 => a(3),
 	I3 => a(0));
 
 treeMult4b_LUT4_a614not: LUT4
@@ -173,8 +173,8 @@ generic map (
 	INIT =>X"1")
 port map (O => a614not,
 	I0 => a(1),
-	I1 => a(3),
-	I2 => a(2),
+	I1 => a(2),
+	I2 => a(3),
 	I3 => a(0));
 
 treeMult4b_LUT4_a652not: LUT4
@@ -191,8 +191,8 @@ generic map (
 	INIT =>X"1")
 port map (O => a660not,
 	I0 => a(1),
-	I1 => a(3),
-	I2 => a(2),
+	I1 => a(2),
+	I2 => a(3),
 	I3 => a(0));
 o(0) <= a26;
 o(1) <= a40not;

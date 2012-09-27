@@ -1,7 +1,0 @@
-set_global_assignment -name VHDL_FILE treeMult4b-preprocessor.vhd
-set_global_assignment -name FAMILY Stratix
-set_global_assignment -name TOP_LEVEL_ENTITY treeMult4b
-set_global_assignment -name DEVICE_FILTER_SPEED_GRADE FASTEST
-set_global_assignment -name INI_VARS "no_add_ops=on\;opt_dont_use_mac=on\;dump_blif_after_lut_map=on\;abort_after_dumping_blif=on"
-set_global_assignment -name DEVICE AUTO
-set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1

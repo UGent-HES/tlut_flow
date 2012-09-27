@@ -3,6 +3,11 @@ import sys
 import commands
 import subprocess
 
+def check_setup(path):
+    if not os.path.exists('abc.rc'):
+        print 'Error: No abc.rc file found at path: '+path
+        exit(3)
+
 def simpleMapper(path, fname,K, checkFunctionality,verboseFlag=False):
     ext = fname.split('.')[-1]
     basename = '.'.join(fname.split('.')[:-1])
@@ -88,7 +93,14 @@ def simpleTMapper(path, fname, paramFileName, K, checkFunctionality, verboseFlag
         print output,
     data = output.splitlines()[-1].split()
     # print data
-    origAnds = float(data[data.index('and')+2])
+    try:
+        origAnds = float(data[data.index('and')+2])
+    except ValueError:
+        if not verboseFlag:
+            print ' '.join(cmd)
+            print output,
+        print "Error: unexpected output from abc print_stats."
+        exit(2)
 
     cmd = ['abc','-c','resyn3; print_stats',aagtoaig(parconfFile)]
     # print cmd
@@ -98,7 +110,14 @@ def simpleTMapper(path, fname, paramFileName, K, checkFunctionality, verboseFlag
         print output,
     data = output.splitlines()[-1].split()
     # print data
-    paramAnds = float(data[data.index('and')+2])
+    try:
+        paramAnds = float(data[data.index('and')+2])
+    except ValueError:
+        if not verboseFlag:
+            print ' '.join(cmd)
+            print output,
+        print "Error: unexpected output from abc print_stats."
+        exit(2)
     
     if checkFunctionality:
         # Merging the LUT-structure and the parameterizable configuration.
