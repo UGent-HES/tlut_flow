@@ -792,9 +792,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 	} 
 	
 	
-	public void printLutStructureVhdl(String vhdFile, int K) throws IOException {
+	public void printLutStructureVhdl(String inVhdFile, String vhdFile, int K) throws IOException {
 		PrintStream stream = new PrintStream(new File(vhdFile));
-		writeHeader(stream, vhdFile, K);		
+		writeHeader(stream, inVhdFile, K);		
 		String baseName = vhdFile.substring(0,vhdFile.lastIndexOf('.')).substring(vhdFile.lastIndexOf('/')+1);
 	    stream.println("\nbegin");
 	    
@@ -891,7 +891,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	private void writeHeader(PrintStream stream, String inVhdFile, int K) throws IOException {
 		// Read header old vhdl file as a String
 		String baseName = inVhdFile.substring(0,inVhdFile.lastIndexOf('.')).substring(inVhdFile.lastIndexOf('/')+1);
-	    BufferedReader vhdlFileReader = new BufferedReader( new FileReader(new File(baseName+"-preprocessor.vhd")));
+	    BufferedReader vhdlFileReader = new BufferedReader( new FileReader(new File(inVhdFile)));
 	    String vhdlFileLine = vhdlFileReader.readLine();
 	    String header = "";
 	    while(vhdlFileLine.indexOf("architecture") == -1){

@@ -46,95 +46,101 @@ def simpleMapper(fname, K, checkFunctionality,verboseFlag=False):
     return (numLuts, depth, check)
 
 def simpleTMapper(fname, paramFileName, K, checkFunctionality, verboseFlag=False):
-    ext = fname.split('.')[-1]
-    basename = '.'.join(fname.split('.')[:-1])
-    assert basename
-    assert ext
-    
-    blifFile = basename + ".blif"
-    aigFile  = basename + ".aig"
-    aagFile  = basename + ".aag"
-    
-    if ext == 'blif':
-        subprocess.check_call(['abc', '-c', 'strash; write '+aigFile, blifFile])
-        subprocess.check_call(['aigtoaig', aigFile, aagFile])
-    elif ext == 'aig':
-        subprocess.check_call(['aigtoaig', aigFile, aagFile])
-    elif ext == 'aag':
-        subprocess.check_call(['aigtoaig', aagFile, aigFile])
+    try:
+        ext = fname.split('.')[-1]
+        basename = '.'.join(fname.split('.')[:-1])
+        assert basename
+        assert ext
         
-    outFile =  basename + "-simpletmap.blif"
-    parconfFile = basename + "-parconfig.aag"
-    lutstructFile = basename + "-lutstruct.blif"
-    vhdFile = basename[:-len('-sweep-ordered')] + ".vhd"
-    assert basename.endswith('-sweep-ordered')
-    
-    # Using TMAP to map the circuit
-    cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
-    args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile, vhdFile]
-    if verboseFlag:
-        print ' '.join(cmd + args)
-    output = subprocess.check_output(cmd + args)
-    if verboseFlag:
-        print output
-    
-    data = output.splitlines()[-1].split()
-    numLuts = float(data[0])
-    depth   = float(data[1])
-    numTLuts =  float(data[2])
-    avDup = float(data[3])
-    
-    # Parameterizable Configuration
-    cmd = ['abc','-c','resyn3; print_stats',aagtoaig(aagFile)]
-    # print cmd
-    output = subprocess.check_output(cmd)
-    if verboseFlag:
-        print ' '.join(cmd)
-        print output,
-    data = output.splitlines()[-1].split()
-    # print data
-    try:
-        origAnds = float(data[data.index('and')+2])
-    except ValueError:
-        if not verboseFlag:
-            print ' '.join(cmd)
-            print output,
-        print "Error: unexpected output from abc print_stats."
-        exit(2)
-
-    cmd = ['abc','-c','resyn3; print_stats',aagtoaig(parconfFile)]
-    # print cmd
-    output = subprocess.check_output(cmd)
-    if verboseFlag:
-        print ' '.join(cmd)
-        print output,
-    data = output.splitlines()[-1].split()
-    # print data
-    try:
-        paramAnds = float(data[data.index('and')+2])
-    except ValueError:
-        if not verboseFlag:
-            print ' '.join(cmd)
-            print output,
-        print "Error: unexpected output from abc print_stats."
-        exit(2)
-    
-    if checkFunctionality:
-        # Merging the LUT-structure and the parameterizable configuration.
-        mergedFile =  basename + "-merge.aag"
-        cmd  = ['java','be.ugent.elis.recomp.aig.MergeAag']
-        args = [parconfFile, bliftoaag(lutstructFile), mergedFile]
+        blifFile = basename + ".blif"
+        aigFile  = basename + ".aig"
+        aagFile  = basename + ".aag"
+        
+        if ext == 'blif':
+            subprocess.check_call(['abc', '-c', 'strash; write '+aigFile, blifFile])
+            subprocess.check_call(['aigtoaig', aigFile, aagFile])
+        elif ext == 'aig':
+            subprocess.check_call(['aigtoaig', aigFile, aagFile])
+        elif ext == 'aag':
+            subprocess.check_call(['aigtoaig', aagFile, aigFile])
+            
+        outFile =  basename + "-simpletmap.blif"
+        parconfFile = basename + "-parconfig.aag"
+        lutstructFile = basename + "-lutstruct.blif"
+        vhdFile = basename[:-len('-sweep-ordered')] + ".vhd"
+        outVhdFile = basename[:-len('-sweep-ordered')] + "-simpletmap.vhd"
+        assert basename.endswith('-sweep-ordered')
+        
+        # Using TMAP to map the circuit
+        cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
+        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile, vhdFile, outVhdFile]
         if verboseFlag:
             print ' '.join(cmd + args)
-        output = subprocess.check_output(cmd + args);
-        #print output
+        output = subprocess.check_output(cmd + args)
+        if verboseFlag:
+            print output
+        
+        data = output.splitlines()[-1].split()
+        numLuts = float(data[0])
+        depth   = float(data[1])
+        numTLuts =  float(data[2])
+        avDup = float(data[3])
+        
+        # Parameterizable Configuration
+        cmd = ['abc','-c','resyn3; print_stats',aagtoaig(aagFile)]
+        # print cmd
+        output = subprocess.check_output(cmd)
+        if verboseFlag:
+            print ' '.join(cmd)
+            print output,
+        data = output.splitlines()[-1].split()
+        # print data
+        try:
+            origAnds = float(data[data.index('and')+2])
+        except ValueError:
+            if not verboseFlag:
+                print ' '.join(cmd)
+                print output,
+            print "Error: unexpected output from abc print_stats."
+            exit(2)
     
-        # Check if the merge of the LUT-structure and the parameterizable 
-        # configuration have the same functionality as the input circuit.    
-        mergedAigFile = aagtoaig(mergedFile)
-        check = miter(aigFile, mergedAigFile, verboseFlag)
-    else:
-        check = "SKIPPED"
+        cmd = ['abc','-c','resyn3; print_stats',aagtoaig(parconfFile)]
+        # print cmd
+        output = subprocess.check_output(cmd)
+        if verboseFlag:
+            print ' '.join(cmd)
+            print output,
+        data = output.splitlines()[-1].split()
+        # print data
+        try:
+            paramAnds = float(data[data.index('and')+2])
+        except ValueError:
+            if not verboseFlag:
+                print ' '.join(cmd)
+                print output,
+            print "Error: unexpected output from abc print_stats."
+            exit(2)
+        
+        if checkFunctionality:
+            # Merging the LUT-structure and the parameterizable configuration.
+            mergedFile =  basename + "-merge.aag"
+            cmd  = ['java','be.ugent.elis.recomp.aig.MergeAag']
+            args = [parconfFile, bliftoaag(lutstructFile), mergedFile]
+            if verboseFlag:
+                print ' '.join(cmd + args)
+            output = subprocess.check_output(cmd + args);
+            #print output
+        
+            # Check if the merge of the LUT-structure and the parameterizable 
+            # configuration have the same functionality as the input circuit.    
+            mergedAigFile = aagtoaig(mergedFile)
+            check = miter(aigFile, mergedAigFile, verboseFlag)
+        else:
+            check = "SKIPPED"
+    except subprocess.CalledProcessError as e:
+        print e
+        exit(2)
+    
     return (numLuts, numTLuts, depth, avDup, origAnds, paramAnds, check)    
 
 def fpgaMapper(path, fname, verboseFlag=False):
@@ -213,12 +219,10 @@ def miter(circuit0, circuit1, verboseFlag=False):
         assert "SATISFIABLE" in output or "UNSATISFIABLE" in output
     
 def synthesize(top, submodules, verboseFlag=False):
-    ext = '-preprocessor.vhd'
+    ext = '.vhd'
     assert top.endswith(ext)
     basename = top[:-len(ext)]
     assert basename
-    currentFileName = basename+'.vhd'
-    assert not os.system('cp '+ top +' '+ currentFileName)
 
     
     qsfFileName = basename + ".qsf"

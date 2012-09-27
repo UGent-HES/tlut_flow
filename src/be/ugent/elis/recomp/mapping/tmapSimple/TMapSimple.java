@@ -68,8 +68,9 @@ public class TMapSimple {
         System.out.println("Writing the LUT structure:"); 
         if(args.length > 6){
         	a.printLutStructureBlif2(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
-        	String vhdFile = args[6];
-        	a.printLutStructureVhdl(vhdFile, K);
+        	String vhdFile = args[7];
+        	String inVhdFile = args[6];
+        	a.printLutStructureVhdl(inVhdFile, vhdFile, K);
         }else{
         	a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
         }
