@@ -20,7 +20,7 @@ public class TestDominanceConeEnumeration extends TestCase {
 		super.setUp();
 		
 		// Read AIG file
-		a = new MappingAIG("dominance.aag");
+		a = new MappingAIG("tests/dominance.aag");
 		a.visitAll(new ParameterMarker(new StringBufferInputStream("p0 p1 p2 p3")));
 
 		// Cone enumeration

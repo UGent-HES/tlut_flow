@@ -1,0 +1,26 @@
+aag 15 6 0 1 9
+2
+4
+6
+8
+10
+12
+31
+14 2 11
+16 4 10
+18 6 11
+20 8 10
+22 15 17
+24 19 21
+26 23 13
+28 25 12
+30 27 29
+i0 i0
+i1 i1
+i2 i2
+i3 i3
+i4 s0
+i5 s1
+o0 o0
+c
+4:1 multiplexer i0...i3 are data inputs s0...s1 are select inputs.

@@ -22,7 +22,7 @@ public class TestMux4ConeRankingWithParameters extends TestCase {
 		super.setUp();
 		
 		// Read AIG file
-		a = new MappingAIG("mux4.aag");
+		a = new MappingAIG("tests/mux4.aag");
 		a.visitAll(new ParameterMarker(new StringBufferInputStream("s0 s1")));
 
 		// Cone enumeration

@@ -19,7 +19,7 @@ public class TestMux4ConeRankingNoParameters extends TestCase {
 		super.setUp();
 		
 		// Read AIG file
-		a = new MappingAIG("mux4.aag");
+		a = new MappingAIG("tests/mux4.aag");
 
 		// Cone enumeration
 		ConeEnumeration enumerator = new ConeEnumeration(3); 
