@@ -88,7 +88,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
         # args: input aag of design, input file with parameters, number of inputs per LUT, unused, output parameterised configuration bits as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
-        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile] #, vhdFile, outVhdFile]
+        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile]#, vhdFile, outVhdFile]
         if verboseFlag:
             print ' '.join(cmd + args)
         output = subprocess.check_output(cmd + args)

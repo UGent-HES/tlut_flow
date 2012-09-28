@@ -59,7 +59,8 @@ public class TMapSimple {
         if(args.length > 6){
 			 b = a.constructParamConfig3(K);
 		}else{
-			 b = a.constructParamConfig2(K);
+			// b = a.constructParamConfig2(K);
+			 b = a.constructParamConfig3(K);
 		}
         
         System.out.println("Writing the parameterizable configuration:");
@@ -72,7 +73,7 @@ public class TMapSimple {
         	String inVhdFile = args[6];
         	a.printLutStructureVhdl(inVhdFile, vhdFile, K);
         }else{
-            //a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
+        	//a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
         	a.printLutStructureBlif2(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
         }
 
