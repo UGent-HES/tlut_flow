@@ -633,13 +633,14 @@ public class MappingAIG extends AIG<Node, Edge> {
 		for (AbstractNode<Node, Edge> out : getOutputs()) {
 			Edge e = out.getI0();
 			
-			stream.println(".names "+e.getTail().getName()+" "+out.getName());
-			if (e.isInverted()) {
-				stream.println("0 1");
-			} else {
-				stream.println("1 1");
+			if (!e.getTail().getName().equals(out.getName())){
+                stream.println(".names "+e.getTail().getName()+" "+out.getName());
+                if (e.isInverted()) {
+                    stream.println("0 1");
+                } else {
+                    stream.println("1 1");
+                }
 			}
-			
 		}
 		
 		stream.print(".end");	
@@ -735,8 +736,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 					} else {
 						stream.println("1 1");
 					}
-				}	
-				
+				}
 			}	
 		}
 		
@@ -862,7 +862,11 @@ public class MappingAIG extends AIG<Node, Edge> {
 		String lutInstance = "";
 		lutInstance = "\n"+baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
 		for (int i = 0; i < lutSize ; i++){
-			lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')');
+			//lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')');
+			if(checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.MixedOuts ))
+				lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')')+"not";
+			else
+			    lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')');
 		}
 		lutInstance = lutInstance + ");\n";
 		
