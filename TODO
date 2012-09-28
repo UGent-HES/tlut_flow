@@ -1,6 +1,9 @@
-make possible to map modules with submodules (done but not tested)
-test run script
-examples
-cleanup
-errors to stderr
+HIGH PRIORIY:
 check ! wat is het verschil tussen printLutStructureBlif en printLutStructureBlif2
+fix examples
+make possible to map modules with submodules (done but not tested)
+copy bugfix "nots" from fatma
+
+LOW PRIORITY:
+test run script
+errors to stderr

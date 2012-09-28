@@ -1,14 +1,26 @@
-dependencies:
-aiger
-URL: http://fmv.jku.at/aiger/
+To setup do:
+> make
+Builds aiger and abc, and Java tools
+Creates 'source' file which sets environment variables
 
-abc (tested with version 91222p)
-URL: http://www.eecs.berkeley.edu/~alanmi/abc/
+Set environment variables using:
+> . source
 
+Examples can be run using included python script.
+E.g.
+> cd examples/treeMult4b
+> ./treeMult4b.py
+
+
+dependencies to be forseen by user:
 Python (tested with version 2.7)
-
 Quartus II (tested with version 7.2)
 
+dependency automatically downloaded and installed:
+aiger (tested with version 1.9.4) URL: http://fmv.jku.at/aiger/
+
+dependency included:
+abc (tested with version 91222p) URL: http://www.eecs.berkeley.edu/~alanmi/abc/
 
 Assumes:
-.vhd file extension
+all VHDL design files use ".vhd" file extension
