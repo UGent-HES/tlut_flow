@@ -1,6 +1,6 @@
-makefile
-make possible to map modules with submodules
-errors to stderr
+make possible to map modules with submodules (done but not tested)
 test run script
-installatie script
+examples
 cleanup
+errors to stderr
+wat is het verschil tussen printLutStructureBlif en printLutStructureBlif2

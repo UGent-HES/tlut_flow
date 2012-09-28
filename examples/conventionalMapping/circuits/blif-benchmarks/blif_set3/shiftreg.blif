@@ -1,0 +1,51 @@
+#
+# Written by e2fmt Tue Mar 31 16:18:15 1998
+############################################
+.model top
+.inputs shiftreg_in clock
+.outputs shiftreg_out
+# connect ports to nets with different names
+.names shiftreg_in n_n13
+1  1
+.names n_n2 shiftreg_out
+1  1
+.names clock n__clk
+1  1
+# instance g_gd7
+.names  n_n6
+  0
+# instance g_gd6
+.names  n_n7
+  0
+# instance g_gd5
+.names  n_n8
+  0
+# instance g_gd4
+.names  n_n9
+  0
+# instance g_g1
+.names n_n10 n_n0 n_n8  n_n4
+1-0  1
+-11  1
+# instance g_g2
+.names n_n13 n_n0 n_n7  n_n3
+1-0  1
+-11  1
+# instance g_g3
+.names n_n12 n_n0 n_n6  n_n2
+1-0  1
+-11  1
+# instance g_g4
+.names  n_n0
+  -
+# instance g_la0
+.latch n_n3 n_n10 re n__clk 2
+# instance g_g0
+.names n_n11 n_n0 n_n9  n_n5
+1-0  1
+-11  1
+# instance g_la1
+.latch n_n4 n_n11 re n__clk 2
+# instance g_la2
+.latch n_n5 n_n12 re n__clk 2
+.end

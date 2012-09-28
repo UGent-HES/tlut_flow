@@ -1,24 +1,45 @@
-'''
-Created on Dec 15, 2009
+#!/usr/bin/env python
 
-@author: kbruneel
-'''
+import os
+import shutil
+from mapping import * 
 
-import os;
-import sys;
-import commands;
-from mapping import *;    
+colwidth=10
+def collumnize(items,width):
+    return ''.join([str(item).ljust(width) for item in items])
 
-classPath = '~/workspace/javaMapping/bin/'
-K = 4
+def main():
+    K = 4
+    performCheck = False
+    
+    baseName = "k_AES"
+    aagFileName = baseName+".aag"
+    parameterFileName = baseName+".par"
+    
+    print "Stage: Creating work directory and copying design"
+    try:
+        os.system('mkdir -p work')
+        shutil.copy(aagFileName, 'work')
+        shutil.copy(parameterFileName, 'work')
+        shutil.copy('abc.rc','work')
+    except IOError as e:
+        print e
+        exit(3)
+    
+    os.chdir('work')
+    
+    # Unleash TMAP
+    print "Stage: TMAP"
+    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck)
+    print collumnize(['Luts','TLUTs','depth','check'],colwidth)
+    print collumnize([numLuts,numTLUTs,depth,check],colwidth)
+    
+    # Run regular MAP
+    print "Stage: SimpleMAP"
+    numLuts, depth, check = simpleMapper(baseName, aagFileName, K, performCheck)
+    print collumnize(['Luts','','depth','check'],colwidth)
+    print collumnize([numLuts,'',depth,check],colwidth)
+    
 
-output = ''
-
-# Mapping
-numLuts, numTLuts, depth, avDup, origAnds, paramAnds, check = simpleTMapper(classPath, '.', 'k_AES.aag', 'k_AES.par', K , False)
-output += str(numLuts) + '\t' + str(numTLuts) + '\t' + str(depth) + '\t' + str(origAnds)  + '\t' + str(paramAnds) + '\t' + check 
-
-abcNumLuts, abcDepth, abcCheck = simpleMapper(classPath, '.', 'k_AES.aag', K, False)
-output += '\t' + str(abcNumLuts) + '\t' + str(abcDepth) + '\t' + abcCheck
-
-print  output
+if __name__=="__main__":
+    main()

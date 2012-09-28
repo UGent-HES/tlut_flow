@@ -5,52 +5,61 @@ import subprocess
 
 
 def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
-    ext = fname.split('.')[-1]
-    basefname = fname[:-len(ext)-1]
-    assert ext
-    assert basename
-    
-    blifFile = basefname + ".blif"
-    aigFile  = basefname + ".aig"
-    aagFile  = basefname + ".aag"
-    outFile =  basename + "-simple.blif"
-    
-    if ext == 'blif':
-        subprocess.check_call(['abc', '-c', 'strash; write '+aigFile, blifFile])
-        subprocess.check_call(['aigtoaig', aigFile, aagFile])
-    elif ext == 'aig':
-        subprocess.check_call(['aigtoaig', aigFile, aagFile])
-    elif ext == 'aag':
-        subprocess.check_call(['aigtoaig', aagFile, aigFile])
-    
-    # Actual mapping using Java tool
-    cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.simple.SimpleMapper']
-    # args: input aag file, inputs per LUT, output blif file
-    args = [aagFile, str(K), outFile]
-    if verboseFlag:
-        print ' '.join(cmd + args)
-    output = subprocess.check_output(cmd + args)
-    if verboseFlag:
-        print output
-    
-    # Extracting results
-    data = output.splitlines()[-1].split()
-    numLuts = float(data[0])
-    depth   = float(data[1])
-    
-    # Verification of resulting mapping using satsolver
-    if checkFunctionality:
-        check = miter(aigFile, outFile, verboseFlag)
-    else:
-        check = "SKIPPED"
+    try:
+        ext = fname.split('.')[-1]
+        basefname = fname[:-len(ext)-1]
+        assert ext
+        assert basename
+        
+        blifFile = basefname + ".blif"
+        aigFile  = basefname + ".aig"
+        aagFile  = basefname + ".aag"
+        outFile =  basename + "-simple.blif"
+        
+        if ext == 'blif':
+            subprocess.check_call(['abc', '-c', 'strash; write '+aigFile, blifFile])
+            subprocess.check_call(['aigtoaig', aigFile, aagFile])
+        elif ext == 'aig':
+            subprocess.check_call(['aigtoaig', aigFile, aagFile])
+        elif ext == 'aag':
+            subprocess.check_call(['aigtoaig', aagFile, aigFile])
+        
+        if not os.path.exists(aagFile):
+            print 'Error: missing input file: %s'%aagFile
+            exit(3)
+        
+        # Actual mapping using Java tool
+        cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.simple.SimpleMapper']
+        # args: input aag file, inputs per LUT, output blif file
+        args = [aagFile, str(K), outFile]
+        if verboseFlag:
+            print ' '.join(cmd + args)
+        output = subprocess.check_output(cmd + args)
+        if verboseFlag:
+            print output
+        
+        # Extracting results
+        data = output.splitlines()[-1].split()
+        numLuts = float(data[0])
+        depth   = float(data[1])
+        
+        # Verification of resulting mapping using satsolver
+        if checkFunctionality:
+            check = miter(aigFile, outFile, verboseFlag)
+        else:
+            check = "SKIPPED"
+    except subprocess.CalledProcessError as e:
+        print e
+        #raise
+        exit(2)
     return (numLuts, depth, check)
 
 def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verboseFlag=False):
     try:
         ext = fname.split('.')[-1]
         basefname = fname[:-len(ext)-1]
-        assert basename
-        assert ext
+        assert basename, fname
+        assert ext, fname
         
         blifFile = basefname + ".blif"
         aigFile  = basefname + ".aig"
@@ -71,6 +80,10 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         lutstructFile = basename + "-lutstruct.blif"
         vhdFile = basename + ".vhd"
         outVhdFile = basename + "-simpletmap.vhd"
+        for f in (aagFile,): #vhdFile):
+            if not os.path.exists(f):
+                print 'Error: missing input file: %s'%f
+                exit(3)
         
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
@@ -148,7 +161,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
             check = "SKIPPED"
     except subprocess.CalledProcessError as e:
         print e
-        raise
+        #raise
         exit(2)
     
     return (numLuts, numTLuts, depth, avDup, origAnds, paramAnds, check)    
@@ -170,7 +183,8 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
     try:
         numLuts = float(output.split()[-10])
         depth   = float(output.split()[-1])
-    except ValueError:
+    except (ValueError, IndexError):
+        print output,
         print "Error: unexpected output from abc print_stats."
         exit(2)
     if checkFunctionality:
@@ -186,7 +200,11 @@ def aagtoaig(aagFileName):
     aigFileName = basename + '.aig'
     assert aagFileName.endswith(ext)
     assert aigFileName
+    os.system("rm -f "+aigFileName)
     subprocess.check_call(['aigtoaig',aagFileName,aigFileName])
+    if not os.path.exists(aigFileName):
+        print "Error: aigtoaig unsuccesful, file %s was not created"%aigFileName
+        exit(3)
     return aigFileName
 
 def aigtoaag(aigFileName):
@@ -195,7 +213,11 @@ def aigtoaag(aigFileName):
     aagFileName = basename + '.aag'
     assert aigFileName.endswith(ext)
     assert aagFileName
+    os.system("rm -f "+aagFileName)
     subprocess.check_call(['aigtoaig',aigFileName,aagFileName])
+    if not os.path.exists(aagFileName):
+        print "Error: aigtoaag unsuccesful, file %s was not created"%aagFileName
+        exit(3)
     return aagFileName
  
 def bliftoaag(blifFileName):
@@ -208,8 +230,12 @@ def bliftoaag(blifFileName):
     # There seems to be a bug in bliftoaig when input file is large.
 #    subprocess.check_call('bliftoaig',blifFileName,aagFileName])
 
+    os.system("rm -f "+aigFileName)
     cmd = ['abc', '-c', 'strash; zero; write '+aigFileName, blifFileName]
     subprocess.check_call(cmd)
+    if not os.path.exists(aigFileName):
+        print "Error: bliftoaig unsuccesful, file %s was not created"%aigFileName
+        exit(3)
     print 'Please ignore the error message "Error: The current network is combinational".'
     
     aagFileName = aigtoaag(aigFileName)
@@ -232,7 +258,11 @@ def miter(circuit0, circuit1, verboseFlag=False):
     elif " SATISFIABLE" in output:
         return "FAILED"
     else:
-        assert "SATISFIABLE" in output or "UNSATISFIABLE" in output
+        if not verboseFlag:
+            print ' '.join(cmd)
+            print output,
+        print "Error: unexpected output from miter computation (verification)"
+        exit(2)
     
 def synthesize(top, submodules, verboseFlag=False):
     ext = '.vhd'

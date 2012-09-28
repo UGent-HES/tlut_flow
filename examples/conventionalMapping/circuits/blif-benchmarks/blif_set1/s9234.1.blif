@@ -1,0 +1,1491 @@
+.model TOP
+.inputs Pg705 Pg702 Pg639 Pg567 Pg564 Pg563 Pg562 Pg561 Pg560 Pg559 Pg558 \
+Pg557 Pg319 Pg314 Pg310 Pg306 Pg301 Pg107 Pg102 Pg98 Pg94 Pg89 Pg47 Pg46 Pg45 \
+Pg44 Pg42 Pg41 Pg40 Pg39 Pg38 Pg37 Pg36 Pg32 Pg23 Pg22 PCLK
+.outputs Pg6728 Pg6374 Pg6372 Pg6370 Pg6368 Pg6366 Pg6364 Pg6362 Pg6360 Pg6284 \
+Pg6282 Pg5692 Pg5469 Pg5468 Pg5137 Pg4809 Pg4422 Pg4321 Pg4307 Pg4121 Pg4112 \
+Pg4110 Pg4109 Pg4108 Pg4107 Pg4106 Pg4105 Pg4104 Pg4103 Pg4102 Pg4101 Pg4100 \
+Pg4099 Pg4098 Pg3600 Pg3222 Pg2584 Pg1293 Pg1290
+.latch    Ng6102 Ng207 re PCLK 2
+.latch    Ng4841 Ng461 re PCLK 2
+.latch    Ng6725 Ng4147 re PCLK 2
+.latch    Pg39 Ng689 re PCLK 2
+.latch    Ng6726 Ng4148 re PCLK 2
+.latch    Ng6507 Ng465 re PCLK 2
+.latch    Ng5330 Ng676 re PCLK 2
+.latch    Ng5147 Ng622 re PCLK 2
+.latch    Ng6105 Ng278 re PCLK 2
+.latch    Ng4122 Ng3225 re PCLK 2
+.latch    Ng6827 Ng554 re PCLK 2
+.latch    Ng6745 Ng496 re PCLK 2
+.latch    Ng6729 Ng48 re PCLK 2
+.latch    Ng6595 Ng590 re PCLK 2
+.latch    Ng6826 Ng551 re PCLK 2
+.latch    Ng4147 Ng682 re PCLK 2
+.latch    Ng6599 Ng6722 re PCLK 2
+.latch    Ng4857 Ng3228 re PCLK 2
+.latch    Ng5148 Ng3229 re PCLK 2
+.latch    Ng4858 Ng619 re PCLK 2
+.latch    Ng5876 Ng208 re PCLK 2
+.latch    Ng5328 Ng625 re PCLK 2
+.latch    Ng4847 Ng437 re PCLK 2
+.latch    Ng5877 Ng276 re PCLK 2
+.latch    Ng6597 Ng6720 re PCLK 2
+.latch    Pg32 Ng685 re PCLK 2
+.latch    Ng6407 [150] re PCLK 2
+.latch    Ng6841 Ng282 re PCLK 2
+.latch    Ng4136 Ng697 re PCLK 2
+.latch    Ng6101 Ng206 re PCLK 2
+.latch    Ng4844 Ng449 re PCLK 2
+.latch    Ng6504 Ng528 re PCLK 2
+.latch    Ng4855 Ng426 re PCLK 2
+.latch    Ng4424 Ng3235 re PCLK 2
+.latch    Ng5582 Ng669 re PCLK 2
+.latch    Ng6502 Ng520 re PCLK 2
+.latch    Ng6107 Ng281 re PCLK 2
+.latch    Ng6602 Ng6723 re PCLK 2
+.latch    Ng5581 Ng631 re PCLK 2
+.latch    Ng4842 Ng457 re PCLK 2
+.latch    NI4398 Ng486 re PCLK 2
+.latch    Ng1291 Ng471 re PCLK 2
+.latch    Ng4853 Ng418 re PCLK 2
+.latch    Ng4849 Ng402 re PCLK 2
+.latch    Ng6512 Ng297 re PCLK 2
+.latch    Pg567 Ng212 re PCLK 2
+.latch    Ng4851 Ng410 re PCLK 2
+.latch    Ng4856 Ng430 re PCLK 2
+.latch    Ng6854 Ng6727 re PCLK 2
+.latch    Ng1831 Ng662 re PCLK 2
+.latch    Ng4843 Ng453 re PCLK 2
+.latch    Ng6510 Ng269 re PCLK 2
+.latch    Ng6591 Ng574 re PCLK 2
+.latch    Ng4846 Ng441 re PCLK 2
+.latch    Ng6840 Ng211 re PCLK 2
+.latch    Ng6594 Ng586 re PCLK 2
+.latch    Ng5580 Ng3232 re PCLK 2
+.latch    Ng6853 Ng6726 re PCLK 2
+.latch    Pg40 Ng698 re PCLK 2
+.latch    Ng5490 Ng3231 re PCLK 2
+.latch    Ng6511 Ng293 re PCLK 2
+.latch    Ng4845 Ng445 re PCLK 2
+.latch    Ng6722 Ng4131 re PCLK 2
+.latch    Pg37 Ng687 re PCLK 2
+.latch    Ng6498 Ng504 re PCLK 2
+.latch    Ng6505 Ng541 re PCLK 2
+.latch    Ng6501 Ng516 re PCLK 2
+.latch    Ng6506 Ng536 re PCLK 2
+.latch    Ng4148 Ng683 re PCLK 2
+.latch    Ng6824 Ng545 re PCLK 2
+.latch    Ng3231 Ng254 re PCLK 2
+.latch    Ng3239 Ng290 re PCLK 2
+.latch    Ng6721 Ng4130 re PCLK 2
+.latch    Ng5489 Ng628 re PCLK 2
+.latch    Ng6727 Ng4136 re PCLK 2
+.latch    Pg38 Ng688 re PCLK 2
+.latch    Ng6842 Ng283 re PCLK 2
+.latch    Ng4423 Ng613 re PCLK 2
+.latch    Ng6723 Ng4145 re PCLK 2
+.latch    Ng6724 Ng4133 re PCLK 2
+.latch    Ng4145 Ng680 re PCLK 2
+.latch    Ng5491 Ng672 re PCLK 2
+.latch    Pg45 Ng1289 re PCLK 2
+.latch    Ng6106 Ng279 re PCLK 2
+.latch    Ng6744 Ng492 re PCLK 2
+.latch    Ng1289 Ng638 re PCLK 2
+.latch    Ng4123 Ng602 re PCLK 2
+.latch    Ng4658 Ng3227 re PCLK 2
+.latch    Ng5878 Ng280 re PCLK 2
+.latch    Pg42 Ng1288 re PCLK 2
+.latch    Ng4124 Ng610 re PCLK 2
+.latch    Ng6103 Ng209 re PCLK 2
+.latch    Pg702 Ng675 re PCLK 2
+.latch    Ng1288 Ng1291 re PCLK 2
+.latch    Ng6596 Ng594 re PCLK 2
+.latch    Ng3235 Ng286 re PCLK 2
+.latch    NI4031 Ng489 re PCLK 2
+.latch    Ng4657 Ng616 re PCLK 2
+.latch    Ng3225 Ng218 re PCLK 2
+.latch    Ng3229 Ng242 re PCLK 2
+.latch    Ng6592 Ng578 re PCLK 2
+.latch    Ng6800 [148] re PCLK 2
+.latch    Ng4854 Ng422 re PCLK 2
+.latch    Ng6839 Ng210 re PCLK 2
+.latch    Ng3227 Ng230 re PCLK 2
+.latch    Ng6601 Ng6725 re PCLK 2
+.latch    Ng5875 Ng204 re PCLK 2
+.latch    Ng4425 Ng658 re PCLK 2
+.latch    Ng5329 Ng3239 re PCLK 2
+.latch    Ng6499 Ng508 re PCLK 2
+.latch    Ng6825 Ng548 re PCLK 2
+.latch    Ng4850 Ng406 re PCLK 2
+.latch    Ng3228 Ng236 re PCLK 2
+.latch    Ng6497 Ng500 re PCLK 2
+.latch    Ng6100 Ng205 re PCLK 2
+.latch    Ng6509 Ng197 re PCLK 2
+.latch    Pg46 Pg1290 re PCLK 2
+.latch    Ng6503 Ng524 re PCLK 2
+.latch    Ng3232 Ng260 re PCLK 2
+.latch    Ng6598 Ng6721 re PCLK 2
+.latch    Ng6600 Ng6724 re PCLK 2
+.latch    Ng4142 Ng677 re PCLK 2
+.latch    Ng6593 Ng582 re PCLK 2
+.latch    Ng6801 [149] re PCLK 2
+.latch    Ng4426 Pg1293 re PCLK 2
+.latch    Ng4852 Ng414 re PCLK 2
+.latch    Ng4848 Ng434 re PCLK 2
+.latch    Ng4659 Ng266 re PCLK 2
+.latch    Ng4131 Ng692 re PCLK 2
+.latch    Ng6104 Ng277 re PCLK 2
+.latch    Ng6500 Ng512 re PCLK 2
+.latch    Ng6508 Ng532 re PCLK 2
+.latch    Ng4133 Ng694 re PCLK 2
+.latch    Ng4130 Ng691 re PCLK 2
+.latch    Ng6720 Ng4142 re PCLK 2
+.names Pg6728
+.names Ng6724 n46 Pg6374
+1- 1
+-1 1
+.names Ng6723 n46 Pg6372
+1- 1
+-1 1
+.names Ng6722 n46 Pg6370
+1- 1
+-1 1
+.names Ng6721 n46 Pg6368
+1- 1
+-1 1
+.names Ng6727 n46 Pg6366
+1- 1
+-1 1
+.names Ng6720 n46 Pg6364
+1- 1
+-1 1
+.names Ng6726 n46 Pg6362
+1- 1
+-1 1
+.names Ng6725 n46 Pg6360
+1- 1
+-1 1
+.names n46 n242 Pg6284
+1- 1
+-0 1
+.names Pg22 n122 Ng675 Pg6282
+1-- 1
+-0- 1
+--0 1
+.names Pg5692
+.names Ng486 Ng489 Ng492 Ng496 Pg4809
+11-- 1
+1-0- 1
+-1-0 1
+--00 1
+.names Pg567 Ng638 Pg4121
+0- 1
+-0 1
+.names Pg102 Pg89 Pg2584
+01 1
+.names Ng6720 Ng6721 n97
+01 1
+10 1
+.names Ng6722 Ng6723 n96
+01 1
+10 1
+.names n97 n96 n95
+01 1
+10 1
+.names Ng6726 Ng6727 n100
+01 1
+10 1
+.names Ng6724 Ng6725 n99
+01 1
+10 1
+.names n100 n99 n98
+01 1
+10 1
+.names n178 n179 Ng197 Ng692 n42
+1-1- 1
+-11- 1
+1--0 1
+-1-0 1
+.names n42 Ng6101
+0 1
+.names Pg22 Ng5330 Ng669 n43
+1-0 1
+-10 1
+.names n43 Ng5582
+0 1
+.names n115 n120 n121 Ng211 n44
+011- 1
+-110 1
+.names n44 n499 Ng6800
+1- 1
+-0 1
+.names n242 Ng6729
+0 1
+.names Pg41 Pg6282 n46
+0- 1
+-1 1
+.names Ng574 n218 n48
+01 1
+10 1
+.names n48 n53 Ng6591
+1- 1
+-0 1
+.names Pg41 Pg22 n123 Ng672 n49
+1--0 1
+-1-0 1
+--10 1
+.names n49 Ng5491
+0 1
+.names Ng677 n179 Ng197 Ng204 n50
+01-- 1
+-11- 1
+0--1 1
+--11 1
+.names n50 Ng5875
+0 1
+.names n181 n182 Ng269 Ng692 n51
+1-1- 1
+-11- 1
+1--0 1
+-1-0 1
+.names n51 Ng6105
+0 1
+.names n360 Ng3228 n52
+01 1
+10 1
+.names Ng638 n52 Ng4857
+11 1
+.names Pg639 Ng594 n66 Ng590 n53
+10-- 1
+1-0- 1
+1--0 1
+.names Ng586 n219 n54
+01 1
+10 1
+.names n53 n54 Ng6594
+11 1
+.names Ng282 Ng283 Ng492 n388 n55
+0-0- 1
+-00- 1
+--00 1
+.names n55 Ng6744
+0 1
+.names Ng628 n348 n56
+01 1
+10 1
+.names Pg639 n56 Ng5489
+11 1
+.names Ng691 n182 Ng269 n191 n57
+01-- 1
+-11- 1
+0--1 1
+--11 1
+.names n57 Ng6104
+0 1
+.names Ng622 n346 n58
+01 1
+10 1
+.names Pg639 n58 Ng5147
+11 1
+.names Ng3229 n361 n59
+01 1
+10 1
+.names Ng638 n59 Ng5148
+11 1
+.names Ng613 n343 n61
+01 1
+10 1
+.names Pg639 n61 Ng4423
+0- 1
+-1 1
+.names n105 n110 n111 Ng283 n63
+011- 1
+-110 1
+.names n63 n500 Ng6801
+1- 1
+-0 1
+.names Ng677 n182 Ng269 Ng276 n64
+01-- 1
+-11- 1
+0--1 1
+--11 1
+.names n64 Ng5877
+0 1
+.names Ng619 n345 n65
+01 1
+10 1
+.names Pg639 n65 Ng4858
+11 1
+.names n219 Ng586 Ng574 n66
+111 1
+.names n53 Ng594 n66 Ng590 Ng6596
+11-- 1
+1-11 1
+.names Ng3239 n362 n67
+01 1
+10 1
+.names Ng638 n67 Ng5329
+11 1
+.names Ng691 n179 Ng197 n194 n68
+01-- 1
+-11- 1
+0--1 1
+--11 1
+.names n68 Ng6100
+0 1
+.names Pg702 Pg41 Pg1293 Ng658 n72
+1110 1
+.names n72 Ng662 Ng266 n71
+11- 1
+1-1 1
+.names n66 Ng590 n73
+01 1
+10 1
+.names n53 n73 Ng6595
+0- 1
+-1 1
+.names Ng578 n216 n74
+01 1
+10 1
+.names n53 n74 Ng6592
+11 1
+.names Ng625 n347 n75
+01 1
+10 1
+.names Pg639 n75 Ng5328
+11 1
+.names n230 Ng3231 n77
+01 1
+10 1
+.names Ng638 n77 Ng5490
+11 1
+.names Ng266 Ng1831
+0 1
+.names Pg45 Ng266 Ng4659
+10 1
+.names Ng3232 n229 n78
+01 1
+10 1
+.names Ng638 n78 Ng5580
+11 1
+.names Ng210 Ng211 Ng496 n387 n79
+0-0- 1
+-00- 1
+--00 1
+.names n79 Ng6745
+0 1
+.names Pg45 Ng658 Ng4425
+10 1
+.names n351 Ng582 n81
+01 1
+10 1
+.names n53 n81 Ng6593
+11 1
+.names Ng631 n217 n82
+01 1
+10 1
+.names Pg639 n82 Ng5581
+11 1
+.names Ng677 NI4398
+0 1
+.names Ng4142 Ng4130 n86
+11 1
+00 1
+.names Ng4145 Ng4131 n87
+11 1
+00 1
+.names Ng4130 Ng4142 n88
+01 1
+10 1
+.names Ng4131 Ng4145 n89
+01 1
+10 1
+.names n86 n87 n88 n89 n85
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names Ng4133 Ng4147 n91
+11 1
+00 1
+.names Ng4136 Ng4148 n92
+11 1
+00 1
+.names Ng4147 Ng4133 n93
+01 1
+10 1
+.names Ng4148 Ng4136 n94
+01 1
+10 1
+.names n91 n92 n93 n94 n90
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names Ng691 NI4031
+0 1
+.names Pg47 Ng4426
+0 1
+.names Ng1291 n492 n103
+01 1
+10 1
+.names Ng281 Ng280 n104
+11 1
+00 1
+.names Ng282 n103 n104 n102
+111 1
+.names n149 n150 n108
+1- 1
+-0 1
+.names n108 n277 Ng283 n105
+10- 1
+1-0 1
+.names n102 n277 n110
+0- 1
+-1 1
+.names Ng282 n102 n277 n111
+0-- 1
+-1- 1
+--0 1
+.names Ng471 n493 n113
+01 1
+10 1
+.names Ng208 Ng209 n114
+11 1
+00 1
+.names Ng210 n113 n114 n112
+111 1
+.names n146 n147 n118
+1- 1
+-0 1
+.names n118 n284 Ng211 n115
+10- 1
+1-0 1
+.names n112 n284 n120
+0- 1
+-1 1
+.names Ng210 n112 n284 n121
+0-- 1
+-1- 1
+--0 1
+.names n476 Ng48 n123
+01 1
+10 1
+.names Ng676 Pg41 n123 n122
+11- 1
+1-1 1
+.names Ng698 n259 n126
+1- 1
+-0 1
+.names n126 Ng685 Ng688 n259 n124
+11-- 1
+1-1- 1
+1--0 1
+.names n375 n279 n380 n286 n128
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names Pg557 n184 Ng528 n272 n129
+0-0- 1
+-00- 1
+0--1 1
+-0-1 1
+.names Ng697 n265 n438 n496 n130
+0-10 1
+-110 1
+.names n128 n129 n130 n127
+111 1
+.names Ng471 n147 n132
+01 1
+10 1
+.names n120 Ng210 n114 n132 n131
+111- 1
+11-1 1
+.names Ng1291 n150 n134
+01 1
+10 1
+.names n110 Ng282 n104 n134 n133
+111- 1
+11-1 1
+.names n381 n279 n382 n286 n136
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names Ng524 n270 n272 Ng437 n137
+01-- 1
+-11- 1
+0--0 1
+--10 1
+.names Ng683 n265 n440 n496 n138
+0-10 1
+-110 1
+.names n136 n137 n138 n135
+111 1
+.names Ng471 Ng210 Ng211 n146
+1-- 1
+-1- 1
+--1 1
+.names n292 n114 n147
+1- 1
+-1 1
+.names n146 n147 n284 n145
+1-0 1
+-10 1
+.names Ng1291 Ng282 Ng283 n149
+1-- 1
+-1- 1
+--1 1
+.names n291 n104 n150
+1- 1
+-1 1
+.names n149 n150 n277 n148
+1-0 1
+-10 1
+.names Ng680 n265 n152
+0- 1
+-1 1
+.names n310 Ng297 n154
+1- 1
+-0 1
+.names n270 Ng449 n441 n155
+1-1 1
+-01 1
+.names n389 n279 n390 n286 n156
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names n268 Ng414 n442 n157
+1-1 1
+-01 1
+.names n152 n154 n155 n156 n157 n496 n151
+111110 1
+.names n108 Ng281 Ng280 n276 n158
+100- 1
+10-0 1
+.names n118 Ng208 n282 Ng209 n162
+10-0 1
+1-00 1
+.names n391 n279 n392 n286 n167
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names Ng520 n270 n272 Ng441 n168
+01-- 1
+-11- 1
+0--0 1
+--10 1
+.names Ng682 n265 n443 n496 n169
+0-10 1
+-110 1
+.names n167 n168 n169 n166
+111 1
+.names Ng208 n282 n171
+11 1
+00 1
+.names n145 n118 n171 n170
+111 1
+.names Ng280 n276 n173
+11 1
+00 1
+.names n148 n108 n173 n172
+111 1
+.names n393 n279 n394 n286 n175
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names Pg560 n184 Ng516 n272 n176
+0-0- 1
+-00- 1
+0--1 1
+-0-1 1
+.names Ng694 n265 n444 n496 n177
+0-10 1
+-110 1
+.names n175 n176 n177 n174
+111 1
+.names n245 Ng206 n178
+11 1
+00 1
+.names n118 n145 Ng197 n179
+0-- 1
+-0- 1
+--0 1
+.names n243 Ng278 n181
+11 1
+00 1
+.names n108 n148 Ng269 n182
+0-- 1
+-0- 1
+--0 1
+.names n71 Ng691 Ng692 n260 Ng680 n184
+11110 1
+.names Pg562 n184 n183
+11 1
+.names Ng692 n265 n186
+0- 1
+-1 1
+.names Ng551 n315 n445 n188
+0-1 1
+-11 1
+.names n51 n279 n42 n286 n189
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names n268 Ng410 n446 n190
+1-1 1
+-01 1
+.names n183 n186 n188 n189 n190 n496 n185
+011110 1
+.names Ng277 Ng276 n193
+0- 1
+-1 1
+.names n193 Ng277 Ng276 n191
+11- 1
+1-0 1
+.names Ng205 Ng204 n196
+0- 1
+-1 1
+.names n196 Ng205 Ng204 n194
+11- 1
+1-0 1
+.names Ng691 n265 n198
+0- 1
+-1 1
+.names Ng489 Ng269 n310 n331 n199
+10-- 1
+1-1- 1
+-0-1 1
+--11 1
+.names n312 Ng465 n447 n200
+1-1 1
+-01 1
+.names n68 n286 n337 Ng492 n201
+1-1- 1
+-11- 1
+1--0 1
+-1-0 1
+.names n338 Ng672 n202
+1- 1
+-0 1
+.names n57 n279 Ng548 n315 n203
+1-0- 1
+-10- 1
+1--1 1
+-1-1 1
+.names n268 n272 Ng504 Ng406 n204
+11-- 1
+1-0- 1
+-1-0 1
+--00 1
+.names n198 n199 n200 n201 n202 n203 n204 n496 n197
+11111110 1
+.names Ng677 n265 n206
+0- 1
+-1 1
+.names Ng486 Ng197 n310 n331 n207
+10-- 1
+1-1- 1
+-0-1 1
+--11 1
+.names Ng545 n315 n448 n208
+0-1 1
+-11 1
+.names n64 n279 n50 n286 n209
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names n338 Ng669 n210
+1- 1
+-0 1
+.names Ng532 n312 n337 Ng496 n211
+0-1- 1
+-11- 1
+0--0 1
+-1-0 1
+.names Ng500 n270 n272 Ng461 n212
+01-- 1
+-11- 1
+0--0 1
+--10 1
+.names n206 n207 n208 n209 n210 n211 n212 n496 n205
+11111110 1
+.names n348 Ng628 n217
+11 1
+.names Ng631 n217 n216
+11 1
+.names Ng582 n351 n219
+11 1
+.names Ng586 n219 n218
+11 1
+.names n301 n302 n303 n304 n305 n306 n221
+1----- 1
+-1---- 1
+--1--- 1
+---1-- 1
+----1- 1
+-----1 1
+.names Ng536 n221 Ng541 n404 n220
+1-0- 1
+-10- 1
+--00 1
+.names n369 n370 n225
+11 1
+.names n225 n249 n501 n224
+10- 1
+-00 1
+.names n477 Ng48 Ng5330
+01 1
+10 1
+.names n362 Ng3239 n230
+11 1
+.names n230 Ng3231 n229
+11 1
+.names Pg639 Ng613 Ng610 Ng4123 n232
+0--0 1
+-110 1
+.names Ng574 Ng586 Ng582 Ng578 n234
+1111 1
+.names Ng586 n470 n473 n236
+01- 1
+1-1 1
+-11 1
+.names Ng594 Ng590 n236 n235
+1-1 1
+-01 1
+.names Ng677 n355 n237
+11 1
+.names n237 Ng528 Ng6504
+1- 1
+-1 1
+.names n237 Ng524 Ng6503
+1- 1
+-1 1
+.names n237 Ng500 Ng6497
+1- 1
+-1 1
+.names n95 n98 n242
+01 1
+10 1
+.names Ng277 Ng276 n243
+11 1
+.names Ng204 Ng205 n245
+11 1
+.names Ng532 n466 Ng6508
+10 1
+.names n237 Ng520 Ng6502
+01 1
+.names n237 Ng516 Ng6501
+01 1
+.names Pg39 Pg40 n249
+01 1
+10 1
+.names Ng685 Ng688 Ng698 Ng689 n251
+1011 1
+.names Ng697 n251 n71 n253
+111 1
+.names n253 Ng683 Ng694 Ng682 n255
+0--- 1
+-0-- 1
+--1- 1
+---1 1
+.names n253 Ng683 Ng682 n258
+0-- 1
+-0- 1
+--0 1
+.names n72 n122 Ng662 n259
+111 1
+.names Ng689 Ng698 Ng688 n260
+111 1
+.names n71 Ng692 n260 n261
+101 1
+.names Ng688 Ng689 n126 n264
+1-- 1
+-1- 1
+--1 1
+.names n124 Ng689 n265
+1- 1
+-0 1
+.names Ng677 n258 n268
+0- 1
+-1 1
+.names Ng677 n258 n270
+1- 1
+-1 1
+.names Ng677 n255 n272
+0- 1
+-1 1
+.names n243 Ng278 n275
+11 1
+.names Ng279 n275 n276
+11 1
+.names Ng281 Ng280 n276 n277
+111 1
+.names n264 Ng687 n279
+1- 1
+-0 1
+.names n245 Ng206 n281
+11 1
+.names Ng207 n281 n282
+11 1
+.names n282 Ng209 Ng208 n284
+111 1
+.names Ng687 n264 n286
+1- 1
+-1 1
+.names Ng281 Ng280 n276 n291
+101 1
+.names Ng208 n282 Ng209 n292
+011 1
+.names Ng516 Ng236 n301
+01 1
+10 1
+.names Ng504 Ng218 n302
+01 1
+10 1
+.names Ng520 Ng242 n303
+01 1
+10 1
+.names Ng500 Ng212 n304
+01 1
+10 1
+.names Ng508 Ng286 n305
+01 1
+10 1
+.names n365 n366 n363 n364 n306
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names n253 Ng683 n310
+0- 1
+-1 1
+.names Ng677 n255 n312
+1- 1
+-1 1
+.names n253 Ng683 Ng694 Ng682 n315
+0--- 1
+-0-- 1
+--0- 1
+---1 1
+.names Ng691 n261 Ng680 n331
+0-- 1
+-0- 1
+--1 1
+.names Ng691 n261 Ng680 n337
+1-- 1
+-0- 1
+--1 1
+.names Ng691 n261 Ng680 n338
+1-- 1
+-0- 1
+--0 1
+.names Ng602 Ng610 n343
+11 1
+.names n343 Ng616 Ng613 n345
+111 1
+.names n345 Ng619 n346
+11 1
+.names n346 Ng622 n347
+11 1
+.names n347 Ng625 n348
+11 1
+.names n217 Ng578 Ng631 n351
+111 1
+.names Pg702 Pg41 Pg1293 n122 Ng697 n251 n353
+101111 1
+.names Ng683 Ng694 Ng682 n353 n355
+1001 1
+.names Pg567 Ng3225 n357
+11 1
+.names n357 Ng3235 n358
+11 1
+.names n358 Ng3227 n360
+11 1
+.names Ng3228 n360 n361
+11 1
+.names n361 Ng3229 n362
+11 1
+.names Ng532 Ng260 n363
+01 1
+10 1
+.names Ng512 Ng230 n364
+01 1
+10 1
+.names Ng524 Ng290 n365
+01 1
+10 1
+.names Ng528 Ng254 n366
+01 1
+10 1
+.names n275 Ng279 n367
+01 1
+10 1
+.names n281 Ng207 n368
+01 1
+10 1
+.names Pg36 Pg32 n369
+01 1
+10 1
+.names Pg38 Pg37 n370
+01 1
+10 1
+.names Ng276 Ng692 Ng680 n372
+10- 1
+0-0 1
+-00 1
+.names Ng276 Ng697 Ng683 n374
+00- 1
+1-0 1
+-00 1
+.names n63 Ng269 Ng697 n375
+11- 1
+1-0 1
+-00 1
+.names n375 Ng6842
+0 1
+.names Ng204 Ng692 Ng680 n377
+10- 1
+0-0 1
+-00 1
+.names Ng204 Ng697 Ng683 n379
+00- 1
+1-0 1
+-00 1
+.names n44 Ng197 Ng697 n380
+11- 1
+1-0 1
+-00 1
+.names n380 Ng6840
+0 1
+.names Ng269 Ng683 n500 n381
+00- 1
+1-0 1
+-00 1
+.names n381 Ng6841
+0 1
+.names Ng197 Ng683 n499 n382
+00- 1
+1-0 1
+-00 1
+.names n382 Ng6839
+0 1
+.names n63 n221 Ng554 n383
+10- 1
+1-0 1
+-10 1
+.names n383 Ng6827
+0 1
+.names n221 Ng551 n500 n384
+10- 1
+0-0 1
+-00 1
+.names n384 Ng6826
+0 1
+.names n44 n221 Ng548 n385
+10- 1
+1-0 1
+-10 1
+.names n385 Ng6825
+0 1
+.names n221 Ng545 n499 n386
+10- 1
+0-0 1
+-00 1
+.names n386 Ng6824
+0 1
+.names n113 n114 n132 n387
+11- 1
+1-0 1
+-00 1
+.names n103 n104 n134 n388
+11- 1
+1-0 1
+-00 1
+.names Ng269 Ng680 n458 n389
+1-0 1
+-00 1
+.names n389 Ng6106
+0 1
+.names Ng197 Ng680 n460 n390
+1-0 1
+-00 1
+.names n390 Ng6102
+0 1
+.names n148 n158 Ng269 n462 n391
+0--1 1
+-1-1 1
+--01 1
+.names n391 Ng6107
+0 1
+.names n145 n162 Ng197 n463 n392
+0--1 1
+-1-1 1
+--01 1
+.names n392 Ng6103
+0 1
+.names n172 Ng269 Ng694 n393
+11- 1
+1-0 1
+-00 1
+.names n393 Ng5878
+0 1
+.names n170 Ng197 Ng694 n394
+11- 1
+1-0 1
+-00 1
+.names n394 Ng5876
+0 1
+.names Ng680 Ng297 n464 n395
+00- 1
+0-1 1
+-00 1
+.names n395 Ng6512
+0 1
+.names Ng692 Ng293 n464 n396
+00- 1
+0-1 1
+-00 1
+.names n396 Ng6511
+0 1
+.names Ng691 Ng269 n464 n397
+00- 1
+0-1 1
+-00 1
+.names n397 Ng6510
+0 1
+.names Ng677 Ng197 n464 n398
+00- 1
+0-1 1
+-00 1
+.names n398 Ng6509
+0 1
+.names Ng691 Ng465 n466 n399
+00- 1
+0-1 1
+-00 1
+.names n399 Ng6507
+0 1
+.names n291 n292 Ng465 n401
+11- 1
+1-1 1
+-10 1
+.names Ng536 n221 n401 n402
+11- 1
+1-0 1
+.names Ng692 n402 n466 n403
+00- 1
+0-1 1
+-00 1
+.names n403 Ng6506
+0 1
+.names n277 n284 Ng465 n404
+11- 1
+1-1 1
+-10 1
+.names n220 Ng680 n466 n405
+10- 1
+-01 1
+1-0 1
+.names n405 Ng6505
+0 1
+.names n237 Ng680 Ng512 n406
+10- 1
+0-0 1
+-00 1
+.names n406 Ng6500
+0 1
+.names n237 Ng692 Ng508 n407
+10- 1
+0-0 1
+-00 1
+.names n407 Ng6499
+0 1
+.names Ng691 n237 Ng504 n408
+01- 1
+0-0 1
+-00 1
+.names n408 Ng6498
+0 1
+.names n234 n235 n474 n409
+11- 1
+-11 1
+1-0 1
+.names n409 Ng6407
+0 1
+.names Ng430 Ng426 n481 n410
+00- 1
+0-1 1
+-00 1
+.names n410 Ng4856
+0 1
+.names Ng426 Ng422 n481 n411
+00- 1
+0-1 1
+-00 1
+.names n411 Ng4855
+0 1
+.names Ng422 Ng418 n481 n412
+00- 1
+0-1 1
+-00 1
+.names n412 Ng4854
+0 1
+.names Ng414 Ng418 n481 n413
+00- 1
+-01 1
+0-0 1
+.names n413 Ng4853
+0 1
+.names Ng414 Ng410 n481 n414
+00- 1
+0-1 1
+-00 1
+.names n414 Ng4852
+0 1
+.names Ng410 Ng406 n481 n415
+00- 1
+0-1 1
+-00 1
+.names n415 Ng4851
+0 1
+.names Ng406 Ng402 n481 n416
+00- 1
+0-1 1
+-00 1
+.names n416 Ng4850
+0 1
+.names Ng402 n481 n485 n417
+01- 1
+0-1 1
+-01 1
+.names n417 Ng4849
+0 1
+.names Ng434 Ng437 n481 n418
+00- 1
+0-1 1
+-00 1
+.names n418 Ng4848
+0 1
+.names Ng437 Ng441 n481 n419
+00- 1
+0-1 1
+-00 1
+.names n419 Ng4847
+0 1
+.names Ng441 Ng445 n481 n420
+00- 1
+0-1 1
+-00 1
+.names n420 Ng4846
+0 1
+.names Ng449 Ng445 n481 n421
+00- 1
+-01 1
+0-0 1
+.names n421 Ng4845
+0 1
+.names Ng449 Ng453 n481 n422
+00- 1
+0-1 1
+-00 1
+.names n422 Ng4844
+0 1
+.names Ng453 Ng457 n481 n423
+00- 1
+0-1 1
+-00 1
+.names n423 Ng4843
+0 1
+.names Ng457 Ng461 n481 n424
+00- 1
+0-1 1
+-00 1
+.names n424 Ng4842
+0 1
+.names Ng430 Ng461 n481 n425
+00- 1
+-01 1
+0-0 1
+.names n425 Ng4841
+0 1
+.names Ng638 n358 Ng3227 n486 n426
+0--1 1
+-1-1 1
+--01 1
+.names n426 Ng4658
+0 1
+.names n232 Ng616 n504 n427
+1-0 1
+-00 1
+.names n427 Ng4657
+0 1
+.names Pg4121 Ng3225 Ng3235 n488 n428
+1--1 1
+-0-1 1
+--11 1
+.names n428 Ng4424
+0 1
+.names Ng610 Ng4123 n490 n429
+0-1 1
+-01 1
+.names n429 Ng4124
+0 1
+.names n491 Pg4121 Ng3225 n430
+11- 1
+1-1 1
+.names n430 Ng4122
+0 1
+.names n286 n337 n279 n331 n310 n315 n431
+111111 1
+.names n193 Ng277 Ng682 n374 n432
+11-- 1
+-11- 1
+1--0 1
+--10 1
+.names Ng677 Ng691 n193 n243 n433
+11-- 1
+1-1- 1
+-1-0 1
+--10 1
+.names n196 n245 Ng694 Ng682 n435
+10-- 1
+1-1- 1
+-0-1 1
+--11 1
+.names Ng691 n196 Ng205 n377 n437
+1-1- 1
+-11- 1
+1--0 1
+-1-0 1
+.names Ng430 n268 Ng434 n270 n438
+0-0- 1
+-10- 1
+0--1 1
+-1-1 1
+.names Pg558 n184 n268 Ng426 n440
+0-1- 1
+-01- 1
+0--0 1
+-0-0 1
+.names Pg561 n184 Ng541 n312 n441
+0-0- 1
+-00- 1
+0--1 1
+-0-1 1
+.names n272 Ng512 Ng554 n315 n442
+1-0- 1
+-00- 1
+1--1 1
+-0-1 1
+.names Pg559 n184 n268 Ng422 n443
+0-1- 1
+-01- 1
+0--0 1
+-0-0 1
+.names n268 n270 Ng445 Ng418 n444
+11-- 1
+1-0- 1
+-1-0 1
+--00 1
+.names n272 Ng508 n310 Ng293 n445
+1-1- 1
+-01- 1
+1--0 1
+-0-0 1
+.names Ng536 n270 n312 Ng453 n446
+01-- 1
+-11- 1
+0--0 1
+--10 1
+.names Pg563 n184 n270 Ng457 n447
+0-1- 1
+-01- 1
+0--0 1
+-0-0 1
+.names Pg564 n184 n268 Ng402 n448
+0-1- 1
+-01- 1
+0--0 1
+-0-0 1
+.names n243 Ng694 Ng278 n432 n449
+0-01 1
+-101 1
+.names Ng277 Ng278 n372 n433 n450
+11-1 1
+-101 1
+.names Ng205 Ng206 n379 n435 n451
+10-1 1
+-001 1
+.names Ng677 n245 Ng206 n437 n452
+1-11 1
+-011 1
+.names n108 n148 Ng269 n367 n458
+101- 1
+1-11 1
+.names n118 n145 Ng197 n368 n460
+101- 1
+1-11 1
+.names Ng269 Ng682 n462
+1- 1
+-0 1
+.names Ng197 Ng682 n463
+1- 1
+-0 1
+.names Ng683 n353 n464
+01 1
+.names Ng677 n355 n466
+01 1
+.names Ng582 Ng697 Ng682 n468
+00- 1
+1-0 1
+-00 1
+.names Ng582 Ng683 Ng694 n469
+00- 1
+1-0 1
+-00 1
+.names Ng578 n468 n469 n470
+01- 1
+1-1 1
+-11 1
+.names Ng578 Ng692 Ng680 n471
+10- 1
+0-0 1
+-00 1
+.names Ng677 Ng691 Ng578 n472
+00- 1
+0-1 1
+-00 1
+.names Ng582 n471 n472 n473
+01- 1
+1-1 1
+-11 1
+.names Ng594 Ng590 n474
+0- 1
+-1 1
+.names n85 n90 n476
+01 1
+10 1
+.names n225 n249 n501 n479
+1-- 1
+-0- 1
+--0 1
+.names n224 n476 n479 n502 n477
+-1-0 1
+0-10 1
+.names Ng536 Ng541 n221 n481
+1-- 1
+-1- 1
+--1 1
+.names Ng1291 Ng471 Ng465 n485
+00- 1
+0-1 1
+-00 1
+.names Pg4121 Ng3225 Ng3235 Ng3227 n486
+1--- 1
+-0-- 1
+--0- 1
+---1 1
+.names Ng638 n357 Ng3235 n488
+0-- 1
+-1- 1
+--0 1
+.names Pg639 Ng602 Ng4123
+10 1
+.names Pg639 Ng610 Ng602 n490
+0-- 1
+-1- 1
+--0 1
+.names Pg567 Ng638 Ng3225 n491
+1-- 1
+-0- 1
+--0 1
+.names n449 n450 n492
+1- 1
+-1 1
+.names n451 n452 n493
+1- 1
+-1 1
+.names n184 n265 n268 n270 n272 n312 n338 n431 n496
+01111111 1
+.names n115 n131 n499
+0- 1
+-1 1
+.names n105 n133 n500
+0- 1
+-1 1
+.names n369 n370 n501
+1- 1
+-1 1
+.names n224 n476 n479 n502
+011 1
+.names Pg639 Ng613 n343 Ng616 n504
+1110 1
+.names n127 Ng6854
+0 1
+.names n135 Ng6853
+0 1
+.names n151 Ng6602
+0 1
+.names n166 Ng6601
+0 1
+.names n174 Ng6600
+0 1
+.names n185 Ng6599
+0 1
+.names n197 Ng6598
+0 1
+.names n205 Ng6597
+0 1
+.names [148] Pg5469
+1 1
+.names [149] Pg5468
+1 1
+.names [150] Pg5137
+1 1
+.names Pg564 Pg4422
+1 1
+.names [148] Pg4321
+1 1
+.names [149] Pg4307
+1 1
+.names Pg47 Pg4112
+1 1
+.names Pg41 Pg4110
+1 1
+.names Pg46 Pg4109
+1 1
+.names Pg45 Pg4108
+1 1
+.names Pg44 Pg4107
+1 1
+.names Pg42 Pg4106
+1 1
+.names Pg40 Pg4105
+1 1
+.names Pg22 Pg4104
+1 1
+.names Pg39 Pg4103
+1 1
+.names Pg38 Pg4102
+1 1
+.names Pg37 Pg4101
+1 1
+.names Pg36 Pg4100
+1 1
+.names Pg32 Pg4099
+1 1
+.names Pg23 Pg4098
+1 1
+.names [150] Pg3600
+1 1
+.names Pg705 Pg3222
+1 1
+.end

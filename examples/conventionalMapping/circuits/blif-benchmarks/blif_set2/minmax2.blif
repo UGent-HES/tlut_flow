@@ -1,0 +1,79 @@
+.model minmax2
+.inputs clear<0> enable<0> reset<0> in<1> in<0> 
+.outputs out<1> out<0> 
+.latch ns_min<1> ps_min<1>  1
+.latch ns_min<0> ps_min<0>  1
+.latch ns_last<1> ps_last<1>  0
+.latch ns_last<0> ps_last<0>  0
+.latch ns_max<1> ps_max<1>  0
+.latch ns_max<0> ps_max<0>  0
+.names enable<0> $$COND0<0>2.1
+0 1
+.names in<1> ps_max<1> main/$GTR_2_1/test<0>6.1
+01 1
+10 1
+.names in<0> ps_max<0> main/$GTR_2_1/test<0>10.1
+01 1
+10 1
+.names main/$GTR_2_1/test<0>6.1 main/$GTR_2_1/test<0>10.1 in<1> in<0> main/$GTR_2_1/$$GTR_2<0>6.2
+1-1- 1
+01-1 1
+.names main/$GTR_2_1/$$GTR_2<0>6.2 ps_max<0> in<0> main_1/sup<0>6.1
+01- 1
+1-1 1
+.names main/$GTR_2_1/$$GTR_2<0>6.2 ps_max<1> in<1> main_1/sup<1>6.1
+01- 1
+1-1 1
+.names in<1> ps_min<1> main/$LSS_2_1/test<0>6.1
+01 1
+10 1
+.names in<0> ps_min<0> main/$LSS_2_1/test<0>20.1
+01 1
+10 1
+.names main/$LSS_2_1/test<0>6.1 main/$LSS_2_1/test<0>20.1 ps_min<1> ps_min<0> main/$LSS_2_1/$$LSS_2<0>6.2
+1-1- 1
+01-1 1
+.names main/$LSS_2_1/$$LSS_2<0>6.2 ps_min<0> in<0> main_1/inf<0>6.1
+01- 1
+1-1 1
+.names main/$LSS_2_1/$$LSS_2<0>6.2 ps_min<1> in<1> main_1/inf<1>6.1
+01- 1
+1-1 1
+.names main_1/sup<0>6.1 main_1/inf<0>6.1 main/$PLUS_4_1/c<0>6.2
+11 1
+.names main_1/sup<1>6.1 main_1/inf<1>6.1 main/$PLUS_4_1/c<0>6.2 main/$PLUS_4_1/sum<1>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<1>6.1 main/$PLUS_4_1/c<0>6.2 main_1/inf<1>6.1 main/$PLUS_4_1/c<0>6.3
+11- 1
+1-1 1
+-11 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_4_1/sum<1>6.1 in<0> ps_last<0> out<0>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_4_1/c<0>6.3 in<1> ps_last<1> out<1>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 in<0> ns_last<0>
+001 1
+.names clear<0> $$COND0<0>2.1 in<1> ns_last<1>
+001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<0>6.1 ns_max<0>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<1>6.1 ns_max<1>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<0>6.1 ns_min<0>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<1>6.1 ns_min<1>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.end

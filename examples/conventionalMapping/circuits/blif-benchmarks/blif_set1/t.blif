@@ -1,0 +1,30 @@
+.model unknown
+.inputs n50 n276 n287 n604 i_4_ i_11_ n23 i_12_ n114 n406 n488 i_13_ i_3_ n323 \
+n542 i_8_ n421 n453
+.outputs [291]
+.names n636 [291]
+0 1
+.names n637 n638 n639 n636
+001 1
+.names n50 n276 n287 n604 n637
+-11- 1
+1--1 1
+.names i_4_ n632 n635 n638
+00- 1
+1-1 1
+.names i_11_ n23 n276 n633 n632
+10-0 1
+-000 1
+.names i_12_ n604 n633
+01 1
+.names n114 n276 n406 n488 n635
+-11- 1
+1--1 1
+.names i_13_ n23 n910 n911 n639
+0-00 1
+-000 1
+.names i_3_ n323 n542 n910
+110 1
+.names i_8_ n421 n453 n911
+111 1
+.end

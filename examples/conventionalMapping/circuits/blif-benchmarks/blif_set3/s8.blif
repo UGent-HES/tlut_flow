@@ -1,0 +1,33 @@
+#
+# Written by e2fmt Tue Mar 31 16:14:51 1998
+############################################
+.model top
+.inputs s8_in_3_ s8_in_2_ s8_in_1_ s8_in_0_ clock
+.outputs s8_out
+# connect ports to nets with different names
+.names n_n2 s8_out
+1  1
+.names s8_in_3_ n_n8
+1  1
+.names s8_in_2_ n_n7
+1  1
+.names s8_in_1_ n_n6
+1  1
+.names s8_in_0_ n_n5
+1  1
+.names clock n__clk
+1  1
+# instance g_g1
+.names  n_n0
+  -
+# instance g_g0
+.names n_n4 n_n0 n_n3  n_n2
+1-0  1
+-11  1
+# instance g_g11
+.names  n_n4
+  1
+# instance g_gd15
+.names  n_n3
+  0
+.end

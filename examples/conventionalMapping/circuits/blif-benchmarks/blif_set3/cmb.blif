@@ -1,0 +1,216 @@
+#
+# Written by e2fmt Tue Mar 31 16:25:52 1998
+############################################
+.model top
+.inputs pp pa pb pc pd pe pf pg ph pi pj pk pl pm pn po
+.outputs pq pr ps pt
+# connect ports to nets with different names
+.names pp np
+1  1
+.names nq pq
+1  1
+.names nr pr
+1  1
+.names ns ps
+1  1
+.names nt pt
+1  1
+.names pa na
+1  1
+.names pb nb
+1  1
+.names pc nc
+1  1
+.names pd nd
+1  1
+.names pe ne
+1  1
+.names pf nf
+1  1
+.names pg ng
+1  1
+.names ph nh
+1  1
+.names pi ni
+1  1
+.names pj nj
+1  1
+.names pk nk
+1  1
+.names pl nl
+1  1
+.names pm nm
+1  1
+.names pn nn
+1  1
+.names po no
+1  1
+# instance g_g9
+.names no0  n_n9
+0  1
+# instance g_g5
+.names nf  n_n5
+0  1
+# instance g_g6
+.names nb  n_n6
+0  1
+# instance g_g7
+.names na  n_n7
+0  1
+# instance g_g8
+.names nn0  n_n8
+0  1
+# instance g_g1
+.names nm0  n_n1
+0  1
+# instance g_g2
+.names ns0  n_n2
+0  1
+# instance g_g3
+.names no  n_n3
+0  1
+# instance g_g4
+.names nv0  n_n4
+0  1
+# instance g_g0
+.names np0  n_n0
+0  1
+# instance g_g43
+.names n_n4 nf n_n20 ne  n_n34
+1111  1
+# instance g_g32
+.names nn n_n14  n_n30
+11  1
+# instance g_g21
+.names ni  n_n21
+0  1
+# instance g_g10
+.names ng  n_n10
+0  1
+# instance g_g42
+.names n_n4 n_n10 n_n20 ne  n_n33
+1111  1
+# instance g_g33
+.names nm n_n17  n_n31
+11  1
+# instance g_g20
+.names nh  n_n20
+0  1
+# instance g_g11
+.names nk  n_n11
+0  1
+# instance g_g41
+.names n_n4 n_n10 n_n20 n_n5  n_n32
+1111  1
+# instance g_g30
+.names n_n16 ne  n_n28
+11  1
+# instance g_g23
+.names nk n_n22  n_n23
+11  1
+# instance g_g12
+.names nq0  n_n12
+0  1
+# instance g_g40
+.names nd nc ne  nn0
+111  1
+# instance g_g31
+.names no n_n15  n_n29
+11  1
+# instance g_g22
+.names nj  n_n22
+0  1
+# instance g_g13
+.names nr0  n_n13
+0  1
+# instance g_g47
+.names n_n1 n_n3  ns
+1-  1
+-1  1
+# instance g_g36
+.names n_n22 n_n17 n_n11 n_n14  nr0
+1111  1
+# instance g_g25
+.names ni n_n20  n_n25
+11  1
+# instance g_g14
+.names nm  n_n14
+0  1
+# instance g_g46
+.names n_n2 n_n3 n_n15 n_n16  nt
+1111  1
+# instance g_g37
+.names n_n20 n_n10 n_n21  nq0
+111  1
+# instance g_g24
+.names nj n_n21  n_n24
+11  1
+# instance g_g15
+.names nn  n_n15
+0  1
+# instance g_g45
+.names n_n32 n_n34 n_n33 n_n35  nm0
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g34
+.names n_n28 n_n30 n_n29 n_n31  nt0
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g27
+.names n_n18 nk  n_n26
+11  1
+# instance g_g16
+.names np  n_n16
+0  1
+# instance g_g44
+.names n_n4 nf ng ne  n_n35
+1111  1
+# instance g_g35
+.names n_n13 ne n_n12 nf  ns0
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g26
+.names n_n23 n_n25 n_n24 n_n19  nv0
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g17
+.names nl  n_n17
+0  1
+# instance g_g29
+.names n_n26 n_n27  nu0
+1-  1
+-1  1
+# instance g_g18
+.names nt0  n_n18
+0  1
+# instance g_g28
+.names n_n18 n_n17  n_n27
+11  1
+# instance g_g19
+.names nu0  n_n19
+0  1
+# instance g_g49
+.names n_n0 nk nj nl  nq
+1111  1
+# instance g_g38
+.names n_n9 n_n7 n_n8 n_n6  np0
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g48
+.names n_n1 np  nr
+1-  1
+-1  1
+# instance g_g39
+.names nf nh ng ni  no0
+1111  1
+.end

@@ -1,0 +1,638 @@
+#
+# Written by e2fmt Tue Mar 31 16:15:53 1998
+############################################
+.model top
+.inputs i_89_ i_76_ i_63_ i_50_ i_75_ i_64_ i_78_ i_61_ i_99_ i_77_ i_62_\
+ i_40_ i_120_ i_72_ i_67_ i_121_ i_71_ i_68_ i_122_ i_74_ i_65_ i_30_ i_123_\
+ i_73_ i_66_ i_124_ i_94_ i_81_ i_125_ i_93_ i_82_ i_20_ i_126_ i_92_ i_83_\
+ i_69_ i_9_ i_127_ i_91_ i_84_ i_128_ i_98_ i_85_ i_10_ i_7_ i_129_ i_97_\
+ i_86_ i_79_ i_8_ i_96_ i_87_ i_5_ i_95_ i_88_ i_6_ i_27_ i_14_ i_3_ i_39_\
+ i_28_ i_13_ i_4_ i_119_ i_108_ i_25_ i_12_ i_1_ i_118_ i_109_ i_26_ i_11_\
+ i_2_ i_117_ i_106_ i_90_ i_49_ i_23_ i_18_ i_116_ i_107_ i_24_ i_17_ i_0_\
+ i_115_ i_104_ i_21_ i_16_ i_114_ i_105_ i_80_ i_59_ i_22_ i_15_ i_113_\
+ i_102_ i_58_ i_45_ i_32_ i_112_ i_103_ i_57_ i_46_ i_31_ i_111_ i_100_\
+ i_70_ i_56_ i_47_ i_34_ i_110_ i_101_ i_55_ i_48_ i_33_ i_19_ i_54_ i_41_\
+ i_36_ i_60_ i_53_ i_42_ i_35_ i_52_ i_43_ i_38_ i_29_ i_51_ i_44_ i_37_
+.outputs o_0_
+# connect ports to nets with different names
+.names i_89_ ni_89_
+1  1
+.names i_76_ ni_76_
+1  1
+.names i_63_ ni_63_
+1  1
+.names i_50_ ni_50_
+1  1
+.names i_75_ ni_75_
+1  1
+.names i_64_ ni_64_
+1  1
+.names i_78_ ni_78_
+1  1
+.names i_61_ ni_61_
+1  1
+.names no_0_ o_0_
+1  1
+.names i_99_ ni_99_
+1  1
+.names i_77_ ni_77_
+1  1
+.names i_62_ ni_62_
+1  1
+.names i_40_ ni_40_
+1  1
+.names i_120_ ni_120_
+1  1
+.names i_72_ ni_72_
+1  1
+.names i_67_ ni_67_
+1  1
+.names i_121_ ni_121_
+1  1
+.names i_71_ ni_71_
+1  1
+.names i_68_ ni_68_
+1  1
+.names i_122_ ni_122_
+1  1
+.names i_74_ ni_74_
+1  1
+.names i_65_ ni_65_
+1  1
+.names i_30_ ni_30_
+1  1
+.names i_123_ ni_123_
+1  1
+.names i_73_ ni_73_
+1  1
+.names i_66_ ni_66_
+1  1
+.names i_124_ ni_124_
+1  1
+.names i_94_ ni_94_
+1  1
+.names i_81_ ni_81_
+1  1
+.names i_125_ ni_125_
+1  1
+.names i_93_ ni_93_
+1  1
+.names i_82_ ni_82_
+1  1
+.names i_20_ ni_20_
+1  1
+.names i_126_ ni_126_
+1  1
+.names i_92_ ni_92_
+1  1
+.names i_83_ ni_83_
+1  1
+.names i_69_ ni_69_
+1  1
+.names i_9_ ni_9_
+1  1
+.names i_127_ ni_127_
+1  1
+.names i_91_ ni_91_
+1  1
+.names i_84_ ni_84_
+1  1
+.names i_128_ ni_128_
+1  1
+.names i_98_ ni_98_
+1  1
+.names i_85_ ni_85_
+1  1
+.names i_10_ ni_10_
+1  1
+.names i_7_ ni_7_
+1  1
+.names i_129_ ni_129_
+1  1
+.names i_97_ ni_97_
+1  1
+.names i_86_ ni_86_
+1  1
+.names i_79_ ni_79_
+1  1
+.names i_8_ ni_8_
+1  1
+.names i_96_ ni_96_
+1  1
+.names i_87_ ni_87_
+1  1
+.names i_5_ ni_5_
+1  1
+.names i_95_ ni_95_
+1  1
+.names i_88_ ni_88_
+1  1
+.names i_6_ ni_6_
+1  1
+.names i_27_ ni_27_
+1  1
+.names i_14_ ni_14_
+1  1
+.names i_3_ ni_3_
+1  1
+.names i_39_ ni_39_
+1  1
+.names i_28_ ni_28_
+1  1
+.names i_13_ ni_13_
+1  1
+.names i_4_ ni_4_
+1  1
+.names i_119_ ni_119_
+1  1
+.names i_108_ ni_108_
+1  1
+.names i_25_ ni_25_
+1  1
+.names i_12_ ni_12_
+1  1
+.names i_1_ ni_1_
+1  1
+.names i_118_ ni_118_
+1  1
+.names i_109_ ni_109_
+1  1
+.names i_26_ ni_26_
+1  1
+.names i_11_ ni_11_
+1  1
+.names i_2_ ni_2_
+1  1
+.names i_117_ ni_117_
+1  1
+.names i_106_ ni_106_
+1  1
+.names i_90_ ni_90_
+1  1
+.names i_49_ ni_49_
+1  1
+.names i_23_ ni_23_
+1  1
+.names i_18_ ni_18_
+1  1
+.names i_116_ ni_116_
+1  1
+.names i_107_ ni_107_
+1  1
+.names i_24_ ni_24_
+1  1
+.names i_17_ ni_17_
+1  1
+.names i_0_ ni_0_
+1  1
+.names i_115_ ni_115_
+1  1
+.names i_104_ ni_104_
+1  1
+.names i_21_ ni_21_
+1  1
+.names i_16_ ni_16_
+1  1
+.names i_114_ ni_114_
+1  1
+.names i_105_ ni_105_
+1  1
+.names i_80_ ni_80_
+1  1
+.names i_59_ ni_59_
+1  1
+.names i_22_ ni_22_
+1  1
+.names i_15_ ni_15_
+1  1
+.names i_113_ ni_113_
+1  1
+.names i_102_ ni_102_
+1  1
+.names i_58_ ni_58_
+1  1
+.names i_45_ ni_45_
+1  1
+.names i_32_ ni_32_
+1  1
+.names i_112_ ni_112_
+1  1
+.names i_103_ ni_103_
+1  1
+.names i_57_ ni_57_
+1  1
+.names i_46_ ni_46_
+1  1
+.names i_31_ ni_31_
+1  1
+.names i_111_ ni_111_
+1  1
+.names i_100_ ni_100_
+1  1
+.names i_70_ ni_70_
+1  1
+.names i_56_ ni_56_
+1  1
+.names i_47_ ni_47_
+1  1
+.names i_34_ ni_34_
+1  1
+.names i_110_ ni_110_
+1  1
+.names i_101_ ni_101_
+1  1
+.names i_55_ ni_55_
+1  1
+.names i_48_ ni_48_
+1  1
+.names i_33_ ni_33_
+1  1
+.names i_19_ ni_19_
+1  1
+.names i_54_ ni_54_
+1  1
+.names i_41_ ni_41_
+1  1
+.names i_36_ ni_36_
+1  1
+.names i_60_ ni_60_
+1  1
+.names i_53_ ni_53_
+1  1
+.names i_42_ ni_42_
+1  1
+.names i_35_ ni_35_
+1  1
+.names i_52_ ni_52_
+1  1
+.names i_43_ ni_43_
+1  1
+.names i_38_ ni_38_
+1  1
+.names i_29_ ni_29_
+1  1
+.names i_51_ ni_51_
+1  1
+.names i_44_ ni_44_
+1  1
+.names i_37_ ni_37_
+1  1
+# instance g_g9
+.names n_n27 n_n26 n_n28  n_n8
+1--  1
+-1-  1
+--1  1
+# instance g_g5
+.names n_n15 n_n14 n_n16  n_n4
+1--  1
+-1-  1
+--1  1
+# instance g_g6
+.names n_n18 n_n17 n_n19  n_n5
+1--  1
+-1-  1
+--1  1
+# instance g_g7
+.names n_n21 n_n20 n_n22  n_n6
+1--  1
+-1-  1
+--1  1
+# instance g_g8
+.names n_n24 n_n23 n_n25  n_n7
+1--  1
+-1-  1
+--1  1
+# instance g_g1
+.names n_n10 n_n3  n_n0
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n4 n_n6  n_n1
+1--  1
+-1-  1
+--1  1
+# instance g_g3
+.names n_n8 n_n7 n_n9  n_n2
+1--  1
+-1-  1
+--1  1
+# instance g_g4
+.names n_n12 n_n11 n_n13  n_n3
+1--  1
+-1-  1
+--1  1
+# instance g_g94
+.names ni_126_ ni_62_  n_n93
+11  1
+# instance g_g83
+.names ni_115_ ni_51_  n_n82
+11  1
+# instance g_g72
+.names ni_104_ ni_40_  n_n71
+11  1
+# instance g_g61
+.names ni_93_ ni_29_  n_n60
+11  1
+# instance g_g50
+.names ni_82_ ni_18_  n_n49
+11  1
+# instance g_g95
+.names ni_127_ ni_63_  n_n94
+11  1
+# instance g_g82
+.names ni_114_ ni_50_  n_n81
+11  1
+# instance g_g73
+.names ni_105_ ni_41_  n_n72
+11  1
+# instance g_g60
+.names ni_92_ ni_28_  n_n59
+11  1
+# instance g_g51
+.names ni_83_ ni_19_  n_n50
+11  1
+# instance g_g96
+.names ni_128_ ni_64_  n_n95
+11  1
+# instance g_g81
+.names ni_113_ ni_49_  n_n80
+11  1
+# instance g_g70
+.names ni_102_ ni_38_  n_n69
+11  1
+# instance g_g63
+.names ni_95_ ni_31_  n_n62
+11  1
+# instance g_g52
+.names ni_84_ ni_20_  n_n51
+11  1
+# instance g_g97
+.names ni_129_ ni_0_  n_n96
+11  1
+# instance g_g80
+.names ni_112_ ni_48_  n_n79
+11  1
+# instance g_g71
+.names ni_103_ ni_39_  n_n70
+11  1
+# instance g_g62
+.names ni_94_ ni_30_  n_n61
+11  1
+# instance g_g53
+.names ni_85_ ni_21_  n_n52
+11  1
+# instance g_g0
+.names n_n1 n_n0 n_n2  no_0_
+1--  1
+-1-  1
+--1  1
+# instance g_g43
+.names ni_75_ ni_11_  n_n42
+11  1
+# instance g_g32
+.names n_n33 n_n34 n_n32  n_n31
+1--  1
+-1-  1
+--1  1
+# instance g_g21
+.names n_n66 n_n67 n_n65  n_n20
+1--  1
+-1-  1
+--1  1
+# instance g_g10
+.names n_n30 n_n29 n_n31  n_n9
+1--  1
+-1-  1
+--1  1
+# instance g_g42
+.names ni_74_ ni_10_  n_n41
+11  1
+# instance g_g33
+.names ni_65_ ni_1_  n_n32
+11  1
+# instance g_g20
+.names n_n69 n_n70 n_n68  n_n19
+1--  1
+-1-  1
+--1  1
+# instance g_g11
+.names n_n96 n_n95  n_n10
+1-  1
+-1  1
+# instance g_g41
+.names ni_73_ ni_9_  n_n40
+11  1
+# instance g_g30
+.names n_n39 n_n40 n_n38  n_n29
+1--  1
+-1-  1
+--1  1
+# instance g_g23
+.names n_n60 n_n61 n_n59  n_n22
+1--  1
+-1-  1
+--1  1
+# instance g_g12
+.names n_n93 n_n94 n_n92  n_n11
+1--  1
+-1-  1
+--1  1
+# instance g_g40
+.names ni_72_ ni_8_  n_n39
+11  1
+# instance g_g31
+.names n_n36 n_n37 n_n35  n_n30
+1--  1
+-1-  1
+--1  1
+# instance g_g22
+.names n_n63 n_n64 n_n62  n_n21
+1--  1
+-1-  1
+--1  1
+# instance g_g13
+.names n_n90 n_n91 n_n89  n_n12
+1--  1
+-1-  1
+--1  1
+# instance g_g69
+.names ni_101_ ni_37_  n_n68
+11  1
+# instance g_g58
+.names ni_90_ ni_26_  n_n57
+11  1
+# instance g_g47
+.names ni_79_ ni_15_  n_n46
+11  1
+# instance g_g36
+.names ni_68_ ni_4_  n_n35
+11  1
+# instance g_g25
+.names n_n54 n_n55 n_n53  n_n24
+1--  1
+-1-  1
+--1  1
+# instance g_g14
+.names n_n87 n_n88 n_n86  n_n13
+1--  1
+-1-  1
+--1  1
+# instance g_g68
+.names ni_100_ ni_36_  n_n67
+11  1
+# instance g_g59
+.names ni_91_ ni_27_  n_n58
+11  1
+# instance g_g46
+.names ni_78_ ni_14_  n_n45
+11  1
+# instance g_g37
+.names ni_69_ ni_5_  n_n36
+11  1
+# instance g_g24
+.names n_n57 n_n58 n_n56  n_n23
+1--  1
+-1-  1
+--1  1
+# instance g_g15
+.names n_n84 n_n85 n_n83  n_n14
+1--  1
+-1-  1
+--1  1
+# instance g_g89
+.names ni_121_ ni_57_  n_n88
+11  1
+# instance g_g78
+.names ni_110_ ni_46_  n_n77
+11  1
+# instance g_g45
+.names ni_77_ ni_13_  n_n44
+11  1
+# instance g_g34
+.names ni_66_ ni_2_  n_n33
+11  1
+# instance g_g27
+.names n_n48 n_n49 n_n47  n_n26
+1--  1
+-1-  1
+--1  1
+# instance g_g16
+.names n_n81 n_n82 n_n80  n_n15
+1--  1
+-1-  1
+--1  1
+# instance g_g88
+.names ni_120_ ni_56_  n_n87
+11  1
+# instance g_g79
+.names ni_111_ ni_47_  n_n78
+11  1
+# instance g_g44
+.names ni_76_ ni_12_  n_n43
+11  1
+# instance g_g35
+.names ni_67_ ni_3_  n_n34
+11  1
+# instance g_g26
+.names n_n51 n_n52 n_n50  n_n25
+1--  1
+-1-  1
+--1  1
+# instance g_g17
+.names n_n78 n_n79 n_n77  n_n16
+1--  1
+-1-  1
+--1  1
+# instance g_g90
+.names ni_122_ ni_58_  n_n89
+11  1
+# instance g_g87
+.names ni_119_ ni_55_  n_n86
+11  1
+# instance g_g76
+.names ni_108_ ni_44_  n_n75
+11  1
+# instance g_g65
+.names ni_97_ ni_33_  n_n64
+11  1
+# instance g_g54
+.names ni_86_ ni_22_  n_n53
+11  1
+# instance g_g29
+.names n_n42 n_n43 n_n41  n_n28
+1--  1
+-1-  1
+--1  1
+# instance g_g18
+.names n_n75 n_n76 n_n74  n_n17
+1--  1
+-1-  1
+--1  1
+# instance g_g91
+.names ni_123_ ni_59_  n_n90
+11  1
+# instance g_g86
+.names ni_118_ ni_54_  n_n85
+11  1
+# instance g_g77
+.names ni_109_ ni_45_  n_n76
+11  1
+# instance g_g64
+.names ni_96_ ni_32_  n_n63
+11  1
+# instance g_g55
+.names ni_87_ ni_23_  n_n54
+11  1
+# instance g_g28
+.names n_n45 n_n46 n_n44  n_n27
+1--  1
+-1-  1
+--1  1
+# instance g_g19
+.names n_n72 n_n73 n_n71  n_n18
+1--  1
+-1-  1
+--1  1
+# instance g_g92
+.names ni_124_ ni_60_  n_n91
+11  1
+# instance g_g85
+.names ni_117_ ni_53_  n_n84
+11  1
+# instance g_g74
+.names ni_106_ ni_42_  n_n73
+11  1
+# instance g_g67
+.names ni_99_ ni_35_  n_n66
+11  1
+# instance g_g56
+.names ni_88_ ni_24_  n_n55
+11  1
+# instance g_g49
+.names ni_81_ ni_17_  n_n48
+11  1
+# instance g_g38
+.names ni_70_ ni_6_  n_n37
+11  1
+# instance g_g93
+.names ni_125_ ni_61_  n_n92
+11  1
+# instance g_g84
+.names ni_116_ ni_52_  n_n83
+11  1
+# instance g_g75
+.names ni_107_ ni_43_  n_n74
+11  1
+# instance g_g66
+.names ni_98_ ni_34_  n_n65
+11  1
+# instance g_g57
+.names ni_89_ ni_25_  n_n56
+11  1
+# instance g_g48
+.names ni_80_ ni_16_  n_n47
+11  1
+# instance g_g39
+.names ni_71_ ni_7_  n_n38
+11  1
+.end

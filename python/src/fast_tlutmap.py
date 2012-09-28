@@ -6,8 +6,6 @@ Created on Dec 15, 2009
 
 import os
 import shutil
-import sys
-import commands
 from mapping import *   
 
 colwidth=10
@@ -15,10 +13,11 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module,submodules=[]):
+def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     assert module.endswith('.vhd')
     baseName = module[:-len('.vhd')]
     
+    print "Stage: Creating work directory and copying design"
     try:
         os.system('mkdir -p work')
         shutil.copy(baseName+'.vhd', 'work')
@@ -30,6 +29,7 @@ def run(module,submodules=[]):
     os.chdir('work')
     
     # Automatically extract parameters from VHDL
+    print "Stage: Generating parameters"
     parameterFileName = baseName+'.par'
     try:
         assert not os.system('genParameters.py '+baseName+'.vhd > '+baseName+'.par')
@@ -37,26 +37,27 @@ def run(module,submodules=[]):
         exit(3)
     
     # Synthesis
-    blifFileName = synthesize(baseName+'.vhd', submodules)
+    print "Stage: Synthesizing"
+    blifFileName = synthesize(baseName+'.vhd', submodules, verboseFlag)
     
     # Convert BLIF to aig
     aagFileName = bliftoaag(blifFileName)
     
     # Unleash TMAP
-    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName,aagFileName, parameterFileName, 4, True)
-    print "TMAP"
+    print "Stage: TMAP"
+    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','TLUTs','depth','check'],colwidth)
     print collumnize([numLuts,numTLUTs,depth,check],colwidth)
     
     # Run regular MAP
-    print "SimpleMAP"
-    numLuts, depth, check = simpleMapper(baseName,aagFileName, 4, True)
+    print "Stage: SimpleMAP"
+    numLuts, depth, check = simpleMapper(baseName, aagFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','','depth','check'],colwidth)
     print collumnize([numLuts,'',depth,check],colwidth)
     
     # Run regular abc fpga
-    print "ABC fpga"
-    numLuts, depth, check = fpgaMapper(baseName,blifFileName, 4, True)
+    print "Stage: ABC fpga"
+    numLuts, depth, check = fpgaMapper(baseName, blifFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','','depth','check'],colwidth)
     print collumnize([numLuts,'',depth,check],colwidth)
     

@@ -1,0 +1,8042 @@
+#
+# Written by e2fmt Tue Mar 31 16:16:57 1998
+############################################
+.model top
+.inputs perror_0_0_ pdata_in_7_7_ pdata_in_6_6_ pdata_in_3_3_ pclk pdata_in_2_2_\
+ pdata_in_5_5_ pdata_in_4_4_ pnew_data_0_0_ pdata_in_1_1_ preset pdata_in_0_0_
+.outputs pdata_out_3_3_ pdecoder_in_0_0_ pdata_out_4_4_ pdata_out_1_1_ pdata_out_2_2_\
+ pdetected_error_1_1_ pdata_out_7_7_ pout_ready_0_0_ pdetected_error_0_0_\
+ pdata_out_0_0_ pdata_ready_0_0_ pencoder_out_0_0_ pdata_out_5_5_ pdata_out_6_6_
+# connect ports to nets with different names
+.names n_n14 pdata_out_3_3_
+1  1
+.names n_n6 pdecoder_in_0_0_
+1  1
+.names perror_0_0_ n_n18
+1  1
+.names n_n13 pdata_out_4_4_
+1  1
+.names n_n16 pdata_out_1_1_
+1  1
+.names pdata_in_7_7_ n_n19
+1  1
+.names pdata_in_6_6_ n_n20
+1  1
+.names n_n15 pdata_out_2_2_
+1  1
+.names n_n8 pdetected_error_1_1_
+1  1
+.names n_n10 pdata_out_7_7_
+1  1
+.names n_n4 pout_ready_0_0_
+1  1
+.names pdata_in_3_3_ n_n23
+1  1
+.names pclk nclk
+1  1
+.names pdata_in_2_2_ n_n24
+1  1
+.names n_n9 pdetected_error_0_0_
+1  1
+.names n_n17 pdata_out_0_0_
+1  1
+.names pdata_in_5_5_ n_n21
+1  1
+.names n_n5 pdata_ready_0_0_
+1  1
+.names pdata_in_4_4_ n_n22
+1  1
+.names n_n7 pencoder_out_0_0_
+1  1
+.names n_n12 pdata_out_5_5_
+1  1
+.names pnew_data_0_0_ n_n27
+1  1
+.names n_n11 pdata_out_6_6_
+1  1
+.names pdata_in_1_1_ n_n25
+1  1
+.names preset nreset
+1  1
+.names pdata_in_0_0_ n_n26
+1  1
+# instance ginst1
+.gate cencode pdata_in_7_7_=n_n19 pdata_in_6_6_=n_n20 pdata_in_3_3_=n_n23\
+ pclk=nclk pdata_in_2_2_=n_n24 pdata_in_5_5_=n_n21 pdata_ready_0_0_=n_n5\
+ pdata_in_4_4_=n_n22 pencoder_out_0_0_=n_n7 pnew_data_0_0_=n_n27 pdn=n_n3\
+ pdata_in_1_1_=n_n25 preset=nreset pdata_in_0_0_=n_n26
+# instance ginst3
+.gate cdecode pdata_out_3_3_=n_n14 pdecoder_in_0_0_=n_n6 pdata_out_4_4_=n_n13\
+ pdata_out_1_1_=n_n16 pdata_out_2_2_=n_n15 perr_1_1_=n_n8 pdata_out_7_7_=n_n10\
+ pout_ready_0_0_=n_n4 pclk=nclk pdata_out_0_0_=n_n17 pdata_ready_0_0_=n_n5\
+ pdata_out_5_5_=n_n12 pdn=n_n2 pdata_out_6_6_=n_n11 preset=nreset perr_0_0_=n_n9
+# instance ginst2
+.gate cnoise pdecoder_in_0_0_=n_n6 perror_0_0_=n_n18 pencoder_out_0_0_=n_n7
+.end
+############################################
+.model cencode
+.inputs pdata_in_7_7_ pdata_in_6_6_ pdata_in_3_3_ pclk pdata_in_2_2_ pdata_in_5_5_\
+ pdata_in_4_4_ pnew_data_0_0_ pdata_in_1_1_ preset pdata_in_0_0_
+.outputs pdata_ready_0_0_ pencoder_out_0_0_ pdn
+# connect ports to nets with different names
+.names pdata_in_7_7_ n_n237
+1  1
+.names pdata_in_6_6_ n_n238
+1  1
+.names pdata_in_3_3_ n_n241
+1  1
+.names pclk nclk
+1  1
+.names pdata_in_2_2_ n_n242
+1  1
+.names pdata_in_5_5_ n_n239
+1  1
+.names n_n234 pdata_ready_0_0_
+1  1
+.names pdata_in_4_4_ n_n240
+1  1
+.names n_n235 pencoder_out_0_0_
+1  1
+.names pnew_data_0_0_ n_n236
+1  1
+.names ndn pdn
+1  1
+.names pdata_in_1_1_ n_n243
+1  1
+.names preset nreset
+1  1
+.names pdata_in_0_0_ n_n244
+1  1
+# instance gff_sr_en3
+.gate cff_sr_en pden=nrq1_4 pdout=n_n225 pdin=n_n242 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g258
+.gate cff_en pden=n1 pdout=nen1_26 pdin=n_n170 pres=nreset pclk=nclk
+# instance g_g247
+.gate cff_en pden=n1 pdout=nen1_37 pdin=n_n159 pres=nreset pclk=nclk
+# instance g_g236
+.names nsl1_3  n_n153
+0  1
+# instance g_g225
+.names n_n195 nrq1_32  n_n143
+11  1
+# instance g_g214
+.names n_n202 nrq1_20  n_n134
+11  1
+# instance g_g203
+.names n_n210 nrq1_14  n_n126
+11  1
+# instance g_g159
+.names ndn  n_n92
+0  1
+# instance g_g148
+.names n_n86 n_n85  n_n172
+11  1
+# instance g_g137
+.names nen1_27 nen1_28  n_n77
+1-  1
+-1  1
+# instance g_g126
+.names ndn  n_n70
+0  1
+# instance g_g115
+.names n_n64 n_n63  n_n161
+11  1
+# instance g_g104
+.names ndn nrq1_39  n_n55
+1-  1
+-1  1
+# instance gff_sr_en2
+.gate cff_sr_en pden=nrq1_4 pdout=n_n226 pdin=n_n243 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g257
+.gate cff_en pden=n1 pdout=nen1_27 pdin=n_n169 pres=nreset pclk=nclk
+# instance g_g248
+.gate cff_en pden=n1 pdout=nen1_36 pdin=n_n160 pres=nreset pclk=nclk
+# instance g_g235
+.names n_n152  nsr2_2
+0  1
+# instance g_g226
+.names n_n219 nrq1_30  n_n144
+11  1
+# instance g_g213
+.names n_n135 n_n136 n_n134  n_n186
+1--  1
+-1-  1
+--1  1
+# instance g_g204
+.names n_n221 nrq1_9  n_n127
+11  1
+# instance g_g158
+.names ndn1_20 nen1_16  n_n91
+1-  1
+-1  1
+# instance g_g149
+.names nen1_23 nen1_24  n_n85
+1-  1
+-1  1
+# instance g_g136
+.names n_n78 n_n77  n_n168
+11  1
+# instance g_g127
+.names n_n72 n_n71  n_n165
+11  1
+# instance g_g114
+.names ndn  n_n62
+0  1
+# instance g_g105
+.names ndn  n_n56
+0  1
+# instance gff_sr_en1
+.gate cff_sr_en pden=nrq1_4 pdout=n_n232 pdin=n_n244 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g267
+.gate cff_en pden=n1 pdout=nen1_9 pdin=n_n179 pres=nreset pclk=nclk
+# instance g_g249
+.gate cff_en pden=n1 pdout=nen1_35 pdin=n_n161 pres=nreset pclk=nclk
+# instance g_g234
+.names nrq1_21 nrq1_22  n_n189
+1-  1
+-1  1
+# instance g_g223
+.names n_n191 nrq1_34  n_n141
+11  1
+# instance g_g216
+.names n_n224 nrq1_9  n_n136
+11  1
+# instance g_g205
+.names n_n129 n_n130 n_n128  n_n184
+1--  1
+-1-  1
+--1  1
+# instance g_g179
+.names nsl1_3  n_n106
+0  1
+# instance g_g168
+.names ndn  n_n98
+0  1
+# instance g_g135
+.names ndn  n_n76
+0  1
+# instance g_g124
+.names n_n70 n_n69  n_n164
+11  1
+# instance g_g117
+.names ndn  n_n64
+0  1
+# instance g_g106
+.names n_n58 n_n57  n_n158
+11  1
+# instance g_g259
+.gate cff_en pden=n1 pdout=nen1_25 pdin=n_n171 pres=nreset pclk=nclk
+# instance g_g233
+.names n_n232 nrq1_23  n_n151
+11  1
+# instance g_g224
+.names n_n193 nrq1_33  n_n142
+11  1
+# instance g_g215
+.names n_n213 nrq1_14  n_n135
+11  1
+# instance g_g206
+.names n_n200 nrq1_20  n_n128
+11  1
+# instance g_g178
+.names nsr1_3 n_n106  nrq1_3
+11  1
+# instance g_g169
+.names n_n100 n_n99  n_n179
+11  1
+# instance g_g134
+.names nen1_28 nen1_29  n_n75
+1-  1
+-1  1
+# instance g_g125
+.names nen1_31 nen1_32  n_n69
+1-  1
+-1  1
+# instance g_g116
+.names nen1_34 nen1_35  n_n63
+1-  1
+-1  1
+# instance g_g107
+.names nen1_37 ndn  n_n57
+1-  1
+-1  1
+# instance g_g232
+.names n_n226 nrq1_24  n_n150
+11  1
+# instance g_g221
+.names n_n192 nrq1_36  n_n139
+11  1
+# instance g_g210
+.names n_n201 nrq1_20  n_n131
+11  1
+# instance g_g199
+.names n_n229 nrq1_7  n_n123
+11  1
+# instance g_g188
+.names n_n205 nrq1_18  n_n113
+11  1
+# instance g_g133
+.names n_n76 n_n75  n_n167
+11  1
+# instance g_g122
+.names nen1_32 nen1_33  n_n67
+1-  1
+-1  1
+# instance g_g111
+.names ndn  n_n60
+0  1
+# instance g_g100
+.names n_n54 n_n53  nlc1_3_i
+11  1
+# instance g_g9
+.names nrq2_2 n_n7  nrq3_3
+11  1
+# instance g_g231
+.names n_n225 nrq1_25  n_n149
+11  1
+# instance g_g222
+.names n_n194 nrq1_35  n_n140
+11  1
+# instance g_g200
+.names n_n232 nrq1_5  n_n124
+11  1
+# instance g_g198
+.names n_n231 nrq1_10  n_n122
+11  1
+# instance g_g189
+.names n_n208 nrq1_16  n_n114
+11  1
+# instance g_g132
+.names ndn  n_n74
+0  1
+# instance g_g123
+.names ndn  n_n68
+0  1
+# instance g_g110
+.names nen1_36 nen1_37  n_n59
+1-  1
+-1  1
+# instance g_g101
+.names nrq1_3 nlc1_3  n_n53
+1-  1
+-1  1
+# instance g_g230
+.names n_n231 nrq1_26  n_n148
+11  1
+# instance g_g212
+.names n_n223 nrq1_9  n_n133
+11  1
+# instance g_g201
+.names n_n126 n_n127 n_n125  n_n183
+1--  1
+-1-  1
+--1  1
+# instance g_g131
+.names nen1_29 nen1_30  n_n73
+1-  1
+-1  1
+# instance g_g120
+.names ndn  n_n66
+0  1
+# instance g_g113
+.names nen1_35 nen1_36  n_n61
+1-  1
+-1  1
+# instance g_g102
+.names ndn  n_n54
+0  1
+# instance g_g220
+.names n_n190 nrq1_37  n_n138
+11  1
+# instance g_g211
+.names n_n212 nrq1_14  n_n132
+11  1
+# instance g_g202
+.names n_n199 nrq1_20  n_n125
+11  1
+# instance g_g130
+.names n_n74 n_n73  n_n166
+11  1
+# instance g_g121
+.names n_n68 n_n67  n_n163
+11  1
+# instance g_g112
+.names n_n62 n_n61  n_n160
+11  1
+# instance g_g103
+.names n_n56 n_n55  n_n157
+11  1
+# instance g_g261
+.gate cff_en pden=n1 pdout=nen1_23 pdin=n_n173 pres=nreset pclk=nclk
+# instance g_g250
+.gate cff_en pden=n1 pdout=nen1_34 pdin=n_n162 pres=nreset pclk=nclk
+# instance g_g195
+.names n_n206 nrq1_18  n_n119
+11  1
+# instance g_g184
+.names n_n214 nrq1_10  n_n110
+11  1
+# instance g_g173
+.names n_n104 n_n102  n_n101
+1-  1
+-1  1
+# instance g_g162
+.names ndn  n_n94
+0  1
+# instance g_g151
+.names n_n88 n_n87  n_n173
+11  1
+# instance g_g140
+.names nen1_26 nen1_27  n_n79
+1-  1
+-1  1
+# instance g_g5
+.names nlc1_3  n_n4
+0  1
+# instance g_g240
+.names n_n155  nsl1_3
+0  1
+# instance gff_sr_en17
+.gate cff_sr_en pden=ndn_latch1_18 pdout=n_n190 pdin=n_n196 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g262
+.gate cff_en pden=n1 pdout=nen1_18 pdin=n_n174 pres=nreset pclk=nclk
+# instance g_g194
+.names n_n122 n_n123 n_n120 n_n121 n_n119 n_n124  n_n182
+1-----  1
+-1----  1
+--1---  1
+---1--  1
+----1-  1
+-----1  1
+# instance g_g185
+.names n_n227 nrq1_7  n_n111
+11  1
+# instance g_g172
+.names n_n105 n_n101  nsw1_3_i
+11  1
+# instance g_g163
+.names n_n96 n_n95  n_n177
+11  1
+# instance g_g150
+.names ndn  n_n86
+0  1
+# instance g_g141
+.names ndn  n_n80
+0  1
+# instance g_g6
+.names n_n6 n_n5  nen1_4
+1-  1
+-1  1
+# instance g_g252
+.gate cff_en pden=n1 pdout=nen1_32 pdin=n_n164 pres=nreset pclk=nclk
+# instance g_g197
+.names n_n218 nrq1_12  n_n121
+11  1
+# instance g_g186
+.names n_n225 nrq1_5  n_n112
+11  1
+# instance g_g171
+.names ndn  n_n100
+0  1
+# instance g_g160
+.names n_n94 n_n93  n_n176
+11  1
+# instance g_g153
+.names ndn  n_n88
+0  1
+# instance g_g142
+.names n_n82 n_n81  n_n170
+11  1
+# instance g_g7
+.names nsr1_3 nsl1_3  n_n5
+11  1
+# instance g_g241
+.gate cencoder_4 preturn_value_0_0_=n_n198 pindata_3_3_=n_n183 pindata_2_2_=n_n184\
+ pindata_1_1_=n_n185 pindata_0_0_=n_n186
+# instance g_g260
+.gate cff_en pden=n1 pdout=nen1_24 pdin=n_n172 pres=nreset pclk=nclk
+# instance g_g251
+.gate cff_en pden=n1 pdout=nen1_33 pdin=n_n163 pres=nreset pclk=nclk
+# instance g_g196
+.names n_n209 nrq1_16  n_n120
+11  1
+# instance g_g187
+.names n_n116 n_n117 n_n114 n_n115 n_n113 n_n118  n_n181
+1-----  1
+-1----  1
+--1---  1
+---1--  1
+----1-  1
+-----1  1
+# instance g_g170
+.names nen1_4 nen1_9  n_n99
+1-  1
+-1  1
+# instance g_g161
+.names ndn1_7 ndn1_20  n_n93
+1-  1
+-1  1
+# instance g_g152
+.names nen1_18 nen1_23  n_n87
+1-  1
+-1  1
+# instance g_g143
+.names nen1_25 nen1_26  n_n81
+1-  1
+-1  1
+# instance g_g8
+.names nsr1_3  n_n6
+0  1
+# instance g_g242
+.gate cencoder_3 preturn_value_0_0_=n_n196 pindata_2_2_=n_n180 pindata_1_1_=n_n181\
+ pindata_0_0_=n_n182
+# instance gencode_9
+.gate cencode_9 pm16_3_3_=n_n199 pm16_2_2_=n_n200 pt10_0_0_=n_n203 pm16_1_1_=n_n201\
+ pm16_0_0_=n_n202 pt4_6_6_=n_n230 pt4_7_7_=n_n219
+# instance gff_sr_en14
+.gate cff_sr_en pden=ndn_latch1_10 pdout=n_n193 pdin=n_n196 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g265
+.gate cff_en pden=n1 pdout=ndn1_7 pdin=n_n177 pres=nreset pclk=nclk
+# instance g_g254
+.gate cff_en pden=n1 pdout=nen1_30 pdin=n_n166 pres=nreset pclk=nclk
+# instance glbr1_3_1
+.gate cff_en pden=nlbr1_3_e pdout=n_n156 pdin=n_n153 pres=nreset pclk=nclk
+# instance g_g243
+.gate cff_en pden=n1 pdout=nlak2_2 pdin=nak2_2 pres=nreset pclk=nclk
+# instance g_g229
+.names n_n220 nrq1_27  n_n147
+11  1
+# instance g_g218
+.names n_n140 n_n141 n_n138 n_n139 n_n137 n_n149 n_n150 n_n151 n_n147 n_n148 n_n146 n_n144 n_n145 n_n142 n_n143  n_n188
+1--------------  1
+-1-------------  1
+--1------------  1
+---1-----------  1
+----1----------  1
+-----1---------  1
+------1--------  1
+-------1-------  1
+--------1------  1
+---------1-----  1
+----------1----  1
+-----------1---  1
+------------1--  1
+-------------1-  1
+--------------1  1
+# instance g_g207
+.names n_n211 nrq1_14  n_n129
+11  1
+# instance g_g191
+.names n_n220 nrq1_10  n_n116
+11  1
+# instance g_g180
+.names n_n110 n_n111 n_n108 n_n109 n_n107 n_n112  n_n180
+1-----  1
+-1----  1
+--1---  1
+---1--  1
+----1-  1
+-----1  1
+# instance g_g177
+.names ndn  n_n105
+0  1
+# instance g_g166
+.names n_n98 n_n97  n_n178
+11  1
+# instance g_g155
+.names nen1_16 nen1_18  n_n89
+1-  1
+-1  1
+# instance g_g144
+.names ndn  n_n82
+0  1
+# instance g_g119
+.names nen1_33 nen1_34  n_n65
+1-  1
+-1  1
+# instance g_g108
+.names ndn  n_n58
+0  1
+# instance g_g1
+.names n_n2 n_n1  n_n0
+1-  1
+-1  1
+# instance g_g239
+.names  n0
+  0
+# instance gff_sr_en13
+.gate cff_sr_en pden=ndn_latch1_7 pdout=n_n194 pdin=n_n196 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g266
+.gate cff_en pden=n1 pdout=ndn1_9 pdin=n_n178 pres=nreset pclk=nclk
+# instance g_g253
+.gate cff_en pden=n1 pdout=nen1_31 pdin=n_n165 pres=nreset pclk=nclk
+# instance g_g244
+.gate cff_en pden=n1 pdout=nlc1_3 pdin=nlc1_3_i pres=nreset pclk=nclk
+# instance g_g217
+.names nrq1_35 nrq1_34 nrq1_37 nrq1_36 nrq1_38 nrq1_26 nrq1_25 nrq1_24 nrq1_23 nrq1_28 nrq1_27 nrq1_29 nrq1_31 nrq1_30 nrq1_33 nrq1_32  n_n187
+1---------------  1
+-1--------------  1
+--1-------------  1
+---1------------  1
+----1-----------  1
+-----1----------  1
+------1---------  1
+-------1--------  1
+--------1-------  1
+---------1------  1
+----------1-----  1
+-----------1----  1
+------------1---  1
+-------------1--  1
+--------------1-  1
+---------------1  1
+# instance g_g208
+.names n_n222 nrq1_9  n_n130
+11  1
+# instance g_g190
+.names n_n217 nrq1_12  n_n115
+11  1
+# instance g_g181
+.names n_n204 nrq1_18  n_n107
+11  1
+# instance g_g176
+.names nsr1_3  n_n104
+0  1
+# instance g_g167
+.names nen1_9 ndn1_9  n_n97
+1-  1
+-1  1
+# instance g_g154
+.names n_n90 n_n89  n_n174
+11  1
+# instance g_g145
+.names n_n84 n_n83  n_n171
+11  1
+# instance g_g118
+.names n_n66 n_n65  n_n162
+11  1
+# instance g_g109
+.names n_n60 n_n59  n_n159
+11  1
+# instance g_g2
+.names nlc1_3 n_n156  n_n1
+11  1
+# instance gff_sr_en16
+.gate cff_sr_en pden=ndn_latch1_16 pdout=n_n191 pdin=n_n196 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g238
+.names  n1
+  1
+# instance g_g263
+.gate cff_en pden=n1 pdout=nen1_16 pdin=n_n175 pres=nreset pclk=nclk
+# instance g_g256
+.gate cff_en pden=n1 pdout=nen1_28 pdin=n_n168 pres=nreset pclk=nclk
+# instance g_g245
+.gate cff_en pden=n1 pdout=nrq1_39 pdin=n_n157 pres=nreset pclk=nclk
+# instance g_g227
+.names n_n230 nrq1_29  n_n145
+11  1
+# instance g_g209
+.names n_n132 n_n133 n_n131  n_n185
+1--  1
+-1-  1
+--1  1
+# instance g_g193
+.names n_n226 nrq1_5  n_n118
+11  1
+# instance g_g182
+.names n_n207 nrq1_16  n_n108
+11  1
+# instance g_g175
+.names nsl1_3 nak1_3  n_n103
+1-  1
+-1  1
+# instance g_g164
+.names ndn1_9 ndn1_7  n_n95
+1-  1
+-1  1
+# instance g_g157
+.names n_n92 n_n91  n_n175
+11  1
+# instance g_g146
+.names nen1_24 nen1_25  n_n83
+1-  1
+-1  1
+# instance g_g139
+.names n_n80 n_n79  n_n169
+11  1
+# instance g_g128
+.names nen1_30 nen1_31  n_n71
+1-  1
+-1  1
+# instance g_g3
+.names n_n4 n_n3  n_n2
+11  1
+# instance gff_sr_en15
+.gate cff_sr_en pden=ndn_latch1_12 pdout=n_n192 pdin=n_n196 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g237
+.names n_n154  nsr1_3
+0  1
+# instance g_g264
+.gate cff_en pden=n1 pdout=ndn1_20 pdin=n_n176 pres=nreset pclk=nclk
+# instance g_g255
+.gate cff_en pden=n1 pdout=nen1_29 pdin=n_n167 pres=nreset pclk=nclk
+# instance g_g246
+.gate cff_en pden=n1 pdout=ndn pdin=n_n158 pres=nreset pclk=nclk
+# instance g_g228
+.names n_n214 nrq1_28  n_n146
+11  1
+# instance g_g219
+.names n_n197 nrq1_38  n_n137
+11  1
+# instance g_g192
+.names n_n228 nrq1_7  n_n117
+11  1
+# instance g_g183
+.names n_n216 nrq1_12  n_n109
+11  1
+# instance g_g174
+.names nsr1_3 n_n103  n_n102
+11  1
+# instance g_g165
+.names ndn  n_n96
+0  1
+# instance g_g156
+.names ndn  n_n90
+0  1
+# instance g_g147
+.names ndn  n_n84
+0  1
+# instance g_g138
+.names ndn  n_n78
+0  1
+# instance g_g129
+.names ndn  n_n72
+0  1
+# instance g_g4
+.names nsl1_3  n_n3
+0  1
+# instance gff_sr_en10
+.gate cff_sr_en pden=ndn_latch1_14 pdout=n_n203 pdin=n_n198 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g94
+.names nen1_9  n_n50
+0  1
+# instance g_g83
+.names nen1_9 n_n45  nrq1_9
+11  1
+# instance g_g72
+.names ndn1_7  n_n39
+0  1
+# instance g_g61
+.names nen1_18 n_n34  ndn_latch1_18
+11  1
+# instance g_g50
+.names nen1_25  n_n28
+0  1
+# instance gencode_4
+.gate cencode_4 pm5_0_0_=n_n224 pm5_3_3_=n_n221 pt4_0_0_=n_n232 pt4_1_1_=n_n226\
+ pm5_1_1_=n_n223 pt4_2_2_=n_n225 pm5_2_2_=n_n222
+# instance g_g95
+.names nrq2_3 nrq4_2  nak1_3
+1-  1
+-1  1
+# instance g_g82
+.names ndn1_9  n_n44
+0  1
+# instance g_g73
+.names ndn1_20 n_n40  ndn_latch1_12
+11  1
+# instance g_g60
+.names ndn1_20  n_n33
+0  1
+# instance g_g51
+.names nen1_23 n_n29  nrq1_23
+11  1
+# instance gencode_3
+.gate cencode_3 pt4_3_3_=n_n231 pt4_6_6_=n_n230 pm2_2_2_=n_n227 pt4_0_0_=n_n232\
+ pm2_0_0_=n_n229 pm2_1_1_=n_n228
+# instance gff_sr_en12
+.gate cff_sr_en pden=ndn_latch1_5 pdout=n_n195 pdin=n_n196 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g96
+.names nsl1_3 nrq1_3 n_n51  nrq4_2
+111  1
+# instance g_g81
+.names nen1_9 n_n44  ndn_latch1_9
+11  1
+# instance g_g70
+.names ndn1_7  n_n38
+0  1
+# instance g_g63
+.names nen1_18 n_n35  nrq1_18
+11  1
+# instance g_g52
+.names nen1_24  n_n29
+0  1
+# instance gencode_2
+.gate cencode_2 pt3_0_0_=n_n233 pnew_data_0_0_=n_n236
+# instance gff_sr_en11
+.gate cff_sr_en pden=ndn_latch1_20 pdout=n_n197 pdin=n_n198 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g97
+.names nlc1_3  n_n51
+0  1
+# instance g_g80
+.names ndn1_20  n_n43
+0  1
+# instance g_g71
+.names ndn1_9 n_n39  nrq1_14
+11  1
+# instance g_g62
+.names nen1_23  n_n34
+0  1
+# instance g_g53
+.names nen1_24 n_n30  nrq1_22
+11  1
+# instance g_g0
+.names nrq1_3 n_n0  nen2_2
+11  1
+# instance gencode_1
+.gate cencode_1 pt1_0_0_=n_n155 pnew_data_0_0_=n_n236
+# instance gsw1_3
+.gate cff_en pden=n1 pdout=n_n154 pdin=nsw1_3_i pres=nreset pclk=nclk
+# instance gsw2_2
+.gate cff_en pden=n1 pdout=n_n152 pdin=nsw2_2_i pres=nreset pclk=nclk
+# instance g_g98
+.names nrq1_3 n_n52  nlbr1_3_e
+11  1
+# instance g_g43
+.names nen1_27 n_n25  nrq1_27
+11  1
+# instance g_g32
+.names nen1_34  n_n19
+0  1
+# instance g_g21
+.names ndn n_n14  nrq1_38
+11  1
+# instance g_g10
+.names nlak2_2  n_n7
+0  1
+# instance gencode_8
+.gate cencode_8 pt4_5_5_=n_n214 pm13_2_2_=n_n204 pm13_1_1_=n_n205 pm13_0_0_=n_n206\
+ pt4_2_2_=n_n225
+# instance g_g99
+.names nlc1_3  n_n52
+0  1
+# instance g_g42
+.names nen1_29  n_n24
+0  1
+# instance g_g33
+.names nen1_32 n_n20  nrq1_32
+11  1
+# instance g_g20
+.names nsr2_2 nen2_2  nrq2_2
+11  1
+# instance g_g11
+.names n_n233 nrq3_3  nak2_2
+11  1
+# instance gencode_7
+.gate cencode_7 pm11_2_2_=n_n207 pt4_6_6_=n_n230 pm11_1_1_=n_n208 pm11_0_0_=n_n209\
+ pt4_7_7_=n_n219
+# instance g_g41
+.names nen1_28 n_n24  nrq1_28
+11  1
+# instance g_g30
+.names nen1_35  n_n18
+0  1
+# instance g_g23
+.names nen1_37 n_n15  nrq1_37
+11  1
+# instance g_g12
+.names n_n11 n_n8  nsw2_2_i
+11  1
+# instance gencode_6
+.gate cencode_6 pt4_3_3_=n_n231 pt4_4_4_=n_n220 pt4_5_5_=n_n214 pm10_3_3_=n_n210\
+ pt7_0_0_=n_n215 pm10_2_2_=n_n211 pm10_1_1_=n_n212 pm10_0_0_=n_n213
+# instance g_g40
+.names nen1_30  n_n23
+0  1
+# instance g_g31
+.names nen1_33 n_n19  nrq1_33
+11  1
+# instance g_g22
+.names nrq1_39  n_n14
+0  1
+# instance g_g13
+.names n_n10 n_n9  n_n8
+1-  1
+-1  1
+# instance gencode_5
+.gate cencode_5 pt4_4_4_=n_n220 pm7_1_1_=n_n217 pm7_2_2_=n_n216 pt4_7_7_=n_n219\
+ pm7_0_0_=n_n218 pt4_1_1_=n_n226
+# instance g_g69
+.names ndn1_9 n_n38  ndn_latch1_14
+11  1
+# instance g_g58
+.names ndn1_20  n_n32
+0  1
+# instance g_g47
+.names nen1_25 n_n27  nrq1_25
+11  1
+# instance g_g36
+.names nen1_32  n_n21
+0  1
+# instance g_g25
+.names nen1_36 n_n16  nrq1_36
+11  1
+# instance g_g14
+.names nen2_2 nsr2_2 nak2_2  n_n9
+111  1
+# instance g_g68
+.names nen1_18  n_n37
+0  1
+# instance g_g59
+.names ndn1_7 n_n33  nrq1_20
+11  1
+# instance g_g46
+.names nen1_27  n_n26
+0  1
+# instance g_g37
+.names nen1_30 n_n22  nrq1_30
+11  1
+# instance g_g24
+.names ndn  n_n15
+0  1
+# instance g_g15
+.names nsr2_2  n_n10
+0  1
+# instance gff_sr_en9
+.gate cff_sr_en pden=ndn_latch1_9 pdout=n_n215 pdin=n_n198 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g89
+.names nen1_9 n_n48  ndn_latch1_5
+11  1
+# instance g_g78
+.names ndn1_20  n_n42
+0  1
+# instance g_g45
+.names nen1_26 n_n26  nrq1_26
+11  1
+# instance g_g34
+.names nen1_33  n_n20
+0  1
+# instance g_g27
+.names nen1_35 n_n17  nrq1_35
+11  1
+# instance g_g16
+.names ndn  n_n11
+0  1
+# instance gff_sr_en8
+.gate cff_sr_en pden=nrq1_4 pdout=n_n219 pdin=n_n237 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_en_encoder_out0
+.gate cff_en pden=n_n187 pdout=n_n235 pdin=n_n188 pres=nreset pclk=nclk
+# instance g_g88
+.names ndn1_7  n_n47
+0  1
+# instance g_g79
+.names ndn1_7 n_n43  nrq1_10
+11  1
+# instance g_g44
+.names nen1_28  n_n25
+0  1
+# instance g_g35
+.names nen1_31 n_n21  nrq1_31
+11  1
+# instance g_g26
+.names nen1_37  n_n16
+0  1
+# instance g_g17
+.names n_n13 n_n12  nrq2_3
+1-  1
+-1  1
+# instance gff_sr_en7
+.gate cff_sr_en pden=nrq1_4 pdout=n_n230 pdin=n_n238 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g90
+.names ndn1_9  n_n48
+0  1
+# instance g_g87
+.names ndn1_9 n_n47  nrq1_7
+11  1
+# instance g_g76
+.names nen1_16  n_n41
+0  1
+# instance g_g65
+.names nen1_16 n_n36  ndn_latch1_16
+11  1
+# instance g_g54
+.names nen1_25  n_n30
+0  1
+# instance g_g29
+.names nen1_34 n_n18  nrq1_34
+11  1
+# instance g_g18
+.names nen2_2 nsr2_2 nak2_2  n_n12
+111  1
+# instance gff_sr_en6
+.gate cff_sr_en pden=nrq1_4 pdout=n_n214 pdin=n_n239 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g91
+.names nen1_9 n_n49  nrq1_5
+11  1
+# instance g_g86
+.names ndn1_7  n_n46
+0  1
+# instance g_g77
+.names ndn1_7 n_n42  ndn_latch1_10
+11  1
+# instance g_g64
+.names nen1_23  n_n35
+0  1
+# instance g_g55
+.names nen1_23 n_n31  nrq1_21
+11  1
+# instance g_g28
+.names nen1_36  n_n17
+0  1
+# instance g_g19
+.names nsr2_2  n_n13
+0  1
+# instance gff_sr_en5
+.gate cff_sr_en pden=nrq1_4 pdout=n_n220 pdin=n_n240 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_en_data_ready0
+.gate cff_en pden=n_n189 pdout=n_n234 pdin=nrq1_21 pres=nreset pclk=nclk
+# instance g_g92
+.names ndn1_9  n_n49
+0  1
+# instance g_g85
+.names ndn1_9 n_n46  ndn_latch1_7
+11  1
+# instance g_g74
+.names nen1_16  n_n40
+0  1
+# instance g_g67
+.names nen1_16 n_n37  nrq1_16
+11  1
+# instance g_g56
+.names nen1_24  n_n31
+0  1
+# instance g_g49
+.names nen1_24 n_n28  nrq1_24
+11  1
+# instance g_g38
+.names nen1_31  n_n22
+0  1
+# instance gff_sr_en4
+.gate cff_sr_en pden=nrq1_4 pdout=n_n231 pdin=n_n241 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g93
+.names nen1_4 n_n50  nrq1_4
+11  1
+# instance g_g84
+.names ndn1_9  n_n45
+0  1
+# instance g_g75
+.names ndn1_20 n_n41  nrq1_12
+11  1
+# instance g_g66
+.names nen1_18  n_n36
+0  1
+# instance g_g57
+.names ndn1_7 n_n32  ndn_latch1_20
+11  1
+# instance g_g48
+.names nen1_26  n_n27
+0  1
+# instance g_g39
+.names nen1_29 n_n23  nrq1_29
+11  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cencoder_4
+.inputs pindata_3_3_ pindata_2_2_ pindata_1_1_ pindata_0_0_
+.outputs preturn_value_0_0_
+# connect ports to nets with different names
+.names n_n2 preturn_value_0_0_
+1  1
+.names pindata_3_3_ n_n3
+1  1
+.names pindata_2_2_ n_n4
+1  1
+.names pindata_1_1_ n_n5
+1  1
+.names pindata_0_0_ n_n6
+1  1
+# instance gencoder_4_1
+.gate cencoder_4_1 pt3_0_0_=n_n2 pindata_3_3_=n_n3 pindata_2_2_=n_n4 pindata_1_1_=n_n5\
+ pindata_0_0_=n_n6
+.end
+############################################
+.model cencoder_4_1
+.inputs pindata_3_3_ pindata_2_2_ pindata_1_1_ pindata_0_0_
+.outputs pt3_0_0_
+# connect ports to nets with different names
+.names n_n14 pt3_0_0_
+1  1
+.names pindata_3_3_ n_n15
+1  1
+.names pindata_2_2_ n_n16
+1  1
+.names pindata_1_1_ n_n17
+1  1
+.names pindata_0_0_ n_n18
+1  1
+# instance g_g9
+.names n_n16  n_n7
+0  1
+# instance g_g5
+.names n_n6 n_n4  n_n12
+1-  1
+-1  1
+# instance g_g6
+.names n_n5 n_n16  n_n4
+11  1
+# instance g_g7
+.names n_n13  n_n5
+0  1
+# instance g_g8
+.names n_n13 n_n7  n_n6
+11  1
+# instance g_g1
+.names n_n1 n_n15  n_n0
+11  1
+# instance g_g2
+.names n_n12  n_n1
+0  1
+# instance g_g3
+.names n_n12 n_n3  n_n2
+11  1
+# instance g_g4
+.names n_n15  n_n3
+0  1
+# instance g_g0
+.names n_n2 n_n0  n_n14
+1-  1
+-1  1
+# instance g_g10
+.names n_n10 n_n8  n_n13
+1-  1
+-1  1
+# instance g_g11
+.names n_n9 n_n17  n_n8
+11  1
+# instance g_g12
+.names n_n18  n_n9
+0  1
+# instance g_g13
+.names n_n18 n_n11  n_n10
+11  1
+# instance g_g14
+.names n_n17  n_n11
+0  1
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cencoder_3
+.inputs pindata_2_2_ pindata_1_1_ pindata_0_0_
+.outputs preturn_value_0_0_
+# connect ports to nets with different names
+.names n_n2 preturn_value_0_0_
+1  1
+.names pindata_2_2_ n_n3
+1  1
+.names pindata_1_1_ n_n4
+1  1
+.names pindata_0_0_ n_n5
+1  1
+# instance gencoder_3_1
+.gate cencoder_3_1 pt2_0_0_=n_n2 pindata_2_2_=n_n3 pindata_1_1_=n_n4 pindata_0_0_=n_n5
+.end
+############################################
+.model cencoder_3_1
+.inputs pindata_2_2_ pindata_1_1_ pindata_0_0_
+.outputs pt2_0_0_
+# connect ports to nets with different names
+.names n_n9 pt2_0_0_
+1  1
+.names pindata_2_2_ n_n10
+1  1
+.names pindata_1_1_ n_n11
+1  1
+.names pindata_0_0_ n_n12
+1  1
+# instance g_g9
+.names n_n11  n_n7
+0  1
+# instance g_g5
+.names n_n6 n_n4  n_n8
+1-  1
+-1  1
+# instance g_g6
+.names n_n5 n_n11  n_n4
+11  1
+# instance g_g7
+.names n_n12  n_n5
+0  1
+# instance g_g8
+.names n_n12 n_n7  n_n6
+11  1
+# instance g_g1
+.names n_n1 n_n10  n_n0
+11  1
+# instance g_g2
+.names n_n8  n_n1
+0  1
+# instance g_g3
+.names n_n8 n_n3  n_n2
+11  1
+# instance g_g4
+.names n_n10  n_n3
+0  1
+# instance g_g0
+.names n_n2 n_n0  n_n9
+1-  1
+-1  1
+.end
+############################################
+.model cencode_9
+.inputs pt10_0_0_ pt4_6_6_ pt4_7_7_
+.outputs pm16_3_3_ pm16_2_2_ pm16_1_1_ pm16_0_0_
+# connect ports to nets with different names
+.names n_n2 pm16_3_3_
+1  1
+.names n_n3 pm16_2_2_
+1  1
+.names pt10_0_0_ n_n5
+1  1
+.names n_n4 pm16_1_1_
+1  1
+.names n_n5 pm16_0_0_
+1  1
+.names pt4_6_6_ n_n4
+1  1
+.names pt4_7_7_ n_n3
+1  1
+# instance g_g0
+.names  n_n2
+  0
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cencode_4
+.inputs pt4_0_0_ pt4_1_1_ pt4_2_2_
+.outputs pm5_0_0_ pm5_3_3_ pm5_1_1_ pm5_2_2_
+# connect ports to nets with different names
+.names n_n5 pm5_0_0_
+1  1
+.names n_n2 pm5_3_3_
+1  1
+.names pt4_0_0_ n_n4
+1  1
+.names pt4_1_1_ n_n3
+1  1
+.names n_n4 pm5_1_1_
+1  1
+.names pt4_2_2_ n_n2
+1  1
+.names n_n3 pm5_2_2_
+1  1
+# instance g_g0
+.names  n_n5
+  0
+.end
+############################################
+.model cencode_3
+.inputs pt4_3_3_ pt4_6_6_ pt4_0_0_
+.outputs pm2_2_2_ pm2_0_0_ pm2_1_1_
+# connect ports to nets with different names
+.names pt4_3_3_ n_n3
+1  1
+.names pt4_6_6_ n_n2
+1  1
+.names n_n2 pm2_2_2_
+1  1
+.names pt4_0_0_ n_n4
+1  1
+.names n_n4 pm2_0_0_
+1  1
+.names n_n3 pm2_1_1_
+1  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cencode_2
+.inputs pnew_data_0_0_
+.outputs pt3_0_0_
+# connect ports to nets with different names
+.names n_n2 pt3_0_0_
+1  1
+.names pnew_data_0_0_ n_n2
+1  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cencode_1
+.inputs pnew_data_0_0_
+.outputs pt1_0_0_
+# connect ports to nets with different names
+.names n_n2 pt1_0_0_
+1  1
+.names pnew_data_0_0_ n_n3
+1  1
+# instance g_g0
+.names n_n3  n_n2
+0  1
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cencode_8
+.inputs pt4_5_5_ pt4_2_2_
+.outputs pm13_2_2_ pm13_1_1_ pm13_0_0_
+# connect ports to nets with different names
+.names pt4_5_5_ n_n3
+1  1
+.names n_n2 pm13_2_2_
+1  1
+.names n_n3 pm13_1_1_
+1  1
+.names n_n4 pm13_0_0_
+1  1
+.names pt4_2_2_ n_n4
+1  1
+# instance g_g0
+.names  n_n2
+  0
+.end
+############################################
+.model cencode_7
+.inputs pt4_6_6_ pt4_7_7_
+.outputs pm11_2_2_ pm11_1_1_ pm11_0_0_
+# connect ports to nets with different names
+.names n_n2 pm11_2_2_
+1  1
+.names pt4_6_6_ n_n4
+1  1
+.names n_n3 pm11_1_1_
+1  1
+.names n_n4 pm11_0_0_
+1  1
+.names pt4_7_7_ n_n3
+1  1
+# instance g_g0
+.names  n_n2
+  0
+.end
+############################################
+.model cencode_6
+.inputs pt4_3_3_ pt4_4_4_ pt4_5_5_ pt7_0_0_
+.outputs pm10_3_3_ pm10_2_2_ pm10_1_1_ pm10_0_0_
+# connect ports to nets with different names
+.names pt4_3_3_ n_n4
+1  1
+.names pt4_4_4_ n_n3
+1  1
+.names pt4_5_5_ n_n2
+1  1
+.names n_n2 pm10_3_3_
+1  1
+.names pt7_0_0_ n_n5
+1  1
+.names n_n3 pm10_2_2_
+1  1
+.names n_n4 pm10_1_1_
+1  1
+.names n_n5 pm10_0_0_
+1  1
+.end
+############################################
+.model cencode_5
+.inputs pt4_4_4_ pt4_7_7_ pt4_1_1_
+.outputs pm7_1_1_ pm7_2_2_ pm7_0_0_
+# connect ports to nets with different names
+.names pt4_4_4_ n_n3
+1  1
+.names n_n3 pm7_1_1_
+1  1
+.names n_n2 pm7_2_2_
+1  1
+.names pt4_7_7_ n_n2
+1  1
+.names n_n4 pm7_0_0_
+1  1
+.names pt4_1_1_ n_n4
+1  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode
+.inputs pdecoder_in_0_0_ pclk pdata_ready_0_0_ preset
+.outputs pdata_out_3_3_ pdata_out_4_4_ pdata_out_1_1_ pdata_out_2_2_ perr_1_1_\
+ pdata_out_7_7_ pout_ready_0_0_ pdata_out_0_0_ pdata_out_5_5_ pdn pdata_out_6_6_\
+ perr_0_0_
+# connect ports to nets with different names
+.names n_n300 pdata_out_3_3_
+1  1
+.names pdecoder_in_0_0_ n_n305
+1  1
+.names n_n299 pdata_out_4_4_
+1  1
+.names n_n302 pdata_out_1_1_
+1  1
+.names n_n301 pdata_out_2_2_
+1  1
+.names n_n294 perr_1_1_
+1  1
+.names n_n296 pdata_out_7_7_
+1  1
+.names n_n293 pout_ready_0_0_
+1  1
+.names pclk nclk
+1  1
+.names n_n303 pdata_out_0_0_
+1  1
+.names pdata_ready_0_0_ n_n304
+1  1
+.names n_n298 pdata_out_5_5_
+1  1
+.names ndn pdn
+1  1
+.names n_n297 pdata_out_6_6_
+1  1
+.names preset nreset
+1  1
+.names n_n295 perr_0_0_
+1  1
+# instance gff_sr_en3
+.gate cff_sr_en pden=nrq1_6 pdout=n_n289 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_en_data_out7
+.gate cff_en pden=nrq1_40 pdout=n_n296 pdin=n_n191 pres=nreset pclk=nclk
+# instance g_g247
+.names n_n154  nsr1_3
+0  1
+# instance g_g269
+.gate cff_en pden=n1 pdout=nen1_15 pdin=n_n173 pres=nreset pclk=nclk
+# instance g_g258
+.gate cff_en pden=n1 pdout=nrq1_36 pdin=n_n162 pres=nreset pclk=nclk
+# instance g_g236
+.names n_n201 nrq1_42  n_n190
+11  1
+# instance g_g225
+.names n_n241 nrq1_37  n_n143
+11  1
+# instance g_g214
+.names n_n137 n_n138 n_n135 n_n136 n_n134 n_n141 n_n142 n_n139 n_n140  n_n186
+1--------  1
+-1-------  1
+--1------  1
+---1-----  1
+----1----  1
+-----1---  1
+------1--  1
+-------1-  1
+--------1  1
+# instance g_g203
+.names n_n284 nrq1_21  n_n124
+11  1
+# instance g_g159
+.names n_n93 n_n92  n_n175
+11  1
+# instance g_g148
+.names nen1_16 nen1_17  n_n84
+1-  1
+-1  1
+# instance g_g137
+.names ndn  n_n77
+0  1
+# instance g_g126
+.names n_n71 n_n70  n_n164
+11  1
+# instance g_g115
+.names nen1_35 nen1_37  n_n62
+1-  1
+-1  1
+# instance g_g104
+.names ndn  n_n55
+0  1
+# instance gdecode_6
+.gate cdecode_6 pt27_0_0_=n_n269 pm12_3_3_=n_n265 pt21_0_0_=n_n271 pm12_2_2_=n_n266\
+ pt20_0_0_=n_n283 pm12_1_1_=n_n267 pt22_0_0_=n_n270 pm12_0_0_=n_n268
+# instance gff_sr_en2
+.gate cff_sr_en pden=nrq1_5 pdout=n_n290 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g248
+.names  n1
+  1
+# instance g_g279
+.gate cff_en pden=n1 pdout=nen1_5 pdin=n_n183 pres=nreset pclk=nclk
+# instance g_g257
+.gate cff_en pden=n1 pdout=nen1_35 pdin=n_n161 pres=nreset pclk=nclk
+# instance g_g235
+.names n_n200 nrq1_42  n_n189
+11  1
+# instance g_g226
+.names n_n246 nrq1_35  n_n144
+11  1
+# instance g_g213
+.names n_n285 nrq1_21  n_n133
+11  1
+# instance g_g204
+.names n_n128 n_n129 n_n126 n_n127 n_n125 n_n132 n_n133 n_n130 n_n131  n_n185
+1--------  1
+-1-------  1
+--1------  1
+---1-----  1
+----1----  1
+-----1---  1
+------1--  1
+-------1-  1
+--------1  1
+# instance g_g158
+.names ndn  n_n91
+0  1
+# instance g_g149
+.names ndn  n_n85
+0  1
+# instance g_g136
+.names nrq1_34 nen1_23  n_n76
+1-  1
+-1  1
+# instance g_g127
+.names nrq1_30 nen1_29  n_n70
+1-  1
+-1  1
+# instance g_g114
+.names n_n63 n_n62  n_n160
+11  1
+# instance g_g105
+.names n_n57 n_n56  n_n157
+11  1
+# instance gdecode_7
+.gate cdecode_7 pt30_0_0_=n_n263 pt24_0_0_=n_n264 pt18_0_0_=n_n290 pm15_3_3_=n_n259\
+ pm15_2_2_=n_n260 pm15_1_1_=n_n261 pm15_0_0_=n_n262 pt21_0_0_=n_n271
+# instance g_g249
+.names  n0
+  0
+# instance gff_sr_en1
+.gate cff_sr_en pden=nrq1_4 pdout=n_n291 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_en_data_out5
+.gate cff_en pden=nrq1_40 pdout=n_n298 pdin=n_n193 pres=nreset pclk=nclk
+# instance g_g278
+.gate cff_en pden=n1 pdout=nen1_6 pdin=n_n182 pres=nreset pclk=nclk
+# instance g_g267
+.gate cff_en pden=n1 pdout=nen1_17 pdin=n_n171 pres=nreset pclk=nclk
+# instance g_g234
+.names nrq1_43 nrq1_44  n_n188
+1-  1
+-1  1
+# instance g_g223
+.names n_n286 nrq1_21  n_n142
+11  1
+# instance g_g216
+.names n_n245 nrq1_35  n_n135
+11  1
+# instance g_g205
+.names n_n239 nrq1_37  n_n125
+11  1
+# instance g_g179
+.names ndn  n_n105
+0  1
+# instance g_g168
+.names n_n99 n_n98  n_n178
+11  1
+# instance g_g135
+.names n_n77 n_n76  n_n167
+11  1
+# instance g_g124
+.names nen1_29 nen1_31  n_n68
+1-  1
+-1  1
+# instance g_g117
+.names n_n65 n_n64  n_n161
+11  1
+# instance g_g106
+.names ndn nrq1_45  n_n56
+1-  1
+-1  1
+# instance gdecode_4
+.gate cdecode_4 pt29_0_0_=n_n281 pt17_0_0_=n_n291 pm6_3_3_=n_n277 pt20_0_0_=n_n283\
+ pt23_0_0_=n_n282 pm6_1_1_=n_n279 pm6_2_2_=n_n278 pm6_0_0_=n_n280
+# instance gff_en_data_out6
+.gate cff_en pden=nrq1_40 pdout=n_n297 pdin=n_n192 pres=nreset pclk=nclk
+# instance g_g277
+.gate cff_en pden=n1 pdout=nen1_7 pdin=n_n181 pres=nreset pclk=nclk
+# instance g_g268
+.gate cff_en pden=n1 pdout=nen1_16 pdin=n_n172 pres=nreset pclk=nclk
+# instance g_g259
+.gate cff_en pden=n1 pdout=nen1_31 pdin=n_n163 pres=nreset pclk=nclk
+# instance g_g233
+.names n_n287 nrq1_21  n_n151
+11  1
+# instance g_g224
+.names n_n146 n_n147 n_n144 n_n145 n_n143 n_n150 n_n151 n_n148 n_n149  n_n187
+1--------  1
+-1-------  1
+--1------  1
+---1-----  1
+----1----  1
+-----1---  1
+------1--  1
+-------1-  1
+--------1  1
+# instance g_g215
+.names n_n240 nrq1_37  n_n134
+11  1
+# instance g_g206
+.names n_n244 nrq1_35  n_n126
+11  1
+# instance g_g178
+.names nen1_6 nen1_7  n_n104
+1-  1
+-1  1
+# instance g_g169
+.names nen1_9 ndn1_9  n_n98
+1-  1
+-1  1
+# instance g_g134
+.names ndn  n_n75
+0  1
+# instance g_g125
+.names ndn  n_n69
+0  1
+# instance g_g116
+.names ndn  n_n63
+0  1
+# instance g_g107
+.names ndn  n_n57
+0  1
+# instance gdecode_5
+.gate cdecode_5 pt18_0_0_=n_n290 pt32_0_0_=n_n276 pt19_0_0_=n_n289 pt17_0_0_=n_n291\
+ pm9_2_2_=n_n273 pm9_3_3_=n_n272 pm9_0_0_=n_n275 pm9_1_1_=n_n274
+# instance gff_en_data_out3
+.gate cff_en pden=nrq1_40 pdout=n_n300 pdin=n_n195 pres=nreset pclk=nclk
+# instance gff_en_out_ready0
+.gate cff_en pden=n_n188 pdout=n_n293 pdin=nrq1_43 pres=nreset pclk=nclk
+# instance g_g232
+.names n_n280 nrq1_23  n_n150
+11  1
+# instance g_g221
+.names n_n274 nrq1_25  n_n140
+11  1
+# instance g_g210
+.names n_n266 nrq1_27  n_n130
+11  1
+# instance g_g199
+.names n_n259 nrq1_29  n_n120
+11  1
+# instance g_g188
+.names nsr1_3 n_n112  n_n111
+11  1
+# instance g_g133
+.names nen1_23 nen1_25  n_n74
+1-  1
+-1  1
+# instance g_g122
+.names ndn  n_n67
+0  1
+# instance g_g111
+.names n_n61 n_n60  n_n159
+11  1
+# instance g_g100
+.names nrq1_3 n_n53  nlbr1_3_e
+11  1
+# instance g_g9
+.names nrq2_2 n_n7  nrq3_3
+11  1
+# instance gff_en_data_out4
+.gate cff_en pden=nrq1_40 pdout=n_n299 pdin=n_n194 pres=nreset pclk=nclk
+# instance gff_en_err0
+.gate cff_en pden=nrq1_42 pdout=n_n295 pdin=n_n190 pres=nreset pclk=nclk
+# instance g_g231
+.names n_n275 nrq1_25  n_n149
+11  1
+# instance g_g222
+.names n_n279 nrq1_23  n_n141
+11  1
+# instance g_g200
+.names n_n265 nrq1_27  n_n121
+11  1
+# instance g_g198
+.names n_n254 nrq1_31  n_n119
+11  1
+# instance g_g189
+.names nsl1_3 nak1_3  n_n112
+1-  1
+-1  1
+# instance g_g132
+.names n_n75 n_n74  n_n166
+11  1
+# instance g_g123
+.names n_n69 n_n68  n_n163
+11  1
+# instance g_g110
+.names ndn  n_n59
+0  1
+# instance g_g101
+.names nlc1_3  n_n53
+0  1
+# instance gff_en_data_out1
+.gate cff_en pden=nrq1_40 pdout=n_n302 pdin=n_n197 pres=nreset pclk=nclk
+# instance g_g230
+.names n_n268 nrq1_27  n_n148
+11  1
+# instance g_g212
+.names n_n278 nrq1_23  n_n132
+11  1
+# instance g_g201
+.names n_n272 nrq1_25  n_n122
+11  1
+# instance g_g131
+.names ndn  n_n73
+0  1
+# instance g_g120
+.names n_n67 n_n66  n_n162
+11  1
+# instance g_g113
+.names ndn  n_n61
+0  1
+# instance g_g102
+.names n_n55 n_n54  nlc1_3_i
+11  1
+# instance gdecode_8
+.gate cdecode_8 pm18_3_3_=n_n254 pm18_2_2_=n_n255 pm18_1_1_=n_n256 pm18_0_0_=n_n257\
+ pt21_0_0_=n_n271 pt20_0_0_=n_n283 pt35_0_0_=n_n258 pt22_0_0_=n_n270
+# instance gff_en_data_out2
+.gate cff_en pden=nrq1_40 pdout=n_n301 pdin=n_n196 pres=nreset pclk=nclk
+# instance g_g220
+.names n_n267 nrq1_27  n_n139
+11  1
+# instance g_g211
+.names n_n273 nrq1_25  n_n131
+11  1
+# instance g_g202
+.names n_n277 nrq1_23  n_n123
+11  1
+# instance g_g130
+.names nen1_25 nrq1_30  n_n72
+1-  1
+-1  1
+# instance g_g121
+.names nen1_31 nrq1_36  n_n66
+1-  1
+-1  1
+# instance g_g112
+.names nen1_37 nen1_43  n_n60
+1-  1
+-1  1
+# instance g_g103
+.names nrq1_3 nlc1_3  n_n54
+1-  1
+-1  1
+# instance gdecode_9
+.gate cdecode_9 pt25_0_0_=n_n253 pt24_0_0_=n_n264 pt28_0_0_=n_n252 pm21_1_1_=n_n250\
+ pm21_2_2_=n_n249 pm21_3_3_=n_n248 pt23_0_0_=n_n282 pm21_0_0_=n_n251
+# instance g_g250
+.names n_n155  nsl1_3
+0  1
+# instance gff_sr_en18
+.gate cff_sr_en pden=ndn_latch1_23 pdout=n_n233 pdin=n_n199 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g272
+.gate cff_en pden=n1 pdout=nen1_12 pdin=n_n176 pres=nreset pclk=nclk
+# instance g_g261
+.gate cff_en pden=n1 pdout=nrq1_30 pdin=n_n165 pres=nreset pclk=nclk
+# instance g_g195
+.names n_n238 nrq1_37  n_n116
+11  1
+# instance g_g184
+.names nen1_4 nen1_5  n_n108
+1-  1
+-1  1
+# instance g_g173
+.names ndn  n_n101
+0  1
+# instance g_g162
+.names n_n95 n_n94  n_n176
+11  1
+# instance g_g151
+.names nen1_15 nen1_16  n_n86
+1-  1
+-1  1
+# instance g_g140
+.names ndn  n_n79
+0  1
+# instance g_g5
+.names nlc1_3  n_n4
+0  1
+# instance gff_sr_en17
+.gate cff_sr_en pden=ndn_latch1_21 pdout=n_n236 pdin=n_n199 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g271
+.gate cff_en pden=n1 pdout=nen1_13 pdin=n_n175 pres=nreset pclk=nclk
+# instance g_g262
+.gate cff_en pden=n1 pdout=nen1_25 pdin=n_n166 pres=nreset pclk=nclk
+# instance g_g240
+.names n_n205 nrq1_40  n_n194
+11  1
+# instance g_g194
+.names n_n119 n_n120 n_n117 n_n118 n_n116 n_n123 n_n124 n_n121 n_n122  n_n184
+1--------  1
+-1-------  1
+--1------  1
+---1-----  1
+----1----  1
+-----1---  1
+------1--  1
+-------1-  1
+--------1  1
+# instance g_g185
+.names ndn  n_n109
+0  1
+# instance g_g172
+.names nen1_8 nen1_9  n_n100
+1-  1
+-1  1
+# instance g_g163
+.names nen1_11 nen1_12  n_n94
+1-  1
+-1  1
+# instance g_g150
+.names n_n87 n_n86  n_n172
+11  1
+# instance g_g141
+.names n_n81 n_n80  n_n169
+11  1
+# instance g_g6
+.names n_n6 n_n5  nen1_4
+1-  1
+-1  1
+# instance g_g270
+.gate cff_en pden=n1 pdout=nen1_14 pdin=n_n174 pres=nreset pclk=nclk
+# instance g_g252
+.gate cff_en pden=n1 pdout=nlc1_3 pdin=nlc1_3_i pres=nreset pclk=nclk
+# instance g_g241
+.names n_n206 nrq1_40  n_n195
+11  1
+# instance g_g197
+.names n_n248 nrq1_33  n_n118
+11  1
+# instance g_g186
+.names n_n114 n_n110  nsw1_3_i
+11  1
+# instance g_g171
+.names n_n101 n_n100  n_n179
+11  1
+# instance g_g160
+.names nen1_12 nen1_13  n_n92
+1-  1
+-1  1
+# instance g_g153
+.names n_n89 n_n88  n_n173
+11  1
+# instance g_g142
+.names nen1_18 nen1_19  n_n80
+1-  1
+-1  1
+# instance g_g7
+.names nsr1_3 nsl1_3  n_n5
+11  1
+# instance gff_sr_en19
+.gate cff_sr_en pden=ndn_latch1_25 pdout=n_n258 pdin=n_n199 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g260
+.gate cff_en pden=n1 pdout=nen1_29 pdin=n_n164 pres=nreset pclk=nclk
+# instance g_g251
+.gate cff_en pden=n1 pdout=nlak2_2 pdin=nak2_2 pres=nreset pclk=nclk
+# instance g_g242
+.names n_n207 nrq1_40  n_n196
+11  1
+# instance g_g196
+.names n_n243 nrq1_35  n_n117
+11  1
+# instance g_g187
+.names n_n113 n_n111  n_n110
+1-  1
+-1  1
+# instance g_g170
+.names ndn  n_n99
+0  1
+# instance g_g161
+.names ndn  n_n93
+0  1
+# instance g_g152
+.names ndn  n_n87
+0  1
+# instance g_g143
+.names ndn  n_n81
+0  1
+# instance g_g8
+.names nsr1_3  n_n6
+0  1
+# instance gff_sr_en14
+.gate cff_sr_en pden=nrq1_17 pdout=n_n263 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_sr_en25
+.gate cff_sr_en pden=ndn_latch1_37 pdout=n_n237 pdin=n_n199 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g276
+.gate cff_en pden=n1 pdout=nen1_8 pdin=n_n180 pres=nreset pclk=nclk
+# instance g_g265
+.gate cff_en pden=n1 pdout=nen1_19 pdin=n_n169 pres=nreset pclk=nclk
+# instance g_g254
+.gate cff_en pden=n1 pdout=ndn pdin=n_n158 pres=nreset pclk=nclk
+# instance glbr1_3_1
+.gate cff_en pden=nlbr1_3_e pdout=n_n156 pdin=n_n153 pres=nreset pclk=nclk
+# instance g_g243
+.names n_n208 nrq1_40  n_n197
+11  1
+# instance g_g229
+.names n_n262 nrq1_29  n_n147
+11  1
+# instance g_g218
+.names n_n256 nrq1_31  n_n137
+11  1
+# instance g_g207
+.names n_n249 nrq1_33  n_n127
+11  1
+# instance g_g191
+.names ndn  n_n114
+0  1
+# instance g_g180
+.names n_n107 n_n106  n_n182
+11  1
+# instance g_g177
+.names n_n105 n_n104  n_n181
+11  1
+# instance g_g166
+.names ndn1_9 nen1_11  n_n96
+1-  1
+-1  1
+# instance g_g155
+.names ndn  n_n89
+0  1
+# instance g_g144
+.names n_n83 n_n82  n_n170
+11  1
+# instance g_g119
+.names ndn  n_n65
+0  1
+# instance g_g108
+.names n_n59 n_n58  n_n158
+11  1
+# instance g_g1
+.names n_n2 n_n1  n_n0
+1-  1
+-1  1
+# instance gdecode_2
+.gate cdecode_2 pt16_0_0_=n_n292 pdata_ready_0_0_=n_n304
+# instance gff_sr_en13
+.gate cff_sr_en pden=nrq1_16 pdout=n_n281 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g280
+.gate cencoder_4 preturn_value_0_0_=n_n199 pindata_3_3_=n_n184 pindata_2_2_=n_n185\
+ pindata_1_1_=n_n186 pindata_0_0_=n_n187
+# instance g_g275
+.gate cff_en pden=n1 pdout=nen1_9 pdin=n_n179 pres=nreset pclk=nclk
+# instance g_g266
+.gate cff_en pden=n1 pdout=nen1_18 pdin=n_n170 pres=nreset pclk=nclk
+# instance g_g253
+.gate cff_en pden=n1 pdout=nrq1_45 pdin=n_n157 pres=nreset pclk=nclk
+# instance g_g244
+.names n_n209 nrq1_40  n_n198
+11  1
+# instance g_g239
+.names n_n204 nrq1_40  n_n193
+11  1
+# instance g_g217
+.names n_n250 nrq1_33  n_n136
+11  1
+# instance g_g208
+.names n_n255 nrq1_31  n_n128
+11  1
+# instance g_g190
+.names nsr1_3  n_n113
+0  1
+# instance g_g181
+.names nen1_5 nen1_6  n_n106
+1-  1
+-1  1
+# instance g_g176
+.names ndn  n_n103
+0  1
+# instance g_g167
+.names ndn  n_n97
+0  1
+# instance g_g154
+.names nen1_14 nen1_15  n_n88
+1-  1
+-1  1
+# instance g_g145
+.names nen1_17 nen1_18  n_n82
+1-  1
+-1  1
+# instance g_g118
+.names nrq1_36 nen1_35  n_n64
+1-  1
+-1  1
+# instance g_g109
+.names nen1_43 ndn  n_n58
+1-  1
+-1  1
+# instance g_g2
+.names nlc1_3 n_n156  n_n1
+11  1
+# instance gdecode_3
+.gate cdecode_3 pt18_0_0_=n_n290 pt26_0_0_=n_n288 pt19_0_0_=n_n289 pt17_0_0_=n_n291\
+ pm3_2_2_=n_n285 pm3_3_3_=n_n284 pm3_0_0_=n_n287 pm3_1_1_=n_n286
+# instance gff_sr_en16
+.gate cff_sr_en pden=nrq1_19 pdout=n_n276 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_sr_en23
+.gate cff_sr_en pden=ndn_latch1_33 pdout=n_n234 pdin=n_n199 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g274
+.gate cff_en pden=n1 pdout=ndn1_9 pdin=n_n178 pres=nreset pclk=nclk
+# instance g_g263
+.gate cff_en pden=n1 pdout=nen1_23 pdin=n_n167 pres=nreset pclk=nclk
+# instance g_g256
+.gate cff_en pden=n1 pdout=nen1_37 pdin=n_n160 pres=nreset pclk=nclk
+# instance g_g245
+.names n_n152  nsr2_2
+0  1
+# instance g_g238
+.names n_n203 nrq1_40  n_n192
+11  1
+# instance g_g227
+.names n_n251 nrq1_33  n_n145
+11  1
+# instance g_g209
+.names n_n260 nrq1_29  n_n129
+11  1
+# instance g_g193
+.names nsl1_3  n_n115
+0  1
+# instance g_g182
+.names ndn  n_n107
+0  1
+# instance g_g175
+.names nen1_7 nen1_8  n_n102
+1-  1
+-1  1
+# instance g_g164
+.names ndn  n_n95
+0  1
+# instance g_g157
+.names nen1_13 nen1_14  n_n90
+1-  1
+-1  1
+# instance g_g146
+.names ndn  n_n83
+0  1
+# instance g_g139
+.names nen1_19 nrq1_34  n_n78
+1-  1
+-1  1
+# instance g_g128
+.names ndn  n_n71
+0  1
+# instance g_g3
+.names n_n4 n_n3  n_n2
+11  1
+# instance gff_sr_en15
+.gate cff_sr_en pden=nrq1_18 pdout=n_n247 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_sr_en24
+.gate cff_sr_en pden=ndn_latch1_35 pdout=n_n231 pdin=n_n199 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g273
+.gate cff_en pden=n1 pdout=nen1_11 pdin=n_n177 pres=nreset pclk=nclk
+# instance g_g264
+.gate cff_en pden=n1 pdout=nrq1_34 pdin=n_n168 pres=nreset pclk=nclk
+# instance g_g255
+.gate cff_en pden=n1 pdout=nen1_43 pdin=n_n159 pres=nreset pclk=nclk
+# instance g_g246
+.names nsl1_3  n_n153
+0  1
+# instance g_g237
+.names n_n202 nrq1_40  n_n191
+11  1
+# instance g_g228
+.names n_n257 nrq1_31  n_n146
+11  1
+# instance g_g219
+.names n_n261 nrq1_29  n_n138
+11  1
+# instance g_g192
+.names nsr1_3 n_n115  nrq1_3
+11  1
+# instance g_g183
+.names n_n109 n_n108  n_n183
+11  1
+# instance g_g174
+.names n_n103 n_n102  n_n180
+11  1
+# instance g_g165
+.names n_n97 n_n96  n_n177
+11  1
+# instance g_g156
+.names n_n91 n_n90  n_n174
+11  1
+# instance g_g147
+.names n_n85 n_n84  n_n171
+11  1
+# instance g_g138
+.names n_n79 n_n78  n_n168
+11  1
+# instance g_g129
+.names n_n73 n_n72  n_n165
+11  1
+# instance g_g4
+.names nsl1_3  n_n3
+0  1
+# instance gdecode_1
+.gate cdecode_1 pt14_0_0_=n_n155 pdata_ready_0_0_=n_n304
+# instance gff_sr_en10
+.gate cff_sr_en pden=nrq1_13 pdout=n_n288 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_sr_en21
+.gate cff_sr_en pden=ndn_latch1_29 pdout=n_n232 pdin=n_n199 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g94
+.names nen1_6  n_n50
+0  1
+# instance g_g83
+.names ndn1_9 n_n45  nrq1_10
+11  1
+# instance g_g72
+.names nen1_17  n_n39
+0  1
+# instance g_g61
+.names nrq1_34 n_n34  ndn_latch1_21
+11  1
+# instance g_g50
+.names nen1_29  n_n28
+0  1
+# instance gff_sr_en22
+.gate cff_sr_en pden=ndn_latch1_31 pdout=n_n242 pdin=n_n199 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g95
+.names nen1_4 n_n51  nrq1_4
+11  1
+# instance g_g82
+.names nen1_12  n_n44
+0  1
+# instance g_g73
+.names nen1_15 n_n40  nrq1_15
+11  1
+# instance g_g60
+.names nen1_25  n_n33
+0  1
+# instance g_g51
+.names nrq1_30 n_n29  nrq1_27
+11  1
+# instance gff_sr_en12
+.gate cff_sr_en pden=nrq1_15 pdout=n_n252 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g96
+.names nen1_5  n_n51
+0  1
+# instance g_g81
+.names nen1_11 n_n44  nrq1_11
+11  1
+# instance g_g70
+.names nen1_18  n_n38
+0  1
+# instance g_g63
+.names nrq1_34 n_n35  nrq1_21
+11  1
+# instance g_g52
+.names nen1_29  n_n29
+0  1
+# instance gff_sr_en11
+.gate cff_sr_en pden=nrq1_14 pdout=n_n269 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_sr_en20
+.gate cff_sr_en pden=ndn_latch1_27 pdout=n_n235 pdin=n_n199 pres=nreset\
+ pset=n0 pclk=nclk
+# instance g_g97
+.names nrq2_3 nrq4_2  nak1_3
+1-  1
+-1  1
+# instance g_g80
+.names nen1_13  n_n43
+0  1
+# instance g_g71
+.names nen1_16 n_n39  nrq1_16
+11  1
+# instance g_g62
+.names nen1_23  n_n34
+0  1
+# instance g_g53
+.names nen1_25 n_n30  ndn_latch1_25
+11  1
+# instance g_g0
+.names nrq1_3 n_n0  nen2_2
+11  1
+# instance gsw1_3
+.gate cff_en pden=n1 pdout=n_n154 pdin=nsw1_3_i pres=nreset pclk=nclk
+# instance gsw2_2
+.gate cff_en pden=n1 pdout=n_n152 pdin=nsw2_2_i pres=nreset pclk=nclk
+# instance g_g98
+.names nsl1_3 nrq1_3 n_n52  nrq4_2
+111  1
+# instance g_g43
+.names nen1_31 n_n25  nrq1_31
+11  1
+# instance g_g32
+.names nen1_43  n_n19
+0  1
+# instance g_g21
+.names ndn n_n14  nrq1_44
+11  1
+# instance g_g10
+.names nlak2_2  n_n7
+0  1
+# instance g_g99
+.names nlc1_3  n_n52
+0  1
+# instance g_g42
+.names nrq1_36  n_n24
+0  1
+# instance g_g33
+.names nen1_35 n_n20  ndn_latch1_35
+11  1
+# instance g_g20
+.names nsr2_2 nen2_2  nrq2_2
+11  1
+# instance g_g11
+.names n_n292 nrq3_3  nak2_2
+11  1
+# instance g_g41
+.names nen1_31 n_n24  ndn_latch1_31
+11  1
+# instance g_g30
+.names nen1_43  n_n18
+0  1
+# instance g_g23
+.names nen1_43 n_n15  nrq1_43
+11  1
+# instance g_g12
+.names n_n11 n_n8  nsw2_2_i
+11  1
+# instance g_g40
+.names nen1_35  n_n23
+0  1
+# instance g_g31
+.names nen1_37 n_n19  nrq1_37
+11  1
+# instance g_g22
+.names nrq1_45  n_n14
+0  1
+# instance g_g13
+.names n_n10 n_n9  n_n8
+1-  1
+-1  1
+# instance g_g69
+.names nen1_17 n_n38  nrq1_17
+11  1
+# instance g_g58
+.names nen1_25  n_n32
+0  1
+# instance g_g47
+.names nen1_29 n_n27  nrq1_29
+11  1
+# instance g_g36
+.names nen1_37  n_n21
+0  1
+# instance g_g25
+.names nen1_43 n_n16  nrq1_42
+11  1
+# instance g_g14
+.names nen2_2 nsr2_2 nak2_2  n_n9
+111  1
+# instance gdecode_13
+.gate cdecode_13 pt9_0_0_=n_n218 pm30_4_4_=n_n205 pt24_0_0_=n_n264 pt18_0_0_=n_n290\
+ pm30_5_5_=n_n204 pt19_0_0_=n_n289 pm30_2_2_=n_n207 pt17_0_0_=n_n291 pm30_3_3_=n_n206\
+ pt6_0_0_=n_n223 pt12_0_0_=n_n213 pt13_0_0_=n_n211 pt10_0_0_=n_n216 pt3_0_0_=n_n228\
+ pt11_0_0_=n_n214 pt21_0_0_=n_n271 pm30_6_6_=n_n203 pt20_0_0_=n_n283 pt7_0_0_=n_n221\
+ pt23_0_0_=n_n282 pm30_7_7_=n_n202 pt22_0_0_=n_n270 pt49_0_0_=n_n219 pt48_0_0_=n_n222\
+ pt47_0_0_=n_n224 pt46_0_0_=n_n226 pt4_0_0_=n_n227 pt1_0_0_=n_n230 pm30_0_0_=n_n209\
+ pt8_0_0_=n_n220 pm30_1_1_=n_n208 pt52_0_0_=n_n212 pt5_0_0_=n_n225 pt53_0_0_=n_n210\
+ pt50_0_0_=n_n217 pt51_0_0_=n_n215
+# instance gff_en_data_out0
+.gate cff_en pden=nrq1_40 pdout=n_n303 pdin=n_n198 pres=nreset pclk=nclk
+# instance g_g68
+.names nen1_19  n_n37
+0  1
+# instance g_g59
+.names nen1_23 n_n33  nrq1_23
+11  1
+# instance g_g46
+.names nen1_31  n_n26
+0  1
+# instance g_g37
+.names nrq1_36 n_n22  ndn_latch1_33
+11  1
+# instance g_g24
+.names ndn  n_n15
+0  1
+# instance g_g15
+.names nsr2_2  n_n10
+0  1
+# instance gdecode_12
+.gate cdecode_12 pt9_0_0_=n_n218 pt24_0_0_=n_n264 pt18_0_0_=n_n290 pt2_0_0_=n_n229\
+ pt19_0_0_=n_n289 pt33_0_0_=n_n236 pt17_0_0_=n_n291 pt6_0_0_=n_n223 pt12_0_0_=n_n213\
+ pt13_0_0_=n_n211 pt39_0_0_=n_n234 pt10_0_0_=n_n216 pt3_0_0_=n_n228 pt11_0_0_=n_n214\
+ pt21_0_0_=n_n271 pt34_0_0_=n_n233 pt20_0_0_=n_n283 pt7_0_0_=n_n221 pt23_0_0_=n_n282\
+ pt36_0_0_=n_n235 pt22_0_0_=n_n270 pt37_0_0_=n_n232 pt49_0_0_=n_n219 pt48_0_0_=n_n222\
+ pt47_0_0_=n_n224 pt46_0_0_=n_n226 pt4_0_0_=n_n227 pt1_0_0_=n_n230 pt8_0_0_=n_n220\
+ pt41_0_0_=n_n237 pt40_0_0_=n_n231 pt52_0_0_=n_n212 pt5_0_0_=n_n225 pt53_0_0_=n_n210\
+ pt50_0_0_=n_n217 pt51_0_0_=n_n215
+# instance gff_sr_en9
+.gate cff_sr_en pden=nrq1_12 pdout=n_n253 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance gff_en_err1
+.gate cff_en pden=nrq1_42 pdout=n_n294 pdin=n_n189 pres=nreset pclk=nclk
+# instance g_g89
+.names nen1_7 n_n48  nrq1_7
+11  1
+# instance g_g78
+.names nen1_14  n_n42
+0  1
+# instance g_g45
+.names nen1_29 n_n26  ndn_latch1_29
+11  1
+# instance g_g34
+.names nen1_37  n_n20
+0  1
+# instance g_g27
+.names nen1_43 n_n17  nrq1_40
+11  1
+# instance g_g16
+.names ndn  n_n11
+0  1
+# instance gff_sr_en8
+.gate cff_sr_en pden=nrq1_11 pdout=n_n264 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g88
+.names nen1_9  n_n47
+0  1
+# instance g_g79
+.names nen1_12 n_n43  nrq1_12
+11  1
+# instance g_g44
+.names nrq1_36  n_n25
+0  1
+# instance g_g35
+.names nen1_35 n_n21  nrq1_35
+11  1
+# instance g_g26
+.names ndn  n_n16
+0  1
+# instance g_g17
+.names n_n13 n_n12  nrq2_3
+1-  1
+-1  1
+# instance gdecode_14
+.gate cdecode_14 pt2_0_0_=n_n229 pm31_1_1_=n_n200 pt1_0_0_=n_n230 pm31_0_0_=n_n201
+# instance gff_sr_en7
+.gate cff_sr_en pden=nrq1_10 pdout=n_n282 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g90
+.names nen1_8  n_n48
+0  1
+# instance g_g87
+.names nen1_8 n_n47  nrq1_8
+11  1
+# instance g_g76
+.names nen1_15  n_n41
+0  1
+# instance g_g65
+.names nen1_19 n_n36  nrq1_19
+11  1
+# instance g_g54
+.names nrq1_30  n_n30
+0  1
+# instance g_g29
+.names nen1_37 n_n18  ndn_latch1_37
+11  1
+# instance g_g18
+.names nen2_2 nsr2_2 nak2_2  n_n12
+111  1
+# instance gff_sr_en6
+.gate cff_sr_en pden=nrq1_9 pdout=n_n270 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g91
+.names nen1_6 n_n49  nrq1_6
+11  1
+# instance g_g86
+.names ndn1_9  n_n46
+0  1
+# instance g_g77
+.names nen1_13 n_n42  nrq1_13
+11  1
+# instance g_g64
+.names nen1_23  n_n35
+0  1
+# instance g_g55
+.names nen1_25 n_n31  nrq1_25
+11  1
+# instance g_g28
+.names ndn  n_n17
+0  1
+# instance g_g19
+.names nsr2_2  n_n13
+0  1
+# instance gff_sr_en5
+.gate cff_sr_en pden=nrq1_8 pdout=n_n271 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g92
+.names nen1_7  n_n49
+0  1
+# instance g_g85
+.names nen1_9 n_n46  nrq1_9
+11  1
+# instance g_g74
+.names nen1_16  n_n40
+0  1
+# instance g_g67
+.names nen1_18 n_n37  nrq1_18
+11  1
+# instance g_g56
+.names nrq1_30  n_n31
+0  1
+# instance g_g49
+.names nrq1_30 n_n28  ndn_latch1_27
+11  1
+# instance g_g38
+.names nen1_35  n_n22
+0  1
+# instance gdecode_11
+.gate cdecode_11 pt25_0_0_=n_n253 pm27_2_2_=n_n239 pt24_0_0_=n_n264 pm27_3_3_=n_n238\
+ pt38_0_0_=n_n242 pm27_0_0_=n_n241 pt23_0_0_=n_n282 pm27_1_1_=n_n240
+# instance gff_sr_en4
+.gate cff_sr_en pden=nrq1_7 pdout=n_n283 pdin=n_n305 pres=nreset pset=n0\
+ pclk=nclk
+# instance g_g93
+.names nen1_5 n_n50  nrq1_5
+11  1
+# instance g_g84
+.names nen1_11  n_n45
+0  1
+# instance g_g75
+.names nen1_14 n_n41  nrq1_14
+11  1
+# instance g_g66
+.names nrq1_34  n_n36
+0  1
+# instance g_g57
+.names nen1_23 n_n32  ndn_latch1_23
+11  1
+# instance g_g48
+.names nen1_31  n_n27
+0  1
+# instance g_g39
+.names nrq1_36 n_n23  nrq1_33
+11  1
+# instance gdecode_10
+.gate cdecode_10 pt25_0_0_=n_n253 pt31_0_0_=n_n247 pt19_0_0_=n_n289 pm24_0_0_=n_n246\
+ pm24_1_1_=n_n245 pm24_2_2_=n_n244 pm24_3_3_=n_n243 pt22_0_0_=n_n270
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_6
+.inputs pt27_0_0_ pt21_0_0_ pt20_0_0_ pt22_0_0_
+.outputs pm12_3_3_ pm12_2_2_ pm12_1_1_ pm12_0_0_
+# connect ports to nets with different names
+.names pt27_0_0_ n_n2
+1  1
+.names n_n2 pm12_3_3_
+1  1
+.names pt21_0_0_ n_n4
+1  1
+.names n_n3 pm12_2_2_
+1  1
+.names pt20_0_0_ n_n5
+1  1
+.names n_n4 pm12_1_1_
+1  1
+.names pt22_0_0_ n_n3
+1  1
+.names n_n5 pm12_0_0_
+1  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_7
+.inputs pt30_0_0_ pt24_0_0_ pt18_0_0_ pt21_0_0_
+.outputs pm15_3_3_ pm15_2_2_ pm15_1_1_ pm15_0_0_
+# connect ports to nets with different names
+.names pt30_0_0_ n_n2
+1  1
+.names pt24_0_0_ n_n3
+1  1
+.names pt18_0_0_ n_n5
+1  1
+.names n_n2 pm15_3_3_
+1  1
+.names n_n3 pm15_2_2_
+1  1
+.names n_n4 pm15_1_1_
+1  1
+.names n_n5 pm15_0_0_
+1  1
+.names pt21_0_0_ n_n4
+1  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_4
+.inputs pt29_0_0_ pt17_0_0_ pt20_0_0_ pt23_0_0_
+.outputs pm6_3_3_ pm6_1_1_ pm6_2_2_ pm6_0_0_
+# connect ports to nets with different names
+.names pt29_0_0_ n_n2
+1  1
+.names pt17_0_0_ n_n5
+1  1
+.names n_n2 pm6_3_3_
+1  1
+.names pt20_0_0_ n_n4
+1  1
+.names pt23_0_0_ n_n3
+1  1
+.names n_n4 pm6_1_1_
+1  1
+.names n_n3 pm6_2_2_
+1  1
+.names n_n5 pm6_0_0_
+1  1
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_5
+.inputs pt18_0_0_ pt32_0_0_ pt19_0_0_ pt17_0_0_
+.outputs pm9_2_2_ pm9_3_3_ pm9_0_0_ pm9_1_1_
+# connect ports to nets with different names
+.names pt18_0_0_ n_n3
+1  1
+.names pt32_0_0_ n_n5
+1  1
+.names pt19_0_0_ n_n2
+1  1
+.names pt17_0_0_ n_n4
+1  1
+.names n_n3 pm9_2_2_
+1  1
+.names n_n2 pm9_3_3_
+1  1
+.names n_n5 pm9_0_0_
+1  1
+.names n_n4 pm9_1_1_
+1  1
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_8
+.inputs pt21_0_0_ pt20_0_0_ pt35_0_0_ pt22_0_0_
+.outputs pm18_3_3_ pm18_2_2_ pm18_1_1_ pm18_0_0_
+# connect ports to nets with different names
+.names n_n2 pm18_3_3_
+1  1
+.names n_n3 pm18_2_2_
+1  1
+.names n_n4 pm18_1_1_
+1  1
+.names n_n5 pm18_0_0_
+1  1
+.names pt21_0_0_ n_n3
+1  1
+.names pt20_0_0_ n_n4
+1  1
+.names pt35_0_0_ n_n5
+1  1
+.names pt22_0_0_ n_n2
+1  1
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_9
+.inputs pt25_0_0_ pt24_0_0_ pt28_0_0_ pt23_0_0_
+.outputs pm21_1_1_ pm21_2_2_ pm21_3_3_ pm21_0_0_
+# connect ports to nets with different names
+.names pt25_0_0_ n_n3
+1  1
+.names pt24_0_0_ n_n4
+1  1
+.names pt28_0_0_ n_n2
+1  1
+.names n_n4 pm21_1_1_
+1  1
+.names n_n3 pm21_2_2_
+1  1
+.names n_n2 pm21_3_3_
+1  1
+.names pt23_0_0_ n_n5
+1  1
+.names n_n5 pm21_0_0_
+1  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_2
+.inputs pdata_ready_0_0_
+.outputs pt16_0_0_
+# connect ports to nets with different names
+.names n_n2 pt16_0_0_
+1  1
+.names pdata_ready_0_0_ n_n2
+1  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cencoder_4
+.inputs pindata_3_3_ pindata_2_2_ pindata_1_1_ pindata_0_0_
+.outputs preturn_value_0_0_
+# connect ports to nets with different names
+.names n_n2 preturn_value_0_0_
+1  1
+.names pindata_3_3_ n_n3
+1  1
+.names pindata_2_2_ n_n4
+1  1
+.names pindata_1_1_ n_n5
+1  1
+.names pindata_0_0_ n_n6
+1  1
+# instance gencoder_4_1
+.gate cencoder_4_1 pt3_0_0_=n_n2 pindata_3_3_=n_n3 pindata_2_2_=n_n4 pindata_1_1_=n_n5\
+ pindata_0_0_=n_n6
+.end
+############################################
+.model cencoder_4_1
+.inputs pindata_3_3_ pindata_2_2_ pindata_1_1_ pindata_0_0_
+.outputs pt3_0_0_
+# connect ports to nets with different names
+.names n_n14 pt3_0_0_
+1  1
+.names pindata_3_3_ n_n15
+1  1
+.names pindata_2_2_ n_n16
+1  1
+.names pindata_1_1_ n_n17
+1  1
+.names pindata_0_0_ n_n18
+1  1
+# instance g_g9
+.names n_n16  n_n7
+0  1
+# instance g_g5
+.names n_n6 n_n4  n_n12
+1-  1
+-1  1
+# instance g_g6
+.names n_n5 n_n16  n_n4
+11  1
+# instance g_g7
+.names n_n13  n_n5
+0  1
+# instance g_g8
+.names n_n13 n_n7  n_n6
+11  1
+# instance g_g1
+.names n_n1 n_n15  n_n0
+11  1
+# instance g_g2
+.names n_n12  n_n1
+0  1
+# instance g_g3
+.names n_n12 n_n3  n_n2
+11  1
+# instance g_g4
+.names n_n15  n_n3
+0  1
+# instance g_g0
+.names n_n2 n_n0  n_n14
+1-  1
+-1  1
+# instance g_g10
+.names n_n10 n_n8  n_n13
+1-  1
+-1  1
+# instance g_g11
+.names n_n9 n_n17  n_n8
+11  1
+# instance g_g12
+.names n_n18  n_n9
+0  1
+# instance g_g13
+.names n_n18 n_n11  n_n10
+11  1
+# instance g_g14
+.names n_n17  n_n11
+0  1
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_3
+.inputs pt18_0_0_ pt26_0_0_ pt19_0_0_ pt17_0_0_
+.outputs pm3_2_2_ pm3_3_3_ pm3_0_0_ pm3_1_1_
+# connect ports to nets with different names
+.names pt18_0_0_ n_n4
+1  1
+.names pt26_0_0_ n_n2
+1  1
+.names pt19_0_0_ n_n3
+1  1
+.names pt17_0_0_ n_n5
+1  1
+.names n_n3 pm3_2_2_
+1  1
+.names n_n2 pm3_3_3_
+1  1
+.names n_n5 pm3_0_0_
+1  1
+.names n_n4 pm3_1_1_
+1  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_1
+.inputs pdata_ready_0_0_
+.outputs pt14_0_0_
+# connect ports to nets with different names
+.names n_n2 pt14_0_0_
+1  1
+.names pdata_ready_0_0_ n_n3
+1  1
+# instance g_g0
+.names n_n3  n_n2
+0  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_13
+.inputs pt9_0_0_ pt24_0_0_ pt18_0_0_ pt19_0_0_ pt17_0_0_ pt6_0_0_ pt12_0_0_\
+ pt13_0_0_ pt10_0_0_ pt3_0_0_ pt11_0_0_ pt21_0_0_ pt20_0_0_ pt7_0_0_ pt23_0_0_\
+ pt22_0_0_ pt49_0_0_ pt48_0_0_ pt47_0_0_ pt46_0_0_ pt4_0_0_ pt1_0_0_ pt8_0_0_\
+ pt52_0_0_ pt5_0_0_ pt53_0_0_ pt50_0_0_ pt51_0_0_
+.outputs pm30_4_4_ pm30_5_5_ pm30_2_2_ pm30_3_3_ pm30_6_6_ pm30_7_7_ pm30_0_0_\
+ pm30_1_1_
+# connect ports to nets with different names
+.names pt9_0_0_ n_n160
+1  1
+.names n_n147 pm30_4_4_
+1  1
+.names pt24_0_0_ n_n178
+1  1
+.names pt18_0_0_ n_n172
+1  1
+.names n_n146 pm30_5_5_
+1  1
+.names pt19_0_0_ n_n173
+1  1
+.names n_n149 pm30_2_2_
+1  1
+.names pt17_0_0_ n_n171
+1  1
+.names n_n148 pm30_3_3_
+1  1
+.names pt6_0_0_ n_n165
+1  1
+.names pt12_0_0_ n_n155
+1  1
+.names pt13_0_0_ n_n153
+1  1
+.names pt10_0_0_ n_n158
+1  1
+.names pt3_0_0_ n_n170
+1  1
+.names pt11_0_0_ n_n156
+1  1
+.names pt21_0_0_ n_n175
+1  1
+.names n_n145 pm30_6_6_
+1  1
+.names pt20_0_0_ n_n174
+1  1
+.names pt7_0_0_ n_n163
+1  1
+.names pt23_0_0_ n_n177
+1  1
+.names n_n144 pm30_7_7_
+1  1
+.names pt22_0_0_ n_n176
+1  1
+.names pt49_0_0_ n_n161
+1  1
+.names pt48_0_0_ n_n164
+1  1
+.names pt47_0_0_ n_n166
+1  1
+.names pt46_0_0_ n_n168
+1  1
+.names pt4_0_0_ n_n169
+1  1
+.names pt1_0_0_ n_n179
+1  1
+.names n_n151 pm30_0_0_
+1  1
+.names pt8_0_0_ n_n162
+1  1
+.names n_n150 pm30_1_1_
+1  1
+.names pt52_0_0_ n_n154
+1  1
+.names pt5_0_0_ n_n167
+1  1
+.names pt53_0_0_ n_n152
+1  1
+.names pt50_0_0_ n_n159
+1  1
+.names pt51_0_0_ n_n157
+1  1
+# instance g_g148
+.names n_n113 n_n111  n_n142
+1-  1
+-1  1
+# instance g_g137
+.names n_n103 n_n137  n_n102
+11  1
+# instance g_g126
+.names n_n170  n_n94
+0  1
+# instance g_g115
+.names n_n169 n_n172  n_n86
+11  1
+# instance g_g104
+.names n_n80 n_n78  n_n127
+1-  1
+-1  1
+# instance g_g149
+.names n_n112 n_n143  n_n111
+11  1
+# instance g_g136
+.names n_n104 n_n102  n_n136
+1-  1
+-1  1
+# instance g_g127
+.names n_n170 n_n131  n_n95
+11  1
+# instance g_g114
+.names n_n169  n_n85
+0  1
+# instance g_g105
+.names n_n79 n_n125  n_n78
+11  1
+# instance g_g135
+.names n_n170 n_n174  n_n101
+11  1
+# instance g_g124
+.names n_n95 n_n93  n_n130
+1-  1
+-1  1
+# instance g_g117
+.names n_n88 n_n127  n_n87
+11  1
+# instance g_g106
+.names n_n167  n_n79
+0  1
+# instance g_g134
+.names n_n170  n_n100
+0  1
+# instance g_g125
+.names n_n94 n_n172  n_n93
+11  1
+# instance g_g116
+.names n_n89 n_n87  n_n133
+1-  1
+-1  1
+# instance g_g107
+.names n_n167 n_n173  n_n80
+11  1
+# instance g_g133
+.names n_n100 n_n135  n_n99
+11  1
+# instance g_g122
+.names n_n170  n_n91
+0  1
+# instance g_g111
+.names n_n169 n_n168  n_n83
+11  1
+# instance g_g100
+.names n_n77 n_n75  n_n126
+1-  1
+-1  1
+# instance g_g9
+.names n_n7 n_n138  n_n6
+11  1
+# instance g_g132
+.names n_n101 n_n99  n_n134
+1-  1
+-1  1
+# instance g_g123
+.names n_n170 n_n129  n_n92
+11  1
+# instance g_g110
+.names n_n169  n_n82
+0  1
+# instance g_g101
+.names n_n76 n_n172  n_n75
+11  1
+# instance g_g131
+.names n_n170 n_n133  n_n98
+11  1
+# instance g_g120
+.names n_n92 n_n90  n_n128
+1-  1
+-1  1
+# instance g_g113
+.names n_n85 n_n126  n_n84
+11  1
+# instance g_g102
+.names n_n167  n_n76
+0  1
+# instance g_g130
+.names n_n170  n_n97
+0  1
+# instance g_g121
+.names n_n91 n_n171  n_n90
+11  1
+# instance g_g112
+.names n_n86 n_n84  n_n131
+1-  1
+-1  1
+# instance g_g103
+.names n_n167 n_n166  n_n77
+11  1
+# instance g_g151
+.names n_n170 n_n178  n_n113
+11  1
+# instance g_g140
+.names n_n107 n_n105  n_n138
+1-  1
+-1  1
+# instance g_g5
+.names n_n4 n_n140  n_n3
+11  1
+# instance g_g150
+.names n_n170  n_n112
+0  1
+# instance g_g141
+.names n_n106 n_n139  n_n105
+11  1
+# instance g_g6
+.names n_n179  n_n4
+0  1
+# instance g_g142
+.names n_n170  n_n106
+0  1
+# instance g_g7
+.names n_n179 n_n177  n_n5
+11  1
+# instance g_g143
+.names n_n170 n_n176  n_n107
+11  1
+# instance g_g8
+.names n_n8 n_n6  n_n146
+1-  1
+-1  1
+# instance g_g144
+.names n_n110 n_n108  n_n140
+1-  1
+-1  1
+# instance g_g119
+.names n_n169 n_n173  n_n89
+11  1
+# instance g_g108
+.names n_n83 n_n81  n_n129
+1-  1
+-1  1
+# instance g_g1
+.names n_n1 n_n142  n_n0
+11  1
+# instance g_g145
+.names n_n109 n_n141  n_n108
+11  1
+# instance g_g118
+.names n_n169  n_n88
+0  1
+# instance g_g109
+.names n_n82 n_n171  n_n81
+11  1
+# instance g_g2
+.names n_n179  n_n1
+0  1
+# instance g_g146
+.names n_n170  n_n109
+0  1
+# instance g_g139
+.names n_n170 n_n175  n_n104
+11  1
+# instance g_g128
+.names n_n98 n_n96  n_n132
+1-  1
+-1  1
+# instance g_g3
+.names n_n179 n_n178  n_n2
+11  1
+# instance g_g147
+.names n_n170 n_n177  n_n110
+11  1
+# instance g_g138
+.names n_n170  n_n103
+0  1
+# instance g_g129
+.names n_n97 n_n173  n_n96
+11  1
+# instance g_g4
+.names n_n5 n_n3  n_n145
+1-  1
+-1  1
+# instance g_g94
+.names n_n163  n_n70
+0  1
+# instance g_g83
+.names n_n163 n_n121  n_n62
+11  1
+# instance g_g72
+.names n_n56 n_n54  n_n122
+1-  1
+-1  1
+# instance g_g61
+.names n_n46 n_n117  n_n45
+11  1
+# instance g_g50
+.names n_n156  n_n37
+0  1
+# instance g_g95
+.names n_n163 n_n178  n_n71
+11  1
+# instance g_g82
+.names n_n163  n_n61
+0  1
+# instance g_g73
+.names n_n55 n_n119  n_n54
+11  1
+# instance g_g60
+.names n_n47 n_n45  n_n119
+1-  1
+-1  1
+# instance g_g51
+.names n_n156 n_n116  n_n38
+11  1
+# instance g_g96
+.names n_n74 n_n72  n_n125
+1-  1
+-1  1
+# instance g_g81
+.names n_n61 n_n175  n_n60
+11  1
+# instance g_g70
+.names n_n162  n_n52
+0  1
+# instance g_g63
+.names n_n160 n_n176  n_n47
+11  1
+# instance g_g52
+.names n_n41 n_n39  n_n117
+1-  1
+-1  1
+# instance g_g97
+.names n_n73 n_n173  n_n72
+11  1
+# instance g_g80
+.names n_n62 n_n60  n_n137
+1-  1
+-1  1
+# instance g_g71
+.names n_n162 n_n175  n_n53
+11  1
+# instance g_g62
+.names n_n160  n_n46
+0  1
+# instance g_g53
+.names n_n40 n_n176  n_n39
+11  1
+# instance g_g0
+.names n_n2 n_n0  n_n144
+1-  1
+-1  1
+# instance g_g98
+.names n_n165  n_n73
+0  1
+# instance g_g43
+.names n_n155 n_n178  n_n32
+11  1
+# instance g_g32
+.names n_n26 n_n24  n_n114
+1-  1
+-1  1
+# instance g_g21
+.names n_n16 n_n132  n_n15
+11  1
+# instance g_g10
+.names n_n179  n_n7
+0  1
+# instance g_g99
+.names n_n165 n_n164  n_n74
+11  1
+# instance g_g42
+.names n_n155  n_n31
+0  1
+# instance g_g33
+.names n_n25 n_n178  n_n24
+11  1
+# instance g_g20
+.names n_n17 n_n15  n_n149
+1-  1
+-1  1
+# instance g_g11
+.names n_n179 n_n176  n_n8
+11  1
+# instance g_g41
+.names n_n31 n_n114  n_n30
+11  1
+# instance g_g30
+.names n_n179  n_n22
+0  1
+# instance g_g23
+.names n_n179 n_n173  n_n17
+11  1
+# instance g_g12
+.names n_n11 n_n9  n_n147
+1-  1
+-1  1
+# instance g_g40
+.names n_n32 n_n30  n_n116
+1-  1
+-1  1
+# instance g_g31
+.names n_n179 n_n171  n_n23
+11  1
+# instance g_g22
+.names n_n179  n_n16
+0  1
+# instance g_g13
+.names n_n10 n_n136  n_n9
+11  1
+# instance g_g69
+.names n_n52 n_n118  n_n51
+11  1
+# instance g_g58
+.names n_n160  n_n43
+0  1
+# instance g_g47
+.names n_n156 n_n115  n_n35
+11  1
+# instance g_g36
+.names n_n29 n_n27  n_n115
+1-  1
+-1  1
+# instance g_g25
+.names n_n19 n_n130  n_n18
+11  1
+# instance g_g14
+.names n_n179  n_n10
+0  1
+# instance g_g68
+.names n_n53 n_n51  n_n121
+1-  1
+-1  1
+# instance g_g59
+.names n_n160 n_n159  n_n44
+11  1
+# instance g_g46
+.names n_n156  n_n34
+0  1
+# instance g_g37
+.names n_n28 n_n177  n_n27
+11  1
+# instance g_g24
+.names n_n20 n_n18  n_n150
+1-  1
+-1  1
+# instance g_g15
+.names n_n179 n_n175  n_n11
+11  1
+# instance g_g89
+.names n_n67 n_n123  n_n66
+11  1
+# instance g_g78
+.names n_n163  n_n58
+0  1
+# instance g_g45
+.names n_n34 n_n177  n_n33
+11  1
+# instance g_g34
+.names n_n153  n_n25
+0  1
+# instance g_g27
+.names n_n179 n_n172  n_n20
+11  1
+# instance g_g16
+.names n_n14 n_n12  n_n148
+1-  1
+-1  1
+# instance g_g88
+.names n_n68 n_n66  n_n141
+1-  1
+-1  1
+# instance g_g79
+.names n_n163 n_n120  n_n59
+11  1
+# instance g_g44
+.names n_n35 n_n33  n_n123
+1-  1
+-1  1
+# instance g_g35
+.names n_n153 n_n152  n_n26
+11  1
+# instance g_g26
+.names n_n179  n_n19
+0  1
+# instance g_g17
+.names n_n13 n_n134  n_n12
+11  1
+# instance g_g90
+.names n_n163  n_n67
+0  1
+# instance g_g87
+.names n_n163 n_n122  n_n65
+11  1
+# instance g_g76
+.names n_n59 n_n57  n_n135
+1-  1
+-1  1
+# instance g_g65
+.names n_n49 n_n174  n_n48
+11  1
+# instance g_g54
+.names n_n158  n_n40
+0  1
+# instance g_g29
+.names n_n22 n_n128  n_n21
+11  1
+# instance g_g18
+.names n_n179  n_n13
+0  1
+# instance g_g91
+.names n_n163 n_n177  n_n68
+11  1
+# instance g_g86
+.names n_n163  n_n64
+0  1
+# instance g_g77
+.names n_n58 n_n174  n_n57
+11  1
+# instance g_g64
+.names n_n50 n_n48  n_n120
+1-  1
+-1  1
+# instance g_g55
+.names n_n158 n_n157  n_n41
+11  1
+# instance g_g28
+.names n_n23 n_n21  n_n151
+1-  1
+-1  1
+# instance g_g19
+.names n_n179 n_n174  n_n14
+11  1
+# instance g_g92
+.names n_n71 n_n69  n_n143
+1-  1
+-1  1
+# instance g_g85
+.names n_n64 n_n176  n_n63
+11  1
+# instance g_g74
+.names n_n162  n_n55
+0  1
+# instance g_g67
+.names n_n162 n_n161  n_n50
+11  1
+# instance g_g56
+.names n_n44 n_n42  n_n118
+1-  1
+-1  1
+# instance g_g49
+.names n_n37 n_n178  n_n36
+11  1
+# instance g_g38
+.names n_n155  n_n28
+0  1
+# instance g_g93
+.names n_n70 n_n124  n_n69
+11  1
+# instance g_g84
+.names n_n65 n_n63  n_n139
+1-  1
+-1  1
+# instance g_g75
+.names n_n162 n_n176  n_n56
+11  1
+# instance g_g66
+.names n_n162  n_n49
+0  1
+# instance g_g57
+.names n_n43 n_n175  n_n42
+11  1
+# instance g_g48
+.names n_n38 n_n36  n_n124
+1-  1
+-1  1
+# instance g_g39
+.names n_n155 n_n154  n_n29
+11  1
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_12
+.inputs pt24_0_0_ pt18_0_0_ pt19_0_0_ pt33_0_0_ pt17_0_0_ pt39_0_0_ pt21_0_0_\
+ pt34_0_0_ pt20_0_0_ pt23_0_0_ pt36_0_0_ pt22_0_0_ pt37_0_0_ pt41_0_0_ pt40_0_0_
+.outputs pt9_0_0_ pt2_0_0_ pt6_0_0_ pt12_0_0_ pt13_0_0_ pt10_0_0_ pt3_0_0_\
+ pt11_0_0_ pt7_0_0_ pt49_0_0_ pt48_0_0_ pt47_0_0_ pt46_0_0_ pt4_0_0_ pt1_0_0_\
+ pt8_0_0_ pt52_0_0_ pt5_0_0_ pt53_0_0_ pt50_0_0_ pt51_0_0_
+# connect ports to nets with different names
+.names n_n18 pt9_0_0_
+1  1
+.names pt24_0_0_ n_n24
+1  1
+.names pt18_0_0_ n_n30
+1  1
+.names n_n22 pt2_0_0_
+1  1
+.names pt19_0_0_ n_n29
+1  1
+.names pt33_0_0_ n_n21
+1  1
+.names pt17_0_0_ n_n31
+1  1
+.names n_n16 pt6_0_0_
+1  1
+.names n_n20 pt12_0_0_
+1  1
+.names n_n18 pt13_0_0_
+1  1
+.names pt39_0_0_ n_n10
+1  1
+.names n_n16 pt10_0_0_
+1  1
+.names n_n21 pt3_0_0_
+1  1
+.names n_n10 pt11_0_0_
+1  1
+.names pt21_0_0_ n_n27
+1  1
+.names pt34_0_0_ n_n20
+1  1
+.names pt20_0_0_ n_n28
+1  1
+.names n_n14 pt7_0_0_
+1  1
+.names pt23_0_0_ n_n25
+1  1
+.names pt36_0_0_ n_n14
+1  1
+.names pt22_0_0_ n_n26
+1  1
+.names pt37_0_0_ n_n18
+1  1
+.names n_n13 pt49_0_0_
+1  1
+.names n_n15 pt48_0_0_
+1  1
+.names n_n17 pt47_0_0_
+1  1
+.names n_n19 pt46_0_0_
+1  1
+.names n_n20 pt4_0_0_
+1  1
+.names n_n23 pt1_0_0_
+1  1
+.names n_n20 pt8_0_0_
+1  1
+.names pt41_0_0_ n_n32
+1  1
+.names pt40_0_0_ n_n16
+1  1
+.names n_n9 pt52_0_0_
+1  1
+.names n_n18 pt5_0_0_
+1  1
+.names n_n8 pt53_0_0_
+1  1
+.names n_n12 pt50_0_0_
+1  1
+.names n_n11 pt51_0_0_
+1  1
+# instance g_g9
+.names n_n1 n_n2 n_n0  n_n6
+111  1
+# instance g_g5
+.names n_n27  n_n12
+0  1
+# instance g_g6
+.names n_n26  n_n11
+0  1
+# instance g_g7
+.names n_n25  n_n9
+0  1
+# instance g_g8
+.names n_n24  n_n8
+0  1
+# instance g_g1
+.names n_n31  n_n19
+0  1
+# instance g_g2
+.names n_n30  n_n17
+0  1
+# instance g_g3
+.names n_n29  n_n15
+0  1
+# instance g_g4
+.names n_n28  n_n13
+0  1
+# instance g_g0
+.names n_n32  n_n23
+0  1
+# instance g_g10
+.names n_n16  n_n0
+0  1
+# instance g_g11
+.names n_n18  n_n1
+0  1
+# instance g_g12
+.names n_n20  n_n2
+0  1
+# instance g_g13
+.names n_n4 n_n5 n_n3  n_n7
+111  1
+# instance g_g14
+.names n_n10  n_n3
+0  1
+# instance g_g15
+.names n_n14  n_n4
+0  1
+# instance g_g16
+.names n_n21  n_n5
+0  1
+# instance g_g17
+.names n_n7 n_n6  n_n22
+11  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_en
+.inputs pden pdin pres pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names nres  n_n4
+0  1
+# instance g_g1
+.names n_n2 n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n1 ndin nden  n_n0
+111  1
+# instance g_g3
+.names nres  n_n1
+0  1
+# instance g_g4
+.names n_n4 ndout n_n3  n_n2
+111  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_14
+.inputs pt2_0_0_ pt1_0_0_
+.outputs pm31_1_1_ pm31_0_0_
+# connect ports to nets with different names
+.names pt2_0_0_ n_n6
+1  1
+.names n_n4 pm31_1_1_
+1  1
+.names pt1_0_0_ n_n7
+1  1
+.names n_n5 pm31_0_0_
+1  1
+# instance g_g5
+.names n_n7  n_n3
+0  1
+# instance g_g1
+.names n_n6  n_n0
+0  1
+# instance g_g2
+.names n_n3 n_n1  n_n5
+1-  1
+-1  1
+# instance g_g3
+.names n_n7 n_n2  n_n1
+11  1
+# instance g_g4
+.names n_n6  n_n2
+0  1
+# instance g_g0
+.names n_n7 n_n0  n_n4
+11  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_11
+.inputs pt25_0_0_ pt24_0_0_ pt38_0_0_ pt23_0_0_
+.outputs pm27_2_2_ pm27_3_3_ pm27_0_0_ pm27_1_1_
+# connect ports to nets with different names
+.names pt25_0_0_ n_n2
+1  1
+.names n_n3 pm27_2_2_
+1  1
+.names pt24_0_0_ n_n3
+1  1
+.names n_n2 pm27_3_3_
+1  1
+.names pt38_0_0_ n_n5
+1  1
+.names n_n5 pm27_0_0_
+1  1
+.names pt23_0_0_ n_n4
+1  1
+.names n_n4 pm27_1_1_
+1  1
+.end
+############################################
+.model cff_sr_en
+.inputs pden pdin pres pset pclk
+.outputs pdout
+# connect ports to nets with different names
+.names pden nden
+1  1
+.names ndout pdout
+1  1
+.names pdin ndin
+1  1
+.names pres nres
+1  1
+.names pset nset
+1  1
+.names pclk nclk
+1  1
+# instance g_g5
+.names nden  n_n3
+0  1
+# instance g_g6
+.names ndin nden  n_n4
+11  1
+# instance g_g7
+.names nres  n_n5
+0  1
+# instance g_g1
+.names nset n_n0  nlatchin
+1-  1
+-1  1
+# instance g_g2
+.names n_n5 n_n1  n_n0
+11  1
+# instance g_g3
+.names n_n4 n_n2  n_n1
+1-  1
+-1  1
+# instance g_g4
+.names ndout n_n3  n_n2
+11  1
+# instance g_g0
+.latch nlatchin ndout re nclk 2
+.end
+############################################
+.model cdecode_10
+.inputs pt25_0_0_ pt31_0_0_ pt19_0_0_ pt22_0_0_
+.outputs pm24_0_0_ pm24_1_1_ pm24_2_2_ pm24_3_3_
+# connect ports to nets with different names
+.names pt25_0_0_ n_n3
+1  1
+.names pt31_0_0_ n_n2
+1  1
+.names pt19_0_0_ n_n5
+1  1
+.names n_n5 pm24_0_0_
+1  1
+.names n_n4 pm24_1_1_
+1  1
+.names n_n3 pm24_2_2_
+1  1
+.names n_n2 pm24_3_3_
+1  1
+.names pt22_0_0_ n_n4
+1  1
+.end
+############################################
+.model cnoise
+.inputs perror_0_0_ pencoder_out_0_0_
+.outputs pdecoder_in_0_0_
+# connect ports to nets with different names
+.names n_n2 pdecoder_in_0_0_
+1  1
+.names perror_0_0_ n_n4
+1  1
+.names pencoder_out_0_0_ n_n3
+1  1
+# instance gnoise_1
+.gate cnoise_1 perror_0_0_=n_n4 pt1_0_0_=n_n2 pencoder_out_0_0_=n_n3
+.end
+############################################
+.model cnoise_1
+.inputs perror_0_0_ pencoder_out_0_0_
+.outputs pt1_0_0_
+# connect ports to nets with different names
+.names perror_0_0_ n_n5
+1  1
+.names n_n4 pt1_0_0_
+1  1
+.names pencoder_out_0_0_ n_n6
+1  1
+# instance g_g1
+.names n_n1 n_n5  n_n0
+11  1
+# instance g_g2
+.names n_n6  n_n1
+0  1
+# instance g_g3
+.names n_n6 n_n3  n_n2
+11  1
+# instance g_g4
+.names n_n5  n_n3
+0  1
+# instance g_g0
+.names n_n2 n_n0  n_n4
+1-  1
+-1  1
+.end

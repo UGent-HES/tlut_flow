@@ -1,0 +1,8 @@
+.model Cdaio_receiver_1
+.inputs Prx_control_2_2_ Preset_0_0_
+.outputs PT2_0_0_ PT3_0_0_
+.names Prx_control_2_2_ PT2_0_0_
+0 1
+.names Preset_0_0_ PT3_0_0_
+0 1
+.end

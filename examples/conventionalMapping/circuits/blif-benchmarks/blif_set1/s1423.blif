@@ -1,0 +1,785 @@
+.model TOP
+.inputs PG16 PG15 PG14 PG13 PG12 PG11 PG10 PG9 PG8 PG7 PG6 PG5 PG4 PG3 PG2 PG1 \
+PG0 PCLK
+.outputs PG729 PG727 PG726 PG702 PG701BF
+.latch    NG332BF NG22 re PCLK 2
+.latch    NG328BF NG23 re PCLK 2
+.latch    NG109 NG24 re PCLK 2
+.latch    NG113 NG25 re PCLK 2
+.latch    NG118 NG26 re PCLK 2
+.latch    NG125 NG27 re PCLK 2
+.latch    NG129 NG28 re PCLK 2
+.latch    NG140 NG29 re PCLK 2
+.latch    NG144 NG30 re PCLK 2
+.latch    NG149 NG31 re PCLK 2
+.latch    NG154 NG32 re PCLK 2
+.latch    NG159 NG33 re PCLK 2
+.latch    NG166 NG34 re PCLK 2
+.latch    NG175 NG35 re PCLK 2
+.latch    NG189 NG36 re PCLK 2
+.latch    NG193 NG37 re PCLK 2
+.latch    NG198 NG38 re PCLK 2
+.latch    NG208 NG39 re PCLK 2
+.latch    NG214 NG40 re PCLK 2
+.latch    NG218 NG41 re PCLK 2
+.latch    NG237 NG42 re PCLK 2
+.latch    NG242 NG43 re PCLK 2
+.latch    NG247 NG44 re PCLK 2
+.latch    NG252 NG45 re PCLK 2
+.latch    NG260 NG46 re PCLK 2
+.latch    NG303 NG47 re PCLK 2
+.latch    NG309 NG48 re PCLK 2
+.latch    NG315 NG49 re PCLK 2
+.latch    NG321 NG50 re PCLK 2
+.latch    NG360 NG51 re PCLK 2
+.latch    NG365 NG52 re PCLK 2
+.latch    NG373 NG53 re PCLK 2
+.latch    NG379 NG54 re PCLK 2
+.latch    NG384 NG55 re PCLK 2
+.latch    NG392 NG56 re PCLK 2
+.latch    NG397 NG57 re PCLK 2
+.latch    NG405 NG58 re PCLK 2
+.latch    NG408 NG59 re PCLK 2
+.latch    NG416 NG60 re PCLK 2
+.latch    NG424 NG61 re PCLK 2
+.latch    NG427 NG62 re PCLK 2
+.latch    NG438 NG63 re PCLK 2
+.latch    NG441 NG64 re PCLK 2
+.latch    NG447 NG65 re PCLK 2
+.latch    NG451 NG66 re PCLK 2
+.latch    NG459 NG67 re PCLK 2
+.latch    NG464 NG68 re PCLK 2
+.latch    NG469 NG69 re PCLK 2
+.latch    NG477 NG70 re PCLK 2
+.latch    NG494 NG71 re PCLK 2
+.latch    NG498 NG72 re PCLK 2
+.latch    NG503 NG73 re PCLK 2
+.latch    NG526 NG74 re PCLK 2
+.latch    NG531 NG75 re PCLK 2
+.latch    NG536 NG76 re PCLK 2
+.latch    NG541 NG77 re PCLK 2
+.latch    NG548 NG78 re PCLK 2
+.latch    NG565 NG79 re PCLK 2
+.latch    NG569 NG80 re PCLK 2
+.latch    NG573 NG81 re PCLK 2
+.latch    NG577 NG82 re PCLK 2
+.latch    NG590 NG83 re PCLK 2
+.latch    NG608 NG84 re PCLK 2
+.latch    NG613 NG85 re PCLK 2
+.latch    NG657 NG86 re PCLK 2
+.latch    NG663 NG87 re PCLK 2
+.latch    NG669 NG88 re PCLK 2
+.latch    NG675 NG89 re PCLK 2
+.latch    NG682 NG90 re PCLK 2
+.latch    NG687 NG91 re PCLK 2
+.latch    NG693 NG92 re PCLK 2
+.latch    NG705 PG726 re PCLK 2
+.latch    NG707 NG94 re PCLK 2
+.latch    NG713 PG729 re PCLK 2
+.names n69 NG90 PG727
+00 1
+.names n3 n4 NG89 n190 PG702
+110- 1
+11-0 1
+.names PG15 PG701BF
+0 1
+.names n184 NG87 NG88 n186 n3
+1-0- 1
+-00- 1
+1--0 1
+-0-0 1
+.names NG90 NG94 n191 n4
+01- 1
+0-0 1
+.names NG24 n7 n8
+00 1
+.names n104 n120 NG46 n168 n7
+11-- 1
+-11- 1
+1--0 1
+--10 1
+.names PG14 n8 NG24 n7 NG109
+11-- 1
+1-11 1
+.names PG14 n8 NG25 n179 NG113
+11-0 1
+1-10 1
+.names NG26 n179 n10
+01 1
+10 1
+.names PG14 n10 NG118
+11 1
+.names PG14 NG27 n180 n181 NG125
+1--0 1
+110- 1
+.names PG14 NG28 n181 n191 NG129
+11-0 1
+1-00 1
+.names NG92 n191 n14
+10 1
+.names PG14 NG29 n14 n182 NG140
+1--0 1
+111- 1
+.names PG14 NG30 n163 n182 NG144
+110- 1
+1-00 1
+.names NG31 n163 n17
+01 1
+10 1
+.names PG14 n17 NG149
+11 1
+.names n163 NG31 n18
+11 1
+.names PG14 n18 NG32 n20 NG154
+11-0 1
+1-10 1
+.names NG33 n20 n21
+0- 1
+-0 1
+.names NG32 NG31 n163 n20
+111 1
+.names n21 PG14 NG33 n20 NG159
+111- 1
+11-1 1
+.names PG14 n21 NG34 n184 NG166
+1--0 1
+111- 1
+.names PG14 NG35 n23
+0- 1
+-1 1
+.names NG91 n186 n25
+10 1
+.names PG14 NG36 n25 n187 NG189
+1--0 1
+111- 1
+.names PG14 NG37 n187 n189 NG193
+11-0 1
+1-00 1
+.names NG38 n189 n28
+01 1
+10 1
+.names PG14 n28 NG198
+11 1
+.names PG14 NG39 n31 n206 NG208
+1-0- 1
+11-0 1
+.names NG40 n31 n32
+00 1
+.names NG39 n206 n31
+1- 1
+-0 1
+.names PG14 n32 NG40 n31 NG214
+11-- 1
+1-11 1
+.names PG14 n32 NG41 n186 NG218
+11-0 1
+1-10 1
+.names PG7 NG90 n140 n34
+0-1 1
+-11 1
+.names n214 NG42 n35
+01 1
+10 1
+.names n34 n35 NG237
+11 1
+.names n162 NG42 NG43 n214 n36
+0-1- 1
+01-1 1
+.names n36 n34 NG242
+11 1
+.names n162 NG44 n37
+01 1
+10 1
+.names n34 n37 NG247
+11 1
+.names n162 NG44 n38
+11 1
+.names n34 n38 NG45 n223 NG252
+11-0 1
+1-10 1
+.names n223 NG46 n40
+01 1
+10 1
+.names n34 n40 NG260
+11 1
+.names PG12 n155 n157 NG47 n41
+01-- 1
+-11- 1
+0--0 1
+--10 1
+.names n41 NG303
+0 1
+.names n155 n157 NG48 NG47 n42
+11-- 1
+-10- 1
+1--0 1
+--00 1
+.names n42 NG309
+0 1
+.names n155 n157 NG49 NG48 n43
+11-- 1
+-10- 1
+1--0 1
+--00 1
+.names n43 NG315
+0 1
+.names NG50 n155 n157 NG49 n44
+0-1- 1
+-11- 1
+0--0 1
+-1-0 1
+.names n44 NG321
+0 1
+.names NG91 n209 n45
+0- 1
+-1 1
+.names NG51 n45 n49 n208 NG360
+1-00 1
+-100 1
+.names NG52 n49 n48
+01 1
+10 1
+.names n48 n208 NG365
+10 1
+.names n45 NG51 n49
+11 1
+.names NG53 n49 NG52 n208 NG373
+1--0 1
+-110 1
+.names n206 NG54 n50
+01 1
+10 1
+.names PG14 n212 n51
+10 1
+.names n50 n51 NG379
+11 1
+.names n206 NG54 n52
+11 1
+.names n51 n52 NG55 n54 NG384
+11-0 1
+1-10 1
+.names n52 NG55 n54
+11 1
+.names n51 NG56 n54 NG392
+11- 1
+1-1 1
+.names NG57 n242 n56
+11 1
+00 1
+.names n56 n205 NG397
+10 1
+.names NG58 NG57 n205 n242 NG405
+1-0- 1
+-100 1
+.names NG58 n242 n58
+10 1
+.names PG14 n58 NG59 n209 NG408
+11-0 1
+1-10 1
+.names PG14 n63 n60
+10 1
+.names NG60 n62 n61
+01 1
+10 1
+.names n60 n61 NG416
+11 1
+.names n45 NG53 n62
+11 1
+.names n60 NG61 NG60 n62 NG424
+11-- 1
+1-11 1
+.names NG61 n62 n63
+11 1
+.names PG14 n63 NG62 n190 NG427
+11-0 1
+1-10 1
+.names n127 NG38 n236 n64
+01- 1
+1-1 1
+-11 1
+.names PG14 NG63 n64 NG438
+11- 1
+1-1 1
+.names NG63 n69 n146 NG64 n65
+00-- 1
+-01- 1
+0--0 1
+--10 1
+.names n65 NG441
+0 1
+.names PG14 n146 NG65 n66
+01- 1
+-10 1
+.names n66 NG447
+0 1
+.names n69 n146 NG65 NG66 n67
+01-- 1
+0-0- 1
+-1-0 1
+--00 1
+.names n67 NG451
+0 1
+.names n143 NG67 n68
+11 1
+00 1
+.names n199 PG14 n69
+11 1
+.names n68 n69 NG459
+11 1
+.names n143 NG67 n70
+01 1
+.names n69 n70 NG68 n198 NG464
+11-0 1
+1-10 1
+.names NG69 n198 n72
+01 1
+10 1
+.names n69 n72 NG469
+11 1
+.names n222 NG70 n73
+01 1
+10 1
+.names n69 n73 NG477
+11 1
+.names PG9 NG90 n140 n74
+0-1 1
+-11 1
+.names NG74 n195 n75
+11 1
+00 1
+.names n74 n75 NG526
+11 1
+.names NG75 NG74 n195 n77
+0-- 1
+-0- 1
+--1 1
+.names NG74 n195 n76
+10 1
+.names n77 n74 n76 NG75 NG531
+111- 1
+11-1 1
+.names n77 NG76 n78
+11 1
+00 1
+.names n74 n78 NG536
+11 1
+.names n77 NG77 NG76 n80
+1-- 1
+-0- 1
+--0 1
+.names n77 NG76 n79
+01 1
+.names n80 n74 n79 NG77 NG541
+111- 1
+11-1 1
+.names n80 NG78 n81
+11 1
+00 1
+.names n74 n81 NG548
+11 1
+.names NG83 n64 n141 n82
+11- 1
+1-1 1
+.names n74 n82 n195 NG590
+11- 1
+1-0 1
+.names PG13 PG14 NG657
+11 1
+.names n111 n113 NG94 NG87 n84
+11-- 1
+1-1- 1
+-1-0 1
+--10 1
+.names n84 NG663
+0 1
+.names n111 n113 NG87 NG88 n85
+11-- 1
+1-0- 1
+-1-0 1
+--00 1
+.names n85 NG669
+0 1
+.names n111 NG89 n113 NG88 n86
+1-1- 1
+-01- 1
+1--0 1
+-0-0 1
+.names n86 NG675
+0 1
+.names NG657 NG90 NG86 n133 n87
+10-1 1
+1-01 1
+.names n87 NG682
+0 1
+.names NG657 NG90 n133 n135 n88
+10-1 1
+1-11 1
+.names n88 NG687
+0 1
+.names NG657 n134 n133 NG91 n89
+111- 1
+11-0 1
+.names n89 NG693
+0 1
+.names n127 n128 NG90 PG6 n90
+111- 1
+11-1 1
+.names n7 n123 n129 n130 n91
+01-- 1
+0-11 1
+.names PG14 n90 n91 NG705
+11- 1
+1-1 1
+.names n111 NG89 n113 NG94 n92
+11-- 1
+1-1- 1
+-1-0 1
+--10 1
+.names n92 NG707
+0 1
+.names NG85 NG84 n225 n93
+11- 1
+1-1 1
+-10 1
+.names n93 NG83 n64 PG14 NG713
+1111 1
+.names PG15 n150 n210 n94
+10- 1
+-00 1
+.names n94 NG332BF
+0 1
+.names n93 NG90 n97
+0- 1
+-0 1
+.names PG0 NG90 n97 NG74 n95
+1-1- 1
+-11- 1
+1--0 1
+-1-0 1
+.names PG1 NG75 NG90 n97 n98
+10-- 1
+-01- 1
+1--1 1
+--11 1
+.names PG2 NG90 n97 NG76 n100
+1-1- 1
+-11- 1
+1--0 1
+-1-0 1
+.names PG3 NG77 NG90 n97 n102
+10-- 1
+-01- 1
+1--1 1
+--11 1
+.names PG4 NG90 n97 NG78 n104
+1-1- 1
+-11- 1
+1--0 1
+-1-0 1
+.names PG16 NG83 n141 NG66 n107
+1000 1
+.names PG14 PG11 n111
+0- 1
+-1 1
+.names PG14 PG11 n113
+0- 1
+-0 1
+.names NG43 n98 n117
+1- 1
+-1 1
+.names n95 NG42 n115
+11 1
+00 1
+.names n95 n117 n115 n165 n114
+-1-0 1
+111- 1
+.names n100 n114 NG44 n166 n118
+11-- 1
+-11- 1
+1--0 1
+--10 1
+.names NG45 n102 n121
+11 1
+00 1
+.names n118 n121 n102 NG45 n120
+1-1- 1
+-11- 1
+1--1 1
+-1-1 1
+.names PG6 n64 NG90 n127 n123
+-0-0 1
+000- 1
+.names NG90 n107 n127
+0- 1
+-1 1
+.names NG35 NG90 n238 n128
+10- 1
+1-1 1
+-11 1
+.names PG6 PG5 NG90 n239 n129
+--10 1
+00-0 1
+.names n115 n121 n165 n166 n168 n130
+1---- 1
+-1--- 1
+--0-- 1
+---0- 1
+----0 1
+.names PG10 NG86 NG92 n134
+1-- 1
+-0- 1
+--0 1
+.names PG10 NG86 n133
+0- 1
+-0 1
+.names PG10 NG86 NG91 n135
+1-- 1
+-0- 1
+--0 1
+.names PG14 n69 NG91 n138
+11- 1
+1-0 1
+.names n69 NG90 n140
+1- 1
+-0 1
+.names n169 n170 n171 n172 n173 n141
+1---- 1
+-1--- 1
+--1-- 1
+---1- 1
+----1 1
+.names NG91 n209 n144
+1- 1
+-0 1
+.names NG90 n144 NG91 n190 n143
+110- 1
+11-0 1
+.names PG14 n199 n146
+0- 1
+-1 1
+.names NG47 NG48 NG49 n151
+1-- 1
+-1- 1
+--1 1
+.names NG22 NG50 PG15 n151 n150
+11-- 1
+1-1- 1
+1--1 1
+.names PG14 n211 n155
+0- 1
+-1 1
+.names PG14 n211 n157
+0- 1
+-0 1
+.names NG42 NG43 n214 n162
+111 1
+.names NG30 n182 n163
+10 1
+.names n98 NG43 n165
+01 1
+10 1
+.names n100 NG44 n166
+01 1
+10 1
+.names n104 NG46 n168
+01 1
+10 1
+.names NG76 NG81 n169
+01 1
+10 1
+.names NG78 n218 n170
+11 1
+00 1
+.names NG77 NG82 n171
+01 1
+10 1
+.names NG75 NG80 n172
+01 1
+10 1
+.names NG74 NG79 n173
+01 1
+10 1
+.names n8 NG25 n179
+11 1
+.names NG26 n179 n180
+11 1
+.names NG27 n180 n181
+1- 1
+-0 1
+.names NG29 n14 n182
+1- 1
+-1 1
+.names NG34 n21 n184
+1- 1
+-1 1
+.names n32 NG41 n186
+11 1
+.names NG36 n25 n187
+1- 1
+-1 1
+.names NG37 n187 n189
+10 1
+.names n63 NG62 n190
+11 1
+.names NG28 n181 n191
+10 1
+.names n127 NG38 n189 n196
+01- 1
+0-0 1
+.names n21 NG34 n127 NG92 n197
+1-11 1
+-011 1
+.names n141 n196 n197 n195
+0-- 1
+-1- 1
+--1 1
+.names NG68 n143 NG67 n198
+101 1
+.names n200 n201 n202 n203 n199
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names NG68 NG72 n200
+01 1
+10 1
+.names NG67 NG71 n201
+01 1
+10 1
+.names n216 NG70 n202
+01 1
+10 1
+.names NG69 NG73 n203
+01 1
+10 1
+.names PG14 n58 n205
+0- 1
+-1 1
+.names NG92 n184 n206
+0- 1
+-0 1
+.names PG14 n62 n208
+0- 1
+-1 1
+.names n58 NG59 n209
+11 1
+.names NG48 NG47 NG50 NG49 n210
+1111 1
+.names n52 NG56 n212
+11 1
+.names NG91 n212 n211
+0- 1
+-1 1
+.names PG15 n150 NG23 n215
+10- 1
+0-0 1
+-00 1
+.names n215 n210 n214
+11 1
+.names NG73 NG72 NG71 n216
+000 1
+.names NG81 NG82 NG79 NG80 n218
+1--- 1
+-1-- 1
+--1- 1
+---1 1
+.names NG69 n198 n222
+11 1
+.names NG44 NG45 n162 n223
+111 1
+.names PG8 NG90 NG64 n225
+00- 1
+0-1 1
+-11 1
+.names PG11 n138 NG85 n226
+00- 1
+0-0 1
+-10 1
+.names n226 NG613
+0 1
+.names PG10 n138 NG84 n227
+00- 1
+0-0 1
+-10 1
+.names n227 NG608
+0 1
+.names PG9 n138 NG82 n228
+00- 1
+0-0 1
+-10 1
+.names n228 NG577
+0 1
+.names PG8 n138 NG81 n229
+00- 1
+0-0 1
+-10 1
+.names n229 NG573
+0 1
+.names PG7 n138 NG80 n230
+00- 1
+0-0 1
+-10 1
+.names n230 NG569
+0 1
+.names PG6 n138 NG79 n231
+00- 1
+0-0 1
+-10 1
+.names n231 NG565
+0 1
+.names NG73 n246 n247 n232
+01- 1
+0-1 1
+-10 1
+.names n232 NG503
+0 1
+.names NG72 n247 n252 n233
+01- 1
+0-1 1
+-01 1
+.names n233 NG498
+0 1
+.names NG71 n247 n256 n234
+01- 1
+0-1 1
+-01 1
+.names n234 NG494
+0 1
+.names n215 NG328BF
+0 1
+.names NG34 NG35 NG92 n236
+01- 1
+0-1 1
+-10 1
+.names NG59 NG62 NG91 n238
+11- 1
+-11 1
+1-0 1
+.names NG90 NG83 n141 n127 n239
+11-- 1
+1-1- 1
+1--1 1
+.names n127 n206 n243
+0- 1
+-0 1
+.names n127 NG38 n189 n243 n242
+1--1 1
+-0-1 1
+--01 1
+.names PG5 PG2 NG63 n246
+00- 1
+0-1 1
+-00 1
+.names n140 PG14 n247
+11 1
+.names PG4 PG1 NG63 n252
+00- 1
+0-1 1
+-00 1
+.names PG3 PG0 NG63 n256
+00- 1
+0-1 1
+-00 1
+.names n23 NG175
+0 1
+.end

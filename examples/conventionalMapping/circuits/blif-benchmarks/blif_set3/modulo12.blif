@@ -1,0 +1,27 @@
+#
+# Written by e2fmt Tue Mar 31 16:15:06 1998
+############################################
+.model top
+.inputs modulo12_in clock
+.outputs modulo12_out
+# connect ports to nets with different names
+.names n_n2 modulo12_out
+1  1
+.names modulo12_in n_n5
+1  1
+.names clock n__clk
+1  1
+# instance g_g117
+.names  n_n4
+  0
+# instance g_g1
+.names  n_n0
+  -
+# instance g_g0
+.names n_n4 n_n0 n_n3  n_n2
+1-0  1
+-11  1
+# instance g_gd17
+.names  n_n3
+  0
+.end

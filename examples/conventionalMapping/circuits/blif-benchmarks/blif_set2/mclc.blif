@@ -1,0 +1,327 @@
+.model mclc.sim
+.inputs in1
+.inputs in2
+.inputs in3
+.inputs in4
+.inputs in5
+.inputs in6
+.inputs in7
+.inputs in8
+.inputs in9
+.inputs in10
+.inputs in11
+.outputs out12
+.outputs out13
+.outputs out14
+.outputs out15
+.outputs out16
+.outputs out17
+.latch out1 in12  0
+.latch out2 in13  0
+.latch out3 in14  0
+.latch out4 in15  0
+.latch out5 in16  0
+.latch out6 in17  0
+.latch out7 in18  0
+.latch out8 in19  0
+.latch out9 in20  0
+.latch out10 in21  0
+.latch out11 in22  0
+.names in1 in1INVT
+0 1
+.names in2 in2INVT
+0 1
+.names in3 in3INVT
+0 1
+.names in4 in4INVT
+0 1
+.names in5 in5INVT
+0 1
+.names in7 in7INVT
+0 1
+.names in8 in8INVT
+0 1
+.names in9 in9INVT
+0 1
+.names in10 in10INVT
+0 1
+.names in11 in11INVT
+0 1
+.names in12 in12INVT
+0 1
+.names in13 in13INVT
+0 1
+.names in14 in14INVT
+0 1
+.names in15 in15INVT
+0 1
+.names in1INVT in4 in5 in10 in11 in12INVT in13INVT in14INVT in15 g_1and1
+111111111 1
+.names in1INVT in3 in5 in10 in11 in12INVT in13INVT in14INVT in15 g_1and2
+111111111 1
+.names in1INVT in2 in5 in10 in11 in12INVT in13INVT in14INVT in15 g_1and3
+111111111 1
+.names in1INVT in4 in5 in9 in11 in12INVT in13INVT in14INVT in15 g_1and4
+111111111 1
+.names in1INVT in3 in5 in9 in11 in12INVT in13INVT in14INVT in15 g_1and5
+111111111 1
+.names in1INVT in2 in5 in9 in11 in12INVT in13INVT in14INVT in15 g_1and6
+111111111 1
+.names in1INVT in4 in5 in8 in11 in12INVT in13INVT in14INVT in15 g_1and7
+111111111 1
+.names in1INVT in3 in5 in8 in11 in12INVT in13INVT in14INVT in15 g_1and8
+111111111 1
+.names in1INVT in2 in5 in8 in11 in12INVT in13INVT in14INVT in15 g_1and9
+111111111 1
+.names in1INVT in2INVT in3INVT in4INVT in7INVT in14 g_1and10
+111111 1
+.names in1INVT in2INVT in3INVT in4INVT in7INVT in15 g_1and11
+111111 1
+.names in1INVT in4 in5 in10 in11 in12 in13 in14INVT in15INVT g_1and12
+111111111 1
+.names in1INVT in3 in5 in10 in11 in12 in13 in14INVT in15INVT g_1and13
+111111111 1
+.names in1INVT in2 in5 in10 in11 in12 in13 in14INVT in15INVT g_1and14
+111111111 1
+.names in1INVT in4 in5 in9 in11 in12 in13 in14INVT in15INVT g_1and15
+111111111 1
+.names in1INVT in3 in5 in9 in11 in12 in13 in14INVT in15INVT g_1and16
+111111111 1
+.names in1INVT in2 in5 in9 in11 in12 in13 in14INVT in15INVT g_1and17
+111111111 1
+.names in1INVT in4 in5 in8 in11 in12 in13 in14INVT in15INVT g_1and18
+111111111 1
+.names in1INVT in3 in5 in8 in11 in12 in13 in14INVT in15INVT g_1and19
+111111111 1
+.names in1INVT in2 in5 in8 in11 in12 in13 in14INVT in15INVT g_1and20
+111111111 1
+.names in1INVT in2INVT in3INVT in4INVT in7INVT in13 g_1and21
+111111 1
+.names in1INVT in4 in5 in10 in11 in12 in13 in14 in15INVT g_1and22
+111111111 1
+.names in1INVT in3 in5 in10 in11 in12 in13 in14 in15INVT g_1and23
+111111111 1
+.names in1INVT in2 in5 in10 in11 in12 in13 in14 in15INVT g_1and24
+111111111 1
+.names in1INVT in4 in5 in9 in11 in12 in13 in14 in15INVT g_1and25
+111111111 1
+.names in1INVT in3 in5 in9 in11 in12 in13 in14 in15INVT g_1and26
+111111111 1
+.names in1INVT in2 in5 in9 in11 in12 in13 in14 in15INVT g_1and27
+111111111 1
+.names in1INVT in4 in5 in8 in11 in12 in13 in14 in15INVT g_1and28
+111111111 1
+.names in1INVT in3 in5 in8 in11 in12 in13 in14 in15INVT g_1and29
+111111111 1
+.names in1INVT in2 in5 in8 in11 in12 in13 in14 in15INVT g_1and30
+111111111 1
+.names in1INVT in7 in10 in11 in12INVT in13INVT in14INVT in15 g_1and31
+11111111 1
+.names in1INVT in7 in9 in11 in12INVT in13INVT in14INVT in15 g_1and32
+11111111 1
+.names in1INVT in7 in8 in11 in12INVT in13INVT in14INVT in15 g_1and33
+11111111 1
+.names in1INVT in2INVT in3INVT in4INVT in7INVT in12 g_1and34
+111111 1
+.names in1INVT in7 in10 in11 in12 in13 in14INVT in15INVT g_1and35
+11111111 1
+.names in1INVT in7 in9 in11 in12 in13 in14INVT in15INVT g_1and36
+11111111 1
+.names in1INVT in7 in8 in11 in12 in13 in14INVT in15INVT g_1and37
+11111111 1
+.names in1INVT in7 in10 in11 in12 in13 in14 in15INVT g_1and38
+11111111 1
+.names in1INVT in7 in9 in11 in12 in13 in14 in15INVT g_1and39
+11111111 1
+.names in1INVT in7 in8 in11 in12 in13 in14 in15INVT g_1and40
+11111111 1
+.names in1INVT in4 in5 in10 in11 in12 in13INVT in15INVT g_1and41
+11111111 1
+.names in1INVT in3 in5 in10 in11 in12 in13INVT in15INVT g_1and42
+11111111 1
+.names in1INVT in2 in5 in10 in11 in12 in13INVT in15INVT g_1and43
+11111111 1
+.names in1INVT in4 in5 in9 in11 in12 in13INVT in15INVT g_1and44
+11111111 1
+.names in1INVT in3 in5 in9 in11 in12 in13INVT in15INVT g_1and45
+11111111 1
+.names in1INVT in2 in5 in9 in11 in12 in13INVT in15INVT g_1and46
+11111111 1
+.names in1INVT in4 in5 in8 in11 in12 in13INVT in15INVT g_1and47
+11111111 1
+.names in1INVT in3 in5 in8 in11 in12 in13INVT in15INVT g_1and48
+11111111 1
+.names in1INVT in2 in5 in8 in11 in12 in13INVT in15INVT g_1and49
+11111111 1
+.names in1INVT in8INVT in9INVT in10INVT in14 g_1and50
+11111 1
+.names in1INVT in8INVT in9INVT in10INVT in15 g_1and51
+11111 1
+.names in1INVT in8INVT in9INVT in10INVT in13 g_1and52
+11111 1
+.names in1INVT in7 in10 in11 in12 in13INVT in15INVT g_1and53
+1111111 1
+.names in1INVT in7 in9 in11 in12 in13INVT in15INVT g_1and54
+1111111 1
+.names in1INVT in7 in8 in11 in12 in13INVT in15INVT g_1and55
+1111111 1
+.names in1INVT in8INVT in9INVT in10INVT in12 g_1and56
+11111 1
+.names in1INVT in4 in5 in10 in11 in12INVT in15INVT g_1and57
+1111111 1
+.names in1INVT in3 in5 in10 in11 in12INVT in15INVT g_1and58
+1111111 1
+.names in1INVT in2 in5 in10 in11 in12INVT in15INVT g_1and59
+1111111 1
+.names in1INVT in4 in5 in9 in11 in12INVT in15INVT g_1and60
+1111111 1
+.names in1INVT in3 in5 in9 in11 in12INVT in15INVT g_1and61
+1111111 1
+.names in1INVT in2 in5 in9 in11 in12INVT in15INVT g_1and62
+1111111 1
+.names in1INVT in4 in5 in8 in11 in12INVT in15INVT g_1and63
+1111111 1
+.names in1INVT in3 in5 in8 in11 in12INVT in15INVT g_1and64
+1111111 1
+.names in1INVT in2 in5 in8 in11 in12INVT in15INVT g_1and65
+1111111 1
+.names in1INVT in7 in10 in11 in12INVT in15INVT g_1and66
+111111 1
+.names in1INVT in7 in9 in11 in12INVT in15INVT g_1and67
+111111 1
+.names in1INVT in7 in8 in11 in12INVT in15INVT g_1and68
+111111 1
+.names in1INVT in5INVT in7INVT in14 g_1and69
+1111 1
+.names in1INVT in5INVT in7INVT in15 g_1and70
+1111 1
+.names in1INVT in5INVT in7INVT in13 g_1and71
+1111 1
+.names in1INVT in12INVT in14 in15INVT g_1and72
+1111 1
+.names in1INVT in5INVT in7INVT in12 g_1and73
+1111 1
+.names in1INVT in13INVT in14 in15INVT g_1and74
+1111 1
+.names in1INVT in11INVT in14 g_1and75
+111 1
+.names in1INVT in12INVT in13 in15INVT g_1and76
+1111 1
+.names in1INVT in11INVT in15 g_1and77
+111 1
+.names in1INVT in11INVT in13 g_1and78
+111 1
+.names in1INVT in11INVT in12 g_1and79
+111 1
+.names g_1and1 g_1and2 g_1and3 g_1and4 g_1and5 g_1and6 g_1and7 g_1and8 g_1and9 g_1and31 g_1and32 g_1and33 g_1and34 g_1and56 g_1and57 g_1and58 g_1and59 g_1and60 g_1and61 g_1and62 g_1and63 g_1and64 g_1and65 g_1and66 g_1and67 g_1and68 g_1and73 g_1and79 out1
+0000000000000000000000000000 0
+.names g_1and21 g_1and41 g_1and42 g_1and43 g_1and44 g_1and45 g_1and46 g_1and47 g_1and48 g_1and49 g_1and52 g_1and53 g_1and54 g_1and55 g_1and71 g_1and76 g_1and78 out2
+00000000000000000 0
+.names g_1and10 g_1and12 g_1and13 g_1and14 g_1and15 g_1and16 g_1and17 g_1and18 g_1and19 g_1and20 g_1and35 g_1and36 g_1and37 g_1and50 g_1and69 g_1and72 g_1and74 g_1and75 out3
+000000000000000000 0
+.names g_1and1 g_1and2 g_1and3 g_1and4 g_1and5 g_1and6 g_1and7 g_1and8 g_1and9 g_1and11 g_1and22 g_1and23 g_1and24 g_1and25 g_1and26 g_1and27 g_1and28 g_1and29 g_1and30 g_1and31 g_1and32 g_1and33 g_1and38 g_1and39 g_1and40 g_1and51 g_1and70 g_1and77 out4
+0000000000000000000000000000 0
+.names in1 in1*
+0 1
+.names in6 in6*
+0 1
+.names in12 in12*
+0 1
+.names in13 in13*
+0 1
+.names in14 in14*
+0 1
+.names in15 in15*
+0 1
+.names in16 in16*
+0 1
+.names in20 in20*
+0 1
+.names in21 in21*
+0 1
+.names in1* in6* in12 in13* in14 in15* g_2and1
+111111 1
+.names in6 in10 in12* in13* in14 g_2and2
+11111 1
+.names in1* in6 in12* in13* in14 g_2and3
+11111 1
+.names in1* in12 in13 in14* in16* g_2and4
+11111 1
+.names in1* in12 in14 in15* in16* g_2and5
+11111 1
+.names in1* in13 in14 in15* in16* g_2and6
+11111 1
+.names in14* in15* in16* g_2and7
+111 1
+.names in12* in14* in15* in16* g_2and8
+1111 1
+.names in1* in6* in14 in16* g_2and9
+1111 1
+.names in12 in13* in14* in16* g_2and10
+1111 1
+.names in10 in15 in16 g_2and11
+111 1
+.names in14 in15 in16* g_2and12
+111 1
+.names in6 in10 in16 g_2and13
+111 1
+.names in10 in13 in16 g_2and14
+111 1
+.names in10 in12* in16 g_2and15
+111 1
+.names in1* in15 in16 g_2and16
+111 1
+.names in10 in14* in16 g_2and17
+111 1
+.names in1* in6 in16 g_2and18
+111 1
+.names in1* in13 in16 g_2and19
+111 1
+.names in1* in12* in16 g_2and20
+111 1
+.names in1* in14* in16 g_2and21
+111 1
+.names in13 in14* in16* g_2and22
+111 1
+.names in19 g_2and23
+1 1
+.names in21* g_2and24
+1 1
+.names in17 g_2and25
+1 1
+.names in20* g_2and26
+1 1
+.names in22 g_2and27
+1 1
+.names in18 g_2and28
+1 1
+.names in1 g_2and29
+1 1
+.names g_2and3 g_2and16 g_2and18 g_2and19 g_2and20 g_2and21 out5
+000000 0
+.names g_2and1 g_2and5 g_2and6 g_2and9 out6
+0000 0
+.names g_2and8 g_2and10 g_2and29 out7
+000 0
+.names g_2and7 g_2and10 g_2and29 out8
+000 0
+.names g_2and2 g_2and8 g_2and10 g_2and11 g_2and13 g_2and14 g_2and15 g_2and17 g_2and22 g_2and29 out9
+0000000000 0
+.names g_2and1 g_2and2 g_2and5 g_2and6 g_2and8 g_2and9 g_2and10 g_2and11 g_2and12 g_2and13 g_2and14 g_2and15 g_2and17 g_2and22 g_2and29 out10
+000000000000000 0
+.names g_2and4 out11
+0 0
+.names g_2and23 out12
+0 0
+.names g_2and24 out13
+0 0
+.names g_2and25 out14
+0 0
+.names g_2and26 out15
+0 0
+.names g_2and27 out16
+0 0
+.names g_2and28 out17
+0 0
+.end
+

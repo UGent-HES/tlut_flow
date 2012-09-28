@@ -1,0 +1,1255 @@
+.model minmax32
+.inputs clear<0> enable<0> reset<0> in<31> in<30> in<29> in<28> in<27> in<26>
+.inputs in<25> in<24> in<23> in<22> in<21> in<20> in<19> in<18> in<17> in<16>
+.inputs in<15> in<14> in<13> in<12> in<11> in<10> in<9> in<8> in<7> in<6> in<5>
+.inputs in<4> in<3> in<2> in<1> in<0> 
+.outputs out<31> out<30> out<29> out<28> out<27> out<26> out<25> out<24> out<23>
+.outputs out<22> out<21> out<20> out<19> out<18> out<17> out<16> out<15> out<14>
+.outputs out<13> out<12> out<11> out<10> out<9> out<8> out<7> out<6> out<5>
+.outputs out<4> out<3> out<2> out<1> out<0> 
+.latch ns_min<31> ps_min<31>  1
+.latch ns_min<30> ps_min<30>  1
+.latch ns_min<29> ps_min<29>  1
+.latch ns_min<28> ps_min<28>  1
+.latch ns_min<27> ps_min<27>  1
+.latch ns_min<26> ps_min<26>  1
+.latch ns_min<25> ps_min<25>  1
+.latch ns_min<24> ps_min<24>  1
+.latch ns_min<23> ps_min<23>  1
+.latch ns_min<22> ps_min<22>  1
+.latch ns_min<21> ps_min<21>  1
+.latch ns_min<20> ps_min<20>  1
+.latch ns_min<19> ps_min<19>  1
+.latch ns_min<18> ps_min<18>  1
+.latch ns_min<17> ps_min<17>  1
+.latch ns_min<16> ps_min<16>  1
+.latch ns_min<15> ps_min<15>  1
+.latch ns_min<14> ps_min<14>  1
+.latch ns_min<13> ps_min<13>  1
+.latch ns_min<12> ps_min<12>  1
+.latch ns_min<11> ps_min<11>  1
+.latch ns_min<10> ps_min<10>  1
+.latch ns_min<9> ps_min<9>  1
+.latch ns_min<8> ps_min<8>  1
+.latch ns_min<7> ps_min<7>  1
+.latch ns_min<6> ps_min<6>  1
+.latch ns_min<5> ps_min<5>  1
+.latch ns_min<4> ps_min<4>  1
+.latch ns_min<3> ps_min<3>  1
+.latch ns_min<2> ps_min<2>  1
+.latch ns_min<1> ps_min<1>  1
+.latch ns_min<0> ps_min<0>  1
+.latch ns_last<31> ps_last<31>  0
+.latch ns_last<30> ps_last<30>  0
+.latch ns_last<29> ps_last<29>  0
+.latch ns_last<28> ps_last<28>  0
+.latch ns_last<27> ps_last<27>  0
+.latch ns_last<26> ps_last<26>  0
+.latch ns_last<25> ps_last<25>  0
+.latch ns_last<24> ps_last<24>  0
+.latch ns_last<23> ps_last<23>  0
+.latch ns_last<22> ps_last<22>  0
+.latch ns_last<21> ps_last<21>  0
+.latch ns_last<20> ps_last<20>  0
+.latch ns_last<19> ps_last<19>  0
+.latch ns_last<18> ps_last<18>  0
+.latch ns_last<17> ps_last<17>  0
+.latch ns_last<16> ps_last<16>  0
+.latch ns_last<15> ps_last<15>  0
+.latch ns_last<14> ps_last<14>  0
+.latch ns_last<13> ps_last<13>  0
+.latch ns_last<12> ps_last<12>  0
+.latch ns_last<11> ps_last<11>  0
+.latch ns_last<10> ps_last<10>  0
+.latch ns_last<9> ps_last<9>  0
+.latch ns_last<8> ps_last<8>  0
+.latch ns_last<7> ps_last<7>  0
+.latch ns_last<6> ps_last<6>  0
+.latch ns_last<5> ps_last<5>  0
+.latch ns_last<4> ps_last<4>  0
+.latch ns_last<3> ps_last<3>  0
+.latch ns_last<2> ps_last<2>  0
+.latch ns_last<1> ps_last<1>  0
+.latch ns_last<0> ps_last<0>  0
+.latch ns_max<31> ps_max<31>  0
+.latch ns_max<30> ps_max<30>  0
+.latch ns_max<29> ps_max<29>  0
+.latch ns_max<28> ps_max<28>  0
+.latch ns_max<27> ps_max<27>  0
+.latch ns_max<26> ps_max<26>  0
+.latch ns_max<25> ps_max<25>  0
+.latch ns_max<24> ps_max<24>  0
+.latch ns_max<23> ps_max<23>  0
+.latch ns_max<22> ps_max<22>  0
+.latch ns_max<21> ps_max<21>  0
+.latch ns_max<20> ps_max<20>  0
+.latch ns_max<19> ps_max<19>  0
+.latch ns_max<18> ps_max<18>  0
+.latch ns_max<17> ps_max<17>  0
+.latch ns_max<16> ps_max<16>  0
+.latch ns_max<15> ps_max<15>  0
+.latch ns_max<14> ps_max<14>  0
+.latch ns_max<13> ps_max<13>  0
+.latch ns_max<12> ps_max<12>  0
+.latch ns_max<11> ps_max<11>  0
+.latch ns_max<10> ps_max<10>  0
+.latch ns_max<9> ps_max<9>  0
+.latch ns_max<8> ps_max<8>  0
+.latch ns_max<7> ps_max<7>  0
+.latch ns_max<6> ps_max<6>  0
+.latch ns_max<5> ps_max<5>  0
+.latch ns_max<4> ps_max<4>  0
+.latch ns_max<3> ps_max<3>  0
+.latch ns_max<2> ps_max<2>  0
+.latch ns_max<1> ps_max<1>  0
+.latch ns_max<0> ps_max<0>  0
+.names enable<0> $$COND0<0>2.1
+0 1
+.names in<31> ps_max<31> main/$GTR_32_1/test<0>6.1
+01 1
+10 1
+.names in<30> ps_max<30> main/$GTR_32_1/test<0>10.1
+01 1
+10 1
+.names in<29> ps_max<29> main/$GTR_32_1/test<0>14.1
+01 1
+10 1
+.names in<28> ps_max<28> main/$GTR_32_1/test<0>18.1
+01 1
+10 1
+.names in<27> ps_max<27> main/$GTR_32_1/test<0>22.1
+01 1
+10 1
+.names in<26> ps_max<26> main/$GTR_32_1/test<0>26.1
+01 1
+10 1
+.names in<25> ps_max<25> main/$GTR_32_1/test<0>30.1
+01 1
+10 1
+.names in<24> ps_max<24> main/$GTR_32_1/test<0>34.1
+01 1
+10 1
+.names in<23> ps_max<23> main/$GTR_32_1/test<0>38.1
+01 1
+10 1
+.names in<22> ps_max<22> main/$GTR_32_1/test<0>42.1
+01 1
+10 1
+.names in<21> ps_max<21> main/$GTR_32_1/test<0>46.1
+01 1
+10 1
+.names in<20> ps_max<20> main/$GTR_32_1/test<0>50.1
+01 1
+10 1
+.names in<19> ps_max<19> main/$GTR_32_1/test<0>54.1
+01 1
+10 1
+.names in<18> ps_max<18> main/$GTR_32_1/test<0>58.1
+01 1
+10 1
+.names in<17> ps_max<17> main/$GTR_32_1/test<0>62.1
+01 1
+10 1
+.names in<16> ps_max<16> main/$GTR_32_1/test<0>66.1
+01 1
+10 1
+.names in<15> ps_max<15> main/$GTR_32_1/test<0>70.1
+01 1
+10 1
+.names in<14> ps_max<14> main/$GTR_32_1/test<0>74.1
+01 1
+10 1
+.names in<13> ps_max<13> main/$GTR_32_1/test<0>78.1
+01 1
+10 1
+.names in<12> ps_max<12> main/$GTR_32_1/test<0>82.1
+01 1
+10 1
+.names in<11> ps_max<11> main/$GTR_32_1/test<0>86.1
+01 1
+10 1
+.names in<10> ps_max<10> main/$GTR_32_1/test<0>90.1
+01 1
+10 1
+.names in<9> ps_max<9> main/$GTR_32_1/test<0>94.1
+01 1
+10 1
+.names in<8> ps_max<8> main/$GTR_32_1/test<0>98.1
+01 1
+10 1
+.names in<7> ps_max<7> main/$GTR_32_1/test<0>102.1
+01 1
+10 1
+.names in<6> ps_max<6> main/$GTR_32_1/test<0>106.1
+01 1
+10 1
+.names in<5> ps_max<5> main/$GTR_32_1/test<0>110.1
+01 1
+10 1
+.names in<4> ps_max<4> main/$GTR_32_1/test<0>114.1
+01 1
+10 1
+.names in<3> ps_max<3> main/$GTR_32_1/test<0>118.1
+01 1
+10 1
+.names in<2> ps_max<2> main/$GTR_32_1/test<0>122.1
+01 1
+10 1
+.names in<1> ps_max<1> main/$GTR_32_1/test<0>126.1
+01 1
+10 1
+.names in<0> ps_max<0> main/$GTR_32_1/test<0>130.1
+01 1
+10 1
+.names main/$GTR_32_1/test<0>6.1 main/$GTR_32_1/test<0>10.1 main/$GTR_32_1/test<0>14.1 main/$GTR_32_1/test<0>18.1 main/$GTR_32_1/test<0>22.1 main/$GTR_32_1/test<0>26.1 main/$GTR_32_1/test<0>30.1 main/$GTR_32_1/test<0>34.1 main/$GTR_32_1/test<0>38.1 main/$GTR_32_1/test<0>42.1 main/$GTR_32_1/test<0>46.1 main/$GTR_32_1/test<0>50.1 main/$GTR_32_1/test<0>54.1 main/$GTR_32_1/test<0>58.1 main/$GTR_32_1/test<0>62.1 main/$GTR_32_1/test<0>66.1 main/$GTR_32_1/test<0>70.1 main/$GTR_32_1/test<0>74.1 main/$GTR_32_1/test<0>78.1 main/$GTR_32_1/test<0>82.1 main/$GTR_32_1/test<0>86.1 main/$GTR_32_1/test<0>90.1 main/$GTR_32_1/test<0>94.1 main/$GTR_32_1/test<0>98.1 main/$GTR_32_1/test<0>102.1 main/$GTR_32_1/test<0>106.1 main/$GTR_32_1/test<0>110.1 main/$GTR_32_1/test<0>114.1 main/$GTR_32_1/test<0>118.1 main/$GTR_32_1/test<0>122.1 main/$GTR_32_1/test<0>126.1 main/$GTR_32_1/test<0>130.1 in<31> in<30> in<29> in<28> in<27> in<26> in<25> in<24> in<23> in<22> in<21> in<20> in<19> in<18> in<17> in<16> in<15> in<14> in<13> in<12> in<11> in<10> in<9> in<8> in<7> in<6> in<5> in<4> in<3> in<2> in<1> in<0> main/$GTR_32_1/$$GTR_32<0>6.2
+1-------------------------------1------------------------------- 1
+01-------------------------------1------------------------------ 1
+001-------------------------------1----------------------------- 1
+0001-------------------------------1---------------------------- 1
+00001-------------------------------1--------------------------- 1
+000001-------------------------------1-------------------------- 1
+0000001-------------------------------1------------------------- 1
+00000001-------------------------------1------------------------ 1
+000000001-------------------------------1----------------------- 1
+0000000001-------------------------------1---------------------- 1
+00000000001-------------------------------1--------------------- 1
+000000000001-------------------------------1-------------------- 1
+0000000000001-------------------------------1------------------- 1
+00000000000001-------------------------------1------------------ 1
+000000000000001-------------------------------1----------------- 1
+0000000000000001-------------------------------1---------------- 1
+00000000000000001-------------------------------1--------------- 1
+000000000000000001-------------------------------1-------------- 1
+0000000000000000001-------------------------------1------------- 1
+00000000000000000001-------------------------------1------------ 1
+000000000000000000001-------------------------------1----------- 1
+0000000000000000000001-------------------------------1---------- 1
+00000000000000000000001-------------------------------1--------- 1
+000000000000000000000001-------------------------------1-------- 1
+0000000000000000000000001-------------------------------1------- 1
+00000000000000000000000001-------------------------------1------ 1
+000000000000000000000000001-------------------------------1----- 1
+0000000000000000000000000001-------------------------------1---- 1
+00000000000000000000000000001-------------------------------1--- 1
+000000000000000000000000000001-------------------------------1-- 1
+0000000000000000000000000000001-------------------------------1- 1
+00000000000000000000000000000001-------------------------------1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<0> in<0> main_1/sup<0>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<1> in<1> main_1/sup<1>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<2> in<2> main_1/sup<2>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<3> in<3> main_1/sup<3>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<4> in<4> main_1/sup<4>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<5> in<5> main_1/sup<5>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<6> in<6> main_1/sup<6>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<7> in<7> main_1/sup<7>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<8> in<8> main_1/sup<8>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<9> in<9> main_1/sup<9>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<10> in<10> main_1/sup<10>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<11> in<11> main_1/sup<11>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<12> in<12> main_1/sup<12>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<13> in<13> main_1/sup<13>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<14> in<14> main_1/sup<14>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<15> in<15> main_1/sup<15>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<16> in<16> main_1/sup<16>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<17> in<17> main_1/sup<17>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<18> in<18> main_1/sup<18>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<19> in<19> main_1/sup<19>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<20> in<20> main_1/sup<20>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<21> in<21> main_1/sup<21>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<22> in<22> main_1/sup<22>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<23> in<23> main_1/sup<23>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<24> in<24> main_1/sup<24>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<25> in<25> main_1/sup<25>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<26> in<26> main_1/sup<26>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<27> in<27> main_1/sup<27>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<28> in<28> main_1/sup<28>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<29> in<29> main_1/sup<29>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<30> in<30> main_1/sup<30>6.1
+01- 1
+1-1 1
+.names main/$GTR_32_1/$$GTR_32<0>6.2 ps_max<31> in<31> main_1/sup<31>6.1
+01- 1
+1-1 1
+.names in<31> ps_min<31> main/$LSS_32_1/test<0>6.1
+01 1
+10 1
+.names in<30> ps_min<30> main/$LSS_32_1/test<0>140.1
+01 1
+10 1
+.names in<29> ps_min<29> main/$LSS_32_1/test<0>144.1
+01 1
+10 1
+.names in<28> ps_min<28> main/$LSS_32_1/test<0>148.1
+01 1
+10 1
+.names in<27> ps_min<27> main/$LSS_32_1/test<0>152.1
+01 1
+10 1
+.names in<26> ps_min<26> main/$LSS_32_1/test<0>156.1
+01 1
+10 1
+.names in<25> ps_min<25> main/$LSS_32_1/test<0>160.1
+01 1
+10 1
+.names in<24> ps_min<24> main/$LSS_32_1/test<0>164.1
+01 1
+10 1
+.names in<23> ps_min<23> main/$LSS_32_1/test<0>168.1
+01 1
+10 1
+.names in<22> ps_min<22> main/$LSS_32_1/test<0>172.1
+01 1
+10 1
+.names in<21> ps_min<21> main/$LSS_32_1/test<0>176.1
+01 1
+10 1
+.names in<20> ps_min<20> main/$LSS_32_1/test<0>180.1
+01 1
+10 1
+.names in<19> ps_min<19> main/$LSS_32_1/test<0>184.1
+01 1
+10 1
+.names in<18> ps_min<18> main/$LSS_32_1/test<0>188.1
+01 1
+10 1
+.names in<17> ps_min<17> main/$LSS_32_1/test<0>192.1
+01 1
+10 1
+.names in<16> ps_min<16> main/$LSS_32_1/test<0>196.1
+01 1
+10 1
+.names in<15> ps_min<15> main/$LSS_32_1/test<0>200.1
+01 1
+10 1
+.names in<14> ps_min<14> main/$LSS_32_1/test<0>204.1
+01 1
+10 1
+.names in<13> ps_min<13> main/$LSS_32_1/test<0>208.1
+01 1
+10 1
+.names in<12> ps_min<12> main/$LSS_32_1/test<0>212.1
+01 1
+10 1
+.names in<11> ps_min<11> main/$LSS_32_1/test<0>216.1
+01 1
+10 1
+.names in<10> ps_min<10> main/$LSS_32_1/test<0>220.1
+01 1
+10 1
+.names in<9> ps_min<9> main/$LSS_32_1/test<0>224.1
+01 1
+10 1
+.names in<8> ps_min<8> main/$LSS_32_1/test<0>228.1
+01 1
+10 1
+.names in<7> ps_min<7> main/$LSS_32_1/test<0>232.1
+01 1
+10 1
+.names in<6> ps_min<6> main/$LSS_32_1/test<0>236.1
+01 1
+10 1
+.names in<5> ps_min<5> main/$LSS_32_1/test<0>240.1
+01 1
+10 1
+.names in<4> ps_min<4> main/$LSS_32_1/test<0>244.1
+01 1
+10 1
+.names in<3> ps_min<3> main/$LSS_32_1/test<0>248.1
+01 1
+10 1
+.names in<2> ps_min<2> main/$LSS_32_1/test<0>252.1
+01 1
+10 1
+.names in<1> ps_min<1> main/$LSS_32_1/test<0>256.1
+01 1
+10 1
+.names in<0> ps_min<0> main/$LSS_32_1/test<0>260.1
+01 1
+10 1
+.names main/$LSS_32_1/test<0>6.1 main/$LSS_32_1/test<0>140.1 main/$LSS_32_1/test<0>144.1 main/$LSS_32_1/test<0>148.1 main/$LSS_32_1/test<0>152.1 main/$LSS_32_1/test<0>156.1 main/$LSS_32_1/test<0>160.1 main/$LSS_32_1/test<0>164.1 main/$LSS_32_1/test<0>168.1 main/$LSS_32_1/test<0>172.1 main/$LSS_32_1/test<0>176.1 main/$LSS_32_1/test<0>180.1 main/$LSS_32_1/test<0>184.1 main/$LSS_32_1/test<0>188.1 main/$LSS_32_1/test<0>192.1 main/$LSS_32_1/test<0>196.1 main/$LSS_32_1/test<0>200.1 main/$LSS_32_1/test<0>204.1 main/$LSS_32_1/test<0>208.1 main/$LSS_32_1/test<0>212.1 main/$LSS_32_1/test<0>216.1 main/$LSS_32_1/test<0>220.1 main/$LSS_32_1/test<0>224.1 main/$LSS_32_1/test<0>228.1 main/$LSS_32_1/test<0>232.1 main/$LSS_32_1/test<0>236.1 main/$LSS_32_1/test<0>240.1 main/$LSS_32_1/test<0>244.1 main/$LSS_32_1/test<0>248.1 main/$LSS_32_1/test<0>252.1 main/$LSS_32_1/test<0>256.1 main/$LSS_32_1/test<0>260.1 ps_min<31> ps_min<30> ps_min<29> ps_min<28> ps_min<27> ps_min<26> ps_min<25> ps_min<24> ps_min<23> ps_min<22> ps_min<21> ps_min<20> ps_min<19> ps_min<18> ps_min<17> ps_min<16> ps_min<15> ps_min<14> ps_min<13> ps_min<12> ps_min<11> ps_min<10> ps_min<9> ps_min<8> ps_min<7> ps_min<6> ps_min<5> ps_min<4> ps_min<3> ps_min<2> ps_min<1> ps_min<0> main/$LSS_32_1/$$LSS_32<0>6.2
+1-------------------------------1------------------------------- 1
+01-------------------------------1------------------------------ 1
+001-------------------------------1----------------------------- 1
+0001-------------------------------1---------------------------- 1
+00001-------------------------------1--------------------------- 1
+000001-------------------------------1-------------------------- 1
+0000001-------------------------------1------------------------- 1
+00000001-------------------------------1------------------------ 1
+000000001-------------------------------1----------------------- 1
+0000000001-------------------------------1---------------------- 1
+00000000001-------------------------------1--------------------- 1
+000000000001-------------------------------1-------------------- 1
+0000000000001-------------------------------1------------------- 1
+00000000000001-------------------------------1------------------ 1
+000000000000001-------------------------------1----------------- 1
+0000000000000001-------------------------------1---------------- 1
+00000000000000001-------------------------------1--------------- 1
+000000000000000001-------------------------------1-------------- 1
+0000000000000000001-------------------------------1------------- 1
+00000000000000000001-------------------------------1------------ 1
+000000000000000000001-------------------------------1----------- 1
+0000000000000000000001-------------------------------1---------- 1
+00000000000000000000001-------------------------------1--------- 1
+000000000000000000000001-------------------------------1-------- 1
+0000000000000000000000001-------------------------------1------- 1
+00000000000000000000000001-------------------------------1------ 1
+000000000000000000000000001-------------------------------1----- 1
+0000000000000000000000000001-------------------------------1---- 1
+00000000000000000000000000001-------------------------------1--- 1
+000000000000000000000000000001-------------------------------1-- 1
+0000000000000000000000000000001-------------------------------1- 1
+00000000000000000000000000000001-------------------------------1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<0> in<0> main_1/inf<0>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<1> in<1> main_1/inf<1>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<2> in<2> main_1/inf<2>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<3> in<3> main_1/inf<3>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<4> in<4> main_1/inf<4>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<5> in<5> main_1/inf<5>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<6> in<6> main_1/inf<6>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<7> in<7> main_1/inf<7>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<8> in<8> main_1/inf<8>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<9> in<9> main_1/inf<9>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<10> in<10> main_1/inf<10>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<11> in<11> main_1/inf<11>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<12> in<12> main_1/inf<12>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<13> in<13> main_1/inf<13>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<14> in<14> main_1/inf<14>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<15> in<15> main_1/inf<15>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<16> in<16> main_1/inf<16>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<17> in<17> main_1/inf<17>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<18> in<18> main_1/inf<18>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<19> in<19> main_1/inf<19>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<20> in<20> main_1/inf<20>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<21> in<21> main_1/inf<21>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<22> in<22> main_1/inf<22>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<23> in<23> main_1/inf<23>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<24> in<24> main_1/inf<24>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<25> in<25> main_1/inf<25>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<26> in<26> main_1/inf<26>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<27> in<27> main_1/inf<27>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<28> in<28> main_1/inf<28>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<29> in<29> main_1/inf<29>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<30> in<30> main_1/inf<30>6.1
+01- 1
+1-1 1
+.names main/$LSS_32_1/$$LSS_32<0>6.2 ps_min<31> in<31> main_1/inf<31>6.1
+01- 1
+1-1 1
+.names main_1/sup<0>6.1 main_1/inf<0>6.1 main/$PLUS_34_1/c<0>6.2
+11 1
+.names main_1/sup<1>6.1 main_1/inf<1>6.1 main/$PLUS_34_1/c<0>6.2 main/$PLUS_34_1/sum<1>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<1>6.1 main/$PLUS_34_1/c<0>6.2 main_1/inf<1>6.1 main/$PLUS_34_1/c<0>6.3
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<2>6.1 main_1/inf<2>6.1 main/$PLUS_34_1/c<0>6.3 main/$PLUS_34_1/sum<2>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<2>6.1 main/$PLUS_34_1/c<0>6.3 main_1/inf<2>6.1 main/$PLUS_34_1/c<0>6.4
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<3>6.1 main_1/inf<3>6.1 main/$PLUS_34_1/c<0>6.4 main/$PLUS_34_1/sum<3>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<3>6.1 main/$PLUS_34_1/c<0>6.4 main_1/inf<3>6.1 main/$PLUS_34_1/c<0>6.5
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<4>6.1 main_1/inf<4>6.1 main/$PLUS_34_1/c<0>6.5 main/$PLUS_34_1/sum<4>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<4>6.1 main/$PLUS_34_1/c<0>6.5 main_1/inf<4>6.1 main/$PLUS_34_1/c<0>6.6
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<5>6.1 main_1/inf<5>6.1 main/$PLUS_34_1/c<0>6.6 main/$PLUS_34_1/sum<5>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<5>6.1 main/$PLUS_34_1/c<0>6.6 main_1/inf<5>6.1 main/$PLUS_34_1/c<0>6.7
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<6>6.1 main_1/inf<6>6.1 main/$PLUS_34_1/c<0>6.7 main/$PLUS_34_1/sum<6>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<6>6.1 main/$PLUS_34_1/c<0>6.7 main_1/inf<6>6.1 main/$PLUS_34_1/c<0>6.8
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<7>6.1 main_1/inf<7>6.1 main/$PLUS_34_1/c<0>6.8 main/$PLUS_34_1/sum<7>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<7>6.1 main/$PLUS_34_1/c<0>6.8 main_1/inf<7>6.1 main/$PLUS_34_1/c<0>6.9
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<8>6.1 main_1/inf<8>6.1 main/$PLUS_34_1/c<0>6.9 main/$PLUS_34_1/sum<8>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<8>6.1 main/$PLUS_34_1/c<0>6.9 main_1/inf<8>6.1 main/$PLUS_34_1/c<0>6.10
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<9>6.1 main_1/inf<9>6.1 main/$PLUS_34_1/c<0>6.10 main/$PLUS_34_1/sum<9>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<9>6.1 main/$PLUS_34_1/c<0>6.10 main_1/inf<9>6.1 main/$PLUS_34_1/c<0>6.11
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<10>6.1 main_1/inf<10>6.1 main/$PLUS_34_1/c<0>6.11 main/$PLUS_34_1/sum<10>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<10>6.1 main/$PLUS_34_1/c<0>6.11 main_1/inf<10>6.1 main/$PLUS_34_1/c<0>6.12
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<11>6.1 main_1/inf<11>6.1 main/$PLUS_34_1/c<0>6.12 main/$PLUS_34_1/sum<11>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<11>6.1 main/$PLUS_34_1/c<0>6.12 main_1/inf<11>6.1 main/$PLUS_34_1/c<0>6.13
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<12>6.1 main_1/inf<12>6.1 main/$PLUS_34_1/c<0>6.13 main/$PLUS_34_1/sum<12>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<12>6.1 main/$PLUS_34_1/c<0>6.13 main_1/inf<12>6.1 main/$PLUS_34_1/c<0>6.14
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<13>6.1 main_1/inf<13>6.1 main/$PLUS_34_1/c<0>6.14 main/$PLUS_34_1/sum<13>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<13>6.1 main/$PLUS_34_1/c<0>6.14 main_1/inf<13>6.1 main/$PLUS_34_1/c<0>6.15
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<14>6.1 main_1/inf<14>6.1 main/$PLUS_34_1/c<0>6.15 main/$PLUS_34_1/sum<14>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<14>6.1 main/$PLUS_34_1/c<0>6.15 main_1/inf<14>6.1 main/$PLUS_34_1/c<0>6.16
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<15>6.1 main_1/inf<15>6.1 main/$PLUS_34_1/c<0>6.16 main/$PLUS_34_1/sum<15>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<15>6.1 main/$PLUS_34_1/c<0>6.16 main_1/inf<15>6.1 main/$PLUS_34_1/c<0>6.17
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<16>6.1 main_1/inf<16>6.1 main/$PLUS_34_1/c<0>6.17 main/$PLUS_34_1/sum<16>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<16>6.1 main/$PLUS_34_1/c<0>6.17 main_1/inf<16>6.1 main/$PLUS_34_1/c<0>6.18
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<17>6.1 main_1/inf<17>6.1 main/$PLUS_34_1/c<0>6.18 main/$PLUS_34_1/sum<17>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<17>6.1 main/$PLUS_34_1/c<0>6.18 main_1/inf<17>6.1 main/$PLUS_34_1/c<0>6.19
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<18>6.1 main_1/inf<18>6.1 main/$PLUS_34_1/c<0>6.19 main/$PLUS_34_1/sum<18>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<18>6.1 main/$PLUS_34_1/c<0>6.19 main_1/inf<18>6.1 main/$PLUS_34_1/c<0>6.20
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<19>6.1 main_1/inf<19>6.1 main/$PLUS_34_1/c<0>6.20 main/$PLUS_34_1/sum<19>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<19>6.1 main/$PLUS_34_1/c<0>6.20 main_1/inf<19>6.1 main/$PLUS_34_1/c<0>6.21
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<20>6.1 main_1/inf<20>6.1 main/$PLUS_34_1/c<0>6.21 main/$PLUS_34_1/sum<20>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<20>6.1 main/$PLUS_34_1/c<0>6.21 main_1/inf<20>6.1 main/$PLUS_34_1/c<0>6.22
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<21>6.1 main_1/inf<21>6.1 main/$PLUS_34_1/c<0>6.22 main/$PLUS_34_1/sum<21>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<21>6.1 main/$PLUS_34_1/c<0>6.22 main_1/inf<21>6.1 main/$PLUS_34_1/c<0>6.23
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<22>6.1 main_1/inf<22>6.1 main/$PLUS_34_1/c<0>6.23 main/$PLUS_34_1/sum<22>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<22>6.1 main/$PLUS_34_1/c<0>6.23 main_1/inf<22>6.1 main/$PLUS_34_1/c<0>6.24
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<23>6.1 main_1/inf<23>6.1 main/$PLUS_34_1/c<0>6.24 main/$PLUS_34_1/sum<23>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<23>6.1 main/$PLUS_34_1/c<0>6.24 main_1/inf<23>6.1 main/$PLUS_34_1/c<0>6.25
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<24>6.1 main_1/inf<24>6.1 main/$PLUS_34_1/c<0>6.25 main/$PLUS_34_1/sum<24>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<24>6.1 main/$PLUS_34_1/c<0>6.25 main_1/inf<24>6.1 main/$PLUS_34_1/c<0>6.26
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<25>6.1 main_1/inf<25>6.1 main/$PLUS_34_1/c<0>6.26 main/$PLUS_34_1/sum<25>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<25>6.1 main/$PLUS_34_1/c<0>6.26 main_1/inf<25>6.1 main/$PLUS_34_1/c<0>6.27
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<26>6.1 main_1/inf<26>6.1 main/$PLUS_34_1/c<0>6.27 main/$PLUS_34_1/sum<26>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<26>6.1 main/$PLUS_34_1/c<0>6.27 main_1/inf<26>6.1 main/$PLUS_34_1/c<0>6.28
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<27>6.1 main_1/inf<27>6.1 main/$PLUS_34_1/c<0>6.28 main/$PLUS_34_1/sum<27>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<27>6.1 main/$PLUS_34_1/c<0>6.28 main_1/inf<27>6.1 main/$PLUS_34_1/c<0>6.29
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<28>6.1 main_1/inf<28>6.1 main/$PLUS_34_1/c<0>6.29 main/$PLUS_34_1/sum<28>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<28>6.1 main/$PLUS_34_1/c<0>6.29 main_1/inf<28>6.1 main/$PLUS_34_1/c<0>6.30
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<29>6.1 main_1/inf<29>6.1 main/$PLUS_34_1/c<0>6.30 main/$PLUS_34_1/sum<29>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<29>6.1 main/$PLUS_34_1/c<0>6.30 main_1/inf<29>6.1 main/$PLUS_34_1/c<0>6.31
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<30>6.1 main_1/inf<30>6.1 main/$PLUS_34_1/c<0>6.31 main/$PLUS_34_1/sum<30>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<30>6.1 main/$PLUS_34_1/c<0>6.31 main_1/inf<30>6.1 main/$PLUS_34_1/c<0>6.32
+11- 1
+1-1 1
+-11 1
+.names main_1/sup<31>6.1 main_1/inf<31>6.1 main/$PLUS_34_1/c<0>6.32 main/$PLUS_34_1/sum<31>6.1
+111 1
+001 1
+010 1
+100 1
+.names main_1/sup<31>6.1 main/$PLUS_34_1/c<0>6.32 main_1/inf<31>6.1 main/$PLUS_34_1/c<0>6.33
+11- 1
+1-1 1
+-11 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<1>6.1 in<0> ps_last<0> out<0>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<2>6.1 in<1> ps_last<1> out<1>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<3>6.1 in<2> ps_last<2> out<2>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<4>6.1 in<3> ps_last<3> out<3>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<5>6.1 in<4> ps_last<4> out<4>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<6>6.1 in<5> ps_last<5> out<5>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<7>6.1 in<6> ps_last<6> out<6>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<8>6.1 in<7> ps_last<7> out<7>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<9>6.1 in<8> ps_last<8> out<8>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<10>6.1 in<9> ps_last<9> out<9>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<11>6.1 in<10> ps_last<10> out<10>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<12>6.1 in<11> ps_last<11> out<11>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<13>6.1 in<12> ps_last<12> out<12>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<14>6.1 in<13> ps_last<13> out<13>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<15>6.1 in<14> ps_last<14> out<14>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<16>6.1 in<15> ps_last<15> out<15>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<17>6.1 in<16> ps_last<16> out<16>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<18>6.1 in<17> ps_last<17> out<17>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<19>6.1 in<18> ps_last<18> out<18>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<20>6.1 in<19> ps_last<19> out<19>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<21>6.1 in<20> ps_last<20> out<20>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<22>6.1 in<21> ps_last<21> out<21>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<23>6.1 in<22> ps_last<22> out<22>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<24>6.1 in<23> ps_last<23> out<23>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<25>6.1 in<24> ps_last<24> out<24>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<26>6.1 in<25> ps_last<25> out<25>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<27>6.1 in<26> ps_last<26> out<26>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<28>6.1 in<27> ps_last<27> out<27>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<29>6.1 in<28> ps_last<28> out<28>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<30>6.1 in<29> ps_last<29> out<29>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/sum<31>6.1 in<30> ps_last<30> out<30>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 reset<0> main/$PLUS_34_1/c<0>6.33 in<31> ps_last<31> out<31>
+01---1 1
+0001-- 1
+001-1- 1
+.names clear<0> $$COND0<0>2.1 in<0> ns_last<0>
+001 1
+.names clear<0> $$COND0<0>2.1 in<1> ns_last<1>
+001 1
+.names clear<0> $$COND0<0>2.1 in<2> ns_last<2>
+001 1
+.names clear<0> $$COND0<0>2.1 in<3> ns_last<3>
+001 1
+.names clear<0> $$COND0<0>2.1 in<4> ns_last<4>
+001 1
+.names clear<0> $$COND0<0>2.1 in<5> ns_last<5>
+001 1
+.names clear<0> $$COND0<0>2.1 in<6> ns_last<6>
+001 1
+.names clear<0> $$COND0<0>2.1 in<7> ns_last<7>
+001 1
+.names clear<0> $$COND0<0>2.1 in<8> ns_last<8>
+001 1
+.names clear<0> $$COND0<0>2.1 in<9> ns_last<9>
+001 1
+.names clear<0> $$COND0<0>2.1 in<10> ns_last<10>
+001 1
+.names clear<0> $$COND0<0>2.1 in<11> ns_last<11>
+001 1
+.names clear<0> $$COND0<0>2.1 in<12> ns_last<12>
+001 1
+.names clear<0> $$COND0<0>2.1 in<13> ns_last<13>
+001 1
+.names clear<0> $$COND0<0>2.1 in<14> ns_last<14>
+001 1
+.names clear<0> $$COND0<0>2.1 in<15> ns_last<15>
+001 1
+.names clear<0> $$COND0<0>2.1 in<16> ns_last<16>
+001 1
+.names clear<0> $$COND0<0>2.1 in<17> ns_last<17>
+001 1
+.names clear<0> $$COND0<0>2.1 in<18> ns_last<18>
+001 1
+.names clear<0> $$COND0<0>2.1 in<19> ns_last<19>
+001 1
+.names clear<0> $$COND0<0>2.1 in<20> ns_last<20>
+001 1
+.names clear<0> $$COND0<0>2.1 in<21> ns_last<21>
+001 1
+.names clear<0> $$COND0<0>2.1 in<22> ns_last<22>
+001 1
+.names clear<0> $$COND0<0>2.1 in<23> ns_last<23>
+001 1
+.names clear<0> $$COND0<0>2.1 in<24> ns_last<24>
+001 1
+.names clear<0> $$COND0<0>2.1 in<25> ns_last<25>
+001 1
+.names clear<0> $$COND0<0>2.1 in<26> ns_last<26>
+001 1
+.names clear<0> $$COND0<0>2.1 in<27> ns_last<27>
+001 1
+.names clear<0> $$COND0<0>2.1 in<28> ns_last<28>
+001 1
+.names clear<0> $$COND0<0>2.1 in<29> ns_last<29>
+001 1
+.names clear<0> $$COND0<0>2.1 in<30> ns_last<30>
+001 1
+.names clear<0> $$COND0<0>2.1 in<31> ns_last<31>
+001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<0>6.1 ns_max<0>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<1>6.1 ns_max<1>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<2>6.1 ns_max<2>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<3>6.1 ns_max<3>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<4>6.1 ns_max<4>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<5>6.1 ns_max<5>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<6>6.1 ns_max<6>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<7>6.1 ns_max<7>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<8>6.1 ns_max<8>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<9>6.1 ns_max<9>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<10>6.1 ns_max<10>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<11>6.1 ns_max<11>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<12>6.1 ns_max<12>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<13>6.1 ns_max<13>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<14>6.1 ns_max<14>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<15>6.1 ns_max<15>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<16>6.1 ns_max<16>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<17>6.1 ns_max<17>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<18>6.1 ns_max<18>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<19>6.1 ns_max<19>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<20>6.1 ns_max<20>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<21>6.1 ns_max<21>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<22>6.1 ns_max<22>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<23>6.1 ns_max<23>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<24>6.1 ns_max<24>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<25>6.1 ns_max<25>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<26>6.1 ns_max<26>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<27>6.1 ns_max<27>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<28>6.1 ns_max<28>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<29>6.1 ns_max<29>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<30>6.1 ns_max<30>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/sup<31>6.1 ns_max<31>
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<0>6.1 ns_min<0>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<1>6.1 ns_min<1>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<2>6.1 ns_min<2>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<3>6.1 ns_min<3>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<4>6.1 ns_min<4>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<5>6.1 ns_min<5>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<6>6.1 ns_min<6>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<7>6.1 ns_min<7>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<8>6.1 ns_min<8>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<9>6.1 ns_min<9>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<10>6.1 ns_min<10>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<11>6.1 ns_min<11>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<12>6.1 ns_min<12>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<13>6.1 ns_min<13>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<14>6.1 ns_min<14>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<15>6.1 ns_min<15>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<16>6.1 ns_min<16>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<17>6.1 ns_min<17>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<18>6.1 ns_min<18>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<19>6.1 ns_min<19>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<20>6.1 ns_min<20>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<21>6.1 ns_min<21>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<22>6.1 ns_min<22>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<23>6.1 ns_min<23>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<24>6.1 ns_min<24>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<25>6.1 ns_min<25>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<26>6.1 ns_min<26>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<27>6.1 ns_min<27>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<28>6.1 ns_min<28>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<29>6.1 ns_min<29>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<30>6.1 ns_min<30>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.names clear<0> $$COND0<0>2.1 reset<0> main_1/inf<31>6.1 ns_min<31>
+1--- 1
+01-- 1
+001- 1
+0001 1
+.end

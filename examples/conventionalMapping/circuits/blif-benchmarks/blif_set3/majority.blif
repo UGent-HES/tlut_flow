@@ -1,0 +1,64 @@
+#
+# Written by e2fmt Tue Mar 31 16:13:05 1998
+############################################
+.model top
+.inputs pa pb pc pd pe
+.outputs pf
+# connect ports to nets with different names
+.names pa na
+1  1
+.names pb nb
+1  1
+.names pc nc
+1  1
+.names pd nd
+1  1
+.names pe ne
+1  1
+.names nf pf
+1  1
+# instance g_g9
+.names n_n1 n_n3 n_n4  n_n8
+111  1
+# instance g_g5
+.names nd  n_n4
+0  1
+# instance g_g6
+.names n_n3 n_n2 n_n4  n_n5
+111  1
+# instance g_g7
+.names n_n1 n_n2 n_n4  n_n6
+111  1
+# instance g_g8
+.names n_n0 n_n2 n_n4  n_n7
+111  1
+# instance g_g1
+.names na  n_n0
+0  1
+# instance g_g2
+.names nb  n_n1
+0  1
+# instance g_g3
+.names ne  n_n2
+0  1
+# instance g_g4
+.names nc  n_n3
+0  1
+# instance g_g0
+.names nh  nf
+0  1
+# instance g_g10
+.names n_n0 n_n3 n_n4  n_n9
+111  1
+# instance g_g11
+.names n_n0 n_n1 n_n4  n_n10
+111  1
+# instance g_g12
+.names n_n7 n_n6 n_n9 n_n8 n_n10 n_n5  nh
+1-----  1
+-1----  1
+--1---  1
+---1--  1
+----1-  1
+-----1  1
+.end

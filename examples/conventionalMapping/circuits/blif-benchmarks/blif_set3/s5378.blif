@@ -1,0 +1,9133 @@
+#
+# Written by e2fmt Tue Mar 31 16:14:14 1998
+############################################
+.model top
+.inputs pn3083gat pn3084gat pn3081gat pn3082gat pn3099gat pn3087gat pn3088gat\
+ pn3070gat pn3085gat pn3086gat pn3094gat pn3093gat pn3089gat pn3092gat pn3091gat\
+ pn3098gat pn3097gat pn3095gat pn3079gat pclk pn3065gat pn3090gat pn3066gat\
+ pn3067gat pn3068gat pn3069gat pn3072gat pn3071gat pn3074gat pn3100gat pn3073gat\
+ pn3076gat pn3075gat pn3080gat pn3078gat pn3077gat
+.outputs pn3113gat pn3112gat pn3111gat pn3110gat pn3117gat pn3128gat pn3116gat\
+ pn3129gat pn3152gat pn3115gat pn3151gat pn3114gat pn3150gat pn3124gat pn3125gat\
+ pn3119gat pn3126gat pn3118gat pn3127gat pn3120gat pn3121gat pn3122gat pn3123gat\
+ pn3135gat pn3134gat pn3108gat pn3137gat pn3109gat pn3136gat pn3131gat pn3130gat\
+ pn3133gat pn3148gat pn3132gat pn3149gat pn3146gat pn3147gat pn3144gat pn3145gat\
+ pn3106gat pn3139gat pn3142gat pn3107gat pn3138gat pn3143gat pn3104gat pn3140gat\
+ pn3105gat pn3141gat
+# connect ports to nets with different names
+.names pn3083gat nn3083gat
+1  1
+.names nn3113gat pn3113gat
+1  1
+.names pn3084gat nn3084gat
+1  1
+.names nn3112gat pn3112gat
+1  1
+.names pn3081gat nn3081gat
+1  1
+.names nn3111gat pn3111gat
+1  1
+.names pn3082gat nn3082gat
+1  1
+.names pn3099gat nn3099gat
+1  1
+.names nn3110gat pn3110gat
+1  1
+.names pn3087gat nn3087gat
+1  1
+.names nn3117gat pn3117gat
+1  1
+.names nn3128gat pn3128gat
+1  1
+.names pn3088gat nn3088gat
+1  1
+.names nn3116gat pn3116gat
+1  1
+.names nn3129gat pn3129gat
+1  1
+.names nn3152gat pn3152gat
+1  1
+.names pn3070gat nn3070gat
+1  1
+.names pn3085gat nn3085gat
+1  1
+.names nn3115gat pn3115gat
+1  1
+.names nn3151gat pn3151gat
+1  1
+.names pn3086gat nn3086gat
+1  1
+.names nn3114gat pn3114gat
+1  1
+.names nn3150gat pn3150gat
+1  1
+.names pn3094gat nn3094gat
+1  1
+.names nn3124gat pn3124gat
+1  1
+.names pn3093gat nn3093gat
+1  1
+.names nn3125gat pn3125gat
+1  1
+.names pn3089gat nn3089gat
+1  1
+.names pn3092gat nn3092gat
+1  1
+.names nn3119gat pn3119gat
+1  1
+.names nn3126gat pn3126gat
+1  1
+.names pn3091gat nn3091gat
+1  1
+.names nn3118gat pn3118gat
+1  1
+.names nn3127gat pn3127gat
+1  1
+.names pn3098gat nn3098gat
+1  1
+.names nn3120gat pn3120gat
+1  1
+.names pn3097gat nn3097gat
+1  1
+.names nn3121gat pn3121gat
+1  1
+.names nn3122gat pn3122gat
+1  1
+.names pn3095gat nn3095gat
+1  1
+.names nn3123gat pn3123gat
+1  1
+.names nn3135gat pn3135gat
+1  1
+.names pn3079gat nn3079gat
+1  1
+.names nn3134gat pn3134gat
+1  1
+.names pclk nclk
+1  1
+.names nn3108gat pn3108gat
+1  1
+.names nn3137gat pn3137gat
+1  1
+.names nn3109gat pn3109gat
+1  1
+.names nn3136gat pn3136gat
+1  1
+.names pn3065gat nn3065gat
+1  1
+.names pn3090gat nn3090gat
+1  1
+.names nn3131gat pn3131gat
+1  1
+.names pn3066gat nn3066gat
+1  1
+.names nn3130gat pn3130gat
+1  1
+.names pn3067gat nn3067gat
+1  1
+.names nn3133gat pn3133gat
+1  1
+.names nn3148gat pn3148gat
+1  1
+.names pn3068gat nn3068gat
+1  1
+.names nn3132gat pn3132gat
+1  1
+.names nn3149gat pn3149gat
+1  1
+.names pn3069gat nn3069gat
+1  1
+.names pn3072gat nn3072gat
+1  1
+.names nn3146gat pn3146gat
+1  1
+.names pn3071gat nn3071gat
+1  1
+.names nn3147gat pn3147gat
+1  1
+.names pn3074gat nn3074gat
+1  1
+.names pn3100gat nn3100gat
+1  1
+.names nn3144gat pn3144gat
+1  1
+.names pn3073gat nn3073gat
+1  1
+.names nn3145gat pn3145gat
+1  1
+.names pn3076gat nn3076gat
+1  1
+.names nn3106gat pn3106gat
+1  1
+.names nn3139gat pn3139gat
+1  1
+.names nn3141gat pn3142gat
+1  1
+.names pn3075gat nn3075gat
+1  1
+.names pn3080gat nn3080gat
+1  1
+.names nn3107gat pn3107gat
+1  1
+.names nn3138gat pn3138gat
+1  1
+.names nn3143gat pn3143gat
+1  1
+.names pn3078gat nn3078gat
+1  1
+.names nn3104gat pn3104gat
+1  1
+.names nn3140gat pn3140gat
+1  1
+.names pn3077gat nn3077gat
+1  1
+.names nn3105gat pn3105gat
+1  1
+.names nn3141gat pn3141gat
+1  1
+# instance g_g104
+.latch nn1565gat nn1332gat re nclk 2
+# instance g_g115
+.latch nn1696gat nn1775gat re nclk 2
+# instance g_g126
+.latch nn2163gat nn2454gat re nclk 2
+# instance g_g137
+.latch nn2119gat nn2117gat re nclk 2
+# instance g_g148
+.latch nii1201 nn470gat re nclk 2
+# instance g_g159
+.latch nn1632gat nn1525gat re nclk 2
+# instance g_g203
+.names nn764gat nn642gat nn774gat  nn2886gat
+1--  1
+-1-  1
+--1  1
+# instance g_g214
+.names nn2073gat nn2079gat  nn2983gat
+1-  1
+-1  1
+# instance g_g225
+.names n_n17 n_n18  nn1567gat
+11  1
+# instance g_g236
+.names n_n21 nn1559gat n_n23  nn1557gat
+111  1
+# instance g_g247
+.names n_n28 n_n24  nn1619gat
+11  1
+# instance g_g258
+.names n_n28 n_n29  nn1623gat
+11  1
+# instance g_g269
+.names nn2724gat n_n160  nn746gat
+11  1
+# instance g_g302
+.names nn1725gat n_n184  nn853gat
+11  1
+# instance g_g313
+.names nn2605gat nn2603gat nn2604gat nn2602gat  nn2601gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g324
+.names nn2573gat nii2257 nn2575gat  nn2292gat
+111  1
+# instance g_g335
+.names nii2213 nn2575gat nn2415gat  nn2291gat
+111  1
+# instance g_g346
+.names nn1372gat nn1373gat  nn2979gat
+1-  1
+-1  1
+# instance g_g357
+.names nn1245gat nn1291gat  nn2963gat
+1-  1
+-1  1
+# instance g_g368
+.names nn1709gat nii2735 nn2060gat  nii2736
+1--  1
+-1-  1
+--1  1
+# instance g_g379
+.names nn1858gat nn1739gat  nn1921gat
+11  1
+# instance g_g401
+.names nn2212gat n_n70  nn1801gat
+11  1
+# instance g_g412
+.names nn2696gat n_n478  nn1476gat
+11  1
+# instance g_g423
+.names n_n106 nn1453gat  nn2194gat
+11  1
+# instance g_g434
+.names n_n101 n_n103 n_n102 n_n104  nn2078gat
+1111  1
+# instance g_g445
+.names n_n106 nn1990gat  nn2147gat
+11  1
+# instance g_g456
+.names nn2150gat nn2149gat nn2213gat  nn3002gat
+1--  1
+-1-  1
+--1  1
+# instance g_g467
+.names nn872gat nn1074gat  nn2917gat
+1-  1
+-1  1
+# instance g_g478
+.names nn972gat nn969gat nn975gat  nn2925gat
+1--  1
+-1-  1
+--1  1
+# instance g_g489
+.names nn797gat nn871gat  nn2924gat
+1-  1
+-1  1
+# instance g_g500
+.names nii3999 nn2093gat nn2035gat nn2108gat  nii4000
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g511
+.names n_n392 n_n122  nn2008gat
+11  1
+# instance g_g522
+.names nn1945gat n_n133 n_n134  nn1721gat
+111  1
+# instance g_g533
+.names n_n144 n_n143 n_n145  nn532gat
+111  1
+# instance g_g544
+.names nn999gat nn1001gat  nn2950gat
+1-  1
+-1  1
+# instance g_g555
+.names nn991gat nn1089gat nn1087gat nn1097gat  nn2948gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g566
+.names nn2246gat nn1010gat  nn2749gat
+1-  1
+-1  1
+# instance g_g577
+.names n_n150 nn1870gat  nn1745gat
+11  1
+# instance g_g588
+.names nn1221gat n_n157 n_n159  nn1216gat
+111  1
+# instance g_g599
+.names nn264gat nn265gat n_n167  nn169gat
+111  1
+# instance g_g610
+.names nn51gat n_n174 n_n173  nn56gat
+111  1
+# instance g_g621
+.names nn950gat nn951gat n_n177  nn946gat
+111  1
+# instance g_g632
+.names n_n183 nn2779gat  nn443gat
+11  1
+# instance g_g643
+.names n_n190 nn940gat n_n188  nn935gat
+111  1
+# instance g_g654
+.names n_n197 n_n172 n_n196  nn494gat
+111  1
+# instance g_g665
+.names nn2776gat n_n368  nn867gat
+11  1
+# instance g_g676
+.names nn592gat n_n206 nn591gat  nn590gat
+111  1
+# instance g_g687
+.names nn2524gat nn2831gat nn2520gat  nii1515
+1--  1
+-1-  1
+--1  1
+# instance g_g698
+.names n_n218 nn1191gat nn1189gat  nn1187gat
+111  1
+# instance g_g720
+.names n_n238 nn2732gat  nn795gat
+11  1
+# instance g_g731
+.names n_n349 n_n237  nn450gat
+11  1
+# instance g_g742
+.names n_n240 n_n241 n_n239  nn222gat
+111  1
+# instance g_g753
+.names n_n248 nn2575gat n_n246  nn2570gat
+111  1
+# instance g_g764
+.names nn1708gat nn2269gat  nn299gat
+11  1
+# instance g_g775
+.names nn2551gat n_n260 nn2550gat  nn2549gat
+111  1
+# instance g_g786
+.names n_n268 nii2112  nn1158gat
+11  1
+# instance g_g797
+.names nn2696gat nii314  nn1372gat
+11  1
+# instance g_g830
+.names n_n297 n_n298  nn1357gat
+11  1
+# instance g_g841
+.names nn1887gat nn1969gat nn1709gat  nii2934
+1--  1
+-1-  1
+--1  1
+# instance g_g852
+.names n_n324 n_n315 n_n316  nn1650gat
+111  1
+# instance g_g863
+.names n_n389 n_n329 n_n398  nn1408gat
+111  1
+# instance g_g874
+.names nn1709gat nn1629gat  nn1630gat
+11  1
+# instance g_g885
+.names nn3045gat nn2393gat  nn1964gat
+11  1
+# instance g_g896
+.names nn2402gat nn2052gat  nn2331gat
+11  1
+# instance g_g940
+.names nn155gat nn233gat  nn136gat
+11  1
+# instance g_g951
+.names n_n376 nn241gat  nn237gat
+11  1
+# instance g_g962
+.names n_n385 n_n386  nn1398gat
+11  1
+# instance g_g973
+.names nn595gat n_n407  nn994gat
+11  1
+# instance g_g984
+.names n_n407 nn596gat  nn995gat
+11  1
+# instance g_g995
+.names nn351gat n_n409  nn890gat
+11  1
+# instance g_g1004
+.names n_n408 nn1059gat  nn1092gat
+11  1
+# instance g_g1015
+.names nn1257gat nn1267gat  nn2965gat
+1-  1
+-1  1
+# instance g_g1026
+.names n_n412 n_n421  nn896gat
+11  1
+# instance g_g1037
+.names n_n408 nn954gat  nn1089gat
+11  1
+# instance g_g1048
+.names n_n408 nn1236gat  nn1095gat
+11  1
+# instance g_g1059
+.names n_n423 n_n417  nn1031gat
+11  1
+# instance g_g1101
+.names n_n480 nn1454gat nn1409gat  nn1472gat
+111  1
+# instance g_g1112
+.names n_n504 n_n492 n_n491 n_n493  nn410gat
+1111  1
+# instance g_g1123
+.names n_n501 n_n502  nn1009gat
+11  1
+# instance g_g1134
+.names n_n512 n_n513  nn1266gat
+11  1
+# instance g_g1145
+.names nn1769gat  n_n524
+0  1
+# instance g_g1156
+.names nn2965gat  n_n513
+0  1
+# instance g_g1167
+.names nn356gat  nn527gat
+0  1
+# instance g_g1178
+.names nn290gat  n_n495
+0  1
+# instance g_g1189
+.names nn1459gat  n_n488
+0  1
+# instance g_g1220
+.names nn1635gat  n_n463
+0  1
+# instance g_g1231
+.names nn2977gat  n_n453
+0  1
+# instance g_g1242
+.names nn2619gat  n_n443
+0  1
+# instance g_g1253
+.names nn21gat  n_n432
+0  1
+# instance g_g1264
+.names nn897gat  n_n421
+0  1
+# instance g_g1275
+.names nn1123gat  n_n410
+0  1
+# instance g_g1286
+.names nii642  nii334
+0  1
+# instance g_g1297
+.names nn1458gat  n_n395
+0  1
+# instance g_g1350
+.names nn235gat  n_n347
+0  1
+# instance g_g1361
+.names nn2215gat  nn2349gat
+0  1
+# instance g_g1372
+.names nn2134gat  n_n331
+0  1
+# instance g_g1383
+.names nn1652gat  n_n322
+0  1
+# instance g_g1394
+.names nn1554gat  n_n311
+0  1
+# instance g_g1480
+.names nn786gat  n_n233
+0  1
+# instance g_g1491
+.names nn1274gat  n_n223
+0  1
+# instance g_g1909
+.names nn2925gat  nii3801
+0  1
+# instance g_g2005
+.names nn3007gat  n_n100
+0  1
+# instance g_g2016
+.names nn2194gat  nii3387
+0  1
+# instance g_g2027
+.names nii3336  nn2039gat
+0  1
+# instance g_g2038
+.names nn200gat  n_n95
+0  1
+# instance g_g2049
+.names nn2446gat  nn2444gat
+0  1
+# instance g_g2102
+.names nn1663gat  nn1662gat
+0  1
+# instance g_g2113
+.names nn2260gat  nn2261gat
+0  1
+# instance g_g2124
+.names nii2953  nn2178gat
+0  1
+# instance g_g2135
+.names nn1920gat  nn1925gat
+0  1
+# instance g_g2146
+.names nn1666gat  nn1665gat
+0  1
+# instance g_g2157
+.names nn1518gat  n_n60
+0  1
+# instance g_g2168
+.names nn1850gat  nii2731
+0  1
+# instance g_g2179
+.names nn2162gat  n_n57
+0  1
+# instance g_g2210
+.names nn1486gat  nn1439gat
+0  1
+# instance g_g2221
+.names nn2081gat  n_n46
+0  1
+# instance g_g2232
+.names nn1416gat  nn1301gat
+0  1
+# instance g_g2243
+.names nn2655gat  nn2660gat
+0  1
+# instance g_g2254
+.names nii2414  nn2633gat
+0  1
+# instance g_g2265
+.names nii2385  nii2376
+0  1
+# instance g_g2276
+.names nn3014gat  nii2324
+0  1
+# instance g_g2287
+.names nii2260  nn2202gat
+0  1
+# instance g_g2298
+.names nii2228  nn2575gat
+0  1
+# instance g_g2340
+.names nn776gat  nii2035
+0  1
+# instance g_g2351
+.names nn853gat  nn851gat
+0  1
+# instance g_g2362
+.names nii1915  nn1276gat
+0  1
+# instance g_g2373
+.names nn1133gat  nn1134gat
+0  1
+# instance g_g2384
+.names nn1035gat  nn1033gat
+0  1
+# instance g_g2395
+.names nii1734  nn2148gat
+0  1
+# instance g_g2470
+.names nii1360  nn572gat
+0  1
+# instance g_g2481
+.names nn814gat  nn815gat
+0  1
+# instance g_g2492
+.names nn709gat  nii1255
+0  1
+# instance g_g105
+.latch nn1330gat nn1740gat re nclk 2
+# instance g_g114
+.latch nn1361gat nn1312gat re nclk 2
+# instance g_g127
+.latch nn1518gat nn2040gat re nclk 2
+# instance g_g136
+.latch nii3587 nn2121gat re nclk 2
+# instance g_g149
+.latch nii1138 nn148gat re nclk 2
+# instance g_g158
+.latch nn1564gat nn1456gat re nclk 2
+# instance g_g204
+.names nn2423gat nn2460gat  nn3010gat
+1-  1
+-1  1
+# instance g_g213
+.names n_n7 n_n17  nn1565gat
+11  1
+# instance g_g226
+.names nn1572gat n_n468 n_n82 nn1858gat  nn1564gat
+1111  1
+# instance g_g235
+.names n_n21 nn1553gat nn1559gat  nn1556gat
+111  1
+# instance g_g248
+.names n_n28 n_n25  nn1622gat
+11  1
+# instance g_g257
+.names n_n26 n_n27  nn1501gat
+11  1
+# instance g_g279
+.names nn2727gat n_n33  nn288gat
+11  1
+# instance g_g303
+.names n_n183 nn1725gat  nn854gat
+11  1
+# instance g_g312
+.names nn207gat nn299gat  nn2880gat
+1-  1
+-1  1
+# instance g_g325
+.names n_n49 n_n46  nn1416gat
+11  1
+# instance g_g334
+.names n_n53 n_n46  nn1308gat
+11  1
+# instance g_g347
+.names nn2414gat nn2416gat  nn2220gat
+11  1
+# instance g_g356
+.names n_n57 n_n51  nn1422gat
+11  1
+# instance g_g369
+.names nn2052gat nn3046gat nn2212gat  nn1865gat
+111  1
+# instance g_g378
+.names nn1917gat nn1922gat nn1923gat  nn1920gat
+111  1
+# instance g_g402
+.names n_n71 n_n78 n_n74  nn1731gat
+111  1
+# instance g_g411
+.names nn2696gat nn1858gat  nn1401gat
+11  1
+# instance g_g424
+.names nn3032gat nn2256gat  nn3003gat
+1-  1
+-1  1
+# instance g_g433
+.names nn1630gat nn1710gat  nn2990gat
+1-  1
+-1  1
+# instance g_g446
+.names nn2259gat nn3046gat  nn3008gat
+1-  1
+-1  1
+# instance g_g455
+.names nn2054gat n_n114  nn2197gat
+11  1
+# instance g_g468
+.names nn137gat nn234gat  nn2878gat
+1-  1
+-1  1
+# instance g_g477
+.names nn459gat nn460gat  nn2902gat
+1-  1
+-1  1
+# instance g_g499
+.names n_n524 nn1774gat n_n380  nn1756gat
+111  1
+# instance g_g501
+.names nn1791gat nn1586gat  nn2695gat
+1-  1
+-1  1
+# instance g_g510
+.names nn1879gat n_n121  nn2016gat
+11  1
+# instance g_g523
+.names n_n135 n_n136  nn518gat
+11  1
+# instance g_g532
+.names nn2716gat n_n184  nn521gat
+11  1
+# instance g_g545
+.names nn886gat nn890gat nn889gat nn981gat  nn2933gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g554
+.names nn893gat nn901gat  nn2936gat
+1-  1
+-1  1
+# instance g_g567
+.names nn2243gat nn1005gat  nn2742gat
+1-  1
+-1  1
+# instance g_g576
+.names nn2054gat nn1194gat  nn2798gat
+1-  1
+-1  1
+# instance g_g589
+.names n_n158 nn1222gat n_n159  nn1217gat
+111  1
+# instance g_g598
+.names n_n168 n_n169 n_n167  nn168gat
+111  1
+# instance g_g600
+.names n_n168 nn265gat nn263gat  nn170gat
+111  1
+# instance g_g622
+.names n_n178 nn951gat nn949gat  nn947gat
+111  1
+# instance g_g631
+.names nn1234gat n_n182 nn1233gat  nn1232gat
+111  1
+# instance g_g644
+.names nn941gat nn940gat nn938gat  nn936gat
+111  1
+# instance g_g653
+.names nn734gat n_n176 nn733gat  nn732gat
+111  1
+# instance g_g666
+.names n_n365 n_n229  nn771gat
+11  1
+# instance g_g675
+.names n_n205 nn593gat nn591gat  nn589gat
+111  1
+# instance g_g688
+.names nii2213 nn2202gat nii2257  nii1584
+1--  1
+-1-  1
+--1  1
+# instance g_g697
+.names nn1190gat nn1191gat n_n217  nn1186gat
+111  1
+# instance g_g721
+.names n_n228 n_n237  nn656gat
+11  1
+# instance g_g730
+.names nn2793gat n_n238  nn555gat
+11  1
+# instance g_g743
+.names nn227gat nn228gat n_n239  nn223gat
+111  1
+# instance g_g752
+.names nn2576gat n_n247 n_n246  nn2569gat
+111  1
+# instance g_g765
+.names nn2046gat nn2338gat  nn207gat
+11  1
+# instance g_g774
+.names n_n259 nn2552gat nn2550gat  nn2548gat
+111  1
+# instance g_g787
+.names n_n269 nii2035  nn1156gat
+11  1
+# instance g_g796
+.names nn1444gat nn719gat  nn1373gat
+11  1
+# instance g_g820
+.names nn2696gat nn1237gat  nn1102gat
+11  1
+# instance g_g842
+.names n_n303 nn1858gat  nn1733gat
+11  1
+# instance g_g851
+.names nn1647gat nn1646gat nn1723gat  nn2992gat
+1--  1
+-1-  1
+--1  1
+# instance g_g864
+.names n_n328 n_n396 n_n329  nn1407gat
+111  1
+# instance g_g873
+.names n_n334 n_n335  nn1710gat
+11  1
+# instance g_g886
+.names n_n338 nn2406gat  nn2350gat
+11  1
+# instance g_g895
+.names nn1971gat nn1972gat  nn2999gat
+1-  1
+-1  1
+# instance g_g941
+.names nn469gat n_n370  nn391gat
+11  1
+# instance g_g950
+.names nn255gat n_n376  nn238gat
+11  1
+# instance g_g963
+.names nn1956gat nn1893gat nn2138gat  nii4144
+1--  1
+-1-  1
+--1  1
+# instance g_g972
+.names n_n408 nn1237gat  nn1100gat
+11  1
+# instance g_g985
+.names n_n410 n_n235  nn980gat
+11  1
+# instance g_g994
+.names nii2130 n_n410  nn981gat
+11  1
+# instance g_g1005
+.names nii1091 n_n409  nn997gat
+11  1
+# instance g_g1014
+.names nii440 n_n408  nn1257gat
+11  1
+# instance g_g1027
+.names n_n407 nn718gat  nn1262gat
+11  1
+# instance g_g1036
+.names n_n409 nii314  nn1097gat
+11  1
+# instance g_g1049
+.names n_n409 nii398  nn990gat
+11  1
+# instance g_g1058
+.names n_n416 n_n423  nn1028gat
+11  1
+# instance g_g1102
+.names n_n481 n_n482  nn1600gat
+11  1
+# instance g_g1111
+.names n_n183 nn2855gat  nn519gat
+11  1
+# instance g_g1124
+.names n_n503 n_n504  nn409gat
+11  1
+# instance g_g1133
+.names n_n410 nn1211gat  nn1253gat
+11  1
+# instance g_g1146
+.names nn1199gat  n_n523
+0  1
+# instance g_g1155
+.names nn1200gat  n_n514
+0  1
+# instance g_g1168
+.names nn406gat  n_n504
+0  1
+# instance g_g1177
+.names nn359gat  n_n496
+0  1
+# instance g_g1199
+.names nn1476gat  nn1409gat
+0  1
+# instance g_g1221
+.names nn2850gat  n_n462
+0  1
+# instance g_g1230
+.names nn2973gat  n_n454
+0  1
+# instance g_g1243
+.names nn2649gat  n_n442
+0  1
+# instance g_g1252
+.names nn22gat  n_n433
+0  1
+# instance g_g1265
+.names nn1179gat  n_n420
+0  1
+# instance g_g1274
+.names nn1601gat  n_n411
+0  1
+# instance g_g1287
+.names nn1266gat  n_n403
+0  1
+# instance g_g1296
+.names nn1677gat  n_n396
+0  1
+# instance g_g1340
+.names nn457gat  n_n356
+0  1
+# instance g_g1362
+.names nn2349gat  n_n338
+0  1
+# instance g_g1371
+.names nn2248gat  n_n332
+0  1
+# instance g_g1384
+.names nn1671gat  n_n321
+0  1
+# instance g_g1393
+.names nn1656gat  n_n312
+0  1
+# instance g_g1481
+.names nn785gat  n_n232
+0  1
+# instance g_g1490
+.names nn1276gat  n_n224
+0  1
+# instance g_g1919
+.names nii3742  nn330gat
+0  1
+# instance g_g2004
+.names nn2329gat  nn2492gat
+0  1
+# instance g_g2017
+.names nn2014gat  nn1855gat
+0  1
+# instance g_g2026
+.names nn1775gat  nii3339
+0  1
+# instance g_g2039
+.names nn196gat  n_n94
+0  1
+# instance g_g2048
+.names nn2444gat  n_n90
+0  1
+# instance g_g2101
+.names nn1655gat  nn1656gat
+0  1
+# instance g_g2114
+.names nn2133gat  nn2134gat
+0  1
+# instance g_g2123
+.names nn1660gat  nn1661gat
+0  1
+# instance g_g2136
+.names nii2915  nn1739gat
+0  1
+# instance g_g2145
+.names nn1665gat  n_n61
+0  1
+# instance g_g2158
+.names nii2813  nn1694gat
+0  1
+# instance g_g2167
+.names nii2731  nn1849gat
+0  1
+# instance g_g2189
+.names nn2953gat  nn1164gat
+0  1
+# instance g_g2211
+.names nn2974gat  nn1322gat
+0  1
+# instance g_g2220
+.names nn1349gat  nn1348gat
+0  1
+# instance g_g2233
+.names nn2292gat  nn1480gat
+0  1
+# instance g_g2242
+.names nn2293gat  nn1528gat
+0  1
+# instance g_g2255
+.names nn2634gat  nii2414
+0  1
+# instance g_g2264
+.names nii2376  nn2607gat
+0  1
+# instance g_g2277
+.names nii2319  nn2494gat
+0  1
+# instance g_g2286
+.names nn2418gat  nn2416gat
+0  1
+# instance g_g2299
+.names nn2561gat  nii2228
+0  1
+# instance g_g2330
+.names nn366gat  nn364gat
+0  1
+# instance g_g2352
+.names nii1961  nn3017gat
+0  1
+# instance g_g2361
+.names nn2970gat  nn1329gat
+0  1
+# instance g_g2374
+.names nn1211gat  nn1206gat
+0  1
+# instance g_g2383
+.names nn1034gat  nn1194gat
+0  1
+# instance g_g2396
+.names nii1724  nn2289gat
+0  1
+# instance g_g2471
+.names nii1500  nii1360
+0  1
+# instance g_g2480
+.names nn811gat  nn809gat
+0  1
+# instance g_g2493
+.names nn493gat  nii1251
+0  1
+# instance g_g2590
+.names nn1068gat  nn1066gat
+0  1
+# instance g_g106
+.latch nn1945gat nn2179gat re nclk 2
+# instance g_g117
+.latch nii3339 nn2592gat re nclk 2
+# instance g_g124
+.latch nn2093gat nn2176gat re nclk 2
+# instance g_g135
+.latch nn2108gat nn2125gat re nclk 2
+# instance g_g168
+.names nn655gat nn768gat  nn2914gat
+1-  1
+-1  1
+# instance g_g179
+.names nn771gat nn867gat  nn2920gat
+1-  1
+-1  1
+# instance g_g205
+.names nn2595gat nn2596gat  nn3016gat
+1-  1
+-1  1
+# instance g_g216
+.names n_n96 n_n9 nn2012gat  nn2009gat
+111  1
+# instance g_g223
+.names n_n134 n_n16  nn1391gat
+11  1
+# instance g_g234
+.names nn1553gat n_n21 n_n22  nn1642gat
+111  1
+# instance g_g249
+.names nn1217gat nn1215gat nn1216gat nn1214gat  nn1213gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g267
+.names nn1232gat nn1230gat nn1231gat nn1229gat  nn1228gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g278
+.names nn2716gat n_n33  nn287gat
+11  1
+# instance g_g304
+.names nn783gat nn781gat nn782gat nn780gat  nn779gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g315
+.names n_n40 n_n42 n_n41 n_n43  nn2655gat
+1111  1
+# instance g_g322
+.names nii2228 nii2213 nii2257  nn2358gat
+111  1
+# instance g_g333
+.names nn2573gat nii2228 nn2415gat  nn2364gat
+111  1
+# instance g_g348
+.names n_n53 n_n57  nn1423gat
+11  1
+# instance g_g359
+.names nn1102gat nn1163gat  nn2953gat
+1-  1
+-1  1
+# instance g_g366
+.names nn1162gat nn1305gat  nn2959gat
+1-  1
+-1  1
+# instance g_g377
+.names nn1893gat nii2889 nn1969gat  nii2890
+1--  1
+-1-  1
+--1  1
+# instance g_g403
+.names n_n74 n_n78 n_n73  nn1571gat
+111  1
+# instance g_g414
+.names n_n85 n_n84 n_n86  nn1412gat
+111  1
+# instance g_g421
+.names nn2253gat nn2255gat nn2258gat  nn3004gat
+1--  1
+-1-  1
+--1  1
+# instance g_g432
+.names nn1893gat n_n337 nn1969gat  nn1895gat
+111  1
+# instance g_g447
+.names nn1890gat n_n114  nn2498gat
+11  1
+# instance g_g458
+.names n_n108 n_n107 n_n109  nn1882gat
+111  1
+# instance g_g465
+.names n_n118 n_n301  nn1702gat
+11  1
+# instance g_g476
+.names nn245gat nn246gat  nn2884gat
+1-  1
+-1  1
+# instance g_g502
+.names nn1518gat nn1755gat  nn2703gat
+1-  1
+-1  1
+# instance g_g513
+.names nn1709gat nii4144 nn1969gat  nii4145
+1--  1
+-1-  1
+--1  1
+# instance g_g520
+.names n_n131 n_n132 n_n130  nn1761gat
+111  1
+# instance g_g531
+.names n_n184 nn2724gat  nn415gat
+11  1
+# instance g_g546
+.names nn891gat nn892gat  nn2935gat
+1-  1
+-1  1
+# instance g_g557
+.names n_n148 n_n147 nn639gat  nn631gat
+111  1
+# instance g_g564
+.names nn2244gat nn1011gat  nn2756gat
+1-  1
+-1  1
+# instance g_g575
+.names nn2050gat nn1193gat  nn2799gat
+1-  1
+-1  1
+# instance g_g601
+.names nn264gat n_n169 nn263gat  nn171gat
+111  1
+# instance g_g612
+.names nn51gat nn50gat nn48gat  nn58gat
+111  1
+# instance g_g630
+.names n_n181 nn1235gat nn1233gat  nn1231gat
+111  1
+# instance g_g645
+.names n_n190 n_n189 nn938gat  nn937gat
+111  1
+# instance g_g656
+.names n_n197 nn500gat nn498gat  nn496gat
+111  1
+# instance g_g663
+.names nn2732gat n_n368  nn767gat
+11  1
+# instance g_g674
+.names nn592gat nn593gat n_n204  nn588gat
+111  1
+# instance g_g689
+.names n_n213 n_n214  nn1692gat
+11  1
+# instance g_g700
+.names n_n226 nn2793gat  nn645gat
+11  1
+# instance g_g711
+.names nn1277gat n_n224 n_n223  nn1270gat
+111  1
+# instance g_g744
+.names n_n240 nn228gat nn226gat  nn224gat
+111  1
+# instance g_g755
+.names n_n248 n_n247 nn2573gat  nn2572gat
+111  1
+# instance g_g762
+.names nn2389gat nn2494gat  nn2567gat
+11  1
+# instance g_g773
+.names nn2551gat nn2552gat n_n258  nn2547gat
+111  1
+# instance g_g788
+.names n_n270 nii2017  nn1155gat
+11  1
+# instance g_g799
+.names n_n273 n_n274  nn1440gat
+11  1
+# instance g_g810
+.names nn2696gat nn1060gat  nn1246gat
+11  1
+# instance g_g843
+.names n_n304 n_n478  nn1581gat
+11  1
+# instance g_g854
+.names n_n319 n_n324 n_n320  nn1563gat
+111  1
+# instance g_g861
+.names nn2060gat nn1969gat nn1956gat  nii3178
+1--  1
+-1-  1
+--1  1
+# instance g_g872
+.names nn2249gat nn2250gat  nn3007gat
+1-  1
+-1  1
+# instance g_g887
+.names nn2349gat nn2216gat  nn2282gat
+11  1
+# instance g_g898
+.names n_n342 n_n343  nn2566gat
+11  1
+# instance g_g942
+.names nn252gat n_n371  nn390gat
+11  1
+# instance g_g953
+.names nn375gat nn2732gat  nn796gat
+11  1
+# instance g_g960
+.names n_n393 n_n383  nn1400gat
+11  1
+# instance g_g971
+.names nn1595gat nn1677gat nn1427gat  nii4216
+1--  1
+-1-  1
+--1  1
+# instance g_g986
+.names n_n407 nn916gat  nn1175gat
+11  1
+# instance g_g997
+.names n_n407 nn694gat  nn886gat
+11  1
+# instance g_g1006
+.names nn695gat n_n407  nn993gat
+11  1
+# instance g_g1017
+.names n_n403 n_n414  nn1116gat
+11  1
+# instance g_g1024
+.names nii334 n_n409  nn987gat
+11  1
+# instance g_g1035
+.names n_n412 n_n422  nn893gat
+11  1
+# instance g_g1068
+.names nn2785gat n_n427  nn77gat
+11  1
+# instance g_g1079
+.names n_n443 n_n444  nn2617gat
+11  1
+# instance g_g1103
+.names nn1396gat nn1468gat  nn1397gat
+11  1
+# instance g_g1114
+.names n_n503 nn406gat  nn408gat
+11  1
+# instance g_g1121
+.names n_n499 n_n500  nn879gat
+11  1
+# instance g_g1132
+.names n_n510 n_n511  nn1008gat
+11  1
+# instance g_g1147
+.names nn2962gat  n_n522
+0  1
+# instance g_g1158
+.names nn2942gat  n_n511
+0  1
+# instance g_g1165
+.names nn291gat  nn455gat
+0  1
+# instance g_g1176
+.names nn408gat  n_n497
+0  1
+# instance g_g1200
+.names nn1471gat  n_n480
+0  1
+# instance g_g1211
+.names nn92gat  n_n472
+0  1
+# instance g_g1244
+.names nn2652gat  n_n441
+0  1
+# instance g_g1255
+.names nn1816gat  n_n430
+0  1
+# instance g_g1262
+.names nn455gat  n_n423
+0  1
+# instance g_g1273
+.names nn420gat  n_n412
+0  1
+# instance g_g1288
+.names nii734  nii440
+0  1
+# instance g_g1299
+.names nn1403gat  n_n393
+0  1
+# instance g_g1341
+.names nn462gat  n_n355
+0  1
+# instance g_g1352
+.names nn233gat  n_n345
+0  1
+# instance g_g1370
+.names nn3006gat  nn2248gat
+0  1
+# instance g_g1385
+.names nn1561gat  n_n320
+0  1
+# instance g_g1396
+.names nn1724gat  n_n309
+0  1
+# instance g_g1482
+.names nn784gat  n_n231
+0  1
+# instance g_g1493
+.names nn1207gat  n_n221
+0  1
+# instance g_g1590
+.names nn2745gat  nii4699
+0  1
+# instance g_g1929
+.names nn2917gat  nii3703
+0  1
+# instance g_g2007
+.names nn2266gat  nii3429
+0  1
+# instance g_g2014
+.names nn3032gat  nn2256gat
+0  1
+# instance g_g2025
+.names nii3339  nn1774gat
+0  1
+# instance g_g2058
+.names nn2981gat  n_n84
+0  1
+# instance g_g2069
+.names nii3143  nn2591gat
+0  1
+# instance g_g2104
+.names nn1737gat  nn1736gat
+0  1
+# instance g_g2111
+.names nn1703gat  n_n67
+0  1
+# instance g_g2122
+.names nn1661gat  n_n65
+0  1
+# instance g_g2137
+.names nn1740gat  nii2915
+0  1
+# instance g_g2148
+.names nn2394gat  nii2847
+0  1
+# instance g_g2155
+.names nii2832  nn1549gat
+0  1
+# instance g_g2166
+.names nii2736  nn1716gat
+0  1
+# instance g_g2199
+.names nn1417gat  nn1418gat
+0  1
+# instance g_g2201
+.names nn2954gat  nn1248gat
+0  1
+# instance g_g2234
+.names nn1415gat  nn1414gat
+0  1
+# instance g_g2245
+.names nn2656gat  n_n42
+0  1
+# instance g_g2252
+.names nii2417  nn2551gat
+0  1
+# instance g_g2263
+.names nn2487gat  nn2608gat
+0  1
+# instance g_g2278
+.names nn2495gat  nii2319
+0  1
+# instance g_g2289
+.names nii2257  nn2415gat
+0  1
+# instance g_g2296
+.names nn2574gat  nn2576gat
+0  1
+# instance g_g2331
+.names nii2088  nn560gat
+0  1
+# instance g_g2342
+.names nii2017  nn785gat
+0  1
+# instance g_g2360
+.names nn1275gat  nn1277gat
+0  1
+# instance g_g2375
+.names nn929gat  nn930gat
+0  1
+# instance g_g2386
+.names nn1072gat  nn1070gat
+0  1
+# instance g_g2393
+.names nn1194gat  nn1189gat
+0  1
+# instance g_g2472
+.names nn679gat  nn813gat
+0  1
+# instance g_g2483
+.names nn678gat  nn679gat
+0  1
+# instance g_g2490
+.names nn3029gat  nii4630
+0  1
+# instance g_g2580
+.names nn2674gat  nn2672gat
+0  1
+# instance g_g107
+.latch nii2349 nn2190gat re nclk 2
+# instance g_g116
+.latch nn2009gat nn1871gat re nclk 2
+# instance g_g125
+.latch nn2174gat nn2169gat re nclk 2
+# instance g_g134
+.latch nn2031gat nn2110gat re nclk 2
+# instance g_g169
+.names nn868gat nn963gat  nn2928gat
+1-  1
+-1  1
+# instance g_g178
+.names nn653gat nn767gat  nn2913gat
+1-  1
+-1  1
+# instance g_g206
+.names nn2581gat nn2580gat  nn2579gat
+1-  1
+-1  1
+# instance g_g215
+.names n_n14 n_n8  nn1696gat
+11  1
+# instance g_g224
+.names n_n463 n_n82  nn1927gat
+11  1
+# instance g_g233
+.names n_n23 n_n22 n_n21  nn1641gat
+111  1
+# instance g_g259
+.names n_n30 n_n30  nn1817gat
+11  1
+# instance g_g268
+.names nn1054gat nn1052gat nn1053gat nn1051gat  nn1050gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g277
+.names nn3029gat nii1277 nn740gat  nii1278
+1--  1
+-1-  1
+--1  1
+# instance g_g305
+.names nn132gat nn874gat  nn2876gat
+1-  1
+-1  1
+# instance g_g314
+.names nn2549gat nn2547gat nn2548gat nn2546gat  nn2545gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g323
+.names n_n56 n_n46  nn1415gat
+11  1
+# instance g_g332
+.names n_n52 n_n46  nn1483gat
+11  1
+# instance g_g349
+.names n_n67 nn2666gat  nn1608gat
+11  1
+# instance g_g358
+.names n_n57 n_n52  nn1485gat
+11  1
+# instance g_g367
+.names nn1849gat nii2720 nn1898gat  nii2721
+1--  1
+-1-  1
+--1  1
+# instance g_g376
+.names nn1430gat n_n451 nn243gat n_n68  nn1604gat
+1111  1
+# instance g_g404
+.names n_n72 nn2152gat  nn1734gat
+11  1
+# instance g_g413
+.names nn1709gat nii3178 nn1887gat  nii3179
+1--  1
+-1-  1
+--1  1
+# instance g_g422
+.names n_n96 n_n98 n_n97 n_n99  nn2014gat
+1111  1
+# instance g_g431
+.names nn1956gat nn1887gat  nn1958gat
+11  1
+# instance g_g448
+.names nn3045gat nn2052gat  nn2193gat
+11  1
+# instance g_g457
+.names nn2050gat n_n114  nn2196gat
+11  1
+# instance g_g466
+.names nn38gat nn37gat nn141gat  nn2874gat
+1--  1
+-1-  1
+--1  1
+# instance g_g475
+.names nn973gat nn870gat nn974gat  nn2929gat
+1--  1
+-1-  1
+--1  1
+# instance g_g503
+.names nn2478gat nn2158gat  nn2744gat
+1-  1
+-1  1
+# instance g_g512
+.names n_n124 n_n123 n_n125  nn1759gat
+111  1
+# instance g_g521
+.names n_n131 n_n130 n_n132  nn1760gat
+111  1
+# instance g_g530
+.names n_n184 nn2727gat  nn356gat
+11  1
+# instance g_g547
+.names nn993gat nn1092gat nn997gat nn1152gat  nn2940gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g556
+.names nn1115gat nn1177gat  nn2955gat
+1-  1
+-1  1
+# instance g_g565
+.names nn2243gat nn1181gat  nn2750gat
+1-  1
+-1  1
+# instance g_g574
+.names nn2047gat nn1192gat  nn2708gat
+1-  1
+-1  1
+# instance g_g602
+.names n_n170 n_n176 n_n194  nn907gat
+111  1
+# instance g_g611
+.names n_n175 nn50gat n_n173  nn57gat
+111  1
+# instance g_g620
+.names n_n178 n_n179 n_n177  nn945gat
+111  1
+# instance g_g646
+.names n_n192 n_n193 n_n191  nn710gat
+111  1
+# instance g_g655
+.names nn499gat nn500gat n_n196  nn495gat
+111  1
+# instance g_g664
+.names n_n365 n_n228  nn653gat
+11  1
+# instance g_g673
+.names n_n205 n_n206 n_n204  nn587gat
+111  1
+# instance g_g699
+.names nn1190gat n_n219 nn1189gat  nn1188gat
+111  1
+# instance g_g701
+.names nn2670gat n_n226  nn646gat
+11  1
+# instance g_g710
+.names nn1207gat n_n222 nn1206gat  nn1205gat
+111  1
+# instance g_g745
+.names nn227gat n_n241 nn226gat  nn225gat
+111  1
+# instance g_g754
+.names nn2576gat nn2575gat nn2573gat  nn2571gat
+111  1
+# instance g_g763
+.names n_n253 nn2127gat  nn2499gat
+11  1
+# instance g_g772
+.names n_n259 n_n260 n_n258  nn2546gat
+111  1
+# instance g_g789
+.names nn1155gat nn1158gat nn1156gat nn1159gat  nn2957gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g798
+.names n_n271 n_n272  nn1441gat
+11  1
+# instance g_g800
+.names n_n275 n_n276  nn1371gat
+11  1
+# instance g_g844
+.names n_n305 n_n306 n_n308 nn2200gat  nn2079gat
+1111  1
+# instance g_g853
+.names n_n324 n_n317 n_n318  nn1649gat
+111  1
+# instance g_g862
+.names nn1237gat n_n327 nn1870gat  nn1413gat
+111  1
+# instance g_g871
+.names nn2248gat n_n333  nn2249gat
+11  1
+# instance g_g888
+.names n_n77 nn2346gat nn2212gat  nn2213gat
+111  1
+# instance g_g897
+.names nn2331gat nn2439gat  nn3011gat
+1-  1
+-1  1
+# instance g_g943
+.names n_n378 n_n372  nn1083gat
+11  1
+# instance g_g952
+.names n_n377 n_n378  nn1082gat
+11  1
+# instance g_g961
+.names nn1339gat nn1858gat n_n384  nn1399gat
+111  1
+# instance g_g970
+.names nn1531gat nn1533gat nn1532gat nn1686gat  nn2985gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g987
+.names n_n408 nn916gat  nn1174gat
+11  1
+# instance g_g996
+.names nn1058gat n_n408  nn889gat
+11  1
+# instance g_g1007
+.names n_n402 n_n414  nn900gat
+11  1
+# instance g_g1016
+.names n_n420 n_n412  nn1178gat
+11  1
+# instance g_g1025
+.names n_n404 n_n414  nn899gat
+11  1
+# instance g_g1034
+.names n_n405 n_n414  nn901gat
+11  1
+# instance g_g1069
+.names n_n428 nn2721gat  nn13gat
+11  1
+# instance g_g1078
+.names n_n441 n_n442  nn2650gat
+11  1
+# instance g_g1104
+.names n_n483 n_n484  nn2005gat
+11  1
+# instance g_g1113
+.names nn412gat nn413gat  nn354gat
+11  1
+# instance g_g1122
+.names nn1381gat n_n410  nn1255gat
+11  1
+# instance g_g1131
+.names nn1210gat n_n410  nn1254gat
+11  1
+# instance g_g1148
+.names nn2944gat  n_n521
+0  1
+# instance g_g1157
+.names nn1253gat  n_n512
+0  1
+# instance g_g1166
+.names nn415gat  nn416gat
+0  1
+# instance g_g1175
+.names nn670gat  n_n498
+0  1
+# instance g_g1201
+.names nn1469gat  nn1454gat
+0  1
+# instance g_g1210
+.names nn199gat  n_n473
+0  1
+# instance g_g1245
+.names nn2582gat  n_n440
+0  1
+# instance g_g1254
+.names nn194gat  n_n431
+0  1
+# instance g_g1263
+.names nn894gat  n_n422
+0  1
+# instance g_g1272
+.names nn1252gat  n_n413
+0  1
+# instance g_g1289
+.names nn1008gat  n_n402
+0  1
+# instance g_g1298
+.names nn1524gat  n_n394
+0  1
+# instance g_g1342
+.names nn2884gat  nn457gat
+0  1
+# instance g_g1351
+.names nn155gat  n_n346
+0  1
+# instance g_g1360
+.names nn1893gat  n_n339
+0  1
+# instance g_g1386
+.names nn1562gat  n_n319
+0  1
+# instance g_g1395
+.names nn1722gat  n_n310
+0  1
+# instance g_g1483
+.names nn2711gat  n_n230
+0  1
+# instance g_g1492
+.names nn1208gat  n_n222
+0  1
+# instance g_g1580
+.names nn2803gat  nii4729
+0  1
+# instance g_g1939
+.names nn84gat  nn88gat
+0  1
+# instance g_g2006
+.names nii3429  nn2265gat
+0  1
+# instance g_g2015
+.names nn3033gat  nn3032gat
+0  1
+# instance g_g2024
+.names nn1316gat  nii3342
+0  1
+# instance g_g2059
+.names nii3191  nn1677gat
+0  1
+# instance g_g2068
+.names nii3149  nn1714gat
+0  1
+# instance g_g2103
+.names nn1732gat  nn1724gat
+0  1
+# instance g_g2112
+.names nn2129gat  nn2128gat
+0  1
+# instance g_g2121
+.names nn1576gat  nn1572gat
+0  1
+# instance g_g2138
+.names nn1550gat  nn1552gat
+0  1
+# instance g_g2147
+.names nii2847  nn2393gat
+0  1
+# instance g_g2156
+.names nn2021gat  nn2019gat
+0  1
+# instance g_g2165
+.names nn1716gat  nn1635gat
+0  1
+# instance g_g2200
+.names nn1480gat  n_n49
+0  1
+# instance g_g2235
+.names nn2358gat  nn2359gat
+0  1
+# instance g_g2244
+.names nn2508gat  n_n43
+0  1
+# instance g_g2253
+.names nn2633gat  nii2417
+0  1
+# instance g_g2262
+.names nn2625gat  nii2385
+0  1
+# instance g_g2279
+.names nii2316  nn2389gat
+0  1
+# instance g_g2288
+.names nn2203gat  nii2260
+0  1
+# instance g_g2297
+.names nn2640gat  nii2232
+0  1
+# instance g_g2332
+.names nn561gat  nii2088
+0  1
+# instance g_g2341
+.names nn775gat  nn776gat
+0  1
+# instance g_g2350
+.names nn2148gat  nn1725gat
+0  1
+# instance g_g2376
+.names nn1329gat  nn1275gat
+0  1
+# instance g_g2385
+.names nn1071gat  nn1193gat
+0  1
+# instance g_g2394
+.names nn1033gat  nn1034gat
+0  1
+# instance g_g2473
+.names nn680gat  nn678gat
+0  1
+# instance g_g2482
+.names nn813gat  nn808gat
+0  1
+# instance g_g2491
+.names nn2526gat  nn2524gat
+0  1
+# instance g_g2570
+.names nn1293gat  nn1238gat
+0  1
+# instance g_g9
+.latch nn2673gat nn842gat re nclk 2
+# instance g_g100
+.latch nn1781gat nn2021gat re nclk 2
+# instance g_g111
+.latch nn2983gat nn1433gat re nclk 2
+# instance g_g122
+.latch nn2661gat nn2446gat re nclk 2
+# instance g_g133
+.latch nn2035gat nn2033gat re nclk 2
+# instance g_g188
+.names nn642gat nn645gat  nn2910gat
+1-  1
+-1  1
+# instance g_g199
+.names nn555gat nn450gat nn642gat  nn2901gat
+1--  1
+-1-  1
+--1  1
+# instance g_g210
+.names n_n301 n_n4  nn1626gat
+11  1
+# instance g_g221
+.names nn2012gat n_n82  nn2017gat
+11  1
+# instance g_g232
+.names nn916gat nn490gat  nn1614gat
+11  1
+# instance g_g287
+.names nn179gat n_n153 n_n156  nn187gat
+111  1
+# instance g_g298
+.names nn1188gat nn1186gat nn1187gat nn1185gat  nn1184gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g320
+.names nn2421gat nn2461gat  nn3013gat
+1-  1
+-1  1
+# instance g_g331
+.names nii2228 nii2213 nn2415gat  nn2363gat
+111  1
+# instance g_g386
+.names nn2152gat n_n65 nn2216gat  nn1576gat
+111  1
+# instance g_g397
+.names n_n76 n_n74 n_n69  nn1655gat
+111  1
+# instance g_g430
+.names n_n100 n_n106  nn2329gat
+11  1
+# instance g_g449
+.names nn2210gat nn2211gat  nn3005gat
+1-  1
+-1  1
+# instance g_g485
+.names nn390gat nn391gat  nn2893gat
+1-  1
+-1  1
+# instance g_g496
+.names nn1889gat nn11gat  nn2704gat
+1-  1
+-1  1
+# instance g_g548
+.names nn895gat nn900gat  nn2937gat
+1-  1
+-1  1
+# instance g_g559
+.names n_n149 n_n495  nn291gat
+11  1
+# instance g_g584
+.names nn2670gat n_n183  nn648gat
+11  1
+# instance g_g595
+.names n_n166 nn755gat n_n164  nn750gat
+111  1
+# instance g_g647
+.names nn715gat nn716gat n_n191  nn711gat
+111  1
+# instance g_g658
+.names nn512gat n_n199 n_n198  nn505gat
+111  1
+# instance g_g669
+.names n_n202 n_n203 n_n201  nn804gat
+111  1
+# instance g_g683
+.names nn575gat n_n211 n_n210  nn568gat
+111  1
+# instance g_g694
+.names nn2776gat n_n226  nn1076gat
+11  1
+# instance g_g746
+.names nn128gat n_n243 n_n242  nn121gat
+111  1
+# instance g_g757
+.names nn2415gat nn2416gat n_n249  nn2411gat
+111  1
+# instance g_g768
+.names n_n256 nn2610gat nn2611gat  nn2602gat
+111  1
+# instance g_g779
+.names nn2666gat n_n411  nn2421gat
+11  1
+# instance g_g782
+.names n_n265 nii2130  nn982gat
+11  1
+# instance g_g793
+.names nii354 nn2696gat  nn1320gat
+11  1
+# instance g_g845
+.names n_n308 n_n307 nn2200gat  nn2073gat
+111  1
+# instance g_g856
+.names n_n324 n_n321  nn1654gat
+11  1
+# instance g_g867
+.names nn2189gat nn3033gat  nn2255gat
+11  1
+# instance g_g878
+.names nn1968gat nn1893gat  nn2055gat
+11  1
+# instance g_g881
+.names nn3043gat nn1956gat  nn1957gat
+11  1
+# instance g_g892
+.names nn3039gat nn1962gat  nn2995gat
+1-  1
+-1  1
+# instance g_g944
+.names nn2673gat nn375gat  nn1077gat
+11  1
+# instance g_g955
+.names nn2031gat nn2174gat nn2167gat  nii3999
+1--  1
+-1-  1
+--1  1
+# instance g_g966
+.names nn1870gat n_n391 n_n392  nn1686gat
+111  1
+# instance g_g977
+.names nn915gat n_n408  nn1012gat
+11  1
+# instance g_g980
+.names n_n416 n_n412  nn1003gat
+11  1
+# instance g_g991
+.names nn351gat n_n408  nn1323gat
+11  1
+# instance g_g1008
+.names n_n419 n_n412  nn895gat
+11  1
+# instance g_g1019
+.names n_n408 nii334  nn1324gat
+11  1
+# instance g_g1044
+.names n_n414 n_n406  nn1115gat
+11  1
+# instance g_g1055
+.names n_n412 n_n415  nn1004gat
+11  1
+# instance g_g1066
+.names nn2785gat n_n425  nn73gat
+11  1
+# instance g_g1077
+.names n_n439 n_n440  nn2583gat
+11  1
+# instance g_g1105
+.names n_n485 n_n30  nn1818gat
+11  1
+# instance g_g1116
+.names nn2855gat n_n184  nn531gat
+11  1
+# instance g_g1127
+.names n_n410 nn1451gat  nn1243gat
+11  1
+# instance g_g1138
+.names n_n516 n_n517  nn1259gat
+11  1
+# instance g_g1141
+.names n_n520 n_n521  nn978gat
+11  1
+# instance g_g1152
+.names nn2967gat  n_n517
+0  1
+# instance g_g1163
+.names nn1243gat  n_n506
+0  1
+# instance g_g1174
+.names nii925  nn1237gat
+0  1
+# instance g_g1202
+.names nn1334gat  n_n479
+0  1
+# instance g_g1213
+.names nn1743gat  n_n470
+0  1
+# instance g_g1224
+.names nn1387gat  n_n459
+0  1
+# instance g_g1235
+.names nn1608gat  nn1427gat
+0  1
+# instance g_g1260
+.names nn67gat  n_n425
+0  1
+# instance g_g1271
+.names nn419gat  n_n414
+0  1
+# instance g_g1310
+.names nn1472gat  n_n382
+0  1
+# instance g_g1321
+.names nn802gat  n_n373
+0  1
+# instance g_g1332
+.names nn383gat  n_n363
+0  1
+# instance g_g1387
+.names nn1560gat  n_n318
+0  1
+# instance g_g1398
+.names nn2078gat  nn2200gat
+0  1
+# instance g_g1484
+.names nn2838gat  n_n229
+0  1
+# instance g_g1495
+.names nn1191gat  n_n219
+0  1
+# instance g_g1581
+.names nn2678gat  nii4726
+0  1
+# instance g_g1592
+.names nn2737gat  nii4693
+0  1
+# instance g_g1949
+.names nn2559gat  nn2558gat
+0  1
+# instance g_g2009
+.names nn3001gat  nn2049gat
+0  1
+# instance g_g2034
+.names nii3312  nn3025gat
+0  1
+# instance g_g2045
+.names nn1312gat  nn1310gat
+0  1
+# instance g_g2056
+.names nn1411gat  n_n86
+0  1
+# instance g_g2067
+.names nn1714gat  nn1718gat
+0  1
+# instance g_g2106
+.names nn2987gat  nn1659gat
+0  1
+# instance g_g2117
+.names nn1520gat  n_n66
+0  1
+# instance g_g2128
+.names nn2090gat  n_n63
+0  1
+# instance g_g2131
+.names nn1739gat  n_n62
+0  1
+# instance g_g2142
+.names nii2873  nn1495gat
+0  1
+# instance g_g2153
+.names nn2347gat  nii2837
+0  1
+# instance g_g2164
+.names nn2438gat  nn2439gat
+0  1
+# instance g_g2203
+.names nn2084gat  nn2082gat
+0  1
+# instance g_g2214
+.names nn1765gat  n_n47
+0  1
+# instance g_g2225
+.names nn1483gat  nn1157gat
+0  1
+# instance g_g2250
+.names nn2545gat  nii2439
+0  1
+# instance g_g2261
+.names nn2608gat  nn2610gat
+0  1
+# instance g_g2300
+.names nii2225  nn2574gat
+0  1
+# instance g_g2311
+.names nn779gat  nii2181
+0  1
+# instance g_g2322
+.names nn312gat  nn313gat
+0  1
+# instance g_g2377
+.names nn1226gat  nn1224gat
+0  1
+# instance g_g2388
+.names nn1121gat  nn1119gat
+0  1
+# instance g_g2399
+.names nn2155gat  nn2153gat
+0  1
+# instance g_g2474
+.names nn579gat  nn812gat
+0  1
+# instance g_g2485
+.names nn181gat  nn72gat
+0  1
+# instance g_g2496
+.names nii1243  nn511gat
+0  1
+# instance g_g2571
+.names nn1294gat  nn1292gat
+0  1
+# instance g_g2582
+.names nn1292gat  nn1293gat
+0  1
+# instance g_g2593
+.names nn956gat  nn952gat
+0  1
+# instance g_g2690
+.names nn2889gat  nii278
+0  1
+# instance g_g101
+.latch nn1516gat nn1394gat re nclk 2
+# instance g_g110
+.latch nn1836gat nn2182gat re nclk 2
+# instance g_g123
+.latch nn827gat nn2095gat re nclk 2
+# instance g_g132
+.latch nii2319 nn2266gat re nclk 2
+# instance g_g189
+.names nn642gat nn646gat  nn2907gat
+1-  1
+-1  1
+# instance g_g198
+.names nn960gat nn642gat nn965gat  nn2915gat
+1--  1
+-1-  1
+--1  1
+# instance g_g200
+.names nn557gat nn642gat nn654gat  nn2890gat
+1--  1
+-1-  1
+--1  1
+# instance g_g222
+.names n_n14 n_n15  nn1613gat
+11  1
+# instance g_g231
+.names nn490gat nn915gat  nn1616gat
+11  1
+# instance g_g288
+.names n_n152 n_n91 n_n154  nn15gat
+111  1
+# instance g_g297
+.names nn2206gat nii1733 nn1604gat  nii1734
+1--  1
+-1-  1
+--1  1
+# instance g_g321
+.names nn2416gat nn2419gat  nn2218gat
+11  1
+# instance g_g330
+.names n_n54 n_n46  nn1484gat
+11  1
+# instance g_g387
+.names n_n126 n_n72 nn3045gat  nn1582gat
+111  1
+# instance g_g396
+.names nn2052gat nn3046gat  nn1663gat
+11  1
+# instance g_g420
+.names n_n94 n_n95  nn204gat
+11  1
+# instance g_g459
+.names nn1629gat n_n110  nn1896gat
+11  1
+# instance g_g486
+.names nn1077gat nn1083gat  nn2926gat
+1-  1
+-1  1
+# instance g_g495
+.names nn76gat nn14gat  nn12gat
+11  1
+# instance g_g549
+.names nn984gat nn1093gat nn988gat nn1094gat  nn2947gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g558
+.names nn1000gat nn1004gat  nn2951gat
+1-  1
+-1  1
+# instance g_g585
+.names n_n184 n_n352  nn442gat
+11  1
+# instance g_g594
+.names nn756gat n_n165 n_n164  nn749gat
+111  1
+# instance g_g648
+.names n_n192 nn716gat nn714gat  nn712gat
+111  1
+# instance g_g657
+.names nn499gat n_n172 nn498gat  nn497gat
+111  1
+# instance g_g679
+.names n_n208 n_n209 n_n207  nn687gat
+111  1
+# instance g_g684
+.names n_n212 nn574gat n_n210  nn569gat
+111  1
+# instance g_g693
+.names nn2732gat n_n226  nn769gat
+11  1
+# instance g_g747
+.names n_n244 nn127gat n_n242  nn122gat
+111  1
+# instance g_g756
+.names n_n250 n_n251 n_n249  nn2410gat
+111  1
+# instance g_g769
+.names nn2607gat n_n255 nn2611gat  nn2603gat
+111  1
+# instance g_g778
+.names n_n262 nn1601gat  nn2461gat
+11  1
+# instance g_g783
+.names n_n266 n_n235  nn877gat
+11  1
+# instance g_g792
+.names nn718gat nn1444gat  nn1321gat
+11  1
+# instance g_g846
+.names nn1858gat nn2696gat n_n468  nn1574gat
+111  1
+# instance g_g855
+.names nn1649gat nn1563gat nn1650gat  nn2986gat
+1--  1
+-1-  1
+--1  1
+# instance g_g868
+.names n_n330 nn2134gat  nn2132gat
+11  1
+# instance g_g877
+.names n_n339 nn1969gat  nn1846gat
+11  1
+# instance g_g882
+.names nn2212gat nn1568gat  nn2211gat
+11  1
+# instance g_g891
+.names n_n339 nn1887gat  nn1962gat
+11  1
+# instance g_g945
+.names n_n374 nn255gat  nn242gat
+11  1
+# instance g_g954
+.names nii354 nii3312  nn1599gat
+11  1
+# instance g_g967
+.names n_n393 n_n394  nn1533gat
+11  1
+# instance g_g976
+.names nn880gat nn994gat nn989gat nn1100gat  nn2931gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g981
+.names n_n414 n_n399  nn902gat
+11  1
+# instance g_g990
+.names n_n400 n_n414  nn999gat
+11  1
+# instance g_g1009
+.names nn696gat n_n407  nn1094gat
+11  1
+# instance g_g1018
+.names nn717gat n_n407  nn1375gat
+11  1
+# instance g_g1045
+.names nii925 n_n498  nn977gat
+11  1
+# instance g_g1054
+.names nn1173gat nn1176gat  nn2962gat
+1-  1
+-1  1
+# instance g_g1067
+.names nn2721gat n_n426  nn70gat
+11  1
+# instance g_g1076
+.names nn2154gat n_n438  nn2427gat
+11  1
+# instance g_g1106
+.names nn1461gat nn1858gat  nn1510gat
+11  1
+# instance g_g1115
+.names n_n184 nn2860gat  nn526gat
+11  1
+# instance g_g1128
+.names n_n506 n_n507  nn1171gat
+11  1
+# instance g_g1137
+.names nn1193gat n_n410  nn1251gat
+11  1
+# instance g_g1142
+.names nii4558 n_n410  nn1199gat
+11  1
+# instance g_g1151
+.names nn2968gat  n_n518
+0  1
+# instance g_g1164
+.names nn409gat  n_n505
+0  1
+# instance g_g1173
+.names nn801gat  n_n499
+0  1
+# instance g_g1203
+.names nn1858gat  n_n478
+0  1
+# instance g_g1212
+.names nn1311gat  n_n471
+0  1
+# instance g_g1225
+.names nn1794gat  n_n458
+0  1
+# instance g_g1234
+.names nn1154gat  n_n450
+0  1
+# instance g_g1261
+.names nn1180gat  n_n424
+0  1
+# instance g_g1270
+.names nn978gat  n_n415
+0  1
+# instance g_g1300
+.names nn1774gat  n_n392
+0  1
+# instance g_g1322
+.names nn381gat  n_n372
+0  1
+# instance g_g1331
+.names nn2842gat  n_n364
+0  1
+# instance g_g1388
+.names nn1730gat  n_n317
+0  1
+# instance g_g1397
+.names nn1444gat  nn2696gat
+0  1
+# instance g_g1485
+.names nn2718gat  n_n228
+0  1
+# instance g_g1494
+.names nn1206gat  n_n220
+0  1
+# instance g_g1582
+.names nn2677gat  nii4723
+0  1
+# instance g_g1591
+.names nn2738gat  nii4696
+0  1
+# instance g_g1959
+.names nn2117gat  nn2115gat
+0  1
+# instance g_g2008
+.names nn2057gat  nii3412
+0  1
+# instance g_g2035
+.names nn2452gat  nn1699gat
+0  1
+# instance g_g2044
+.names nn293gat  n_n91
+0  1
+# instance g_g2057
+.names nn1406gat  n_n85
+0  1
+# instance g_g2066
+.names nn1508gat  nii3163
+0  1
+# instance g_g2105
+.names nn1521gat  nn1515gat
+0  1
+# instance g_g2118
+.names nn2406gat  nn2216gat
+0  1
+# instance g_g2127
+.names nn1495gat  n_n64
+0  1
+# instance g_g2132
+.names nn1717gat  nn1859gat
+0  1
+# instance g_g2141
+.names nn2091gat  nii2885
+0  1
+# instance g_g2154
+.names nn1549gat  nn1551gat
+0  1
+# instance g_g2163
+.names nn1865gat  nn1866gat
+0  1
+# instance g_g2202
+.names nn1494gat  nn1449gat
+0  1
+# instance g_g2215
+.names nn1880gat  nn1878gat
+0  1
+# instance g_g2224
+.names nn2364gat  nn1530gat
+0  1
+# instance g_g2251
+.names nn2554gat  nn2552gat
+0  1
+# instance g_g2260
+.names nn2606gat  nn2611gat
+0  1
+# instance g_g2312
+.names nn221gat  nii2177
+0  1
+# instance g_g2321
+.names nn313gat  nii2148
+0  1
+# instance g_g2378
+.names nii1837  nn1281gat
+0  1
+# instance g_g2387
+.names nn1120gat  nn1192gat
+0  1
+# instance g_g2475
+.names nn580gat  nn578gat
+0  1
+# instance g_g2484
+.names nn72gat  n_n32
+0  1
+# instance g_g2497
+.names nii1251  nii1243
+0  1
+# instance g_g2572
+.names nn1240gat  nn1236gat
+0  1
+# instance g_g2581
+.names nn1238gat  nn1233gat
+0  1
+# instance g_g2594
+.names nn957gat  nn955gat
+0  1
+# instance g_g2691
+.names nn754gat  nn756gat
+0  1
+# instance g_g102
+.latch nii3168 nn1496gat re nclk 2
+# instance g_g113
+.latch nii3342 nn1363gat re nclk 2
+# instance g_g120
+.latch nn3000gat nn2309gat re nclk 2
+# instance g_g131
+.latch nn2023gat nn2099gat re nclk 2
+# instance g_g201
+.names nn649gat nn449gat nn642gat  nn2888gat
+1--  1
+-1-  1
+--1  1
+# instance g_g212
+.names n_n6 n_n20  nn1516gat
+11  1
+# instance g_g230
+.names nn2724gat nn2716gat  nn421gat
+11  1
+# instance g_g289
+.names nn2206gat nii1584 nn2561gat  nii1585
+1--  1
+-1-  1
+--1  1
+# instance g_g300
+.names nn1205gat nn1203gat nn1204gat nn1202gat  nn1201gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g311
+.names nn2499gat nn2567gat  nn3014gat
+1-  1
+-1  1
+# instance g_g388
+.names nn2216gat nn2152gat n_n66  nn1577gat
+111  1
+# instance g_g399
+.names n_n74 n_n73 n_n69  nn1570gat
+111  1
+# instance g_g410
+.names nn2142gat nii3148 nn1893gat  nii3149
+1--  1
+-1-  1
+--1  1
+# instance g_g469
+.names nn377gat nn378gat  nn2892gat
+1-  1
+-1  1
+# instance g_g487
+.names nn233gat n_n346 n_n369  nn140gat
+111  1
+# instance g_g498
+.names nn2683gat nn2444gat  nn2830gat
+1-  1
+-1  1
+# instance g_g568
+.names nn2385gat nn1182gat  nn2741gat
+1-  1
+-1  1
+# instance g_g579
+.names n_n153 nn179gat nn189gat  nn180gat
+111  1
+# instance g_g586
+.names nn1221gat nn1222gat nn1223gat  nn1214gat
+111  1
+# instance g_g597
+.names n_n166 n_n165 nn753gat  nn752gat
+111  1
+# instance g_g649
+.names nn715gat n_n193 nn714gat  nn713gat
+111  1
+# instance g_g667
+.names n_n230 n_n365  nn964gat
+11  1
+# instance g_g678
+.names n_n368 nn2779gat  nn445gat
+11  1
+# instance g_g685
+.names nn575gat nn574gat nn572gat  nn570gat
+111  1
+# instance g_g696
+.names n_n218 n_n219 n_n217  nn1185gat
+111  1
+# instance g_g748
+.names nn128gat nn127gat nn125gat  nn123gat
+111  1
+# instance g_g759
+.names nn2415gat n_n251 nn2414gat  nn2413gat
+111  1
+# instance g_g766
+.names n_n254 n_n442  nn2647gat
+11  1
+# instance g_g777
+.names n_n443 n_n261  nn2615gat
+11  1
+# instance g_g784
+.names nn877gat nn1151gat nn982gat nn1153gat  nn2930gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g795
+.names nn2696gat nii440  nn1258gat
+11  1
+# instance g_g847
+.names n_n478 n_n463 nn2696gat  nn1573gat
+111  1
+# instance g_g858
+.names n_n325 n_n324 n_n326  nn1644gat
+111  1
+# instance g_g865
+.names nn1408gat nn1407gat nn1413gat  nn2981gat
+1--  1
+-1-  1
+--1  1
+# instance g_g876
+.names nn1969gat nn1968gat  nn1847gat
+11  1
+# instance g_g883
+.names n_n77 nn2402gat  nn2210gat
+11  1
+# instance g_g894
+.names nn1974gat nn1970gat  nn1971gat
+11  1
+# instance g_g946
+.names nn241gat n_n375  nn240gat
+11  1
+# instance g_g957
+.names nn1774gat n_n380 n_n524  nn1755gat
+111  1
+# instance g_g964
+.names n_n387 n_n388  nn1467gat
+11  1
+# instance g_g975
+.names n_n234 n_n410  nn880gat
+11  1
+# instance g_g982
+.names nn1238gat n_n408  nn1099gat
+11  1
+# instance g_g993
+.names nn1264gat nn1323gat  nn2969gat
+1-  1
+-1  1
+# instance g_g1028
+.names nii354 n_n408  nn1260gat
+11  1
+# instance g_g1039
+.names nn813gat n_n407  nn991gat
+11  1
+# instance g_g1046
+.names nn976gat nn977gat  nn2944gat
+1-  1
+-1  1
+# instance g_g1057
+.names n_n423 n_n415  nn1029gat
+11  1
+# instance g_g1064
+.names n_n423 n_n422  nn1005gat
+11  1
+# instance g_g1075
+.names n_n436 n_n437  nn2433gat
+11  1
+# instance g_g1107
+.names n_n486 n_n487  nn1459gat
+11  1
+# instance g_g1118
+.names n_n494 n_n495  nn359gat
+11  1
+# instance g_g1125
+.names nn527gat nn416gat  nn292gat
+11  1
+# instance g_g1136
+.names n_n514 n_n515  nn1172gat
+11  1
+# instance g_g1143
+.names n_n522 n_n523  nn1252gat
+11  1
+# instance g_g1154
+.names nn2961gat  n_n515
+0  1
+# instance g_g1161
+.names nn2969gat  n_n508
+0  1
+# instance g_g1172
+.names nn2931gat  n_n500
+0  1
+# instance g_g1204
+.names nn1604gat  nn1685gat
+0  1
+# instance g_g1215
+.names nn1719gat  n_n468
+0  1
+# instance g_g1222
+.names nn3018gat  n_n461
+0  1
+# instance g_g1233
+.names nn1609gat  n_n451
+0  1
+# instance g_g1240
+.names nn2422gat  n_n445
+0  1
+# instance g_g1251
+.names nn197gat  n_n434
+0  1
+# instance g_g1301
+.names nn1684gat  n_n391
+0  1
+# instance g_g1312
+.names nn2512gat  n_n380
+0  1
+# instance g_g1330
+.names nn111gat  n_n365
+0  1
+# instance g_g1389
+.names nn1727gat  n_n316
+0  1
+# instance g_g1486
+.names nn1196gat  n_n227
+0  1
+# instance g_g1497
+.names nn1189gat  n_n217
+0  1
+# instance g_g1583
+.names nn2686gat  nii4720
+0  1
+# instance g_g1594
+.names nn2690gat  nii4687
+0  1
+# instance g_g1680
+.names nn504gat  nn2245gat
+0  1
+# instance g_g1691
+.names nii4499  nn2686gat
+0  1
+# instance g_g1969
+.names nn3005gat  nn2209gat
+0  1
+# instance g_g2018
+.names nn2035gat  n_n99
+0  1
+# instance g_g2029
+.names nn3004gat  nn2187gat
+0  1
+# instance g_g2036
+.names nn2454gat  nn2452gat
+0  1
+# instance g_g2047
+.names nn2238gat  nii3235
+0  1
+# instance g_g2054
+.names nn2307gat  n_n87
+0  1
+# instance g_g2065
+.names nii3163  nn1507gat
+0  1
+# instance g_g2108
+.names nii3016  nn2181gat
+0  1
+# instance g_g2115
+.names nn2188gat  nn2189gat
+0  1
+# instance g_g2126
+.names nn1864gat  nn1923gat
+0  1
+# instance g_g2133
+.names nn2143gat  nn2141gat
+0  1
+# instance g_g2144
+.names nn1578gat  nn1517gat
+0  1
+# instance g_g2151
+.names nn2407gat  nn2405gat
+0  1
+# instance g_g2162
+.names nn2405gat  nn2406gat
+0  1
+# instance g_g2205
+.names nn2220gat  nn2162gat
+0  1
+# instance g_g2212
+.names nn2975gat  nn1378gat
+0  1
+# instance g_g2223
+.names nn1308gat  nn1307gat
+0  1
+# instance g_g2230
+.names nn1481gat  nn1478gat
+0  1
+# instance g_g2241
+.names nn2219gat  nn1523gat
+0  1
+# instance g_g2302
+.names nii2213  nn2573gat
+0  1
+# instance g_g2320
+.names nii2148  nn228gat
+0  1
+# instance g_g2379
+.names nn1282gat  nii1837
+0  1
+# instance g_g2397
+.names nii1719  nn2561gat
+0  1
+# instance g_g2476
+.names nn815gat  nn811gat
+0  1
+# instance g_g2487
+.names nii1278  nn563gat
+0  1
+# instance g_g2494
+.names nn510gat  nn512gat
+0  1
+# instance g_g2573
+.names nn1241gat  nn1239gat
+0  1
+# instance g_g2584
+.names nii863  nn2847gat
+0  1
+# instance g_g2591
+.names nn860gat  nn953gat
+0  1
+# instance g_g2670
+.names nii440  nn480gat
+0  1
+# instance g_g2681
+.names nn3066gat  nii337
+0  1
+# instance g_g103
+.latch nn1685gat nn2091gat re nclk 2
+# instance g_g112
+.latch nn1431gat nn1316gat re nclk 2
+# instance g_g121
+.latch nn2307gat nn2450gat re nclk 2
+# instance g_g130
+.latch nn2017gat nn2025gat re nclk 2
+# instance g_g202
+.names nn650gat nn642gat nn791gat  nn2887gat
+1--  1
+-1-  1
+--1  1
+# instance g_g211
+.names n_n17 n_n5  nn1793gat
+11  1
+# instance g_g220
+.names n_n392 n_n12 n_n13  nn2015gat
+111  1
+# instance g_g299
+.names nn1327gat nn1383gat  nn2970gat
+1-  1
+-1  1
+# instance g_g301
+.names nn1273gat nn1271gat nn1272gat nn1270gat  nn1269gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g310
+.names nn2413gat nn2411gat nn2412gat nn2410gat  nn2409gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g389
+.names nn1581gat nn1733gat  nn2988gat
+1-  1
+-1  1
+# instance g_g398
+.names nn3046gat n_n126  nn1667gat
+11  1
+# instance g_g400
+.names n_n69 n_n74 n_n77  nn1728gat
+111  1
+# instance g_g479
+.names n_n350 n_n354 nn1490gat  nn247gat
+111  1
+# instance g_g488
+.names nn240gat nn242gat  nn2882gat
+1-  1
+-1  1
+# instance g_g497
+.names nn2051gat nn1599gat  nn2684gat
+1-  1
+-1  1
+# instance g_g569
+.names nn1384gat nn1381gat  nn2694gat
+1-  1
+-1  1
+# instance g_g578
+.names n_n151 n_n154 n_n152  nn85gat
+111  1
+# instance g_g587
+.names n_n158 n_n157 nn1223gat  nn1215gat
+111  1
+# instance g_g596
+.names nn756gat nn755gat nn753gat  nn751gat
+111  1
+# instance g_g659
+.names n_n200 nn511gat n_n198  nn506gat
+111  1
+# instance g_g668
+.names nn2735gat n_n368  nn961gat
+11  1
+# instance g_g677
+.names n_n365 n_n236  nn447gat
+11  1
+# instance g_g686
+.names n_n212 n_n211 nn572gat  nn571gat
+111  1
+# instance g_g695
+.names nn2735gat n_n226  nn766gat
+11  1
+# instance g_g749
+.names n_n244 n_n243 nn125gat  nn124gat
+111  1
+# instance g_g758
+.names n_n250 nn2416gat nn2414gat  nn2412gat
+111  1
+# instance g_g767
+.names n_n441 n_n254  nn2648gat
+11  1
+# instance g_g776
+.names n_n261 n_n444  nn2614gat
+11  1
+# instance g_g785
+.names nii1999 n_n267  nn1159gat
+11  1
+# instance g_g794
+.names nn503gat nn1444gat  nn1368gat
+11  1
+# instance g_g848
+.names n_n310 n_n309 n_n324  nn1723gat
+111  1
+# instance g_g857
+.names n_n322 n_n324 n_n323  nn1653gat
+111  1
+# instance g_g866
+.names nn2253gat nn2261gat  nn2258gat
+11  1
+# instance g_g875
+.names nn1893gat n_n336 n_n337  nn1894gat
+111  1
+# instance g_g884
+.names nn2439gat nn2052gat  nn2053gat
+11  1
+# instance g_g893
+.names n_n340 n_n341  nn1972gat
+11  1
+# instance g_g947
+.names n_n378 n_n373  nn871gat
+11  1
+# instance g_g956
+.names n_n379 nn1870gat  nn1586gat
+11  1
+# instance g_g965
+.names n_n390 n_n389 nn1393gat  nn1466gat
+111  1
+# instance g_g974
+.names n_n409 nn915gat  nn989gat
+11  1
+# instance g_g983
+.names n_n409 nn916gat  nn998gat
+11  1
+# instance g_g992
+.names nn351gat n_n407  nn1264gat
+11  1
+# instance g_g1029
+.names nn1260gat nn1262gat  nn2967gat
+1-  1
+-1  1
+# instance g_g1038
+.names nii1999 n_n410  nn1087gat
+11  1
+# instance g_g1047
+.names n_n407 nn594gat  nn1096gat
+11  1
+# instance g_g1056
+.names n_n413 n_n414  nn1000gat
+11  1
+# instance g_g1065
+.names n_n423 n_n424  nn1182gat
+11  1
+# instance g_g1074
+.names n_n435 n_n462  nn2239gat
+11  1
+# instance g_g1108
+.names n_n488 n_n489  nn1458gat
+11  1
+# instance g_g1117
+.names n_n184 nn2863gat  nn530gat
+11  1
+# instance g_g1126
+.names nn455gat n_n505  nn419gat
+11  1
+# instance g_g1135
+.names n_n410 nn1192gat  nn1200gat
+11  1
+# instance g_g1144
+.names n_n524 nn1774gat  nn1757gat
+11  1
+# instance g_g1153
+.names nn1251gat  n_n516
+0  1
+# instance g_g1162
+.names nn2960gat  n_n507
+0  1
+# instance g_g1171
+.names nn2943gat  n_n501
+0  1
+# instance g_g1205
+.names nn88gat  n_n477
+0  1
+# instance g_g1214
+.names nn1923gat  n_n469
+0  1
+# instance g_g1223
+.names nn1428gat  n_n460
+0  1
+# instance g_g1232
+.names nn2082gat  n_n452
+0  1
+# instance g_g1241
+.names nn2616gat  n_n444
+0  1
+# instance g_g1250
+.names nn3019gat  n_n435
+0  1
+# instance g_g1302
+.names nn1461gat  n_n390
+0  1
+# instance g_g1311
+.names nn1747gat  n_n381
+0  1
+# instance g_g1320
+.names nn241gat  n_n374
+0  1
+# instance g_g1399
+.names nn1990gat  n_n308
+0  1
+# instance g_g1487
+.names nn1269gat  nn1286gat
+0  1
+# instance g_g1496
+.names nn1190gat  n_n218
+0  1
+# instance g_g1584
+.names nn2763gat  nii4717
+0  1
+# instance g_g1593
+.names nn2685gat  nii4690
+0  1
+# instance g_g1681
+.names nii4518  nn2759gat
+0  1
+# instance g_g1690
+.names nn292gat  n_n149
+0  1
+# instance g_g1979
+.names nn2138gat  nn1887gat
+0  1
+# instance g_g2019
+.names nn2093gat  n_n98
+0  1
+# instance g_g2028
+.names nn2040gat  nii3336
+0  1
+# instance g_g2037
+.names nn2167gat  nn2168gat
+0  1
+# instance g_g2046
+.names nii3235  nn3019gat
+0  1
+# instance g_g2055
+.names nn2158gat  nn1999gat
+0  1
+# instance g_g2064
+.names nn1394gat  nii3168
+0  1
+# instance g_g2107
+.names nn1626gat  nn1707gat
+0  1
+# instance g_g2116
+.names nn1577gat  nn1580gat
+0  1
+# instance g_g2125
+.names nn2179gat  nii2953
+0  1
+# instance g_g2134
+.names nn1921gat  nn1917gat
+0  1
+# instance g_g2143
+.names nn1496gat  nii2873
+0  1
+# instance g_g2152
+.names nii2837  nn2346gat
+0  1
+# instance g_g2161
+.names nn1866gat  n_n59
+0  1
+# instance g_g2204
+.names nn1423gat  nn1450gat
+0  1
+# instance g_g2213
+.names nn1832gat  n_n48
+0  1
+# instance g_g2222
+.names nn2291gat  nn1479gat
+0  1
+# instance g_g2231
+.names nn2306gat  nn2011gat
+0  1
+# instance g_g2240
+.names nn1523gat  n_n44
+0  1
+# instance g_g2301
+.names nii2232  nii2225
+0  1
+# instance g_g2310
+.names nn667gat  nn665gat
+0  1
+# instance g_g2389
+.names nn1193gat  nn1191gat
+0  1
+# instance g_g2398
+.names nn2562gat  nii1719
+0  1
+# instance g_g2477
+.names nn816gat  nn814gat
+0  1
+# instance g_g2486
+.names nn563gat  nn289gat
+0  1
+# instance g_g2495
+.names nn728gat  nn405gat
+0  1
+# instance g_g2574
+.names nn1237gat  nn1235gat
+0  1
+# instance g_g2583
+.names nn2847gat  nn2846gat
+0  1
+# instance g_g2592
+.names nn861gat  nn859gat
+0  1
+# instance g_g2671
+.names nii423  nn2780gat
+0  1
+# instance g_g2680
+.names nii337  nn2736gat
+0  1
+# instance g_g5
+.latch nn748gat nn2510gat re nclk 2
+# instance g_g140
+.latch nii1227 nn156gat re nclk 2
+# instance g_g151
+.latch nn2456gat nn2514gat re nclk 2
+# instance g_g162
+.latch nn1593gat nn1588gat re nclk 2
+# instance g_g173
+.names nn439gat nn443gat  nn2894gat
+1-  1
+-1  1
+# instance g_g184
+.names n_n2 n_n14  nn1610gat
+11  1
+# instance g_g195
+.names nn642gat nn556gat nn793gat  nn2904gat
+1--  1
+-1-  1
+--1  1
+# instance g_g250
+.names nn638gat nn745gat  nn2906gat
+1-  1
+-1  1
+# instance g_g261
+.names nn2716gat n_n162  nn529gat
+11  1
+# instance g_g272
+.names nn732gat nn730gat nn731gat nn729gat  nn728gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g283
+.names nn590gat nn588gat nn589gat nn587gat  nn586gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g294
+.names nii2385 nn2557gat nn2489gat  nn2531gat
+111  1
+# instance g_g360
+.names n_n53 n_n55  nn1354gat
+11  1
+# instance g_g371
+.names nii2812 nn1702gat nn1700gat nn1609gat  nii2813
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g382
+.names nn1898gat nii2934 nn2060gat  nii2935
+1--  1
+-1-  1
+--1  1
+# instance g_g393
+.names n_n126 nn3045gat  nn1521gat
+11  1
+# instance g_g409
+.names n_n82 n_n83  nn1929gat
+11  1
+# instance g_g470
+.names nn219gat nn111gat  nn212gat
+11  1
+# instance g_g481
+.names nn970gat nn968gat nn971gat  nn2916gat
+1--  1
+-1-  1
+--1  1
+# instance g_g492
+.names nn71gat nn67gat  nn68gat
+11  1
+# instance g_g508
+.names n_n329 nn1685gat n_n478  nn1402gat
+111  1
+# instance g_g519
+.names nn2989gat nii4216 nii3168  nii4217
+1--  1
+-1-  1
+--1  1
+# instance g_g580
+.names nn70gat nn1840gat nn73gat  nn2812gat
+1--  1
+-1-  1
+--1  1
+# instance g_g591
+.names n_n161 nn2716gat  nn638gat
+11  1
+# instance g_g607
+.names nn499gat nn500gat n_n171  nn345gat
+111  1
+# instance g_g618
+.names n_n230 n_n184  nn962gat
+11  1
+# instance g_g629
+.names nn1234gat nn1235gat n_n180  nn1230gat
+111  1
+# instance g_g690
+.names nii2257 nn2206gat nn2202gat  nii1723
+1--  1
+-1-  1
+--1  1
+# instance g_g706
+.names n_n226 nn2782gat  nn765gat
+11  1
+# instance g_g717
+.names nn1286gat n_n227  nn1285gat
+11  1
+# instance g_g728
+.names n_n232 nn786gat nn784gat  nn782gat
+111  1
+# instance g_g739
+.names nn2790gat n_n238  nn650gat
+11  1
+# instance g_g805
+.names nn1502gat nn1504gat  nn2982gat
+1-  1
+-1  1
+# instance g_g816
+.names n_n287 n_n288  nn1303gat
+11  1
+# instance g_g827
+.names n_n291 n_n292  nn1360gat
+11  1
+# instance g_g838
+.names nn1893gat nn1969gat nn1887gat  nii2831
+1--  1
+-1-  1
+--1  1
+# instance g_g904
+.names nn375gat nn2776gat  nn1074gat
+11  1
+# instance g_g915
+.names n_n349 n_n365  nn448gat
+11  1
+# instance g_g926
+.names n_n358 n_n366  nn972gat
+11  1
+# instance g_g937
+.names n_n366 n_n367  nn451gat
+11  1
+# instance g_g1084
+.names n_n451 n_n452  nn1607gat
+11  1
+# instance g_g1095
+.names nn1774gat n_n471  nn1758gat
+11  1
+# instance g_g1109
+.names n_n490 nn1584gat nn1595gat  nn1602gat
+111  1
+# instance g_g1181
+.names nn411gat  nn413gat
+0  1
+# instance g_g1192
+.names nn2005gat  n_n485
+0  1
+# instance g_g1206
+.names nn2016gat  nn2012gat
+0  1
+# instance g_g1217
+.names nn1917gat  n_n466
+0  1
+# instance g_g1228
+.names nn2978gat  n_n456
+0  1
+# instance g_g1239
+.names nn1592gat  n_n446
+0  1
+# instance g_g1303
+.names nn1396gat  n_n389
+0  1
+# instance g_g1314
+.names nn110gat  nn375gat
+0  1
+# instance g_g1325
+.names nn252gat  n_n370
+0  1
+# instance g_g1336
+.names nn878gat  n_n360
+0  1
+# instance g_g1347
+.names nn387gat  n_n350
+0  1
+# instance g_g1358
+.names nn1974gat  n_n341
+0  1
+# instance g_g1369
+.names nn2265gat  n_n333
+0  1
+# instance g_g1400
+.names nn2181gat  n_n307
+0  1
+# instance g_g1411
+.names nn1425gat  n_n296
+0  1
+# instance g_g1422
+.names nn1353gat  n_n285
+0  1
+# instance g_g1433
+.names nn1322gat  n_n274
+0  1
+# instance g_g1444
+.names nn1301gat  n_n264
+0  1
+# instance g_g1455
+.names nn2610gat  n_n255
+0  1
+# instance g_g1466
+.names nn2575gat  n_n247
+0  1
+# instance g_g1477
+.names nn2836gat  n_n236
+0  1
+# instance g_g1530
+.names nn740gat  n_n184
+0  1
+# instance g_g1541
+.names nn48gat  n_n173
+0  1
+# instance g_g1552
+.names nn2724gat  n_n162
+0  1
+# instance g_g1563
+.names nn2827gat  nii4783
+0  1
+# instance g_g1574
+.names nn2816gat  nii4747
+0  1
+# instance g_g1660
+.names nn1225gat  nn1381gat
+0  1
+# instance g_g1671
+.names nn933gat  nn2246gat
+0  1
+# instance g_g1989
+.names nn2994gat  nn2048gat
+0  1
+# instance g_g2074
+.names nn1726gat  nn1790gat
+0  1
+# instance g_g2085
+.names nn1742gat  n_n74
+0  1
+# instance g_g2096
+.names nn2193gat  nn1568gat
+0  1
+# instance g_g2171
+.names nn1548gat  nn1719gat
+0  1
+# instance g_g2182
+.names nn2359gat  n_n56
+0  1
+# instance g_g2193
+.names nn1422gat  nn1355gat
+0  1
+# instance g_g2207
+.names nn1365gat  nn1366gat
+0  1
+# instance g_g2218
+.names nn1438gat  nn1437gat
+0  1
+# instance g_g2229
+.names nn2357gat  nn1410gat
+0  1
+# instance g_g2290
+.names nn2398gat  nii2257
+0  1
+# instance g_g2304
+.names nn2588gat  nn2586gat
+0  1
+# instance g_g2315
+.names nii2169  nn127gat
+0  1
+# instance g_g2326
+.names nii2112  nn226gat
+0  1
+# instance g_g2337
+.names nn777gat  nn775gat
+0  1
+# instance g_g2348
+.names nn665gat  nn666gat
+0  1
+# instance g_g2359
+.names nn1201gat  nii1923
+0  1
+# instance g_g2401
+.names nn2530gat  n_n36
+0  1
+# instance g_g2412
+.names nn1606gat  nn1543gat
+0  1
+# instance g_g2423
+.names nn2630gat  nii1630
+0  1
+# instance g_g2434
+.names nn187gat  nn194gat
+0  1
+# instance g_g2445
+.names nn583gat  nn696gat
+0  1
+# instance g_g2456
+.names nn582gat  nn583gat
+0  1
+# instance g_g2467
+.names nn596gat  nn591gat
+0  1
+# instance g_g2520
+.names nn834gat  nii1138
+0  1
+# instance g_g2531
+.names nn402gat  nii1082
+0  1
+# instance g_g2542
+.names nn1228gat  nn858gat
+0  1
+# instance g_g2553
+.names nn2843gat  nn2842gat
+0  1
+# instance g_g2564
+.names nn863gat  nn864gat
+0  1
+# instance g_g2650
+.names nii509  nn2730gat
+0  1
+# instance g_g2661
+.names nn1617gat  nn1701gat
+0  1
+# instance g_g6
+.latch nn2732gat nn271gat re nclk 2
+# instance g_g141
+.latch nii1152 nn152gat re nclk 2
+# instance g_g150
+.latch nii3143 nn2458gat re nclk 2
+# instance g_g163
+.names nn442gat nn648gat  nn2897gat
+1-  1
+-1  1
+# instance g_g172
+.names nn792gat nn967gat  nn2922gat
+1-  1
+-1  1
+# instance g_g185
+.names nn642gat nn769gat  nn2918gat
+1-  1
+-1  1
+# instance g_g194
+.names nn1285gat nn1287gat  nn2971gat
+1-  1
+-1  1
+# instance g_g240
+.names n_n23 nn1645gat nn1559gat  nn1558gat
+111  1
+# instance g_g262
+.names nn2727gat nn2860gat  nn361gat
+11  1
+# instance g_g271
+.names nn713gat nn711gat nn712gat nn710gat  nn709gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g284
+.names nn690gat nn688gat nn689gat nn687gat  nn686gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g293
+.names nn1692gat nn1693gat  nn2989gat
+1-  1
+-1  1
+# instance g_g361
+.names n_n54 n_n55  nn1435gat
+11  1
+# instance g_g370
+.names nn1742gat nn2152gat n_n59  nn1861gat
+111  1
+# instance g_g383
+.names n_n64 n_n63 n_n478  nn1864gat
+111  1
+# instance g_g392
+.names nn1573gat nn1574gat  nn2987gat
+1-  1
+-1  1
+# instance g_g419
+.names n_n153 n_n93 n_n156  nn184gat
+111  1
+# instance g_g460
+.names n_n111 n_n112  nn2559gat
+11  1
+# instance g_g482
+.names nn40gat nn39gat nn142gat  nn2875gat
+1--  1
+-1-  1
+--1  1
+# instance g_g491
+.names nn796gat nn1082gat  nn2923gat
+1-  1
+-1  1
+# instance g_g509
+.names nn1398gat nn1400gat nn1399gat nn1470gat  nn2980gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g518
+.names nn1466gat nn1467gat  nn2984gat
+1-  1
+-1  1
+# instance g_g581
+.names n_n155 n_n154 n_n152  nn82gat
+111  1
+# instance g_g590
+.names nn2868gat n_n160  nn745gat
+11  1
+# instance g_g608
+.names n_n197 nn500gat nn480gat  nn346gat
+111  1
+# instance g_g617
+.names n_n183 nn2776gat  nn868gat
+11  1
+# instance g_g639
+.names nn1056gat nn1057gat n_n185  nn1052gat
+111  1
+# instance g_g680
+.names nn692gat nn693gat n_n207  nn688gat
+111  1
+# instance g_g707
+.names n_n221 n_n222 n_n220  nn1202gat
+111  1
+# instance g_g716
+.names nn1196gat nii4558  nn1287gat
+11  1
+# instance g_g729
+.names nn785gat n_n233 nn784gat  nn783gat
+111  1
+# instance g_g738
+.names n_n359 n_n237  nn791gat
+11  1
+# instance g_g806
+.names nn811gat nn1444gat  nn1250gat
+11  1
+# instance g_g815
+.names n_n285 n_n286  nn1351gat
+11  1
+# instance g_g828
+.names n_n293 n_n294  nn1359gat
+11  1
+# instance g_g837
+.names n_n301 n_n302  nn1609gat
+11  1
+# instance g_g905
+.names n_n344 n_n378  nn872gat
+11  1
+# instance g_g914
+.names n_n348 n_n366  nn453gat
+11  1
+# instance g_g927
+.names nn2673gat n_n368  nn969gat
+11  1
+# instance g_g936
+.names n_n364 n_n365  nn772gat
+11  1
+# instance g_g1085
+.names n_n453 n_n455 n_n454 n_n456  nn1428gat
+1111  1
+# instance g_g1094
+.names n_n469 n_n470  nn1924gat
+11  1
+# instance g_g1119
+.names n_n496 n_n497  nn420gat
+11  1
+# instance g_g1182
+.names nn522gat  nn412gat
+0  1
+# instance g_g1191
+.names nn1454gat  n_n486
+0  1
+# instance g_g1207
+.names nn2097gat  n_n476
+0  1
+# instance g_g1216
+.names nn1922gat  n_n467
+0  1
+# instance g_g1229
+.names nn2982gat  n_n455
+0  1
+# instance g_g1238
+.names nn2957gat  n_n447
+0  1
+# instance g_g1304
+.names nn2289gat  n_n388
+0  1
+# instance g_g1313
+.names nn1683gat  n_n379
+0  1
+# instance g_g1326
+.names nn151gat  n_n369
+0  1
+# instance g_g1335
+.names nn144gat  n_n361
+0  1
+# instance g_g1348
+.names nn2846gat  n_n349
+0  1
+# instance g_g1357
+.names nn1896gat  nn1970gat
+0  1
+# instance g_g1379
+.names nn1643gat  n_n326
+0  1
+# instance g_g1401
+.names nn2178gat  n_n306
+0  1
+# instance g_g1410
+.names nn1309gat  n_n297
+0  1
+# instance g_g1423
+.names nn1248gat  n_n284
+0  1
+# instance g_g1432
+.names nn1369gat  n_n275
+0  1
+# instance g_g1445
+.names nn1414gat  n_n263
+0  1
+# instance g_g1454
+.names nn2607gat  n_n256
+0  1
+# instance g_g1467
+.names nn2573gat  n_n246
+0  1
+# instance g_g1476
+.names nn851gat  n_n237
+0  1
+# instance g_g1520
+.names nn733gat  n_n194
+0  1
+# instance g_g1542
+.names nn500gat  n_n172
+0  1
+# instance g_g1551
+.names nn2727gat  n_n163
+0  1
+# instance g_g1564
+.names nn2691gat  nii4780
+0  1
+# instance g_g1573
+.names nn2810gat  nii4750
+0  1
+# instance g_g1661
+.names nn2687gat  nn2685gat
+0  1
+# instance g_g1670
+.names nn2749gat  nii4542
+0  1
+# instance g_g1999
+.names nn1994gat  n_n102
+0  1
+# instance g_g2075
+.names nn2992gat  n_n81
+0  1
+# instance g_g2084
+.names nn1668gat  n_n75
+0  1
+# instance g_g2097
+.names nn2393gat  nn2052gat
+0  1
+# instance g_g2109
+.names nn2182gat  nii3016
+0  1
+# instance g_g2172
+.names nii2721  nn1548gat
+0  1
+# instance g_g2181
+.names nn1421gat  nn1425gat
+0  1
+# instance g_g2194
+.names nn2011gat  n_n51
+0  1
+# instance g_g2206
+.names nn2979gat  nn1374gat
+0  1
+# instance g_g2219
+.names nn2223gat  nn1591gat
+0  1
+# instance g_g2228
+.names nn1347gat  nn876gat
+0  1
+# instance g_g2291
+.names nn2419gat  nn2414gat
+0  1
+# instance g_g2303
+.names nn2342gat  nii2213
+0  1
+# instance g_g2316
+.names nii2177  nii2169
+0  1
+# instance g_g2325
+.names nn316gat  nn317gat
+0  1
+# instance g_g2338
+.names nn553gat  nn551gat
+0  1
+# instance g_g2347
+.names nn657gat  nn658gat
+0  1
+# instance g_g2369
+.names nn1135gat  nn1133gat
+0  1
+# instance g_g2400
+.names nn2480gat  nn2426gat
+0  1
+# instance g_g2413
+.names nn1934gat  nn1698gat
+0  1
+# instance g_g2422
+.names nii1630  nn2629gat
+0  1
+# instance g_g2435
+.names nn289gat  n_n33
+0  1
+# instance g_g2444
+.names nii1496  nii1488
+0  1
+# instance g_g2457
+.names nn565gat  nn573gat
+0  1
+# instance g_g2466
+.names nn820gat  nii1385
+0  1
+# instance g_g2510
+.names nn837gat  nn718gat
+0  1
+# instance g_g2532
+.names nn2767gat  nn374gat
+0  1
+# instance g_g2541
+.names nn939gat  nn941gat
+0  1
+# instance g_g2554
+.names nii985  nn2843gat
+0  1
+# instance g_g2563
+.names nn1060gat  nn1055gat
+0  1
+# instance g_g2651
+.names nn3099gat  nii509
+0  1
+# instance g_g2660
+.names nn1377gat  nn1379gat
+0  1
+# instance g_g7
+.latch nn2776gat nn160gat re nclk 2
+# instance g_g142
+.latch nii1371 nn331gat re nclk 2
+# instance g_g153
+.latch nn1391gat nn1336gat re nclk 2
+# instance g_g160
+.latch nn1915gat nn1462gat re nclk 2
+# instance g_g171
+.names nn441gat nn647gat  nn2896gat
+1-  1
+-1  1
+# instance g_g186
+.names nn642gat nn1076gat  nn2952gat
+1-  1
+-1  1
+# instance g_g197
+.names nn773gat nn642gat nn794gat  nn2903gat
+1--  1
+-1-  1
+--1  1
+# instance g_g241
+.names nn351gat nn490gat  nn1256gat
+11  1
+# instance g_g252
+.names nn625gat nn621gat  nn1376gat
+11  1
+# instance g_g270
+.names n_n163 nn2860gat  nn360gat
+11  1
+# instance g_g285
+.names nn2462gat nii1515 nn2466gat  nii1516
+1--  1
+-1-  1
+--1  1
+# instance g_g296
+.names nii2228 nii1723 nn2342gat  nii1724
+1--  1
+-1-  1
+--1  1
+# instance g_g340
+.names nn1325gat nn1443gat  nn2975gat
+1-  1
+-1  1
+# instance g_g351
+.names nn1103gat nn1250gat  nn2954gat
+1-  1
+-1  1
+# instance g_g384
+.names nn243gat nn1430gat  nn1690gat
+11  1
+# instance g_g395
+.names n_n69 n_n74 n_n71  nn1732gat
+111  1
+# instance g_g429
+.names nn2261gat nn2253gat  nn3006gat
+1-  1
+-1  1
+# instance g_g450
+.names nn2047gat n_n114  nn2396gat
+11  1
+# instance g_g483
+.names nn451gat nn446gat nn772gat  nn2899gat
+1--  1
+-1-  1
+--1  1
+# instance g_g494
+.names nn1219gat nn2727gat  nn357gat
+11  1
+# instance g_g528
+.names n_n138 n_n137 n_n139  nn355gat
+111  1
+# instance g_g539
+.names nn528gat nn417gat  nn634gat
+11  1
+# instance g_g582
+.names nn179gat nn188gat n_n156  nn186gat
+111  1
+# instance g_g593
+.names n_n163 nn2724gat  nn362gat
+11  1
+# instance g_g609
+.names nn499gat n_n172 nn480gat  nn347gat
+111  1
+# instance g_g627
+.names n_n184 n_n357  nn792gat
+11  1
+# instance g_g638
+.names n_n186 n_n187 n_n185  nn1051gat
+111  1
+# instance g_g681
+.names n_n208 nn693gat nn691gat  nn689gat
+111  1
+# instance g_g692
+.names nn2428gat nn2289gat nn2286gat  nii1733
+1--  1
+-1-  1
+--1  1
+# instance g_g708
+.names nn1207gat nn1208gat n_n220  nn1203gat
+111  1
+# instance g_g719
+.names n_n238 nn2673gat  nn556gat
+11  1
+# instance g_g726
+.names n_n232 n_n233 n_n231  nn780gat
+111  1
+# instance g_g737
+.names n_n237 n_n236  nn449gat
+11  1
+# instance g_g780
+.names n_n234 n_n263  nn1153gat
+11  1
+# instance g_g791
+.names nii334 nn2696gat  nn1325gat
+11  1
+# instance g_g807
+.names nn2696gat nn952gat  nn1103gat
+11  1
+# instance g_g818
+.names nn1302gat nn1351gat nn1303gat nn1352gat  nn2973gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g825
+.names nn2696gat nn1059gat  nn1305gat
+11  1
+# instance g_g836
+.names nn1704gat nn1778gat nn1703gat  nii2812
+1--  1
+-1-  1
+--1  1
+# instance g_g890
+.names nn2152gat nn1568gat  nn2149gat
+11  1
+# instance g_g906
+.names n_n345 n_n346  nn234gat
+11  1
+# instance g_g917
+.names nn387gat nn1490gat  nn244gat
+11  1
+# instance g_g924
+.names nn462gat n_n356  nn459gat
+11  1
+# instance g_g935
+.names nn144gat n_n363  nn39gat
+11  1
+# instance g_g1086
+.names n_n468 nn1858gat  nn1794gat
+11  1
+# instance g_g1097
+.names n_n474 n_n475  nn196gat
+11  1
+# instance g_g1129
+.names nn1209gat n_n410  nn1244gat
+11  1
+# instance g_g1183
+.names nn417gat  n_n493
+0  1
+# instance g_g1194
+.names nn2857gat  n_n483
+0  1
+# instance g_g1208
+.names nn297gat  n_n475
+0  1
+# instance g_g1219
+.names nn1925gat  n_n464
+0  1
+# instance g_g1226
+.names nn1796gat  n_n457
+0  1
+# instance g_g1237
+.names nn2930gat  n_n448
+0  1
+# instance g_g1280
+.names nn671gat  nii925
+0  1
+# instance g_g1291
+.names nn1265gat  n_n401
+0  1
+# instance g_g1305
+.names nn1468gat  n_n387
+0  1
+# instance g_g1316
+.names nn380gat  n_n377
+0  1
+# instance g_g1323
+.names nn469gat  n_n371
+0  1
+# instance g_g1334
+.names nn326gat  n_n362
+0  1
+# instance g_g1349
+.names nn452gat  n_n348
+0  1
+# instance g_g1367
+.names nn1709gat  n_n335
+0  1
+# instance g_g1378
+.names nn2591gat  n_n327
+0  1
+# instance g_g1402
+.names nn2128gat  n_n305
+0  1
+# instance g_g1413
+.names nn1436gat  n_n294
+0  1
+# instance g_g1420
+.names nn1355gat  n_n287
+0  1
+# instance g_g1431
+.names nn1370gat  n_n276
+0  1
+# instance g_g1446
+.names nn1704gat  nn2666gat
+0  1
+# instance g_g1457
+.names nn2269gat  nn2046gat
+0  1
+# instance g_g1464
+.names nn2414gat  n_n249
+0  1
+# instance g_g1475
+.names nn852gat  n_n238
+0  1
+# instance g_g1510
+.names nn591gat  n_n204
+0  1
+# instance g_g1543
+.names nn480gat  n_n171
+0  1
+# instance g_g1554
+.names nn2716gat  n_n160
+0  1
+# instance g_g1561
+.names nn2692gat  nii4789
+0  1
+# instance g_g1572
+.names nn2811gat  nii4753
+0  1
+# instance g_g1640
+.names nn2146gat  nn2050gat
+0  1
+# instance g_g1651
+.names nn2702gat  nii4580
+0  1
+# instance g_g2076
+.names nn2986gat  n_n80
+0  1
+# instance g_g2087
+.names nn1734gat  nn1668gat
+0  1
+# instance g_g2094
+.names nn1728gat  nn1727gat
+0  1
+# instance g_g2119
+.names nn1582gat  nn1520gat
+0  1
+# instance g_g2173
+.names nn2137gat  nn2138gat
+0  1
+# instance g_g2184
+.names nn1435gat  nn1436gat
+0  1
+# instance g_g2191
+.names nn1482gat  n_n52
+0  1
+# instance g_g2209
+.names nn1426gat  nn1370gat
+0  1
+# instance g_g2216
+.names nn1767gat  nn1765gat
+0  1
+# instance g_g2227
+.names nn1484gat  nn1160gat
+0  1
+# instance g_g2270
+.names nn2880gat  nii2354
+0  1
+# instance g_g2281
+.names nn2658gat  nn2656gat
+0  1
+# instance g_g2306
+.names nn3017gat  n_n39
+0  1
+# instance g_g2313
+.names nn126gat  nn128gat
+0  1
+# instance g_g2324
+.names nn317gat  nii2130
+0  1
+# instance g_g2339
+.names nii2035  nn786gat
+0  1
+# instance g_g2357
+.names nn1725gat  nn642gat
+0  1
+# instance g_g2368
+.names nn1134gat  nn1209gat
+0  1
+# instance g_g2403
+.names nn2543gat  nii1708
+0  1
+# instance g_g2410
+.names nii1683  nn1762gat
+0  1
+# instance g_g2421
+.names nn2542gat  nn2554gat
+0  1
+# instance g_g2436
+.names nn2665gat  nn2596gat
+0  1
+# instance g_g2447
+.names nn698gat  nn695gat
+0  1
+# instance g_g2454
+.names nn684gat  nii1450
+0  1
+# instance g_g2465
+.names nii1385  nn819gat
+0  1
+# instance g_g2500
+.names nii1227  nn613gat
+0  1
+# instance g_g2533
+.names nn360gat  nn294gat
+0  1
+# instance g_g2544
+.names nii1031  nii1023
+0  1
+# instance g_g2551
+.names nn1059gat  nn1057gat
+0  1
+# instance g_g2562
+.names nn2791gat  nn2789gat
+0  1
+# instance g_g2630
+.names nn160gat  nn163gat
+0  1
+# instance g_g2641
+.names nii576  nn2851gat
+0  1
+# instance g_g8
+.latch nn2735gat nn337gat re nclk 2
+# instance g_g143
+.latch nii1399 nn388gat re nclk 2
+# instance g_g152
+.latch nn1613gat nn1771gat re nclk 2
+# instance g_g161
+.latch nn1800gat nn1596gat re nclk 2
+# instance g_g170
+.names nn959gat nn962gat  nn2927gat
+1-  1
+-1  1
+# instance g_g187
+.names nn642gat nn766gat  nn2919gat
+1-  1
+-1  1
+# instance g_g196
+.names nn656gat nn642gat nn795gat  nn2891gat
+1--  1
+-1-  1
+--1  1
+# instance g_g242
+.names nn916gat nn625gat  nn1117gat
+11  1
+# instance g_g251
+.names nn362gat nn423gat  nn2889gat
+1-  1
+-1  1
+# instance g_g260
+.names nn3092gat nn3091gat  nn2786gat
+1-  1
+-1  1
+# instance g_g286
+.names nn2724gat n_n33  nn286gat
+11  1
+# instance g_g295
+.names nn2552gat nn2550gat n_n36  nn2480gat
+111  1
+# instance g_g341
+.names nn1320gat nn1321gat  nn2974gat
+1-  1
+-1  1
+# instance g_g350
+.names n_n57 n_n54  nn1494gat
+11  1
+# instance g_g385
+.names nn3046gat n_n72 nn2052gat  nn1660gat
+111  1
+# instance g_g394
+.names n_n70 n_n72  nn1737gat
+11  1
+# instance g_g439
+.names nn1847gat nn1846gat nn1894gat  nn2993gat
+1--  1
+-1-  1
+--1  1
+# instance g_g440
+.names nn1840gat n_n111  nn2436gat
+11  1
+# instance g_g484
+.names nn136gat nn139gat  nn2877gat
+1-  1
+-1  1
+# instance g_g493
+.names nn1885gat nn69gat  nn2710gat
+1-  1
+-1  1
+# instance g_g529
+.names n_n141 n_n140 n_n142  nn525gat
+111  1
+# instance g_g538
+.names nn633gat nn639gat nn524gat  nn629gat
+111  1
+# instance g_g583
+.names nn13gat nn1842gat nn77gat  nn2822gat
+1--  1
+-1-  1
+--1  1
+# instance g_g592
+.names nn2727gat n_n162  nn423gat
+11  1
+# instance g_g619
+.names nn2735gat n_n183  nn959gat
+11  1
+# instance g_g628
+.names n_n181 n_n182 n_n180  nn1229gat
+111  1
+# instance g_g637
+.names n_n364 n_n184  nn440gat
+11  1
+# instance g_g682
+.names nn692gat n_n209 nn691gat  nn690gat
+111  1
+# instance g_g691
+.names n_n215 n_n216  nn2428gat
+11  1
+# instance g_g709
+.names n_n221 nn1208gat nn1206gat  nn1204gat
+111  1
+# instance g_g718
+.names n_n237 n_n357  nn793gat
+11  1
+# instance g_g727
+.names nn785gat nn786gat n_n231  nn781gat
+111  1
+# instance g_g736
+.names n_n238 nn2779gat  nn649gat
+11  1
+# instance g_g781
+.names nii2148 n_n264  nn1151gat
+11  1
+# instance g_g790
+.names nn717gat nn1444gat  nn1443gat
+11  1
+# instance g_g808
+.names nn954gat nn2696gat  nn1304gat
+11  1
+# instance g_g817
+.names n_n289 n_n290  nn1302gat
+11  1
+# instance g_g826
+.names nn1444gat nn695gat  nn1162gat
+11  1
+# instance g_g835
+.names n_n300 n_n301  nn1778gat
+11  1
+# instance g_g880
+.names nn1887gat nn3039gat  nn1959gat
+11  1
+# instance g_g907
+.names nn233gat nn155gat  nn137gat
+11  1
+# instance g_g916
+.names n_n350 n_n351  nn251gat
+11  1
+# instance g_g925
+.names n_n357 n_n365  nn975gat
+11  1
+# instance g_g934
+.names n_n363 nn326gat  nn40gat
+11  1
+# instance g_g1087
+.names n_n463 n_n478  nn1796gat
+11  1
+# instance g_g1096
+.names n_n472 n_n473  nn200gat
+11  1
+# instance g_g1139
+.names nn1194gat n_n410  nn1212gat
+11  1
+# instance g_g1184
+.names nn413gat  n_n492
+0  1
+# instance g_g1193
+.names nn2002gat  n_n484
+0  1
+# instance g_g1209
+.names nn195gat  n_n474
+0  1
+# instance g_g1218
+.names nn1859gat  n_n465
+0  1
+# instance g_g1227
+.names nn1584gat  nn1858gat
+0  1
+# instance g_g1236
+.names nn1598gat  n_n449
+0  1
+# instance g_g1281
+.names nn1263gat  n_n406
+0  1
+# instance g_g1290
+.names nn490gat  nii1091
+0  1
+# instance g_g1306
+.names nn1455gat  n_n386
+0  1
+# instance g_g1315
+.names nn375gat  n_n378
+0  1
+# instance g_g1324
+.names nn2877gat  nn252gat
+0  1
+# instance g_g1333
+.names nn247gat  nn144gat
+0  1
+# instance g_g1359
+.names nn1970gat  n_n340
+0  1
+# instance g_g1368
+.names nn1629gat  n_n334
+0  1
+# instance g_g1377
+.names nn1409gat  n_n328
+0  1
+# instance g_g1403
+.names nn1580gat  n_n304
+0  1
+# instance g_g1412
+.names nn1105gat  n_n295
+0  1
+# instance g_g1421
+.names nn1306gat  n_n286
+0  1
+# instance g_g1430
+.names nn1374gat  n_n277
+0  1
+# instance g_g1447
+.names nn120gat  nn1601gat
+0  1
+# instance g_g1456
+.names nn2650gat  n_n254
+0  1
+# instance g_g1465
+.names nn2576gat  n_n248
+0  1
+# instance g_g1474
+.names nn226gat  n_n239
+0  1
+# instance g_g1500
+.names nn1879gat  n_n214
+0  1
+# instance g_g1544
+.names nn1019gat  n_n170
+0  1
+# instance g_g1553
+.names nn2868gat  n_n161
+0  1
+# instance g_g1562
+.names nn2679gat  nii4786
+0  1
+# instance g_g1571
+.names nn2804gat  nii4756
+0  1
+# instance g_g1641
+.names nii4601  nn2705gat
+0  1
+# instance g_g1650
+.names nii4580  nn2698gat
+0  1
+# instance g_g2077
+.names nn2991gat  n_n79
+0  1
+# instance g_g2086
+.names nn1670gat  n_n73
+0  1
+# instance g_g2095
+.names nn1736gat  n_n69
+0  1
+# instance g_g2129
+.names nn1713gat  nn1743gat
+0  1
+# instance g_g2174
+.names nn2059gat  nn2060gat
+0  1
+# instance g_g2183
+.names nn2949gat  nn1106gat
+0  1
+# instance g_g2192
+.names nn2963gat  nn1300gat
+0  1
+# instance g_g2208
+.names nn2966gat  nn1369gat
+0  1
+# instance g_g2217
+.names nn1834gat  nn1832gat
+0  1
+# instance g_g2226
+.names nn2363gat  nn1482gat
+0  1
+# instance g_g2271
+.names nii2349  nn2269gat
+0  1
+# instance g_g2280
+.names nn2390gat  nii2316
+0  1
+# instance g_g2305
+.names nn2594gat  nn2595gat
+0  1
+# instance g_g2314
+.names nn2876gat  nn133gat
+0  1
+# instance g_g2323
+.names nii2130  nn227gat
+0  1
+# instance g_g2349
+.names nn854gat  nn852gat
+0  1
+# instance g_g2358
+.names nn1184gat  nii1927
+0  1
+# instance g_g2367
+.names nn1045gat  nn1043gat
+0  1
+# instance g_g2402
+.names nii1708  nn2542gat
+0  1
+# instance g_g2411
+.names nn1763gat  nii1683
+0  1
+# instance g_g2420
+.names nn2533gat  n_n34
+0  1
+# instance g_g2437
+.names nii1516  nn2665gat
+0  1
+# instance g_g2446
+.names nn584gat  nn582gat
+0  1
+# instance g_g2455
+.names nn696gat  nn691gat
+0  1
+# instance g_g2464
+.names nn594gat  nn592gat
+0  1
+# instance g_g2534
+.names nn746gat  nn743gat
+0  1
+# instance g_g2543
+.names nii1023  nn940gat
+0  1
+# instance g_g2552
+.names nn1146gat  nn1147gat
+0  1
+# instance g_g2561
+.names nn3079gat  nii963
+0  1
+# instance g_g2631
+.names nn2721gat  nn297gat
+0  1
+# instance g_g2640
+.names nn2851gat  nii579
+0  1
+# instance g_g1
+.latch nn2782gat nn398gat re nclk 2
+# instance g_g108
+.latch nii2344 nn2135gat re nclk 2
+# instance g_g119
+.latch nn1712gat nn1678gat re nclk 2
+# instance g_g144
+.latch nii1385 nn463gat re nclk 2
+# instance g_g155
+.latch nn1713gat nn1675gat re nclk 2
+# instance g_g166
+.names n_n0 n_n1  nn1827gat
+11  1
+# instance g_g177
+.names nn508gat nn506gat nn507gat nn505gat  nn504gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g180
+.names nn961gat nn964gat  nn2905gat
+1-  1
+-1  1
+# instance g_g191
+.names nn652gat nn642gat  nn2912gat
+1-  1
+-1  1
+# instance g_g207
+.names nn2648gat nn2647gat  nn2646gat
+1-  1
+-1  1
+# instance g_g218
+.names nn1999gat nn2158gat  nn3000gat
+1-  1
+-1  1
+# instance g_g229
+.names nn1311gat n_n20  nn1593gat
+11  1
+# instance g_g243
+.names n_n24 n_n21  nn1618gat
+11  1
+# instance g_g254
+.names nn915gat nn621gat  nn1377gat
+11  1
+# instance g_g265
+.names nn347gat nn345gat nn346gat nn344gat  nn343gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g276
+.names n_n31 nn2785gat  nn78gat
+11  1
+# instance g_g290
+.names nn2487gat nn2557gat nn2625gat  nn2534gat
+111  1
+# instance g_g306
+.names nn225gat nn223gat nn224gat nn222gat  nn221gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g317
+.names nn2419gat nn2418gat  nn2219gat
+11  1
+# instance g_g328
+.names nii2213 nn2575gat nii2257  nn2357gat
+111  1
+# instance g_g339
+.names n_n47 nn1879gat n_n48  nn1831gat
+111  1
+# instance g_g342
+.names n_n55 n_n52  nn1486gat
+11  1
+# instance g_g353
+.names nn1249gat nn1304gat  nn2964gat
+1-  1
+-1  1
+# instance g_g364
+.names nn887gat nn1104gat  nn2934gat
+1-  1
+-1  1
+# instance g_g375
+.names nn2216gat n_n61 n_n70  nn1578gat
+111  1
+# instance g_g405
+.names n_n74 n_n73 n_n75  nn1669gat
+111  1
+# instance g_g416
+.names n_n88 n_n89  nn2662gat
+11  1
+# instance g_g427
+.names nn2130gat nn2132gat  nn3001gat
+1-  1
+-1  1
+# instance g_g438
+.names n_n111 nn1885gat  nn2539gat
+11  1
+# instance g_g441
+.names nn1967gat nn2055gat  nn2998gat
+1-  1
+-1  1
+# instance g_g452
+.names nn1841gat n_n114  nn2198gat
+11  1
+# instance g_g463
+.names n_n152 n_n151 n_n116  nn84gat
+111  1
+# instance g_g474
+.names nn244gat nn251gat  nn2883gat
+1-  1
+-1  1
+# instance g_g504
+.names nn2186gat nn2158gat  nn2800gat
+1-  1
+-1  1
+# instance g_g515
+.names nn1742gat n_n127 nn2152gat  nn1860gat
+111  1
+# instance g_g526
+.names nn2860gat n_n183  nn522gat
+11  1
+# instance g_g537
+.names nn639gat n_n147 nn633gat  nn630gat
+111  1
+# instance g_g540
+.names nn639gat n_n148 nn524gat  nn632gat
+111  1
+# instance g_g551
+.names nn987gat nn1088gat nn992gat nn1091gat  nn2939gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g562
+.names nn2325gat nn1031gat  nn2761gat
+1-  1
+-1  1
+# instance g_g573
+.names nn1841gat nn1211gat  nn2709gat
+1-  1
+-1  1
+# instance g_g603
+.names nn1019gat nn913gat n_n194  nn908gat
+111  1
+# instance g_g614
+.names nn2732gat n_n183  nn768gat
+11  1
+# instance g_g625
+.names n_n349 n_n184  nn441gat
+11  1
+# instance g_g636
+.names nn2782gat n_n183  nn444gat
+11  1
+# instance g_g650
+.names n_n195 n_n176 n_n194  nn729gat
+111  1
+# instance g_g661
+.names n_n200 n_n199 nn509gat  nn508gat
+111  1
+# instance g_g672
+.names nn809gat n_n203 nn808gat  nn807gat
+111  1
+# instance g_g702
+.names nn1381gat nn1281gat  nn1383gat
+11  1
+# instance g_g713
+.names nn1277gat nn1276gat nn1274gat  nn1272gat
+111  1
+# instance g_g724
+.names n_n237 n_n230  nn965gat
+11  1
+# instance g_g735
+.names nn365gat n_n235  nn132gat
+11  1
+# instance g_g760
+.names n_n252 n_n440  nn2580gat
+11  1
+# instance g_g771
+.names nn2607gat nn2610gat n_n257  nn2605gat
+111  1
+# instance g_g801
+.names n_n277 n_n278  nn1367gat
+11  1
+# instance g_g812
+.names nn812gat nn1444gat  nn1291gat
+11  1
+# instance g_g823
+.names nn2696gat nn1058gat  nn1104gat
+11  1
+# instance g_g834
+.names n_n301 n_n299  nn1703gat
+11  1
+# instance g_g870
+.names nn2265gat n_n332  nn2250gat
+11  1
+# instance g_g900
+.names nn2565gat nn2566gat  nn3015gat
+1-  1
+-1  1
+# instance g_g911
+.names n_n354 nn387gat  nn249gat
+11  1
+# instance g_g922
+.names nn1490gat nn387gat  nn245gat
+11  1
+# instance g_g933
+.names n_n362 n_n361 nn383gat  nn142gat
+111  1
+# instance g_g1088
+.names n_n457 n_n458  nn1792gat
+11  1
+# instance g_g1099
+.names nn2785gat n_n477  nn89gat
+11  1
+# instance g_g1149
+.names nn2945gat  n_n520
+0  1
+# instance g_g1185
+.names nn412gat  n_n491
+0  1
+# instance g_g1196
+.names nn1401gat  nn1396gat
+0  1
+# instance g_g1246
+.names nn2585gat  n_n439
+0  1
+# instance g_g1257
+.names nn14gat  n_n428
+0  1
+# instance g_g1268
+.names nn1002gat  n_n417
+0  1
+# instance g_g1279
+.names nn1006gat  n_n407
+0  1
+# instance g_g1282
+.names nii651  nii314
+0  1
+# instance g_g1293
+.names nn1009gat  n_n399
+0  1
+# instance g_g1307
+.names nn1397gat  n_n385
+0  1
+# instance g_g1318
+.names nn147gat  n_n376
+0  1
+# instance g_g1329
+.names nn372gat  n_n366
+0  1
+# instance g_g1343
+.names nn330gat  n_n354
+0  1
+# instance g_g1354
+.names nn2352gat  nn2564gat
+0  1
+# instance g_g1365
+.names nn1969gat  n_n336
+0  1
+# instance g_g1376
+.names nn1393gat  n_n329
+0  1
+# instance g_g1390
+.names nn1640gat  n_n315
+0  1
+# instance g_g1404
+.names nn1572gat  n_n303
+0  1
+# instance g_g1415
+.names nn1164gat  n_n292
+0  1
+# instance g_g1426
+.names nn1449gat  n_n281
+0  1
+# instance g_g1437
+.names nn1350gat  nn1444gat
+0  1
+# instance g_g1440
+.names nn1157gat  n_n268
+0  1
+# instance g_g1451
+.names nn2551gat  n_n259
+0  1
+# instance g_g1462
+.names nn2416gat  n_n251
+0  1
+# instance g_g1473
+.names nn227gat  n_n240
+0  1
+# instance g_g1501
+.names nn1762gat  n_n213
+0  1
+# instance g_g1512
+.names nn809gat  n_n202
+0  1
+# instance g_g1523
+.names nn714gat  n_n191
+0  1
+# instance g_g1534
+.names nn1233gat  n_n180
+0  1
+# instance g_g1570
+.names nn2739gat  nii4759
+0  1
+# instance g_g1620
+.names nn286gat  nn189gat
+0  1
+# instance g_g1631
+.names nn2806gat  nii4623
+0  1
+# instance g_g2078
+.names nn1729gat  nn1648gat
+0  1
+# instance g_g2089
+.names nn1571gat  nn1561gat
+0  1
+# instance g_g2139
+.names nii2890  nn1550gat
+0  1
+# instance g_g2175
+.names nn2141gat  nn2142gat
+0  1
+# instance g_g2186
+.names nn1528gat  n_n54
+0  1
+# instance g_g2197
+.names nn1479gat  n_n50
+0  1
+# instance g_g2236
+.names nn2218gat  nn2081gat
+0  1
+# instance g_g2247
+.names nn2504gat  n_n40
+0  1
+# instance g_g2258
+.names nii2400  nn2616gat
+0  1
+# instance g_g2269
+.names nii2354  nn2652gat
+0  1
+# instance g_g2272
+.names nn2270gat  nii2349
+0  1
+# instance g_g2283
+.names nn2409gat  nii2281
+0  1
+# instance g_g2294
+.names nii2248  nn2582gat
+0  1
+# instance g_g2308
+.names nn2597gat  n_n37
+0  1
+# instance g_g2319
+.names nn318gat  nn316gat
+0  1
+# instance g_g2333
+.names nn364gat  nn365gat
+0  1
+# instance g_g2344
+.names nn551gat  nn552gat
+0  1
+# instance g_g2355
+.names nii1947  nn1196gat
+0  1
+# instance g_g2366
+.names nn1044gat  nn1210gat
+0  1
+# instance g_g2380
+.names nn1224gat  nn1225gat
+0  1
+# instance g_g2391
+.names nn1192gat  nn1190gat
+0  1
+# instance g_g2405
+.names nn2621gat  nn2557gat
+0  1
+# instance g_g2416
+.names nn2101gat  nn1693gat
+0  1
+# instance g_g2427
+.names nn2488gat  nn2489gat
+0  1
+# instance g_g2430
+.names nn2343gat  nii1550
+0  1
+# instance g_g2441
+.names nn573gat  nn575gat
+0  1
+# instance g_g2452
+.names nn694gat  nn692gat
+0  1
+# instance g_g2463
+.names nn883gat  nii1399
+0  1
+# instance g_g2502
+.names nn405gat  nn510gat
+0  1
+# instance g_g2513
+.names nii1166  nn837gat
+0  1
+# instance g_g2524
+.names nii1118  nn621gat
+0  1
+# instance g_g2560
+.names nii963  nn2841gat
+0  1
+# instance g_g2610
+.names nii776  nn2719gat
+0  1
+# instance g_g2621
+.names nn625gat  nn915gat
+0  1
+# instance g_g2
+.latch nn2790gat nn402gat re nclk 2
+# instance g_g109
+.latch nii2316 nn2262gat re nclk 2
+# instance g_g118
+.latch nn1636gat nn1508gat re nclk 2
+# instance g_g145
+.latch nii1450 nn327gat re nclk 2
+# instance g_g154
+.latch nn1927gat nn1748gat re nclk 2
+# instance g_g167
+.names nn59gat nn57gat nn58gat nn56gat  nn55gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g176
+.names nn937gat nn935gat nn936gat nn934gat  nn933gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g181
+.names nn445gat nn447gat  nn2898gat
+1-  1
+-1  1
+# instance g_g190
+.names nn651gat nn642gat  nn2911gat
+1-  1
+-1  1
+# instance g_g208
+.names nn2615gat nn2614gat  nn2613gat
+1-  1
+-1  1
+# instance g_g217
+.names n_n10 nn1858gat  nn1636gat
+11  1
+# instance g_g239
+.names n_n22 nn1645gat nn1553gat  nn1555gat
+111  1
+# instance g_g244
+.names nn915gat nn916gat  nn1114gat
+11  1
+# instance g_g253
+.names n_n27 n_n21  nn1617gat
+11  1
+# instance g_g266
+.names nn948gat nn946gat nn947gat nn945gat  nn944gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g275
+.names n_n151 n_n152 n_n92  nn86gat
+111  1
+# instance g_g280
+.names n_n93 n_n153 nn189gat  nn181gat
+111  1
+# instance g_g307
+.names nn124gat nn122gat nn123gat nn121gat  nn120gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g316
+.names nn2573gat nn2575gat nn2415gat  nn2293gat
+111  1
+# instance g_g329
+.names n_n58 n_n46  nn1347gat
+11  1
+# instance g_g338
+.names n_n49 n_n55  nn1438gat
+11  1
+# instance g_g343
+.names n_n55 n_n51  nn1426gat
+11  1
+# instance g_g352
+.names n_n49 n_n57  nn1417gat
+11  1
+# instance g_g365
+.names n_n57 n_n58  nn1420gat
+11  1
+# instance g_g374
+.names n_n72 n_n126 nn3046gat  nn1666gat
+111  1
+# instance g_g406
+.names n_n78 n_n74 n_n76  nn1657gat
+111  1
+# instance g_g415
+.names n_n89 n_n87 n_n88  nn2663gat
+111  1
+# instance g_g428
+.names n_n106 nn1452gat  nn2057gat
+11  1
+# instance g_g437
+.names nn3038gat nn1954gat  nn2994gat
+1-  1
+-1  1
+# instance g_g442
+.names n_n111 nn2051gat  nn2387gat
+11  1
+# instance g_g451
+.names nn2052gat nn1964gat nn2053gat  nn2997gat
+1--  1
+-1-  1
+--1  1
+# instance g_g464
+.names n_n117 nn111gat  nn110gat
+11  1
+# instance g_g473
+.names nn453gat nn448gat nn869gat  nn2900gat
+1--  1
+-1-  1
+--1  1
+# instance g_g505
+.names nii2213 nii4023 nii2257  nii4024
+1--  1
+-1-  1
+--1  1
+# instance g_g514
+.names nn3045gat nn2212gat n_n126  nn1863gat
+111  1
+# instance g_g527
+.names nn2716gat n_n183  nn516gat
+11  1
+# instance g_g536
+.names nn416gat nn413gat  nn414gat
+11  1
+# instance g_g541
+.names n_n148 n_n146 nn524gat  nn636gat
+111  1
+# instance g_g550
+.names nn1116gat nn1178gat  nn2956gat
+1-  1
+-1  1
+# instance g_g563
+.names nn2245gat nn1030gat  nn2757gat
+1-  1
+-1  1
+# instance g_g572
+.names nn1890gat nn1210gat  nn2701gat
+1-  1
+-1  1
+# instance g_g604
+.names n_n170 nn913gat nn733gat  nn909gat
+111  1
+# instance g_g613
+.names n_n175 n_n174 nn48gat  nn59gat
+111  1
+# instance g_g626
+.names nn2673gat n_n183  nn967gat
+11  1
+# instance g_g635
+.names n_n359 n_n184  nn790gat
+11  1
+# instance g_g640
+.names n_n186 nn1057gat nn1055gat  nn1053gat
+111  1
+# instance g_g662
+.names nn2855gat nn2863gat nn2860gat  nii1277
+1--  1
+-1-  1
+--1  1
+# instance g_g671
+.names n_n202 nn810gat nn808gat  nn806gat
+111  1
+# instance g_g703
+.names nn1225gat nn1451gat  nn1327gat
+11  1
+# instance g_g712
+.names n_n225 nn1276gat n_n223  nn1271gat
+111  1
+# instance g_g725
+.names n_n238 nn2735gat  nn960gat
+11  1
+# instance g_g734
+.names n_n234 nn560gat  nn874gat
+11  1
+# instance g_g761
+.names n_n439 n_n252  nn2581gat
+11  1
+# instance g_g770
+.names n_n256 n_n255 n_n257  nn2604gat
+111  1
+# instance g_g802
+.names nn1367gat nn1440gat nn1371gat nn1441gat  nn2978gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g811
+.names nn1444gat nn696gat  nn1161gat
+11  1
+# instance g_g824
+.names nn694gat nn1444gat  nn887gat
+11  1
+# instance g_g833
+.names nn1898gat nn2138gat nn1969gat  nii2735
+1--  1
+-1-  1
+--1  1
+# instance g_g860
+.names nn1898gat nn1709gat nn1887gat  nii3148
+1--  1
+-1-  1
+--1  1
+# instance g_g901
+.names nn233gat nn151gat n_n346  nn141gat
+111  1
+# instance g_g910
+.names n_n350 nn1490gat nn330gat  nn250gat
+111  1
+# instance g_g923
+.names nn457gat n_n355  nn460gat
+11  1
+# instance g_g932
+.names n_n368 nn2790gat  nn968gat
+11  1
+# instance g_g1089
+.names n_n459 n_n460  nn1406gat
+11  1
+# instance g_g1098
+.names n_n476 nn2012gat  nn2018gat
+11  1
+# instance g_g1159
+.names nn1254gat  n_n510
+0  1
+# instance g_g1186
+.names nn1587gat  n_n490
+0  1
+# instance g_g1195
+.names nn1519gat  nn1468gat
+0  1
+# instance g_g1247
+.names nn2426gat  n_n438
+0  1
+# instance g_g1256
+.names nn1828gat  n_n429
+0  1
+# instance g_g1269
+.names nn879gat  n_n416
+0  1
+# instance g_g1278
+.names nn1007gat  n_n408
+0  1
+# instance g_g1283
+.names nn1259gat  n_n405
+0  1
+# instance g_g1292
+.names nn1171gat  n_n400
+0  1
+# instance g_g1308
+.names nn1806gat  n_n384
+0  1
+# instance g_g1317
+.names nn140gat  nn241gat
+0  1
+# instance g_g1339
+.names nn2852gat  n_n357
+0  1
+# instance g_g1344
+.names nn333gat  n_n353
+0  1
+# instance g_g1353
+.names nn800gat  n_n344
+0  1
+# instance g_g1366
+.names nn1895gat  nn1629gat
+0  1
+# instance g_g1375
+.names nn2189gat  nn2253gat
+0  1
+# instance g_g1380
+.names nn1648gat  n_n325
+0  1
+# instance g_g1405
+.names nn1503gat  n_n302
+0  1
+# instance g_g1414
+.names nn1106gat  n_n293
+0  1
+# instance g_g1427
+.names nn1450gat  n_n280
+0  1
+# instance g_g1436
+.names nn1378gat  n_n271
+0  1
+# instance g_g1441
+.names nn1160gat  n_n267
+0  1
+# instance g_g1450
+.names nn2552gat  n_n260
+0  1
+# instance g_g1463
+.names nn2415gat  n_n250
+0  1
+# instance g_g1472
+.names nn228gat  n_n241
+0  1
+# instance g_g1502
+.names nn575gat  n_n212
+0  1
+# instance g_g1511
+.names nn810gat  n_n203
+0  1
+# instance g_g1524
+.names nn941gat  n_n190
+0  1
+# instance g_g1533
+.names nn1234gat  n_n181
+0  1
+# instance g_g1560
+.names nn2680gat  nii4792
+0  1
+# instance g_g1621
+.names nn188gat  n_n153
+0  1
+# instance g_g1630
+.names nii4623  nn2802gat
+0  1
+# instance g_g2079
+.names nn1797gat  n_n78
+0  1
+# instance g_g2088
+.names nn2212gat  n_n72
+0  1
+# instance g_g2149
+.names nii2843  nn2402gat
+0  1
+# instance g_g2176
+.names nn2959gat  nn1309gat
+0  1
+# instance g_g2185
+.names nn1591gat  n_n55
+0  1
+# instance g_g2198
+.names nn2964gat  nn1306gat
+0  1
+# instance g_g2237
+.names nn3013gat  nn2422gat
+0  1
+# instance g_g2246
+.names nn2500gat  n_n41
+0  1
+# instance g_g2259
+.names nn2601gat  nii2400
+0  1
+# instance g_g2268
+.names nn2502gat  nn2500gat
+0  1
+# instance g_g2273
+.names nii2344  nn2338gat
+0  1
+# instance g_g2282
+.names nii2281  nn2585gat
+0  1
+# instance g_g2295
+.names nn2568gat  nii2248
+0  1
+# instance g_g2307
+.names nn2520gat  n_n38
+0  1
+# instance g_g2329
+.names nn133gat  nn126gat
+0  1
+# instance g_g2334
+.names nii2056  nn125gat
+0  1
+# instance g_g2343
+.names nn552gat  nii2017
+0  1
+# instance g_g2356
+.names nn1197gat  nii1947
+0  1
+# instance g_g2365
+.names nn931gat  nn929gat
+0  1
+# instance g_g2370
+.names nn1210gat  nn1208gat
+0  1
+# instance g_g2392
+.names nn1119gat  nn1120gat
+0  1
+# instance g_g2404
+.names nn2531gat  nn2530gat
+0  1
+# instance g_g2417
+.names nii1655  nn2101gat
+0  1
+# instance g_g2426
+.names nn2620gat  nn2621gat
+0  1
+# instance g_g2431
+.names nii1538  nn2398gat
+0  1
+# instance g_g2440
+.names nn686gat  nii1496
+0  1
+# instance g_g2453
+.names nii1450  nn683gat
+0  1
+# instance g_g2462
+.names nii1399  nn882gat
+0  1
+# instance g_g2501
+.names nn614gat  nii1227
+0  1
+# instance g_g2514
+.names nn838gat  nii1166
+0  1
+# instance g_g2523
+.names nn916gat  nn733gat
+0  1
+# instance g_g2550
+.names nn1080gat  nn1078gat
+0  1
+# instance g_g2611
+.names nn3074gat  nii776
+0  1
+# instance g_g2620
+.names nn621gat  nn916gat
+0  1
+# instance g_g3
+.latch nn2670gat nn919gat re nclk 2
+# instance g_g128
+.latch nn2015gat nn2044gat re nclk 2
+# instance g_g139
+.latch nii2232 nn2644gat re nclk 2
+# instance g_g146
+.latch nii1464 nn384gat re nclk 2
+# instance g_g157
+.latch nn1567gat nn1340gat re nclk 2
+# instance g_g164
+.names nn752gat nn750gat nn751gat nn749gat  nn748gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g175
+.names nn440gat nn444gat  nn2895gat
+1-  1
+-1  1
+# instance g_g182
+.names nn571gat nn569gat nn570gat nn568gat  nn567gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g193
+.names nn642gat nn763gat  nn2908gat
+1-  1
+-1  1
+# instance g_g209
+.names n_n3 n_n301  nn1625gat
+11  1
+# instance g_g227
+.names n_n19 n_n465  nn1915gat
+11  1
+# instance g_g238
+.names nn490gat nn1553gat nn1645gat nn1559gat  nn1605gat
+1111  1
+# instance g_g245
+.names n_n25 n_n21  nn1621gat
+11  1
+# instance g_g256
+.names nn617gat nii1091  nn1113gat
+11  1
+# instance g_g263
+.names nn171gat nn169gat nn170gat nn168gat  nn167gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g274
+.names n_n183 nn1220gat nn1218gat nii4630  nn564gat
+1111  1
+# instance g_g281
+.names nn2721gat n_n32  nn182gat
+11  1
+# instance g_g292
+.names n_n124 n_n107 n_n35  nn1934gat
+111  1
+# instance g_g308
+.names n_n38 n_n37 n_n39  nn2594gat
+111  1
+# instance g_g319
+.names n_n45 n_n301  nn1704gat
+11  1
+# instance g_g326
+.names nn2573gat nii2257 nii2228  nn2306gat
+111  1
+# instance g_g337
+.names nn2414gat nn2418gat  nn2223gat
+11  1
+# instance g_g344
+.names nn1258gat nn1368gat  nn2966gat
+1-  1
+-1  1
+# instance g_g355
+.names nn1161gat nn1246gat  nn2958gat
+1-  1
+-1  1
+# instance g_g362
+.names nn996gat nn1101gat  nn2949gat
+1-  1
+-1  1
+# instance g_g373
+.names nn1709gat nii2831 nn1898gat  nii2832
+1--  1
+-1-  1
+--1  1
+# instance g_g380
+.names nn2142gat nii2925 nn1898gat  nii2926
+1--  1
+-1-  1
+--1  1
+# instance g_g391
+.names n_n67 n_n68 nn2666gat n_n451  nn1695gat
+1111  1
+# instance g_g407
+.names n_n78 n_n77 n_n74  nn1729gat
+111  1
+# instance g_g418
+.names n_n152 n_n91 n_n92  nn87gat
+111  1
+# instance g_g425
+.names n_n106 nn1384gat  nn2192gat
+11  1
+# instance g_g436
+.names n_n111 nn1842gat  nn2556gat
+11  1
+# instance g_g443
+.names nn1959gat nn1957gat nn1960gat  nn2996gat
+1--  1
+-1-  1
+--1  1
+# instance g_g454
+.names nn2282gat nn2350gat  nn3009gat
+1-  1
+-1  1
+# instance g_g461
+.names nn2349gat n_n113  nn2352gat
+11  1
+# instance g_g472
+.names nn249gat nn248gat nn250gat  nn2885gat
+1--  1
+-1-  1
+--1  1
+# instance g_g490
+.names nn238gat nn237gat nn324gat  nn2881gat
+1--  1
+-1-  1
+--1  1
+# instance g_g506
+.names nii2385 nn2489gat nn2621gat  nn2538gat
+111  1
+# instance g_g517
+.names n_n129 n_n128 nn1858gat  nn1519gat
+111  1
+# instance g_g524
+.names nn2724gat n_n183  nn418gat
+11  1
+# instance g_g535
+.names nn633gat nn524gat n_n146  nn635gat
+111  1
+# instance g_g542
+.names nn902gat nn1003gat  nn2941gat
+1-  1
+-1  1
+# instance g_g553
+.names nn885gat nn1090gat nn986gat nn1098gat  nn2932gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g560
+.names nn2237gat nn1029gat  nn2764gat
+1-  1
+-1  1
+# instance g_g571
+.names nn1452gat nn1209gat  nn2702gat
+1-  1
+-1  1
+# instance g_g605
+.names nn1019gat n_n176 nn733gat  nn910gat
+111  1
+# instance g_g616
+.names n_n229 n_n184  nn963gat
+11  1
+# instance g_g623
+.names nn950gat n_n179 nn949gat  nn948gat
+111  1
+# instance g_g634
+.names n_n183 nn2790gat  nn966gat
+11  1
+# instance g_g641
+.names nn1056gat n_n187 nn1055gat  nn1054gat
+111  1
+# instance g_g652
+.names n_n195 nn913gat nn733gat  nn731gat
+111  1
+# instance g_g670
+.names nn809gat nn810gat n_n201  nn805gat
+111  1
+# instance g_g704
+.names nn2779gat n_n226  nn651gat
+11  1
+# instance g_g715
+.names n_n226 nn2673gat  nn763gat
+11  1
+# instance g_g722
+.names nn2776gat n_n238  nn794gat
+11  1
+# instance g_g733
+.names n_n238 nn2670gat  nn557gat
+11  1
+# instance g_g740
+.names n_n237 n_n364  nn774gat
+11  1
+# instance g_g751
+.names n_n411 nn666gat  nn2423gat
+11  1
+# instance g_g803
+.names n_n279 n_n280  nn1504gat
+11  1
+# instance g_g814
+.names n_n283 n_n284  nn1352gat
+11  1
+# instance g_g821
+.names nn1238gat nn2696gat  nn1101gat
+11  1
+# instance g_g832
+.names nn1893gat nn1887gat nn1969gat  nii2720
+1--  1
+-1-  1
+--1  1
+# instance g_g850
+.names n_n324 n_n313 n_n314  nn1646gat
+111  1
+# instance g_g902
+.names n_n345 n_n369  nn38gat
+11  1
+# instance g_g913
+.names nn2793gat n_n368  nn869gat
+11  1
+# instance g_g920
+.names n_n368 nn2670gat  nn870gat
+11  1
+# instance g_g931
+.names n_n360 n_n366  nn970gat
+11  1
+# instance g_g1169
+.names nn407gat  n_n503
+0  1
+# instance g_g1187
+.names nn2989gat  nn1584gat
+0  1
+# instance g_g1198
+.names nn1427gat  n_n481
+0  1
+# instance g_g1248
+.names nn2432gat  n_n437
+0  1
+# instance g_g1259
+.names nn71gat  n_n426
+0  1
+# instance g_g1266
+.names nn898gat  n_n419
+0  1
+# instance g_g1277
+.names nn741gat  n_n409
+0  1
+# instance g_g1284
+.names nii646  nii354
+0  1
+# instance g_g1295
+.names nn1477gat  n_n397
+0  1
+# instance g_g1309
+.names nn1674gat  n_n383
+0  1
+# instance g_g1327
+.names nn219gat  n_n368
+0  1
+# instance g_g1338
+.names nn458gat  n_n358
+0  1
+# instance g_g1345
+.names nn2844gat  n_n352
+0  1
+# instance g_g1356
+.names nn2564gat  n_n342
+0  1
+# instance g_g1363
+.names nn1968gat  n_n337
+0  1
+# instance g_g1374
+.names nn2131gat  n_n330
+0  1
+# instance g_g1381
+.names nn1659gat  n_n324
+0  1
+# instance g_g1392
+.names nn1566gat  n_n313
+0  1
+# instance g_g1406
+.names nn3025gat  n_n301
+0  1
+# instance g_g1417
+.names nn1300gat  n_n290
+0  1
+# instance g_g1424
+.names nn1418gat  n_n283
+0  1
+# instance g_g1435
+.names nn1437gat  n_n272
+0  1
+# instance g_g1442
+.names nn876gat  n_n266
+0  1
+# instance g_g1453
+.names nn2611gat  n_n257
+0  1
+# instance g_g1460
+.names nn2494gat  n_n253
+0  1
+# instance g_g1471
+.names nn125gat  n_n242
+0  1
+# instance g_g1503
+.names nn574gat  n_n211
+0  1
+# instance g_g1514
+.names nn512gat  n_n200
+0  1
+# instance g_g1521
+.names nn716gat  n_n193
+0  1
+# instance g_g1532
+.names nn1235gat  n_n182
+0  1
+# instance g_g1550
+.names nn753gat  n_n164
+0  1
+# instance g_g1600
+.names nn2796gat  nii4669
+0  1
+# instance g_g1611
+.names nn287gat  nn179gat
+0  1
+# instance g_g2098
+.names nn1570gat  nn1569gat
+0  1
+# instance g_g2159
+.names nn1389gat  nn1387gat
+0  1
+# instance g_g2177
+.names nn1420gat  nn1424gat
+0  1
+# instance g_g2188
+.names nn1530gat  n_n53
+0  1
+# instance g_g2195
+.names nn2958gat  nn1247gat
+0  1
+# instance g_g2238
+.names nn1706gat  n_n45
+0  1
+# instance g_g2249
+.names nii2439  nn2619gat
+0  1
+# instance g_g2256
+.names nii2403  nn2550gat
+0  1
+# instance g_g2267
+.names nn2622gat  nn2620gat
+0  1
+# instance g_g2274
+.names nn2339gat  nii2344
+0  1
+# instance g_g2285
+.names nn2202gat  nn2418gat
+0  1
+# instance g_g2292
+.names nii2251  nn2206gat
+0  1
+# instance g_g2317
+.names nn322gat  nn320gat
+0  1
+# instance g_g2328
+.names nn320gat  nn321gat
+0  1
+# instance g_g2335
+.names nii2181  nii2056
+0  1
+# instance g_g2346
+.names nn658gat  nii1999
+0  1
+# instance g_g2353
+.names nn2516gat  nii1961
+0  1
+# instance g_g2364
+.names nn930gat  nn1211gat
+0  1
+# instance g_g2371
+.names nn1043gat  nn1044gat
+0  1
+# instance g_g2382
+.names nii1927  nii1807
+0  1
+# instance g_g2407
+.names nn2626gat  nii1703
+0  1
+# instance g_g2414
+.names nn2470gat  n_n35
+0  1
+# instance g_g2425
+.names nn2489gat  nn2487gat
+0  1
+# instance g_g2432
+.names nn2399gat  nii1538
+0  1
+# instance g_g2443
+.names nii1488  nn574gat
+0  1
+# instance g_g2450
+.names nii1464  nn698gat
+0  1
+# instance g_g2461
+.names nn595gat  nn593gat
+0  1
+# instance g_g2504
+.names nn736gat  nn734gat
+0  1
+# instance g_g2511
+.names nn706gat  nn717gat
+0  1
+# instance g_g2522
+.names nn919gat  nii1124
+0  1
+# instance g_g2540
+.names nn1050gat  nii1031
+0  1
+# instance g_g2601
+.names nn952gat  nn950gat
+0  1
+# instance g_g4
+.latch nn2793gat nn846gat re nclk 2
+# instance g_g129
+.latch nn2042gat nn2037gat re nclk 2
+# instance g_g138
+.latch nii2414 nn1975gat re nclk 2
+# instance g_g147
+.latch nii1166 nn256gat re nclk 2
+# instance g_g156
+.latch nn1717gat nn1807gat re nclk 2
+# instance g_g165
+.names n_n28 n_n27  nn1620gat
+11  1
+# instance g_g174
+.names nn790gat nn966gat  nn2921gat
+1-  1
+-1  1
+# instance g_g183
+.names nii314 n_n301  nn1606gat
+11  1
+# instance g_g192
+.names nn642gat nn765gat  nn2909gat
+1-  1
+-1  1
+# instance g_g219
+.names n_n11 nn1311gat n_n96 n_n82  nn2163gat
+1111  1
+# instance g_g228
+.names n_n19 n_n463  nn1800gat
+11  1
+# instance g_g237
+.names n_n22 n_n23 nn1645gat  nn1639gat
+111  1
+# instance g_g246
+.names nn617gat nn490gat  nn1318gat
+11  1
+# instance g_g255
+.names n_n29 n_n21  nn1624gat
+11  1
+# instance g_g264
+.names nn910gat nn908gat nn909gat nn907gat  nn906gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g273
+.names nn497gat nn495gat nn496gat nn494gat  nn493gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g282
+.names nn807gat nn805gat nn806gat nn804gat  nn803gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g291
+.names nn2550gat nn2554gat n_n34  nn2430gat
+111  1
+# instance g_g309
+.names nn2572gat nn2570gat nn2571gat nn2569gat  nn2568gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g318
+.names n_n44 n_n54  nn1529gat
+11  1
+# instance g_g327
+.names n_n51 n_n46  nn1481gat
+11  1
+# instance g_g336
+.names n_n46 n_n50  nn1349gat
+11  1
+# instance g_g345
+.names n_n55 n_n50  nn1365gat
+11  1
+# instance g_g354
+.names n_n50 n_n57  nn1419gat
+11  1
+# instance g_g363
+.names n_n56 n_n57  nn1421gat
+11  1
+# instance g_g372
+.names nn1544gat nn1707gat n_n60  nn1780gat
+111  1
+# instance g_g381
+.names nn1858gat n_n62  nn1798gat
+11  1
+# instance g_g390
+.names n_n331 nn3033gat nn2253gat  nn2129gat
+111  1
+# instance g_g408
+.names n_n80 n_n79 n_n81  nn1726gat
+111  1
+# instance g_g417
+.names n_n90 nii3951  nn2238gat
+11  1
+# instance g_g426
+.names nn2253gat nn3033gat  nn2185gat
+11  1
+# instance g_g435
+.names n_n106 n_n105  nn2195gat
+11  1
+# instance g_g444
+.names nn1889gat n_n111  nn2330gat
+11  1
+# instance g_g453
+.names n_n77 nn2212gat nn2152gat  nn2215gat
+111  1
+# instance g_g462
+.names n_n114 n_n115  nn2637gat
+11  1
+# instance g_g471
+.names n_n301 n_n119  nn1700gat
+11  1
+# instance g_g480
+.names nn143gat nn145gat  nn2879gat
+1-  1
+-1  1
+# instance g_g507
+.names nn2552gat nn2550gat n_n120  nn2483gat
+111  1
+# instance g_g516
+.names nn1427gat n_n478  nn1469gat
+11  1
+# instance g_g525
+.names nn2727gat n_n183  nn411gat
+11  1
+# instance g_g534
+.names nn527gat nn412gat  nn523gat
+11  1
+# instance g_g543
+.names nn980gat nn998gat nn995gat nn1099gat  nn2946gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g552
+.names nn896gat nn899gat  nn2938gat
+1-  1
+-1  1
+# instance g_g561
+.names nn1782gat nn1028gat  nn2762gat
+1-  1
+-1  1
+# instance g_g570
+.names nn1453gat nn1451gat  nn2693gat
+1-  1
+-1  1
+# instance g_g606
+.names n_n197 n_n172 n_n171  nn344gat
+111  1
+# instance g_g615
+.names n_n228 n_n184  nn655gat
+11  1
+# instance g_g624
+.names n_n183 nn2793gat  nn647gat
+11  1
+# instance g_g633
+.names n_n236 n_n184  nn439gat
+11  1
+# instance g_g642
+.names nn941gat n_n189 n_n188  nn934gat
+111  1
+# instance g_g651
+.names nn734gat nn913gat n_n194  nn730gat
+111  1
+# instance g_g660
+.names nn512gat nn511gat nn509gat  nn507gat
+111  1
+# instance g_g705
+.names n_n226 nn2790gat  nn652gat
+11  1
+# instance g_g714
+.names n_n225 n_n224 nn1274gat  nn1273gat
+111  1
+# instance g_g723
+.names n_n229 n_n237  nn773gat
+11  1
+# instance g_g732
+.names n_n352 n_n237  nn654gat
+11  1
+# instance g_g741
+.names nn2782gat n_n238  nn764gat
+11  1
+# instance g_g750
+.names nn1601gat n_n245  nn2460gat
+11  1
+# instance g_g804
+.names n_n281 n_n282  nn1502gat
+11  1
+# instance g_g813
+.names nn953gat nn2696gat  nn1245gat
+11  1
+# instance g_g822
+.names nn596gat nn1444gat  nn996gat
+11  1
+# instance g_g831
+.names nn1357gat nn1359gat nn1358gat nn1360gat  nn2977gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g840
+.names nn2060gat nn2138gat nn1709gat  nii2925
+1--  1
+-1-  1
+--1  1
+# instance g_g903
+.names nn155gat n_n369  nn37gat
+11  1
+# instance g_g912
+.names n_n351 n_n354  nn248gat
+11  1
+# instance g_g921
+.names nn326gat nn1490gat n_n354  nn246gat
+111  1
+# instance g_g930
+.names n_n359 n_n365  nn971gat
+11  1
+# instance g_g1179
+.names nn358gat  n_n494
+0  1
+# instance g_g1188
+.names nn1510gat  n_n489
+0  1
+# instance g_g1197
+.names nn1685gat  n_n482
+0  1
+# instance g_g1249
+.names nn2154gat  n_n436
+0  1
+# instance g_g1258
+.names nn76gat  n_n427
+0  1
+# instance g_g1267
+.names nn888gat  n_n418
+0  1
+# instance g_g1276
+.names nii683  nii398
+0  1
+# instance g_g1285
+.names nn1172gat  n_n404
+0  1
+# instance g_g1294
+.names nn1507gat  n_n398
+0  1
+# instance g_g1319
+.names nn255gat  n_n375
+0  1
+# instance g_g1328
+.names nn134gat  n_n367
+0  1
+# instance g_g1337
+.names nn2840gat  n_n359
+0  1
+# instance g_g1346
+.names nn1490gat  n_n351
+0  1
+# instance g_g1355
+.names nn2643gat  n_n343
+0  1
+# instance g_g1364
+.names nn1958gat  nn1968gat
+0  1
+# instance g_g1373
+.names nn2185gat  nn2131gat
+0  1
+# instance g_g1382
+.names nn1651gat  n_n323
+0  1
+# instance g_g1391
+.names nn1569gat  n_n314
+0  1
+# instance g_g1407
+.names nn1779gat  n_n300
+0  1
+# instance g_g1416
+.names nn1356gat  n_n291
+0  1
+# instance g_g1425
+.names nn1607gat  n_n282
+0  1
+# instance g_g1434
+.names nn1439gat  n_n273
+0  1
+# instance g_g1443
+.names nn1478gat  n_n265
+0  1
+# instance g_g1452
+.names nn2550gat  n_n258
+0  1
+# instance g_g1461
+.names nn2583gat  n_n252
+0  1
+# instance g_g1470
+.names nn127gat  n_n243
+0  1
+# instance g_g1504
+.names nn572gat  n_n210
+0  1
+# instance g_g1513
+.names nn808gat  n_n201
+0  1
+# instance g_g1522
+.names nn715gat  n_n192
+0  1
+# instance g_g1531
+.names nn374gat  n_n183
+0  1
+# instance g_g1540
+.names nn50gat  n_n174
+0  1
+# instance g_g1601
+.names nn2795gat  nii4666
+0  1
+# instance g_g1610
+.names nn189gat  n_n156
+0  1
+# instance g_g2099
+.names nn1667gat  nn1670gat
+0  1
+# instance g_g2169
+.names nn2061gat  nn2059gat
+0  1
+# instance g_g2178
+.names nn1410gat  n_n58
+0  1
+# instance g_g2187
+.names nn1354gat  nn1356gat
+0  1
+# instance g_g2196
+.names nn1419gat  nn1353gat
+0  1
+# instance g_g2239
+.names nn1529gat  nn1592gat
+0  1
+# instance g_g2248
+.names nn2506gat  nn2504gat
+0  1
+# instance g_g2257
+.names nn2629gat  nii2403
+0  1
+# instance g_g2266
+.names nn2557gat  nn2606gat
+0  1
+# instance g_g2275
+.names nii2324  nn2649gat
+0  1
+# instance g_g2284
+.names nn2206gat  nn2419gat
+0  1
+# instance g_g2293
+.names nn2207gat  nii2251
+0  1
+# instance g_g2309
+.names nn2599gat  nn2597gat
+0  1
+# instance g_g2318
+.names nn314gat  nn312gat
+0  1
+# instance g_g2327
+.names nn321gat  nii2112
+0  1
+# instance g_g2336
+.names nn659gat  nn657gat
+0  1
+# instance g_g2345
+.names nii1999  nn784gat
+0  1
+# instance g_g2354
+.names nn2518gat  nn2516gat
+0  1
+# instance g_g2363
+.names nii1923  nii1915
+0  1
+# instance g_g2372
+.names nn1209gat  nn1207gat
+0  1
+# instance g_g2381
+.names nii1807  nn1274gat
+0  1
+# instance g_g2390
+.names nn1070gat  nn1071gat
+0  1
+# instance g_g2406
+.names nii1703  nn2625gat
+0  1
+# instance g_g2415
+.names nn1878gat  nn1879gat
+0  1
+# instance g_g2424
+.names nn2534gat  nn2533gat
+0  1
+# instance g_g2433
+.names nn15gat  nn21gat
+0  1
+# instance g_g2442
+.names nn586gat  nn565gat
+0  1
+# instance g_g2451
+.names nn699gat  nii1464
+0  1
+# instance g_g2460
+.names nn819gat  nn594gat
+0  1
+# instance g_g2503
+.names nn829gat  nn736gat
+0  1
+# instance g_g2512
+.names nn718gat  nn716gat
+0  1
+# instance g_g2521
+.names nii1124  nn625gat
+0  1
+# instance g_g2530
+.names nii1082  nn617gat
+0  1
+# instance g_g2600
+.names nn3075gat  nii818
+0  1
+# instance g_g50
+.latch nn3037gat nn2630gat re nclk 2
+# instance g_g61
+.latch nn2911gat nn931gat re nclk 2
+# instance g_g72
+.latch nn2888gat nn322gat re nclk 2
+# instance g_g83
+.latch nn2646gat nn2502gat re nclk 2
+# instance g_g94
+.latch nii1538 nn2403gat re nclk 2
+# instance g_g1408
+.names nn1705gat  n_n299
+0  1
+# instance g_g1419
+.names nn1247gat  n_n288
+0  1
+# instance g_g1505
+.names nn693gat  n_n209
+0  1
+# instance g_g1516
+.names nn509gat  n_n198
+0  1
+# instance g_g1527
+.names nn1057gat  n_n187
+0  1
+# instance g_g1538
+.names nn913gat  n_n176
+0  1
+# instance g_g1549
+.names nn755gat  n_n165
+0  1
+# instance g_g1602
+.names nn2802gat  nii4663
+0  1
+# instance g_g1613
+.names nn82gat  nn76gat
+0  1
+# instance g_g1624
+.names nn294gat  n_n151
+0  1
+# instance g_g1635
+.names nii4615  nn2795gat
+0  1
+# instance g_g1646
+.names nn2058gat  nn1841gat
+0  1
+# instance g_g1657
+.names nii4566  nn2690gat
+0  1
+# instance g_g1668
+.names nn2742gat  nii4548
+0  1
+# instance g_g1679
+.names nn2757gat  nii4524
+0  1
+# instance g_g1710
+.names nn633gat  n_n148
+0  1
+# instance g_g1721
+.names nn2936gat  nii4429
+0  1
+# instance g_g1732
+.names nn2947gat  nn1179gat
+0  1
+# instance g_g1743
+.names nii4332  nn2810gat
+0  1
+# instance g_g1754
+.names nn632gat  nn1123gat
+0  1
+# instance g_g1765
+.names nn528gat  n_n143
+0  1
+# instance g_g1776
+.names nn519gat  n_n135
+0  1
+# instance g_g1787
+.names nn1760gat  nii4227
+0  1
+# instance g_g1798
+.names nn2984gat  nn1477gat
+0  1
+# instance g_g1840
+.names nn1675gat  nii4067
+0  1
+# instance g_g1851
+.names nn2613gat  nn2186gat
+0  1
+# instance g_g1862
+.names nn1756gat  nn1683gat
+0  1
+# instance g_g1873
+.names nii3948  nn2692gat
+0  1
+# instance g_g1884
+.names nn564gat  nn16gat
+0  1
+# instance g_g1895
+.names nii3882  nn255gat
+0  1
+# instance g_g1970
+.names nn2498gat  nii3520
+0  1
+# instance g_g1981
+.names nn1887gat  nn3043gat
+0  1
+# instance g_g1992
+.names nn3039gat  nn3038gat
+0  1
+# instance g_g2409
+.names nn2153gat  nn2154gat
+0  1
+# instance g_g2506
+.names nn830gat  nii1201
+0  1
+# instance g_g2517
+.names nn707gat  nii1152
+0  1
+# instance g_g2528
+.names nn398gat  nii1088
+0  1
+# instance g_g2539
+.names nn944gat  nii1035
+0  1
+# instance g_g2603
+.names nn2777gat  nn2775gat
+0  1
+# instance g_g2614
+.names nn2832gat  nii771
+0  1
+# instance g_g2625
+.names nn281gat  nii651
+0  1
+# instance g_g2636
+.names nn529gat  nn637gat
+0  1
+# instance g_g2647
+.names nn2319gat  nn2317gat
+0  1
+# instance g_g2658
+.names nn1113gat  nn1500gat
+0  1
+# instance g_g2669
+.names nii476  nii468
+0  1
+# instance g_g2700
+.names nn2725gat  nii256
+0  1
+# instance g_g2711
+.names nii227  nn2855gat
+0  1
+# instance g_g2722
+.names nn2860gat  nn1219gat
+0  1
+# instance g_g2733
+.names nn1621gat  nn1628gat
+0  1
+# instance g_g2744
+.names nn1605gat  nn1566gat
+0  1
+# instance g_g2755
+.names nn3070gat  nii62
+0  1
+# instance g_g2766
+.names nn3072gat  nii18
+0  1
+# instance g_g2777
+.names nn1310gat  nn1311gat
+0  1
+# instance g_g2788
+.names nn2121gat  nn2119gat
+0  1
+# instance g_g2799
+.names nn204gat  nn827gat
+0  1
+# instance g_g2830
+.names nii3520  nn3047gat
+0  1
+# instance g_g2841
+.names nii3891  nn3063gat
+0  1
+# instance g_g2852
+.names nn2775gat  nn2776gat
+0  1
+# instance g_g2863
+.names nii4783  nn3147gat
+0  1
+# instance g_g2874
+.names nii4747  nn3135gat
+0  1
+# instance g_g2885
+.names nii4714  nn3124gat
+0  1
+# instance g_g2896
+.names nii4681  nn3113gat
+0  1
+# instance g_g51
+.latch nn3041gat nn2543gat re nclk 2
+# instance g_g60
+.latch nn2907gat nn1226gat re nclk 2
+# instance g_g73
+.latch nn2887gat nn318gat re nclk 2
+# instance g_g82
+.latch nn3035gat nn2339gat re nclk 2
+# instance g_g95
+.latch nii1550 nn2394gat re nclk 2
+# instance g_g1409
+.names nn1424gat  n_n298
+0  1
+# instance g_g1418
+.names nn1487gat  n_n289
+0  1
+# instance g_g1506
+.names nn692gat  n_n208
+0  1
+# instance g_g1515
+.names nn511gat  n_n199
+0  1
+# instance g_g1528
+.names nn1056gat  n_n186
+0  1
+# instance g_g1537
+.names nn949gat  n_n177
+0  1
+# instance g_g1559
+.names nn2700gat  nii4795
+0  1
+# instance g_g1603
+.names nn2801gat  nii4660
+0  1
+# instance g_g1612
+.names nn288gat  nn188gat
+0  1
+# instance g_g1625
+.names nii4633  nn2801gat
+0  1
+# instance g_g1634
+.names nn1757gat  n_n150
+0  1
+# instance g_g1647
+.names nii4587  nn2697gat
+0  1
+# instance g_g1656
+.names nn1281gat  nn1451gat
+0  1
+# instance g_g1669
+.names nii4542  nn2745gat
+0  1
+# instance g_g1678
+.names nii4524  nn2754gat
+0  1
+# instance g_g1700
+.names nn2682gat  nii4485
+0  1
+# instance g_g1722
+.names nn2932gat  nn894gat
+0  1
+# instance g_g1731
+.names nn2956gat  nii4389
+0  1
+# instance g_g1744
+.names nn2813gat  nii4332
+0  1
+# instance g_g1753
+.names nn635gat  nn1007gat
+0  1
+# instance g_g1766
+.names nn525gat  nn290gat
+0  1
+# instance g_g1775
+.names nn520gat  n_n136
+0  1
+# instance g_g1788
+.names nn1681gat  n_n132
+0  1
+# instance g_g1797
+.names nn1596gat  nn1594gat
+0  1
+# instance g_g1841
+.names nii4055  nn1747gat
+0  1
+# instance g_g1850
+.names nn2800gat  nii4020
+0  1
+# instance g_g1863
+.names nn1771gat  nn1769gat
+0  1
+# instance g_g1872
+.names nii3957  nii3951
+0  1
+# instance g_g1885
+.names nii3923  nn2707gat
+0  1
+# instance g_g1894
+.names nn2882gat  nn802gat
+0  1
+# instance g_g1960
+.names nii3587  nn2124gat
+0  1
+# instance g_g1982
+.names nn2387gat  nii3491
+0  1
+# instance g_g1991
+.names nn3038gat  nn1954gat
+0  1
+# instance g_g2408
+.names nn2490gat  nn2488gat
+0  1
+# instance g_g2505
+.names nii1201  nn829gat
+0  1
+# instance g_g2518
+.names nn719gat  nn714gat
+0  1
+# instance g_g2527
+.names nii1088  nn490gat
+0  1
+# instance g_g2549
+.names nn1079gat  nn1058gat
+0  1
+# instance g_g2602
+.names nn955gat  nn956gat
+0  1
+# instance g_g2615
+.names nii768  nn2832gat
+0  1
+# instance g_g2624
+.names nn915gat  nn913gat
+0  1
+# instance g_g2637
+.names nn2785gat  nn92gat
+0  1
+# instance g_g2646
+.names nn1821gat  nn1823gat
+0  1
+# instance g_g2659
+.names nn1624gat  nn1615gat
+0  1
+# instance g_g2668
+.names nii468  nn50gat
+0  1
+# instance g_g2712
+.names nn2856gat  nii227
+0  1
+# instance g_g2721
+.names nn3084gat  nii206
+0  1
+# instance g_g2734
+.names nn1114gat  nn1380gat
+0  1
+# instance g_g2743
+.names nn1559gat  n_n22
+0  1
+# instance g_g2756
+.names nii47  nn2783gat
+0  1
+# instance g_g2765
+.names nii18  nn2671gat
+0  1
+# instance g_g2778
+.names nn1919gat  n_n19
+0  1
+# instance g_g2787
+.names nn2458gat  nn2456gat
+0  1
+# instance g_g2831
+.names nii3558  nn3051gat
+0  1
+# instance g_g2840
+.names nii3876  nn3062gat
+0  1
+# instance g_g2853
+.names nn2731gat  nn2732gat
+0  1
+# instance g_g2862
+.names nii4786  nn3148gat
+0  1
+# instance g_g2875
+.names nii4744  nn3134gat
+0  1
+# instance g_g2884
+.names nii4717  nn3125gat
+0  1
+# instance g_g2897
+.names nii4678  nn3112gat
+0  1
+# instance g_g52
+.latch nn1606gat nn2102gat re nclk 2
+# instance g_g63
+.latch nn2909gat nn1045gat re nclk 2
+# instance g_g70
+.latch nn2901gat nn561gat re nclk 2
+# instance g_g81
+.latch nn3031gat nn2270gat re nclk 2
+# instance g_g96
+.latch nii1719 nn2440gat re nclk 2
+# instance g_g1428
+.names nn1498gat  n_n279
+0  1
+# instance g_g1439
+.names nn1307gat  n_n269
+0  1
+# instance g_g1507
+.names nn691gat  n_n207
+0  1
+# instance g_g1518
+.names nn498gat  n_n196
+0  1
+# instance g_g1525
+.names nn940gat  n_n189
+0  1
+# instance g_g1536
+.names nn950gat  n_n178
+0  1
+# instance g_g1569
+.names nn2747gat  nii4762
+0  1
+# instance g_g1604
+.names nn2809gat  nii4657
+0  1
+# instance g_g1615
+.names nn637gat  n_n154
+0  1
+# instance g_g1622
+.names nn85gat  nn67gat
+0  1
+# instance g_g1633
+.names nn1745gat  nii4620
+0  1
+# instance g_g1648
+.names nn2701gat  nii4587
+0  1
+# instance g_g1659
+.names nn2184gat  nn1384gat
+0  1
+# instance g_g1666
+.names nn748gat  nn2385gat
+0  1
+# instance g_g1677
+.names nn567gat  nn2244gat
+0  1
+# instance g_g1701
+.names nii4482  nn2682gat
+0  1
+# instance g_g1712
+.names nn673gat  nn671gat
+0  1
+# instance g_g1730
+.names nii4389  nn2824gat
+0  1
+# instance g_g1745
+.names nii4329  nn2813gat
+0  1
+# instance g_g1756
+.names nn414gat  nn524gat
+0  1
+# instance g_g1763
+.names nn527gat  n_n145
+0  1
+# instance g_g1774
+.names nn518gat  nn517gat
+0  1
+# instance g_g1789
+.names nn1602gat  n_n131
+0  1
+# instance g_g1842
+.names nn1748gat  nii4055
+0  1
+# instance g_g1853
+.names nii4014  nn2740gat
+0  1
+# instance g_g1860
+.names nii4000  nn2013gat
+0  1
+# instance g_g1871
+.names nii3951  nn2683gat
+0  1
+# instance g_g1886
+.names nn2710gat  nii3923
+0  1
+# instance g_g1897
+.names nn2926gat  nii3876
+0  1
+# instance g_g1950
+.names nn2999gat  n_n112
+0  1
+# instance g_g1983
+.names nn2998gat  nn2056gat
+0  1
+# instance g_g1994
+.names nn2556gat  nii3457
+0  1
+# instance g_g2418
+.names nn2102gat  nii1655
+0  1
+# instance g_g2429
+.names nii1550  nn2342gat
+0  1
+# instance g_g2508
+.names nii1255  nii1190
+0  1
+# instance g_g2515
+.names nn717gat  nn715gat
+0  1
+# instance g_g2526
+.names nii1091  nn500gat
+0  1
+# instance g_g2559
+.names nn2841gat  nn2840gat
+0  1
+# instance g_g2605
+.names nii796  nn2839gat
+0  1
+# instance g_g2612
+.names nn2733gat  nn2731gat
+0  1
+# instance g_g2623
+.names nn842gat  nn1024gat
+0  1
+# instance g_g2638
+.names nn2784gat  nn2785gat
+0  1
+# instance g_g2649
+.names nn2730gat  nii512
+0  1
+# instance g_g2656
+.names nn1448gat  n_n27
+0  1
+# instance g_g2667
+.names nn906gat  nn162gat
+0  1
+# instance g_g2702
+.names nii248  nn2868gat
+0  1
+# instance g_g2720
+.names nii206  nn2864gat
+0  1
+# instance g_g2735
+.names nn1618gat  nn1627gat
+0  1
+# instance g_g2746
+.names nn1557gat  nn1560gat
+0  1
+# instance g_g2753
+.names nn2671gat  nii81
+0  1
+# instance g_g2764
+.names nn3081gat  nii23
+0  1
+# instance g_g2779
+.names nii4145  nn1632gat
+0  1
+# instance g_g2797
+.names nn2176gat  nn2174gat
+0  1
+# instance g_g2832
+.names nii3539  nn3049gat
+0  1
+# instance g_g2843
+.names nii3914  nn3064gat
+0  1
+# instance g_g2850
+.names nn2672gat  nn2673gat
+0  1
+# instance g_g2861
+.names nii4789  nn3149gat
+0  1
+# instance g_g2876
+.names nii4741  nn3133gat
+0  1
+# instance g_g2887
+.names nii4708  nn3122gat
+0  1
+# instance g_g2894
+.names nii4687  nn3115gat
+0  1
+# instance g_g0
+.latch nn2897gat nn673gat re nclk 2
+# instance g_g53
+.latch nn3052gat nn1880gat re nclk 2
+# instance g_g62
+.latch nn2912gat nn1135gat re nclk 2
+# instance g_g71
+.latch nn2890gat nn366gat re nclk 2
+# instance g_g80
+.latch nn3034gat nn2390gat re nclk 2
+# instance g_g97
+.latch nii2251 nn2407gat re nclk 2
+# instance g_g1429
+.names nn1366gat  n_n278
+0  1
+# instance g_g1438
+.names nn1348gat  n_n270
+0  1
+# instance g_g1508
+.names nn593gat  n_n206
+0  1
+# instance g_g1517
+.names nn499gat  n_n197
+0  1
+# instance g_g1526
+.names nn938gat  n_n188
+0  1
+# instance g_g1535
+.names nn951gat  n_n179
+0  1
+# instance g_g1579
+.names nn2825gat  nii4732
+0  1
+# instance g_g1605
+.names nn2819gat  nii4654
+0  1
+# instance g_g1614
+.names nn295gat  n_n155
+0  1
+# instance g_g1623
+.names nn16gat  n_n152
+0  1
+# instance g_g1632
+.names nii4620  nn2806gat
+0  1
+# instance g_g1649
+.names nn2328gat  nn1890gat
+0  1
+# instance g_g1658
+.names nn2694gat  nii4566
+0  1
+# instance g_g1667
+.names nii4548  nn2738gat
+0  1
+# instance g_g1676
+.names nn2756gat  nii4530
+0  1
+# instance g_g1702
+.names nn2127gat  nii4482
+0  1
+# instance g_g1711
+.names nn524gat  n_n147
+0  1
+# instance g_g1720
+.names nii4429  nn2829gat
+0  1
+# instance g_g1746
+.names nn2950gat  nii4329
+0  1
+# instance g_g1755
+.names nn636gat  nn670gat
+0  1
+# instance g_g1764
+.names nn416gat  n_n144
+0  1
+# instance g_g1773
+.names nn354gat  n_n137
+0  1
+# instance g_g1799
+.names nii4194  nn1461gat
+0  1
+# instance g_g1843
+.names nn1336gat  nn1334gat
+0  1
+# instance g_g1852
+.names nn1412gat  nn2158gat
+0  1
+# instance g_g1861
+.names nn2169gat  nn2167gat
+0  1
+# instance g_g1870
+.names nn2683gat  nii3954
+0  1
+# instance g_g1887
+.names nn2048gat  nn1885gat
+0  1
+# instance g_g1896
+.names nn256gat  nii3882
+0  1
+# instance g_g1940
+.names nn296gat  n_n116
+0  1
+# instance g_g1984
+.names nn2436gat  nii3483
+0  1
+# instance g_g1993
+.names nn1898gat  nn1956gat
+0  1
+# instance g_g2419
+.names nn2430gat  nn2432gat
+0  1
+# instance g_g2428
+.names nii1585  nn2286gat
+0  1
+# instance g_g2507
+.names nii1190  nn509gat
+0  1
+# instance g_g2516
+.names nii1152  nn706gat
+0  1
+# instance g_g2525
+.names nn846gat  nii1118
+0  1
+# instance g_g2569
+.names nn858gat  nn939gat
+0  1
+# instance g_g2604
+.names nn2839gat  nn2838gat
+0  1
+# instance g_g2613
+.names nii771  nn2831gat
+0  1
+# instance g_g2622
+.names nn1024gat  nii683
+0  1
+# instance g_g2639
+.names nii579  nn2850gat
+0  1
+# instance g_g2648
+.names nii512  nn2729gat
+0  1
+# instance g_g2657
+.names nn1500gat  n_n26
+0  1
+# instance g_g2666
+.names nn49gat  nn51gat
+0  1
+# instance g_g2701
+.names nn747gat  nn754gat
+0  1
+# instance g_g2710
+.names nn1218gat  nn1223gat
+0  1
+# instance g_g2736
+.names nn1117gat  nn1447gat
+0  1
+# instance g_g2745
+.names nn1639gat  nn1640gat
+0  1
+# instance g_g2754
+.names nii62  nn2791gat
+0  1
+# instance g_g2763
+.names nii23  nn2845gat
+0  1
+# instance g_g2789
+.names nn2110gat  nn2108gat
+0  1
+# instance g_g2798
+.names nn2095gat  nn2093gat
+0  1
+# instance g_g2833
+.names nii3530  nn3048gat
+0  1
+# instance g_g2842
+.names nii3703  nn3055gat
+0  1
+# instance g_g2851
+.names nn2734gat  nn2735gat
+0  1
+# instance g_g2860
+.names nii4792  nn3150gat
+0  1
+# instance g_g2877
+.names nii4738  nn3132gat
+0  1
+# instance g_g2886
+.names nii4711  nn3123gat
+0  1
+# instance g_g2895
+.names nii4684  nn3114gat
+0  1
+# instance g_g10
+.latch nn2779gat nn341gat re nclk 2
+# instance g_g21
+.latch nn2922gat nn1241gat re nclk 2
+# instance g_g32
+.latch nn2913gat nn680gat re nclk 2
+# instance g_g43
+.latch nn3049gat nn2343gat re nclk 2
+# instance g_g98
+.latch nii2260 nn2347gat re nclk 2
+# instance g_g809
+.names nn1444gat nn813gat  nn1249gat
+11  1
+# instance g_g908
+.names n_n347 n_n378  nn378gat
+11  1
+# instance g_g919
+.names n_n353 n_n366  nn973gat
+11  1
+# instance g_g1080
+.names n_n445 n_n446  nn1598gat
+11  1
+# instance g_g1091
+.names n_n463 n_n464  nn1926gat
+11  1
+# instance g_g1448
+.names nn2666gat  n_n262
+0  1
+# instance g_g1459
+.names nn2389gat  nn2127gat
+0  1
+# instance g_g1509
+.names nn592gat  n_n205
+0  1
+# instance g_g1545
+.names nn265gat  n_n169
+0  1
+# instance g_g1556
+.names nn1221gat  n_n158
+0  1
+# instance g_g1567
+.names nn2797gat  nii4771
+0  1
+# instance g_g1578
+.names nn2826gat  nii4735
+0  1
+# instance g_g1606
+.names nii4651  nn2819gat
+0  1
+# instance g_g1617
+.names nn2812gat  nii4642
+0  1
+# instance g_g1628
+.names nii4626  nn1870gat
+0  1
+# instance g_g1639
+.names nn2799gat  nii4608
+0  1
+# instance g_g1642
+.names nn2708gat  nii4601
+0  1
+# instance g_g1653
+.names nii4573  nn2689gat
+0  1
+# instance g_g1664
+.names nii4554  nn2737gat
+0  1
+# instance g_g1675
+.names nii4530  nn2753gat
+0  1
+# instance g_g1703
+.names nii4478  nn2803gat
+0  1
+# instance g_g1714
+.names nn2828gat  nii4452
+0  1
+# instance g_g1725
+.names nii4409  nn2823gat
+0  1
+# instance g_g1736
+.names nn2937gat  nii4369
+0  1
+# instance g_g1750
+.names nii4309  nn2814gat
+0  1
+# instance g_g1761
+.names nn629gat  nn741gat
+0  1
+# instance g_g1772
+.names nn410gat  n_n138
+0  1
+# instance g_g1800
+.names nn1462gat  nii4194
+0  1
+# instance g_g1811
+.names nii4157  nn1524gat
+0  1
+# instance g_g1822
+.names nii4129  nn2858gat
+0  1
+# instance g_g1833
+.names nii4105  nn1455gat
+0  1
+# instance g_g1888
+.names nn68gat  nn69gat
+0  1
+# instance g_g1899
+.names nii3867  nn469gat
+0  1
+# instance g_g1930
+.names nn2874gat  nn800gat
+0  1
+# instance g_g1985
+.names nn2993gat  nn1892gat
+0  1
+# instance g_g1996
+.names nn2200gat  n_n105
+0  1
+# instance g_g2070
+.names nn2592gat  nii3143
+0  1
+# instance g_g2081
+.names nn1657gat  nn1652gat
+0  1
+# instance g_g2092
+.names nn1801gat  nn1797gat
+0  1
+# instance g_g2438
+.names nn2464gat  nn2462gat
+0  1
+# instance g_g2449
+.names nn695gat  nn693gat
+0  1
+# instance g_g2535
+.names nn2786gat  nn2784gat
+0  1
+# instance g_g2546
+.names nn865gat  nn863gat
+0  1
+# instance g_g2557
+.names nn1058gat  nn1056gat
+0  1
+# instance g_g2568
+.names nn2780gat  nn2778gat
+0  1
+# instance g_g2607
+.names nn954gat  nn949gat
+0  1
+# instance g_g2618
+.names nn341gat  nn273gat
+0  1
+# instance g_g2629
+.names nn163gat  nii642
+0  1
+# instance g_g2632
+.names nn2720gat  nn2721gat
+0  1
+# instance g_g2643
+.names nii572  nn1828gat
+0  1
+# instance g_g2654
+.names nn1446gat  n_n28
+0  1
+# instance g_g2665
+.names nn343gat  nii476
+0  1
+# instance g_g2704
+.names nii243  nn2869gat
+0  1
+# instance g_g2715
+.names nn2864gat  nii220
+0  1
+# instance g_g2726
+.names nii192  nn2856gat
+0  1
+# instance g_g2740
+.names nn1256gat  nn1645gat
+0  1
+# instance g_g2751
+.names nii97  nn2794gat
+0  1
+# instance g_g2762
+.names nn2845gat  nn2844gat
+0  1
+# instance g_g2801
+.names nn2309gat  nn2307gat
+0  1
+# instance g_g2812
+.names nn1780gat  nn1781gat
+0  1
+# instance g_g2823
+.names nii3610  nn3052gat
+0  1
+# instance g_g2878
+.names nii4735  nn3131gat
+0  1
+# instance g_g2889
+.names nii4702  nn3120gat
+0  1
+# instance g_g11
+.latch nn1620gat nn2472gat re nclk 2
+# instance g_g20
+.latch nn2896gat nn1294gat re nclk 2
+# instance g_g33
+.latch nn2920gat nn816gat re nclk 2
+# instance g_g42
+.latch nn3048gat nn2399gat re nclk 2
+# instance g_g99
+.latch nn1793gat nn1389gat re nclk 2
+# instance g_g819
+.names nn1444gat nn595gat  nn1163gat
+11  1
+# instance g_g909
+.names nn2779gat nn375gat  nn377gat
+11  1
+# instance g_g918
+.names n_n365 n_n352  nn974gat
+11  1
+# instance g_g1081
+.names n_n448 n_n447 n_n449  nn1154gat
+111  1
+# instance g_g1090
+.names n_n461 n_n462  nn2664gat
+11  1
+# instance g_g1449
+.names nn2617gat  n_n261
+0  1
+# instance g_g1458
+.names nn2338gat  nn1708gat
+0  1
+# instance g_g1519
+.names nn734gat  n_n195
+0  1
+# instance g_g1546
+.names nn264gat  n_n168
+0  1
+# instance g_g1555
+.names nn1223gat  n_n159
+0  1
+# instance g_g1568
+.names nn2755gat  nii4765
+0  1
+# instance g_g1577
+.names nn2820gat  nii4738
+0  1
+# instance g_g1607
+.names nn2822gat  nii4651
+0  1
+# instance g_g1616
+.names nii4642  nn2809gat
+0  1
+# instance g_g1629
+.names nn1871gat  nii4626
+0  1
+# instance g_g1638
+.names nii4608  nn2796gat
+0  1
+# instance g_g1643
+.names nn2209gat  nn2047gat
+0  1
+# instance g_g1652
+.names nn2049gat  nn1452gat
+0  1
+# instance g_g1665
+.names nn2741gat  nii4554
+0  1
+# instance g_g1674
+.names nn55gat  nn2243gat
+0  1
+# instance g_g1704
+.names nn2807gat  nii4478
+0  1
+# instance g_g1713
+.names nii4452  nn2825gat
+0  1
+# instance g_g1726
+.names nn2938gat  nii4409
+0  1
+# instance g_g1735
+.names nii4369  nn2817gat
+0  1
+# instance g_g1740
+.names nii4349  nn2818gat
+0  1
+# instance g_g1762
+.names nn532gat  nn358gat
+0  1
+# instance g_g1771
+.names nn517gat  n_n139
+0  1
+# instance g_g1801
+.names nn1339gat  n_n129
+0  1
+# instance g_g1810
+.names nn2402gat  nn2212gat
+0  1
+# instance g_g1823
+.names nn3097gat  nii4129
+0  1
+# instance g_g1832
+.names nn1340gat  nii4108
+0  1
+# instance g_g1889
+.names nn2923gat  nii3914
+0  1
+# instance g_g1898
+.names nn2893gat  nn381gat
+0  1
+# instance g_g1920
+.names nn331gat  nii3742
+0  1
+# instance g_g1986
+.names nn2060gat  nn1893gat
+0  1
+# instance g_g1995
+.names nn2195gat  nn2437gat
+0  1
+# instance g_g2071
+.names nn1929gat  nn2004gat
+0  1
+# instance g_g2080
+.names nn1568gat  n_n77
+0  1
+# instance g_g2093
+.names nn2152gat  n_n70
+0  1
+# instance g_g2190
+.names nn1485gat  nn1487gat
+0  1
+# instance g_g2439
+.names nn803gat  nii1500
+0  1
+# instance g_g2448
+.names nn683gat  nn694gat
+0  1
+# instance g_g2509
+.names nn833gat  nn719gat
+0  1
+# instance g_g2536
+.names nn2667gat  nn740gat
+0  1
+# instance g_g2545
+.names nn864gat  nn1060gat
+0  1
+# instance g_g2558
+.names nn1078gat  nn1079gat
+0  1
+# instance g_g2567
+.names nn3077gat  nii941
+0  1
+# instance g_g2606
+.names nn3076gat  nii796
+0  1
+# instance g_g2619
+.names nn617gat  nn351gat
+0  1
+# instance g_g2628
+.names nn337gat  nn277gat
+0  1
+# instance g_g2633
+.names nii591  nn2722gat
+0  1
+# instance g_g2642
+.names nn3100gat  nii576
+0  1
+# instance g_g2655
+.names nn1501gat  nn1503gat
+0  1
+# instance g_g2664
+.names nn167gat  nii480
+0  1
+# instance g_g2703
+.names nn2869gat  nii248
+0  1
+# instance g_g2716
+.names nn1219gat  nn1221gat
+0  1
+# instance g_g2725
+.names nn2855gat  nn1218gat
+0  1
+# instance g_g2730
+.names nn1619gat  nn1705gat
+0  1
+# instance g_g2752
+.names nn3071gat  nii97
+0  1
+# instance g_g2761
+.names nn3095gat  nii27
+0  1
+# instance g_g2800
+.names nn2662gat  nn2661gat
+0  1
+# instance g_g2813
+.names nn1792gat  n_n5
+0  1
+# instance g_g2822
+.names nn1543gat  n_n2
+0  1
+# instance g_g2879
+.names nii4732  nn3130gat
+0  1
+# instance g_g2888
+.names nii4705  nn3121gat
+0  1
+# instance g_g12
+.latch nn2470gat nn2319gat re nclk 2
+# instance g_g23
+.latch nn2921gat nn1080gat re nclk 2
+# instance g_g30
+.latch nn3056gat nn614gat re nclk 2
+# instance g_g41
+.latch nn567gat nn2464gat re nclk 2
+# instance g_g829
+.names n_n295 n_n296  nn1358gat
+11  1
+# instance g_g928
+.names nn326gat n_n361  nn145gat
+11  1
+# instance g_g939
+.names n_n369 nn255gat nn233gat  nn139gat
+111  1
+# instance g_g1082
+.names nn1427gat n_n450  nn1411gat
+11  1
+# instance g_g1093
+.names n_n467 n_n468  nn1994gat
+11  1
+# instance g_g1190
+.names nn1595gat  n_n487
+0  1
+# instance g_g1468
+.names nn666gat  n_n245
+0  1
+# instance g_g1479
+.names nn365gat  n_n234
+0  1
+# instance g_g1529
+.names nn1055gat  n_n185
+0  1
+# instance g_g1547
+.names nn263gat  n_n167
+0  1
+# instance g_g1558
+.names nn2707gat  nii4798
+0  1
+# instance g_g1565
+.names nn2699gat  nii4777
+0  1
+# instance g_g1576
+.names nn2821gat  nii4741
+0  1
+# instance g_g1608
+.names nn1711gat  nn1842gat
+0  1
+# instance g_g1619
+.names nn180gat  nn71gat
+0  1
+# instance g_g1626
+.names nn2805gat  nii4633
+0  1
+# instance g_g1637
+.names nn2281gat  nn2054gat
+0  1
+# instance g_g1644
+.names nii4594  nn2706gat
+0  1
+# instance g_g1655
+.names nn2187gat  nn1453gat
+0  1
+# instance g_g1662
+.names nii4558  nn2687gat
+0  1
+# instance g_g1673
+.names nn2750gat  nii4536
+0  1
+# instance g_g1705
+.names nii4475  nn2807gat
+0  1
+# instance g_g1716
+.names nn2955gat  nii4449
+0  1
+# instance g_g1723
+.names nii4412  nn2820gat
+0  1
+# instance g_g1734
+.names nn2817gat  nii4372
+0  1
+# instance g_g1741
+.names nn2935gat  nii4349
+0  1
+# instance g_g1752
+.names nn630gat  nn1006gat
+0  1
+# instance g_g1770
+.names nn355gat  nn407gat
+0  1
+# instance g_g1802
+.names nn1600gat  n_n128
+0  1
+# instance g_g1813
+.names nn1759gat  nn1684gat
+0  1
+# instance g_g1820
+.names nn3098gat  nii4135
+0  1
+# instance g_g1831
+.names nii4108  nn1339gat
+0  1
+# instance g_g1910
+.names nn2902gat  nn458gat
+0  1
+# instance g_g1987
+.names nn2142gat  nn1969gat
+0  1
+# instance g_g1998
+.names nn1916gat  n_n103
+0  1
+# instance g_g2072
+.names nn1758gat  n_n83
+0  1
+# instance g_g2083
+.names nn1669gat  nn1671gat
+0  1
+# instance g_g2090
+.names nn1731gat  nn1730gat
+0  1
+# instance g_g2180
+.names nn2934gat  nn1105gat
+0  1
+# instance g_g2458
+.names nn823gat  nn596gat
+0  1
+# instance g_g2469
+.names nn824gat  nii1371
+0  1
+# instance g_g2519
+.names nii1138  nn833gat
+0  1
+# instance g_g2537
+.names nn2722gat  nn2720gat
+0  1
+# instance g_g2548
+.names nn1148gat  nn1146gat
+0  1
+# instance g_g2555
+.names nn3078gat  nii985
+0  1
+# instance g_g2566
+.names nii941  nn2837gat
+0  1
+# instance g_g2609
+.names nn2719gat  nn2718gat
+0  1
+# instance g_g2616
+.names nn3090gat  nii768
+0  1
+# instance g_g2627
+.names nn277gat  nii646
+0  1
+# instance g_g2634
+.names nn3094gat  nii591
+0  1
+# instance g_g2645
+.names nn1823gat  n_n30
+0  1
+# instance g_g2652
+.names nn1623gat  nn1779gat
+0  1
+# instance g_g2663
+.names nn2476gat  nn2520gat
+0  1
+# instance g_g2706
+.names nii240  nn2716gat
+0  1
+# instance g_g2713
+.names nn1220gat  nn1222gat
+0  1
+# instance g_g2724
+.names nn3085gat  nii199
+0  1
+# instance g_g2731
+.names nn1447gat  n_n24
+0  1
+# instance g_g2742
+.names nn1616gat  nn1553gat
+0  1
+# instance g_g2760
+.names nii27  nn2668gat
+0  1
+# instance g_g2803
+.names nn1718gat  n_n10
+0  1
+# instance g_g2810
+.names nn1552gat  n_n7
+0  1
+# instance g_g2821
+.names nii3660  nn3054gat
+0  1
+# instance g_g2898
+.names nii4675  nn3111gat
+0  1
+# instance g_g2900
+.names nii4669  nn3109gat
+0  1
+# instance g_g13
+.latch nn1827gat nn1821gat re nclk 2
+# instance g_g22
+.latch nn2894gat nn865gat re nclk 2
+# instance g_g31
+.latch nn504gat nn2526gat re nclk 2
+# instance g_g40
+.latch nn3061gat nn699gat re nclk 2
+# instance g_g839
+.names nn2138gat nn1898gat nn1709gat  nii2889
+1--  1
+-1-  1
+--1  1
+# instance g_g929
+.names nn144gat n_n362  nn143gat
+11  1
+# instance g_g938
+.names nn2782gat n_n368  nn446gat
+11  1
+# instance g_g1083
+.names n_n481 n_n451  nn1498gat
+11  1
+# instance g_g1092
+.names n_n465 n_n466  nn1916gat
+11  1
+# instance g_g1180
+.names nn516gat  nn406gat
+0  1
+# instance g_g1469
+.names nn128gat  n_n244
+0  1
+# instance g_g1478
+.names nn560gat  n_n235
+0  1
+# instance g_g1539
+.names nn51gat  n_n175
+0  1
+# instance g_g1548
+.names nn756gat  n_n166
+0  1
+# instance g_g1557
+.names nn1222gat  n_n157
+0  1
+# instance g_g1566
+.names nn2740gat  nii4774
+0  1
+# instance g_g1575
+.names nn2815gat  nii4744
+0  1
+# instance g_g1609
+.names nn186gat  nn14gat
+0  1
+# instance g_g1618
+.names nn1892gat  nn1840gat
+0  1
+# instance g_g1627
+.names nii4630  nn2805gat
+0  1
+# instance g_g1636
+.names nn2798gat  nii4615
+0  1
+# instance g_g1645
+.names nn2709gat  nii4594
+0  1
+# instance g_g1654
+.names nn2693gat  nii4573
+0  1
+# instance g_g1663
+.names nn1286gat  nii4558
+0  1
+# instance g_g1672
+.names nii4536  nn2746gat
+0  1
+# instance g_g1706
+.names nn2951gat  nii4475
+0  1
+# instance g_g1715
+.names nii4449  nn2828gat
+0  1
+# instance g_g1724
+.names nn2823gat  nii4412
+0  1
+# instance g_g1733
+.names nii4372  nn2815gat
+0  1
+# instance g_g1742
+.names nn2933gat  nn888gat
+0  1
+# instance g_g1751
+.names nn2941gat  nii4309
+0  1
+# instance g_g1760
+.names nn521gat  nn528gat
+0  1
+# instance g_g1803
+.names nn1594gat  nn1595gat
+0  1
+# instance g_g1812
+.names nn1525gat  nii4157
+0  1
+# instance g_g1821
+.names nn2858gat  nn2857gat
+0  1
+# instance g_g1830
+.names nn1546gat  nii4117
+0  1
+# instance g_g1900
+.names nn470gat  nii3867
+0  1
+# instance g_g1988
+.names nn2539gat  nii3472
+0  1
+# instance g_g1997
+.names nn1926gat  n_n104
+0  1
+# instance g_g2073
+.names nn1790gat  n_n82
+0  1
+# instance g_g2082
+.names nn1662gat  n_n76
+0  1
+# instance g_g2091
+.names nn1515gat  n_n71
+0  1
+# instance g_g2170
+.names nn2139gat  nn2137gat
+0  1
+# instance g_g2459
+.names nn882gat  nn595gat
+0  1
+# instance g_g2468
+.names nii1371  nn823gat
+0  1
+# instance g_g2529
+.names nn351gat  nn499gat
+0  1
+# instance g_g2538
+.names nn2468gat  nn2466gat
+0  1
+# instance g_g2547
+.names nn1147gat  nn1059gat
+0  1
+# instance g_g2556
+.names nn2783gat  nn2781gat
+0  1
+# instance g_g2565
+.names nn2837gat  nn2836gat
+0  1
+# instance g_g2608
+.names nn1066gat  nn1067gat
+0  1
+# instance g_g2617
+.names nn273gat  nii734
+0  1
+# instance g_g2626
+.names nn271gat  nn281gat
+0  1
+# instance g_g2635
+.names nn361gat  nn293gat
+0  1
+# instance g_g2644
+.names nn1829gat  nii572
+0  1
+# instance g_g2653
+.names nn1379gat  n_n29
+0  1
+# instance g_g2662
+.names nn1376gat  nn1448gat
+0  1
+# instance g_g2705
+.names nn3089gat  nii243
+0  1
+# instance g_g2714
+.names nii220  nn2863gat
+0  1
+# instance g_g2723
+.names nii199  nn2861gat
+0  1
+# instance g_g2732
+.names nn1318gat  nn1446gat
+0  1
+# instance g_g2741
+.names nn1555gat  nn1554gat
+0  1
+# instance g_g2750
+.names nn1641gat  nn1643gat
+0  1
+# instance g_g2802
+.names nii3179  nn1712gat
+0  1
+# instance g_g2811
+.names nn1517gat  n_n6
+0  1
+# instance g_g2820
+.names nii3436  nn3036gat
+0  1
+# instance g_g2899
+.names nii4672  nn3110gat
+0  1
+# instance g_g14
+.latch nn1816gat nn2029gat re nclk 2
+# instance g_g25
+.latch nn933gat nn2468gat re nclk 2
+# instance g_g36
+.latch nn3059gat nn820gat re nclk 2
+# instance g_g47
+.latch nn3040gat nn2626gat re nclk 2
+# instance g_g58
+.latch nn2919gat nn1072gat re nclk 2
+# instance g_g69
+.latch nn2915gat nn777gat re nclk 2
+# instance g_g849
+.names n_n324 n_n311 n_n312  nn1647gat
+111  1
+# instance g_g948
+.names nn2735gat nn375gat  nn797gat
+11  1
+# instance g_g959
+.names n_n381 n_n382  nn1470gat
+11  1
+# instance g_g1040
+.names nii314 n_n408  nn1326gat
+11  1
+# instance g_g1051
+.names nn979gat nn1095gat nn990gat nn1096gat  nn2945gat
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g1062
+.names n_n420 n_n423  nn1181gat
+11  1
+# instance g_g1073
+.names n_n433 n_n434  nn93gat
+11  1
+# instance g_g1170
+.names nn1255gat  n_n502
+0  1
+# instance g_g1488
+.names nn93gat  n_n226
+0  1
+# instance g_g1499
+.names nn2427gat  n_n215
+0  1
+# instance g_g1585
+.names nn2760gat  nii4714
+0  1
+# instance g_g1596
+.names nn2698gat  nii4681
+0  1
+# instance g_g1682
+.names nn2761gat  nii4518
+0  1
+# instance g_g1693
+.names nii4496  nn2688gat
+0  1
+# instance g_g1707
+.names nn628gat  nn976gat
+0  1
+# instance g_g1718
+.names nii4432  nn2826gat
+0  1
+# instance g_g1729
+.names nn2824gat  nii4392
+0  1
+# instance g_g1790
+.names nn2985gat  n_n130
+0  1
+# instance g_g1804
+.names nn1860gat  nn1919gat
+0  1
+# instance g_g1815
+.names nn1935gat  n_n124
+0  1
+# instance g_g1826
+.names nn2019gat  n_n121
+0  1
+# instance g_g1837
+.names nn1807gat  nii4081
+0  1
+# instance g_g1848
+.names nii4024  nn2288gat
+0  1
+# instance g_g1859
+.names nn2013gat  nn1791gat
+0  1
+# instance g_g1901
+.names nn2899gat  nii3841
+0  1
+# instance g_g1912
+.names nn461gat  nn462gat
+0  1
+# instance g_g1923
+.names nn386gat  nn387gat
+0  1
+# instance g_g1934
+.names nii3691  nn151gat
+0  1
+# instance g_g1945
+.names nn2644gat  nn2642gat
+0  1
+# instance g_g1956
+.names nn2124gat  n_n109
+0  1
+# instance g_g1967
+.names nn2997gat  nn2058gat
+0  1
+# instance g_g1978
+.names nn2996gat  nn1961gat
+0  1
+# instance g_g2030
+.names nn2190gat  nn2188gat
+0  1
+# instance g_g2041
+.names nn179gat  n_n93
+0  1
+# instance g_g2052
+.names nii3211  nn3018gat
+0  1
+# instance g_g2063
+.names nii3168  nn1393gat
+0  1
+# instance g_g2160
+.names nn1861gat  nn1735gat
+0  1
+# instance g_g2478
+.names nn812gat  nn810gat
+0  1
+# instance g_g2489
+.names nn86gat  nn79gat
+0  1
+# instance g_g2575
+.names nn1236gat  nn1234gat
+0  1
+# instance g_g2586
+.names nn2794gat  nn2792gat
+0  1
+# instance g_g2597
+.names nn2736gat  nn2734gat
+0  1
+# instance g_g2672
+.names nn3068gat  nii423
+0  1
+# instance g_g2683
+.names nii317  nn2777gat
+0  1
+# instance g_g2694
+.names nii278  nii270
+0  1
+# instance g_g2708
+.names nii237  nn753gat
+0  1
+# instance g_g2719
+.names nn2863gat  nn1220gat
+0  1
+# instance g_g2780
+.names nn1634gat  n_n18
+0  1
+# instance g_g2791
+.names nn2037gat  nn2035gat
+0  1
+# instance g_g2805
+.names nn1707gat  n_n8
+0  1
+# instance g_g2816
+.names nii3635  nn3053gat
+0  1
+# instance g_g2827
+.names nii3504  nn3044gat
+0  1
+# instance g_g2838
+.names nii3754  nn3057gat
+0  1
+# instance g_g2849
+.names nn2778gat  nn2779gat
+0  1
+# instance g_g2902
+.names nii4663  nn3107gat
+0  1
+# instance g_g15
+.latch nn2027gat nn1829gat re nclk 2
+# instance g_g24
+.latch nn2895gat nn1148gat re nclk 2
+# instance g_g37
+.latch nn3058gat nn883gat re nclk 2
+# instance g_g46
+.latch nn3050gat nn2207gat re nclk 2
+# instance g_g59
+.latch nn2910gat nn1282gat re nclk 2
+# instance g_g68
+.latch nn2903gat nn553gat re nclk 2
+# instance g_g859
+.names nn1653gat nn1644gat nn1654gat  nn2991gat
+1--  1
+-1-  1
+--1  1
+# instance g_g949
+.names nn147gat n_n374 n_n375  nn324gat
+111  1
+# instance g_g958
+.names nn2418gat nn2206gat nii2228  nii4023
+1--  1
+-1-  1
+--1  1
+# instance g_g1041
+.names n_n407 nn719gat  nn1261gat
+11  1
+# instance g_g1050
+.names n_n410 n_n411  nn979gat
+11  1
+# instance g_g1063
+.names n_n423 n_n421  nn1010gat
+11  1
+# instance g_g1072
+.names n_n432 n_n472  nn22gat
+11  1
+# instance g_g1160
+.names nn1244gat  n_n509
+0  1
+# instance g_g1489
+.names nn1277gat  n_n225
+0  1
+# instance g_g1498
+.names nn2433gat  n_n216
+0  1
+# instance g_g1586
+.names nn2759gat  nii4711
+0  1
+# instance g_g1595
+.names nn2689gat  nii4684
+0  1
+# instance g_g1683
+.names nn3010gat  nn2325gat
+0  1
+# instance g_g1692
+.names nn2688gat  nii4499
+0  1
+# instance g_g1708
+.names nn631gat  nn628gat
+0  1
+# instance g_g1717
+.names nn2948gat  nn1180gat
+0  1
+# instance g_g1739
+.names nn2818gat  nii4352
+0  1
+# instance g_g1780
+.names nn1721gat  nii4233
+0  1
+# instance g_g1805
+.names nn2346gat  nn2152gat
+0  1
+# instance g_g1814
+.names nn1818gat  n_n125
+0  1
+# instance g_g1827
+.names nn2980gat  nn1546gat
+0  1
+# instance g_g1836
+.names nii4081  nn1806gat
+0  1
+# instance g_g1849
+.names nii4020  nn2797gat
+0  1
+# instance g_g1858
+.names nn2695gat  nn2691gat
+0  1
+# instance g_g1902
+.names nn2875gat  nn134gat
+0  1
+# instance g_g1911
+.names nn463gat  nn461gat
+0  1
+# instance g_g1924
+.names nn212gat  nn372gat
+0  1
+# instance g_g1933
+.names nn1702gat  nn243gat
+0  1
+# instance g_g1946
+.names nn3011gat  n_n113
+0  1
+# instance g_g1955
+.names nn1882gat  nii3610
+0  1
+# instance g_g1968
+.names nn2396gat  nii3530
+0  1
+# instance g_g1977
+.names nn2330gat  nii3504
+0  1
+# instance g_g2031
+.names nn2262gat  nn2260gat
+0  1
+# instance g_g2040
+.names nn184gat  nn195gat
+0  1
+# instance g_g2053
+.names nn2663gat  nii3211
+0  1
+# instance g_g2062
+.names nn1899gat  nii3174
+0  1
+# instance g_g2150
+.names nn2403gat  nii2843
+0  1
+# instance g_g2479
+.names nn578gat  nn579gat
+0  1
+# instance g_g2488
+.names nn79gat  n_n31
+0  1
+# instance g_g2576
+.names nn1239gat  nn1240gat
+0  1
+# instance g_g2585
+.names nn3080gat  nii863
+0  1
+# instance g_g2598
+.names nn2712gat  nn2711gat
+0  1
+# instance g_g2673
+.names nn162gat  nn49gat
+0  1
+# instance g_g2682
+.names nii334  nn264gat
+0  1
+# instance g_g2695
+.names nii264  nn2727gat
+0  1
+# instance g_g2707
+.names nn2717gat  nii240
+0  1
+# instance g_g2729
+.names nn1380gat  n_n25
+0  1
+# instance g_g2770
+.names nn3093gat  nii11
+0  1
+# instance g_g2792
+.names nn2025gat  nn2023gat
+0  1
+# instance g_g2804
+.names nn2004gat  n_n9
+0  1
+# instance g_g2817
+.names nii3412  nn3035gat
+0  1
+# instance g_g2826
+.names nii3491  nn3042gat
+0  1
+# instance g_g2839
+.names nii3713  nn3056gat
+0  1
+# instance g_g2848
+.names nn2472gat  nn2470gat
+0  1
+# instance g_g2901
+.names nii4666  nn3108gat
+0  1
+# instance g_g16
+.latch nn55gat nn2476gat re nclk 2
+# instance g_g27
+.latch nn3055gat nn707gat re nclk 2
+# instance g_g34
+.latch nn2905gat nn580gat re nclk 2
+# instance g_g45
+.latch nn3047gat nn2562gat re nclk 2
+# instance g_g78
+.latch nn2579gat nn2658gat re nclk 2
+# instance g_g89
+.latch nii1708 nn2143gat re nclk 2
+# instance g_g869
+.names nn2131gat n_n331  nn2130gat
+11  1
+# instance g_g968
+.names n_n395 n_n396  nn1532gat
+11  1
+# instance g_g979
+.names nn905gat nn1012gat  nn2943gat
+1-  1
+-1  1
+# instance g_g1042
+.names nn1261gat nn1326gat  nn2968gat
+1-  1
+-1  1
+# instance g_g1053
+.names nii398 n_n408  nn1173gat
+11  1
+# instance g_g1060
+.names n_n418 n_n423  nn1030gat
+11  1
+# instance g_g1071
+.names n_n475 n_n431  nn197gat
+11  1
+# instance g_g1150
+.names nn1212gat  n_n519
+0  1
+# instance g_g1587
+.names nn2754gat  nii4708
+0  1
+# instance g_g1598
+.names nn2706gat  nii4675
+0  1
+# instance g_g1684
+.names nii4512  nn2760gat
+0  1
+# instance g_g1695
+.names nii4492  nn2677gat
+0  1
+# instance g_g1709
+.names nn523gat  nn639gat
+0  1
+# instance g_g1727
+.names nn2939gat  nn897gat
+0  1
+# instance g_g1738
+.names nii4352  nn2816gat
+0  1
+# instance g_g1781
+.names nn2442gat  n_n134
+0  1
+# instance g_g1792
+.names nii4222  nn2751gat
+0  1
+# instance g_g1806
+.names nn2216gat  nn1742gat
+0  1
+# instance g_g1817
+.names nii4138  nn2765gat
+0  1
+# instance g_g1824
+.names nn2008gat  nn2002gat
+0  1
+# instance g_g1835
+.names nn1712gat  nn1634gat
+0  1
+# instance g_g1868
+.names nn2450gat  nii3957
+0  1
+# instance g_g1879
+.names nii3935  nn2700gat
+0  1
+# instance g_g1903
+.names nii3831  nn383gat
+0  1
+# instance g_g1914
+.names nn2883gat  nn333gat
+0  1
+# instance g_g1921
+.names nn388gat  nn386gat
+0  1
+# instance g_g1932
+.names nn243gat  nn233gat
+0  1
+# instance g_g1947
+.names nn2642gat  nn2643gat
+0  1
+# instance g_g1958
+.names nn2239gat  n_n107
+0  1
+# instance g_g1965
+.names nn3009gat  nn2281gat
+0  1
+# instance g_g1976
+.names nn1855gat  n_n106
+0  1
+# instance g_g2032
+.names nn1870gat  nn3029gat
+0  1
+# instance g_g2043
+.names nn743gat  n_n92
+0  1
+# instance g_g2050
+.names nn2660gat  n_n89
+0  1
+# instance g_g2061
+.names nii3174  nn1898gat
+0  1
+# instance g_g2140
+.names nii2885  nn2090gat
+0  1
+# instance g_g2498
+.names nn613gat  nn503gat
+0  1
+# instance g_g2577
+.names nn2853gat  nn2852gat
+0  1
+# instance g_g2588
+.names nii1035  nii858
+0  1
+# instance g_g2595
+.names nn953gat  nn951gat
+0  1
+# instance g_g2674
+.names nii398  nn1019gat
+0  1
+# instance g_g2685
+.names nii314  nn263gat
+0  1
+# instance g_g2692
+.names nn2906gat  nn747gat
+0  1
+# instance g_g2717
+.names nii214  nn2860gat
+0  1
+# instance g_g2728
+.names nn1622gat  nn1706gat
+0  1
+# instance g_g2771
+.names nn421gat  nn296gat
+0  1
+# instance g_g2782
+.names nii2926  nn1717gat
+0  1
+# instance g_g2807
+.names nn1433gat  nn1431gat
+0  1
+# instance g_g2814
+.names nn1627gat  n_n4
+0  1
+# instance g_g2825
+.names nii3457  nn3037gat
+0  1
+# instance g_g2858
+.names nii4798  nn3152gat
+0  1
+# instance g_g2869
+.names nii4762  nn3140gat
+0  1
+# instance g_g2904
+.names nii4657  nn3105gat
+0  1
+# instance g_g17
+.latch nn2914gat nn1068gat re nclk 2
+# instance g_g26
+.latch nn3064gat nn834gat re nclk 2
+# instance g_g35
+.latch nn3057gat nn824gat re nclk 2
+# instance g_g44
+.latch nn3051gat nn2203gat re nclk 2
+# instance g_g79
+.latch nn3036gat nn2495gat re nclk 2
+# instance g_g88
+.latch nn1350gat nn2084gat re nclk 2
+# instance g_g879
+.names n_n337 n_n339  nn1967gat
+11  1
+# instance g_g969
+.names n_n397 n_n398  nn1531gat
+11  1
+# instance g_g978
+.names n_n407 nn915gat  nn905gat
+11  1
+# instance g_g1043
+.names n_n412 n_n424  nn1177gat
+11  1
+# instance g_g1052
+.names n_n407 nn736gat  nn1176gat
+11  1
+# instance g_g1061
+.names n_n419 n_n423  nn1011gat
+11  1
+# instance g_g1070
+.names n_n429 n_n430  nn1935gat
+11  1
+# instance g_g1140
+.names n_n518 n_n519  nn1263gat
+11  1
+# instance g_g1588
+.names nn2753gat  nii4705
+0  1
+# instance g_g1597
+.names nn2697gat  nii4678
+0  1
+# instance g_g1685
+.names nn2762gat  nii4512
+0  1
+# instance g_g1694
+.names nn1708gat  nii4496
+0  1
+# instance g_g1719
+.names nn2829gat  nii4432
+0  1
+# instance g_g1728
+.names nii4392  nn2821gat
+0  1
+# instance g_g1737
+.names nn2940gat  nn898gat
+0  1
+# instance g_g1782
+.names nn1690gat  nn1945gat
+0  1
+# instance g_g1791
+.names nn2751gat  nn2747gat
+0  1
+# instance g_g1807
+.names nn1862gat  n_n127
+0  1
+# instance g_g1816
+.names nn2765gat  n_n123
+0  1
+# instance g_g1825
+.names nn2012gat  n_n122
+0  1
+# instance g_g1834
+.names nn1456gat  nii4105
+0  1
+# instance g_g1869
+.names nii3954  nn2679gat
+0  1
+# instance g_g1878
+.names nn2056gat  nn2051gat
+0  1
+# instance g_g1904
+.names nn384gat  nii3831
+0  1
+# instance g_g1913
+.names nn2929gat  nii3765
+0  1
+# instance g_g1922
+.names nn1701gat  n_n119
+0  1
+# instance g_g1931
+.names nn156gat  nn154gat
+0  1
+# instance g_g1948
+.names nn2558gat  nii3635
+0  1
+# instance g_g1957
+.names nn2115gat  n_n108
+0  1
+# instance g_g1966
+.names nn2198gat  nii3539
+0  1
+# instance g_g1975
+.names nn2988gat  nn1990gat
+0  1
+# instance g_g2033
+.names nn1699gat  nii3312
+0  1
+# instance g_g2042
+.names nn87gat  nn199gat
+0  1
+# instance g_g2051
+.names nn2586gat  n_n88
+0  1
+# instance g_g2060
+.names nn1678gat  nii3191
+0  1
+# instance g_g2130
+.names nn1798gat  nn1922gat
+0  1
+# instance g_g2499
+.names nn503gat  nn498gat
+0  1
+# instance g_g2578
+.names nii885  nn2853gat
+0  1
+# instance g_g2587
+.names nii858  nn938gat
+0  1
+# instance g_g2596
+.names nn859gat  nn860gat
+0  1
+# instance g_g2675
+.names nii381  nn2674gat
+0  1
+# instance g_g2684
+.names nn3067gat  nii317
+0  1
+# instance g_g2693
+.names nii270  nn755gat
+0  1
+# instance g_g2709
+.names nii282  nii237
+0  1
+# instance g_g2718
+.names nn2861gat  nii214
+0  1
+# instance g_g2727
+.names nn3083gat  nii192
+0  1
+# instance g_g2772
+.names nii5  nn2725gat
+0  1
+# instance g_g2781
+.names nn1735gat  n_n17
+0  1
+# instance g_g2790
+.names nn2033gat  nn2031gat
+0  1
+# instance g_g2806
+.names nn1363gat  nn1361gat
+0  1
+# instance g_g2815
+.names nn1628gat  n_n3
+0  1
+# instance g_g2824
+.names nii3483  nn3041gat
+0  1
+# instance g_g2859
+.names nii4795  nn3151gat
+0  1
+# instance g_g2868
+.names nii4765  nn3141gat
+0  1
+# instance g_g2903
+.names nii4660  nn3106gat
+0  1
+# instance g_g18
+.latch nn2928gat nn957gat re nclk 2
+# instance g_g29
+.latch nn3062gat nn830gat re nclk 2
+# instance g_g54
+.latch nn1610gat nn1763gat re nclk 2
+# instance g_g65
+.latch nn2971gat nn2518gat re nclk 2
+# instance g_g76
+.latch nn3016gat nn2588gat re nclk 2
+# instance g_g87
+.latch nn1626gat nn1767gat re nclk 2
+# instance g_g90
+.latch nn2557gat nn2061gat re nclk 2
+# instance g_g889
+.names nn2152gat nn2402gat  nn2150gat
+11  1
+# instance g_g988
+.names nn1174gat nn1175gat  nn2960gat
+1-  1
+-1  1
+# instance g_g999
+.names n_n418 n_n412  nn891gat
+11  1
+# instance g_g1000
+.names nii1091 n_n407  nn904gat
+11  1
+# instance g_g1011
+.names n_n409 nii440  nn988gat
+11  1
+# instance g_g1022
+.names n_n410 nii2017  nn1088gat
+11  1
+# instance g_g1033
+.names n_n407 nn812gat  nn885gat
+11  1
+# instance g_g1130
+.names n_n508 n_n509  nn1265gat
+11  1
+# instance g_g1589
+.names nn2746gat  nii4702
+0  1
+# instance g_g1686
+.names nn2971gat  nn1782gat
+0  1
+# instance g_g1697
+.names nii4489  nn2681gat
+0  1
+# instance g_g1747
+.names nn2946gat  nn1002gat
+0  1
+# instance g_g1758
+.names nn634gat  nn633gat
+0  1
+# instance g_g1769
+.names nn530gat  n_n140
+0  1
+# instance g_g1783
+.names nn1978gat  n_n133
+0  1
+# instance g_g1794
+.names nii4217  nn1681gat
+0  1
+# instance g_g1808
+.names nn1863gat  nn1862gat
+0  1
+# instance g_g1819
+.names nii4135  nn2766gat
+0  1
+# instance g_g1844
+.names nn2483gat  nn2442gat
+0  1
+# instance g_g1855
+.names nn2579gat  nn2478gat
+0  1
+# instance g_g1866
+.names nii3962  nn2827gat
+0  1
+# instance g_g1877
+.names nn2684gat  nii3941
+0  1
+# instance g_g1880
+.names nn2704gat  nii3935
+0  1
+# instance g_g1891
+.names nii3904  nn147gat
+0  1
+# instance g_g1905
+.names nn2916gat  nii3817
+0  1
+# instance g_g1916
+.names nn2885gat  nn452gat
+0  1
+# instance g_g1927
+.names nn2892gat  nii3713
+0  1
+# instance g_g1938
+.names nn89gat  n_n117
+0  1
+# instance g_g1941
+.names nn2636gat  nii3660
+0  1
+# instance g_g1952
+.names nn1975gat  nn1973gat
+0  1
+# instance g_g1963
+.names nn3002gat  nn2146gat
+0  1
+# instance g_g1974
+.names nn2147gat  nn2199gat
+0  1
+# instance g_g2001
+.names nn2990gat  nn1711gat
+0  1
+# instance g_g2012
+.names nn3003gat  nn2184gat
+0  1
+# instance g_g2023
+.names nii3342  nn1315gat
+0  1
+# instance g_g2120
+.names nn2440gat  nn2438gat
+0  1
+# instance g_g2579
+.names nn3082gat  nii885
+0  1
+# instance g_g2676
+.names nn3073gat  nii381
+0  1
+# instance g_g2687
+.names nn3065gat  nii297
+0  1
+# instance g_g2698
+.names nn3086gat  nii259
+0  1
+# instance g_g2737
+.names nn1558gat  nn1722gat
+0  1
+# instance g_g2748
+.names nn1556gat  nn1562gat
+0  1
+# instance g_g2759
+.names nn2668gat  nii30
+0  1
+# instance g_g2773
+.names nn3087gat  nii5
+0  1
+# instance g_g2784
+.names nn1513gat  n_n16
+0  1
+# instance g_g2795
+.names nn1315gat  n_n12
+0  1
+# instance g_g2809
+.names nn1332gat  nn1330gat
+0  1
+# instance g_g2834
+.names nii3841  nn3061gat
+0  1
+# instance g_g2845
+.names nn1817gat  nn1816gat
+0  1
+# instance g_g2856
+.names nn2789gat  nn2790gat
+0  1
+# instance g_g2867
+.names nii4771  nn3143gat
+0  1
+# instance g_g2870
+.names nii4759  nn3139gat
+0  1
+# instance g_g2881
+.names nii4726  nn3128gat
+0  1
+# instance g_g2892
+.names nii4693  nn3117gat
+0  1
+# instance g_g19
+.latch nn2927gat nn861gat re nclk 2
+# instance g_g28
+.latch nn3063gat nn838gat re nclk 2
+# instance g_g55
+.latch nn1858gat nn2155gat re nclk 2
+# instance g_g64
+.latch nn2908gat nn1197gat re nclk 2
+# instance g_g77
+.latch nn3054gat nn2640gat re nclk 2
+# instance g_g86
+.latch nn1625gat nn1834gat re nclk 2
+# instance g_g91
+.latch nn2487gat nn2139gat re nclk 2
+# instance g_g899
+.names nn2643gat nn2564gat  nn2565gat
+11  1
+# instance g_g989
+.names n_n417 n_n412  nn1001gat
+11  1
+# instance g_g998
+.names n_n401 n_n414  nn892gat
+11  1
+# instance g_g1001
+.names nii1091 n_n408  nn903gat
+11  1
+# instance g_g1010
+.names nn1060gat n_n408  nn1093gat
+11  1
+# instance g_g1023
+.names n_n407 nn811gat  nn992gat
+11  1
+# instance g_g1032
+.names n_n410 nii2035  nn986gat
+11  1
+# instance g_g1120
+.names n_n498 nn1237gat  nn801gat
+11  1
+# instance g_g1599
+.names nn2705gat  nii4672
+0  1
+# instance g_g1687
+.names nii4506  nn2763gat
+0  1
+# instance g_g1696
+.names nn2681gat  nii4492
+0  1
+# instance g_g1748
+.names nii4312  nn2811gat
+0  1
+# instance g_g1757
+.names nn639gat  n_n146
+0  1
+# instance g_g1779
+.names nii4233  nn2808gat
+0  1
+# instance g_g1784
+.names nn2286gat  nn1978gat
+0  1
+# instance g_g1793
+.names nn1761gat  nii4222
+0  1
+# instance g_g1809
+.names nn2052gat  n_n126
+0  1
+# instance g_g1818
+.names nn2766gat  nii4138
+0  1
+# instance g_g1845
+.names nn2537gat  n_n120
+0  1
+# instance g_g1854
+.names nn2744gat  nii4014
+0  1
+# instance g_g1867
+.names nn2830gat  nii3962
+0  1
+# instance g_g1876
+.names nii3941  nn2680gat
+0  1
+# instance g_g1881
+.names nn1961gat  nn1889gat
+0  1
+# instance g_g1890
+.names nn2881gat  nn380gat
+0  1
+# instance g_g1906
+.names nn2879gat  nn878gat
+0  1
+# instance g_g1915
+.names nn2900gat  nii3754
+0  1
+# instance g_g1928
+.names nn2878gat  nn235gat
+0  1
+# instance g_g1937
+.names nn154gat  nn155gat
+0  1
+# instance g_g1942
+.names nn2637gat  nn2636gat
+0  1
+# instance g_g1951
+.names nn2437gat  n_n111
+0  1
+# instance g_g1964
+.names nn2197gat  nii3549
+0  1
+# instance g_g1973
+.names nn2439gat  nn3045gat
+0  1
+# instance g_g2000
+.names nn1924gat  n_n101
+0  1
+# instance g_g2013
+.names nn2261gat  nn3033gat
+0  1
+# instance g_g2022
+.names nn2099gat  nn2097gat
+0  1
+# instance g_g2110
+.names nn1778gat  n_n68
+0  1
+# instance g_g2589
+.names nn1067gat  nn954gat
+0  1
+# instance g_g2677
+.names nii375  nn48gat
+0  1
+# instance g_g2686
+.names nii297  nn2733gat
+0  1
+# instance g_g2699
+.names nii256  nn2724gat
+0  1
+# instance g_g2738
+.names nn1614gat  nn1559gat
+0  1
+# instance g_g2747
+.names nn1645gat  n_n21
+0  1
+# instance g_g2769
+.names nii11  nn2768gat
+0  1
+# instance g_g2774
+.names nii1  nn2717gat
+0  1
+# instance g_g2783
+.names nii2935  nn1713gat
+0  1
+# instance g_g2796
+.names nn2168gat  n_n11
+0  1
+# instance g_g2808
+.names nn1695gat  nn1836gat
+0  1
+# instance g_g2835
+.names nii3817  nn3060gat
+0  1
+# instance g_g2844
+.names nn2029gat  nn2027gat
+0  1
+# instance g_g2857
+.names nn2781gat  nn2782gat
+0  1
+# instance g_g2866
+.names nii4774  nn3144gat
+0  1
+# instance g_g2871
+.names nii4756  nn3138gat
+0  1
+# instance g_g2880
+.names nii4729  nn3129gat
+0  1
+# instance g_g2893
+.names nii4690  nn3116gat
+0  1
+# instance g_g2905
+.names nii4654  nn3104gat
+0  1
+# instance g_g38
+.latch nn2898gat nn584gat re nclk 2
+# instance g_g49
+.latch nn3042gat nn2622gat re nclk 2
+# instance g_g56
+.latch nn2918gat nn1035gat re nclk 2
+# instance g_g67
+.latch nn2891gat nn659gat re nclk 2
+# instance g_g74
+.latch nn2886gat nn314gat re nclk 2
+# instance g_g85
+.latch nn2613gat nn2506gat re nclk 2
+# instance g_g92
+.latch nii2385 nn1899gat re nclk 2
+# instance g_g1002
+.names nn903gat nn904gat  nn2942gat
+1-  1
+-1  1
+# instance g_g1013
+.names n_n407 nn503gat  nn1267gat
+11  1
+# instance g_g1020
+.names nn1324gat nn1375gat  nn2961gat
+1-  1
+-1  1
+# instance g_g1031
+.names nn953gat n_n408  nn1090gat
+11  1
+# instance g_g1110
+.names nn2863gat n_n183  nn520gat
+11  1
+# instance g_g1688
+.names nn2764gat  nii4506
+0  1
+# instance g_g1699
+.names nii4485  nn2678gat
+0  1
+# instance g_g1749
+.names nn2814gat  nii4312
+0  1
+# instance g_g1767
+.names nn526gat  n_n142
+0  1
+# instance g_g1778
+.names nn2808gat  nii4236
+0  1
+# instance g_g1785
+.names nn2743gat  nn2739gat
+0  1
+# instance g_g1796
+.names nn1588gat  nii4212
+0  1
+# instance g_g1828
+.names nn2758gat  nn2755gat
+0  1
+# instance g_g1839
+.names nii4067  nn1674gat
+0  1
+# instance g_g1846
+.names nn2538gat  nn2537gat
+0  1
+# instance g_g1857
+.names nn1694gat  nn1518gat
+0  1
+# instance g_g1864
+.names nn1625gat  nn1544gat
+0  1
+# instance g_g1875
+.names nn1831gat  nn1350gat
+0  1
+# instance g_g1882
+.names nn12gat  nn11gat
+0  1
+# instance g_g1893
+.names nn2924gat  nii3891
+0  1
+# instance g_g1907
+.names nii3808  nn326gat
+0  1
+# instance g_g1918
+.names nn1700gat  nn1430gat
+0  1
+# instance g_g1925
+.names nn182gat  nn111gat
+0  1
+# instance g_g1936
+.names nn1615gat  n_n118
+0  1
+# instance g_g1943
+.names nn3015gat  n_n115
+0  1
+# instance g_g1954
+.names nn1973gat  nn1974gat
+0  1
+# instance g_g1961
+.names nn2125gat  nii3587
+0  1
+# instance g_g1972
+.names nn3046gat  nn2259gat
+0  1
+# instance g_g1990
+.names nn1956gat  nn3039gat
+0  1
+# instance g_g2003
+.names nn2492gat  nii3436
+0  1
+# instance g_g2010
+.names nn2135gat  nn2133gat
+0  1
+# instance g_g2021
+.names nn2664gat  n_n96
+0  1
+# instance g_g2100
+.names nn3045gat  nn3046gat
+0  1
+# instance g_g2599
+.names nii818  nn2712gat
+0  1
+# instance g_g2678
+.names nii480  nii375
+0  1
+# instance g_g2689
+.names nn1213gat  nii282
+0  1
+# instance g_g2696
+.names nn2728gat  nii264
+0  1
+# instance g_g2739
+.names nn1553gat  n_n23
+0  1
+# instance g_g2757
+.names nn3069gat  nii47
+0  1
+# instance g_g2768
+.names nn2768gat  nii14
+0  1
+# instance g_g2775
+.names nn3088gat  nii1
+0  1
+# instance g_g2786
+.names nn1698gat  n_n14
+0  1
+# instance g_g2793
+.names nn2044gat  nn2042gat
+0  1
+# instance g_g2818
+.names nii3387  nn3031gat
+0  1
+# instance g_g2829
+.names nii3549  nn3050gat
+0  1
+# instance g_g2836
+.names nii3765  nn3058gat
+0  1
+# instance g_g2847
+.names nn2317gat  n_n0
+0  1
+# instance g_g2854
+.names nn2792gat  nn2793gat
+0  1
+# instance g_g2865
+.names nii4777  nn3145gat
+0  1
+# instance g_g2872
+.names nii4753  nn3137gat
+0  1
+# instance g_g2883
+.names nii4720  nn3126gat
+0  1
+# instance g_g2890
+.names nii4699  nn3119gat
+0  1
+# instance g_g39
+.latch nn3060gat nn684gat re nclk 2
+# instance g_g48
+.latch nn3044gat nn2490gat re nclk 2
+# instance g_g57
+.latch nn2952gat nn1121gat re nclk 2
+# instance g_g66
+.latch nn2904gat nn667gat re nclk 2
+# instance g_g75
+.latch nn3010gat nn2599gat re nclk 2
+# instance g_g84
+.latch nn3053gat nn2634gat re nclk 2
+# instance g_g93
+.latch nii1630 nn1850gat re nclk 2
+# instance g_g1003
+.names nii2148 n_n410  nn1152gat
+11  1
+# instance g_g1012
+.names nii2112 n_n410  nn984gat
+11  1
+# instance g_g1021
+.names nn952gat n_n408  nn1091gat
+11  1
+# instance g_g1030
+.names n_n409 nii354  nn1098gat
+11  1
+# instance g_g1100
+.names n_n478 nn1685gat n_n479  nn1471gat
+111  1
+# instance g_g1689
+.names nn2646gat  nn2237gat
+0  1
+# instance g_g1698
+.names nn2046gat  nii4489
+0  1
+# instance g_g1759
+.names nn418gat  nn417gat
+0  1
+# instance g_g1768
+.names nn531gat  n_n141
+0  1
+# instance g_g1777
+.names nii4236  nn2804gat
+0  1
+# instance g_g1786
+.names nii4227  nn2743gat
+0  1
+# instance g_g1795
+.names nii4212  nn1587gat
+0  1
+# instance g_g1829
+.names nii4117  nn2758gat
+0  1
+# instance g_g1838
+.names nn1402gat  nn1403gat
+0  1
+# instance g_g1847
+.names nn2288gat  nn1513gat
+0  1
+# instance g_g1856
+.names nn2703gat  nn2699gat
+0  1
+# instance g_g1865
+.names nn2514gat  nn2512gat
+0  1
+# instance g_g1874
+.names nn2696gat  nii3948
+0  1
+# instance g_g1883
+.names nn357gat  nn295gat
+0  1
+# instance g_g1892
+.names nn148gat  nii3904
+0  1
+# instance g_g1908
+.names nn327gat  nii3808
+0  1
+# instance g_g1917
+.names nn1430gat  nn1490gat
+0  1
+# instance g_g1926
+.names nn78gat  nn219gat
+0  1
+# instance g_g1935
+.names nn152gat  nii3691
+0  1
+# instance g_g1944
+.names nn2199gat  n_n114
+0  1
+# instance g_g1953
+.names nn2995gat  n_n110
+0  1
+# instance g_g1962
+.names nn2196gat  nii3558
+0  1
+# instance g_g1971
+.names nn3008gat  nn2328gat
+0  1
+# instance g_g1980
+.names nn3043gat  nn1960gat
+0  1
+# instance g_g2002
+.names nn1849gat  nn1709gat
+0  1
+# instance g_g2011
+.names nn2192gat  nii3401
+0  1
+# instance g_g2020
+.names nn2018gat  n_n97
+0  1
+# instance g_g2679
+.names nii354  nn265gat
+0  1
+# instance g_g2688
+.names nn2510gat  nn2508gat
+0  1
+# instance g_g2697
+.names nii259  nn2728gat
+0  1
+# instance g_g2749
+.names nn1642gat  nn1651gat
+0  1
+# instance g_g2758
+.names nii30  nn2667gat
+0  1
+# instance g_g2767
+.names nii14  nn2767gat
+0  1
+# instance g_g2776
+.names nn1551gat  n_n20
+0  1
+# instance g_g2785
+.names nn1544gat  n_n15
+0  1
+# instance g_g2794
+.names nn2039gat  n_n13
+0  1
+# instance g_g2819
+.names nii3401  nn3034gat
+0  1
+# instance g_g2828
+.names nii3472  nn3040gat
+0  1
+# instance g_g2837
+.names nii3801  nn3059gat
+0  1
+# instance g_g2846
+.names nn2729gat  n_n1
+0  1
+# instance g_g2855
+.names nii81  nn2670gat
+0  1
+# instance g_g2864
+.names nii4780  nn3146gat
+0  1
+# instance g_g2873
+.names nii4750  nn3136gat
+0  1
+# instance g_g2882
+.names nii4723  nn3127gat
+0  1
+# instance g_g2891
+.names nii4696  nn3118gat
+0  1
+.end

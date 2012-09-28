@@ -1,0 +1,1216 @@
+#
+# Written by e2fmt Tue Mar 31 16:14:18 1998
+############################################
+.model top
+.inputs pg6 pg19 pg5 pg29 pg4 pg3 pg2 pg1 pg9 pg8 pclk pg30 pg20 pg10 pg12\
+ pg23 pg34 pg11 pg24 pg33 pg14 pg21 pg32 pg13 pg22 pg31 pg16 pg27 pg15 pg28\
+ pg18 pg25 pg36 pg17 pg26 pg35
+.outputs pg100bf pg106bf pg107 pg92 pg91 pg103bf pg83 pg94 pg104bf pg84\
+ pg85 pg105bf pg98bf pg86bf pg97bf pg99bf pg101bf pg89bf pg87bf pg90 pg96bf\
+ pg88bf pg95bf
+# connect ports to nets with different names
+.names pg6 ng6
+1  1
+.names pg19 ng19
+1  1
+.names pg5 ng5
+1  1
+.names pg29 ng29
+1  1
+.names pg4 ng4
+1  1
+.names pg3 ng3
+1  1
+.names pg2 ng2
+1  1
+.names pg1 ng1
+1  1
+.names ng100bf pg100bf
+1  1
+.names ng106bf pg106bf
+1  1
+.names ng107 pg107
+1  1
+.names pg9 ng9
+1  1
+.names pg8 ng8
+1  1
+.names ng92 pg92
+1  1
+.names ng91 pg91
+1  1
+.names ng103bf pg103bf
+1  1
+.names pclk nclk
+1  1
+.names ng83 pg83
+1  1
+.names ng94 pg94
+1  1
+.names ng104bf pg104bf
+1  1
+.names ng84 pg84
+1  1
+.names pg30 ng30
+1  1
+.names ng85 pg85
+1  1
+.names pg20 ng20
+1  1
+.names pg10 ng10
+1  1
+.names ng105bf pg105bf
+1  1
+.names pg12 ng12
+1  1
+.names pg23 ng23
+1  1
+.names pg34 ng34
+1  1
+.names ng98bf pg98bf
+1  1
+.names pg11 ng11
+1  1
+.names pg24 ng24
+1  1
+.names pg33 ng33
+1  1
+.names niiii398 pg86bf
+1  1
+.names ng97bf pg97bf
+1  1
+.names pg14 ng14
+1  1
+.names pg21 ng21
+1  1
+.names pg32 ng32
+1  1
+.names pg13 ng13
+1  1
+.names pg22 ng22
+1  1
+.names pg31 ng31
+1  1
+.names ng99bf pg99bf
+1  1
+.names ng101bf pg101bf
+1  1
+.names pg16 ng16
+1  1
+.names pg27 ng27
+1  1
+.names niiii422 pg89bf
+1  1
+.names pg15 ng15
+1  1
+.names pg28 ng28
+1  1
+.names pg18 ng18
+1  1
+.names pg25 ng25
+1  1
+.names pg36 ng36
+1  1
+.names niiii406 pg87bf
+1  1
+.names ng90 pg90
+1  1
+.names ng96bf pg96bf
+1  1
+.names pg17 ng17
+1  1
+.names pg26 ng26
+1  1
+.names pg35 ng35
+1  1
+.names niiii414 pg88bf
+1  1
+.names ng95bf pg95bf
+1  1
+# instance g_g104
+.names ng363 ng150  ng242
+11  1
+# instance g_g115
+.names ng390 niiii495 ng371  ng241
+111  1
+# instance g_g126
+.names ng124  nii608
+0  1
+# instance g_g137
+.names nii511  ng288
+0  1
+# instance g_g148
+.names ng347  nii538
+0  1
+# instance g_g159
+.names niiii320  niiii322
+0  1
+# instance g_g203
+.names nii386  ng373
+0  1
+# instance g_g214
+.names ng303  nii375
+0  1
+# instance g_g225
+.names nii335  ng174
+0  1
+# instance g_g236
+.names ng371  ng372
+0  1
+# instance g_g247
+.names ng202  nii295
+0  1
+# instance g_g258
+.names nii263  ng194
+0  1
+# instance g_g269
+.names ng389  ng390
+0  1
+# instance g_g302
+.names ng77  nii205
+0  1
+# instance g_g313
+.names ng71  nii172
+0  1
+# instance g_g324
+.names ng5  niiii646
+0  1
+# instance g_g335
+.names niiii237  ng126
+0  1
+# instance g_g346
+.names ng95  ng95bf
+0  1
+# instance g_g357
+.names niiii178  ng94
+0  1
+# instance g_g105
+.names ng150 ng393 ng366  niiii553
+111  1
+# instance g_g114
+.names ng383 niiii524 ng395  ng260
+111  1
+# instance g_g127
+.names niiii224  ng124
+0  1
+# instance g_g136
+.names ng272  niiii237
+0  1
+# instance g_g149
+.names ng353  ng354
+0  1
+# instance g_g158
+.names niiii285  niiii287
+0  1
+# instance g_g204
+.names ng396  ng397
+0  1
+# instance g_g213
+.names ng146  nii378
+0  1
+# instance g_g226
+.names ng183  nii338
+0  1
+# instance g_g235
+.names ng135  nii321
+0  1
+# instance g_g248
+.names ng194  nii291
+0  1
+# instance g_g257
+.names nii269  ng202
+0  1
+# instance g_g279
+.names nii199  ng211
+0  1
+# instance g_g303
+.names ng69  nii202
+0  1
+# instance g_g312
+.names ng72  nii175
+0  1
+# instance g_g325
+.names ng4  niiii643
+0  1
+# instance g_g334
+.names niiii244  ng127
+0  1
+# instance g_g347
+.names niiii322  ng138
+0  1
+# instance g_g356
+.names ng100  ng100bf
+0  1
+# instance g_g106
+.names ng395 ng397 ng391  niiii518
+111  1
+# instance g_g117
+.names ng372 ng370  ng238
+11  1
+# instance g_g124
+.names ng359  ng108
+0  1
+# instance g_g135
+.names ng273  niiii244
+0  1
+# instance g_g168
+.names ng377  ng378
+0  1
+# instance g_g179
+.names ng179  nii452
+0  1
+# instance g_g205
+.names ng383  ng384
+0  1
+# instance g_g216
+.names nii363  ng162
+0  1
+# instance g_g223
+.names ng174  nii341
+0  1
+# instance g_g234
+.names ng137  nii324
+0  1
+# instance g_g249
+.names ng166  nii287
+0  1
+# instance g_g267
+.names ng324  nii257
+0  1
+# instance g_g278
+.names nii202  ng111
+0  1
+# instance g_g304
+.names ng76  nii199
+0  1
+# instance g_g315
+.names ng29  niiii178
+0  1
+# instance g_g322
+.names ng8  niiii652
+0  1
+# instance g_g333
+.names niiii251  ng128
+0  1
+# instance g_g348
+.names ng105  ng105bf
+0  1
+# instance g_g107
+.names ng393 ng397 ng391  niiii521
+111  1
+# instance g_g116
+.names niiii538 niiii537  ng267
+11  1
+# instance g_g125
+.names nii608  ng298
+0  1
+# instance g_g134
+.names ng274  niiii251
+0  1
+# instance g_g169
+.names ng277  niiii272
+0  1
+# instance g_g178
+.names nii452  ng357
+0  1
+# instance g_g206
+.names ng154  nii390
+0  1
+# instance g_g215
+.names ng341  nii369
+0  1
+# instance g_g224
+.names nii338  ng184
+0  1
+# instance g_g233
+.names nii321  ng329
+0  1
+# instance g_g259
+.names nii257  ng166
+0  1
+# instance g_g268
+.names ng289  niiii356
+0  1
+# instance g_g277
+.names nii205  ng213
+0  1
+# instance g_g305
+.names ng68  nii196
+0  1
+# instance g_g314
+.names ng70  nii169
+0  1
+# instance g_g323
+.names ng6  niiii649
+0  1
+# instance g_g332
+.names niiii258  ng129
+0  1
+# instance g_g349
+.names ng99  ng99bf
+0  1
+# instance g_g358
+.names nii165  ng91
+0  1
+# instance g_g9
+.latch ng141 ng73 re nclk 2
+# instance g_g100
+.names ng382 ng378  ng230
+11  1
+# instance g_g111
+.names ng375 ng371 ng373 ng369  niiii537
+1111  1
+# instance g_g122
+.names ng358  ng112
+0  1
+# instance g_g133
+.names ng288  niiii348
+0  1
+# instance g_g188
+.names niiii308  ng136
+0  1
+# instance g_g199
+.names ng373  ng374
+0  1
+# instance g_g210
+.names nii375  ng154
+0  1
+# instance g_g221
+.names nii341  ng355
+0  1
+# instance g_g232
+.names nii324  ng333
+0  1
+# instance g_g287
+.names nii175  ng117
+0  1
+# instance g_g298
+.names niiii643  ng360
+0  1
+# instance g_g320
+.names ng10  niiii660
+0  1
+# instance g_g331
+.names niiii265  ng130
+0  1
+# instance g_g101
+.names ng378 ng357  ng246
+11  1
+# instance g_g110
+.names niiii515 ng369 ng371 ng363  ng257
+1111  1
+# instance g_g123
+.names ng356  ng116
+0  1
+# instance g_g132
+.names ng287  niiii341
+0  1
+# instance g_g189
+.names niiii208  niiii210
+0  1
+# instance g_g198
+.names ng392  ng393
+0  1
+# instance g_g200
+.names ng278  niiii279
+0  1
+# instance g_g222
+.names ng184  ng359
+0  1
+# instance g_g231
+.names ng87  niiii406
+0  1
+# instance g_g288
+.names nii172  ng115
+0  1
+# instance g_g297
+.names niiii646  ng361
+0  1
+# instance g_g321
+.names ng9  niiii655
+0  1
+# instance g_g330
+.names niiii272  ng131
+0  1
+# instance g_g102
+.names ng120 n_n0  ng208
+1-  1
+-1  1
+# instance g_g113
+.names niiii521 ng377 ng381 ng362  ng259
+1111  1
+# instance g_g120
+.names ng354  ng120
+0  1
+# instance g_g131
+.names ng270  niiii222
+0  1
+# instance g_g201
+.names ng384  niiii476
+0  1
+# instance g_g212
+.names ng162  nii382
+0  1
+# instance g_g230
+.names ng89  niiii422
+0  1
+# instance g_g289
+.names nii169  ng113
+0  1
+# instance g_g300
+.names ng79  nii211
+0  1
+# instance g_g311
+.names ng80  nii178
+0  1
+# instance g_g103
+.names ng150 ng366  ng226
+11  1
+# instance g_g112
+.names niiii518 ng373 ng375 ng361  ng258
+1111  1
+# instance g_g121
+.names ng379  n_n0
+0  1
+# instance g_g130
+.names niiii348  niiii350
+0  1
+# instance g_g202
+.names nii390  ng392
+0  1
+# instance g_g211
+.names nii369  ng198
+0  1
+# instance g_g220
+.names ng355  ng356
+0  1
+# instance g_g299
+.names niiii633  ng352
+0  1
+# instance g_g301
+.names ng78  nii208
+0  1
+# instance g_g310
+.names ng73  nii181
+0  1
+# instance g_g5
+.latch ng133 ng69 re nclk 2
+# instance g_g140
+.names ng275  niiii258
+0  1
+# instance g_g151
+.names ng169  nii527
+0  1
+# instance g_g162
+.names ng284  niiii320
+0  1
+# instance g_g173
+.names nii469  ng158
+0  1
+# instance g_g184
+.names nii442  ng331
+0  1
+# instance g_g195
+.names ng237  nii373
+0  1
+# instance g_g250
+.names ng283  niiii313
+0  1
+# instance g_g261
+.names ng321  nii281
+0  1
+# instance g_g272
+.names ng367  ng368
+0  1
+# instance g_g283
+.names nii187  ng121
+0  1
+# instance g_g294
+.names niiii655  ng364
+0  1
+# instance g_g6
+.latch ng138 ng70 re nclk 2
+# instance g_g141
+.names ng369  ng370
+0  1
+# instance g_g150
+.names nii527  ng353
+0  1
+# instance g_g163
+.names niiii292  niiii294
+0  1
+# instance g_g172
+.names ng190  nii472
+0  1
+# instance g_g185
+.names ng136  nii442
+0  1
+# instance g_g194
+.names nii373  ng286
+0  1
+# instance g_g240
+.names niiii301  ng135
+0  1
+# instance g_g262
+.names ng318  nii278
+0  1
+# instance g_g271
+.names ng386  ng387
+0  1
+# instance g_g284
+.names nii184  ng221
+0  1
+# instance g_g293
+.names niiii660  ng367
+0  1
+# instance g_g7
+.latch ng139 ng71 re nclk 2
+# instance g_g142
+.names nii547  ng369
+0  1
+# instance g_g153
+.names ng168  nii524
+0  1
+# instance g_g160
+.names niiii294  ng134
+0  1
+# instance g_g171
+.names ng158  ng395
+0  1
+# instance g_g186
+.names niiii327  niiii329
+0  1
+# instance g_g197
+.names niiii476  ng224
+0  1
+# instance g_g241
+.names nii295  ng371
+0  1
+# instance g_g252
+.names ng143  nii303
+0  1
+# instance g_g270
+.names ng388  ng225
+0  1
+# instance g_g285
+.names nii181  ng119
+0  1
+# instance g_g296
+.names niiii649  ng362
+0  1
+# instance g_g340
+.names niiii329  ng139
+0  1
+# instance g_g351
+.names ng97  ng97bf
+0  1
+# instance g_g8
+.latch ng140 ng72 re nclk 2
+# instance g_g143
+.names ng150  ng391
+0  1
+# instance g_g152
+.names nii524  ng169
+0  1
+# instance g_g161
+.names ng279  niiii285
+0  1
+# instance g_g170
+.names nii472  ng377
+0  1
+# instance g_g187
+.names niiii334  niiii336
+0  1
+# instance g_g196
+.names ng282  niiii306
+0  1
+# instance g_g242
+.names nii291  ng375
+0  1
+# instance g_g251
+.names ng281  niiii299
+0  1
+# instance g_g260
+.names niiii356  ng143
+0  1
+# instance g_g286
+.names nii178  ng219
+0  1
+# instance g_g295
+.names niiii652  ng363
+0  1
+# instance g_g341
+.names niiii287  ng133
+0  1
+# instance g_g350
+.names ng104  ng104bf
+0  1
+# instance g_g1
+.latch ng276 ng65 re nclk 2
+# instance g_g108
+.names ng391 ng393 ng352  niiii524
+111  1
+# instance g_g119
+.names ng241 ng256 ng225  niiii546
+1--  1
+-1-  1
+--1  1
+# instance g_g144
+.names ng206  nii547
+0  1
+# instance g_g155
+.names ng86  niiii398
+0  1
+# instance g_g166
+.names ng280  niiii292
+0  1
+# instance g_g177
+.names ng357  ng358
+0  1
+# instance g_g180
+.names nii449  ng179
+0  1
+# instance g_g191
+.names ng286  niiii334
+0  1
+# instance g_g207
+.names ng198  nii386
+0  1
+# instance g_g218
+.names ng309  nii363
+0  1
+# instance g_g229
+.names niiii406  ng173
+0  1
+# instance g_g243
+.names nii287  ng381
+0  1
+# instance g_g254
+.names nii278  ng319
+0  1
+# instance g_g265
+.names ng344  nii269
+0  1
+# instance g_g276
+.names nii208  ng215
+0  1
+# instance g_g290
+.names niiii687  ng389
+0  1
+# instance g_g306
+.names ng75  nii193
+0  1
+# instance g_g317
+.names ng13  niiii687
+0  1
+# instance g_g328
+.names ng1  niiii633
+0  1
+# instance g_g339
+.names niiii336  ng140
+0  1
+# instance g_g342
+.names niiii210  ng122
+0  1
+# instance g_g353
+.names ng101  ng101bf
+0  1
+# instance g_g2
+.latch ng394 ng66 re nclk 2
+# instance g_g109
+.names ng368 ng369 ng365  niiii495
+111  1
+# instance g_g118
+.names ng370 ng353  ng254
+11  1
+# instance g_g145
+.names nii544  ng150
+0  1
+# instance g_g154
+.names niiii398  ng168
+0  1
+# instance g_g167
+.names ng276  niiii265
+0  1
+# instance g_g176
+.names ng335  nii463
+0  1
+# instance g_g181
+.names ng178  nii449
+0  1
+# instance g_g190
+.names ng285  niiii327
+0  1
+# instance g_g208
+.names nii382  ng396
+0  1
+# instance g_g217
+.names nii357  ng146
+0  1
+# instance g_g239
+.names niiii315  ng137
+0  1
+# instance g_g244
+.names niiii313  niiii315
+0  1
+# instance g_g253
+.names nii281  ng322
+0  1
+# instance g_g266
+.names ng338  nii263
+0  1
+# instance g_g275
+.names nii211  ng217
+0  1
+# instance g_g280
+.names nii196  ng109
+0  1
+# instance g_g307
+.names ng82  nii190
+0  1
+# instance g_g316
+.names ng27  nii165
+0  1
+# instance g_g329
+.names niiii279  ng132
+0  1
+# instance g_g338
+.names niiii343  ng141
+0  1
+# instance g_g343
+.names ng395  ng394
+0  1
+# instance g_g352
+.names ng106  ng106bf
+0  1
+# instance g_g3
+.latch ng278 ng67 re nclk 2
+# instance g_g128
+.names niiii222  niiii224
+0  1
+# instance g_g139
+.names ng271  niiii230
+0  1
+# instance g_g146
+.names nii538  ng206
+0  1
+# instance g_g157
+.names ng134  nii517
+0  1
+# instance g_g164
+.names nii440  ng284
+0  1
+# instance g_g175
+.names ng306  nii469
+0  1
+# instance g_g182
+.names niiii414  ng178
+0  1
+# instance g_g193
+.names ng224  niiii208
+0  1
+# instance g_g209
+.names nii378  ng383
+0  1
+# instance g_g227
+.names ng173  nii335
+0  1
+# instance g_g238
+.names ng381  ng382
+0  1
+# instance g_g245
+.names niiii299  niiii301
+0  1
+# instance g_g256
+.names nii272  ng313
+0  1
+# instance g_g263
+.names ng315  nii275
+0  1
+# instance g_g274
+.names ng360  ng222
+0  1
+# instance g_g281
+.names nii193  ng209
+0  1
+# instance g_g292
+.names niiii680  ng386
+0  1
+# instance g_g308
+.names ng74  nii187
+0  1
+# instance g_g319
+.names ng11  niiii680
+0  1
+# instance g_g326
+.names ng3  ng379
+0  1
+# instance g_g337
+.names niiii350  ng142
+0  1
+# instance g_g344
+.names ng391  ng380
+0  1
+# instance g_g355
+.names ng98  ng98bf
+0  1
+# instance g_g4
+.latch ng122 ng68 re nclk 2
+# instance g_g129
+.names niiii341  niiii343
+0  1
+# instance g_g138
+.names ng239  nii511
+0  1
+# instance g_g147
+.names ng300  nii544
+0  1
+# instance g_g156
+.names nii517  ng327
+0  1
+# instance g_g165
+.names ng235  nii440
+0  1
+# instance g_g174
+.names nii463  ng190
+0  1
+# instance g_g183
+.names ng88  niiii414
+0  1
+# instance g_g192
+.names niiii306  niiii308
+0  1
+# instance g_g219
+.names ng293  nii357
+0  1
+# instance g_g228
+.names niiii422  ng183
+0  1
+# instance g_g237
+.names ng375  ng376
+0  1
+# instance g_g246
+.names nii303  ng350
+0  1
+# instance g_g255
+.names nii275  ng316
+0  1
+# instance g_g264
+.names ng312  nii272
+0  1
+# instance g_g273
+.names ng364  ng365
+0  1
+# instance g_g282
+.names nii190  ng223
+0  1
+# instance g_g291
+.names niiii684  ng388
+0  1
+# instance g_g309
+.names ng81  nii184
+0  1
+# instance g_g318
+.names ng12  niiii684
+0  1
+# instance g_g327
+.names ng2  ng366
+0  1
+# instance g_g336
+.names niiii230  ng125
+0  1
+# instance g_g345
+.names ng103  ng103bf
+0  1
+# instance g_g354
+.names ng96  ng96bf
+0  1
+# instance g_g50
+.names ng375 ng374  ng237
+11  1
+# instance g_g61
+.names ng246 ng230  ng279
+1-  1
+-1  1
+# instance g_g72
+.names ng245 ng260 ng278  ng274
+1--  1
+-1-  1
+--1  1
+# instance g_g83
+.names ng396 ng352  ng245
+11  1
+# instance g_g94
+.names ng362 ng158  ng244
+11  1
+# instance g_g51
+.names ng252 ng236  ng285
+1-  1
+-1  1
+# instance g_g60
+.names ng381 ng378  ng235
+11  1
+# instance g_g73
+.names ng254 ng238  ng287
+1-  1
+-1  1
+# instance g_g82
+.names ng390 ng367 ng383 ng364  ng266
+1111  1
+# instance g_g95
+.names ng395 ng397 ng393  niiii515
+111  1
+# instance g_g52
+.names ng24 ng331  ng88
+11  1
+# instance g_g63
+.names ng121 ng120  ng347
+11  1
+# instance g_g70
+.names ng243 ng258 ng227  ng272
+1--  1
+-1-  1
+--1  1
+# instance g_g81
+.names ng116 n_n0  ng210
+1-  1
+-1  1
+# instance g_g96
+.names ng397 niiii527 ng395  ng261
+111  1
+# instance g_g0
+.latch ng380 ng64 re nclk 2
+# instance g_g53
+.names ng113 ng112  ng335
+11  1
+# instance g_g62
+.names ng22 ng327  ng86
+11  1
+# instance g_g71
+.names ng244 ng259 ng228  ng273
+1--  1
+-1-  1
+--1  1
+# instance g_g80
+.names ng108 n_n0  ng214
+1-  1
+-1  1
+# instance g_g97
+.names ng368 ng377 ng364  niiii512
+111  1
+# instance g_g10
+.latch ng142 ng74 re nclk 2
+# instance g_g21
+.names ng20 ng319  ng84
+11  1
+# instance g_g32
+.names ng223 ng222  ng321
+11  1
+# instance g_g43
+.names ng211 ng210  ng303
+11  1
+# instance g_g98
+.names ng387 ng381 ng383 ng377  niiii538
+1111  1
+# instance g_g11
+.latch ng125 ng75 re nclk 2
+# instance g_g20
+.names ng19 ng316  ng83
+11  1
+# instance g_g33
+.names ng248 ng65 ng234  ng281
+1--  1
+-1-  1
+--1  1
+# instance g_g42
+.names ng117 ng116  ng341
+11  1
+# instance g_g99
+.names ng390 niiii512 ng381  ng256
+111  1
+# instance g_g12
+.latch ng126 ng76 re nclk 2
+# instance g_g23
+.names ng28 ng350  ng92
+11  1
+# instance g_g30
+.names ng219 ng222  ng315
+11  1
+# instance g_g41
+.names ng215 ng214  ng309
+11  1
+# instance g_g13
+.latch ng127 ng77 re nclk 2
+# instance g_g22
+.names ng21 ng322  ng85
+11  1
+# instance g_g31
+.names ng221 ng222  ng318
+11  1
+# instance g_g40
+.names ng109 ng108  ng293
+11  1
+# instance g_g14
+.latch ng128 ng78 re nclk 2
+# instance g_g25
+.names ng388 ng389 ng386  ng289
+111  1
+# instance g_g36
+.names ng33 ng194  ng98
+11  1
+# instance g_g47
+.names ng15 ng154  ng104
+11  1
+# instance g_g58
+.names ng397 ng392 ng395 ng366  ng276
+1111  1
+# instance g_g69
+.names ng371 ng370  ng239
+11  1
+# instance g_g15
+.latch ng129 ng79 re nclk 2
+# instance g_g24
+.names ng26 ng298  ng90
+11  1
+# instance g_g37
+.names ng31 ng202  ng96
+11  1
+# instance g_g46
+.names ng32 ng198  ng97
+11  1
+# instance g_g59
+.names ng247 ng261 ng234  ng280
+1--  1
+-1-  1
+--1  1
+# instance g_g68
+.names ng242 ng257 ng226  ng271
+1--  1
+-1-  1
+--1  1
+# instance g_g16
+.latch ng130 ng80 re nclk 2
+# instance g_g27
+.names ng115 ng222  ng338
+11  1
+# instance g_g34
+.names ng67 ng264 ng234  ng283
+1--  1
+-1-  1
+--1  1
+# instance g_g45
+.names ng17 ng162  ng106
+11  1
+# instance g_g78
+.names ng390 ng364 ng368 ng379  ng263
+1111  1
+# instance g_g89
+.names ng376 ng374  ng236
+11  1
+# instance g_g17
+.latch ng131 ng81 re nclk 2
+# instance g_g26
+.names ng111 ng222  ng324
+11  1
+# instance g_g35
+.names ng35 ng166  ng100
+11  1
+# instance g_g44
+.names ng36 ng146  ng101
+11  1
+# instance g_g79
+.names ng390 ng364 ng367 ng379  ng264
+1111  1
+# instance g_g88
+.names ng390 niiii533 ng375  ng265
+111  1
+# instance g_g18
+.latch ng132 ng82 re nclk 2
+# instance g_g29
+.names ng217 ng222  ng312
+11  1
+# instance g_g54
+.names ng213 ng212  ng306
+11  1
+# instance g_g65
+.names ng30 ng206  ng95
+11  1
+# instance g_g76
+.names ng390 ng365 ng368 ng379  ng247
+1111  1
+# instance g_g87
+.names ng361 ng392  ng243
+11  1
+# instance g_g90
+.names ng374 ng355  ng252
+11  1
+# instance g_g19
+.names ng18 ng313  ng107
+11  1
+# instance g_g28
+.names ng119 ng222  ng344
+11  1
+# instance g_g55
+.names ng34 ng190  ng99
+11  1
+# instance g_g64
+.names ng209 ng208  ng300
+11  1
+# instance g_g77
+.names ng390 ng365 ng367 ng379  ng248
+1111  1
+# instance g_g86
+.names ng392 ng366  ng227
+11  1
+# instance g_g91
+.names ng64 ng393 ng366  niiii527
+111  1
+# instance g_g38
+.names ng23 ng329  ng87
+11  1
+# instance g_g49
+.names ng249 ng263 ng234  ng282
+1--  1
+-1-  1
+--1  1
+# instance g_g56
+.names ng158 ng397 ng366  ng277
+111  1
+# instance g_g67
+.names ng397 niiii553 ng395  ng275
+111  1
+# instance g_g74
+.names niiii546 ng266 ng267 ng265  ng270
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g85
+.names ng367 ng373 ng365  niiii533
+111  1
+# instance g_g92
+.names ng112 n_n0  ng212
+1-  1
+-1  1
+# instance g_g39
+.names ng25 ng333  ng89
+11  1
+# instance g_g48
+.names ng396 ng366  ng278
+11  1
+# instance g_g57
+.names ng16 ng158  ng105
+11  1
+# instance g_g66
+.names ng14 ng150  ng103
+11  1
+# instance g_g75
+.names ng387 ng379  ng234
+11  1
+# instance g_g84
+.names ng66 ng397 ng366  ng249
+111  1
+# instance g_g93
+.names ng158 ng366  ng228
+11  1
+.end

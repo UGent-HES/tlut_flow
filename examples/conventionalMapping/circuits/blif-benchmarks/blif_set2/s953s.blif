@@ -1,0 +1,32 @@
+.model s953.bench
+.inputs Rdy1RtHS1 Rdy2RtHS1 Rdy1BmHS1 Rdy2BmHS1 IInDoneHS1 RtTSHS1 TpArrayHS1 \
+OutputHS1 WantBmHS1 WantRtHS1 OutAvHS1 FullOHS1 FullIIHS1 Prog_2 Prog_1 Prog_0
+.outputs ReWhBufHS1 TgWhBufHS1 SeOutAvHS1 LdProgHS1 Mode2HS1 ReRtTSHS1 \
+ShftIIRHS1 NewTrHS1 Mode1HS1 ShftORHS1 ActRtHS1 Mode0HS1 TxHIInHS1 LxHIInHS1 \
+NewLineHS1 ActBmHS1 GoBmHS1 LoadOHHS1 DumpIIHS1 SeFullOHS1 GoRtHS1 LoadIIHHS1 \
+SeFullIIHS1
+.wire_load_slope 0.00 
+.names ReWhBufHS1
+.names TgWhBufHS1
+.names SeOutAvHS1
+.names LdProgHS1
+.names Mode2HS1
+.names ReRtTSHS1
+.names ShftIIRHS1
+.names NewTrHS1
+.names Mode1HS1
+.names ShftORHS1
+.names ActRtHS1
+.names Mode0HS1
+.names TxHIInHS1
+.names LxHIInHS1
+.names NewLineHS1
+.names ActBmHS1
+.names GoBmHS1
+.names LoadOHHS1
+.names DumpIIHS1
+.names SeFullOHS1
+.names GoRtHS1
+.names LoadIIHHS1
+.names SeFullIIHS1
+.end

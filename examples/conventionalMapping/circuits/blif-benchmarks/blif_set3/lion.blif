@@ -1,0 +1,93 @@
+#
+# Written by e2fmt Tue Mar 31 16:29:26 1998
+############################################
+.model top
+.inputs lion_in_0_ lion_in_1_ clock
+.outputs lion_out
+# connect ports to nets with different names
+.names n_n3 lion_out
+1  1
+.names lion_in_0_ n_n23
+1  1
+.names lion_in_1_ n_n24
+1  1
+.names clock n__clk
+1  1
+# instance g_g111
+.names n_n15 n_n14 n_n16  n_n10
+1--  1
+-1-  1
+--1  1
+# instance g_g9
+.names n_n11 n_n0 n_n8  n_n5
+1-0  1
+-11  1
+# instance g_g110
+.names n_n17 n_n19 n_n18 n_n20  n_n11
+1---  1
+-1--  1
+--1-  1
+---1  1
+# instance g_g112
+.names n_n12 n_n22 n_n13  n_n9
+1--  1
+-1-  1
+--1  1
+# instance g_g5
+.names n_n22 n_n1  n_n15
+11  1
+# instance g_g6
+.names n_n21 n_n1  n_n14
+11  1
+# instance g_g7
+.names n_n21 n_n1  n_n13
+11  1
+# instance g_g8
+.names n_n21 n_n2  n_n12
+11  1
+# instance g_g1
+.names n_n22 n_n23  n_n19
+11  1
+# instance g_g2
+.names n_n22 n_n24  n_n18
+11  1
+# instance g_g3
+.names n_n21 n_n22  n_n17
+11  1
+# instance g_g4
+.names n_n23 n_n1  n_n16
+11  1
+# instance g_gd12
+.names  n_n6
+  0
+# instance g_gd11
+.names  n_n7
+  0
+# instance g_g0
+.names n_n2 n_n21 n_n24  n_n20
+111  1
+# instance g_la0
+.latch n_n4 n_n21 re n__clk 2
+# instance g_la1
+.latch n_n5 n_n22 re n__clk 2
+# instance g_g10
+.names n_n10 n_n0 n_n7  n_n4
+1-0  1
+-11  1
+# instance g_g11
+.names n_n9 n_n0 n_n6  n_n3
+1-0  1
+-11  1
+# instance g_gd10
+.names  n_n8
+  0
+# instance g_g12
+.names  n_n0
+  -
+# instance g_g13
+.names n_n24  n_n1
+0  1
+# instance g_g14
+.names n_n23  n_n2
+0  1
+.end
