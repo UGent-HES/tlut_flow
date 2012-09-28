@@ -38,7 +38,7 @@ third_party/aiger-1.9.4 : third_party/aiger-1.9.4.tar.gz
 third_party/aiger-1.9.4.tar.gz :
 	@echo "AIGER downloaded from http://fmv.jku.at/aiger/"
 	mkdir -p third_party
-	wget -P third_party/ http://fmv.jku.at/aiger/aiger-1.9.4.tar.gz
+	cd third_party && curl -O http://fmv.jku.at/aiger/aiger-1.9.4.tar.gz
 
 
 
