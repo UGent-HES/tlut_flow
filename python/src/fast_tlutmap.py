@@ -14,13 +14,15 @@ def collumnize(items,width):
 
 #copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
 def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
-    assert module.endswith('.vhd')
+    if not module.lower().endswith('.vhd'):
+        print "Error: Module filename does not have extension '.vhd':", module
+        exit(3)
     baseName = module[:-len('.vhd')]
     
     print "Stage: Creating work directory and copying design"
     try:
         os.system('mkdir -p work')
-        shutil.copy(baseName+'.vhd', 'work')
+        shutil.copy(module, 'work')
         shutil.copy('abc.rc','work')
     except IOError as e:
         print e
@@ -32,13 +34,13 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     print "Stage: Generating parameters"
     parameterFileName = baseName+'.par'
     try:
-        assert not os.system('genParameters.py '+baseName+'.vhd > '+baseName+'.par')
+        assert not os.system('genParameters.py '+module+' > '+baseName+'.par')
     except AssertionError:
         exit(3)
     
     # Synthesis
     print "Stage: Synthesizing"
-    blifFileName = synthesize(baseName+'.vhd', submodules, verboseFlag)
+    blifFileName = synthesize(module, submodules, verboseFlag)
     
     # Convert BLIF to aig
     aagFileName = bliftoaag(blifFileName)
