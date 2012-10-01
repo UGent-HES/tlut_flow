@@ -3,7 +3,7 @@
 from fast_tlutmap import run
 
 def main():
-    run('subst_row_mem.vhd', performCheck=True)
+    run('subst_row_mem.vhd', K=4, performCheck=False)
 
 if __name__=="__main__":
     main()
