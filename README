@@ -1,6 +1,6 @@
 To setup do:
 > make
-Builds aiger and abc, and Java tools
+Builds Aiger, ABC, and Java tools
 Creates 'source' file which sets environment variables
 
 Set environment variables using:
@@ -12,15 +12,21 @@ E.g.
 > ./treeMult4b.py
 
 
-dependencies to be forseen by user:
+Dependencies to be forseen by user:
 Python (tested with version 2.7)
 Quartus II (tested with version 7.2)
 
-dependency automatically downloaded and installed:
-aiger (tested with version 1.9.4) URL: http://fmv.jku.at/aiger/
+Dependency automatically downloaded and installed:
+Aiger (tested with version 1.9.4) URL: http://fmv.jku.at/aiger/
 
-dependency included:
-abc (tested with version 91222p) URL: http://www.eecs.berkeley.edu/~alanmi/abc/
+Dependency included and automatically installed:
+ABC (tested with version 91222p) URL: http://www.eecs.berkeley.edu/~alanmi/abc/
 
 Assumes:
 all VHDL design files use ".vhd" file extension
+
+
+Troubleshooting:
+* python ImportError: No module named fast_tlutmap (or others)
+Environment variables aren't set up correctly. Try running '. source' in the main directory. 
+If you have moved the main directory the paths in the 'source' file are not longer correct. Remove this file and create it again using 'make source'.

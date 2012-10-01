@@ -1,9 +1,9 @@
 HIGH PRIORIY:
-check ! wat is het verschil tussen printLutStructureBlif en printLutStructureBlif2
-fix examples
-make possible to map modules with submodules (done but not tested)
-copy bugfix "nots" from fatma
+verify : difference between printLutStructureBlif en printLutStructureBlif2
+test : mapping modules with submodules
 
 LOW PRIORITY:
-test run script
-errors to stderr
+test script/unittest
+redirect errors to stderr
+fix more examples
+make possible to use other extensions than '.vhd'
