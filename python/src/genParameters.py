@@ -58,12 +58,11 @@ def extractGenericsFromFile():
 	except IOError,e:
 		print >> sys.stderr, "Warning: No such file '../../generics.txt'"
 
-def main():
-	extractGenericsFromFile()
-	fname = sys.argv[1]
+def generateParameters(fname):
 	file = open(fname, 'rU')
-	
 	lines = file.readlines()
+	
+	#extractGenericsFromFile()
 	
 	nmbrs = index(".*--PARAM", lines)
 	if len(nmbrs)==0:
@@ -112,5 +111,10 @@ def main():
 							print parameterName + '[' + str(i) + ']' + '[' + str(j) + ']'
 		elif 'out' in words_case or 'inout' in words_case:
 			print >> sys.stderr, "Warning: 'out' and 'inout' ports are not supported"
+
+def main():
+	fname = sys.argv[1]
+	generateParameters(fname)
 	
-main()
+if __name__=="__main__":
+    main()
