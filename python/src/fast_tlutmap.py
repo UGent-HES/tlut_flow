@@ -6,7 +6,9 @@ Created on Dec 15, 2009
 
 import os
 import shutil
+import sys
 from mapping import *   
+
 
 colwidth=10
 def collumnize(items,width):
@@ -15,7 +17,7 @@ def collumnize(items,width):
 #copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
 def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     if not module.lower().endswith('.vhd'):
-        print "Error: Module filename does not have extension '.vhd':", module
+        print >> sys.stderr, "Error: Module filename does not have extension '.vhd':", module
         exit(3)
     baseName = module[:-len('.vhd')]
     
@@ -25,7 +27,7 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
         shutil.copy(module, 'work')
         shutil.copy('abc.rc','work')
     except IOError as e:
-        print e
+        print >> sys.stderr, e
         exit(3)
     
     os.chdir('work')

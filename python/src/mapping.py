@@ -25,7 +25,7 @@ def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
             subprocess.check_call(['aigtoaig', aagFile, aigFile])
         
         if not os.path.exists(aagFile):
-            print 'Error: missing input file: %s'%aagFile
+            print >> sys.stderr, 'Error: missing input file: %s'%aagFile
             exit(3)
         
         # Actual mapping using Java tool
@@ -49,7 +49,7 @@ def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
         else:
             check = "SKIPPED"
     except subprocess.CalledProcessError as e:
-        print e
+        print >> sys.stderr, e
         #raise
         exit(2)
     return (numLuts, depth, check)
@@ -82,7 +82,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         #outVhdFile = basename + "-simpletmap.vhd"
         for f in (aagFile,): #vhdFile):
             if not os.path.exists(f):
-                print 'Error: missing input file: %s'%f
+                print >> sys.stderr, 'Error: missing input file: %s'%f
                 exit(3)
         
         # Using TMAP to map the circuit
@@ -106,7 +106,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
             if not verboseFlag:
                 print ' '.join(cmd + args)
                 print output,
-            print "Error: unexpected output from java TMapSimple."
+            print >> sys.stderr, "Error: unexpected output from java TMapSimple."
             exit(2)
         
         # Extracting results
@@ -122,7 +122,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
             if not verboseFlag:
                 print ' '.join(cmd)
                 print output,
-            print "Error: unexpected output from abc print_stats."
+            print >> sys.stderr, "Error: unexpected output from abc print_stats."
             exit(2)
     
     
@@ -139,7 +139,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
             if not verboseFlag:
                 print ' '.join(cmd)
                 print output,
-            print "Error: unexpected output from abc print_stats."
+            print >> sys.stderr, "Error: unexpected output from abc print_stats."
             exit(2)
         
         # Verification of resulting mapping using satsolver
@@ -160,7 +160,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         else:
             check = "SKIPPED"
     except subprocess.CalledProcessError as e:
-        print e
+        print >> sys.stderr, e
         #raise
         exit(2)
     
@@ -184,8 +184,10 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
         numLuts = float(output.split()[-10])
         depth   = float(output.split()[-1])
     except (ValueError, IndexError):
-        print output,
-        print "Error: unexpected output from abc print_stats."
+        if not verboseFlag:
+            print cmd
+            print output
+        print >> sys.stderr, "Error: unexpected output from abc print_stats."
         exit(2)
     if checkFunctionality:
         check   = miter(inFile, outFile, verboseFlag)
@@ -203,7 +205,7 @@ def aagtoaig(aagFileName):
     os.system("rm -f "+aigFileName)
     subprocess.check_call(['aigtoaig',aagFileName,aigFileName])
     if not os.path.exists(aigFileName):
-        print "Error: aigtoaig unsuccesful, file %s was not created"%aigFileName
+        print >> sys.stderr, "Error: aigtoaig unsuccesful, file %s was not created"%aigFileName
         exit(3)
     return aigFileName
 
@@ -216,7 +218,7 @@ def aigtoaag(aigFileName):
     os.system("rm -f "+aagFileName)
     subprocess.check_call(['aigtoaig',aigFileName,aagFileName])
     if not os.path.exists(aagFileName):
-        print "Error: aigtoaag unsuccesful, file %s was not created"%aagFileName
+        print >> sys.stderr, "Error: aigtoaag unsuccesful, file %s was not created"%aagFileName
         exit(3)
     return aagFileName
  
@@ -234,7 +236,7 @@ def bliftoaag(blifFileName):
     cmd = ['abc', '-c', 'strash; zero; write '+aigFileName, blifFileName]
     subprocess.check_call(cmd)
     if not os.path.exists(aigFileName):
-        print "Error: bliftoaig unsuccesful, file %s was not created"%aigFileName
+        print >> sys.stderr, "Error: bliftoaig unsuccesful, file %s was not created"%aigFileName
         exit(3)
     print 'Please ignore the error message "Error: The current network is combinational".'
     
@@ -249,7 +251,8 @@ def miter(circuit0, circuit1, verboseFlag=False):
     try:
         output = subprocess.check_output(cmd,stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as ex:
-        print ex.output
+        print >> sys.stderr, ex.output
+        print >> sys.stderr, 'Error: verification failed'
         exit(2)
     if verboseFlag:
         print output,
@@ -261,7 +264,7 @@ def miter(circuit0, circuit1, verboseFlag=False):
         if not verboseFlag:
             print ' '.join(cmd)
             print output,
-        print "Error: unexpected output from miter computation (verification)"
+        print >> sys.stderr, "Error: unexpected output from miter computation (verification)"
         exit(2)
     
 def synthesize(top, submodules, verboseFlag=False):
@@ -295,7 +298,7 @@ def synthesize(top, submodules, verboseFlag=False):
     output = commands.getoutput(cmd);
     print output
     if output.find(' 0 errors')==-1:
-        print 'Error: quartus_map unsuccesful'
+        print >> sys.stderr, 'Error: quartus_map unsuccesful'
         exit(3)
     print 'Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.'
     
