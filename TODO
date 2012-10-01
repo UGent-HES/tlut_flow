@@ -4,6 +4,5 @@ test : mapping modules with submodules
 
 LOW PRIORITY:
 test script/unittest
-redirect errors to stderr
 fix more examples
 make possible to use other extensions than '.vhd'
