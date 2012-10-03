@@ -4,6 +4,13 @@ import commands
 import subprocess
 
 
+maxMemory = 1024
+#set maximum memory usage of Java tools, in MB
+def setMaxMemory(mm):
+    global maxMemory
+    assert isinstance(mm,int)
+    maxMemory = mm
+
 def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
     try:
         ext = fname.split('.')[-1]
@@ -29,7 +36,7 @@ def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
             exit(3)
         
         # Actual mapping using Java tool
-        cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.simple.SimpleMapper']
+        cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.simple.SimpleMapper']
         # args: input aag file, inputs per LUT, output blif file
         args = [aagFile, str(K), outFile]
         if verboseFlag:
@@ -86,7 +93,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
                 exit(3)
         
         # Using TMAP to map the circuit
-        cmd  = ['java','-server','-Xms1024m','-Xmx2048m','be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
+        cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
         # args: input aag of design, input file with parameters, number of inputs per LUT, unused, output parameterised configuration bits as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
         args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile]#, vhdFile, outVhdFile]
         if verboseFlag:

@@ -11,6 +11,8 @@ def collumnize(items,width):
 def main():
     K = 4
     performCheck = False
+    verboseFlag = False
+    setMaxMemory(2048)
     
     baseName = "k_AES"
     aagFileName = baseName+".aag"
@@ -30,13 +32,13 @@ def main():
     
     # Unleash TMAP
     print "Stage: TMAP"
-    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck)
+    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','TLUTs','depth','check'],colwidth)
     print collumnize([numLuts,numTLUTs,depth,check],colwidth)
     
     # Run regular MAP
     print "Stage: SimpleMAP"
-    numLuts, depth, check = simpleMapper(baseName, aagFileName, K, performCheck)
+    numLuts, depth, check = simpleMapper(baseName, aagFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','','depth','check'],colwidth)
     print collumnize([numLuts,'',depth,check],colwidth)
     
