@@ -1,5 +1,4 @@
 HIGH PRIORIY:
-test : mapping modules with submodules
 
 LOW PRIORITY:
 test script/unittest

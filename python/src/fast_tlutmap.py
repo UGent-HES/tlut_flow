@@ -26,6 +26,8 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     try:
         os.system('mkdir -p work')
         shutil.copy(module, 'work')
+        for submodule in submodules:
+            shutil.copy(submodule, 'work')
         shutil.copy('abc.rc','work')
     except IOError as e:
         print >> sys.stderr, e
