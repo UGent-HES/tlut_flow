@@ -4,5 +4,3 @@ test : mapping modules with submodules
 LOW PRIORITY:
 test script/unittest
 fix more examples
-make possible to use other extensions than '.vhd'
-verilog support

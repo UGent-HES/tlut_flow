@@ -276,18 +276,23 @@ def miter(circuit0, circuit1, verboseFlag=False):
         exit(2)
     
 def synthesize(top, submodules, verboseFlag=False):
-    ext = '.vhd'
-    assert top.lower().endswith(ext)
-    basename = top[:-len(ext)]
+    ext = top.split('.')[-1].lower()
+    basename = top[:-len(ext)-1]
     assert basename
 
     
     qsfFileName = basename + ".qsf"
     fout = open(qsfFileName, "w")
 
-    fout.write('set_global_assignment -name VHDL_FILE ' + top + '\n')
+    if ext in ('vhd','vhdl'):
+        fout.write('set_global_assignment -name VHDL_FILE ' + top + '\n')
+    else:
+        fout.write('set_global_assignment -name VERILOG_FILE ' + top + '\n')
     for file in submodules:
-        fout.writelines('set_global_assignment -name VHDL_FILE ' + file + '\n')
+        if file.split('.')[-1].lower() in ('vhd','vhdl'):
+            fout.writelines('set_global_assignment -name VHDL_FILE ' + file + '\n')
+        else:
+            fout.write('set_global_assignment -name VERILOG_FILE ' + file + '\n')
 
     fout.write('set_global_assignment -name FAMILY Stratix\n');
     fout.write('set_global_assignment -name TOP_LEVEL_ENTITY ' + basename + '\n');

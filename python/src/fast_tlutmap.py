@@ -16,10 +16,11 @@ def collumnize(items,width):
 
 #copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
 def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
-    if not module.lower().endswith('.vhd'):
-        print >> sys.stderr, "Error: Module filename does not have extension '.vhd':", module
+    ext = module.split('.')[-1].lower()
+    baseName = module[:-len(ext)-1]
+    if ext not in ('vhd','vhdl','v'):
+        print >> sys.stderr, "Error: Module filename does not have extension '.vhd','.vhdl' or '.v':", module
         exit(3)
-    baseName = module[:-len('.vhd')]
     
     print "Stage: Creating work directory and copying design"
     try:
@@ -37,6 +38,11 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     parameterFileName = baseName+'.par'
     try:
         assert not os.system('genParameters.py '+module+' > '+baseName+'.par')
+        if verboseFlag:
+            print "Parameters:"
+            os.system('cat %s.par'%baseName)
+        else:
+            print "Attention: Verify the detected parameters by inspecting work/%s.par"%baseName
     except AssertionError:
         exit(3)
     
