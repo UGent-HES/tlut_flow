@@ -237,7 +237,8 @@ def bliftoaag(blifFileName):
     assert basename
 
     # There seems to be a bug in bliftoaig when input file is large.
-#    subprocess.check_call('bliftoaig',blifFileName,aagFileName])
+    # subprocess.check_call(['bliftoaig',blifFileName,basename+'.aag'])
+    # return basename+'.aag'
 
     os.system("rm -f "+aigFileName)
     cmd = ['abc', '-c', 'strash; zero; write '+aigFileName, blifFileName]

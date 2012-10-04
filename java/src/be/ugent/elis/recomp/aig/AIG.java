@@ -509,7 +509,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		Vector<N> variable = new Vector<N>();
 		variable.add(const0);
 		variable.addAll(input);
-		variable.addAll(latch);
+		variable.addAll(olatch);
 		variable.addAll(and);
 		
 //		Vector<N> andsTopoOrder = this.topologicalOrderInToOut(false, false);
@@ -527,10 +527,11 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			stream.println(var);
 		}
 		
-		for (N n: latch) {
+		for (N n: olatch) {
 			int var = 2* variableIndex.get(n);
 			
-			N ilatch = n.getI0().getTail();
+			N latch = n.getI0().getTail();
+			N ilatch = latch.getI0().getTail();
 			int lit = 2* variableIndex.get(ilatch.getI0().getTail());
 			if (ilatch.getI0().isInverted()) {
 				lit += 1; 
@@ -571,6 +572,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		//Symbol names
 		for (int i=0; i<input.size(); i++) {
 			stream.println ("i"+ i +" "+ input.get(i).getName());
+		}
+
+		for (int l=0; l<latch.size(); l++) {
+			stream.println ("l"+ l +" "+ latch.get(l).getName());
 		}
 		
 		for (int o=0; o<output.size(); o++) {

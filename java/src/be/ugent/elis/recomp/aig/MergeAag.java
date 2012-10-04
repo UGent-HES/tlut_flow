@@ -15,7 +15,8 @@ public class MergeAag {
 		BasicAIG aig1 = new BasicAIG(args[1]);
 		
 		aig0.merge(aig1);
-		
+		//aig1.printAAG(new PrintStream(new File(args[2])));
+
 		aig0.printAAG(new PrintStream(new File(args[2])));
 
 	}
