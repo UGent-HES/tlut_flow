@@ -93,7 +93,7 @@ def generateParameters(fname):
     
     if HDLtype == 'VHDL':
         for paramDef in paramDefs:
-            words = re.findall('r[^\t ,():;\]\[]+',paramDef)
+            words = re.findall(r'[^\t ,():;]+',paramDef)
             words_case = [str.lower(word) for word in words]
             if 'in' in words_case:
                 parameterName = words[0]
