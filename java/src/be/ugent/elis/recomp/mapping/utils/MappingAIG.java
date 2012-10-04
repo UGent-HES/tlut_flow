@@ -141,7 +141,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	}
 
 
-	public AIG<Node, Edge> constructParamConfig2(int K) {
+	public AIG<Node, Edge> constructParamConfig_old(int K) {
 		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
 		
 		
@@ -254,6 +254,135 @@ public class MappingAIG extends AIG<Node, Edge> {
 					output.setI0(e);
 					copyI0.addOutput(e);
 					
+				}
+			}
+		}
+		return aig;
+	}
+
+	public AIG<Node, Edge> constructParamConfig(int K) {
+		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
+		
+		
+		Map<Node,Node> parameterCopyMap = new HashMap<Node, Node>();
+		for (Node input:this.getInputs()) {
+			if (input.isParameter()) {
+				Node copy = aig.addNode(input.getName(), NodeType.INPUT);
+				parameterCopyMap.put(input, copy);
+			}
+		}
+		
+		for (Node and : getAnds()) {
+			if (and.isVisible()) {
+				
+				ConeInterface bestCone = and.getBestCone();
+				Vector<Node> bestConeNodesInToOut = bestCone.getNodes();
+				Vector<Node> regularInputs = bestCone.getRegularInputs();
+								
+				for (int entry=0; entry < Math.pow(2, K); entry++) {
+					Vector<Boolean> entryBinairy = new Vector<Boolean>();
+					entryBinairy.setSize(K);
+					int temp = entry;
+					for (int i = 0; i < K; i++) {
+						if (temp % 2 == 0) {
+							entryBinairy.set(i, false);
+						} else {
+							entryBinairy.set(i, true);
+						}
+						temp = temp / 2;
+					}
+					
+					Map<Node,Node>    copyMap    = new HashMap<Node,Node>();
+					Map<Node,Boolean> copyInvMap = new HashMap<Node,Boolean>();
+					
+					for (Node orig: bestConeNodesInToOut) {
+						Node origI0   = orig.getI0().getTail();
+						Node copyI0;
+						boolean invI0;
+						//boolean outputLutXorValue0 = checkOutputLutInversion(origI0) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(origI0) == OutputLutInversion.MixedOuts && orig.getI0().isInverted())? true : false;
+						boolean outputLutXorValue0 = checkOutputLutInversion(origI0) == OutputLutInversion.AllOutsInverted ? true : false;
+						if (regularInputs.contains(origI0)) {
+							copyI0 = aig.getConst0();
+							boolean value = entryBinairy.get(regularInputs.indexOf(origI0));
+							invI0  = (orig.getI0().isInverted() ^ value) ^ outputLutXorValue0;
+						} else if (parameterCopyMap.containsKey(origI0)) {
+							copyI0 = parameterCopyMap.get(origI0) ;
+							invI0  = orig.getI0().isInverted() ;
+						} else {
+							copyI0 = copyMap.get(origI0);
+							invI0  = orig.getI0().isInverted() ^ copyInvMap.get(origI0);
+						}
+						
+						Node origI1   = orig.getI1().getTail();
+						Node copyI1;
+						boolean invI1;
+						//boolean outputLutXorValue1 = checkOutputLutInversion(origI1) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(origI1) == OutputLutInversion.MixedOuts && orig.getI1().isInverted())? true : false;
+						boolean outputLutXorValue1 = checkOutputLutInversion(origI1) == OutputLutInversion.AllOutsInverted ? true : false;
+						if (regularInputs.contains(origI1)) {
+							copyI1 = aig.getConst0();
+							boolean value = entryBinairy.get(regularInputs.indexOf(origI1));
+							invI1  = orig.getI1().isInverted() ^ value ^ outputLutXorValue1;
+						} else if (parameterCopyMap.containsKey(origI1)) {
+							copyI1 = parameterCopyMap.get(origI1);
+							invI1  = orig.getI1().isInverted() ;
+						} else {
+							copyI1 = copyMap.get(origI1);
+							invI1  = orig.getI1().isInverted() ^ copyInvMap.get(origI1);
+						}
+						
+//						Constant propagation
+						if ((copyI0 == aig.getConst0()) && (copyI1 == aig.getConst0())) {
+							copyMap.put(orig, aig.getConst0());
+							if (invI0 && invI1) {
+								copyInvMap.put(orig, true);
+							} else {
+								copyInvMap.put(orig, false);
+							}
+						} else if (copyI0 == aig.getConst0()) {
+							if (invI0) {
+								copyMap.put(orig, copyI1);
+								copyInvMap.put(orig, invI1);
+							} else {
+								copyMap.put(orig, aig.getConst0());
+								copyInvMap.put(orig, false);
+							}
+						} else if (copyI1 == aig.getConst0()) {
+							if (invI1) {
+								copyMap.put(orig, copyI0);
+								copyInvMap.put(orig, invI0);
+							} else {
+								copyMap.put(orig, aig.getConst0());
+								copyInvMap.put(orig, false);
+							}
+//						No constant propagation possible
+						} else {
+							Node copy = aig.findNode(copyI0, invI0, copyI1, invI1);
+							if (copy == null) {
+								copy = aig.addNode(and.getName()+"_"+entry+"_"+orig.getName(),copyI0, invI0, copyI1, invI1);
+							}
+							
+							copyMap.put(orig, copy);
+							copyInvMap.put(orig, false);
+						}
+					}
+							
+					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){
+						Node output = aig.addNode(and.getName()+"not"+"_"+entry, NodeType.OUTPUT);
+						Node copyI0 = copyMap.get(and);
+						Edge e = aig.addEdge(copyI0, output, !copyInvMap.get(and));
+						output.setI0(e);
+						copyI0.addOutput(e);
+					}
+					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
+						Node output = aig.addNode(and.getName()+"_"+entry, NodeType.OUTPUT);
+						Node copyI0 = copyMap.get(and);
+						Edge e = aig.addEdge(copyI0, output, copyInvMap.get(and));
+						output.setI0(e);
+						copyI0.addOutput(e);
+					}
+					
+					
+									
 				}
 			}
 		}
@@ -405,138 +534,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 	}
 	
-	public AIG<Node, Edge> constructParamConfig3(int K) {
-		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
-		
-		
-		Map<Node,Node> parameterCopyMap = new HashMap<Node, Node>();
-		for (Node input:this.getInputs()) {
-			if (input.isParameter()) {
-				Node copy = aig.addNode(input.getName(), NodeType.INPUT);
-				parameterCopyMap.put(input, copy);
-			}
-		}
-		
-		for (Node and : getAnds()) {
-			if (and.isVisible()) {
-				
-				ConeInterface bestCone = and.getBestCone();
-				Vector<Node> bestConeNodesInToOut = bestCone.getNodes();
-				Vector<Node> regularInputs = bestCone.getRegularInputs();
-								
-				for (int entry=0; entry < Math.pow(2, K); entry++) {
-					Vector<Boolean> entryBinairy = new Vector<Boolean>();
-					entryBinairy.setSize(K);
-					int temp = entry;
-					for (int i = 0; i < K; i++) {
-						if (temp % 2 == 0) {
-							entryBinairy.set(i, false);
-						} else {
-							entryBinairy.set(i, true);
-						}
-						temp = temp / 2;
-					}
-					
-					Map<Node,Node>    copyMap    = new HashMap<Node,Node>();
-					Map<Node,Boolean> copyInvMap = new HashMap<Node,Boolean>();
-					
-					for (Node orig: bestConeNodesInToOut) {
-						Node origI0   = orig.getI0().getTail();
-						Node copyI0;
-						boolean invI0;
-						//boolean outputLutXorValue0 = checkOutputLutInversion(origI0) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(origI0) == OutputLutInversion.MixedOuts && orig.getI0().isInverted())? true : false;
-						boolean outputLutXorValue0 = checkOutputLutInversion(origI0) == OutputLutInversion.AllOutsInverted ? true : false;
-						if (regularInputs.contains(origI0)) {
-							copyI0 = aig.getConst0();
-							boolean value = entryBinairy.get(regularInputs.indexOf(origI0));
-							invI0  = (orig.getI0().isInverted() ^ value) ^ outputLutXorValue0;
-						} else if (parameterCopyMap.containsKey(origI0)) {
-							copyI0 = parameterCopyMap.get(origI0) ;
-							invI0  = orig.getI0().isInverted() ;
-						} else {
-							copyI0 = copyMap.get(origI0);
-							invI0  = orig.getI0().isInverted() ^ copyInvMap.get(origI0);
-						}
-						
-						Node origI1   = orig.getI1().getTail();
-						Node copyI1;
-						boolean invI1;
-						//boolean outputLutXorValue1 = checkOutputLutInversion(origI1) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(origI1) == OutputLutInversion.MixedOuts && orig.getI1().isInverted())? true : false;
-						boolean outputLutXorValue1 = checkOutputLutInversion(origI1) == OutputLutInversion.AllOutsInverted ? true : false;
-						if (regularInputs.contains(origI1)) {
-							copyI1 = aig.getConst0();
-							boolean value = entryBinairy.get(regularInputs.indexOf(origI1));
-							invI1  = orig.getI1().isInverted() ^ value ^ outputLutXorValue1;
-						} else if (parameterCopyMap.containsKey(origI1)) {
-							copyI1 = parameterCopyMap.get(origI1);
-							invI1  = orig.getI1().isInverted() ;
-						} else {
-							copyI1 = copyMap.get(origI1);
-							invI1  = orig.getI1().isInverted() ^ copyInvMap.get(origI1);
-						}
-						
-//						Constant propagation
-						if ((copyI0 == aig.getConst0()) && (copyI1 == aig.getConst0())) {
-							copyMap.put(orig, aig.getConst0());
-							if (invI0 && invI1) {
-								copyInvMap.put(orig, true);
-							} else {
-								copyInvMap.put(orig, false);
-							}
-						} else if (copyI0 == aig.getConst0()) {
-							if (invI0) {
-								copyMap.put(orig, copyI1);
-								copyInvMap.put(orig, invI1);
-							} else {
-								copyMap.put(orig, aig.getConst0());
-								copyInvMap.put(orig, false);
-							}
-						} else if (copyI1 == aig.getConst0()) {
-							if (invI1) {
-								copyMap.put(orig, copyI0);
-								copyInvMap.put(orig, invI0);
-							} else {
-								copyMap.put(orig, aig.getConst0());
-								copyInvMap.put(orig, false);
-							}
-//						No constant propagation possible
-						} else {
-							Node copy = aig.findNode(copyI0, invI0, copyI1, invI1);
-							if (copy == null) {
-								copy = aig.addNode(and.getName()+"_"+entry+"_"+orig.getName(),copyI0, invI0, copyI1, invI1);
-							}
-							
-							copyMap.put(orig, copy);
-							copyInvMap.put(orig, false);
-						}
-					}
-							
-					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){
-						Node output = aig.addNode(and.getName()+"not"+"_"+entry, NodeType.OUTPUT);
-						Node copyI0 = copyMap.get(and);
-						Edge e = aig.addEdge(copyI0, output, !copyInvMap.get(and));
-						output.setI0(e);
-						copyI0.addOutput(e);
-					}
-					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
-						Node output = aig.addNode(and.getName()+"_"+entry, NodeType.OUTPUT);
-						Node copyI0 = copyMap.get(and);
-						Edge e = aig.addEdge(copyI0, output, copyInvMap.get(and));
-						output.setI0(e);
-						copyI0.addOutput(e);
-					}
-					
-					
-									
-				}
-			}
-		}
-		return aig;
-	}
-
 
 	
-	public void printLutStructureBlif(PrintStream stream, int K) {
+	public void printLutStructureBlif_old(PrintStream stream, int K) {
 		stream.println(".model top");
 		
 		stream.print(".inputs");		
@@ -649,7 +649,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		
 	}
 
-	public void printLutStructureBlif2(PrintStream stream, int K) {
+	public void printLutStructureBlif(PrintStream stream, int K) {
 		stream.println(".model top");
 		
 		stream.print(".inputs");		

@@ -56,25 +56,25 @@ public class TMapSimple {
         
 		System.out.println("Generating the parameterizable configuration:");
 		AIG<Node, Edge> b;
-        if(args.length > 6){
-			 b = a.constructParamConfig3(K);
+        /*if(args.length > 6){
+			 b = a.constructParamConfig(K);
 		}else{
-			// b = a.constructParamConfig2(K);
-			 b = a.constructParamConfig3(K);
-		}
+			 b = a.constructParamConfig_old(K);
+		}*/
+		b = a.constructParamConfig(K);
         
         System.out.println("Writing the parameterizable configuration:");
         b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[4]))));
 //        b.printAAGevaluator(new PrintStream(new BufferedOutputStream( new FileOutputStream("test.c"))));
         System.out.println("Writing the LUT structure:"); 
         if(args.length > 6){
-        	a.printLutStructureBlif2(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
+        	a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
         	String vhdFile = args[7];
         	String inVhdFile = args[6];
         	a.printLutStructureVhdl(inVhdFile, vhdFile, K);
         }else{
-        	//a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
-        	a.printLutStructureBlif2(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
+        	//a.printLutStructureBlif_old(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
+        	a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
         }
 
 
