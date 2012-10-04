@@ -10,7 +10,7 @@ def collumnize(items,width):
 
 def main():
     K = 4
-    performCheck = False
+    performCheck = True
     verboseFlag = False
     setMaxMemory(2048)
     

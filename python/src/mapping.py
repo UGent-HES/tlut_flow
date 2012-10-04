@@ -153,7 +153,11 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         if checkFunctionality:
             # Merging the LUT-structure and the parameterizable configuration.
             mergedFile =  basename + "-merge.aag"
-            cmd  = ['java','be.ugent.elis.recomp.aig.MergeAag']
+            cmd  = ['java',
+                        '-server',
+                        '-Xms%dm'%maxMemory,
+                        '-Xmx%dm'%maxMemory,
+                        'be.ugent.elis.recomp.aig.MergeAag']
             # args: input parameterized configuration in aag, input lut structure, output aag
             args = [parconfFile, bliftoaag(lutstructFile), mergedFile]
             if verboseFlag:
