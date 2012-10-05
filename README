@@ -1,12 +1,12 @@
 To setup do:
 > make
-Builds Aiger, ABC, and Java tools
+Builds Aiger, ABC, and our tools
 Creates 'source' file which sets environment variables
 
 Set environment variables using:
 > . source
 
-Examples can be run using included python script.
+Examples can be run using included Python script.
 E.g.
 > cd examples/treeMult4b
 > ./treeMult4b.py
@@ -21,9 +21,6 @@ Aiger (tested with version 1.9.4) URL: http://fmv.jku.at/aiger/
 
 Dependency included and automatically installed:
 ABC (tested with version 91222p) URL: http://www.eecs.berkeley.edu/~alanmi/abc/
-
-Assumes:
-all VHDL design files use ".vhd" file extension
 
 
 Troubleshooting:
