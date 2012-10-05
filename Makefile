@@ -1,4 +1,5 @@
 AIGER_VERSION = 1.9.4
+ABC_VERSION = 810ba683c042
 
 javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java java/src/be/ugent/elis/recomp/aig/MergeAag.java java/src/be/ugent/elis/recomp/mapping/simple/SimpleMapper.java
 
@@ -43,9 +44,25 @@ third_party/aiger-${AIGER_VERSION}.tar.gz :
 
 
 
-third_party/bin/abc : third_party/abc91222p/abc
-	mkdir -p third_party/bin
-	ln -s ../abc91222p/abc third_party/bin/abc
+#third_party/bin/abc : third_party/abc91222p/abc
+#	mkdir -p third_party/bin
+#	ln -s ../abc91222p/abc third_party/bin/abc
 
-third_party/abc91222p/abc :
-	cd third_party/abc91222p && make
+#third_party/abc91222p/abc :
+#	cd third_party/abc91222p && make
+
+third_party/bin/abc : third_party/abc_${ABC_VERSION}/abc
+	mkdir -p third_party/bin
+	ln -s ../abc_${ABC_VERSION}/abc third_party/bin/abc
+
+third_party/abc_${ABC_VERSION}/abc : third_party/abc_${ABC_VERSION}
+	cd third_party/abc_${ABC_VERSION} && make
+
+third_party/abc_${ABC_VERSION} : third_party/abc_${ABC_VERSION}.tar.gz
+	tar -xzf third_party/abc_${ABC_VERSION}.tar.gz -C third_party/
+	cd third_party && mv alanmi-abc-${ABC_VERSION} abc_${ABC_VERSION}
+	cd third_party/abc_${ABC_VERSION} && patch < ../abc_makefile.patch
+
+third_party/abc_${ABC_VERSION}.tar.gz :
+	cd third_party && curl -O https://bitbucket.org/alanmi/abc/get/${ABC_VERSION}.tar.gz
+	cd third_party && mv ${ABC_VERSION}.tar.gz abc_${ABC_VERSION}.tar.gz
