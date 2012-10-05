@@ -2,10 +2,10 @@ AIGER_VERSION = 1.9.4
 
 javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java java/src/be/ugent/elis/recomp/aig/MergeAag.java java/src/be/ugent/elis/recomp/mapping/simple/SimpleMapper.java
 
-.PHONY : java third_party all
+.PHONY : java third_party all aigtoaig abc
 .SUFFIXES: .java .class
 
-all : java source third_party
+all : java source third_party 
 
 
 java : $(javaClasses:.java=.class)
@@ -22,7 +22,9 @@ source :
 
 
 
-third_party : third_party/bin/aigtoaig third_party/bin/abc
+third_party : aigtoaig abc
+aigtoaig : third_party/bin/aigtoaig third_party/aiger-${AIGER_VERSION}/aigtoaig
+abc : third_party/bin/abc third_party/abc91222p/abc
 
 
 third_party/bin/aigtoaig : third_party/aiger-${AIGER_VERSION}/aigtoaig
