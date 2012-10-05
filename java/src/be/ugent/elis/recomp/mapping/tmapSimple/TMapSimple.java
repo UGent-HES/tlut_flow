@@ -12,6 +12,9 @@ import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
 import be.ugent.elis.recomp.mapping.simple.ConeSelection;
+import be.ugent.elis.recomp.mapping.simple.HeightCalculator;
+import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.simple.AreaflowOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
@@ -38,7 +41,11 @@ public class TMapSimple {
 		System.out.println("Cone Enumeration:");
         a.visitAll(enumerator);
 		System.out.println("Cone Ranking:");
-        a.visitAll(new ConeRanking());
+        a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
+
+        a.visitAllInverse(new HeightCalculator());
+        a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator()));
+
 
 		//Frees memory when possible
 //		System.out.println("Cone Enumeration and Ranking:");

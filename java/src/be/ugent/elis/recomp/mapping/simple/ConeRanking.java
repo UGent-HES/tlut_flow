@@ -14,7 +14,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 	
 	private Comparator<Cone> coneComparator;
 	
-	ConeRanking(Comparator<Cone> coneComparator) {
+	public ConeRanking(Comparator<Cone> coneComparator) {
 		this.coneComparator = coneComparator;
 	}
 
