@@ -13,7 +13,8 @@ public class Node extends AbstractNode<Node,Edge> {
 	
 	double depth;
 	private double areaflow;
-	private double hight;
+	private double height;
+	private double requiredTime;
 	
 	private boolean visible;
 	
@@ -90,16 +91,24 @@ public class Node extends AbstractNode<Node,Edge> {
 		return isParameter() && isInput();
 	}
 
-	public void setHight(double hight) {
-		this.hight = hight;
+	public void setHeight(double height) {
+		this.height = height;
 	}
 
-	public double getHight() {
-		return hight;
+	public double getHeight() {
+		return height;
 	}
 
 	public void removeConeSet() {
 		this.coneSet = null;
+	}
+
+	public double getRequiredTime() {
+		return requiredTime;
+	}
+
+	public void setRequiredTime(double requiredTime) {
+		this.requiredTime = requiredTime;
 	}
 
 
