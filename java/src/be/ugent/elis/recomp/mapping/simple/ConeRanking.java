@@ -1,6 +1,8 @@
 package be.ugent.elis.recomp.mapping.simple;
 
 import java.util.Collections;
+import java.util.Comparator;
+
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;
@@ -9,6 +11,12 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
 public class ConeRanking implements Visitor<Node, Edge> {
+	
+	private Comparator<Cone> coneComparator;
+	
+	public ConeRanking(Comparator<Cone> coneComparator) {
+		this.coneComparator = coneComparator;
+	}
 
 	public void init(AIG<Node, Edge> aig) {	
 	}
@@ -62,7 +70,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 	}
 
 	protected Cone bestCone(Node node) {
-		return Collections.min(node.getConeSet().getCones(), new DepthOrientedConeComparator());
+		return Collections.min(node.getConeSet().getCones(), coneComparator);
 	}
 
 	private void calculateAreaflow(ConeInterface cone) {
