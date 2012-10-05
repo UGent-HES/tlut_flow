@@ -22,7 +22,6 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 		for(Node n:PO) {
 			oDepth = Math.max(oDepth,n.getDepth());
 		}
-		System.out.println("hiernode"+oDepth);
 	}
 
 	
