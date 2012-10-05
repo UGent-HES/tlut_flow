@@ -66,7 +66,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 			node.setAreaflow(node.getI0().getAreaflow());
 		}
 		
-		System.out.println(node.getName());
+		//System.out.println(node.getName());
 	}
 
 	protected Cone bestCone(Node node) {
