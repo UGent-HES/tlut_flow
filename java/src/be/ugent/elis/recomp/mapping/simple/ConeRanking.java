@@ -57,7 +57,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 			// Set the depth and area flow of the edges
 			for (Edge e:node.fanOut()) {
 				e.setDepth(bestCone.getDepth() + 1.0);
-				e.setAreaflow(bestCone.getAreaflow() / node.fanOut().size());
+				e.setAreaflow(bestCone.getAreaflow() / node.getEstimatedFanout());
 			}
 	 	// Set the area flow and the depth of the
 	 	// primary outputs. 
@@ -88,7 +88,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 			
 			//This is wrong but o so fast
 			for (Node n: cone.getRegularLeaves()) {
-				areaflow += n.getAreaflow()/n.fanout();
+				areaflow += n.getAreaflow()/n.getEstimatedFanout();
 			}
 			
 			

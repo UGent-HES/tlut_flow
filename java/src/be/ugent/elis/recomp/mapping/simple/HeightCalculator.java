@@ -14,11 +14,13 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 	double oDepth = 0.;
 	
 	public void init(AIG<Node, Edge> aig) {
-		for(Node n:aig.getAllNodes())
+		for(Node n:aig.getAllNodes()) {
 			n.setRequiredTime(Double.POSITIVE_INFINITY);
+			n.setnRefs(0);
+		}
 		Vector<Node> PO = new Vector<Node>();
-			PO.addAll(aig.getOutputs());
-			PO.addAll(aig.getILatches());
+		PO.addAll(aig.getOutputs());
+		PO.addAll(aig.getILatches());
 		for(Node n:PO) {
 			oDepth = Math.max(oDepth,n.getDepth());
 		}
@@ -42,9 +44,14 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 			//System.out.println("time"+requiredTime);
 			Cone bestCone = node.getBestCone();
 			
-			for(Node n : bestCone.getRegularLeaves()) {
-				n.setRequiredTime(Math.min(n.getRequiredTime(),requiredTime));
+			if (requiredTime != Double.POSITIVE_INFINITY) {
+				for(Node n : bestCone.getRegularLeaves()) {
+					n.setRequiredTime(Math.min(n.getRequiredTime(),requiredTime));
+					n.setnRefs(n.getnRefs()+1);
+				}
 			}
+			
+			node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getnRefs()) / 3.);
 	
 	 	// Set the height of the
 	 	// primary inputs. 
