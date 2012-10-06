@@ -15,6 +15,8 @@ public class Node extends AbstractNode<Node,Edge> {
 	private double areaflow;
 	private double height;
 	private double requiredTime;
+	private int nRefs;
+	private double estimatedFanout = -1.;
 	
 	private boolean visible;
 	
@@ -111,6 +113,24 @@ public class Node extends AbstractNode<Node,Edge> {
 		this.requiredTime = requiredTime;
 	}
 
+	public int getnRefs() {
+		return nRefs;
+	}
+
+	public void setnRefs(int nRefs) {
+		this.nRefs = nRefs;
+	}
+
+	public double getEstimatedFanout() {
+		if(estimatedFanout < 0.)
+			estimatedFanout = fanout(); //nRefs;
+		//System.out.println(""+fanout()+","+estimatedFanout);
+		return estimatedFanout;
+	}
+
+	public void setEstimatedFanout(double estimatedFanout) {
+		this.estimatedFanout = estimatedFanout;
+	}
 
 
 }
