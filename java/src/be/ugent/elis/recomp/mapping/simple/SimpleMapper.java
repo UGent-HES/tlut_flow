@@ -32,6 +32,13 @@ public class SimpleMapper {
         
         a.visitAllInverse(new HeightCalculator());
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator()));
+
+        a.visitAllInverse(new HeightCalculator());
+        a.visitAll(new AreaCalculator());
+        a.visitAll(new ConeRanking(new AreaOrientedConeComparator()));
+        
+        a.visitAllInverse(new HeightCalculator());
+        a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator()));
         
 //        a.visitAllInverse(new PrintNameVisitor());
         
