@@ -12,6 +12,7 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Vector;
+import java.util.ArrayList;
 
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
@@ -21,17 +22,17 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	
 	N         const0;
 	
-	Vector<N> input;
+	ArrayList<N> input;
 	
-	Vector<N> ilatch;
-	Vector<N> latch;
-	Vector<N> olatch;
+	ArrayList<N> ilatch;
+	ArrayList<N> latch;
+	ArrayList<N> olatch;
 	
-	Vector<N> and;
+	ArrayList<N> and;
 	
-	Vector<N> output;
+	ArrayList<N> output;
 	
-	Vector<E> edges;
+	ArrayList<E> edges;
 	
 	ElementFactory<N,E> factory;
 	
@@ -39,13 +40,13 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	HashMap<StrashKey<N, E>, N> strashMap;
 
 	public AIG(ElementFactory<N,E> factory){
-		input  = new Vector<N>();
-		ilatch = new Vector<N>();
-		latch  = new Vector<N>();
-		olatch = new Vector<N>();
-		and    = new Vector<N>();
-		output = new Vector<N>();
-		edges  = new Vector<E>();
+		input  = new ArrayList<N>();
+		ilatch = new ArrayList<N>();
+		latch  = new ArrayList<N>();
+		olatch = new ArrayList<N>();
+		and    = new ArrayList<N>();
+		output = new ArrayList<N>();
+		edges  = new ArrayList<E>();
 		this.factory = factory;
 		
 		strashMap = new HashMap<StrashKey<N,E>,N>();
@@ -56,13 +57,13 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	}
 	
 	public AIG(ElementFactory<N,E> factory, String fileName) throws FileNotFoundException{
-		input  = new Vector<N>();
-		ilatch = new Vector<N>();
-		latch  = new Vector<N>();
-		olatch = new Vector<N>();
-		and    = new Vector<N>();
-		output = new Vector<N>();
-		edges  = new Vector<E>();
+		input  = new ArrayList<N>();
+		ilatch = new ArrayList<N>();
+		latch  = new ArrayList<N>();
+		olatch = new ArrayList<N>();
+		and    = new ArrayList<N>();
+		output = new ArrayList<N>();
+		edges  = new ArrayList<E>();
 		this.factory = factory;
 
 		strashMap = new HashMap<StrashKey<N,E>,N>();
@@ -71,13 +72,13 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	}
 	
 	public AIG( AIG<N,E> aig) {
-		input  = new Vector<N>();
-		ilatch = new Vector<N>();
-		latch  = new Vector<N>();
-		olatch = new Vector<N>();
-		and    = new Vector<N>();
-		output = new Vector<N>();
-		edges  = new Vector<E>();
+		input  = new ArrayList<N>();
+		ilatch = new ArrayList<N>();
+		latch  = new ArrayList<N>();
+		olatch = new ArrayList<N>();
+		and    = new ArrayList<N>();
+		output = new ArrayList<N>();
+		edges  = new ArrayList<E>();
 		this.factory = aig.factory;
 	
 		strashMap = new HashMap<StrashKey<N,E>,N>();
@@ -316,8 +317,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		}
 	}
 
-	public Vector<N> getAllNodes() {
-		Vector<N> all = new Vector<N>();
+	public ArrayList<N> getAllNodes() {
+		ArrayList<N> all = new ArrayList<N>();
 		all.addAll(input);
 		all.addAll(and);
 		all.addAll(output);
@@ -462,27 +463,27 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 	}
 
-	public Vector<N> getInputs() {
+	public ArrayList<N> getInputs() {
 		return input;
 	}
 
-	public Vector<N> getOutputs() {
+	public ArrayList<N> getOutputs() {
 		return output;
 	}
 
-	public Vector<N> getAnds() {
+	public ArrayList<N> getAnds() {
 		return and;
 	}
 
-	public Vector<N> getLatches() {
+	public ArrayList<N> getLatches() {
 		return latch;
 	}
 
-	public Vector<N> getILatches() {
+	public ArrayList<N> getILatches() {
 		return ilatch;
 	}
 
-	public Vector<N> getOLatches() {
+	public ArrayList<N> getOLatches() {
 		return olatch;
 	}
 	
@@ -501,12 +502,12 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			return true;
 	}
 
-	public Vector<E> getAllEdges() {
+	public ArrayList<E> getAllEdges() {
 		return edges;
 	}
 	
 	public void printAAG(PrintStream stream) {
-		Vector<N> variable = new Vector<N>();
+		ArrayList<N> variable = new ArrayList<N>();
 		variable.add(const0);
 		variable.addAll(input);
 		variable.addAll(olatch);

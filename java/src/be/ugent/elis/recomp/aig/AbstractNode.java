@@ -1,14 +1,14 @@
 package be.ugent.elis.recomp.aig;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
-	protected String name;
+	protected String name = null;
 	private   NodeType type;
 	
-	private   Vector<E> input;
-	private   Vector<E> output;
+	private   ArrayList<E> input;
+	private   ArrayList<E> output;
 	
 	protected AIG<N,E> aig;
 
@@ -17,9 +17,11 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	public AbstractNode(AIG<N,E> aig, NodeType type) {
 		this.aig = aig;
 		this.type = type;
-		input  = new Vector<E>();
-		input.setSize(2);
-		output = new Vector<E>();
+		input  = new ArrayList<E>(2);
+		//input.setSize(2);
+		input.add(null);
+		input.add(null);
+		output = new ArrayList<E>(2);
 	}
 
 	public void setName(String name) {
@@ -66,7 +68,7 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		output.remove(edge);
 	}
 
-	public Vector<E> fanOut() {
+	public ArrayList<E> fanOut() {
 		return output;
 	}
 
@@ -153,11 +155,11 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		return result;
 	}
 
-	public Vector<E> getInputEdges() {
+	public ArrayList<E> getInputEdges() {
 		return input;
 	}
 	
-	public Vector<E> getOutputEdges() {
+	public ArrayList<E> getOutputEdges() {
 		return output;
 	}
 	

@@ -13,7 +13,6 @@ public class Node extends AbstractNode<Node,Edge> {
 	
 	double depth;
 	private double areaflow;
-	private double height;
 	private double requiredTime;
 	
 	private boolean visible;
@@ -89,14 +88,6 @@ public class Node extends AbstractNode<Node,Edge> {
 	public boolean isParameterInput() {
 		
 		return isParameter() && isInput();
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
-	public double getHeight() {
-		return height;
 	}
 
 	public void removeConeSet() {
