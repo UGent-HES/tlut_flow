@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.ArrayList;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.AbstractNode;
@@ -160,8 +161,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 				
 				
 				
-				Vector<Node> bestConeNodesInToOut = bestCone.getNodes();
-				Vector<Node> regularInputs = bestCone.getRegularInputs();
+				ArrayList<Node> bestConeNodesInToOut = bestCone.getNodes();
+				ArrayList<Node> regularInputs = bestCone.getRegularInputs();
 
 				
 				for (int entry=0; entry < Math.pow(2, K); entry++) {
@@ -276,8 +277,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 			if (and.isVisible()) {
 				
 				ConeInterface bestCone = and.getBestCone();
-				Vector<Node> bestConeNodesInToOut = bestCone.getNodes();
-				Vector<Node> regularInputs = bestCone.getRegularInputs();
+				ArrayList<Node> bestConeNodesInToOut = bestCone.getNodes();
+				ArrayList<Node> regularInputs = bestCone.getRegularInputs();
 								
 				for (int entry=0; entry < Math.pow(2, K); entry++) {
 					Vector<Boolean> entryBinairy = new Vector<Boolean>();
@@ -857,7 +858,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	
 	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, int K, String lutName){
 		ConeInterface bestCone = visibleAnd.getBestCone();
-		Vector<Node> regularInputs = bestCone.getRegularInputs();
+		ArrayList<Node> regularInputs = bestCone.getRegularInputs();
 		int lutSize = regularInputs.size();
 		String lutInstance = "";
 		lutInstance = "\n"+baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
@@ -944,7 +945,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	    for (Node and : getAnds()) {
 			if (and.isVisible()) {	
 				ConeInterface bestCone = and.getBestCone();
-				Vector<Node> regularInputs = bestCone.getRegularInputs();
+				ArrayList<Node> regularInputs = bestCone.getRegularInputs();
 				int lutSize = regularInputs.size();
 				
 				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){

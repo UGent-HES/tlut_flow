@@ -2,7 +2,7 @@ package be.ugent.elis.recomp.mapping.simple;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
@@ -66,7 +66,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		}
 		node.setConeSet(result);
 		
-		System.out.println(node.getName() + ": " + nmbrCones);
+		//System.out.println(node.getName() + ": " + nmbrCones);
 	}
 
 	protected ConeSet mergeInputConeSets(Node node) {
@@ -95,8 +95,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		result.addAll(kFeasibleCones);
 
 		Set<Cone> dominatedCones = new HashSet<Cone>();
-		Vector<Cone> temp = new Vector<Cone>();
-		temp.addAll(result.getCones());
+		ArrayList<Cone> temp = new ArrayList<Cone>(result.getCones());
 		Collections.sort(temp, new SizeConeComparator());
 		
 		for (int i=0; i<temp.size(); i++) {

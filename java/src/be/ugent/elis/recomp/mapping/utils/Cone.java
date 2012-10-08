@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
@@ -17,8 +17,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 //	protected Set<Node> parameterLeaves;
 
 	
-	private Vector <Edge> inputEdges;
-	private Vector <Node> nodes;
+	private ArrayList <Node> nodes;
 	
 	protected int signature;
 	
@@ -46,8 +45,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		this.regularLeaves = new HashSet<Node>();
 //		this.parameterLeaves = new HashSet<Node>();
 		
-		this.inputEdges = null;
-		
 		this.areaflow = 0;
 		this.depth = 0;
 
@@ -58,8 +55,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		this.root = node;
 		this.regularLeaves = new HashSet<Node>();
 //		this.parameterLeaves = new HashSet<Node>();
-		
-		this.inputEdges = null;
 		
 		this.areaflow = 0;
 		this.depth = 0;
@@ -91,19 +86,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		
 		result.addLeaves(cone0);
 		result.addLeaves(cone1);
-
-		//		BROL
-//		if (cone0.isTrivial()) {
-//			result.inputEdges.add(node.getI0());
-//		} else {
-//			result.inputEdges.addAll(cone0.inputEdges);
-//		}
-//		
-//		if (cone1.isTrivial()) {
-//			result.inputEdges.add(node.getI1());
-//		} else {
-//			result.inputEdges.addAll(cone1.inputEdges);
-//		}
 	
 		return result;
 	}
@@ -126,7 +108,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	 */
 	public void setRoot(Node root) {
 		this.root = root;
-		inputEdges = null;
 		nodes = null;
 	}
 
@@ -168,7 +149,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#addLeave(be.ugent.elis.recomp.mapping.utils.Node)
 	 */
 	public void addLeave(Node node) {
-		inputEdges = null;
 		nodes = null;
 
 		if (node.isParameter() && node.isInput()) {
@@ -179,14 +159,12 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	}
 
 	public void addRegularLeave(Node node) {
-		inputEdges = null;
 		nodes = null;
 
 		regularLeaves.add(node);
 	}
 
 	public void addParameterLeave(Node node) {
-		inputEdges = null;
 		nodes = null;
 
 //		parameterLeaves.add(node);
@@ -197,7 +175,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#addLeaves(be.ugent.elis.recomp.mapping.utils.Cone)
 	 */
 	public void addLeaves(Cone cone0) {
-		inputEdges = null;
 		nodes = null;
 
 		this.regularLeaves.addAll(cone0.regularLeaves);
@@ -268,26 +245,20 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return true;
 	}
 
-//	public Vector<Node> getNodesInToOut() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
-	//TODO: Migration to TMapCone
 	/* (non-Javadoc)
 	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getNodes()
 	 */
-	public Vector<Node> getNodes() {
+	public ArrayList<Node> getNodes() {
 		if (nodes == null) {
-			Vector<Node> result = new Vector<Node>();
+			ArrayList<Node> result = new ArrayList<Node>();
 			Set<Node> visited = new HashSet<Node>();
 			nodes = getNodesRec(result,visited, root);
 		}
 		return nodes;
 	}
 
-	//TODO: Migration to TMapCone
-	private Vector<Node> getNodesRec(Vector<Node> result, Set<Node> visited, Node node) {
+	private ArrayList<Node> getNodesRec(ArrayList<Node> result, Set<Node> visited, Node node) {
 		
 		if (!regularLeaves.contains(node) && !node.isParameterInput() && !visited.contains(node)) {
 			
@@ -310,66 +281,11 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 
-	//TODO: Migration to TMapCone
-//	public Vector<Edge> getInputEdges() {
-//		if (inputEdges == null) {
-//			Set<Edge> result = new HashSet<Edge>();
-//			Set<Node> visited = new HashSet<Node>();
-//			result = getInputEdgesRec(result, visited,root);
-//			inputEdges = new Vector<Edge>();
-//			inputEdges.addAll(result);
-//		}
-//		return inputEdges;
-//	}
 	
-	//TODO: Migration to TMapCone
-//	private Set<Edge> getInputEdgesRec(Set<Edge> set, Set<Node> visited, Node node) {
-//		
-//		if (!regularLeaves.contains(node) && !parameterLeaves.contains(node) && !visited.contains(node)) {
-//			switch (node.getType()) {
-//			case AND:
-//				if (regularLeaves.contains(node.getI0().getTail()) || parameterLeaves.contains(node.getI0().getTail())) {
-//					set.add(node.getI0());
-//				} 
-//				if (regularLeaves.contains(node.getI1().getTail()) || parameterLeaves.contains(node.getI1().getTail())) {
-//					set.add(node.getI1());
-//				}
-//				visited.add(node);
-//				getInputEdgesRec(set, visited, node.getI0().getTail());
-//				getInputEdgesRec(set, visited, node.getI1().getTail());			
-//			}
-//		}
-//		
-//		return set;	
-//	}
-
-//	//TODO: Migration to TMapCone
-//	public boolean isInternalEdge(Edge e) {
-//		Vector<Node> nodes = getNodes();
-//		
-//		if (nodes.contains(e.getTail()) && nodes.contains(e.getHead())) {
-//			return true;
-//		} else { 
-//			return false;
-//		}
-//	}
-
-	//TODO: Migration to TMapCone
-//	public boolean isInputEdge(Edge e) {
-//		Vector<Edge> edges = getInputEdges();
-//		if (edges.contains(e)) {
-//			return true;
-//		} else { 
-//			return false;
-//		}
-//	}
-
-	
-	//TODO: Migration to TMapCone	
 	public BooleanFunction getBooleanFunction() {
 	
 		String inputVariables = new String();
-		Vector<Node> allNodes = new Vector<Node>();
+		ArrayList<Node> allNodes = new ArrayList<Node>();
 		allNodes.addAll(regularLeaves);
 //		allNodes.addAll(parameterLeaves);
 		for (Node n : allNodes) {
@@ -385,7 +301,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 
-	//TODO: Migration to TMapCone
 	private String getExpressionRec(Edge e) {
 		String result = new String();
 		Node source = e.getTail();
@@ -419,8 +334,8 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	/* (non-Javadoc)
 	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getRegularInputs()
 	 */
-	public Vector<Node> getRegularInputs() {
-		Vector<Node> result = new Vector<Node>();
+	public ArrayList<Node> getRegularInputs() {
+		ArrayList<Node> result = new ArrayList<Node>();
 
 		result.addAll(regularLeaves);
 		
@@ -560,7 +475,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		
 		result += "{";
 		
-		Vector<String> nodesNames = new Vector<String>();
+		ArrayList<String> nodesNames = new ArrayList<String>();
 		for (Node n:regularLeaves) {
 			nodesNames.add(n.getName());
 		}

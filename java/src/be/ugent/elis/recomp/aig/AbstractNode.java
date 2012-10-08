@@ -21,7 +21,7 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		//input.setSize(2);
 		input.add(null);
 		input.add(null);
-		output = new ArrayList<E>(2);
+		output = new ArrayList<E>(1);
 	}
 
 	public void setName(String name) {

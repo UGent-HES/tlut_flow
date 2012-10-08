@@ -1,7 +1,7 @@
 package be.ugent.elis.recomp.mapping.utils;
 
 import java.util.Set;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public interface ConeInterface {
 
@@ -34,9 +34,9 @@ public interface ConeInterface {
 	public abstract boolean isTLUT();
 
 	//TODO: Migration to TMapCone
-	public abstract Vector<Node> getNodes();
+	public abstract ArrayList<Node> getNodes();
 
-	public abstract Vector<Node> getRegularInputs();
+	public abstract ArrayList<Node> getRegularInputs();
 
 	public abstract int size();
 
