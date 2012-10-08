@@ -10,12 +10,12 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	private   ArrayList<E> input;
 	private   ArrayList<E> output;
 	
-	protected AIG<N,E> aig;
+	//protected AIG<N,E> aig;
 
 	private boolean marked;
 	
 	public AbstractNode(AIG<N,E> aig, NodeType type) {
-		this.aig = aig;
+		//this.aig = aig;
 		this.type = type;
 		input  = new ArrayList<E>(2);
 		//input.setSize(2);

@@ -3,6 +3,7 @@ package be.ugent.elis.recomp.aig;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -223,6 +224,11 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			}
 			word = scan.next();
 			
+		}
+		try {
+			stream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		
@@ -816,24 +822,28 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	public void merge(AIG<N,E> aig ) {
 		AIG<N,E> copy = new AIG<N, E>(aig);
 		
-		this.input.addAll(copy.input);
 		this.and.addAll(copy.and);
 		this.ilatch.addAll(copy.ilatch);
 		this.latch.addAll(copy.latch);
 		this.olatch.addAll(copy.olatch);
-		this.output.addAll(copy.output);
+		copy.and.clear();
 		
-		this.edges.addAll(copy.edges);
 		
 		this.const0.replace(copy.const0);
+		
+		Set<N> outputSet = new HashSet<N>(this.output);
+		outputSet.addAll(copy.output);
+		HashSet<N> inputSet = new HashSet<N>(this.input);
+		inputSet.addAll(copy.input);
+		Set<E> edgesSet = new HashSet<E>(this.edges);
+		edgesSet.addAll(copy.edges);
 		
 		Map<String,N> findOutput = new HashMap<String,N>();
 		for (N out:this.output) {
 			findOutput.put(out.getName(), out);
 		}
 		
-		Vector<N> allInputs = new Vector<N>();
-		allInputs.addAll(this.input);
+		Set<N> allInputs = (Set<N>)inputSet.clone();
 		for (N in : allInputs) {
 			if (findOutput.containsKey(in.getName())) {
 				N out = findOutput.get(in.getName());
@@ -848,14 +858,17 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 					outDriver.addOutput(e);
 				}
 				
-				this.output.remove(out);
-				this.input.remove(in);
-				this.edges.remove(outEdge);
-				
-				
+				assert outputSet.contains(out);
+				outputSet.remove(out);
+				inputSet.remove(in);
+				edgesSet.remove(outEdge);
 			}
 		}
 		
+
+		this.output = new ArrayList<N>(outputSet);
+		this.input = new ArrayList<N>(inputSet);
+		this.edges = new ArrayList<E>(edgesSet);
 		
 	}
 
