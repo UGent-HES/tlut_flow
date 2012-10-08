@@ -22,6 +22,7 @@ public class AreaCalculator implements Visitor<Node, Edge> {
 		if ( node.isGate() ) {
 			for(Cone cone : node.getConeSet().getCones()) {
 				Set<Node> areaSet = new HashSet<Node>();
+				areaSet.add(node);
 				calculateAreaSet(cone, areaSet);
 				cone.setArea(areaSet.size());
 			}

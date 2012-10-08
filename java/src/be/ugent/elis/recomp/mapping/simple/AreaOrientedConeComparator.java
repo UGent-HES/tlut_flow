@@ -10,18 +10,18 @@ public class AreaOrientedConeComparator implements Comparator<Cone> {
 	// ordered by area flow.
 	public int compare(Cone o1, Cone o2) {
 		double requiredTime = o1.getRoot().getRequiredTime();
-		/*if(requiredTime==Double.POSITIVE_INFINITY) {
+		if(requiredTime==Double.POSITIVE_INFINITY) {
 			if (o1.getDepth() > o2.getDepth())
 				return 1;
 			else if (o1.getDepth() < o2.getDepth())
 				return -1;
-			else if (o1.getAreaflow() > o2.getAreaflow())
+			else if (o1.getArea() > o2.getArea())
 				return 1;
-			else if (o1.getAreaflow() < o2.getAreaflow())
+			else if (o1.getArea() < o2.getArea())
 				return -1;
 			else 
 				return o1.toString().compareTo(o2.toString());			
-		} else*/ {
+		} else {
 			boolean o1Feasible = o1.getDepth() < requiredTime;
 			boolean o2Feasible = o2.getDepth() < requiredTime;
 			if (o1Feasible && !o2Feasible)
