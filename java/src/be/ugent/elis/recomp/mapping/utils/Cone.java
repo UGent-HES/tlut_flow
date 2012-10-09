@@ -43,7 +43,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 
 	public Cone() {
 		this.root = null;
-		this.regularLeaves = new HashSet<Node>(8);
+		this.regularLeaves = new HashSet<Node>();
 //		this.parameterLeaves = new HashSet<Node>();
 		
 		this.areaflow = 0;
@@ -54,7 +54,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	
 	public Cone(Node node) {
 		this.root = node;
-		this.regularLeaves = new HashSet<Node>(8);
+		this.regularLeaves = new HashSet<Node>();
 //		this.parameterLeaves = new HashSet<Node>();
 		
 		this.areaflow = 0;
