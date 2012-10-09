@@ -82,7 +82,7 @@
 
 The TLUT tool flow is a tool flow that generates FPGA configurations. Its biggest difference with the traditional FPGA flow is the use of a new technology mapper, the TLUT mapper. The TLUT tool flow was developed to implement Dynamic Circuit Specialization (DCS) on FPGAs. A DCS implementation of an application specializes its circuit for the current values of a number of specific inputs, called parameters. This specialized circuit is smaller, and in some cases faster, than the original circuit. However, it is only correct for one set of parameter values. Each time the parameters change value, a new specialized circuit is generated. This new specialized circuit is then loaded into the FPGA using partial run-time reconfiguration.\\
 
-The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it is described in much more detail in the user guide.
+The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it, is described in much more detail in this user guide.
 
 \section{Practical information}
 
@@ -154,7 +154,7 @@ E.g. run('yourDesign.vhd', 6, True)\\
 or run('yourDesign.vhd', performCheck=False)
 
 \item \textbf{verboseFlag} - boolean - \textit{default False}\\
-verbose mode\\
+This activates the verbose mode in which more information gets printed regarding the execution of the flow.\\
 E.g. run('yourDesign.vhd', 6, True, True)\\ or run('yourDesign.vhd', verboseFlag=True)
 \end{itemize}
 
@@ -173,7 +173,7 @@ Below, we have provided a more step-by-step approach to set up your own Python s
 \end{lstlisting}
 \item Annotate the parameters in your top level VHDL/Verilog file.\\
 
-Any input signal, or combination of input signals, of your top level module can be chosen as parameter. Preferably the designer will choose the slowly changing input signals as parameters, because these annotations lead to the most gain. Different combinations can be tested easily by changing the annotations. In the following example a simple multiplexer is described in VHDL and the 'sel' input signal is annotated as a parameter.
+Any input signal, or combination of input signals, of your top level module can be chosen as parameter. Preferably the designer will choose the slowly changing input signals as parameters, because a change in the value of the parameters results in a reconfiguration of the FPGA. Different combinations can be tested easily by changing the annotations. In the following example a simple multiplexer is described in VHDL and the 'sel' input signal is annotated as a parameter.
 \lstset{language=VHDL}
 \begin{lstlisting}
 entity multiplexer is
@@ -216,7 +216,7 @@ Edit the 6th line, in which the \emph{run} function is called, according to the 
 > ./yourDesign.py
 \end{lstlisting}
 \item \label{sec:check_par}Check the `.par' file in the work directory, to ensure the parameters were correctly recognised. It should enlist all the signal names of the parameters. \\
-The tool for extracting parameters from VHDL and Verilog is limited. It cannot parse all VHDL/Verilog constructs, so it may not recognise all your parameters in all cases. You should avoid using signal types other than std\_logic, std\_logic\_vector and arrays thereof. In addition, only define one signal on each line. Similarly, Generics (or Verilog parameters) used in the definition of the parameter signals should also be defined for each line.
+The tool for extracting parameters from VHDL and Verilog is limited. It cannot parse all VHDL/Verilog constructs, so it may not recognise all your parameters in all cases. You should avoid using signal types other than std\_logic, std\_logic\_vector and arrays thereof. In addition, only one definition is allowed per line. Similarly, only one Generic (or Verilog parameters) used in the definition of the parameter signals should be defined per line.
 
 \item Analyze the results. As an example, the output of the Python script of the treeMult4b project is given;\\
 
@@ -238,7 +238,7 @@ The second column is only relevant for the TLUT mapper, it shows the number of L
 
 The third column shows the depth of each mapping solution. This is the number of LUTs in the longest path, a measure for the speed of the circuit. 
 
-Finally, column 4 shows if the mapping solution has passed the equivalence test. This check is performed to see if the resulting circuit is still has the same functionality as the original input.
+Finally, column 4 shows if the mapping solution has passed the equivalence test. This check is performed to see if the resulting circuit still has the same functionality as the original input.
 
 % Hier de verschillen tussen simpleMap en abc bespreken of later pas in hoofdstuk 4?
 
@@ -256,7 +256,7 @@ The environment variables probably aren't set up correctly. Try running '. sourc
 If you have moved the main directory, the paths in the `source' file are not longer correct. Remove this file and recreate it using `make source'.
 
 \item \emph{java.lang.OutOfMemoryError:}\\
-The Java technology mappers doesn't have enough memory available. Try to use the \emph{setMaxMemory} function. It can be imported from the \emph{fast\_tlutmap} Python script and should be called before the \emph{run} function. This function sets the maximum memory usage for the Java tools in megabytes.
+The Java technology mappers don't have enough memory available. Try to use the \emph{setMaxMemory} function. It can be imported from the \emph{fast\_tlutmap} Python script and should be called before the \emph{run} function. This function sets the maximum memory usage for the Java tools in megabytes.
 \lstset{language=python}
 \begin{lstlisting}
 from fast_tlutmap import run, setMaxMemory
@@ -280,12 +280,12 @@ The 'tlut\_flow' folder also contains three application folders: 'java', 'python
 
 \item The 'python' folder contains the high level Python scripts that are used to interface with the tools in the other folders. It contains three files: 'fast\_tlutmap.py', 'genParameters.py' and 'mapping.py'. The "genParameters.py" script will extract the parameters from the annotated VHDL file. The 'mapping.py' script contains high level wrappers that call the different mappers and a number of utility programs. These 2 last scripts are best used as given. 
 
-The 'fast\_tlutmap.py' script contains the main code in the 'run' function. This function can easily be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the vhdl file into a logic circuit in blif format using Quartus. The technology mapping step will map the logic circuit to a circuit with LUTs. Three different technology mapping tools are included to allow an easy comparison: the simple mapper, the TLUT technology mapper and the ABC mapper. The first two are not yet optimized for 'area recovery'. The ABC tool flow is an academic framework that does include a large number of such optimization. Several commercial tools are based on this technology mapper.
+The 'fast\_tlutmap.py' script contains the main code in the 'run' function. This function can easily be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the vhdl file into a logic circuit in blif format using Quartus. The technology mapping step will map the logic circuit to a circuit with LUTs. Three different technology mapping tools are included to allow an easy comparison: the simple mapper, the TLUT technology mapper and the ABC mapper. The first two are not yet optimized for 'area recovery'. The ABC tool flow is an academic framework that does include a large number of such optimizations. Several commercial tools are based on this technology mapper.
 
 The 'run' function also contains some intermediate steps:
 \begin{itemize} 
 \item the conversion of the blif format into the aag format, needed for the Java mappers
-\item extraction of the parameters out of the annotated VHDL file
+\item extraction of the parameters out of the annotated VHDL file.
 \end{itemize}
 
 \end{itemize}
