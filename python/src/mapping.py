@@ -205,7 +205,6 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
     else:
         check = "SKIPPED"
     return (numLuts, depth, check)
-    
 
 def aagtoaig(aagFileName):
     ext = '.aag'
@@ -254,7 +253,6 @@ def bliftoaag(blifFileName):
     
     aagFileName = aigtoaag(aigFileName)
     return aagFileName
-
 
 def miter(circuit0, circuit1, verboseFlag=False):
     cmd = ['abc', '-c', 'miter ' + circuit0 + ' ' + circuit1 + '; prove']
@@ -391,3 +389,13 @@ def orderInputs(sweepFileName):
     old_file.close()
     
     return orderedSweepFileName
+
+def printCFunction(aagFileName,CFileName,verboseFlag=False):
+    cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.aig.MakeCEvaluator']
+    args = [aagFileName, CFileName]
+    if verboseFlag:
+    	print ' '.join(cmd +args)
+    output = subprocess.check_output(cmd + args);
+    if verboseFlag:
+    	print output
+    return True

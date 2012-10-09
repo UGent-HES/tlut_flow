@@ -61,6 +61,11 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     print collumnize(['Luts','TLUTs','depth','check'],colwidth)
     print collumnize([numLuts,numTLUTs,depth,check],colwidth)
     
+    #Print C-files
+    parconfFile = baseName + "-parconfig.aag"
+    CFileName = baseName + '.c' 
+    printCFunction(parconfFile,CFileName)
+    
     # Run regular MAP
     print "Stage: SimpleMAP"
     numLuts, depth, check = simpleMapper(baseName, aagFileName, K, performCheck, verboseFlag)
@@ -73,6 +78,7 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     print collumnize(['Luts','','depth','check'],colwidth)
     print collumnize([numLuts,'',depth,check],colwidth)
     
+
 if __name__=="__main__":
     print 'Call the function run of this file with your vhdl module as its first argument (optional list of submodule as second argument)'
     print 'or copy and edit this file to use it as a template for your experiment.'
