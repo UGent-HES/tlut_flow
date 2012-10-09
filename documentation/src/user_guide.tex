@@ -1,4 +1,4 @@
-\documentclass{memoir}
+\documentclass[a4paper]{memoir}
 \usepackage{listings}%
 \usepackage{xcolor}
 \usepackage{hyperref}
@@ -62,10 +62,17 @@
 \setlength\beforechapskip {\onelineskip }
 \usepackage{lipsum}
 
-\setlength{\oddsidemargin}{0.03\paperwidth} 
-\setlength{\evensidemargin}{0.03\paperwidth}
-\setlength{\textwidth}{0.7\paperwidth}
-\setlength{\voffset}{0pt}
+%\setlength{\oddsidemargin}{0.03\paperwidth} 
+%\setlength{\evensidemargin}{0.03\paperwidth}
+%\setlength{\textwidth}{0.7\paperwidth}
+%\setlength{\voffset}{0pt}
+
+%\usepackage{anysize}
+%\marginsize{2.25cm}{2cm}{}{1,25 cm}
+\setlrmarginsandblock{3cm}{2.5cm}{*}
+\setulmarginsandblock{2.5cm}{2.5cm}{*}
+\checkandfixthelayout
+
 
 
 \begin{document}
