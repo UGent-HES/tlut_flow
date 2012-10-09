@@ -55,8 +55,8 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     # Convert BLIF to aig
     aagFileName = bliftoaag(blifFileName)
     
-    # Unleash TMAP
-    print "Stage: TMAP"
+    # Unleash TLUT mapper
+    print "Stage: TLUT mapper"
     numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','TLUTs','depth','check'],colwidth)
     print collumnize([numLuts,numTLUTs,depth,check],colwidth)

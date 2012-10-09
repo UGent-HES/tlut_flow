@@ -78,22 +78,17 @@
 \begin{document}
 
 \let\clearforchapter\par % cheating, but saves some space
-\chapter{The TMAP tool flow: An introduction}
+\chapter{The TLUT tool flow: An introduction}
 
-The TMAP tool flow is a tool flow that generates FPGA configurations. 
-Its biggest difference with the traditional FPGA flow is the use of a new technology mapper, TMAP. 
-The TMAP tool flow was developed to implement Dynamic Circuit Specialization (DCS) on FPGAs. 
-A DCS implementation of an application specializes its circuit for the current values of a number of specific inputs, called parameters. This specialized circuit is smaller, and in some cases faster, than the original circuit. However,
-it is only correct for one set of parameter values. Each time the parameters change value, a new specialized circuit is generated. This new specialized circuit is then loaded into the FPGA using partial run-time reconfiguration.\\
+The TLUT tool flow is a tool flow that generates FPGA configurations. Its biggest difference with the traditional FPGA flow is the use of a new technology mapper, the TLUT mapper. The TLUT tool flow was developed to implement Dynamic Circuit Specialization (DCS) on FPGAs. A DCS implementation of an application specializes its circuit for the current values of a number of specific inputs, called parameters. This specialized circuit is smaller, and in some cases faster, than the original circuit. However, it is only correct for one set of parameter values. Each time the parameters change value, a new specialized circuit is generated. This new specialized circuit is then loaded into the FPGA using partial run-time reconfiguration.\\
 
-The TMAP tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured,
-the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TMAP tool flow are listed in the wiki of this project. There you can also find more information on our current research on extending and improving the TMAP tool flow. The TMAP tool flow itself and how to use it is described in much more detail in the manual.
+The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it is described in much more detail in the user guide.
 
 \section{Practical information}
 
-We are releasing the TMAP tool flow in two phases. First, we have made the adapted technology mapper, TMAP, public. This will allow you to compare its results with a normal technology mapper. We have included a framework to make this comparison very easy. The following pages provide clear examples and show how to adapt the framework for you own uses.\\
+We are releasing the TLUT tool flow in two phases. First, we have made the adapted TLUT technology mapper public. This will allow you to compare its results with a normal technology mapper. We have included a framework to make this comparison very easy. The following pages provide clear examples and show how to adapt the framework for you own uses.\\
 
-In the second phase we will provide you with the scripts and information necessary to integrate the TMAP technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on actual Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
+In the second phase we will provide you with the scripts and information necessary to integrate the TLUT technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on actual Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
 
 \section{Contents of this document}
 Chapter~\ref{sec:setup}: \emph{Setup}: A setup manual\\
@@ -107,10 +102,7 @@ Chapter~\ref{sec:contents}: \emph{Contents}: Description of the contents of this
 \begin{lstlisting}
 > make
 \end{lstlisting}
-This builds a number of dependencies and the TMAP technology mapper.
-Also creates a `source' file which sets environment variables.
-
-Set your environment variables using:
+This builds a number of dependencies and the TLUT technology mapper and creates a `source' file which sets environment variables. Set your environment variables using:
 \begin{lstlisting}
 > . source
 \end{lstlisting}
@@ -131,7 +123,7 @@ Aiger (tested with version 1.9.4), \url{http://fmv.jku.at/aiger/}\\
 ABC (tested with version 810ba683c042, 5 October 2012), \url{http://www.eecs.berkeley.edu/\~alanmi/abc/}
 \end{itemize}
 
-
+\clearpage
 \chapter{Your own design}\label{sec:experiment}
 \section{The run function}\label{sec:run_function}
 To test the TLUT mapper on your own design (described in VHDL or Verilog), import the \emph{run} function from \emph{fast\_tlutmap} in your own Python script and call it with the following arguments:
@@ -140,27 +132,34 @@ run(module, submodules, K, performCheck, verboseFlag)
 \end{lstlisting}
 \begin{itemize}
 \item \textbf{module} - String\\
-if your design consists of only one top level VHDL/Verilog module, then you only have to pass the location of top level VHDL/Verilog module as the first argument\\
+The location of the top level of your design. If your design consists of only one VHDL/Verilog module, then you only have to pass the location of this module as the first argument and you can ignore the second argument.\\
+
 E.g. run('yourDesign.vhd')
+
 \item \textbf{submodules} - list of Strings - \textit{optional}\\
-if your design consists of a top level module and several submodules, you can add a list of submodules,
-for example if you have one top level module and two submodules\\
+If your design consists of a top level module and several submodules, you can add a list of submodules here, for example if you have one top level module and two submodules.\\
+
 E.g. run('yourTopLevelModule.vhd', ['yourFirstSubModule.vhd', 'yourSecondSubModule.vhd'])
+
 \item \textbf{K} - integer - \textit{default 4}\\
-you can choose the number of inputs a LookUp Table has on your target FPGA\\
+You can choose the number of inputs a LookUp Table has on your target FPGA\\
+
 E.g. run('yourDesign.vhd', 6)
 or run('yourDesign.vhd', K=6)
+
 \item \textbf{performCheck} - boolean - \textit{default True}\\
-when checks are on, the resulting mapping is verified using a miter and satisfiability solver. This ensures that the mapped circuit implements the same functionality as the input circuit.\\
+When checks are turned on, the resulting mapping is verified using a miter and satisfiability solver. This ensures that the mapped circuit implements the same functionality as the input circuit.\\
+
 E.g. run('yourDesign.vhd', 6, True)\\
 or run('yourDesign.vhd', performCheck=False)
+
 \item \textbf{verboseFlag} - boolean - \textit{default False}\\
 verbose mode\\
 E.g. run('yourDesign.vhd', 6, True, True)\\ or run('yourDesign.vhd', verboseFlag=True)
 \end{itemize}
 
 \section{A Step-by-step Approach}\label{sec:step_by_step}
-Here follows a more step-by-step approach to set up your own Python script starting from the \emph{treeMult4b} example,
+Below, we have provided a more step-by-step approach to set up your own Python script starting from the \emph{treeMult4b} example:
 \begin{enumerate}
 \item Make a folder for your design and copy the treeMult4b folder from the examples directory. You need at least the files \emph{abc.rc} and \emph{treeMult4b.py}\\
 \begin{lstlisting}
@@ -172,7 +171,9 @@ Here follows a more step-by-step approach to set up your own Python script start
 > rm treeMult4b.vhd
 > 
 \end{lstlisting}
-\item Annotate the parameters in your top level VHDL/Verilog file.\\Any input signal in your top level module can be chosen as parameter, a combination of parameters can be chosen as parameters. Preferably the designer will choose the slowly changing input signals as parameters, because these annotations lead to the most gain. Different combinations can be tested easily by changing the annotations. In the following example a simple multiplexer is described in VHDL and the 'sel' input signal is annotated as a parameter.
+\item Annotate the parameters in your top level VHDL/Verilog file.\\
+
+Any input signal, or combination of input signals, of your top level module can be chosen as parameter. Preferably the designer will choose the slowly changing input signals as parameters, because these annotations lead to the most gain. Different combinations can be tested easily by changing the annotations. In the following example a simple multiplexer is described in VHDL and the 'sel' input signal is annotated as a parameter.
 \lstset{language=VHDL}
 \begin{lstlisting}
 entity multiplexer is
@@ -190,7 +191,7 @@ begin
   out <= in(conv_integer(sel));
 end behavior;
 \end{lstlisting}
-It works quite similar in the case of Verilog. The following Verilog example, a simple multiplier, can be found in the examples folder;
+The Verilog annotations are quite similar. The following Verilog example, a simple multiplier, can be found in the examples folder;
 \lstset{language=Verilog}
 \begin{lstlisting}
 module mult(x,y,z);
@@ -215,10 +216,31 @@ Edit the 6th line, in which the \emph{run} function is called, according to the 
 > ./yourDesign.py
 \end{lstlisting}
 \item \label{sec:check_par}Check the `.par' file in the work directory, to ensure the parameters were correctly recognised. It should enlist all the signal names of the parameters. \\
-The tool for extracting parameters from VHDL and Verilog is limited. It cannot parse all VHDL/Verilog constructs, so it may in some cases not have recognised all your parameters. You should avoid using signal types other than std\_logic, std\_logic\_vector and arrays of the previous. Define one signal per line. Generics (or Verilog parameters) used in the definition of the parameter signals should be defined one per line as well.
+The tool for extracting parameters from VHDL and Verilog is limited. It cannot parse all VHDL/Verilog constructs, so it may not recognise all your parameters in all cases. You should avoid using signal types other than std\_logic, std\_logic\_vector and arrays thereof. In addition, only define one signal on each line. Similarly, Generics (or Verilog parameters) used in the definition of the parameter signals should also be defined for each line.
 
-\item Analyze the results. As an example, the output of the Python script of the multiplier described in Verilog is given;\\
-%moet hier nog komen
+\item Analyze the results. As an example, the output of the Python script of the treeMult4b project is given;\\
+
+\begin{lstlisting}
+Stage: TLUT mapper
+Luts      TLUTs     depth     check
+12.0      12.0      2.0       PASSED    
+Stage: SimpleMAP
+Luts                depth     check     
+70.0                11.0      PASSED    
+Stage: ABC fpga
+Luts                depth     check     
+67.0                10.0      PASSED 
+\end{lstlisting}
+
+The first column shows the number of LUTs in each mapping solution. These can be compared directly and represents the number of K-LUTs needed to implement the design. In this case, the TLUT mapper needs 12 LUTs, SimpleMAP 70 and ABC fpga 67.
+
+The second column is only relevant for the TLUT mapper, it shows the number of LUTs that will actually be reconfigured at run-time. We call these LUTs TLUTs. In this case all 12 of the LUTs are TLUTs and will be reconfigured at run-time.
+
+The third column shows the depth of each mapping solution. This is the number of LUTs in the longest path, a measure for the speed of the circuit. 
+
+Finally, column 4 shows if the mapping solution has passed the equivalence test. This check is performed to see if the resulting circuit is still has the same functionality as the original input.
+
+% Hier de verschillen tussen simpleMap en abc bespreken of later pas in hoofdstuk 4?
 
 \end{enumerate}
 
@@ -231,10 +253,10 @@ Advanced experiments can be set up by copying \emph{fast\_tlutmap} and using thi
 \begin{itemize}
 \item \emph{Python ImportError: No module named fast\_tlutmap (or others):}\\
 The environment variables probably aren't set up correctly. Try running '. source' in the main directory. 
-If you have moved the main directory the paths in the `source' file are not longer correct. Remove this file and create it again using `make source'.
+If you have moved the main directory, the paths in the `source' file are not longer correct. Remove this file and recreate it using `make source'.
 
 \item \emph{java.lang.OutOfMemoryError:}\\
-The Java technology mappers don't have enough memory available. Try to use the \emph{setMaxMemory} function. It can be imported from the \emph{fast\_tlutmap} Python script and should be called before the \emph{run} function. This function sets the maximum memory usage for the Java tools in megabyte.
+The Java technology mappers doesn't have enough memory available. Try to use the \emph{setMaxMemory} function. It can be imported from the \emph{fast\_tlutmap} Python script and should be called before the \emph{run} function. This function sets the maximum memory usage for the Java tools in megabytes.
 \lstset{language=python}
 \begin{lstlisting}
 from fast_tlutmap import run, setMaxMemory
@@ -247,23 +269,25 @@ run('treeMult4b.vhd', K=4, performCheck=True, verboseFlag=False)
 Check if all parameters were correctly extracted from your VHDL/Verilog. See section~\ref{sec:step_by_step}, step~\ref{sec:check_par}.
 \end{itemize}
 
-
+\clearpage
 \chapter{Contents}\label{sec:contents}
-The 'tlut\_flow' folder contains 1 file: 'Makefile'. The 'Makefile' can be used to initially set up the tool flow. It will download some necessary files and compile the used programs.
+The 'tlut\_flow' folder contains a number of folders and one file: 'Makefile'. The 'Makefile' is used to initially set up the tool flow. It will download some necessary files and compile the used programs.
 The 'tlut\_flow' folder also contains three application folders: 'java', 'python' and 'third\_party'.
 
 \begin{itemize}
-\item The 'java' folder contains the java source and binary files of a simple technology mapper and an adapted parameterized version of this technology mapper. These mappers do not yet include an "area recovery" optimization.
+\item The 'java' folder contains the java source and binary files of a simple technology mapper and an adapted parameterized version of this technology mapper, the TLUT technology mapper.
 \item The 'third\_party' folder contains a distribution of ABC, the logic synthesis and technology mapping tool of the university of Berkeley, and Aiger, a tool used to handle textual (.aag) and binary representations of and-inverter-graphs (.aig).    
-\item The 'python' folder contains the high level Python scripts that use the tools in the other folders. It contains three files: 'fast\_tlutmap.py', 'genParameters.py' and 'mapping.py'. The "genParameters.py" script will extract the parameters from the annotated VHDL file. The 'mapping.py' script contains high level wrappers that call the necessary tools. These 2 last scripts are best used as given. 
-\end{itemize}
 
-The 'fast\_tlutmap.py' script contains the main code in the 'run' function. This function can eventually be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the vhdl file into a logic circuit in blif format using Quartus. The technology mapping step will map the logic circuit to a circuit with LUTs. 3 different technology mapping tools are considered for reasons of comparison: the simple mapper, the parameterized mapper (TMAP) and the ABC mapper. The first two do not have an 'area recovery' optimization included. 
+\item The 'python' folder contains the high level Python scripts that are used to interface with the tools in the other folders. It contains three files: 'fast\_tlutmap.py', 'genParameters.py' and 'mapping.py'. The "genParameters.py" script will extract the parameters from the annotated VHDL file. The 'mapping.py' script contains high level wrappers that call the different mappers and a number of utility programs. These 2 last scripts are best used as given. 
+
+The 'fast\_tlutmap.py' script contains the main code in the 'run' function. This function can easily be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the vhdl file into a logic circuit in blif format using Quartus. The technology mapping step will map the logic circuit to a circuit with LUTs. Three different technology mapping tools are included to allow an easy comparison: the simple mapper, the TLUT technology mapper and the ABC mapper. The first two are not yet optimized for 'area recovery'. The ABC tool flow is an academic framework that does include a large number of such optimization. Several commercial tools are based on this technology mapper.
 
 The 'run' function also contains some intermediate steps:
 \begin{itemize} 
 \item the conversion of the blif format into the aag format, needed for the Java mappers
 \item extraction of the parameters out of the annotated VHDL file
+\end{itemize}
+
 \end{itemize}
 
 %Hier zouden ook nog alle voorbeelden moeten beschreven worden, vanaf welke formaat ze starten (vhdl, verilog, aag) en een zin over wat ze moeten voorstellen.
