@@ -521,6 +521,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 
 	public void reduceMemoryUsage() {
 		regularLeaves = new ArrayList<Node>(regularLeaves);
+		((ArrayList<Node>)regularLeaves).trimToSize();
 	}
 
 	

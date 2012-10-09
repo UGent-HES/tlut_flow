@@ -79,6 +79,7 @@ public class ConeSet implements Iterable<Cone> {
 			c.reduceMemoryUsage();
 		}
 		this.cones = new ArrayList<Cone>(this.cones);
+		((ArrayList<Cone>)this.cones).trimToSize();
 	}
 	
 	

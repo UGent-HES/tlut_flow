@@ -26,8 +26,10 @@ public class SimpleMapper {
 //		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
 		// Mapping
+		System.out.println("Cone Enumeration:");
 		ConeEnumeration enumerator = new ConeEnumeration(Integer.parseInt(args[1])); 
         a.visitAll(enumerator);        
+		System.out.println("Cone Ranking:");
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
         
         a.visitAllInverse(new HeightCalculator());
@@ -35,6 +37,7 @@ public class SimpleMapper {
         
 //        a.visitAllInverse(new PrintNameVisitor());
         
+        System.out.println("Cone Selection:");
         a.visitAllInverse(new ConeSelection());
         
         System.out.println(a.numLuts() +"\t"+ a.getDepth() +"\t"+ enumerator.getNmbrCones() +"\t"+ enumerator.getNmbrKCones() +"\t"+ enumerator.getNmbrDominatedCones());
