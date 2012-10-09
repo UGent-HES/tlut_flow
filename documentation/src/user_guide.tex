@@ -1,0 +1,264 @@
+\documentclass{memoir}
+\usepackage{listings}%
+\usepackage{xcolor}
+\usepackage{hyperref}
+\lstset{%
+    backgroundcolor=\color{yellow!20},%
+    basicstyle=\small\ttfamily,%
+    numbers=none, numberstyle=\tiny, stepnumber=2, numbersep=5pt,%
+    }%
+
+\lstset{emph={%  
+    PARAM%
+    },emphstyle={\color{blue}\bfseries},%
+    morekeywords={filename},
+    keywordstyle={\color{red}\ttfamily}
+}%
+
+\usepackage{fourier} % or what ever
+\usepackage[scaled=.92]{helvet}%. Sans serif - Helvetica
+\usepackage{color,calc}
+\newsavebox{\ChpNumBox}
+\definecolor{ChapBlue}{rgb}{0.00,0.65,0.65}
+\makeatletter
+\newcommand*{\thickhrulefill}{%
+  \leavevmode\leaders\hrule height 1\p@ \hfill \kern \z@}
+\newcommand*\BuildChpNum[2]{%
+  \begin{tabular}[t]{@{}c@{}}
+    \makebox[0pt][c]{#1\strut}  \\[.5ex]
+    \colorbox{ChapBlue}{%
+      \rule[-10em]{0pt}{0pt}%
+      \rule{1ex}{0pt}\color{black}#2\strut
+      \rule{1ex}{0pt}}%
+  \end{tabular}}
+\makechapterstyle{BlueBox}{%
+  \renewcommand{\chapnamefont}{\large\scshape}
+  \renewcommand{\chapnumfont}{\Huge\bfseries}
+  \renewcommand{\chaptitlefont}{\raggedright\Huge\bfseries}
+  \setlength{\beforechapskip}{0pt}
+  \setlength{\midchapskip}{26pt}
+  \setlength{\afterchapskip}{40pt}
+  \renewcommand{\printchaptername}{}
+  \renewcommand{\chapternamenum}{}
+  \renewcommand{\printchapternum}{%
+    \sbox{\ChpNumBox}{%
+      \BuildChpNum{\chapnamefont\@chapapp}%
+      {\chapnumfont\thechapter}}}
+  \renewcommand{\printchapternonum}{%
+    \sbox{\ChpNumBox}{%
+      \BuildChpNum{\chapnamefont\vphantom{\@chapapp}}%
+      {\chapnumfont\hphantom{\thechapter}}}}
+  \renewcommand{\afterchapternum}{}
+  \renewcommand{\printchaptertitle}[1]{%
+    \usebox{\ChpNumBox}\hfill
+    \parbox[t]{\hsize-\wd\ChpNumBox-1em}{%
+      \vspace{\midchapskip}%
+      \thickhrulefill\par
+      \chaptitlefont ##1\par}}%
+}
+\chapterstyle{BlueBox}
+
+\setlength\afterchapskip {\onelineskip }
+\setlength\beforechapskip {\onelineskip }
+\usepackage{lipsum}
+
+\setlength{\oddsidemargin}{0.03\paperwidth} 
+\setlength{\evensidemargin}{0.03\paperwidth}
+\setlength{\textwidth}{0.7\paperwidth}
+\setlength{\voffset}{0pt}
+
+
+\begin{document}
+
+\let\clearforchapter\par % cheating, but saves some space
+\chapter{The TMAP tool flow: An introduction}
+
+The TMAP tool flow is a tool flow that generates FPGA configurations. 
+Its biggest difference with the traditional FPGA flow is the use of a new technology mapper, TMAP. 
+The TMAP tool flow was developed to implement Dynamic Circuit Specialization (DCS) on FPGAs. 
+A DCS implementation of an application specializes its circuit for the current values of a number of specific inputs, called parameters. This specialized circuit is smaller, and in some cases faster, than the original circuit. However,
+it is only correct for one set of parameter values. Each time the parameters change value, a new specialized circuit is generated. This new specialized circuit is then loaded into the FPGA using partial run-time reconfiguration.\\
+
+The TMAP tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured,
+the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TMAP tool flow are listed in the wiki of this project. There you can also find more information on our current research on extending and improving the TMAP tool flow. The TMAP tool flow itself and how to use it is described in much more detail in the manual.
+
+\section{Practical information}
+
+We are releasing the TMAP tool flow in two phases. First, we have made the adapted technology mapper, TMAP, public. This will allow you to compare its results with a normal technology mapper. We have included a framework to make this comparison very easy. The following pages provide clear examples and show how to adapt the framework for you own uses.\\
+
+In the second phase we will provide you with the scripts and information necessary to integrate the TMAP technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on actual Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
+
+\section{Contents of this document}
+Chapter~\ref{sec:setup}: \emph{Setup}: A setup manual\\
+Chapter~\ref{sec:experiment}: \emph{Your design}: A manual for running your own experiments\\
+Chapter~\ref{sec:troubleshooting}: \emph{Troubleshooting}: Problems you may encounter and their solutions\\
+Chapter~\ref{sec:contents}: \emph{Contents}: Description of the contents of this package
+
+
+\clearpage
+\chapter{Setup}\label{sec:setup}
+\begin{lstlisting}
+> make
+\end{lstlisting}
+This builds a number of dependencies and the TMAP technology mapper.
+Also creates a `source' file which sets environment variables.
+
+Set your environment variables using:
+\begin{lstlisting}
+> . source
+\end{lstlisting}
+Examples can be run using the included Python scripts.
+E.g.
+\begin{lstlisting}
+> cd examples/treeMult4b
+> ./treeMult4b.py
+\end{lstlisting}
+
+\section{Dependencies}
+\begin{itemize}
+\item Dependencies to be forseen by user:\\
+Python (tested with version 2.7)\\
+Quartus II (tested with version 7.2)
+\item Dependencies automatically downloaded and installed:\\
+Aiger (tested with version 1.9.4), \url{http://fmv.jku.at/aiger/}\\
+ABC (tested with version 810ba683c042, 5 October 2012), \url{http://www.eecs.berkeley.edu/\~alanmi/abc/}
+\end{itemize}
+
+
+\chapter{Your own design}\label{sec:experiment}
+\section{The run function}\label{sec:run_function}
+To test the TLUT mapper on your own design (described in VHDL or Verilog), import the \emph{run} function from \emph{fast\_tlutmap} in your own Python script and call it with the following arguments:
+\begin{lstlisting}
+run(module, submodules, K, performCheck, verboseFlag)
+\end{lstlisting}
+\begin{itemize}
+\item \textbf{module} - String\\
+if your design consists of only one top level VHDL/Verilog module, then you only have to pass the location of top level VHDL/Verilog module as the first argument\\
+E.g. run('yourDesign.vhd')
+\item \textbf{submodules} - list of Strings - \textit{optional}\\
+if your design consists of a top level module and several submodules, you can add a list of submodules,
+for example if you have one top level module and two submodules\\
+E.g. run('yourTopLevelModule.vhd', ['yourFirstSubModule.vhd', 'yourSecondSubModule.vhd'])
+\item \textbf{K} - integer - \textit{default 4}\\
+you can choose the number of inputs a LookUp Table has on your target FPGA\\
+E.g. run('yourDesign.vhd', 6)
+or run('yourDesign.vhd', K=6)
+\item \textbf{performCheck} - boolean - \textit{default True}\\
+when checks are on, the resulting mapping is verified using a miter and satisfiability solver. This ensures that the mapped circuit implements the same functionality as the input circuit.\\
+E.g. run('yourDesign.vhd', 6, True)\\
+or run('yourDesign.vhd', performCheck=False)
+\item \textbf{verboseFlag} - boolean - \textit{default False}\\
+verbose mode\\
+E.g. run('yourDesign.vhd', 6, True, True)\\ or run('yourDesign.vhd', verboseFlag=True)
+\end{itemize}
+
+\section{A Step-by-step Approach}\label{sec:step_by_step}
+Here follows a more step-by-step approach to set up your own Python script starting from the \emph{treeMult4b} example,
+\begin{enumerate}
+\item Make a folder for your design and copy the treeMult4b folder from the examples directory. You need at least the files \emph{abc.rc} and \emph{treeMult4b.py}\\
+\begin{lstlisting}
+> mkdir yourDesign
+> cp -r examples/treeMult4b/* yourDesign/
+\end{lstlisting}
+\item Replace treeMult4.vhd by copying your VHDL/Verilog files, describing your design, into the \emph{yourDesign}-folder\\
+\begin{lstlisting}
+> rm treeMult4b.vhd
+> 
+\end{lstlisting}
+\item Annotate the parameters in your top level VHDL/Verilog file.\\Any input signal in your top level module can be chosen as parameter, a combination of parameters can be chosen as parameters. Preferably the designer will choose the slowly changing input signals as parameters, because these annotations lead to the most gain. Different combinations can be tested easily by changing the annotations. In the following example a simple multiplexer is described in VHDL and the 'sel' input signal is annotated as a parameter.
+\lstset{language=VHDL}
+\begin{lstlisting}
+entity multiplexer is
+port(
+  --PARAM
+  sel : in  std_logic_vector(1 downto 0);
+  --PARAM
+  in  : in  std_logic_vector(3 downto 0);
+  out : out std_logic
+);
+end multiplexer;
+
+architecture behavior of multiplexer is
+begin
+  out <= in(conv_integer(sel));
+end behavior;
+\end{lstlisting}
+It works quite similar in the case of Verilog. The following Verilog example, a simple multiplier, can be found in the examples folder;
+\lstset{language=Verilog}
+\begin{lstlisting}
+module mult(x,y,z);
+parameter N = 16;
+input [N-1:0] x;
+//PARAM
+input [N-1:0] y;
+//PARAM
+output [2*N-1:0]z;
+assign z = x * y;
+endmodule
+\end{lstlisting}
+ 
+\item Modify the Python script\\
+\begin{lstlisting}
+> mv treeMult4b.py yourDesign.py
+> nano yourDesign.py
+\end{lstlisting}
+Edit the 6th line, in which the \emph{run} function is called, according to the documentation in section~\ref{sec:run_function}.
+\item Run the modified Python script
+\begin{lstlisting}
+> ./yourDesign.py
+\end{lstlisting}
+\item \label{sec:check_par}Check the `.par' file in the work directory, to ensure the parameters were correctly recognised. It should enlist all the signal names of the parameters. \\
+The tool for extracting parameters from VHDL and Verilog is limited. It cannot parse all VHDL/Verilog constructs, so it may in some cases not have recognised all your parameters. You should avoid using signal types other than std\_logic, std\_logic\_vector and arrays of the previous. Define one signal per line. Generics (or Verilog parameters) used in the definition of the parameter signals should be defined one per line as well.
+
+\item Analyze the results. As an example, the output of the Python script of the multiplier described in Verilog is given;\\
+%moet hier nog komen
+
+\end{enumerate}
+
+\section{Advanced}
+It is also possible to start from an `.aag' or `.blif' file. As a reference for this we provide examples \emph{AES} and \emph{tripleDES}. 
+Advanced experiments can be set up by copying \emph{fast\_tlutmap} and using this file as a template for your experiment.
+
+\clearpage
+\chapter{Troubleshooting}\label{sec:troubleshooting}
+\begin{itemize}
+\item \emph{Python ImportError: No module named fast\_tlutmap (or others):}\\
+The environment variables probably aren't set up correctly. Try running '. source' in the main directory. 
+If you have moved the main directory the paths in the `source' file are not longer correct. Remove this file and create it again using `make source'.
+
+\item \emph{java.lang.OutOfMemoryError:}\\
+The Java technology mappers don't have enough memory available. Try to use the \emph{setMaxMemory} function. It can be imported from the \emph{fast\_tlutmap} Python script and should be called before the \emph{run} function. This function sets the maximum memory usage for the Java tools in megabyte.
+\lstset{language=python}
+\begin{lstlisting}
+from fast_tlutmap import run, setMaxMemory
+
+setMaxMemory(4096)
+run('treeMult4b.vhd', K=4, performCheck=True, verboseFlag=False)
+\end{lstlisting}
+
+\item \emph{The number of TLUTs is 0, or the reduction in number of LUTs is lower than expected:}\\
+Check if all parameters were correctly extracted from your VHDL/Verilog. See section~\ref{sec:step_by_step}, step~\ref{sec:check_par}.
+\end{itemize}
+
+
+\chapter{Contents}\label{sec:contents}
+The 'tlut\_flow' folder contains 1 file: 'Makefile'. The 'Makefile' can be used to initially set up the tool flow. It will download some necessary files and compile the used programs.
+The 'tlut\_flow' folder also contains three application folders: 'java', 'python' and 'third\_party'.
+
+\begin{itemize}
+\item The 'java' folder contains the java source and binary files of a simple technology mapper and an adapted parameterized version of this technology mapper. These mappers do not yet include an "area recovery" optimization.
+\item The 'third\_party' folder contains a distribution of ABC, the logic synthesis and technology mapping tool of the university of Berkeley, and Aiger, a tool used to handle textual (.aag) and binary representations of and-inverter-graphs (.aig).    
+\item The 'python' folder contains the high level Python scripts that use the tools in the other folders. It contains three files: 'fast\_tlutmap.py', 'genParameters.py' and 'mapping.py'. The "genParameters.py" script will extract the parameters from the annotated VHDL file. The 'mapping.py' script contains high level wrappers that call the necessary tools. These 2 last scripts are best used as given. 
+\end{itemize}
+
+The 'fast\_tlutmap.py' script contains the main code in the 'run' function. This function can eventually be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the vhdl file into a logic circuit in blif format using Quartus. The technology mapping step will map the logic circuit to a circuit with LUTs. 3 different technology mapping tools are considered for reasons of comparison: the simple mapper, the parameterized mapper (TMAP) and the ABC mapper. The first two do not have an 'area recovery' optimization included. 
+
+The 'run' function also contains some intermediate steps:
+\begin{itemize} 
+\item the conversion of the blif format into the aag format, needed for the Java mappers
+\item extraction of the parameters out of the annotated VHDL file
+\end{itemize}
+
+%Hier zouden ook nog alle voorbeelden moeten beschreven worden, vanaf welke formaat ze starten (vhdl, verilog, aag) en een zin over wat ze moeten voorstellen.
+
+\end{document}
