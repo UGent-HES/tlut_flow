@@ -22,8 +22,8 @@ public class AreaflowOrientedConeComparator implements Comparator<Cone> {
 			else 
 				return o1.toString().compareTo(o2.toString());			
 		} else {
-			boolean o1Feasible = o1.getDepth() < requiredTime;
-			boolean o2Feasible = o2.getDepth() < requiredTime;
+			boolean o1Feasible = o1.getDepth() <= requiredTime;
+			boolean o2Feasible = o2.getDepth() <= requiredTime;
 			if (o1Feasible && !o2Feasible)
 				return -1;
 			else if (o2Feasible && !o1Feasible)

@@ -32,8 +32,13 @@ public class SimpleMapper {
 		System.out.println("Cone Ranking:");
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
         
+        double depthBeforeAreaRecovery = a.getDepth();
         a.visitAllInverse(new HeightCalculator());
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator()));
+        if(depthBeforeAreaRecovery != a.getDepth()) {
+        	System.err.println("Depth increassed during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
+        	System.exit(1);
+        }
         
 //        a.visitAllInverse(new PrintNameVisitor());
         
