@@ -871,14 +871,14 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				file.append("	node["+current+"] = ");
 
 				if (n.getI0().isInverted()) {
-					file.append("!");
+					file.append("~");
 				}
 				file.append("node["+child0+"]");
 				
-				file.append(" && ");
+				file.append(" & ");
 
 				if (n.getI1().isInverted()) {
-					file.append("!");
+					file.append("~");
 				}
 				file.append("node["+child1+"]");
 
@@ -905,6 +905,15 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				int child  = variableIndex.get(n.getI0().getTail());
 				
 				file.append("	output["+out+"] = node["+child+"];"+newLine);
+				
+				if (n.getI0().isInverted()) {
+					
+					file.append("	output["+out+"] = ~node["+child+"] & 1;"+newLine);
+				
+				} else {
+					
+					file.append("	output["+out+"] = node["+child+"] & 1;"+newLine);
+				}
 				
 				n.setMarked(true);
 
