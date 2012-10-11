@@ -1,5 +1,6 @@
 package be.ugent.elis.recomp.mapping.utils;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.ArrayList;
 
@@ -13,9 +14,9 @@ public interface ConeInterface {
 
 	public abstract Node getRoot();
 
-	public abstract Set<Node> getParameterLeaves();
+	public abstract Collection<Node> getParameterLeaves();
 
-	public abstract Set<Node> getRegularLeaves();
+	public abstract Collection<Node> getRegularLeaves();
 
 	public abstract void addLeave(Node node);
 

@@ -29,8 +29,8 @@ def main():
     
     os.chdir('work')
     
-    # Unleash TMAP
-    print "Stage: TMAP"
+    # Unleash TLUTMAP
+    print "Stage: TLUTMAP"
     numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','TLUTs','depth','check'],colwidth)
     print collumnize([numLuts,numTLUTs,depth,check],colwidth)

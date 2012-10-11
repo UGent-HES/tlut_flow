@@ -1,7 +1,8 @@
 package be.ugent.elis.recomp.mapping.utils;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 
 
@@ -9,7 +10,7 @@ public class ConeSet implements Iterable<Cone> {
 
 	protected Node node;
 	
-	protected Set<Cone> cones;
+	protected Collection<Cone> cones;
 
 	public ConeSet(Node node) {
 		
@@ -47,15 +48,15 @@ public class ConeSet implements Iterable<Cone> {
 		return cones.size();
 	}
 
-	public Set<Cone> getCones() {
+	public Collection<Cone> getCones() {
 		return cones;
 	}
 
-	public void setCones(Set<Cone> cones) {
+	public void setCones(Collection<Cone> cones) {
 		this.cones = cones;
 	}
 
-	public void removeAll(Set<Cone> cones) {
+	public void removeAll(Collection<Cone> cones) {
 		this.cones.removeAll(cones);
 	}
 
@@ -71,6 +72,14 @@ public class ConeSet implements Iterable<Cone> {
 		}
 		
 		return null;
+	}
+
+	public void reduceMemoryUsage() {
+		for (Cone c:this.cones) {
+			c.reduceMemoryUsage();
+		}
+		this.cones = new ArrayList<Cone>(this.cones);
+		((ArrayList<Cone>)this.cones).trimToSize();
 	}
 	
 	

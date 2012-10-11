@@ -64,6 +64,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			} else if (node.isOutput() || node.isILatch()) {
 			}
 		}
+		result.reduceMemoryUsage();
 		node.setConeSet(result);
 		
 		//System.out.println(node.getName() + ": " + nmbrCones);

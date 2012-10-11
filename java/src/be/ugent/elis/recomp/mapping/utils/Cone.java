@@ -1,6 +1,7 @@
 package be.ugent.elis.recomp.mapping.utils;
 
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import be.ugent.elis.recomp.synthesis.BooleanFunction;
 public class Cone implements Comparable<Cone>, ConeInterface {
 	
 	private Node root;
-	protected Set<Node> regularLeaves;
+	protected Collection<Node> regularLeaves;
 //	protected Set<Node> parameterLeaves;
 
 	
@@ -141,7 +142,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	/* (non-Javadoc)
 	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getRegularLeaves()
 	 */
-	public Set<Node> getRegularLeaves() {
+	public Collection<Node> getRegularLeaves() {
 		return regularLeaves;
 	}
 
@@ -516,6 +517,11 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 				result = n.depth;
 		}
 		return result;
+	}
+
+	public void reduceMemoryUsage() {
+		regularLeaves = new ArrayList<Node>(regularLeaves);
+		((ArrayList<Node>)regularLeaves).trimToSize();
 	}
 
 	
