@@ -58,8 +58,8 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
     numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, verboseFlag)
-    print collumnize(['Luts','TLUTs','depth','check'],colwidth)
-    print collumnize([numLuts,numTLUTs,depth,check],colwidth)
+    print collumnize(['Luts  (TLUTS)','','depth','check'],colwidth)
+    print collumnize([str(numLuts)+'  ('+str(numTLUTs)+')','',depth,check],colwidth)
     
     #Print C-files
     parconfFile = baseName + "-parconfig.aag"
