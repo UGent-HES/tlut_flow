@@ -711,23 +711,24 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 	public void printAAGevaluator2(PrintStream stream) {
 		int max = 0;
+		StringBuilder file = new StringBuilder();
+		String newLine = System.getProperty("line.separator");
 		Vector<N> inToOut = topologicalOrderInToOut(true, true);
-		
 		setMarkedAll(false);
 		
 		PriorityQueue<Integer> freeVariablePool = new PriorityQueue<Integer>();
-		for (int i = 0; i < 1 + input.size() + and.size(); i++) {
+		for (int i = 0; i < 2 + input.size() + and.size(); i++) {
 			freeVariablePool.add(i);
 		}
 	
 		Map<N,Integer> variableIndex = new HashMap<N,Integer>();
 		
-		stream.println("void evaluate(int *parameter, int *output) {");
+		file.append("void evaluate(int *parameter, int *output) {"+newLine);
 		
-		stream.println("	int node[??];");
+		file.append("	int node[??];"+newLine);
 
 		variableIndex.put(const0, freeVariablePool.poll());
-		stream.println("	node["+variableIndex.get(const0)+"] = 0;");
+		file.append("	node["+variableIndex.get(const0)+"] = 0;"+newLine);
 
 		
 		for (N n: inToOut) {
@@ -736,7 +737,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			switch (n.getType()) {
 			case INPUT:
 				variableIndex.put(n, freeVariablePool.poll());
-				stream.println("	node["+variableIndex.get(n)+"] = parameter["+input.indexOf(n)+"];");
+				file.append("	node["+variableIndex.get(n)+"] = parameter["+input.indexOf(n)+"];"+newLine);//
 
 				break;
 			case AND:
@@ -748,21 +749,21 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				int child0  = variableIndex.get(n.getI0().getTail());
 				int child1  = variableIndex.get(n.getI1().getTail());
 				
-				stream.print("	node["+current+"] = ");
+				file.append("	node["+current+"] = ");
 
 				if (n.getI0().isInverted()) {
-					stream.print("!");
+					file.append("!");
 				}
-				stream.print("node["+child0+"]");
+				file.append("node["+child0+"]");
 				
-				stream.print(" && ");
+				file.append(" && ");
 
 				if (n.getI1().isInverted()) {
-					stream.print("!");
+					file.append("!");
 				}
-				stream.print("node["+child1+"]");
+				file.append("node["+child1+"]");
 
-				stream.println(";");
+				file.append(";"+newLine);
 				
 				
 				n.setMarked(true);
@@ -784,7 +785,13 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				int out = this.output.indexOf(n);
 				int child  = variableIndex.get(n.getI0().getTail());
 				
-				stream.println("	output["+out+"] = node["+child+"];");
+				if (n.getI0().isInverted()) {
+					file.append("	output["+out+"] = !node["+child+"];"+newLine);
+				}else{
+					file.append("	output["+out+"] = node["+child+"];"+newLine);
+				}
+				
+				
 				
 				n.setMarked(true);
 
@@ -801,23 +808,136 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		}
 		
 
-		stream.println("}");
+		file.append("}"+newLine);
 		
-		stream.println("void main() {");
-		stream.println("	int i;");
-		stream.println("	int parameter["+this.input.size()+"];");
-		stream.println("	int output["+this.output.size()+"];");
-		stream.println("	for (i=0;i<1000;i++) {");
-		stream.println("		evaluate(parameter,output);");
-		stream.println("	}");
-		stream.println("}");
+		file.append("void main() {"+newLine);
+		file.append("	int i;"+newLine);
+		file.append("	int parameter["+this.input.size()+"];"+newLine);
+		file.append("	int output["+this.output.size()+"];"+newLine);
+		file.append("	for (i=0;i<1000;i++) {"+newLine);
+		file.append("		evaluate(parameter,output);"+newLine);
+		file.append("	}"+newLine);
+		file.append("}"+newLine);
 		
+		stream.print(file.toString().replace("??", ""+max));
 		
 		stream.flush();
 		
 		System.out.println("Maximum index: " + max);
 	}
 
+	public void printAAGevaluatorXilinx(PrintStream stream) {
+		int max = 0;
+		StringBuilder file = new StringBuilder();
+		String newLine = System.getProperty("line.separator");
+		Vector<N> inToOut = topologicalOrderInToOut(true, true);
+		setMarkedAll(false);
+		
+		PriorityQueue<Integer> freeVariablePool = new PriorityQueue<Integer>();
+		for (int i = 0; i < 2 + input.size() + and.size(); i++) {
+			freeVariablePool.add(i);
+		}
+	
+		Map<N,Integer> variableIndex = new HashMap<N,Integer>();
+		
+		file.append("#include \"xutil.h\""+newLine);
+		
+		file.append("void evaluate(int *parameter, int *output) {"+newLine);
+		
+		file.append("	int node[??];"+newLine);
+
+		variableIndex.put(const0, freeVariablePool.poll());
+		file.append("	node["+variableIndex.get(const0)+"] = 0;"+newLine);
+
+		
+		for (N n: inToOut) {
+			System.out.println(n.getName());
+			
+			switch (n.getType()) {
+			case INPUT:
+				variableIndex.put(n, freeVariablePool.poll());
+				file.append("	node["+variableIndex.get(n)+"] = parameter["+input.indexOf(n)+"];"+newLine);//
+
+				break;
+			case AND:
+				variableIndex.put(n, freeVariablePool.poll());
+
+				int current = variableIndex.get(n);
+				
+				
+				int child0  = variableIndex.get(n.getI0().getTail());
+				int child1  = variableIndex.get(n.getI1().getTail());
+				
+				file.append("	node["+current+"] = ");
+
+				if (n.getI0().isInverted()) {
+					file.append("!");
+				}
+				file.append("node["+child0+"]");
+				
+				file.append(" && ");
+
+				if (n.getI1().isInverted()) {
+					file.append("!");
+				}
+				file.append("node["+child1+"]");
+
+				file.append(";"+newLine);
+				
+				
+				n.setMarked(true);
+				
+				if (n.getI0().getTail().allFanoutIsMarked()) {
+					freeVariablePool.add(child0);
+					variableIndex.remove(n.getI0().getTail());
+				}
+
+				if (n.getI1().getTail().allFanoutIsMarked()) {
+					freeVariablePool.add(child1);
+					variableIndex.remove(n.getI1().getTail());
+				}
+
+				
+				break;
+				
+			case OUTPUT:
+				int out = this.output.indexOf(n);
+				int child  = variableIndex.get(n.getI0().getTail());
+				
+				file.append("	output["+out+"] = node["+child+"];"+newLine);
+				
+				n.setMarked(true);
+
+				break;
+				
+			default:
+				break;
+			}
+			
+			if (freeVariablePool.peek() > max) {
+				max = freeVariablePool.peek();
+			}
+			
+		}
+		
+
+		file.append("}"+newLine);
+		
+		file.append("void main() {"+newLine);
+		file.append("	int i;"+newLine);
+		file.append("	int parameter["+this.input.size()+"];"+newLine);
+		file.append("	int output["+this.output.size()+"];"+newLine);
+		file.append("	for (i=0;i<1000;i++) {"+newLine);
+		file.append("		evaluate(parameter,output);"+newLine);
+		file.append("	}"+newLine);
+		file.append("}"+newLine);
+		
+		stream.print(file.toString().replace("??", ""+max));
+		
+		stream.flush();
+		
+		System.out.println("Maximum index: " + max);
+	}
 	
 	public void merge(AIG<N,E> aig ) {
 		AIG<N,E> copy = new AIG<N, E>(aig);

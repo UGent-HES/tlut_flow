@@ -78,7 +78,8 @@ public class TMapSimple {
         	a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
         	String vhdFile = args[7];
         	String inVhdFile = args[6];
-        	a.printLutStructureVhdl(inVhdFile, vhdFile, K);
+        	String nameFile = args[8];
+        	a.printLutStructureVhdl(inVhdFile, vhdFile, nameFile, K);
         }else{
         	//a.printLutStructureBlif_old(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
         	a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);

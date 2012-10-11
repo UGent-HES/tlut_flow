@@ -14,7 +14,9 @@ public class MakeCEvaluator {
 	public static void main(String[] args) throws FileNotFoundException {
 		BasicAIG aig = new BasicAIG(args[0]);
 		
-        aig.printAAGevaluator2(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[1]))));
+        //aig.printAAGevaluator2(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[1]))));
+        aig.printAAGevaluatorXilinx(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[1]))));
+
 
 	}
 

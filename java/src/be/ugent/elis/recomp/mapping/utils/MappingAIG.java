@@ -795,10 +795,11 @@ public class MappingAIG extends AIG<Node, Edge> {
 	} 
 	
 	
-	public void printLutStructureVhdl(String inVhdFile, String vhdFile, int K) throws IOException {
+	public void printLutStructureVhdl(String inVhdFile, String vhdFile, String nameFile, int K) throws IOException {
 		PrintStream stream = new PrintStream(new File(vhdFile));
+		PrintStream nameStream = new PrintStream(new File(nameFile));
 		writeHeader(stream, inVhdFile, K);		
-		String baseName = vhdFile.substring(0,vhdFile.lastIndexOf('.')).substring(vhdFile.lastIndexOf('/')+1);
+		String baseName = inVhdFile.substring(0,inVhdFile.lastIndexOf('.')).substring(inVhdFile.lastIndexOf('/')+1);
 	    stream.println("\nbegin");
 	    
 	    for (Node latch : getLatches()) {
@@ -812,10 +813,10 @@ public class MappingAIG extends AIG<Node, Edge> {
 	    for (Node and : getAnds()) {
 			if (and.isVisible()) {
 				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){
-					printLutVhdl(baseName, and, stream, K, and.getName()+"not");	 
+					printLutVhdl(baseName, and, stream, nameStream, K, and.getName()+"not");	 
 				}
 				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
-					printLutVhdl(baseName, and, stream, K, and.getName());
+					printLutVhdl(baseName, and, stream, nameStream, K, and.getName());
 				}
 			}	
 		}
@@ -856,12 +857,17 @@ public class MappingAIG extends AIG<Node, Edge> {
 //		stream.println();
 	}
 	
-	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, int K, String lutName){
+	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, PrintStream nameStream, int K, String lutName){
 		ConeInterface bestCone = visibleAnd.getBestCone();
 		ArrayList<Node> regularInputs = bestCone.getRegularInputs();
 		int lutSize = regularInputs.size();
 		String lutInstance = "";
-		lutInstance = "\n"+baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
+		if(bestCone.isTLUT()){
+			lutInstance = "\n"+baseName+"_TLUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
+			nameStream.println(baseName+"_TLUT"+lutSize+"_"+lutName);
+		}else {
+			lutInstance = "\n"+baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
+		}
 		for (int i = 0; i < lutSize ; i++){
 			//lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')');
 			if(checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.MixedOuts ))
@@ -950,12 +956,21 @@ public class MappingAIG extends AIG<Node, Edge> {
 				
 				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){
 					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+"not : STD_ULOGIC ;";
-					initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_LUT"+lutSize+"_"+and.getName()+"not: label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";"; 
+					if(bestCone.isTLUT()) {
+						initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_TLUT"+lutSize+"_"+and.getName()+"not: label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
+					} else {
+						initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_LUT"+lutSize+"_"+and.getName()+"not: label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
+					}
 				}
 				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
 					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+" : STD_ULOGIC ;";
-					initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_LUT"+lutSize+"_"+and.getName()+": label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
+					if(bestCone.isTLUT()){
+						initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_TLUT"+lutSize+"_"+and.getName()+": label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
+					} else {
+						initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_LUT"+lutSize+"_"+and.getName()+": label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
+					}
 				}
+					
 			}	
 		}
 	    

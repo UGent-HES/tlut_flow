@@ -85,9 +85,10 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         outFile =  'dummy' #basename + "-simpletmap.blif"
         parconfFile = basename + "-parconfig.aag"
         lutstructFile = basename + "-lutstruct.blif"
-        #vhdFile = basename + ".vhd"
-        #outVhdFile = basename + "-simpletmap.vhd"
-        for f in (aagFile,): #vhdFile):
+        vhdFile = basename + ".vhd"
+        outVhdFile = basename + "-simpletmap.vhd"
+        nameFile= basename+ "-names.txt"
+        for f in (aagFile,vhdFile):
             if not os.path.exists(f):
                 print >> sys.stderr, 'Error: missing input file: %s'%f
                 exit(3)
@@ -95,7 +96,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
         # args: input aag of design, input file with parameters, number of inputs per LUT, unused, output parameterised configuration bits as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
-        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile]#, vhdFile, outVhdFile]
+        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile, vhdFile, outVhdFile, nameFile]
         if verboseFlag:
             print ' '.join(cmd + args)
         output = subprocess.check_output(cmd + args)
