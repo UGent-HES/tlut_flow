@@ -84,11 +84,18 @@ The TLUT tool flow is a tool flow that generates FPGA configurations. Its bigges
 
 The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it, is described in much more detail in this user guide.
 
-\section{Practical information}
+\section{Roadmap}
 
-We are releasing the TLUT tool flow in two phases. First, we have made the adapted TLUT technology mapper public. This will allow you to compare its results with a normal technology mapper. We have included a framework to make this comparison very easy. The following pages provide clear examples and show how to adapt the framework for you own uses.\\
+We are releasing the TLUT tool flow in two phases. First, we have made the adapted TLUT technology mapper public. This will allow you to compare its results with a conventional technology mapper. We have included a framework to make this comparison very easy. The following pages provide clear examples and show how to adapt the framework for you own uses.\\
 
-In the second phase we will provide you with the scripts and information necessary to integrate the TLUT technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on actual Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
+In the second phase, which will be released soon, we will provide you with the scripts and information necessary to integrate the TLUT technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on commercial Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
+
+\section{Contact information}
+The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group (\href{http://hes.elis.ugent.be}{\emph{hes.elis.ugent.be}}).
+
+If you encounter bugs, want to use the TLUT tool flow but need support or want to tell us about your results, feel free to contact us.
+We can be reached at \href{mailto:hes@elis.ugent.be}{\emph{hes@elis.ugent.be}}.
+
 
 \section{Contents of this document}
 Chapter~\ref{sec:setup}: \emph{Setup}: A setup manual\\
@@ -115,12 +122,12 @@ E.g.
 
 \section{Dependencies}
 \begin{itemize}
-\item Dependencies to be forseen by user:\\
-Python (tested with version 2.7)\\
-Quartus II (tested with version 10.0)
+\item Dependencies to be provided by user:\\
+Python (tested with version 2.7), \url{http://www.python.org}\\
+Quartus II (tested with version 10.0), Altera Corporation, \url{http://www.altera.com}
 \item Dependencies automatically downloaded and installed:\\
-Aiger (tested with version 1.9.4), \url{http://fmv.jku.at/aiger/}\\
-ABC (tested with version 810ba683c042, 5 October 2012), \url{http://www.eecs.berkeley.edu/\~alanmi/abc/}
+Aiger (tested with version 1.9.4), JKU Institute for Formal Models and Verification, \url{http://fmv.jku.at/aiger}\\
+ABC (tested with version 810ba683c042, 5 October 2012), Berkeley Logic Synthesis and Verification Group, \url{http://www.eecs.berkeley.edu/\~alanmi/abc}
 \end{itemize}
 
 \clearpage
@@ -271,18 +278,22 @@ Check if all parameters were correctly extracted from your VHDL/Verilog. See sec
 
 \clearpage
 \chapter{Contents}\label{sec:contents}
-The 'tlut\_flow' folder contains a number of folders and one file: 'Makefile'. The 'Makefile' is used to initially set up the tool flow. It will download some necessary files and compile the used programs.
-The 'tlut\_flow' folder also contains three application folders: 'java', 'python' and 'third\_party'.
+The `tlut\_flow' folder contains a number of folders and three files: `Makefile', `README.md' and `LICENSE'. 
+The `Makefile' is used to initially set up the tool flow. It will download  some necessary third party tools and compile the used programs.
+More information about the license under which the TLUT tool flow is released can be found in `LICENSE'.
+
+The `tlut\_flow' folder also contains three application folders:  `documentation',  `java', `python' and `third\_party'.
 
 \begin{itemize}
-\item The 'java' folder contains the java source and binary files of a simple technology mapper and an adapted parameterized version of this technology mapper, the TLUT technology mapper.
-\item The 'third\_party' folder contains a distribution of ABC, the logic synthesis and technology mapping tool of the university of Berkeley, and Aiger, a tool used to handle textual (.aag) and binary representations of and-inverter-graphs (.aig).    
+\item The documentation folder contains this document.
+\item The `java' folder contains the Java source and binary files of a simple technology mapper and an adapted parameterized version of this technology mapper, the TLUT technology mapper.
+\item After setup, the `third\_party' folder will contain ABC, the logic synthesis and technology mapping tool of the university of Berkeley, and Aiger, a tool used to handle textual (.aag) and binary representations of and-inverter-graphs (.aig).    
 
-\item The 'python' folder contains the high level Python scripts that are used to interface with the tools in the other folders. It contains three files: 'fast\_tlutmap.py', 'genParameters.py' and 'mapping.py'. The "genParameters.py" script will extract the parameters from the annotated VHDL file. The 'mapping.py' script contains high level wrappers that call the different mappers and a number of utility programs. These 2 last scripts are best used as given. 
+\item The `python' folder contains the high level Python scripts that are used to interface with the tools in the other folders. It contains three files: `fast\_tlutmap.py', `genParameters.py' and `mapping.py'. The `genParameters.py' script will extract the parameters from the annotated VHDL file. The `mapping.py' script contains high level wrappers that call the different mappers and a number of utility programs. These 2 last scripts are best used as given. 
 
-The 'fast\_tlutmap.py' script contains the main code in the 'run' function. This function can easily be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the vhdl file into a logic circuit in blif format using Quartus. The technology mapping step will map the logic circuit to a circuit with LUTs. Three different technology mapping tools are included to allow an easy comparison: the simple mapper, the TLUT technology mapper and the ABC mapper. The first two are not yet optimized for 'area recovery'. The ABC tool flow is an academic framework that does include a large number of such optimizations. Several commercial tools are based on this technology mapper.
+The `fast\_tlutmap.py' script contains the main code in the `run' function. This function can easily be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the VHDL file into a logic circuit in blif format using Quartus II. The technology mapping step will map the logic circuit to a circuit with LUTs. Three different technology mapping tools are included to allow an easy comparison: the simple mapper, the TLUT technology mapper and the ABC mapper. The first two are not yet optimized for `area recovery'. The ABC tool flow is an academic framework that does include a large number of such optimizations. Several commercial tools are based on this technology mapper.
 
-The 'run' function also contains some intermediate steps:
+The `run' function also contains some intermediate steps:
 \begin{itemize} 
 \item the conversion of the blif format into the aag format, needed for the Java mappers
 \item extraction of the parameters out of the annotated VHDL file.
@@ -291,5 +302,7 @@ The 'run' function also contains some intermediate steps:
 \end{itemize}
 
 %Hier zouden ook nog alle voorbeelden moeten beschreven worden, vanaf welke formaat ze starten (vhdl, verilog, aag) en een zin over wat ze moeten voorstellen.
+
+
 
 \end{document}
