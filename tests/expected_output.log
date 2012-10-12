@@ -1,0 +1,56 @@
+DNA
+Luts (TLUTS)    depth           check           
+18.0 (12.0)     2.0             PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+96.0            5.0             PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+96.0            5.0             PASSED          
+
+FIRtree
+Luts (TLUTS)    depth           check           
+3068.0 (1355.0) 25.0            PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+6118.0          27.0            PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+5868.0          27.0            PASSED          
+
+mult_verilog
+Luts (TLUTS)    depth           check           
+388.0 (271.0)   25.0            PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+518.0           28.0            PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+462.0           28.0            PASSED          
+
+treeMult
+Luts (TLUTS)    depth           check           
+230.0 (128.0)   27.0            PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+632.0           32.0            PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+622.0           32.0            PASSED          
+
+treeMult4b
+Luts (TLUTS)    depth           check           
+12.0 (12.0)     1.0             PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+69.0            10.0            PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+67.0            10.0            PASSED          
+
+tripleDES
+Luts (TLUTS)    depth           check           
+2172.0 (228.0)  10.0            PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+2940.0          13.0            PASSED          

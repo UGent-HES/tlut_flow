@@ -10,7 +10,7 @@ import sys
 from mapping import *   
 
 
-colwidth=10
+colwidth=16
 def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
@@ -58,20 +58,20 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
     numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, verboseFlag)
-	print collumnize(['Luts  (TLUTS)','','depth','check'],colwidth)
-    print collumnize([str(numLuts)+'  ('+str(numTLUTs)+')','',depth,check],colwidth)
+    print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
+    print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
     
     # Run regular MAP
     print "Stage: SimpleMAP"
     numLuts, depth, check = simpleMapper(baseName, aagFileName, K, performCheck, verboseFlag)
-    print collumnize(['Luts','','depth','check'],colwidth)
-    print collumnize([numLuts,'',depth,check],colwidth)
+    print collumnize(['Luts','depth','check'],colwidth)
+    print collumnize([numLuts,depth,check],colwidth)
     
     # Run regular abc fpga
     print "Stage: ABC fpga"
     numLuts, depth, check = fpgaMapper(baseName, blifFileName, K, performCheck, verboseFlag)
-    print collumnize(['Luts','','depth','check'],colwidth)
-    print collumnize([numLuts,'',depth,check],colwidth)
+    print collumnize(['Luts','depth','check'],colwidth)
+    print collumnize([numLuts,depth,check],colwidth)
     
 if __name__=="__main__":
     print 'Call the function run of this file with your vhdl module as its first argument (optional list of submodule as second argument)'
