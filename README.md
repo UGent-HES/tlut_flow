@@ -9,7 +9,7 @@ We are releasing the TLUT tool flow in two phases. First, we have made the adapt
 In the second phase, which will be released soon, we will provide you with the scripts and information necessary to integrate the TLUT technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on commercial Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
 
 ##Installation and usage manual
-For installation instructions and an introduction to using the tool flow, please read documentation/user_guide.pdf
+For installation instructions and an introduction to using the tool flow, please read [documentation/user_guide.pdf](raw/master/documentation/user_guide.pdf)
 
 ##Contact information
 The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group ([hes.elis.ugent.be](http://hes.elis.ugent.be)).
