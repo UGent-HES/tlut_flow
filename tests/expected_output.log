@@ -54,3 +54,13 @@ Luts (TLUTS)    depth           check
 Stage: SimpleMAP
 Luts            depth           check           
 2940.0          13.0            PASSED          
+
+tcam
+Luts (TLUTS)    depth           check           
+82.0 (48.0)     7.0             PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+178.0           8.0             PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+177.0           8.0             PASSED          

@@ -28,3 +28,8 @@ echo
 echo tripleDES
 cd tripleDES && ./tripleDES.py | tail -n 5
 cd ..
+
+echo
+echo tcam
+cd tcam && ./tcam.py | tail -n 8
+cd ..
