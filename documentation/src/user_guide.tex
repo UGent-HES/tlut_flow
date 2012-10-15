@@ -82,7 +82,7 @@
 
 The TLUT tool flow is a tool flow that generates FPGA configurations. Its biggest difference with the traditional FPGA flow is the use of a new technology mapper, the TLUT mapper. The TLUT tool flow was developed to implement Dynamic Circuit Specialization (DCS) on FPGAs. A DCS implementation of an application specializes its circuit for the current values of a number of specific inputs, called parameters. This specialized circuit is smaller, and in some cases faster, than the original circuit. However, it is only correct for one set of parameter values. Each time the parameters change value, a new specialized circuit is generated. This new specialized circuit is then loaded into the FPGA using partial run-time reconfiguration.\\
 
-The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it, is described in much more detail in this user guide.
+The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project or are contained in the documentation directory. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it, is described in much more detail in this user guide.
 
 \section{Roadmap}
 
@@ -298,7 +298,7 @@ The `tlut\_flow' folder contains the following folders:  `examples', `tests', `d
 \begin{itemize}
 \item In the `examples' folder you can find a number of designs that use the TLUT tool flow. You can run each of them by executing the Python script contained in the respective subfolder. You can run all examples at once (except AES) by executing the `run\_all.sh' script.
 \item In the `tests' folder you can currently find one test, namely `examples\_test.sh'. Executing this script will run the `examples/run\_all.sh' script and compare the output to the expected output.
-\item The `documentation' folder contains this document, and its Latex source files.
+\item The `documentation' folder contains this document, and its Latex source files, and the Ph.D. thesis by Karel Bruneel which contains more information about the academic underpinnings of the TLUT tool flow.
 \end{itemize}
 
 The remaining folders contain binaries, source code and wrapper scripts. You may want to edit these when doing advanced experiments.
