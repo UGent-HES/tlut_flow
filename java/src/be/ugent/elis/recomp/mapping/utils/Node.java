@@ -14,6 +14,7 @@ public class Node extends AbstractNode<Node,Edge> {
 	double depth;
 	private double areaflow;
 	private double requiredTime;
+	private int references;
 	
 	private boolean visible;
 	
@@ -102,8 +103,22 @@ public class Node extends AbstractNode<Node,Edge> {
 		this.requiredTime = requiredTime;
 	}
 
-
-
+	public int getReferences() {
+		return references;
+	}
+	
+	public int incrementReferences() {
+		return ++references;
+	}
+	
+	public int decrementReferences() {
+		assert(references>0);
+		return --references;
+	}
+	
+	public void resetReferences() {
+		references = 0;
+	}
 
 
 }

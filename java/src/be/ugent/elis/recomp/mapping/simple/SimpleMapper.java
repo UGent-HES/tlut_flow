@@ -35,6 +35,8 @@ public class SimpleMapper {
         double depthBeforeAreaRecovery = a.getDepth();
         a.visitAllInverse(new HeightCalculator());
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator()));
+        a.visitAllInverse(new HeightCalculator());
+        a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),true));
         if(depthBeforeAreaRecovery != a.getDepth()) {
         	System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
         	System.exit(1);

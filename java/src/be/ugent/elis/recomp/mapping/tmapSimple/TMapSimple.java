@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import be.ugent.elis.recomp.aig.AIG;
+import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeRanking;
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
 import be.ugent.elis.recomp.mapping.simple.ConeSelection;
@@ -46,6 +48,8 @@ public class TMapSimple {
         double depthBeforeAreaRecovery = a.getDepth();
         a.visitAllInverse(new HeightCalculator());
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator()));
+        a.visitAllInverse(new HeightCalculator());
+        a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),true));
         if(depthBeforeAreaRecovery != a.getDepth()) {
         	System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
         	System.exit(1);
