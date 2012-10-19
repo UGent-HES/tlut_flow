@@ -840,11 +840,15 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	
 		Map<N,Integer> variableIndex = new HashMap<N,Integer>();
 		
-		file.append("#include \"xutil.h\""+newLine);
+		file.append("#include \"xutil.h\""+newLine+newLine);
+		file.append("#include <xhwicap_clb_lut.h>"+newLine+"#include <xhwicap_clb_lut_struct.h>"+newLine+newLine);
+		file.append("#include \"locations.h\""+newLine+"#include \"lutlocation_type.h\""+newLine+newLine);
 		
-		file.append("void evaluate(int *parameter, int *output) {"+newLine);
+		file.append("#define HWICAP_DEVICEID       XPAR_OPB_HWICAP_0_DEVICE_ID"+newLine+"#define XHI_TARGET_DEVICEID   XHI_XC2VP30"+newLine+newLine);
 		
-		file.append("	int node[??];"+newLine);
+		file.append("void evaluate(Xuint8 *parameter, Xuint8 *output) {"+newLine);
+		
+		file.append("	Xuint8 node[??];"+newLine);
 
 		variableIndex.put(const0, freeVariablePool.poll());
 		file.append("	node["+variableIndex.get(const0)+"] = 0;"+newLine);
@@ -904,15 +908,13 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				int out = this.output.indexOf(n);
 				int child  = variableIndex.get(n.getI0().getTail());
 				
-				file.append("	output["+out+"] = node["+child+"];"+newLine);
-				
 				if (n.getI0().isInverted()) {
 					
-					file.append("	output["+out+"] = ~node["+child+"] & 1;"+newLine);
+					file.append("	output["+(out/16)+"]["+(out%16)+"] = ~node["+child+"] & 1;"+newLine);
 				
 				} else {
 					
-					file.append("	output["+out+"] = node["+child+"] & 1;"+newLine);
+					file.append("	output["+(out/16)+"]["+(out%16)+"] = node["+child+"] & 1;"+newLine);
 				}
 				
 				n.setMarked(true);
@@ -931,13 +933,28 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 
 		file.append("}"+newLine);
+		//describe the reconfigure one (!) instance
+		file.append("void reconfigure(XHwIcap *HwIcap, Xuint8 *newtruthtables, const lutlocation location[] ) {"+newLine);
+		file.append(""+newLine);
+		file.append("	for(int i =0;i<+"+(this.output.size()/16)+",i++) {");
+		file.append("		XStatus Status;"+newLine);
+		file.append("   	Xuint32 ColNum = XHwIcap_mSliceX2Col(location[i].lutCol);"+newLine);
+		file.append("		Xuint32 RowNum = XHwIcap_mSliceY2Row(HwIcap, location[i].lutRow);"+newLine);
+		file.append("		Xuint32 Slice  = XHwIcap_mSliceXY2Slice(location[i].lutCol, location[i].lutRow);"+newLine);
+		file.append("		Status = XHwIcap_SetClbBits(HwIcap, RowNum, ColNum, XHI_CLB_LUT.CONTENTS[Slice][location[i].lutType],newtruthtables[i], 16);"+newLine);
+		file.append("	}"+newLine);
+		
+		file.append("}"+newLine+newLine);
 		
 		file.append("void main() {"+newLine);
-		file.append("	int i;"+newLine);
-		file.append("	int parameter["+this.input.size()+"];"+newLine);
-		file.append("	int output["+this.output.size()+"];"+newLine);
+		file.append("	static XHwIcap HwIcap;"+newLine);
+		file.append("	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);"+newLine);
+		file.append("	Xuint8 i;"+newLine);
+		file.append("	Xuint8 parameter["+this.input.size()+"];"+newLine);
+		file.append("	Xuint8 output["+(this.output.size()/16)+"][16];"+newLine);
 		file.append("	for (i=0;i<1000;i++) {"+newLine);
 		file.append("		evaluate(parameter,output);"+newLine);
+		file.append("		reconfigure(HwIcap,output,location_array[i])"+newLine);
 		file.append("	}"+newLine);
 		file.append("}"+newLine);
 		

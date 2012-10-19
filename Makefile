@@ -1,7 +1,8 @@
 AIGER_VERSION = 1.9.4
 ABC_VERSION = 810ba683c042
 
-javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java java/src/be/ugent/elis/recomp/aig/MergeAag.java java/src/be/ugent/elis/recomp/mapping/simple/SimpleMapper.java
+javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java java/src/be/ugent/elis/recomp/aig/MergeAag.java java/src/be/ugent/elis/recomp/mapping/simple/SimpleMapper.java java/src/be/ugent/elis/recomp/aig/MakeCEvaluator.java 
+
 
 .PHONY : java third_party all aigtoaig abc
 .SUFFIXES: .java .class
