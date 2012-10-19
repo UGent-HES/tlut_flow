@@ -10,7 +10,6 @@ import java.io.PrintStream;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
-import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeRanking;
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
 import be.ugent.elis.recomp.mapping.simple.ConeSelection;
