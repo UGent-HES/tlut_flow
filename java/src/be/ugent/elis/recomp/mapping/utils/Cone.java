@@ -24,7 +24,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	
 	private double depth;
 	private double areaflow;
-	private double area;
+	private int area;
 
 
 	/* (non-Javadoc)
@@ -525,11 +525,11 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		((ArrayList<Node>)regularLeaves).trimToSize();
 	}
 
-	public double getArea() {
+	public int getArea() {
 		return area;
 	}
 
-	public void setArea(double area) {
+	public void setArea(int area) {
 		this.area = area;
 	}
 
