@@ -15,7 +15,6 @@ public class Node extends AbstractNode<Node,Edge> {
 	private double areaflow;
 	private double requiredTime;
 	private int references;
-	private int nRefs;
 	private double estimatedFanout = -1.;
 	
 	private boolean visible;
@@ -120,13 +119,6 @@ public class Node extends AbstractNode<Node,Edge> {
 	
 	public void resetReferences() {
 		references = 0;
-	}
-	public int getnRefs() {
-		return nRefs;
-	}
-
-	public void setnRefs(int nRefs) {
-		this.nRefs = nRefs;
 	}
 
 	public double getEstimatedFanout() {

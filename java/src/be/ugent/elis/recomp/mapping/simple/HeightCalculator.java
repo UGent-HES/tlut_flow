@@ -1,12 +1,10 @@
 package be.ugent.elis.recomp.mapping.simple;
 
-import java.util.Collections;
 import java.util.Vector;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;
-import be.ugent.elis.recomp.mapping.utils.ConeInterface;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
@@ -16,7 +14,7 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 	public void init(AIG<Node, Edge> aig) {
 		for(Node n:aig.getAllNodes()) {
 			n.setRequiredTime(Double.POSITIVE_INFINITY);
-			n.setnRefs(0);
+			n.resetReferences();
 		}
 		Vector<Node> PO = new Vector<Node>();
 		PO.addAll(aig.getOutputs());
@@ -29,32 +27,29 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 	
 	public void visit(Node node) {
  		
- 		// Set the height of the
+ 		// Set the required time of the
  		// primary outputs
 		if (node.isOutput() || node.isILatch()) {
 			
 			node.setRequiredTime(oDepth);
 			node.getI0().getTail().setRequiredTime(oDepth);
 		
-		// Set the height of the gates
+		// Set the required time of the gates
 		// and there output edges
 		} else if ( node.isGate() ) {
 			
 			double requiredTime = node.getRequiredTime() - 1.;
-			//System.out.println("time"+requiredTime);
 			Cone bestCone = node.getBestCone();
 			
 			if (requiredTime != Double.POSITIVE_INFINITY) {
 				for(Node n : bestCone.getRegularLeaves()) {
 					n.setRequiredTime(Math.min(n.getRequiredTime(),requiredTime));
-					n.setnRefs(n.getnRefs()+1);
+					n.incrementReferences();
 				}
 			}
 			
-			node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getnRefs()) / 3.);
+			node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getReferences()) / 3.);
 	
-	 	// Set the height of the
-	 	// primary inputs. 
 		} else if (node.isInput() || node.isOLatch()) {
 		}
 		

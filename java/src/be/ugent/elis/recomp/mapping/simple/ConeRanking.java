@@ -25,14 +25,8 @@ public class ConeRanking implements Visitor<Node, Edge> {
 
 	public void init(AIG<Node, Edge> aig) {
 		if (areaCalculation) {
-			for (Node n : aig.getOutputs())
-				n.getI0().getTail().resetReferences();
-			for (Node n : aig.getILatches())
-				n.getI0().getTail().resetReferences();
-			for (Node node : aig.getAnds()) {
-				for (Node n : node.getBestCone().getRegularLeaves())
-					n.resetReferences();
-			}
+			for(Node n:aig.getAllNodes())
+				n.resetReferences();
 			for (Node n : aig.getOutputs()) {
 				n.getI0().getTail().incrementReferences();
 				referenceCone(n.getI0().getTail());
@@ -59,13 +53,14 @@ public class ConeRanking implements Visitor<Node, Edge> {
 			}
 
 			// Set the area flow and the depth of the gates
-			// and there output edges
+			// and their output edges
 		} else if (node.isGate()) {
 
+			// prepare for exact area calculation
 			if (areaCalculation && node.getReferences() != 0)
 				dereferenceCone(node);
 
-			// Calculate depth and area flow for each cone.
+			// Calculate depth, exact area and area flow for each cone.
 			for (Cone c : node.getConeSet()) {
 				if(areaCalculation)
 					c.setArea(calculateAreaOfCone(c));
@@ -85,6 +80,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 				e.setAreaflow(bestCone.getAreaflow() / node.getEstimatedFanout());
 			}
 
+			// reset environment for exact area calculation
 			if (areaCalculation && node.getReferences() != 0)
 				referenceCone(node);
 
@@ -139,6 +135,15 @@ public class ConeRanking implements Visitor<Node, Edge> {
 		}
 	}
 
+	/* exact area calculation algorithm:
+	 * calculating the number of LUTs used in the fanin cone of a node/cone, 
+	 * that are NOT used in the fanin of any other currently "visible" (selected) node
+	 * 
+	 * Start by calculating the number of references/uses of all nodes for the current mapping
+	 * In the cone ranking stage: if the current node is part of the mapping, dereference its fanin
+	 * for every feasible cone, reference the nodes in its fanin and count those that are not used
+	 * by any other node
+	 */
 	private int dereferenceCone(Node node) {
 		int a = 1;
 		if (node.isGate()) {
