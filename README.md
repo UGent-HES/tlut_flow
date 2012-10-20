@@ -11,8 +11,18 @@ In the second phase, which will be released soon, we will provide you with the s
 ##Installation and usage manual
 For installation instructions and an introduction to using the tool flow, please read documentation/user_guide.pdf
 
+##Dependencies
+The user should provide the following dependencies:
+- Quartus II
+- Java
+- Python (2.7)
+
 ##Contact information
 The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group ([hes.elis.ugent.be](http://hes.elis.ugent.be)).
 
 If you encounter bugs, want to use the TLUT tool flow but need support or want to tell us about your results, please contact us.
 We can be reached at <hes@elis.ugent.be>
+
+##Referencing the TLUT tool flowIf you use the TLUT tool flow in your work, please reference in your publications the following paper:
+*Karel Bruneel, Wim Heirman, and Dirk Stroobandt. 2011. “Dynamic Data Folding with Parameterizable FPGA Configurations.” ACM Transactions on Design Automation of Electronic Systems 16 (4).*
+You may also refer to one of our others papers if you think it is more related.
