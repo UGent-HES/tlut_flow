@@ -238,18 +238,20 @@ The tool for extracting parameters from VHDL and Verilog is limited. It cannot p
 \begin{lstlisting}
 Stage: TLUT mapper
 Luts (TLUTs)     depth     check
-12.0 (12.0)      2.0       PASSED    
+12.0 (12.0)      1.0       PASSED    
 Stage: SimpleMAP
 Luts             depth     check     
-69.0             11.0      PASSED    
+67.0             10.0      PASSED    
 Stage: ABC fpga
 Luts             depth     check     
 67.0             10.0      PASSED 
 \end{lstlisting}
 
-The first column shows the number of LUTs in each mapping solution. These can be compared directly and represents the number of K-LUTs needed to implement the design. In this case, the TLUT mapper needs 12 LUTs, SimpleMAP 69 and ABC fpga 67.
+The first column shows the number of LUTs in each mapping solution. These can be compared directly and represents the number of K-LUTs needed to implement the design. In this case, the TLUT mapper needs 12 LUTs, and SimpleMAP and ABC's fpga need 67.
 
-The second column is only relevant for the TLUT mapper, it shows the number of LUTs that will actually be reconfigured at run-time. We call these LUTs TLUTs. In this case all 12 of the LUTs are TLUTs and will be reconfigured at run-time.
+SimpleMAP and ABC fpga both perform mapping for a conventional, not parameterised, configuration. The same results could be expected for both tools because they implement basically the same algorithm. However, ABC fpga contains some optimisations, such as `area recovery', which haven't been (completely) implemented in SimpleMAP. While the number of LUTs may differ between the two tools, you can expect the depth to be always equal.
+
+The number between brackets `()' is only relevant for the TLUT mapper. It shows the number of LUTs that will actually be reconfigured at run-time. We call these LUTs TLUTs. In this case all 12 of the LUTs are TLUTs and will be reconfigured at run-time.
 
 The third column shows the depth of each mapping solution. This is the number of LUTs in the longest path, a measure for the speed of the circuit. 
 
@@ -308,7 +310,7 @@ The remaining folders contain binaries, source code and wrapper scripts. You may
 
 \item The `python' folder contains the high level Python scripts that are used to interface with the tools in the other folders. It contains three files: `fast\_tlutmap.py', `genParameters.py' and `mapping.py'. The `genParameters.py' script will extract the parameters from the annotated VHDL file. The `mapping.py' script contains high level wrappers that call the different mappers and a number of utility programs. These 2 last scripts are best used as given. 
 
-The `fast\_tlutmap.py' script contains the main code in the `run' function. This function can easily be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the VHDL file into a logic circuit in blif format using Quartus II. The technology mapping step will map the logic circuit to a circuit with LUTs. Three different technology mapping tools are included to allow an easy comparison: the simple mapper, the TLUT technology mapper and the ABC mapper. The first two are not yet optimized for `area recovery'. The ABC tool flow is an academic framework that does include a large number of such optimizations. Several commercial tools are based on this technology mapper.
+The `fast\_tlutmap.py' script contains the main code in the `run' function. This function can easily be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the VHDL file into a logic circuit in blif format using Quartus II. The technology mapping step will map the logic circuit to a circuit with LUTs. Three different technology mapping tools are included to allow an easy comparison: the simple mapper, the TLUT technology mapper and the ABC mapper. The first two are not as optimized as ABC. For example `area recovery' is not yet completely implemented. The ABC tool flow is an academic framework that does include a large number of such optimizations. Several commercial tools are based on this technology mapper.
 
 The `run' function also contains some intermediate steps:
 \begin{itemize} 
