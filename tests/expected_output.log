@@ -20,10 +20,10 @@ Luts            depth           check
 
 mult_verilog
 Luts (TLUTS)    depth           check           
-368.0 (246.0)   25.0            PASSED          
+362.0 (251.0)   25.0            PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-489.0           28.0            PASSED          
+475.0           28.0            PASSED          
 Stage: ABC fpga
 Luts            depth           check           
 462.0           28.0            PASSED          
@@ -50,10 +50,10 @@ Luts            depth           check
 
 tripleDES
 Luts (TLUTS)    depth           check           
-2121.0 (228.0)  10.0            PASSED          
+2145.0 (228.0)  10.0            PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-2868.0          13.0            PASSED          
+2880.0          13.0            PASSED          
 
 tcam
 Luts (TLUTS)    depth           check           
