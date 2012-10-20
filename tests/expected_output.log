@@ -10,30 +10,30 @@ Luts            depth           check
 
 FIRtree
 Luts (TLUTS)    depth           check           
-3068.0 (1355.0) 25.0            PASSED          
+2990.0 (1222.0) 25.0            PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-6118.0          27.0            PASSED          
+5851.0          27.0            PASSED          
 Stage: ABC fpga
 Luts            depth           check           
 5868.0          27.0            PASSED          
 
 mult_verilog
 Luts (TLUTS)    depth           check           
-388.0 (271.0)   25.0            PASSED          
+368.0 (246.0)   25.0            PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-518.0           28.0            PASSED          
+489.0           28.0            PASSED          
 Stage: ABC fpga
 Luts            depth           check           
 462.0           28.0            PASSED          
 
 treeMult
 Luts (TLUTS)    depth           check           
-230.0 (128.0)   27.0            PASSED          
+222.0 (124.0)   27.0            PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-632.0           32.0            PASSED          
+624.0           32.0            PASSED          
 Stage: ABC fpga
 Luts            depth           check           
 622.0           32.0            PASSED          
@@ -43,17 +43,17 @@ Luts (TLUTS)    depth           check
 12.0 (12.0)     1.0             PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-69.0            10.0            PASSED          
+67.0            10.0            PASSED          
 Stage: ABC fpga
 Luts            depth           check           
 67.0            10.0            PASSED          
 
 tripleDES
 Luts (TLUTS)    depth           check           
-2172.0 (228.0)  10.0            PASSED          
+2121.0 (228.0)  10.0            PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-2940.0          13.0            PASSED          
+2868.0          13.0            PASSED          
 
 tcam
 Luts (TLUTS)    depth           check           
