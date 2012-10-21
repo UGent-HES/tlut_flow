@@ -103,6 +103,10 @@ public class Node extends AbstractNode<Node,Edge> {
 	public void setRequiredTime(double requiredTime) {
 		this.requiredTime = requiredTime;
 	}
+	
+	public void updateRequiredTime(double requiredTime) {
+		this.requiredTime = Math.min(requiredTime, this.requiredTime);
+	}
 
 	public int getReferences() {
 		return references;

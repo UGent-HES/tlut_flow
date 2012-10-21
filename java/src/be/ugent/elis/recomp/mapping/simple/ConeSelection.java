@@ -9,6 +9,8 @@ import be.ugent.elis.recomp.mapping.utils.Node;
 public class ConeSelection implements Visitor<Node, Edge> {
 
 	public void init(AIG<Node, Edge> aig) {
+		for(Node node : aig.getAllNodes())
+			node.setVisible(false);
 	}	
 	
 	public void visit(Node node) {

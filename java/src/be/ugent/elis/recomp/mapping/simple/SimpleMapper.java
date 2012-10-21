@@ -33,8 +33,10 @@ public class SimpleMapper {
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
         
         double depthBeforeAreaRecovery = a.getDepth();
+        a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator());
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));
+        a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator());
         a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
         if(depthBeforeAreaRecovery != a.getDepth()) {
