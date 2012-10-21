@@ -46,9 +46,9 @@ public class TMapSimple {
 
         double depthBeforeAreaRecovery = a.getDepth();
         a.visitAllInverse(new HeightCalculator());
-        a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator()));
+        a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));
         a.visitAllInverse(new HeightCalculator());
-        a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),true));
+        a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
         if(depthBeforeAreaRecovery != a.getDepth()) {
         	System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
         	System.exit(1);

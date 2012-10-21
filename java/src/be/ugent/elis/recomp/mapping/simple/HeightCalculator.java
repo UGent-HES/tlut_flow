@@ -12,16 +12,13 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 	double oDepth = 0.;
 	
 	public void init(AIG<Node, Edge> aig) {
-		for(Node n:aig.getAllNodes()) {
+		for(Node n:aig.getAllNodes())
 			n.setRequiredTime(Double.POSITIVE_INFINITY);
-			n.resetReferences();
-		}
 		Vector<Node> PO = new Vector<Node>();
 		PO.addAll(aig.getOutputs());
 		PO.addAll(aig.getILatches());
-		for(Node n:PO) {
+		for(Node n:PO)
 			oDepth = Math.max(oDepth,n.getDepth());
-		}
 	}
 
 	
@@ -41,15 +38,9 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 			double requiredTime = node.getRequiredTime() - 1.;
 			Cone bestCone = node.getBestCone();
 			
-			if (requiredTime != Double.POSITIVE_INFINITY) {
-				for(Node n : bestCone.getRegularLeaves()) {
+				for(Node n : bestCone.getRegularLeaves())
 					n.setRequiredTime(Math.min(n.getRequiredTime(),requiredTime));
-					n.incrementReferences();
-				}
-			}
-			
-			node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getReferences()) / 3.);
-	
+				
 		} else if (node.isInput() || node.isOLatch()) {
 		}
 		

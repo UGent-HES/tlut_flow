@@ -14,17 +14,21 @@ public class ConeRanking implements Visitor<Node, Edge> {
 
 	private Comparator<Cone> coneComparator;
 	private boolean areaCalculation;
+	private boolean areaFlowCalculation;
 
-	public ConeRanking(Comparator<Cone> coneComparator, boolean areaCalculation) {
+	public ConeRanking(Comparator<Cone> coneComparator, 
+			boolean areaFlowCalculation,
+			boolean areaCalculation) {
 		this.coneComparator = coneComparator;
+		this.areaFlowCalculation = areaFlowCalculation;
 		this.areaCalculation = areaCalculation;
 	}
 	public ConeRanking(Comparator<Cone> coneComparator) {
-		this(coneComparator,false);
+		this(coneComparator,false,false);
 	}
 
 	public void init(AIG<Node, Edge> aig) {
-		if (areaCalculation) {
+		if (areaFlowCalculation || areaCalculation) {
 			for(Node n:aig.getAllNodes())
 				n.resetReferences();
 			for (Node n : aig.getOutputs()) {
@@ -35,6 +39,8 @@ public class ConeRanking implements Visitor<Node, Edge> {
 				n.getI0().getTail().incrementReferences();
 				referenceCone(n.getI0().getTail());
 			}
+			for (Node node : aig.getAllNodes())
+				node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getReferences()) / 3.);
 		}
 	}
 
