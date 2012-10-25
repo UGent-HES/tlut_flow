@@ -38,7 +38,8 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 
 			if(node.isVisible()) {
 				for (Node n : bestCone.getNodes())
-					n.updateRequiredTime(requiredTime);
+					if(!n.isVisible())
+						n.updateRequiredTime(requiredTime);
 				for (Node n : bestCone.getRegularLeaves())
 					n.updateRequiredTime(requiredTime-1);
 			}
