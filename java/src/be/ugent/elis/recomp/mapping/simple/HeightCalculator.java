@@ -33,16 +33,14 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 		// Set the required time of the gates
 		} else if (node.isGate()) {
 
-			double requiredTime = node.getRequiredTime() - 1.;
+			double requiredTime = node.getRequiredTime();
 			Cone bestCone = node.getBestCone();
 
 			if(node.isVisible()) {
-				for (Node n : bestCone.getNodes()) {
-					if(!n.isVisible())
-						n.updateRequiredTime(requiredTime);
-				}
-				for (Node n : bestCone.getRegularLeaves())
+				for (Node n : bestCone.getNodes())
 					n.updateRequiredTime(requiredTime);
+				for (Node n : bestCone.getRegularLeaves())
+					n.updateRequiredTime(requiredTime-1);
 			}
 
 		} else if (node.isInput() || node.isOLatch()) {
