@@ -933,10 +933,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 
 		file.append("}"+newLine);
-		//describe the reconfigure one (!) instance
+		file.append("//reconfigure one (!) instance"+newLine);
 		file.append("void reconfigure(XHwIcap *HwIcap, Xuint8 *newtruthtables, const lutlocation location[] ) {"+newLine);
 		file.append(""+newLine);
-		file.append("	for(int i =0;i<+"+(this.output.size()/16)+",i++) {");
+		file.append("	for(int i =0;i<"+(this.output.size()/16)+",i++) {");
 		file.append("		XStatus Status;"+newLine);
 		file.append("   	Xuint32 ColNum = XHwIcap_mSliceX2Col(location[i].lutCol);"+newLine);
 		file.append("		Xuint32 RowNum = XHwIcap_mSliceY2Row(HwIcap, location[i].lutRow);"+newLine);
@@ -952,9 +952,11 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		file.append("	Xuint8 i;"+newLine);
 		file.append("	Xuint8 parameter["+this.input.size()+"];"+newLine);
 		file.append("	Xuint8 output["+(this.output.size()/16)+"][16];"+newLine);
-		file.append("	for (i=0;i<1000;i++) {"+newLine);
+		file.append("	//reconfigure all the instances once"+newLine);
+		file.append("	for (i=0;i<numberOfInstances;i++) {"+newLine);
 		file.append("		evaluate(parameter,output);"+newLine);
 		file.append("		reconfigure(HwIcap,output,location_array[i])"+newLine);
+		file.append("		}"+newLine);
 		file.append("	}"+newLine);
 		file.append("}"+newLine);
 		
