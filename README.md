@@ -13,12 +13,12 @@ For installation instructions and an introduction to using the tool flow, please
 
 ##Dependencies
 The user should provide the following dependencies:
-- Quartus II
-- Java
-- Python (2.7)
+- Quartus II (e.g. Web Edition v11), Altera Corporation, <http://www.altera.com>
+- Java, <http://www.java.com>
+- Python 2.7, <http://www.python.org>
 
 ##Contact information
-The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group ([hes.elis.ugent.be](http://hes.elis.ugent.be)).
+The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group (<http://hes.elis.ugent.be>).
 
 If you encounter bugs, want to use the TLUT tool flow but need support or want to tell us about your results, please contact us.
 We can be reached at <hes@elis.ugent.be>
