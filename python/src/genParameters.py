@@ -26,9 +26,10 @@ def extract_parameter_signals(parameter_names, fname):
         line += new_line
     file.close()
     #filter signal names that correspond to parameters
+    parameter_names = map(str.lower, parameter_names)
     inputs = line.split()[1:]
     def input_in_parameters(input):
-        return input.split('[',1)[0].split('.',1)[0] in parameter_names
+        return input.lower().split('[',1)[0].split('.',1)[0] in parameter_names
     return filter(input_in_parameters, inputs)
     
 
