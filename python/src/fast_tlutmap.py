@@ -35,11 +35,15 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     
     os.chdir('work')
     
+    # Synthesis
+    print "Stage: Synthesizing"
+    blifFileName = synthesize(module, submodules, verboseFlag)
+    
     # Automatically extract parameters from VHDL
     print "Stage: Generating parameters"
     parameterFileName = baseName+'.par'
     try:
-        assert not os.system('genParameters.py '+module+' > '+baseName+'.par')
+        assert not os.system('genParameters.py %s %s > %s.par'%(module,blifFileName,baseName))
         if verboseFlag:
             print "Parameters:"
             os.system('cat %s.par'%baseName)
@@ -47,10 +51,6 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
             print "Attention: Verify the detected parameters by inspecting work/%s.par"%baseName
     except AssertionError:
         exit(3)
-    
-    # Synthesis
-    print "Stage: Synthesizing"
-    blifFileName = synthesize(module, submodules, verboseFlag)
     
     # Convert BLIF to aig
     aagFileName = bliftoaag(blifFileName)
