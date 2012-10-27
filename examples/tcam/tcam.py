@@ -3,7 +3,7 @@
 from fast_tlutmap import run
 
 def main():
-    run('tcam.vhd', K=4, performCheck=True, verboseFlag=False)
+    run('tcam.vhd',['pkg.vhd'], K=4, performCheck=True, verboseFlag=False)
 
 if __name__=="__main__":
     main()
