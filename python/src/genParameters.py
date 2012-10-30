@@ -84,6 +84,10 @@ def extract_parameter_names(fname):
     return parameter_names
 
 def main():
+    if len(sys.argv)!=3:
+        print >> sys.stderr, "Error: Incorrect number of arguments"
+        print >> sys.stderr, "Usage: genParameters.py <HDL file name> <corresponding BLIF file name>"
+        exit(2)
     hdl_fname = sys.argv[1]
     blif_fname = sys.argv[2]
     parameter_names = extract_parameter_names(hdl_fname)
