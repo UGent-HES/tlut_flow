@@ -1,35 +1,49 @@
 #!/usr/bin/env bash
 
 echo DNA
-cd DNA && ./dna.py | tail -n 8
+cd DNA
+rm -r work
+./dna.py | tail -n 8
 cd ..
 
 echo
 echo FIRtree
-cd FIRTree32Tap8Bit && ./FIRfilter.py | tail -n 8
+cd FIRTree32Tap8Bit
+rm -r work
+./FIRfilter.py | tail -n 8
 cd ..
 
 echo
 echo mult_verilog
-cd multiplier_verilog && ./mult.py | tail -n 8
+cd multiplier_verilog
+rm -r work
+./mult.py | tail -n 8
 cd ..
 
 echo
 echo treeMult
-cd treeMult && ./mult16bit.py | tail -n 8
+cd treeMult
+rm -r work
+./mult16bit.py | tail -n 8
 cd ..
 
 echo
 echo treeMult4b
-cd treeMult4b && ./treeMult4b.py | tail -n 8
+cd treeMult4b
+rm -r work
+./treeMult4b.py | tail -n 8
 cd ..
 
 echo
 echo tripleDES
-cd tripleDES && ./tripleDES.py | tail -n 5
+cd tripleDES
+rm -r work
+./tripleDES.py | tail -n 5
 cd ..
 
 echo
 echo tcam
-cd tcam && ./tcam.py | tail -n 8
+cd tcam
+rm -r work
+./tcam.py | tail -n 8
 cd ..
