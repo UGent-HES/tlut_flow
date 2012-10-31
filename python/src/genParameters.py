@@ -30,7 +30,7 @@ def extract_parameter_signals(parameter_names, fname):
     inputs = line.split()[1:]
     def input_in_parameters(input):
         return input.lower().split('[',1)[0].split('.',1)[0] in parameter_names
-    return filter(input_in_parameters, inputs)
+    return sorted(filter(input_in_parameters, inputs))
     
 
 #extract signal names of parameters defined in PARAM section of VHDL/Verilog file
