@@ -921,11 +921,11 @@ public class MappingAIG extends AIG<Node, Edge> {
 	        header = headerArray[0] + libraryString + "\nentity" + headerArray[1];
 
 	    // Remove ports between --param annotations
-	    headerArray = header.split("--[p|P][a|A][r|R][a|A][m|M][\n*]");
-	    header = "";
-	    for (int index=0;index < headerArray.length;index+=2){
-	        header = header.trim() + '\n' + headerArray[index];
-	    }
+	    //headerArray = header.split("--[p|P][a|A][r|R][a|A][m|M][\n*]");
+	    //header = "";
+	    //for (int index=0;index < headerArray.length;index+=2){
+	    //    header = header.trim() + '\n' + headerArray[index];
+	   // }
 	    stream.println(header.trim());
 	    
 	    
