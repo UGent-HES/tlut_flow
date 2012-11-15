@@ -840,13 +840,14 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	
 		Map<N,Integer> variableIndex = new HashMap<N,Integer>();
 		
-		file.append("#include \"xutil.h\""+newLine+newLine);
+		file.append("#include \"xutil.h\""+newLine+"#include \"xbasic_types.h\""+newLine+newLine);
 		file.append("#include <xhwicap_clb_lut.h>"+newLine+"#include <xhwicap_clb_lut_struct.h>"+newLine+newLine);
+		file.append("#include <xhwicap.h>"+newLine+"#include <xstatus.h>"+newLine+"#include <xparameters.h>"+newLine+newLine);
 		file.append("#include \"locations.h\""+newLine+"#include \"lutlocation_type.h\""+newLine+newLine);
 		
 		file.append("#define HWICAP_DEVICEID       XPAR_OPB_HWICAP_0_DEVICE_ID"+newLine+"#define XHI_TARGET_DEVICEID   XHI_XC2VP30"+newLine+newLine);
 		
-		file.append("void evaluate(Xuint8 *parameter, Xuint8 *output) {"+newLine);
+		file.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[16]) {"+newLine);
 		
 		file.append("	Xuint8 node[??];"+newLine);
 
@@ -934,9 +935,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 		file.append("}"+newLine);
 		file.append("//reconfigure one (!) instance"+newLine);
-		file.append("void reconfigure(XHwIcap *HwIcap, Xuint8 *newtruthtables, const lutlocation location[] ) {"+newLine);
+		file.append("void reconfigure(XHwIcap *HwIcap, Xuint8 (*newtruthtables)[16], const lutlocation location[] ) {"+newLine);
 		file.append("	//reconfigure all the TLUTs one by one"+newLine);
-		file.append("	for(int i =0;i<"+(this.output.size()/16)+",i++) {"+newLine);
+		file.append("	Xuint8 i;"+newLine);
+		file.append("	for(i =0;i<"+(this.output.size()/16)+";i++) {"+newLine);
 		file.append("		XStatus Status;"+newLine);
 		file.append("		Xuint32 ColNum = XHwIcap_mSliceX2Col(location[i].lutCol);"+newLine);
 		file.append("		Xuint32 RowNum = XHwIcap_mSliceY2Row(HwIcap, location[i].lutRow);"+newLine);
@@ -946,7 +948,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 		file.append("}"+newLine+newLine);
 		
-		file.append("void main() {"+newLine);
+		file.append("int main(void) {"+newLine);
 		file.append("	static XHwIcap HwIcap;"+newLine);
 		file.append("	xil_printf(\"Starting EXOR test...\\n\\r\\n\\r\");"+newLine);
 		file.append("	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);"+newLine);
@@ -954,29 +956,27 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		file.append("	Xuint8 parameter["+this.input.size()+"];"+newLine);
 		file.append("	Xuint8 output["+(this.output.size()/16)+"][16];"+newLine);
 		file.append("	xil_printf(\"Configuring the LUTs for p=0...\\n\\r\");"+newLine);
-		file.append("	parameter=0;"+newLine);
+		file.append("	parameter[0]=0;"+newLine);
 		file.append("	//reconfigure all the instances once"+newLine);
 		file.append("	for (i=0;i<numberOfInstances;i++) {"+newLine);
 		file.append("		evaluate(parameter,output);"+newLine);
-		file.append("		reconfigure(HwIcap,output,location_array[i])"+newLine);
+		file.append("		reconfigure(&HwIcap,output,location_array[i]);"+newLine);
 		file.append("		}"+newLine);
-		file.append("	}"+newLine);
 		file.append("	xil_printf(\"Configuration Complete!\\n\\r\\n\\r\");"+newLine);
 		file.append("	xil_printf(\"Writing 0xDEADBEAF to input register...\\n\\r\");"+newLine);
 		file.append("	XIo_Out32(XPAR_OPB_XOR_0_BASEADDR,0xDEADBEAF);"+newLine);
 		file.append("	xil_printf(\"Reading output register: %x\\n\\r\\n\\r\",XIo_In32(XPAR_OPB_XOR_0_BASEADDR+4));"+newLine);
 		file.append("	xil_printf(\"Configuring the LUTs for p=1...\\n\\r\");"+newLine);
-		file.append("	parameter=1;"+newLine);
+		file.append("	parameter[0]=1;"+newLine);
 		file.append("	//reconfigure all the instances once"+newLine);
 		file.append("	for (i=0;i<numberOfInstances;i++) {"+newLine);
 		file.append("		evaluate(parameter,output);"+newLine);
-		file.append("		reconfigure(HwIcap,output,location_array[i])"+newLine);
+		file.append("		reconfigure(&HwIcap,output,location_array[i]);"+newLine);
 		file.append("		}"+newLine);
-		file.append("	}"+newLine);
 		file.append("	xil_printf(\"Configuration Complete!\\n\\r\\n\\r\");"+newLine);
 		file.append("	xil_printf(\"Reading output register: %x\\n\\r\\n\\r\",XIo_In32(XPAR_OPB_XOR_0_BASEADDR+4));"+newLine);
 		file.append("	xil_printf(\"End EXOR test.\\n\\r\\n\\r\");"+newLine);
-		file.append("	return 1"+newLine);
+		file.append("	return 1;"+newLine);
 		file.append("}"+newLine);
 		
 		stream.print(file.toString().replace("??", ""+max));

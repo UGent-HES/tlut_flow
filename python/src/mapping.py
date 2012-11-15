@@ -87,7 +87,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         lutstructFile = basename + "-lutstruct.blif"
         vhdFile = basename + ".vhd"
         outVhdFile = basename + "-simpletmap.vhd"
-        nameFile= basename+ "-names.txt"
+        nameFile= "names.txt"
         for f in (aagFile,vhdFile):
             if not os.path.exists(f):
                 print >> sys.stderr, 'Error: missing input file: %s'%f
