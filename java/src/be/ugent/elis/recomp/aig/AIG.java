@@ -847,6 +847,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 		file.append("#define HWICAP_DEVICEID       XPAR_OPB_HWICAP_0_DEVICE_ID"+newLine+"#define XHI_TARGET_DEVICEID   XHI_XC2VP30"+newLine+newLine);
 		
+		file.append("extern const XHwIcap_ClbLut XHI_CLB_LUT;"+newLine);
 		file.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[16]) {"+newLine);
 		
 		file.append("	Xuint8 node[??];"+newLine);

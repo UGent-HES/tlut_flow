@@ -140,13 +140,13 @@ public class ExtractInfo {
 			System.out.println(firstLine);
 			System.out.println(logicalName2Instances.get(firstLine).getSite(path));
 			System.out.println(logicalName2Instances.get(firstLine).getLut(path));
-			hFile.append("{"+logicalName2Instances.get(firstLine).getSite(path).getInstanceY()+" ,"+logicalName2Instances.get(firstLine).getSite(path).getInstanceX()+" ,LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
+			hFile.append("{"+logicalName2Instances.get(firstLine).getSite(path).getInstanceX()+" ,"+logicalName2Instances.get(firstLine).getSite(path).getInstanceY()+" ,LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
 			String lutName;
 			while((lutName=in.readLine())!=null){
 				System.out.println(lutName);
 				System.out.println(logicalName2Instances.get(lutName).getSite(path));
 				System.out.println(logicalName2Instances.get(lutName).getLut(path));
-				hFile.append(",{"+logicalName2Instances.get(lutName).getSite(path).getInstanceY()+" ,"+logicalName2Instances.get(lutName).getSite(path).getInstanceX()+" ,LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
+				hFile.append(",{"+logicalName2Instances.get(lutName).getSite(path).getInstanceX()+" ,"+logicalName2Instances.get(lutName).getSite(path).getInstanceY()+" ,LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
 				numberOfTLUTs++;
 			}
 			hFile.append("}, ");
