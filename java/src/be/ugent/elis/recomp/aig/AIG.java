@@ -843,7 +843,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		file.append("#include \"xutil.h\""+newLine+"#include \"xbasic_types.h\""+newLine+newLine);
 		file.append("#include <xhwicap_clb_lut.h>"+newLine+"#include <xhwicap_clb_lut_struct.h>"+newLine+newLine);
 		file.append("#include <xhwicap.h>"+newLine+"#include <xstatus.h>"+newLine+"#include <xparameters.h>"+newLine+newLine);
-		file.append("#include \"locations.h\""+newLine+"#include \"lutlocation_type.h\""+newLine+newLine);
+		file.append("#include \"locations.h\""+newLine+newLine);
 		
 		file.append("#define HWICAP_DEVICEID       XPAR_OPB_HWICAP_0_DEVICE_ID"+newLine+"#define XHI_TARGET_DEVICEID   XHI_XC2VP30"+newLine+newLine);
 		

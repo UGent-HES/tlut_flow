@@ -18,7 +18,7 @@ java : $(javaClasses:.java=.class)
 
 
 source :
-	echo "export PATH=${PWD}/python/src:${PWD}/third_party/bin:"'$${PATH}' > source
+	echo "export PATH=${PWD}/python/src:${PWD}/bash:${PWD}/third_party/bin:"'$${PATH}' > source
 	echo "export CLASSPATH=${PWD}/java/bin:"'$${CLASSPATH:-}' >> source
 	echo "export PYTHONPATH=${PWD}/python/src:"'$${PYTHONPATH:-}' >> source
 

@@ -108,7 +108,14 @@ public class ExtractInfo {
 		//prepare the output file
 		StringBuilder hFile = new StringBuilder();
 		String newLine = System.getProperty("line.separator");
-		hFile.append("#include \"lutlocation_type.h\""+newLine);
+		hFile.append("#ifndef _lutlocation_type_H"+newLine);
+		hFile.append("#define _lutlocation_type_H"+newLine);
+		hFile.append("typedef struct {"+newLine);
+		hFile.append("\tXuint32 lutCol;"+newLine);
+		hFile.append("\tXuint32 lutRow;"+newLine);
+		hFile.append("\tXuint8 lutType;"+newLine);
+		hFile.append("} lutlocation;"+newLine+newLine);
+		hFile.append("#endif"+newLine);
 		hFile.append(""+newLine);
 		hFile.append("#define LUT_F 0"+newLine);
 		hFile.append("#define LUT_G 1"+newLine);

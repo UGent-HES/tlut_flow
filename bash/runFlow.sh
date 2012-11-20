@@ -5,4 +5,4 @@ sourcedir=${scriptdir:0:${#scriptdir}-4}
 . $sourcedir/source
 export PATH=/opt/Python-2.7.2/bin:$PATH
 cd $dir
-./tmap.py
+tmap.py
