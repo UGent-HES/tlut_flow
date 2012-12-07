@@ -32,7 +32,7 @@ def main():
     
     # Unleash TLUTMAP
     print "Stage: TLUTMAP"
-    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, verboseFlag)
+    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, False, verboseFlag)
     print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
     

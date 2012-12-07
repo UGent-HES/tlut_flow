@@ -62,7 +62,7 @@ def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
         exit(2)
     return (numLuts, depth, check)
 
-def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verboseFlag=False):
+def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generateImplementationFilesFlag, verboseFlag=False):
     try:
         ext = fname.split('.')[-1]
         basefname = fname[:-len(ext)-1]
@@ -89,7 +89,9 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         vhdFile = basename + ".vhd"
         outVhdFile = basename + "-simpletmap.vhd"
         nameFile= "names.txt"
-        for f in (aagFile,vhdFile):
+        requiredFiles = [aagFile]
+        if generateImplementationFilesFlag: requiredFiles.append(vhdFile)
+        for f in requiredFiles:
             if not os.path.exists(f):
                 print >> sys.stderr, 'Error: missing input file: %s'%f
                 exit(3)
@@ -97,7 +99,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
         # args: input aag of design, input file with parameters, number of inputs per LUT, unused, output parameterised configuration bits as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
-        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile, vhdFile, outVhdFile, nameFile]
+        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile]
+        if generateImplementationFilesFlag: args.extend([vhdFile, outVhdFile, nameFile])
         if verboseFlag:
             print ' '.join(cmd + args)
         output = subprocess.check_output(cmd + args)
@@ -405,4 +408,3 @@ def printCFunction(aagFileName,CFileName,verboseFlag=False):
     output = subprocess.check_output(cmd + args);
     if verboseFlag:
     	print output
-    return True

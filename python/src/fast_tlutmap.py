@@ -15,7 +15,7 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
+def run(module, submodules=[], K=4, performCheck=True, generateImplementationFilesFlag=True, verboseFlag=False):
     ext = module.split('.')[-1].lower()
     baseName = module[:-len(ext)-1]
     if ext not in ('vhd','vhdl','v'):
@@ -57,14 +57,15 @@ def run(module, submodules=[], K=4, performCheck=True, verboseFlag=False):
     
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
-    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, verboseFlag)
+    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, verboseFlag)
     print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
     
     #Print C-files
-    parconfFile = baseName + "-parconfig.aag"
-    CFileName = baseName + '.c' 
-    printCFunction(parconfFile,CFileName)
+    if generateImplementationFilesFlag:
+        parconfFile = baseName + "-parconfig.aag"
+        CFileName = baseName + '.c' 
+        printCFunction(parconfFile,CFileName)
     
     # Run regular MAP
     print "Stage: SimpleMAP"
