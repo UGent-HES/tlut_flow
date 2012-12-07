@@ -3,11 +3,7 @@
 import os
 
 def vhdlFilter(list):
-	vhdlList=[]
-	for string in list:
-		if ".vhd" in string:
-			vhdlList.append(string)
-	return vhdlList
+    return [item for item in list if '.vhd' in item]
 	
 def generateMake(fileName):
 	makeFile=open(fileName,'w')
@@ -43,7 +39,7 @@ def generateMake(fileName):
 	rule+="\t@echo \"****************************************************\"\n"
 	rule+="\t@echo \"Running tmapFlow\"\n"
 	rule+="\t@echo \"****************************************************\"\n"
-	rule+="\trunFlow.sh "+path+"\n\n"
+	rule+="\ttmap.py "+path+"\n\n"
 	makeFile.write(rule)
 	makeFile.write("$(BMM_FILE) $(WRAPPER_NGC_FILES): $(GEN_FILES)\n\n")
 	makeFile.write("$(XDL_FILE): $(NCD_FILE) \n")

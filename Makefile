@@ -4,7 +4,7 @@ ABC_VERSION = 810ba683c042
 javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java java/src/be/ugent/elis/recomp/aig/MergeAag.java java/src/be/ugent/elis/recomp/mapping/simple/SimpleMapper.java java/src/be/ugent/elis/recomp/aig/MakeCEvaluator.java 
 
 
-.PHONY : java third_party all aigtoaig abc
+.PHONY : java third_party all aigtoaig abc source
 .SUFFIXES: .java .class
 
 all : java source third_party 
@@ -21,6 +21,8 @@ source :
 	echo "export PATH=${PWD}/python/src:${PWD}/bash:${PWD}/third_party/bin:"'$${PATH}' > source
 	echo "export CLASSPATH=${PWD}/java/bin:"'$${CLASSPATH:-}' >> source
 	echo "export PYTHONPATH=${PWD}/python/src:"'$${PYTHONPATH:-}' >> source
+	echo "export RAPIDSMITH_PATH=${PWD}/third_party/rapidSmith" >> source
+	echo "export TLUTFLOW_PATH=${PWD}" >> source
 
 
 
