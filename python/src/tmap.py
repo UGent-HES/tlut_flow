@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from fast_tlutmap import run
-import os, sys
+import os, sys, glob
 
 def checkFile(filePath):
     with open(filePath,'r+') as file:
@@ -15,12 +15,9 @@ def checkXilinx(filePath):
         else:
             return False
 
-def vhdlFilter(list):
-    return [item for item in list if '.vhd' in item]
-
 def main():
     os.chdir(sys.argv[1])
-    vhdFileList = vhdlFilter(os.listdir("./"))
+    vhdFileList = glob.glob('./*.vhd*')
     
     nonXilinxFileList = []
     for file in vhdFileList:
