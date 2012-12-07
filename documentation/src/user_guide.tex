@@ -82,13 +82,26 @@
 
 The TLUT tool flow is a tool flow that generates FPGA configurations. Its biggest difference with the traditional FPGA flow is the use of a new technology mapper, the TLUT mapper. The TLUT tool flow was developed to implement Dynamic Circuit Specialization (DCS) on FPGAs. A DCS implementation of an application specializes its circuit for the current values of a number of specific inputs, called parameters. This specialized circuit is smaller, and in some cases faster, than the original circuit. However, it is only correct for one set of parameter values. Each time the parameters change value, a new specialized circuit is generated. This new specialized circuit is then loaded into the FPGA using partial run-time reconfiguration.\\
 
-The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it, is described in much more detail in this user guide.
+The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project or are contained in the documentation directory. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it, is described in much more detail in this user guide.
 
-\section{Practical information}
+\section{Roadmap}
 
-We are releasing the TLUT tool flow in two phases. First, we have made the adapted TLUT technology mapper public. This will allow you to compare its results with a normal technology mapper. We have included a framework to make this comparison very easy. The following pages provide clear examples and show how to adapt the framework for you own uses.\\
+We are releasing the TLUT tool flow in two phases. First, we have made the adapted TLUT technology mapper public. This will allow you to compare its results with a conventional technology mapper. We have included a framework to make this comparison very easy. The following pages provide clear examples and show how to adapt the framework for you own uses.\\
 
-In the second phase we will provide you with the scripts and information necessary to integrate the TLUT technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on actual Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
+In the second phase, which will be released soon, we will provide you with the scripts and information necessary to integrate the TLUT technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on commercial Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
+
+\section{Contact information}
+The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group (\href{http://hes.elis.ugent.be}{\emph{hes.elis.ugent.be}}).
+
+If you encounter bugs, want to use the TLUT tool flow but need support or want to tell us about your results, feel free to contact us.
+We can be reached at \href{mailto:hes@elis.ugent.be}{\emph{hes@elis.ugent.be}}.
+
+\section{Referencing the TLUT tool flow}
+If you use the TLUT tool flow in your work, please reference in your publications the following paper:
+
+\emph{Karel Bruneel, Wim Heirman, and Dirk Stroobandt. 2011. ``Dynamic Data Folding with Parameterizable FPGA Configurations.'' ACM Transactions on Design Automation of Electronic Systems 16 (4).}
+
+You may also refer to one of our others papers if you think it is more related.
 
 \section{Contents of this document}
 Chapter~\ref{sec:setup}: \emph{Setup}: A setup manual\\
@@ -106,6 +119,13 @@ This builds a number of dependencies and the TLUT technology mapper and creates 
 \begin{lstlisting}
 > . source
 \end{lstlisting}
+
+Your installation can be tested using the script in directory `tests'.
+\begin{lstlisting}
+> cd tests
+> ./examples_test.sh
+\end{lstlisting}
+
 Examples can be run using the included Python scripts.
 E.g.
 \begin{lstlisting}
@@ -115,12 +135,13 @@ E.g.
 
 \section{Dependencies}
 \begin{itemize}
-\item Dependencies to be forseen by user:\\
-Python (tested with version 2.7)\\
-Quartus II (tested with version 10.0)
+\item Dependencies to be provided by the user:\\
+Quartus II (tested with Web Edition version 11, Web Edition v12 is unsupported), Altera Corporation, \url{http://www.altera.com}\\
+Java (tested with version 1.6.0), Oracle, \url{http://www.java.com}\\
+Python 2.7, \url{http://www.python.org}
 \item Dependencies automatically downloaded and installed:\\
-Aiger (tested with version 1.9.4), \url{http://fmv.jku.at/aiger/}\\
-ABC (tested with version 810ba683c042, 5 October 2012), \url{http://www.eecs.berkeley.edu/\~alanmi/abc/}
+Aiger (tested with version 1.9.4), JKU Institute for Formal Models and Verification, \url{http://fmv.jku.at/aiger}\\
+ABC (tested with version 810ba683c042, 5 October 2012), Berkeley Logic Synthesis and Verification Group, \url{http://www.eecs.berkeley.edu/\~alanmi/abc}
 \end{itemize}
 
 \clearpage
@@ -155,6 +176,7 @@ or run('yourDesign.vhd', performCheck=False)
 
 \item \textbf{verboseFlag} - boolean - \textit{default False}\\
 This activates the verbose mode in which more information gets printed regarding the execution of the flow.\\
+
 E.g. run('yourDesign.vhd', 6, True, True)\\ or run('yourDesign.vhd', verboseFlag=True)
 \end{itemize}
 
@@ -222,19 +244,21 @@ The tool for extracting parameters from VHDL and Verilog is limited. It cannot p
 
 \begin{lstlisting}
 Stage: TLUT mapper
-Luts      TLUTs     depth     check
-12.0      12.0      2.0       PASSED    
+Luts (TLUTs)     depth     check
+12.0 (12.0)      1.0       PASSED    
 Stage: SimpleMAP
-Luts                depth     check     
-70.0                11.0      PASSED    
+Luts             depth     check     
+67.0             10.0      PASSED    
 Stage: ABC fpga
-Luts                depth     check     
-67.0                10.0      PASSED 
+Luts             depth     check     
+67.0             10.0      PASSED 
 \end{lstlisting}
 
-The first column shows the number of LUTs in each mapping solution. These can be compared directly and represents the number of K-LUTs needed to implement the design. In this case, the TLUT mapper needs 12 LUTs, SimpleMAP 70 and ABC fpga 67.
+The first column shows the number of LUTs in each mapping solution. These can be compared directly and represents the number of K-LUTs needed to implement the design. In this case, the TLUT mapper needs 12 LUTs, and SimpleMAP and ABC's fpga need 67.
 
-The second column is only relevant for the TLUT mapper, it shows the number of LUTs that will actually be reconfigured at run-time. We call these LUTs TLUTs. In this case all 12 of the LUTs are TLUTs and will be reconfigured at run-time.
+SimpleMAP and ABC fpga both perform mapping for a conventional, not parameterised, configuration. The same results could be expected for both tools because they implement basically the same algorithm. However, ABC fpga contains some optimisations, such as `area recovery', which haven't been (completely) implemented in SimpleMAP. While the number of LUTs may differ between the two tools, you can expect the depth to be always equal.
+
+The number between brackets `()' is only relevant for the TLUT mapper. It shows the number of LUTs that will actually be reconfigured at run-time. We call these LUTs TLUTs. In this case all 12 of the LUTs are TLUTs and will be reconfigured at run-time.
 
 The third column shows the depth of each mapping solution. This is the number of LUTs in the longest path, a measure for the speed of the circuit. 
 
@@ -250,9 +274,12 @@ Advanced experiments can be set up by copying \emph{fast\_tlutmap} and using thi
 
 \clearpage
 \chapter{Troubleshooting}\label{sec:troubleshooting}
+Try running one of the examples (in the examples folder) first. If this works as expected your environment is set up correctly.\\
+
+These are a few common errors and their solution:
 \begin{itemize}
 \item \emph{Python ImportError: No module named fast\_tlutmap (or others):}\\
-The environment variables probably aren't set up correctly. Try running '. source' in the main directory. 
+The environment variables probably aren't set up correctly. Try running `. source' in the main directory. 
 If you have moved the main directory, the paths in the `source' file are not longer correct. Remove this file and recreate it using `make source'.
 
 \item \emph{java.lang.OutOfMemoryError:}\\
@@ -271,25 +298,37 @@ Check if all parameters were correctly extracted from your VHDL/Verilog. See sec
 
 \clearpage
 \chapter{Contents}\label{sec:contents}
-The 'tlut\_flow' folder contains a number of folders and one file: 'Makefile'. The 'Makefile' is used to initially set up the tool flow. It will download some necessary files and compile the used programs.
-The 'tlut\_flow' folder also contains three application folders: 'java', 'python' and 'third\_party'.
+The `tlut\_flow' folder contains a number of folders and three files: `Makefile', `README.md' and `LICENSE'. 
+The `Makefile' is used to initially set up the tool flow. It will download  some necessary third party tools and compile the used programs.
+More information about the license under which the TLUT tool flow is released can be found in `LICENSE'.\\
+
+The `tlut\_flow' folder contains the following folders:  `examples', `tests', `documentation',  `java', `python' and `third\_party'.
 
 \begin{itemize}
-\item The 'java' folder contains the java source and binary files of a simple technology mapper and an adapted parameterized version of this technology mapper, the TLUT technology mapper.
-\item The 'third\_party' folder contains a distribution of ABC, the logic synthesis and technology mapping tool of the university of Berkeley, and Aiger, a tool used to handle textual (.aag) and binary representations of and-inverter-graphs (.aig).    
+\item In the `examples' folder you can find a number of designs that use the TLUT tool flow. You can run each of them by executing the Python script contained in the respective subfolder. You can run all examples at once (except AES) by executing the `run\_all.sh' script.
+\item In the `tests' folder you can currently find one test, namely `examples\_test.sh'. Executing this script will run the `examples/run\_all.sh' script and compare the output to the expected output.
+\item The `documentation' folder contains this document, and its Latex source files, and the Ph.D. thesis by Karel Bruneel which contains more information about the academic underpinnings of the TLUT tool flow.
+\end{itemize}
 
-\item The 'python' folder contains the high level Python scripts that are used to interface with the tools in the other folders. It contains three files: 'fast\_tlutmap.py', 'genParameters.py' and 'mapping.py'. The "genParameters.py" script will extract the parameters from the annotated VHDL file. The 'mapping.py' script contains high level wrappers that call the different mappers and a number of utility programs. These 2 last scripts are best used as given. 
+The remaining folders contain binaries, source code and wrapper scripts. You may want to edit these when doing advanced experiments.
+\begin{itemize}
+\item The `java' folder contains the Java source and binary files of a simple technology mapper and an adapted parameterized version of this technology mapper, the TLUT technology mapper.
+\item After setup, the `third\_party' folder will contain ABC, the logic synthesis and technology mapping tool of the university of Berkeley, and Aiger, a tool used to handle textual (.aag) and binary representations of and-inverter-graphs (.aig).    
 
-The 'fast\_tlutmap.py' script contains the main code in the 'run' function. This function can easily be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the vhdl file into a logic circuit in blif format using Quartus. The technology mapping step will map the logic circuit to a circuit with LUTs. Three different technology mapping tools are included to allow an easy comparison: the simple mapper, the TLUT technology mapper and the ABC mapper. The first two are not yet optimized for 'area recovery'. The ABC tool flow is an academic framework that does include a large number of such optimizations. Several commercial tools are based on this technology mapper.
+\item The `python' folder contains the high level Python scripts that are used to interface with the tools in the other folders. It contains three files: `fast\_tlutmap.py', `genParameters.py' and `mapping.py'. The `genParameters.py' script will extract the parameters from the annotated VHDL file. The `mapping.py' script contains high level wrappers that call the different mappers and a number of utility programs. These 2 last scripts are best used as given. 
 
-The 'run' function also contains some intermediate steps:
+The `fast\_tlutmap.py' script contains the main code in the `run' function. This function can easily be adjusted to meet the user's needs. The run function mainly consists of 2 steps: synthesis and technology mapping. The synthesis step converts the VHDL file into a logic circuit in blif format using Quartus II. The technology mapping step will map the logic circuit to a circuit with LUTs. Three different technology mapping tools are included to allow an easy comparison: the simple mapper, the TLUT technology mapper and the ABC mapper. The first two are not as optimized as ABC. For example `area recovery' is not yet completely implemented. The ABC tool flow is an academic framework that does include a large number of such optimizations. Several commercial tools are based on this technology mapper.
+
+The `run' function also contains some intermediate steps:
 \begin{itemize} 
 \item the conversion of the blif format into the aag format, needed for the Java mappers
-\item extraction of the parameters out of the annotated VHDL file.
+\item extraction of the parameters out of the annotated VHDL file
 \end{itemize}
 
 \end{itemize}
 
 %Hier zouden ook nog alle voorbeelden moeten beschreven worden, vanaf welke formaat ze starten (vhdl, verilog, aag) en een zin over wat ze moeten voorstellen.
+
+
 
 \end{document}

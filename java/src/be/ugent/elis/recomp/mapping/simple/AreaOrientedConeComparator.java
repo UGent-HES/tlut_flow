@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import be.ugent.elis.recomp.mapping.utils.Cone;
 
-public class AreaflowOrientedConeComparator implements Comparator<Cone> {
+public class AreaOrientedConeComparator implements Comparator<Cone> {
 	 
 	// Cones are ordered by their depth. Cones with equal depth are
 	// ordered by area flow.
@@ -17,9 +17,9 @@ public class AreaflowOrientedConeComparator implements Comparator<Cone> {
 			return -1;
 		else if (o2Feasible && !o1Feasible)
 			return 1;
-		else if (o1.getAreaflow() > o2.getAreaflow())
+		else if (o1.getArea() > o2.getArea())
 			return 1;
-		else if (o1.getAreaflow() < o2.getAreaflow())
+		else if (o1.getArea() < o2.getArea())
 			return -1;
 		else if (o1.getDepth() > o2.getDepth())
 			return 1;

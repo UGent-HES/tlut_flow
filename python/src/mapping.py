@@ -2,6 +2,7 @@ import os
 import sys
 import commands
 import subprocess
+import re
 
 
 maxMemory = 1024
@@ -47,8 +48,8 @@ def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
         
         # Extracting results
         data = output.splitlines()[-1].split()
-        numLuts = float(data[0])
-        depth   = float(data[1])
+        numLuts = int(data[0])
+        depth   = int(float(data[1]))
         
         # Verification of resulting mapping using satsolver
         if checkFunctionality:
@@ -106,11 +107,11 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         # Extracting results
         data = output.splitlines()[-1].split()
         try:
-            numLuts = float(data[0])
-            depth   = float(data[1])
-            numTLuts =  float(data[2])
+            numLuts = int(data[0])
+            depth   = int(float(data[1]))
+            numTLuts =  int(data[2])
             avDup = float(data[3])
-        except ValueError:
+        except (ValueError, IndexError):
             if not verboseFlag:
                 print ' '.join(cmd + args)
                 print output,
@@ -123,14 +124,15 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         if verboseFlag:
             print ' '.join(cmd)
             print output,
-        data = output.splitlines()[-1].split()
         try:
-            origAnds = float(data[data.index('and')+2])
-        except ValueError:
+            res = re.search(r'\band\s*=\s*(?P<origAnds>\d+)\b',output.splitlines()[-1])
+            if not res: raise ValueError
+            origAnds = int(res.group('origAnds'))
+        except (ValueError, IndexError):
             if not verboseFlag:
                 print ' '.join(cmd)
                 print output,
-            print >> sys.stderr, "Error: unexpected output from abc print_stats."
+            print >> sys.stderr, "Error: unexpected output from abc print_stats (1)."
             exit(2)
     
     
@@ -140,14 +142,15 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         if verboseFlag:
             print ' '.join(cmd)
             print output,
-        data = output.splitlines()[-1].split()
         try:
-            paramAnds = float(data[data.index('and')+2])
-        except ValueError:
+            res = re.search(r'\band\s*=\s*(?P<paramAnds>\d+)\b',output.splitlines()[-1])
+            if not res: raise ValueError
+            paramAnds = int(res.group('paramAnds'))
+        except (ValueError, IndexError):
             if not verboseFlag:
                 print ' '.join(cmd)
                 print output,
-            print >> sys.stderr, "Error: unexpected output from abc print_stats."
+            print >> sys.stderr, "Error: unexpected output from abc print_stats (2)."
             exit(2)
         
         # Verification of resulting mapping using satsolver
@@ -175,36 +178,42 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, verbose
         print >> sys.stderr, e
         #raise
         exit(2)
-    
     return (numLuts, numTLuts, depth, avDup, origAnds, paramAnds, check)    
 
 def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
-    ext = '.blif'
-    assert fname.endswith(ext)
-    assert basename
-    inFile = fname
-    outFile =  basename + "-fpga.blif"
-    
-    cmd = ['abc', '-c', 'strash; fpga -K '+str(K)+'; write '+outFile+'; print_stats', inFile]
-    if verboseFlag:
-        print cmd
-    output = subprocess.check_output(cmd)
-    if verboseFlag:
-        print output
-    
     try:
-        numLuts = float(output.split()[-10])
-        depth   = float(output.split()[-1])
-    except (ValueError, IndexError):
-        if not verboseFlag:
+        ext = '.blif'
+        assert fname.endswith(ext)
+        assert basename
+        inFile = fname
+        outFile =  basename + "-fpga.blif"
+        
+        cmd = ['abc', '-c', 'strash; fpga -K '+str(K)+'; write '+outFile+'; print_stats', inFile]
+        if verboseFlag:
             print cmd
+        output = subprocess.check_output(cmd)
+        if verboseFlag:
             print output
-        print >> sys.stderr, "Error: unexpected output from abc print_stats."
+        
+        try:
+            res = re.search(r'\bnd\s*=\s*(?P<numLuts>\d+)\b.*\blev\s*=\s*(?P<depth>\d+)\b',output)
+            if not res: raise ValueError
+            numLuts = int(res.group('numLuts'))
+            depth   = int(res.group('depth'))
+        except (ValueError, IndexError) as e:
+            if not verboseFlag:
+                print cmd
+                print output
+            print >> sys.stderr, "Error: unexpected output from abc print_stats (3)."
+            exit(2)
+        if checkFunctionality:
+            check   = miter(inFile, outFile, verboseFlag)
+        else:
+            check = "SKIPPED"
+    except subprocess.CalledProcessError as e:
+        print >> sys.stderr, e
+        #raise
         exit(2)
-    if checkFunctionality:
-        check   = miter(inFile, outFile, verboseFlag)
-    else:
-        check = "SKIPPED"
     return (numLuts, depth, check)
 
 def aagtoaig(aagFileName):
@@ -283,30 +292,27 @@ def synthesize(top, submodules, verboseFlag=False):
     basename = top[:-len(ext)-1]
     assert basename
 
-    
     qsfFileName = basename + ".qsf"
-    fout = open(qsfFileName, "w")
-
-    if ext in ('vhd','vhdl'):
-        fout.write('set_global_assignment -name VHDL_FILE ' + top + '\n')
-    else:
-        fout.write('set_global_assignment -name VERILOG_FILE ' + top + '\n')
-    for file in submodules:
-        if file.split('.')[-1].lower() in ('vhd','vhdl'):
-            fout.writelines('set_global_assignment -name VHDL_FILE ' + file + '\n')
+    with open(qsfFileName, "w") as fout:
+        if ext in ('vhd','vhdl'):
+            fout.write('set_global_assignment -name VHDL_FILE ' + top + '\n')
         else:
-            fout.write('set_global_assignment -name VERILOG_FILE ' + file + '\n')
+            fout.write('set_global_assignment -name VERILOG_FILE ' + top + '\n')
+        for file in submodules:
+            if file.split('.')[-1].lower() in ('vhd','vhdl'):
+                fout.writelines('set_global_assignment -name VHDL_FILE ' + file + '\n')
+            else:
+                fout.write('set_global_assignment -name VERILOG_FILE ' + file + '\n')
+    
+        fout.write('set_global_assignment -name FAMILY Stratix\n');
+        fout.write('set_global_assignment -name TOP_LEVEL_ENTITY ' + basename + '\n');
+        fout.write('set_global_assignment -name DEVICE_FILTER_SPEED_GRADE FASTEST\n');
+    
+        fout.write('set_global_assignment -name INI_VARS \"no_add_ops=on\;opt_dont_use_mac=on\;dump_blif_after_lut_map=on\;abort_after_dumping_blif=on\"\n');
+    
+        fout.write('set_global_assignment -name DEVICE AUTO\n');
+        fout.write('set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1\n');
 
-    fout.write('set_global_assignment -name FAMILY Stratix\n');
-    fout.write('set_global_assignment -name TOP_LEVEL_ENTITY ' + basename + '\n');
-    fout.write('set_global_assignment -name DEVICE_FILTER_SPEED_GRADE FASTEST\n');
-
-    fout.write('set_global_assignment -name INI_VARS \"no_add_ops=on\;opt_dont_use_mac=on\;dump_blif_after_lut_map=on\;abort_after_dumping_blif=on\"\n');
-
-    fout.write('set_global_assignment -name DEVICE AUTO\n');
-    fout.write('set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1\n');
-
-    fout.close()
 
     cmd = 'quartus_map ' + qsfFileName
     if verboseFlag:

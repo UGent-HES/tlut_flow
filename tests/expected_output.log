@@ -1,0 +1,66 @@
+DNA
+Luts (TLUTS)    depth           check           
+18 (12)         2               PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+96              5               PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+96              5               PASSED          
+
+FIRtree
+Luts (TLUTS)    depth           check           
+2990 (1222)     25              PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+5850            27              PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+5868            27              PASSED          
+
+mult_verilog
+Luts (TLUTS)    depth           check           
+354 (249)       25              PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+465             28              PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+462             28              PASSED          
+
+treeMult
+Luts (TLUTS)    depth           check           
+222 (124)       27              PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+624             32              PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+622             32              PASSED          
+
+treeMult4b
+Luts (TLUTS)    depth           check           
+12 (12)         1               PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+67              10              PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+67              10              PASSED          
+
+tripleDES
+Luts (TLUTS)    depth           check           
+2142 (228)      10              PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+2877            13              PASSED          
+
+tcam
+Luts (TLUTS)    depth           check           
+81 (48)         7               PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+177             8               PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+177             8               PASSED          

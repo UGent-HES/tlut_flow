@@ -14,6 +14,8 @@ public class Node extends AbstractNode<Node,Edge> {
 	double depth;
 	private double areaflow;
 	private double requiredTime;
+	private int references;
+	private double estimatedFanout = -1.;
 	
 	private boolean visible;
 	
@@ -101,9 +103,38 @@ public class Node extends AbstractNode<Node,Edge> {
 	public void setRequiredTime(double requiredTime) {
 		this.requiredTime = requiredTime;
 	}
+	
+	public void updateRequiredTime(double requiredTime) {
+		this.requiredTime = Math.min(requiredTime, this.requiredTime);
+	}
 
+	public int getReferences() {
+		return references;
+	}
+	
+	public int incrementReferences() {
+		return ++references;
+	}
+	
+	public int decrementReferences() {
+		assert(references>0);
+		return --references;
+	}
+	
+	public void resetReferences() {
+		references = 0;
+	}
 
+	public double getEstimatedFanout() {
+		if(estimatedFanout < 0.)
+			estimatedFanout = fanout(); //nRefs;
+		//System.out.println(""+fanout()+","+estimatedFanout);
+		return estimatedFanout;
+	}
 
+	public void setEstimatedFanout(double estimatedFanout) {
+		this.estimatedFanout = estimatedFanout;
+	}
 
 
 }
