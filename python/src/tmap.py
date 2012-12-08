@@ -39,6 +39,7 @@ def main():
             run(file, lstcpy ,K=4, performCheck=True, verboseFlag=False)
             os.system('cp -f "work/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
             os.system('cp -f "work/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
+            os.system('cp -f "work/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
         else:
             os.system('cp -f "'+file+'" "../hdl/vhdl/"')
     

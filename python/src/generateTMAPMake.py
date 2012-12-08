@@ -41,7 +41,7 @@ def generateMake(makefileName):
         SOFT_DIR = testReconfiguration
         TMAPDESIGN_DIR = %s
         DRIVER_FILES = %s
-        LOC_FILE = $(SOFT_DIR)/locations.h
+        LOC_FILE = $(SOFT_DIR)/locations.c
         XDL_FILE = implementation/$(SYSTEM).xdl
         NCD_FILE = implementation/$(SYSTEM).ncd
         \n'''%(subpath,' '.join(driverFiles))))

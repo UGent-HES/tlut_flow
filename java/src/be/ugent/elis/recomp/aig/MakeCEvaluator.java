@@ -15,7 +15,10 @@ public class MakeCEvaluator {
 		BasicAIG aig = new BasicAIG(args[0]);
 		
         //aig.printAAGevaluator2(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[1]))));
-        aig.printAAGevaluatorXilinx(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[1]))));
+        aig.printAAGevaluatorXilinx(
+            new PrintStream(new BufferedOutputStream( new FileOutputStream(args[1]))),
+            new PrintStream(new BufferedOutputStream( new FileOutputStream(args[2]))),
+            args[2]);
 
 
 	}

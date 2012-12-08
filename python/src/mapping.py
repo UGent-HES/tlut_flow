@@ -400,9 +400,9 @@ def orderInputs(sweepFileName):
     
     return orderedSweepFileName
 
-def printCFunction(aagFileName,CFileName,verboseFlag=False):
+def printCFunction(aagFileName,CFileName,headerFileName,verboseFlag=False):
     cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.aig.MakeCEvaluator']
-    args = [aagFileName, CFileName]
+    args = [aagFileName, CFileName, headerFileName]
     if verboseFlag:
     	print ' '.join(cmd +args)
     output = subprocess.check_output(cmd + args);

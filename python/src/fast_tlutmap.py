@@ -66,7 +66,8 @@ def run(module, submodules=[], K=4, performCheck=True, generateImplementationFil
     if generateImplementationFilesFlag:
         parconfFile = baseName + "-parconfig.aag"
         CFileName = baseName + '.c' 
-        printCFunction(parconfFile,CFileName)
+        headerFileName = baseName + '.h' 
+        printCFunction(parconfFile,CFileName,headerFileName)
     
     # Run regular MAP
     print "Stage: SimpleMAP"
