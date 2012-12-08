@@ -33,6 +33,7 @@ def run(module, submodules=[], K=4, performCheck=True, generateImplementationFil
         print >> sys.stderr, e
         exit(3)
     
+    ret_pwd = os.getcwd()
     os.chdir('work')
     
     # Automatically extract parameters from VHDL
@@ -78,6 +79,8 @@ def run(module, submodules=[], K=4, performCheck=True, generateImplementationFil
     numLuts, depth, check = fpgaMapper(baseName, blifFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','depth','check'],colwidth)
     print collumnize([numLuts,depth,check],colwidth)
+    
+    os.chdir(ret_pwd)
     
 if __name__=="__main__":
     print 'Call the function run of this file with your vhdl module as its first argument (optional list of submodule as second argument)'

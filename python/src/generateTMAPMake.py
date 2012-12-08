@@ -26,18 +26,18 @@ def generateMake(makefileName):
         
         designLine = "DESIGN_FILES = "
         genLine = "GEN_FILES = "
-        for file in glob.glob('./*.vhd*'):  #all vhd(l) files
+        for file in glob.glob('*.vhd*'):  #all vhd(l) files
             designLine += subpath+'/'+file+" "
             genLine += subpath.replace("design","hdl/vhdl/")+file+" "
         makeFile.write(designLine+"\n")
         makeFile.write(genLine+"\n\n")
         makeFile.write(dedent('''\
         SOFT_DIR = testReconfiguration
-        TMAPDESIGN_DIR = "%s"
+        TMAPDESIGN_DIR = %s
         LOC_FILE = $(SOFT_DIR)/locations.h
         XDL_FILE = implementation/$(SYSTEM).xdl
         NCD_FILE = implementation/$(SYSTEM).ncd
-        \n'''%path))
+        \n'''%subpath))
         
         makeFile.write("all :\n\n")
         
@@ -60,9 +60,9 @@ def generateMake(makefileName):
         \t@echo "****************************************************"
         \t@echo "Running tmapFlow"
         \t@echo "****************************************************"
-        \ttmap.py "$(TMAPDESIGN_DIR)"
-        \n'''))
-        makeFile.write("$(BMM_FILE) $(WRAPPER_NGC_FILES): $(GEN_FILES)\n\n")
+        \ttmap.py "$(TMAPDESIGN_DIR)" "$(SOFT_DIR)"
+        
+        $(BMM_FILE) $(WRAPPER_NGC_FILES): $(GEN_FILES)\n\n'''))
         
         makeFile.write(dedent('''\
         #The TLUT location rules
@@ -75,13 +75,13 @@ def generateMake(makefileName):
         \txdl -ncd2xdl -nopips "$(NCD_FILE)" "$(XDL_FILE)"
         
         #Then extract the locations from XDL file
-        $(LOC_FILE)  : $(XDL_FILE)
+        $(LOC_FILE) : $(XDL_FILE)
         \t@echo "****************************************************"
         \t@echo "Generating locations.h ..."
         \t@echo "****************************************************"
-        \tgetLocations.sh "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" "$(LOC_FILE)"\n\n'''))
+        \tgetLocations.sh "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" "$(LOC_FILE)"
         
-        makeFile.write("$(TESTRECONFIGURATION_SOURCES): $(LOC_FILE)\n\n")
+        $(TESTRECONFIGURATION_SOURCES) : $(LOC_FILE)\n\n'''))
         
     os.system('mv '+makefileName+' ../../../')
 

@@ -16,13 +16,18 @@ def checkXilinx(filePath):
             return False
 
 def main():
-    os.chdir(sys.argv[1])
-    vhdFileList = glob.glob('./*.vhd*')
+    designDir = sys.argv[1]
+    softwareDir = sys.argv[2]
+    
+    baseDir = os.getcwd()
+    
+    os.chdir(designDir)
+    vhdFileList = glob.glob('*.vhd*')
     
     nonXilinxFileList = []
     for file in vhdFileList:
         if checkXilinx(file):
-            os.system('cp -rf '+file+' ../hdl/vhdl/')
+            os.system('cp -f '+file+' ../hdl/vhdl/')
         else:
             nonXilinxFileList.append(file)
 
@@ -31,11 +36,11 @@ def main():
             ext = file.split('.')[-1].lower()
             basename = file[:-len(ext)-1]
             lstcpy = [item for item in nonXilinxFileList if item!=file]
-            run(file, lstcpy ,K=4, performCheck=True, verboseFlag=False) #for some reason, run stays in the workdir
-            os.system('cp -rf '+basename+'-simpletmap.vhd ../../hdl/vhdl/'+basename+'.vhd')
-            os.system('cp -rf '+basename+'.c ../../../../testReconfiguration/')
+            run(file, lstcpy ,K=4, performCheck=True, verboseFlag=False)
+            os.system('cp -f "work/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
+            os.system('cp -f "work/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
         else:
-            os.system('cp -rf '+file+' ../hdl/vhdl/')
+            os.system('cp -f "'+file+'" "../hdl/vhdl/"')
     
 
 if __name__=="__main__":
