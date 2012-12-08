@@ -33,10 +33,9 @@ def main():
 
     for file in nonXilinxFileList:
         if checkFile(file):
-            ext = file.split('.')[-1].lower()
-            basename = file[:-len(ext)-1]
+            basename,ext = os.path.splitext(file)
             lstcpy = [item for item in nonXilinxFileList if item!=file]
-            run(file, lstcpy ,K=4, performCheck=True, verboseFlag=False)
+            run(file, lstcpy, K=4, performCheck=True, verboseFlag=False)
             os.system('cp -f "work/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
             os.system('cp -f "work/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
             os.system('cp -f "work/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))

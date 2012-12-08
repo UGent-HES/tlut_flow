@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os, sys, glob
-from os.path import splitext
 from textwrap import dedent
 
 def isTMAPfile(filePath):
@@ -36,7 +35,8 @@ def generateMake(makefileName):
         makeFile.write(designLine+"\n")
         makeFile.write(genLine+"\n\n")
         
-        driverFiles = ['$(SOFT_DIR)/%s.c'%splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
+        driverFiles = ['$(SOFT_DIR)/%s'%os.path.splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
+        driverFiles = [file+'.c' for file in driverFiles] + [file+'.h' for file in driverFiles]
         makeFile.write(dedent('''\
         SOFT_DIR = testReconfiguration
         TMAPDESIGN_DIR = %s
@@ -89,6 +89,8 @@ def generateMake(makefileName):
         \t@echo "Generating locations.h ..."
         \t@echo "****************************************************"
         \tgetLocations.sh "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" "$(LOC_FILE)"
+        \techo -e '#include "xutil.h"\\n'|cat - $(LOC_FILE) > $(LOC_FILE)_
+        \tmv $(LOC_FILE)_ $(LOC_FILE)
         
         bits : $(LOC_FILE)\n'''))
         
