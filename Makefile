@@ -28,7 +28,7 @@ source :
 
 third_party : aigtoaig abc
 aigtoaig : third_party/aiger-${AIGER_VERSION}/aigtoaig third_party/bin/aigtoaig
-abc : third_party/abc_${ABC_VERSION}/abc third_party/bin/abc
+abc : third_party/abc_${ABC_VERSION}/abc third_party/bin/abc third_party/etc/abc.rc
 
 
 third_party/bin/aigtoaig :
@@ -52,6 +52,10 @@ third_party/aiger-${AIGER_VERSION}.tar.gz :
 third_party/bin/abc :
 	mkdir -p third_party/bin
 	ln -s ../abc_${ABC_VERSION}/abc third_party/bin/abc
+
+third_party/etc/abc.rc :
+	mkdir -p third_party/etc
+	ln -s ../abc_${ABC_VERSION}/abc.rc third_party/etc/abc.rc
 
 third_party/abc_${ABC_VERSION}/abc : third_party/abc_${ABC_VERSION}
 	cd third_party/abc_${ABC_VERSION} && make

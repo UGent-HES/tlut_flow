@@ -58,13 +58,14 @@ def generateMake(makefileName):
         \trm -f $(LOC_FILE)
         \trm -f $(DRIVER_FILES)
         
-        $(SOFT_DIR) :
-        \tmkdir -p $(SOFT_DIR)
+        $(TMAPDESIGN_DIR)/abc.rc :
+        \tln -s $(TLUTFLOW_PATH)/third_party/etc/abc.rc $(TMAPDESIGN_DIR)/abc.rc
         \n'''))
         
         makeFile.write(dedent('''\
         #The tmap rule
-        $(DRIVER_FILES) $(GEN_FILES) : $(DESIGN_FILES) $(SOFT_DIR)
+        $(DRIVER_FILES) $(GEN_FILES) : $(DESIGN_FILES)
+        \tmkdir -p $(SOFT_DIR)
         \t@echo "****************************************************"
         \t@echo "Running tmapFlow"
         \t@echo "****************************************************"
@@ -74,7 +75,7 @@ def generateMake(makefileName):
         
         makeFile.write(dedent('''\
         #The TLUT location rules
-        $(NCD_FILE) : bits
+        $(NCD_FILE) : $(SYSTEM_BIT)
         #Create XDL file
         $(XDL_FILE) : $(NCD_FILE)
         \t@echo "****************************************************"
@@ -89,7 +90,7 @@ def generateMake(makefileName):
         \t@echo "****************************************************"
         \tgetLocations.sh "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" "$(LOC_FILE)"
         
-        $(DRIVER_FILES) : $(LOC_FILE) #dirty solution\n\n'''))
+        bits : $(LOC_FILE)\n'''))
         
     os.system('mv '+makefileName+' ../../../')
 
