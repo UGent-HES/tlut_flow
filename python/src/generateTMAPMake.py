@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 
 import os, sys, glob
+from os.path import splitext
 from textwrap import dedent
 
+def isTMAPfile(filePath):
+    with open(filePath,'r+') as file:
+        return any("--TMAP" in s for s in file)    
     
 def generateMake(makefileName):
     with open(makefileName,'w') as makeFile:
@@ -31,38 +35,42 @@ def generateMake(makefileName):
             genLine += subpath.replace("design","hdl/vhdl/")+file+" "
         makeFile.write(designLine+"\n")
         makeFile.write(genLine+"\n\n")
+        
+        driverFiles = ['$(SOFT_DIR)/%s.c'%splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
         makeFile.write(dedent('''\
         SOFT_DIR = testReconfiguration
         TMAPDESIGN_DIR = %s
+        DRIVER_FILES = %s
         LOC_FILE = $(SOFT_DIR)/locations.h
         XDL_FILE = implementation/$(SYSTEM).xdl
         NCD_FILE = implementation/$(SYSTEM).ncd
-        \n'''%subpath))
+        \n'''%(subpath,' '.join(driverFiles))))
         
         makeFile.write("all :\n\n")
         
         makeFile.write(dedent('''\
         #The clean-up rules
         hwclean : tmapclean
-        programclean : locclean
         
         tmapclean :
         \trm -f $(GEN_FILES)
-        \trm -rf "%s/work"
-        
-        locclean :
+        \trm -rf $(TMAPDESIGN_DIR)/work
         \trm -f $(LOC_FILE)
-        '''%subpath))
+        \trm -f $(DRIVER_FILES)
+        
+        $(SOFT_DIR) :
+        \tmkdir -p $(SOFT_DIR)
+        \n'''))
         
         makeFile.write(dedent('''\
         #The tmap rule
-        $(GEN_FILES) : $(DESIGN_FILES)
+        $(DRIVER_FILES) $(GEN_FILES) : $(DESIGN_FILES) $(SOFT_DIR)
         \t@echo "****************************************************"
         \t@echo "Running tmapFlow"
         \t@echo "****************************************************"
         \ttmap.py "$(TMAPDESIGN_DIR)" "$(SOFT_DIR)"
         
-        $(BMM_FILE) $(WRAPPER_NGC_FILES): $(GEN_FILES)\n\n'''))
+        $(BMM_FILE) $(WRAPPER_NGC_FILES) : $(GEN_FILES)\n\n'''))
         
         makeFile.write(dedent('''\
         #The TLUT location rules
@@ -81,7 +89,7 @@ def generateMake(makefileName):
         \t@echo "****************************************************"
         \tgetLocations.sh "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" "$(LOC_FILE)"
         
-        $(TESTRECONFIGURATION_SOURCES) : $(LOC_FILE)\n\n'''))
+        $(DRIVER_FILES) : $(LOC_FILE) #dirty solution\n\n'''))
         
     os.system('mv '+makefileName+' ../../../')
 
