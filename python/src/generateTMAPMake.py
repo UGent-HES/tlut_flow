@@ -64,7 +64,7 @@ def generateMake(makefileName):
         
         makeFile.write(dedent('''\
         #The tmap rule
-        $(DRIVER_FILES) $(GEN_FILES) : $(DESIGN_FILES)
+        $(DRIVER_FILES) $(GEN_FILES) : $(DESIGN_FILES) $(TMAPDESIGN_DIR)/abc.rc
         \tmkdir -p $(SOFT_DIR)
         \t@echo "****************************************************"
         \t@echo "Running tmapFlow"

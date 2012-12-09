@@ -976,15 +976,6 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		cfile.append("	xil_printf(\"Writing 0xDEADBEAF to input register...\\n\\r\");"+newLine);
 		cfile.append("	XIo_Out32(XPAR_OPB_XOR_0_BASEADDR,0xDEADBEAF);"+newLine);
 		cfile.append("	xil_printf(\"Reading output register: %x\\n\\r\\n\\r\",XIo_In32(XPAR_OPB_XOR_0_BASEADDR+4));"+newLine);
-		cfile.append("	xil_printf(\"Configuring the LUTs for p=1...\\n\\r\");"+newLine);
-		cfile.append("	parameter[0]=1;"+newLine);
-		cfile.append("	//reconfigure all the instances once"+newLine);
-		cfile.append("	for (i=0;i<numberOfInstances;i++) {"+newLine);
-		cfile.append("		evaluate(parameter,output);"+newLine);
-		cfile.append("		reconfigure(&HwIcap,output,location_array[i]);"+newLine);
-		cfile.append("		}"+newLine);
-		cfile.append("	xil_printf(\"Configuration Complete!\\n\\r\\n\\r\");"+newLine);
-		cfile.append("	xil_printf(\"Reading output register: %x\\n\\r\\n\\r\",XIo_In32(XPAR_OPB_XOR_0_BASEADDR+4));"+newLine);
 		cfile.append("	xil_printf(\"End EXOR test.\\n\\r\\n\\r\");"+newLine);
 		cfile.append("	return 1;"+newLine);
 		cfile.append("}*/"+newLine);
