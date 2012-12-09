@@ -1,6 +1,7 @@
 library ieee;
 use ieee.numeric_std.all;
-use IEEE.math_real.all;
+use IEEE.math_real.CEIL;
+use IEEE.math_real.LOG;
 use ieee.std_logic_1164.all;
 
 library work;
@@ -131,7 +132,7 @@ begin
         SUM:process(clk)
         begin
             if clk'event and clk='1' then
-                intermediate(index) <= STD_LOGIC_VECTOR(unsigned(intermediate(index-1)) + unsigned(mult1(index-1))) ;
+                intermediate(index) <= STD_LOGIC_VECTOR(UNSIGNED'(UNSIGNED(intermediate(index-1)) + UNSIGNED(mult1(index-1)))) ;
             end if;
         end process SUM;
 

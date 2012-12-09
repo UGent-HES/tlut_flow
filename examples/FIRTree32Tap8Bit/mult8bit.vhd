@@ -21,6 +21,8 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+library work;
 use work.all; 
 
 
@@ -42,7 +44,7 @@ port(
     );
 end mult8bit;
 
-architecture Behavioral of work.mult8bit is
+architecture Behavioral of mult8bit is
 
 	signal right : std_logic_vector((DATA_WIDTH)+4-1 downto 0);
 	signal left  :  std_logic_vector((DATA_WIDTH)+4-1 downto 0);
