@@ -27,7 +27,7 @@ def main():
     nonXilinxFileList = []
     for file in vhdFileList:
         if checkXilinx(file):
-            os.system('cp -f '+file+' ../hdl/vhdl/')
+            assert not os.system('ln -sf "../../design/'+file+'" ../hdl/vhdl/')
         else:
             nonXilinxFileList.append(file)
 
@@ -36,11 +36,11 @@ def main():
             basename,ext = os.path.splitext(file)
             lstcpy = [item for item in nonXilinxFileList if item!=file]
             run(file, lstcpy, K=4, performCheck=True, verboseFlag=False)
-            os.system('cp -f "work/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
-            os.system('cp -f "work/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
-            os.system('cp -f "work/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
+            assert not os.system('cp -f "work/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
+            assert not os.system('cp -f "work/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
+            assert not os.system('cp -f "work/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
         else:
-            os.system('cp -f "'+file+'" "../hdl/vhdl/"')
+            assert not os.system('ln -sf "../../design/'+file+'" "../hdl/vhdl/"')
     
 
 if __name__=="__main__":
