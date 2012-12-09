@@ -957,7 +957,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 		cfile.append("}"+newLine+newLine);
 		
-		cfile.append("/*int main(void) {"+newLine);
+		cfile.append("/*#include \""+headerFileName+"\""+newLine+newLine);
+		cfile.append("int main(void) {"+newLine);
 		cfile.append("	static XHwIcap HwIcap;"+newLine);
 		cfile.append("	xil_printf(\"Starting EXOR test...\\n\\r\\n\\r\");"+newLine);
 		cfile.append("	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);"+newLine);
