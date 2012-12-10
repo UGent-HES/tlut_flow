@@ -26,3 +26,4 @@ We can be reached at <hes@elis.ugent.be>
 ##Referencing the TLUT tool flowIf you use the TLUT tool flow in your work, please reference in your publications the following paper:
 *Karel Bruneel, Wim Heirman, and Dirk Stroobandt. 2011. “Dynamic Data Folding with Parameterizable FPGA Configurations.” ACM Transactions on Design Automation of Electronic Systems 16 (4).*
 You may also refer to one of our others papers if you think it is more related.
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/5797f3a5e4b76d465ee2c3dd03a8928e "githalytics.com")](http://githalytics.com/UGent-HES/tlut_flow)
