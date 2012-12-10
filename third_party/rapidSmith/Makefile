@@ -6,9 +6,10 @@ all : src/edu hessian-4.0.7.jar
 hessian-4.0.7.jar :
 	curl -O http://caucho.com/download/hessian-4.0.7.jar
 
-rapidSmith-0.5.1-linux64 :
+rapidSmith :
 	curl -O http://ignum.dl.sourceforge.net/project/rapidsmith/rapidSmith-0.5.1-linux64.tar.gz
 	tar xvzf rapidSmith-0.5.1-linux64.tar.gz
+	rm rapidSmith-0.5.1-linux64.tar.gz
 
-src/edu : rapidSmith-0.5.1-linux64
-	cp -r rapidSmith-0.5.1-linux64/edu src/edu
+src/edu : rapidSmith
+	cp -r rapidSmith/edu src/edu
