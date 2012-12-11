@@ -53,13 +53,11 @@ public class InstanceInfo {
 		luts = new Vector<String>();
 	}
 	
-	public InstanceInfo(String instance, PrimitiveSite site, String lut){
-		//System.out.println(instance);
-		paths= new Vector<String>();
-		paths.add(instance);
-		sites = new Vector<PrimitiveSite>();
+	public InstanceInfo(String path, PrimitiveSite site, String lut){
+	    this();
+		//System.out.println(path);
+		paths.add(path);
 		sites.add(site);
-		luts = new Vector<String>();
 		luts.add(lut);
 	}
 	

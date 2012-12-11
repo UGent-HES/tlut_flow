@@ -841,6 +841,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	
 		Map<N,Integer> variableIndex = new HashMap<N,Integer>();
 		
+		hfile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
 		hfile.append("#include \"xutil.h\""+newLine+"#include \"xbasic_types.h\""+newLine+newLine);
 		hfile.append("#include <xhwicap.h>"+newLine+"#include <xstatus.h>"+newLine+"#include <xparameters.h>"+newLine+newLine);
 		
@@ -861,6 +862,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		hfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 (*newtruthtables)[16], const lutlocation location[] );"+newLine);
 		
 		
+		cfile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
 		cfile.append("#include \""+headerFileName+"\""+newLine);
 		cfile.append("#include <xhwicap_clb_lut.h>"+newLine+"#include <xhwicap_clb_lut_struct.h>"+newLine+newLine);
         cfile.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[16]) {"+newLine);

@@ -906,7 +906,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		String baseName = inVhdFile.substring(0,inVhdFile.lastIndexOf('.')).substring(inVhdFile.lastIndexOf('/')+1);
 	    BufferedReader vhdlFileReader = new BufferedReader( new FileReader(new File(inVhdFile)));
 	    String vhdlFileLine = vhdlFileReader.readLine();
-	    String header = "";
+	    String header = "--WARNING: Don't edit. Automatically regenerated file (TLUT flow)\n";
 	    while(vhdlFileLine.indexOf("architecture") == -1){
 	        header = header + vhdlFileLine + '\n' ;
 	        vhdlFileLine = vhdlFileReader.readLine();    

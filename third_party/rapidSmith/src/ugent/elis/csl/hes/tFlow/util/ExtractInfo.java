@@ -98,16 +98,18 @@ public class ExtractInfo {
 				
 					if(logicalName2Instances.containsKey(lutName)){
 						InstanceInfo info = logicalName2Instances.get(lutName);
-						info.addInstance(lutName, primitiveSite, lutSite);
+						info.addInstance(path, primitiveSite, lutSite);
 					} else{
 						logicalName2Instances.put(lutName, new InstanceInfo(path, primitiveSite, lutSite));
 					}
 				}
 			}
 		}
+		
 		//prepare the output file
 		StringBuilder hFile = new StringBuilder();
 		String newLine = System.getProperty("line.separator");
+		hFile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
 		hFile.append("#include \"xutil.h\""+newLine+newLine);
 		hFile.append("#ifndef _lutlocation_type_H"+newLine);
 		hFile.append("#define _lutlocation_type_H"+newLine);
@@ -128,7 +130,6 @@ public class ExtractInfo {
 		try {
 			in = new BufferedReader(new FileReader(args[1]));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String firstLine=in.readLine().trim();

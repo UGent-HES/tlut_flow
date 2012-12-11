@@ -60,7 +60,7 @@ def generateMake(makefileName):
         tmapclean :
         \trm -f $(GEN_FILES)
         \trm -rf $(TMAPDESIGN_DIR)/work
-        \trm -f $(LOC_FILE)
+        \trm -f $(LOC_FILE) $(XDL_FILE)
         \trm -f $(DRIVER_FILES)
         
         $(TMAPDESIGN_DIR)/abc.rc :
@@ -100,6 +100,9 @@ def generateMake(makefileName):
     os.system('mv '+makefileName+' ../../../')
 
 def main():
+    if not glob.glob('*.vhd*'):
+        print >>sys.stderr, "Error: No vhdl files found in this directory"
+        exit(1)
     generateMake("tmap.make")
 
 if __name__=="__main__":
