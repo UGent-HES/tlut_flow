@@ -108,6 +108,7 @@ public class ExtractInfo {
 		//prepare the output file
 		StringBuilder hFile = new StringBuilder();
 		String newLine = System.getProperty("line.separator");
+		hFile.append("#include \"xutil.h\""+newLine+newLine);
 		hFile.append("#ifndef _lutlocation_type_H"+newLine);
 		hFile.append("#define _lutlocation_type_H"+newLine);
 		hFile.append("typedef struct {"+newLine);

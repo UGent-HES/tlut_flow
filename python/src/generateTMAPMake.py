@@ -94,8 +94,6 @@ def generateMake(makefileName):
         \t@echo "Generating locations.h ..."
         \t@echo "****************************************************"
         \tgetLocations.sh "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" "$(LOC_FILE)"
-        \techo -e '#include "xutil.h"\\n'|cat - $(LOC_FILE) > $(LOC_FILE)_
-        \tmv $(LOC_FILE)_ $(LOC_FILE)
         
         bits : $(LOC_FILE)\n'''))
         
