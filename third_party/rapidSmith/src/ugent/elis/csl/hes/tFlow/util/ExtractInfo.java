@@ -137,6 +137,12 @@ public class ExtractInfo {
 			System.out.println("<basename-names.txt> has no lines");
 			System.exit(0);
 		}
+		
+		Vector<String> names = new Vector<String>();
+		String tlutName;
+		while((tlutName=in.readLine())!=null)
+		    names.add(tlutName);
+		
 		Vector <String> paths=logicalName2Instances.get(firstLine).getPaths();
 		System.out.println(paths);
 		hFile.append("const Xuint32  numberOfInstances ="+(paths.size())+";"+newLine);
@@ -150,8 +156,7 @@ public class ExtractInfo {
 			System.out.println(logicalName2Instances.get(firstLine).getSite(path));
 			System.out.println(logicalName2Instances.get(firstLine).getLut(path));
 			hFile.append("{"+logicalName2Instances.get(firstLine).getSite(path).getInstanceX()+" ,"+logicalName2Instances.get(firstLine).getSite(path).getInstanceY()+" ,LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
-			String lutName;
-			while((lutName=in.readLine())!=null){
+			for(String lutName : names){
 				System.out.println(lutName);
 				System.out.println(logicalName2Instances.get(lutName).getSite(path));
 				System.out.println(logicalName2Instances.get(lutName).getLut(path));
