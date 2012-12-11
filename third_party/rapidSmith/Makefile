@@ -9,7 +9,6 @@ hessian-4.0.7.jar :
 rapidSmith :
 	curl -O http://ignum.dl.sourceforge.net/project/rapidsmith/rapidSmith-0.5.1-linux64.tar.gz
 	tar xvzf rapidSmith-0.5.1-linux64.tar.gz
-	rm rapidSmith-0.5.1-linux64.tar.gz
 
 src/edu : rapidSmith
 	cp -r rapidSmith/edu src/edu
