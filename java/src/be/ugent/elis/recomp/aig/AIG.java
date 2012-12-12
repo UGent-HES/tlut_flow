@@ -852,7 +852,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	        "Xuint32 lutCol;"+newLine+
 	        "Xuint32 lutRow;"+newLine+
 	        "Xuint8 lutType;"+newLine+
-	        "} lutlocation;");
+	        "} lutlocation;"+newLine);
         hfile.append(
             "extern const Xuint32  numberOfInstances;"+newLine+
             "extern const lutlocation **location_array;");

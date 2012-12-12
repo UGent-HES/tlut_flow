@@ -28,6 +28,7 @@ def main():
     for file in vhdFileList:
         if checkXilinx(file):
             assert not os.system('ln -sf "../../design/'+file+'" ../hdl/vhdl/')
+            #assert not os.system('cp -f "'+file+'" ../hdl/vhdl/')
         else:
             nonXilinxFileList.append(file)
 
@@ -41,6 +42,7 @@ def main():
             assert not os.system('cp -f "work/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
         else:
             assert not os.system('ln -sf "../../design/'+file+'" "../hdl/vhdl/"')
+            #assert not os.system('cp -f "'+file+'" "../hdl/vhdl/"')
     
 
 if __name__=="__main__":
