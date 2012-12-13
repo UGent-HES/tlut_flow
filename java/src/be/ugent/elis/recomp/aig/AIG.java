@@ -920,9 +920,9 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				int child  = variableIndex.get(n.getI0().getTail());
 				
 				if (n.getI0().isInverted()) {
-					cfile.append("	output["+(out/16)+"]["+(out%16)+"] = ~node["+child+"] & 1;"+newLine);
-				} else {
 					cfile.append("	output["+(out/16)+"]["+(out%16)+"] = node["+child+"] & 1;"+newLine);
+				} else {
+					cfile.append("	output["+(out/16)+"]["+(out%16)+"] = ~node["+child+"] & 1;"+newLine);
 				}
 				n.setMarked(true);
 				break;
