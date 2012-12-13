@@ -46,7 +46,7 @@ def generateMake(makefileName):
         SOFT_DIR = testReconfiguration
         TMAPDESIGN_DIR = %s
         DRIVER_FILES = %s
-        LOC_FILE = $(SOFT_DIR)/locations.c
+        LOC_FILES = $(SOFT_DIR)/locations.c $(SOFT_DIR)/locations.h
         XDL_FILE = implementation/$(SYSTEM).xdl
         NCD_FILE = implementation/$(SYSTEM).ncd
         \n'''%(subpath,' '.join(driverFiles))))
@@ -60,7 +60,7 @@ def generateMake(makefileName):
         tmapclean :
         \trm -f $(GEN_FILES)
         \trm -rf $(TMAPDESIGN_DIR)/work
-        \trm -f $(LOC_FILE) $(XDL_FILE)
+        \trm -f $(LOC_FILES) $(XDL_FILE)
         \trm -f $(DRIVER_FILES)
         
         $(TMAPDESIGN_DIR)/abc.rc :
@@ -89,13 +89,13 @@ def generateMake(makefileName):
         \txdl -ncd2xdl -nopips "$(NCD_FILE)" "$(XDL_FILE)"
         
         #Then extract the locations from XDL file
-        $(LOC_FILE) : $(XDL_FILE)
+        $(LOC_FILES) : $(XDL_FILE)
         \t@echo "****************************************************"
         \t@echo "Generating locations.h ..."
         \t@echo "****************************************************"
-        \tgetLocations.sh "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" "$(LOC_FILE)"
+        \tgetLocations.sh "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" $(LOC_FILES)
         
-        bits : $(LOC_FILE)\n'''))
+        bits : $(LOC_FILES)\n'''))
         
     os.system('mv '+makefileName+' ../../../')
 

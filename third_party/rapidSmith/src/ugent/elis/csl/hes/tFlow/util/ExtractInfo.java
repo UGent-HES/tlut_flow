@@ -48,8 +48,8 @@ public class ExtractInfo {
 	
 
 	public static void main(String[] args) throws IOException{
-		if(args.length != 3){
-			System.out.println("USAGE: <input.xdl> <basename-names.txt> <locationfilename>");
+		if(args.length != 4){
+			System.out.println("USAGE: <input.xdl> <basename-names.txt> <locationcfilename> <locationheaderfilename>");
 			System.exit(0);
 		}
 		Design design = new Design();
@@ -107,23 +107,14 @@ public class ExtractInfo {
 		}
 		
 		//prepare the output file
-		StringBuilder hFile = new StringBuilder();
+		StringBuilder cFile = new StringBuilder();
 		String newLine = System.getProperty("line.separator");
-		hFile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
-		hFile.append("#include \"xutil.h\""+newLine+newLine);
-		hFile.append("#ifndef _lutlocation_type_H"+newLine);
-		hFile.append("#define _lutlocation_type_H"+newLine);
-		hFile.append("typedef struct {"+newLine);
-		hFile.append("\tXuint32 lutCol;"+newLine);
-		hFile.append("\tXuint32 lutRow;"+newLine);
-		hFile.append("\tXuint8 lutType;"+newLine);
-		hFile.append("} lutlocation;"+newLine+newLine);
-		hFile.append("#endif"+newLine);
-		hFile.append(""+newLine);
-		hFile.append("#define LUT_F 0"+newLine);
-		hFile.append("#define LUT_G 1"+newLine);
-		hFile.append(""+newLine);
-		//hFile.append("const Xuint32  $instArrayName = $numInst;"+newLine);
+		cFile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
+		cFile.append("#include \""+args[3].substring(args[3].lastIndexOf('/')+1)+"\""+newLine+newLine);
+		cFile.append("#define LUT_F 0"+newLine);
+		cFile.append("#define LUT_G 1"+newLine);
+		cFile.append(""+newLine);
+		//cFile.append("const Xuint32  $instArrayName = $numInst;"+newLine);
 		
 		//read the -names.txt file
 		BufferedReader in = null;
@@ -142,36 +133,54 @@ public class ExtractInfo {
 		String tlutName;
 		while((tlutName=in.readLine())!=null)
 		    names.add(tlutName);
+		in.close();
 		
 		Vector <String> paths=logicalName2Instances.get(firstLine).getPaths();
 		System.out.println(paths);
-		hFile.append("const Xuint32  numberOfInstances ="+(paths.size())+";"+newLine);
-		hFile.append("const lutlocation location_array["+paths.size()+"][??] = { ");
+		cFile.append("const Xuint32  numberOfInstances ="+(paths.size())+";"+newLine);
+		cFile.append("const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE] = { ");
 		int numberOfTLUTs=0;
 		for(String path:paths){
 			// process firstLine with the first path
-			hFile.append("{ ");
+			cFile.append("{ ");
 			numberOfTLUTs=1;
 			System.out.println(firstLine);
 			System.out.println(logicalName2Instances.get(firstLine).getSite(path));
 			System.out.println(logicalName2Instances.get(firstLine).getLut(path));
-			hFile.append("{"+logicalName2Instances.get(firstLine).getSite(path).getInstanceX()+" ,"+logicalName2Instances.get(firstLine).getSite(path).getInstanceY()+" ,LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
+			cFile.append("{"+logicalName2Instances.get(firstLine).getSite(path).getInstanceX()+" ,"+logicalName2Instances.get(firstLine).getSite(path).getInstanceY()+" ,LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
 			for(String lutName : names){
 				System.out.println(lutName);
 				System.out.println(logicalName2Instances.get(lutName).getSite(path));
 				System.out.println(logicalName2Instances.get(lutName).getLut(path));
-				hFile.append(",{"+logicalName2Instances.get(lutName).getSite(path).getInstanceX()+" ,"+logicalName2Instances.get(lutName).getSite(path).getInstanceY()+" ,LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
+				cFile.append(",{"+logicalName2Instances.get(lutName).getSite(path).getInstanceX()+" ,"+logicalName2Instances.get(lutName).getSite(path).getInstanceY()+" ,LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
 				numberOfTLUTs++;
 			}
-			hFile.append("}, ");
+			cFile.append("}, ");
 		}
-		hFile.deleteCharAt(hFile.length()-2);
+		cFile.deleteCharAt(cFile.length()-2);
 		//Print everything and replace ?? character
-		hFile.append("};"+newLine);
-		in.close();
-		PrintStream stream = new PrintStream(new BufferedOutputStream( new FileOutputStream(args[2])));
-		stream.print(hFile.toString().replace("??", ""+numberOfTLUTs));
+		cFile.append("};"+newLine);
 		
+		PrintStream stream = new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2])));
+		stream.print(cFile.toString());
+		stream.flush();
+		stream.close();
+		
+		stream = new PrintStream(new BufferedOutputStream(new FileOutputStream(args[3])));
+		stream.println("#include \"xutil.h\""+newLine);
+		stream.println("#define NUMBER_OF_INSTANCES "+paths.size());
+		stream.println("#define NUMBER_OF_TLUTS_PER_INSTANCE "+numberOfTLUTs+newLine);
+		stream.println("#ifndef _lutlocation_type_H");
+		stream.println("#define _lutlocation_type_H");
+		stream.println("typedef struct {");
+		stream.println("\tXuint32 lutCol;");
+		stream.println("\tXuint32 lutRow;");
+		stream.println("\tXuint8 lutType;");
+		stream.println("} lutlocation;");
+		stream.println("#endif"+newLine);
+        stream.println(
+            "extern const Xuint32  numberOfInstances;"+newLine+
+            "extern const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE];"+newLine);
 		stream.flush();
 		stream.close();
 	}
