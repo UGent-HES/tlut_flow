@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
+import java.util.Map;
 
 import edu.byu.ece.rapidSmith.design.Attribute;
 import edu.byu.ece.rapidSmith.design.Design;
@@ -85,7 +86,7 @@ public class ExtractInfo {
 						name = instance.getAttribute(lutSite).getLogicalName();
 					}
 					else{
-						System.out.println("Instance: "+instance.toString()+"\n\n");
+						//System.out.println("Instance: "+instance.toString()+"\n\n");
 						break;
 					}
 					
@@ -106,15 +107,6 @@ public class ExtractInfo {
 			}
 		}
 		
-		//prepare the output file
-		StringBuilder cFile = new StringBuilder();
-		String newLine = System.getProperty("line.separator");
-		cFile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
-		cFile.append("#include \""+args[3].substring(args[3].lastIndexOf('/')+1)+"\""+newLine+newLine);
-		cFile.append("#define LUT_F 0"+newLine);
-		cFile.append("#define LUT_G 1"+newLine);
-		cFile.append(""+newLine);
-		//cFile.append("const Xuint32  $instArrayName = $numInst;"+newLine);
 		
 		//read the -names.txt file
 		BufferedReader in = null;
@@ -135,7 +127,22 @@ public class ExtractInfo {
 		    names.add(tlutName);
 		in.close();
 		
-		Vector <String> paths=logicalName2Instances.get(firstLine).getPaths();
+		
+		//prepare the output file
+		StringBuilder cFile = new StringBuilder();
+		String newLine = System.getProperty("line.separator");
+		cFile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
+		cFile.append("#include \""+args[3].substring(args[3].lastIndexOf('/')+1)+"\""+newLine+newLine);
+		cFile.append("#define LUT_F 0"+newLine);
+		cFile.append("#define LUT_G 1"+newLine);
+		cFile.append(""+newLine);
+
+		/*System.out.println(logicalName2Instances);
+		for (Map.Entry<String, InstanceInfo> entry : logicalName2Instances.entrySet())
+            System.out.println(entry.getKey() + "/" + entry.getValue());*/
+
+		System.out.println(firstLine);
+		Vector <String> paths = logicalName2Instances.get(firstLine).getPaths();
 		System.out.println(paths);
 		cFile.append("const Xuint32  numberOfInstances ="+(paths.size())+";"+newLine);
 		cFile.append("const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE] = { ");
