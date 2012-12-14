@@ -186,7 +186,6 @@ public class ExtractInfo {
 		stream.println("} lutlocation;");
 		stream.println("#endif"+newLine);
         stream.println(
-            "extern const Xuint32  numberOfInstances;"+newLine+
             "extern const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE];"+newLine);
 		stream.flush();
 		stream.close();
