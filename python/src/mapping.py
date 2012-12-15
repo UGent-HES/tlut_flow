@@ -3,6 +3,7 @@ import sys
 import commands
 import subprocess
 import re
+from itertools import islice
 
 
 maxMemory = 1024
@@ -329,72 +330,53 @@ def synthesize(top, submodules, verboseFlag=False):
     
     blifFileName  = basename + ".blif"
     sweepFileName = basename + "-sweep.blif"
-    orderedSweepFileName = basename + "-sweep-ordered.blif"
     cmd = ['abc', '-c', 'sweep', '-o', sweepFileName, '-t', 'blif', '-T', 'blif', blifFileName]
     if verboseFlag:
         print ' '.join(cmd)
     subprocess.check_call(cmd);
-    orderedSweepFileName = orderInputs(sweepFileName)
     
-    return orderedSweepFileName  
+    return sortInputs(sweepFileName)  
 
-def orderInputs(sweepFileName):
+def group_per(iterable,n):
+    for i in xrange(0,len(iterable),n):
+        yield islice(iterable,i,i+n)
+
+def tryint(s):
+    try:
+        return int(s)
+    except:
+        return s
+    
+def alphanum_key(s):
+    """ Turn a string into a list of string and number chunks.
+        "z23a" -> ["z", 23, "a"]
+    """
+    return [ tryint(c) for c in re.split('([0-9]+)', s) ]
+
+def sortInputs(sweepFileName):
     ext = '-sweep.blif'
     basename = sweepFileName[:-len(ext)]
     assert sweepFileName.endswith(ext)
     assert basename
     
-    orderedSweepFileName = basename + "-sweep-ordered.blif"
-    paramFileName = basename + ".par"
-    
-    # read parameter.par
-    paramInputs = list()
-    regularInputs = list()
-    tempList = list()
-    for line in file(paramFileName):
-        line = line.rstrip('\n')
-        paramInputs.append(line)
-    
+    orderedSweepFileName = basename + "-sweep-sorted.blif"
     
     new_file = open(orderedSweepFileName,'w')
     old_file = open(sweepFileName)
-    var = 0
+    
+    state = False
+    inputs = []
     for line in old_file:
-        if ('.outputs' in line):
-            var = 0
-            tempList = list()
-            tempList.extend(regularInputs)
-            tempList.extend(paramInputs)
-            new_file.write('.inputs ')
-            # write first line
-            while(len(tempList) != 0):
-               if (len(tempList) > 5):
-                   newLine = ''
-                   for i in range(0, 5):
-                       newLine = newLine + ' ' + tempList.pop(0)
-                   new_file.write(newLine + ' \\' + '\n')
-               elif (len(tempList) == 5):
-                   newLine = ''
-                   for i in range(0, 5):
-                       newLine = newLine + ' ' + tempList.pop(0)
-                   new_file.write(newLine + '\n')
-               else:
-                   newLine = ''
-                   while (len(tempList) != 0):
-                       newLine = newLine + ' ' + tempList.pop(0)
-                   new_file.write(newLine + '\n')
-            # write .outputs line
-            new_file.write(line)
-        elif ('.inputs' in line) or (var == 1):
-           if ('.inputs' in line):
-               var = 1
-           line = line.rstrip('\n').rstrip('\\').strip();
-           tempList = line.split(' ')
-           for item in tempList:
-               if ((item in paramInputs) == 0) and item != '.inputs' :
-                   regularInputs.append(item)
+        if '.inputs' in line or state:
+            inputs += line.rstrip('\n\\').split()[not state:]   #if first line of inputs, skip '.inputs' tag
+            state = line.rstrip('\r\n').endswith('\\')  #if line ends with \, more is coming
+            if not state:   #if line doesn't end with \, we're done and should write out all inputs
+                inputs.sort(key=alphanum_key)
+                inputsLines = [' '.join(someInputs) for someInputs in group_per(inputs, 5)]
+                new_file.write('.inputs '+' \\\n'.join(inputsLines)+'\n')
         else:
            new_file.write(line)
+    
     new_file.close()
     old_file.close()
     

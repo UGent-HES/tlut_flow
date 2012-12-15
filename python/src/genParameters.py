@@ -1,87 +1,73 @@
 #!/usr/bin/env python
 
-import sys;
-import re;
-import string;
+import sys
+import re
 
-#todo: system exit(1) if there are significant errors
-
-global genericsMapping
-genericsMapping = {}
+def tryint(s):
+    try:
+        return int(s)
+    except:
+        return s
+    
+def alphanum_key(s):
+    """ Turn a string into a list of string and number chunks.
+        "z23a" -> ["z", 23, "a"]
+    """
+    return [ tryint(c) for c in re.split('([0-9]+)', s) ]
 
 def index(string, list):    #return indices of strings that match expression
     expr = re.compile(string)
     return [nmbr for nmbr, line in enumerate(list) if expr.match(line)]
 
-def extractGenericFromVHDL(generic, list, HDLtype): #lookup the value of a generic in VHDL
-    if HDLtype == 'VHDL':
-        expr = re.compile(r'([^-]*\W|^)'+generic+r'\W.*:=\W*(\d+)') #find the name of the generic (surrounded by non-word characters [^a-zA-Z0-9]) and followed by ":= <number>", and extract the value of <number>
-    elif HDLtype == 'Verilog':
-        expr = re.compile(r'([^-]*\W|^)parameter\s+'+generic+r'\s*=\s*(\d+)')   #find the name of the parameter preceded by parameter and followed by "= <number>", and extract the value of <number>
+#determine which signals correspond to parameters from blif file
+def extract_parameter_signals(parameter_names, fname):
+    file = open(fname, 'rU')
+    #read inputs section
+    line = file.readline().lstrip().rstrip('\r\n')
+    while not line.startswith('.inputs '):
+        line = file.readline().lstrip().rstrip('\r\n')
+        comment_index = line.find('#')  #remove comments
+        if comment_index != -1:
+            line = line[:comment_index]
+    while line.endswith('\\'): #multi-line inputs section
+        line = line[:-1]+' '
+        new_line= file.readline().rstrip('\r\n').lstrip()
+        comment_index = line.find('#')  #remove comments
+        if comment_index != -1:
+            line = line[:comment_index]
+        line += new_line
+    file.close()
+    #filter signal names that correspond to parameters
+    parameter_names = map(str.lower, parameter_names)
+    inputs = line.split()[1:]
+    def input_in_parameters(input):
+        return input.lower().split('[',1)[0].split('.',1)[0] in parameter_names
+    return sorted(filter(input_in_parameters, inputs),key=alphanum_key)
     
-    genericValues = []
-    for elem in list:
-        r = expr.match(elem) #match at the beginning of a line
-        if r:
-            genericValues.append(r.group(2))
-            
-    if len(genericValues)==0:
-        print >> sys.stderr, "Error: Cannot find value for generic: "+generic
-        exit(3)
-    elif len(genericValues)>1:
-        print >> sys.stderr, "Error: Cannot extract single value for generic: "+generic
-        exit(4)
-    else:
-        #print generic, genericValues[0]
-        return int(genericValues[0]) # assign the value of the generic to the name of the generic
 
-def evaluateExpression(expr,lines,HDLtype): #evaluate an expression (by looking up all generics)
-    global genericsMapping
-    unknownGenericsFlag = True
-    while unknownGenericsFlag: #repeat until expression is completely defined
-        try:
-            value = eval(expr, genericsMapping)
-            unknownGenericsFlag = False
-        except NameError,e: #catch if a generic is used that hasn't been defined yet
-            generic = str(e).split("'")[1] #find name of generic from error
-            genericsMapping[generic] = extractGenericFromVHDL(generic, lines, HDLtype)  #lookup value of generic in VHDL
-    return value
-
-def extractGenericsFromFile():
-    #get list of generics and values from external file, usefull in larger designs
-    global genericsMapping
-    try:
-        genericFile= open('../../generics.txt', 'rU')
-        genericLines = genericFile.readlines()
-        for genericLine in genericLines:
-            if(len(genericLine)>1):
-                elems = genericLine.split('#')[0].split('\t')   #ignore comments (#) and split on tab
-                generic = elems[0]
-                genericValue = eval(elems[1],genericsMapping)
-                genericsMapping[generic] = genericValue
-    except IOError,e:
-        print >> sys.stderr, "Warning: No such file '../../generics.txt'"
-
-def generateParameters(fname):
+#extract signal names of parameters defined in PARAM section of VHDL/Verilog file
+def extract_parameter_names(fname):
+    #determine file type
     ext = fname.split('.')[-1].lower()
-    if ext in ('vhd','vhdl'):
-        HDLtype = 'VHDL'
-    elif ext in ('v'):
-        HDLtype = 'Verilog'
+    if ext in ('vhd','vhdl'):   #VHDL
+        paramDelimiter = '--PARAM'
+        extraction_re = re.compile(r'^(?P<name>[a-z]\w*)\s*:\s*(?P<type>in|out|inout)\s*[a-z]\w*(\([\w\s+*/-]*\))?$',
+         re.IGNORECASE)
+    elif ext in ('v',):         #Verilog
+        paramDelimiter = '//PARAM'
+        extraction_re = re.compile(r'^(?P<type>input|output)\s*(\[[\w\s+*/-]*:[\w\s+*/-]*\])?\s*(?P<name>[a-z]\w*)$', 
+        re.IGNORECASE)
     else:
         print >> sys.stderr, "Error: Unknown input file type"
         exit(2)
+    
+    #read file
     file = open(fname, 'rU')
     lines = file.readlines()
+    file.close()
     
-    #extractGenericsFromFile()
-    
-    if HDLtype == 'VHDL':
-        paramDelimiter = '--PARAM'
-    elif HDLtype == 'Verilog':
-        paramDelimiter = '//PARAM'
-    
-    nmbrs = index(".*"+paramDelimiter, lines)
+    #extract PARAM section
+    nmbrs = index(r"^\s*%s\s*$"%paramDelimiter, lines) #only whitespace allowed before and after --PARAM
     if len(nmbrs)==0:
         print >> sys.stderr, "No parameters ("+paramDelimiter+") found in design"
         exit()
@@ -89,70 +75,36 @@ def generateParameters(fname):
         print >> sys.stderr, "Error: Invalid parameters section: Only one '"+paramDelimiter+"' statement found"
         exit(2)
     else:
-        paramDefs = [elem.strip() for elem in lines[nmbrs[0]+1:nmbrs[1]]]
+        #first PARAM section contains parameter signal declarations
+        paramDefs = lines[nmbrs[0]+1:nmbrs[1]]
+        paramDefs = ''.join(paramDefs).split(';')
+        paramDefs = filter(bool, map(lambda l:l.rstrip('\r\n\t ').lstrip(), paramDefs))
     
-    if HDLtype == 'VHDL':
-        for paramDef in paramDefs:
-            words = re.findall(r'[^\t ,():;]+',paramDef)
-            words_case = [str.lower(word) for word in words]
-            if 'in' in words_case:
-                parameterName = words[0]
-                if 'std_logic' in words_case:
-                    print parameterName
-                elif 'std_logic_vector' in words_case:
-                    lower = evaluateExpression(words[-3],lines,HDLtype) #evaluate "lowerbound" expression
-                    upper = evaluateExpression(words[-1],lines,HDLtype) #evaluate "upperbound" expression
-                    if (lower > upper):
-                        temp = upper
-                        upper = lower
-                        lower = temp
-                    if lower<0:
-                        print >> sys.stderr, 'Error: Negative indices are invalid: '+' '.join(words[-3:])
-                        exit(5)
-                    for i in range(lower, upper+1):
-                        print parameterName + '[' + str(i) + ']'
-                elif 'array' in words_case:
-                    nmbOfIndeces = len(words)-index('^array$', words)[0]-1
-                    if ( nmbOfIndeces == 1):
-                        index1 = evaluateExpression(words[-1],linesHDLtype)
-                        for i in range(index1):
-                            print parameterName + '[' + str(i) + ']'
-                    elif ( nmbOfIndeces == 2):
-                        index1 = evaluateExpression(words[-2],linesHDLtype)
-                        index2 = evaluateExpression(words[-1],linesHDLtype)
-                        for i in range(index1):
-                            for j in range(index2):
-                                print parameterName + '[' + str(i) + ']' + '[' + str(j) + ']'
-            elif 'out' in words_case or 'inout' in words_case:
-                print >> sys.stderr, "Warning: 'out' and 'inout' ports are not supported"
-    elif HDLtype == 'Verilog':
-        for paramDef in paramDefs:
-            words = re.findall(r'[^\t ,():;\]\[]+',paramDef)
-            words_case = [str.lower(word) for word in words]
-            if 'input' == words_case[0]:
-                if len(words)==2:
-                    parameterName = words[1]
-                    print parameterName
-                elif len(words)==4:
-                    parameterName = words[3]
-                    lower = evaluateExpression(words[1],lines,HDLtype) #evaluate "lowerbound" expression
-                    upper = evaluateExpression(words[2],lines,HDLtype) #evaluate "upperbound" expression
-                    if (lower > upper):
-                        temp = upper
-                        upper = lower
-                        lower = temp
-                    if lower<0:
-                        print >> sys.stderr, 'Error: Negative indices are invalid: '+' '.join(words[-3:])
-                        exit(5)
-                    for i in range(lower, upper+1):
-                        print parameterName + '[' + str(i) + ']'
-            elif 'output' == words_case[0] or 'inout' == words_case[0]:
-                print >> sys.stderr, "Warning: 'output' and 'inout' ports are not supported"
-        
+    #extract signal names from PARAM section
+    parameter_names = []
+    for paramDef in paramDefs:
+        res = extraction_re.match(paramDef)
+        if not res:
+            print >> sys.stderr, "Warning: Unrecognised signal declaration: "+paramDefs
+        else:
+            signal_type = res.group('type')
+            signal_name = res.group('name')
+            if signal_type in ('input','in'):
+                parameter_names.append(signal_name)
+            else:
+                print >> sys.stderr, "Warning: Unsupported signal type: "+signal_type
+    return parameter_names
 
 def main():
-    fname = sys.argv[1]
-    generateParameters(fname)
+    if len(sys.argv)!=3:
+        print >> sys.stderr, "Error: Incorrect number of arguments"
+        print >> sys.stderr, "Usage: genParameters.py <HDL file name> <corresponding BLIF file name>"
+        exit(2)
+    hdl_fname = sys.argv[1]
+    blif_fname = sys.argv[2]
+    parameter_names = extract_parameter_names(hdl_fname)
+    parameter_signals = extract_parameter_signals(parameter_names, blif_fname)
+    print '\n'.join(parameter_signals)
     
 if __name__=="__main__":
     main()

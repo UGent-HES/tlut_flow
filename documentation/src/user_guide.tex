@@ -91,7 +91,7 @@ We are releasing the TLUT tool flow in two phases. First, we have made the adapt
 In the second phase, which will be released soon, we will provide you with the scripts and information necessary to integrate the TLUT technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on commercial Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
 
 \section{Contact information}
-The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group (\href{http://hes.elis.ugent.be}{\emph{hes.elis.ugent.be}}).
+The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group (\href{http://hes.elis.ugent.be}{\emph{http://hes.elis.ugent.be}}).
 
 If you encounter bugs, want to use the TLUT tool flow but need support or want to tell us about your results, feel free to contact us.
 We can be reached at \href{mailto:hes@elis.ugent.be}{\emph{hes@elis.ugent.be}}.
@@ -237,9 +237,8 @@ Edit the 6th line, in which the \emph{run} function is called, according to the 
 \begin{lstlisting}
 > ./yourDesign.py
 \end{lstlisting}
-\item \label{sec:check_par}Check the `.par' file in the work directory, to ensure the parameters were correctly recognised. It should enlist all the signal names of the parameters. \\
-The tool for extracting parameters from VHDL and Verilog is limited. It cannot parse all VHDL/Verilog constructs, so it may not recognise all your parameters in all cases. You should avoid using signal types other than std\_logic, std\_logic\_vector and arrays thereof. In addition, only one definition is allowed per line. Similarly, only one Generic (or Verilog parameters) used in the definition of the parameter signals should be defined per line.
-
+\item \label{sec:check_par}Check the `.par' file in the work directory, to ensure the parameters were correctly recognised. It should list all the signal names of the parameters, i.e. one for each line of a bus signal. 
+The tool for extracting parameters from VHDL and Verilog is still limited and can not yet parse all VHDL/Verilog constructs.
 \item Analyze the results. As an example, the output of the Python script of the treeMult4b project is given;\\
 
 \begin{lstlisting}
