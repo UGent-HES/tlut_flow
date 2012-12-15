@@ -1,7 +1,9 @@
 AIGER_VERSION = 1.9.4
 ABC_VERSION = 810ba683c042
+HESSIAN_VERSION = 4.0.7
+RAPIDSMITH_VERSION = 0.5.1-linux64
 
-javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java java/src/be/ugent/elis/recomp/aig/MergeAag.java java/src/be/ugent/elis/recomp/mapping/simple/SimpleMapper.java java/src/be/ugent/elis/recomp/aig/MakeCEvaluator.java 
+javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java java/src/be/ugent/elis/recomp/aig/MergeAag.java java/src/be/ugent/elis/recomp/mapping/simple/SimpleMapper.java java/src/be/ugent/elis/recomp/aig/MakeCEvaluator.java java/src/be/ugent/elis/recomp/aig/MakeCEvaluator.java java/src/be/ugent/elis/recomp/util/ExtractInfo.java java/src/be/ugent/elis/recomp/util/InstanceInfo.java 
 
 
 .PHONY : java third_party all aigtoaig abc source
@@ -13,23 +15,23 @@ all : java source third_party
 java : $(javaClasses:.java=.class)
 .java.class :
 	mkdir -p java/bin
-	javac -d java/bin -classpath java/src $<
+	javac -d java/bin -classpath java/src:third_party/rapidSmith:third_party/hessian-4.0.7.jar $<
 
 
 
 source :
-	echo "export PATH=${PWD}/python/src:${PWD}/bash:${PWD}/third_party/bin:"'$${PATH}' > source
-	echo "export CLASSPATH=${PWD}/java/bin:"'$${CLASSPATH:-}' >> source
+	echo "export PATH=${PWD}/python/src:${PWD}/third_party/bin:"'$${PATH}' > source
+	echo "export CLASSPATH=${PWD}/java/bin:${PWD}/third_party/hessian-${HESSIAN_VERSION}.jar:"'$${CLASSPATH:-}' >> source
 	echo "export PYTHONPATH=${PWD}/python/src:"'$${PYTHONPATH:-}' >> source
 	echo "export RAPIDSMITH_PATH=${PWD}/third_party/rapidSmith" >> source
 	echo "export TLUTFLOW_PATH=${PWD}" >> source
 
 
 
-third_party : aigtoaig abc
+third_party : aigtoaig abc rapidSmith
 aigtoaig : third_party/aiger-${AIGER_VERSION}/aigtoaig third_party/bin/aigtoaig
 abc : third_party/abc_${ABC_VERSION}/abc third_party/bin/abc third_party/etc/abc.rc
-
+rapidSmith : third_party/rapidSmith third_party/hessian-4.0.7.jar
 
 third_party/bin/aigtoaig :
 	mkdir -p third_party/bin
@@ -68,3 +70,13 @@ third_party/abc_${ABC_VERSION} : third_party/abc_${ABC_VERSION}.tar.gz
 third_party/abc_${ABC_VERSION}.tar.gz :
 	cd third_party && curl -O https://bitbucket.org/alanmi/abc/get/${ABC_VERSION}.tar.gz
 	cd third_party && mv ${ABC_VERSION}.tar.gz abc_${ABC_VERSION}.tar.gz
+
+
+third_party/hessian-${HESSIAN_VERSION}.jar :
+	cd third_party && curl -O http://caucho.com/download/hessian-${HESSIAN_VERSION}.jar
+
+third_party/rapidSmith : third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
+	tar -xzf third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz -C third_party/
+	
+third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz :
+	cd third_party && curl -O http://ignum.dl.sourceforge.net/project/rapidsmith/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz

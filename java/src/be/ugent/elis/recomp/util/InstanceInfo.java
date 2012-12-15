@@ -18,7 +18,7 @@
  * get a copy of the license at <http://www.gnu.org/licenses/>.
  * 
  */
-package ugent.elis.csl.hes.tFlow.util;
+package be.ugent.elis.recomp.util;
 
 import java.util.Collection;
 import java.util.HashMap;

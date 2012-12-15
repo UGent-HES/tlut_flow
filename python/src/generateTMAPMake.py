@@ -93,7 +93,7 @@ def generateMake(makefileName):
         \t@echo "****************************************************"
         \t@echo "Generating locations.h ..."
         \t@echo "****************************************************"
-        \tgetLocations.sh "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" $(LOC_FILES)
+        \tjava be.ugent.elis.recomp.util.ExtractInfo "$(XDL_FILE)" "$(TMAPDESIGN_DIR)/work/names.txt" $(LOC_FILES)
         
         bits : $(LOC_FILES)\n'''))
         
