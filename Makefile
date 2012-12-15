@@ -12,7 +12,9 @@ javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java j
 all : java source third_party 
 
 
+
 java : $(javaClasses:.java=.class)
+$(javaClasses:.java=.class) : hessian rapidSmith
 .java.class :
 	mkdir -p java/bin
 	javac -d java/bin -classpath java/src:third_party/rapidSmith:third_party/hessian-4.0.7.jar $<
@@ -28,9 +30,10 @@ source :
 
 
 
-third_party : aigtoaig abc rapidSmith
+third_party : aigtoaig abc hessian rapidSmith
 aigtoaig : third_party/aiger-${AIGER_VERSION}/aigtoaig third_party/bin/aigtoaig
 abc : third_party/abc_${ABC_VERSION}/abc third_party/bin/abc third_party/etc/abc.rc
+hessian : third_party/hessian-${HESSIAN_VERSION}.jar
 rapidSmith : third_party/rapidSmith third_party/hessian-4.0.7.jar
 
 third_party/bin/aigtoaig :
@@ -79,4 +82,4 @@ third_party/rapidSmith : third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
 	tar -xzf third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz -C third_party/
 	
 third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz :
-	cd third_party && curl -O http://ignum.dl.sourceforge.net/project/rapidsmith/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
+	cd third_party && curl -L -O http://downloads.sourceforge.net/project/rapidsmith/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
