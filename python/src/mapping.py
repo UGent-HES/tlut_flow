@@ -335,53 +335,12 @@ def synthesize(top, submodules, verboseFlag=False):
         print ' '.join(cmd)
     subprocess.check_call(cmd);
     
-    return sortInputs(sweepFileName)  
+    return sweepFileName
 
 def group_per(iterable,n):
     for i in xrange(0,len(iterable),n):
         yield islice(iterable,i,i+n)
-
-def tryint(s):
-    try:
-        return int(s)
-    except:
-        return s
     
-def alphanum_key(s):
-    """ Turn a string into a list of string and number chunks.
-        "z23a" -> ["z", 23, "a"]
-    """
-    return [ tryint(c) for c in re.split('([0-9]+)', s) ]
-
-def sortInputs(sweepFileName):
-    ext = '-sweep.blif'
-    basename = sweepFileName[:-len(ext)]
-    assert sweepFileName.endswith(ext)
-    assert basename
-    
-    orderedSweepFileName = basename + "-sweep-sorted.blif"
-    
-    new_file = open(orderedSweepFileName,'w')
-    old_file = open(sweepFileName)
-    
-    state = False
-    inputs = []
-    for line in old_file:
-        if '.inputs' in line or state:
-            inputs += line.rstrip('\n\\').split()[not state:]   #if first line of inputs, skip '.inputs' tag
-            state = line.rstrip('\r\n').endswith('\\')  #if line ends with \, more is coming
-            if not state:   #if line doesn't end with \, we're done and should write out all inputs
-                inputs.sort(key=alphanum_key)
-                inputsLines = [' '.join(someInputs) for someInputs in group_per(inputs, 5)]
-                new_file.write('.inputs '+' \\\n'.join(inputsLines)+'\n')
-        else:
-           new_file.write(line)
-    
-    new_file.close()
-    old_file.close()
-    
-    return orderedSweepFileName
-
 def printCFunction(aagFileName,CFileName,headerFileName,verboseFlag=False):
     cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.aig.MakeCEvaluator']
     args = [aagFileName, CFileName, headerFileName]
