@@ -28,6 +28,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
@@ -43,6 +44,8 @@ import edu.byu.ece.rapidSmith.device.PrimitiveSite;
 import edu.byu.ece.rapidSmith.device.WireType;
 import edu.byu.ece.rapidSmith.router.Node;
 import edu.byu.ece.rapidSmith.util.FileTools;
+
+import com.daveKoelle.AlphanumComparator;
 
 
 public class ExtractInfo {
@@ -90,11 +93,11 @@ public class ExtractInfo {
 						break;
 					}
 					
-					lutName=name.split("/")[name.split("/").length -1];
+					lutName = name.split("/")[name.split("/").length-1];
 					if(lutName.length()<name.length()){
-						path=name.substring(0, name.length()-lutName.length());
+						path = name.substring(0, name.length()-lutName.length());
 					} else {
-						path="";
+						path = "";
 					}
 				
 					if(logicalName2Instances.containsKey(lutName)){
@@ -115,7 +118,7 @@ public class ExtractInfo {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		String firstLine=in.readLine().trim();
+		String firstLine = in.readLine().trim();
 		if(firstLine==null){
 			System.out.println("<basename-names.txt> has no lines");
 			System.exit(0);
@@ -131,6 +134,7 @@ public class ExtractInfo {
 		//prepare the output file
 		StringBuilder cFile = new StringBuilder();
 		String newLine = System.getProperty("line.separator");
+		
 		cFile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
 		cFile.append("#include \""+args[3].substring(args[3].lastIndexOf('/')+1)+"\""+newLine+newLine);
 		cFile.append("#define LUT_F 0"+newLine);
@@ -141,31 +145,35 @@ public class ExtractInfo {
 		for (Map.Entry<String, InstanceInfo> entry : logicalName2Instances.entrySet())
             System.out.println(entry.getKey() + "/" + entry.getValue());*/
 
-		System.out.println(firstLine);
-		Vector <String> paths = logicalName2Instances.get(firstLine).getPaths();
+		//System.out.println(firstLine);
+		Vector <String> paths = new Vector(logicalName2Instances.get(firstLine).getPaths());
+		Collections.sort(paths,new AlphanumComparator());
 		System.out.println(paths);
-		cFile.append("const Xuint32  numberOfInstances ="+(paths.size())+";"+newLine);
-		cFile.append("const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE] = { ");
+		cFile.append("const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE] = {\n");
 		int numberOfTLUTs=0;
 		for(String path:paths){
 			// process firstLine with the first path
-			cFile.append("{ ");
-			numberOfTLUTs=1;
-			System.out.println(firstLine);
+			cFile.append("\t{");
+			numberOfTLUTs = 1;
+			System.out.println(path);
+			/*System.out.println(firstLine);
 			System.out.println(logicalName2Instances.get(firstLine).getSite(path));
-			System.out.println(logicalName2Instances.get(firstLine).getLut(path));
-			cFile.append("{"+logicalName2Instances.get(firstLine).getSite(path).getInstanceX()+" ,"+logicalName2Instances.get(firstLine).getSite(path).getInstanceY()+" ,LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
+			System.out.println(logicalName2Instances.get(firstLine).getLut(path));*/
+			cFile.append("{"+logicalName2Instances.get(firstLine).getSite(path).getInstanceX()+","+
+			    logicalName2Instances.get(firstLine).getSite(path).getInstanceY()+
+			    ",LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
 			for(String lutName : names){
-				System.out.println(lutName);
+				/*System.out.println(lutName);
 				System.out.println(logicalName2Instances.get(lutName).getSite(path));
-				System.out.println(logicalName2Instances.get(lutName).getLut(path));
-				cFile.append(",{"+logicalName2Instances.get(lutName).getSite(path).getInstanceX()+" ,"+logicalName2Instances.get(lutName).getSite(path).getInstanceY()+" ,LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
+				System.out.println(logicalName2Instances.get(lutName).getLut(path));*/
+				cFile.append(",{"+logicalName2Instances.get(lutName).getSite(path).getInstanceX()+","+
+				    logicalName2Instances.get(lutName).getSite(path).getInstanceY()+
+				    ",LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
 				numberOfTLUTs++;
 			}
-			cFile.append("}, ");
+			cFile.append("} /* "+path+" */,\n");
 		}
 		cFile.deleteCharAt(cFile.length()-2);
-		//Print everything and replace ?? character
 		cFile.append("};"+newLine);
 		
 		PrintStream stream = new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2])));

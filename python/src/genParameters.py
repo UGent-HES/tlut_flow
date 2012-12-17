@@ -3,6 +3,8 @@
 import sys
 import re
 
+#sorting key
+#http://nedbatchelder.com/blog/200712.html#e20071211T054956
 def tryint(s):
     try:
         return int(s)
