@@ -1,0 +1,15 @@
+##############################################################################
+## Filename:          /home/kheyse/private/tlut_flow/examples/treeMult4b/ise/drivers/opb_mult4b_v1_00_a/data/opb_mult4b_v2_1_0.mdd
+## Description:       Microprocessor Driver Definition
+## Date:              Sat Dec  8 14:00:15 2012 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+OPTION psf_version = 2.1.0;
+
+BEGIN DRIVER opb_mult4b
+
+  OPTION supported_peripherals = (opb_mult4b);
+  OPTION depends = (common_v1_00_a);
+  OPTION copyfiles = all;
+
+END DRIVER

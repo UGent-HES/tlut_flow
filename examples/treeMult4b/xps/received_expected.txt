@@ -1,0 +1,17 @@
+Starting mult4b test...
+Test 0 succeeded
+Test 1 succeeded
+Test 2 succeeded
+Test 3 succeeded
+Test 4 succeeded
+Test 5 succeeded
+Test 6 succeeded
+Test 7 succeeded
+Test 8 succeeded
+Test 9 succeeded
+Test 10 succeeded
+Test 11 succeeded
+Test 12 succeeded
+All tests succeeded
+End mult4b test.
+
