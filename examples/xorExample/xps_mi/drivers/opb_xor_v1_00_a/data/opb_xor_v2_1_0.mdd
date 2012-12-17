@@ -1,0 +1,15 @@
+##############################################################################
+## Filename:          /home/kheyse/private/tlut_flow/examples/xorExample/ise/drivers/opb_xor_v1_00_a/data/opb_xor_v2_1_0.mdd
+## Description:       Microprocessor Driver Definition
+## Date:              Fri Dec  7 16:39:31 2012 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+OPTION psf_version = 2.1.0;
+
+BEGIN DRIVER opb_xor
+
+  OPTION supported_peripherals = (opb_xor);
+  OPTION depends = (common_v1_00_a);
+  OPTION copyfiles = all;
+
+END DRIVER
