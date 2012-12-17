@@ -22,6 +22,7 @@ def main():
     baseDir = os.getcwd()
     
     os.chdir(designDir)
+    assert not os.system('mkdir -p ../hdl/vhdl')
     vhdFileList = glob.glob('*.vhd*')
     
     nonXilinxFileList = []
