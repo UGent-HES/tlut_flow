@@ -1,0 +1,171 @@
+# ##############################################################################
+# Created by Base System Builder Wizard for Xilinx EDK 9.1.02 Build EDK_J_SP2.4
+# Fri Dec  7 16:22:15 2012
+# Target Board:  Xilinx XUP Virtex-II Pro Development System Rev C
+# Family:	 virtex2p
+# Device:	 xc2vp30
+# Package:	 ff896
+# Speed Grade:	 -7
+# Processor: PPC 405
+# Processor clock frequency: 100.000000 MHz
+# Bus clock frequency: 50.000000 MHz
+# Debug interface: FPGA JTAG
+# On Chip Memory :  64 KB
+# ##############################################################################
+
+
+ PARAMETER VERSION = 2.1.0
+
+
+ PORT fpga_0_RS232_Uart_1_RX_pin = fpga_0_RS232_Uart_1_RX, DIR = I
+ PORT fpga_0_RS232_Uart_1_TX_pin = fpga_0_RS232_Uart_1_TX, DIR = O
+ PORT fpga_0_net_gnd_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_1_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_2_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_3_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_4_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_5_pin = net_gnd, DIR = O
+ PORT fpga_0_net_gnd_6_pin = net_gnd, DIR = O
+ PORT sys_clk_pin = dcm_clk_s, DIR = I, SIGIS = CLK, CLK_FREQ = 100000000
+ PORT sys_rst_pin = sys_rst_s, DIR = I, RST_POLARITY = 0, SIGIS = RST
+
+
+BEGIN ppc405
+ PARAMETER INSTANCE = ppc405_0
+ PARAMETER HW_VER = 2.00.c
+ BUS_INTERFACE JTAGPPC = jtagppc_0_0
+ BUS_INTERFACE IPLB = plb
+ BUS_INTERFACE DPLB = plb
+ PORT PLBCLK = sys_clk_s
+ PORT C405RSTCHIPRESETREQ = C405RSTCHIPRESETREQ
+ PORT C405RSTCORERESETREQ = C405RSTCORERESETREQ
+ PORT C405RSTSYSRESETREQ = C405RSTSYSRESETREQ
+ PORT RSTC405RESETCHIP = RSTC405RESETCHIP
+ PORT RSTC405RESETCORE = RSTC405RESETCORE
+ PORT RSTC405RESETSYS = RSTC405RESETSYS
+ PORT CPMC405CLOCK = proc_clk_s
+END
+
+BEGIN ppc405
+ PARAMETER INSTANCE = ppc405_1
+ PARAMETER HW_VER = 2.00.c
+ BUS_INTERFACE JTAGPPC = jtagppc_0_1
+END
+
+BEGIN jtagppc_cntlr
+ PARAMETER INSTANCE = jtagppc_0
+ PARAMETER HW_VER = 2.00.a
+ BUS_INTERFACE JTAGPPC0 = jtagppc_0_0
+ BUS_INTERFACE JTAGPPC1 = jtagppc_0_1
+END
+
+BEGIN proc_sys_reset
+ PARAMETER INSTANCE = reset_block
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_EXT_RESET_HIGH = 0
+ PORT Ext_Reset_In = sys_rst_s
+ PORT Slowest_sync_clk = sys_clk_s
+ PORT Chip_Reset_Req = C405RSTCHIPRESETREQ
+ PORT Core_Reset_Req = C405RSTCORERESETREQ
+ PORT System_Reset_Req = C405RSTSYSRESETREQ
+ PORT Rstc405resetchip = RSTC405RESETCHIP
+ PORT Rstc405resetcore = RSTC405RESETCORE
+ PORT Rstc405resetsys = RSTC405RESETSYS
+ PORT Bus_Struct_Reset = sys_bus_reset
+ PORT Dcm_locked = dcm_0_lock
+END
+
+BEGIN plb_v34
+ PARAMETER INSTANCE = plb
+ PARAMETER HW_VER = 1.02.a
+ PARAMETER C_DCR_INTFCE = 0
+ PARAMETER C_NUM_OPBCLK_PLB2OPB_REARB = 100
+ PARAMETER C_EXT_RESET_HIGH = 1
+ PORT SYS_Rst = sys_bus_reset
+ PORT PLB_Clk = sys_clk_s
+END
+
+BEGIN opb_v20
+ PARAMETER INSTANCE = opb
+ PARAMETER HW_VER = 1.10.c
+ PARAMETER C_EXT_RESET_HIGH = 1
+ PORT SYS_Rst = sys_bus_reset
+ PORT OPB_Clk = sys_clk_s
+END
+
+BEGIN plb2opb_bridge
+ PARAMETER INSTANCE = plb2opb
+ PARAMETER HW_VER = 1.01.a
+ PARAMETER C_DCR_INTFCE = 0
+ PARAMETER C_NUM_ADDR_RNG = 1
+ PARAMETER C_RNG0_BASEADDR = 0x00000000
+ PARAMETER C_RNG0_HIGHADDR = 0x7fffffff
+ BUS_INTERFACE SPLB = plb
+ BUS_INTERFACE MOPB = opb
+END
+
+BEGIN opb_uartlite
+ PARAMETER INSTANCE = RS232_Uart_1
+ PARAMETER HW_VER = 1.00.b
+ PARAMETER C_BAUDRATE = 9600
+ PARAMETER C_DATA_BITS = 8
+ PARAMETER C_ODD_PARITY = 0
+ PARAMETER C_USE_PARITY = 0
+ PARAMETER C_CLK_FREQ = 50000000
+ PARAMETER C_BASEADDR = 0x40600000
+ PARAMETER C_HIGHADDR = 0x4060ffff
+ BUS_INTERFACE SOPB = opb
+ PORT RX = fpga_0_RS232_Uart_1_RX
+ PORT TX = fpga_0_RS232_Uart_1_TX
+END
+
+BEGIN plb_bram_if_cntlr
+ PARAMETER INSTANCE = plb_bram_if_cntlr_1
+ PARAMETER HW_VER = 1.00.b
+ PARAMETER c_plb_clk_period_ps = 20000
+ PARAMETER c_baseaddr = 0xffff0000
+ PARAMETER c_highaddr = 0xffffffff
+ BUS_INTERFACE SPLB = plb
+ BUS_INTERFACE PORTA = plb_bram_if_cntlr_1_port
+END
+
+BEGIN bram_block
+ PARAMETER INSTANCE = plb_bram_if_cntlr_1_bram
+ PARAMETER HW_VER = 1.00.a
+ BUS_INTERFACE PORTA = plb_bram_if_cntlr_1_port
+END
+
+BEGIN dcm_module
+ PARAMETER INSTANCE = dcm_0
+ PARAMETER HW_VER = 1.00.c
+ PARAMETER C_CLK0_BUF = TRUE
+ PARAMETER C_CLKDV_BUF = TRUE
+ PARAMETER C_CLKDV_DIVIDE = 2.000000
+ PARAMETER C_CLKIN_PERIOD = 10.000000
+ PARAMETER C_CLK_FEEDBACK = 1X
+ PARAMETER C_DLL_FREQUENCY_MODE = LOW
+ PARAMETER C_EXT_RESET_HIGH = 1
+ PORT CLKIN = dcm_clk_s
+ PORT CLK0 = proc_clk_s
+ PORT CLKDV = sys_clk_s
+ PORT CLKFB = proc_clk_s
+ PORT RST = net_gnd
+ PORT LOCKED = dcm_0_lock
+END
+
+BEGIN opb_hwicap
+ PARAMETER INSTANCE = opb_hwicap_0
+ PARAMETER HW_VER = 1.00.b
+ PARAMETER C_BASEADDR = 0x40200000
+ PARAMETER C_HIGHADDR = 0x4020ffff
+ BUS_INTERFACE SOPB = opb
+END
+
+BEGIN opb_xor
+ PARAMETER INSTANCE = opb_xor_0
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_BASEADDR = 0x7a200000
+ PARAMETER C_HIGHADDR = 0x7a20ffff
+ BUS_INTERFACE SOPB = opb
+END
+
