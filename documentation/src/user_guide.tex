@@ -60,7 +60,6 @@
 
 \setlength\afterchapskip {\onelineskip }
 \setlength\beforechapskip {\onelineskip }
-\usepackage{lipsum}
 
 %\setlength{\oddsidemargin}{0.03\paperwidth} 
 %\setlength{\evensidemargin}{0.03\paperwidth}
@@ -73,6 +72,9 @@
 \setulmarginsandblock{2.5cm}{2.5cm}{*}
 \checkandfixthelayout
 
+\usepackage{graphicx}
+\graphicspath{{./img/}}
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 
 
 \begin{document}
@@ -84,13 +86,18 @@ The TLUT tool flow is a tool flow that generates FPGA configurations. Its bigges
 
 The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project or are contained in the documentation directory. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it, is described in much more detail in this user guide.
 
-\section{Roadmap}
+\section{What can I do with this tool flow?}
+First, you can evaluate our adapted TLUT technology mapper. 
+This  allows you to compare its results with a conventional technology mapper and see for yourself if Dynamic Circuit Specialization can be used to optimize your application. 
+We have included a framework to make this comparison very easy. 
+The following pages provide clear examples and show how to adapt the framework for you own uses.
 
-We are releasing the TLUT tool flow in two phases. First, we have made the adapted TLUT technology mapper public. This will allow you to compare its results with a conventional technology mapper. We have included a framework to make this comparison very easy. The following pages provide clear examples and show how to adapt the framework for you own uses.\\
+Second, our tool flow has been integrated with the Xilinx FPGA tool flow so that you can perform DCS on a commercial Virtex 2 Pro FPGA.
+A number of examples that you can run right away on the XUP V2P board are included in this repository. 
+Information on creating your own project is also included in this document.
+We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
 
-In the second phase, which will be released soon, we will provide you with the scripts and information necessary to integrate the TLUT technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on commercial Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
-
-\section{Contact information}
+\section{Contact us}
 The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group (\href{http://hes.elis.ugent.be}{\emph{http://hes.elis.ugent.be}}).
 
 If you encounter bugs, want to use the TLUT tool flow but need support or want to tell us about your results, feel free to contact us.
@@ -107,15 +114,18 @@ You may also refer to one of our others papers if you think it is more related.
 Chapter~\ref{sec:setup}: \emph{Setup}: A setup manual\\
 Chapter~\ref{sec:experiment}: \emph{Your design}: A manual for running your own experiments\\
 Chapter~\ref{sec:troubleshooting}: \emph{Troubleshooting}: Problems you may encounter and their solutions\\
-Chapter~\ref{sec:contents}: \emph{Contents}: Description of the contents of this package
-
+Chapter~\ref{sec:contents}: \emph{Contents}: Description of the contents of this package\\
+Chapter TODO
 
 \clearpage
 \chapter{Setup}\label{sec:setup}
 \begin{lstlisting}
 > make
 \end{lstlisting}
-This builds a number of dependencies and the TLUT technology mapper and creates a `source' file which sets environment variables. Set your environment variables using:
+This downloads and builds the dependencies listed below, builds the TLUT technology mapper and creates a `source' file which sets environment variables. 
+Make sure you agree with the respective licences of the dependencies before running make. 
+
+Set your environment variables using:
 \begin{lstlisting}
 > . source
 \end{lstlisting}
@@ -135,13 +145,21 @@ E.g.
 
 \section{Dependencies}
 \begin{itemize}
-\item Dependencies to be provided by the user:\\
-Quartus II (tested with Web Edition version 11, Web Edition v12 is unsupported), Altera Corporation, \url{http://www.altera.com}\\
-Java (tested with version 1.6.0), Oracle, \url{http://www.java.com}\\
-Python 2.7, \url{http://www.python.org}
-\item Dependencies automatically downloaded and installed:\\
-Aiger (tested with version 1.9.4), JKU Institute for Formal Models and Verification, \url{http://fmv.jku.at/aiger}\\
-ABC (tested with version 810ba683c042, 5 October 2012), Berkeley Logic Synthesis and Verification Group, \url{http://www.eecs.berkeley.edu/\~alanmi/abc}
+\item Dependencies to be provided by the user:
+\begin{itemize}
+\item Quartus II (tested with Web Edition version 11, Web Edition v12 may work but is not supported), Altera Corporation, \url{http://www.altera.com}
+\item Java (tested with version 1.6.0), Oracle, \url{http://www.java.com}
+\item Python 2.7, \url{http://www.python.org}
+\item Xilinx Design Suite 9.1 (tested with version 9.1.02), Xilinx Inc., \url{http://www.xilinx.com}\\
+Xilinx Platform Builder is only required for implementation of DCS on a commercial FPGA. Version 9.1 is old, but it is unlikely that other versions will work.
+\end{itemize}
+\item Dependencies automatically downloaded and installed:
+\begin{itemize}
+\item Aiger 1.9.4, JKU Institute for Formal Models and Verification, \url{http://fmv.jku.at/aiger}
+\item ABC (version 810ba683c042, 5 October 2012), Berkeley Logic Synthesis and Verification Group, \url{http://www.eecs.berkeley.edu/\~alanmi/abc}
+\item RapidSmith 0.5.1, BYU RapidSmith Projec,  \url{http://rapidsmith.sourceforge.net}
+\item Hessian 4.0.7, Caucho Technology, \url{http://hessian.caucho.com}
+\end{itemize}
 \end{itemize}
 
 \clearpage
@@ -153,49 +171,48 @@ run(module, submodules, K, performCheck, verboseFlag)
 \end{lstlisting}
 \begin{itemize}
 \item \textbf{module} - String\\
-The location of the top level of your design. If your design consists of only one VHDL/Verilog module, then you only have to pass the location of this module as the first argument and you can ignore the second argument.\\
+The location of the top level of your design. If your design consists of only one VHDL/Verilog module, then you only have to pass the location of this module as the first argument and you can ignore the second argument.
 
 E.g. run('yourDesign.vhd')
 
 \item \textbf{submodules} - list of Strings - \textit{optional}\\
-If your design consists of a top level module and several submodules, you can add a list of submodules here, for example if you have one top level module and two submodules.\\
+If your design consists of a top level module and several submodules, you can add a list of submodules here, for example if you have one top level module and two submodules.
 
 E.g. run('yourTopLevelModule.vhd', ['yourFirstSubModule.vhd', 'yourSecondSubModule.vhd'])
 
 \item \textbf{K} - integer - \textit{default 4}\\
-You can choose the number of inputs a LookUp Table has on your target FPGA\\
+You can choose the number of inputs a LookUp Table has on your target FPGA
 
 E.g. run('yourDesign.vhd', 6)
 or run('yourDesign.vhd', K=6)
 
 \item \textbf{performCheck} - boolean - \textit{default True}\\
-When checks are turned on, the resulting mapping is verified using a miter and satisfiability solver. This ensures that the mapped circuit implements the same functionality as the input circuit.\\
+When checks are turned on, the resulting mapping is verified using a miter and satisfiability solver. This ensures that the mapped circuit implements the same functionality as the input circuit.
 
 E.g. run('yourDesign.vhd', 6, True)\\
 or run('yourDesign.vhd', performCheck=False)
 
 \item \textbf{verboseFlag} - boolean - \textit{default False}\\
-This activates the verbose mode in which more information gets printed regarding the execution of the flow.\\
+This activates the verbose mode in which more information gets printed regarding the execution of the flow.
 
 E.g. run('yourDesign.vhd', 6, True, True)\\ or run('yourDesign.vhd', verboseFlag=True)
 \end{itemize}
 
-\section{A Step-by-step Approach}\label{sec:step_by_step}
+\section{A step-by-step approach}\label{sec:step_by_step}
 Below, we have provided a more step-by-step approach to set up your own Python script starting from the \emph{treeMult4b} example:
 \begin{enumerate}
-\item Make a folder for your design and copy the treeMult4b folder from the examples directory. You need at least the files \emph{abc.rc} and \emph{treeMult4b.py}\\
+\item Make a folder for your design and copy the treeMult4b folder from the examples directory. You need at least the files \emph{abc.rc} and \emph{treeMult4b.py}
 \begin{lstlisting}
 > mkdir yourDesign
 > cp -r examples/treeMult4b/* yourDesign/
 \end{lstlisting}
-\item Replace treeMult4.vhd by copying your VHDL/Verilog files, describing your design, into the \emph{yourDesign}-folder\\
+\item Replace treeMult4.vhd by copying your VHDL/Verilog files, describing your design, into the \emph{yourDesign}-folder
 \begin{lstlisting}
 > rm treeMult4b.vhd
-> 
 \end{lstlisting}
-\item Annotate the parameters in your top level VHDL/Verilog file.\\
+\item Annotate the parameters in your top level VHDL/Verilog file.
 
-Any input signal, or combination of input signals, of your top level module can be chosen as parameter. Preferably the designer will choose the slowly changing input signals as parameters, because a change in the value of the parameters results in a reconfiguration of the FPGA. Different combinations can be tested easily by changing the annotations. In the following example a simple multiplexer is described in VHDL and the 'sel' input signal is annotated as a parameter.
+Any input signal, or combination of input signals, of your top level module can be chosen as parameter. Preferably the designer will choose the slowly changing input signals as parameters, because a change in the value of the parameters results in a reconfiguration of the FPGA. Different combinations can be tested easily by changing the annotations. In the following example a simple multiplexer is described in VHDL and the `sel' input signal is annotated as a parameter.
 \lstset{language=VHDL}
 \begin{lstlisting}
 entity multiplexer is
@@ -227,7 +244,7 @@ assign z = x * y;
 endmodule
 \end{lstlisting}
  
-\item Modify the Python script\\
+\item Modify the Python script
 \begin{lstlisting}
 > mv treeMult4b.py yourDesign.py
 > nano yourDesign.py
@@ -239,7 +256,7 @@ Edit the 6th line, in which the \emph{run} function is called, according to the 
 \end{lstlisting}
 \item \label{sec:check_par}Check the `.par' file in the work directory, to ensure the parameters were correctly recognised. It should list all the signal names of the parameters, i.e. one for each line of a bus signal. 
 The tool for extracting parameters from VHDL and Verilog is still limited and can not yet parse all VHDL/Verilog constructs.
-\item Analyze the results. As an example, the output of the Python script of the treeMult4b project is given;\\
+\item Analyze the results. As an example, the output of the Python script of the treeMult4b project is given;
 
 \begin{lstlisting}
 Stage: TLUT mapper
@@ -294,6 +311,66 @@ run('treeMult4b.vhd', K=4, performCheck=True, verboseFlag=False)
 \item \emph{The number of TLUTs is 0, or the reduction in number of LUTs is lower than expected:}\\
 Check if all parameters were correctly extracted from your VHDL/Verilog. See section~\ref{sec:step_by_step}, step~\ref{sec:check_par}.
 \end{itemize}
+
+
+\clearpage
+\chapter{Xilinx integration}\label{sec:xilinx_flow}
+\section{Testing}
+Connect your XUPV2P board to the computer using a USB cable (for bitstream configuration) and a serial cable (for debugging).
+
+Open each of the following projects in XPS and choose ``Generate bitstream''. XPS will produce an error but this is ok.
+\begin{itemize}
+\item `examples/xorExample/xps'
+\item `examples/xorExample/xps\_mi'
+\item `examples/treeMult4b/xps'
+\end{itemize}
+Now you can run all tests on these projects by doing:
+\begin{lstlisting}
+> cd tests
+> ./virtex2pro_test.sh
+\end{lstlisting}
+
+Every project is now built, loaded onto the FPGA and DCS is tested using the embedded PowerPC (you can find the debug output from the FPGA in the `received.txt' file in the project directory). This will take a long time. If everything works fine you will get the following result.
+%powerpc-eabi-ar: creating ../../../lib/libxil.a
+%powerpc-eabi-ar: creating ../../../lib/libxil.a
+%./virtex2pro_test.sh: line 4:  6732 Terminated cat ...
+\begin{lstlisting}
+...
+xorExample/xps succeeded
+...
+xorExample/xps_mi succeeded
+...
+treeMult4b/xps succeeded
+\end{lstlisting}
+
+\section{Your own project}
+
+Voorbereiding(Xilinx):\\
+Doorloop stappen 1.1 tot 2.1 van de Hes-wiki (\url{http://hes.elis.ugent.be/wiki/Wiki/%20Dynamic%20reconfiguration/tmap-xps}). Een .proj file is normaal niet nodig.\\
+Stap 2.2 doorloop je ook, het toevoegen van de --PARAM annotaties is niet nodig in opb\_xor en user\_logic. (Volgens mij heeft dat geen impact, maar zou nog eens gechecked moeten worden)\\
+Pas data/system.ucf aan ...\\
+Doe ook stap 3, enkel de testReconfiguration.c file niet downloaden, de dir wel maken.\\
+De grootste delen van 4 vallen weg, het enige wat je moet doen is de custom.make klaarzetten zoals in 4.1.\\
+Let erop dat je system.make slechts kopieerd naar custom.make nadat je de software applicatie aangemaakt hebt.
+
+De nieuwe stappen zijn dan:\\
+a) run generateTMAPMake.py in /design dir.\\
+b) voeg "include tmap.make" toe in de custom.make net na "include system\_incl.make"\\
+c) Generate bitstream\\
+d) add <basename>.c, <basename>.h, locations.h and locations.c to  software project\\
+e) create main.c (example code in <basename>.c\\
+vanaf nu kan het project volledig gerund worden. De output (printcommands in de c-file) kan gelezen worden in de terminal met het "minicom" command.
+
+
+Troubleshoot, - source source before running xps
+
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=1.8in]{vcgra_flow}
+%\caption{Implementation of application on VCGRA  using parameterised configuration\label{fig:vcgra_flow}}
+%\end{figure}
+
+
 
 \clearpage
 \chapter{Contents}\label{sec:contents}
