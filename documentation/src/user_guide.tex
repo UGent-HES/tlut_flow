@@ -352,27 +352,29 @@ Check jumpers of XUP2VP board.\\
 make sure minicom is not running
 
 \section{Your own project}
-This tutorial guides you through the setup and implementation of a design with DCS. You can use it to start your own project or test it with the `xorExample' design.
+This tutorial guides you through the setup and implementation of a design with DCS. You can use it to start your own project or test it with the `xorExample' design.\\
+Step 1: Creating the project for the XUPV2P, p.\ \pageref{sec:creating_proj}\\
+Step 2: Adding the HWICAP, p.\ \pageref{sec:adding_hwicap}\\
+Step 3: Creating the DCS peripheral, p.\ \pageref{sec:creating_peripheral}\\
+Step 4: Adding the DCS peripheral, p.\ \pageref{sec:adding_peripheral}\\
+Step 5: Writing the DCS peripheral, p.\ \pageref{sec:writing_peripheral}\\
+Step 6: Creating the software application, p.\ \pageref{sec:creating_software}\\
+Step 7: Creating the custom makefile, p.\ \pageref{sec:creating_makefile}\\
+Step 8: Writing the software application, p.\ \pageref{sec:writing_software}\\
+Step 9: Testing, p.\ \pageref{sec:testing}
 
+Bron: \url{http://hes.elis.ugent.be/wiki/Wiki/%20Dynamic%20reconfiguration/tmap-xps}
 
-Voorbereiding(Xilinx):\\
-Doorloop stappen 1.1 tot 2.1 van de Hes-wiki (\url{http://hes.elis.ugent.be/wiki/Wiki/%20Dynamic%20reconfiguration/tmap-xps}). Een .proj file is normaal niet nodig.\\
 Stap 2.2 doorloop je ook, het toevoegen van de --PARAM annotaties is niet nodig in opb\_xor en user\_logic. (Volgens mij heeft dat geen impact, maar zou nog eens gechecked moeten worden)\\
 Pas data/system.ucf aan ...\\
+
+a) run generateTMAPMake.py in /design dir.\\
+
+
+Troubleshoot, - source source before running xps\\
 Let erop dat je system.make slechts kopieerd naar custom.make nadat je de software applicatie aangemaakt hebt.
 
-De nieuwe stappen zijn dan:\\
-a) run generateTMAPMake.py in /design dir.\\
-b) voeg "include tmap.make" toe in de custom.make net na "include system\_incl.make"\\
-c) Generate bitstream\\
-d) add <basename>.c, <basename>.h, locations.h and locations.c to  software project\\
-e) create main.c (example code in <basename>.c\\
-vanaf nu kan het project volledig gerund worden. De output (printcommands in de c-file) kan gelezen worden in de terminal met het "minicom" command.
-
-
-Troubleshoot, - source source before running xps
-
-\subsection{Creating a project for the XUPV2P}
+\subsection{Creating a project for the XUPV2P}\label{sec:creating_proj}
 
 \begin{itemize}
 \item Start XPS v9. Make sure that you have sourced the ``source'' file from the base directory of this repository in the same terminal as you start XPS in.
@@ -439,8 +441,8 @@ Troubleshoot, - source source before running xps
 \end{figure}
 
 
-\subsection{Adding the HWICAP}
-The HWICAP is used for run-time reconfiguration of the FPGA.
+\subsection{Adding the HWICAP}\label{sec:adding_hwicap}
+The HWICAP is used for run-time reconfiguration of the FPGA. This peripheral must be added to the project and connected to the OPB.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{HWICAP1}
@@ -449,7 +451,7 @@ The HWICAP is used for run-time reconfiguration of the FPGA.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{HWICAP2}
-\caption{An instance of the opb\_hwicap appears in the System Assembly View. Connect the hwicap to the opb\label{fig:HWICAP2}}
+\caption{An instance of the opb\_hwicap appears in the System Assembly View. Connect the hwicap to the OPB\label{fig:HWICAP2}}
 \end{figure}
 \begin{figure}[H]
 \centering
@@ -464,7 +466,8 @@ The HWICAP is used for run-time reconfiguration of the FPGA.
 
 Finally, create a symbolic link in the directory `drivers' (create the directory if needed) of your project to `examples/xorExample/xps/drivers/hwicap\_v1\_00\_b'.
 
-\subsection{Creating a DCS peripheral}
+
+\subsection{Creating the DCS peripheral}\label{sec:creating_peripheral}
 Currently, DCS can only be done on exactly one peripheral of the OPB bus. In this section you create this OPB peripheral with memory mapped registers.
 In this section we will build a simple parameterizable module and add it to the base system build in the previous sections. The module has a 32-bit vector, a, as input, a 32-bit vector, x, as output and a one bit parameter, p. If p equals 0 the output vector, x, equals the input vector. If p equals 1 the output vector, x, is the inverse of the input vector, a. Bought the input and the output vector are memory mapped through the OPB. When the parameter, p, changes the PPC will reconfigure the modules TLUTs through the HWICAP.
 \begin{figure}[H]
@@ -523,7 +526,7 @@ In this section we will build a simple parameterizable module and add it to the 
 \caption{Click Finish\label{fig:COIP11}}
 \end{figure}
 
-\subsection{Adding a DCS peripheral}
+\subsection{Adding the DCS peripheral}\label{sec:adding_peripheral}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{AXOR1}
@@ -540,10 +543,8 @@ In this section we will build a simple parameterizable module and add it to the 
 \caption{Select the Addresses view in the System Assembly View. Click the Generate Addresses button\label{fig:AXOR3}}
 \end{figure}
 
-\subsection{Writing the DCS peripheral}
 
-
-\subsection{Creating a software application}
+\subsection{Creating the software application}\label{sec:creating_software}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{soft1}
@@ -556,7 +557,7 @@ In this section we will build a simple parameterizable module and add it to the 
 \end{figure}
 
 
-\subsection{Creating the custom makefile}
+\subsection{Creating the custom makefile}\label{sec:creating_makefile}
 \begin{itemize}
 \item Choose  ``Generate netlist''. You may immediately terminate it once started.
 \item Copy `system.make' to `custom.make' in your project directory.
@@ -569,13 +570,43 @@ In this section we will build a simple parameterizable module and add it to the 
 \caption{Choose `custom.make' as the Custom Makefile. Click Ok\label{fig:makefile}}
 \end{figure}
 
-\subsection{Writing the software application}
+
+\subsection{Writing the DCS peripheral}\label{sec:writing_peripheral}
 \begin{itemize}
-\item Choose ``Generate bitstream''. This will create a number of C files needed to perform run-time reconfiguration.
+\item Go to the subdirectory corresponding to your DCS peripheral in the `pcores' directory of the project.
+\item Copy the `hdl/vhdl' directory to the `design' directory. It should contain two files `opb\_<peripheral\_name>.vhd' and `user\_logic.vhd'.
+\item Add the VHDL code of your DCS design to the `design' directory. It is advised that you run your design through the stand alone TLUT tool flow first (Section\ \ref{sec:step_by_step}). Add the line `-\-TMAP' to the top of the file that you want to perform DCS on. This does not have to be the top level module of the peripheral.
+\item Add the names of your VHDL modules to the `.pao' file in the `data' directory. Note that if a module depends on another module it should be listed after it.
+\item Instantiate your module in the architecture description of `user\_logic.vhd' and connect the inputs and outputs to the memory-mapped registers of the OPB peripheral. Assign the parameter inputs a dummy value.\\
+E.g. for the xorExample:
+\begin{lstlisting}
+EXORS: entity work.exorw32
+port map (
+     a => slv_reg0,
+     x => slv_reg1,
+     p => (others => '0')
+);
+\end{lstlisting}
+\item Remove the write functionality for read-only registers. For the xorExample,  `slv\_reg1' is read-only (Figure~\ref{fig:design1}).
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{design1}
+\caption{Removing the write functionality for read-only registers\label{fig:design1}}
+\end{figure}
+\item Enter the `design' directory and run `generateTMAPMake.py'. This creates the custom makefile `tmap.make'. You have to rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\-TMAP' annotation.
+\item Choose ``Generate bitstream'' in XPS to build your peripheral.
+\item edit data/system.ucf
+\end{itemize}
+
+
+\subsection{Writing the software application}\label{sec:writing_software}
+\begin{itemize}
+\item Choose ``Generate bitstream'' if you haven't already done this. This will create a number of C files needed to perform run-time reconfiguration.
 \item Under the applications tab, right click ``Sources'' and choose ``Add existing files\dots''. Add `testReconfiguration/locations.c' and `testReconfiguration/<TMAPmodule>.c'.
 \item Right click ``Headers'' choose ``Add existing files\dots''. Add `testReconfiguration/locations.h' and `testReconfiguration/<TMAPmodule>.h' with TMAPmodule the name of the VHDL module that has the ``-\-TMAP'' annotation.
-\item Right click ``Sources'' and choose ``Add new file\dots''. Call it `main.c' and save it.
-\item You can find a template for your main file below or at the bottom of `testReconfiguration/<TMAPmodule>.h'. Replace ``XPAR\_OPB\_XOR\_0\_BASEADDR'' with the name of the base address of your peripheral. You can find this `Generated Header: ppc405\_0/include/xparameters.h' under  `Processor: ppc405\_0'.
+\item Right click ``Sources'' and choose ``Add new file\dots''. Call it `main.c' and save it.\\
+You can find a template for your `main.c' file below or at the bottom of `testReconfiguration/<TMAPmodule>.h'. Replace ``XPAR\_OPB\_XOR\_0\_BASEADDR'' with the name of the base address of your peripheral. You can find this in `Generated Header: ppc405\_0/include/xparameters.h' under  `Processor: ppc405\_0'.
+\item Choose ``Build all user applications'' to build your software application.
 \end{itemize}
 
 \begin{lstlisting}
@@ -610,10 +641,10 @@ Parameters, one Xuint8 per signal. Parameters alphabetically sorted (check pcore
 evaluate() generate LUT configuration for one instance. Instances alphabetically sorted (check locations.c).
 reconfigure() configure LUTs of one instance.
 
-\subsection{Testing the design}
 
-Connect using serial cable, run Minicom \\
-Download bitstream
+\subsection{Testing the design}\label{sec:testing}
+The project can now be tested. To do this connect your XUPV2P board to the computer using a USB cable (for bitstream programming) and a serial cable (for debugging). Run the program Minicom to read the debug output from your XUPV2P board. Then, choose ``Download bitstream'' in XPS.
+
 
 \clearpage
 \chapter{Contents}\label{sec:contents}
