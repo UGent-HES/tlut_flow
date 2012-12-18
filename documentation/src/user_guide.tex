@@ -359,8 +359,6 @@ Voorbereiding(Xilinx):\\
 Doorloop stappen 1.1 tot 2.1 van de Hes-wiki (\url{http://hes.elis.ugent.be/wiki/Wiki/%20Dynamic%20reconfiguration/tmap-xps}). Een .proj file is normaal niet nodig.\\
 Stap 2.2 doorloop je ook, het toevoegen van de --PARAM annotaties is niet nodig in opb\_xor en user\_logic. (Volgens mij heeft dat geen impact, maar zou nog eens gechecked moeten worden)\\
 Pas data/system.ucf aan ...\\
-Doe ook stap 3, enkel de testReconfiguration.c file niet downloaden, de dir wel maken.\\
-De grootste delen van 4 vallen weg, het enige wat je moet doen is de custom.make klaarzetten zoals in 4.1.\\
 Let erop dat je system.make slechts kopieerd naar custom.make nadat je de software applicatie aangemaakt hebt.
 
 De nieuwe stappen zijn dan:\\
@@ -535,11 +533,87 @@ In this section we will build a simple parameterizable module and add it to the 
 \centering
 \includegraphics[scale=0.5]{AXOR2}
 \caption{An instance of the peripheral appears in the System Assembly View. Connect the peripheral to the opb\label{fig:AXOR2}}
-\end{figure}\begin{figure}[H]
+\end{figure}
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{AXOR3}
 \caption{Select the Addresses view in the System Assembly View. Click the Generate Addresses button\label{fig:AXOR3}}
 \end{figure}
+
+\subsection{Writing the DCS peripheral}
+
+
+\subsection{Creating a software application}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{soft1}
+\caption{Double Click "Add Software Application Project\dots" in the Applications tab\label{fig:soft1}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{soft2}
+\caption{Right click  on the project. Click "Mark to Initialize BRAMs" in the pop down menu. Also unmark ppc405\_0\_bootloop\label{fig:soft2}}
+\end{figure}
+
+
+\subsection{Creating the custom makefile}
+\begin{itemize}
+\item Choose  ``Generate netlist''. You may immediately terminate it once started.
+\item Copy `system.make' to `custom.make' in your project directory.
+\item In `custom.make', add the line ``include tmap.make'' right after ``include system\_incl.make''.
+\item Click "Project Options..." in the "Project" menu and choose `custom.make' as the Custom Makefile (Figure~\ref{fig:makefile}).
+\end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{make}
+\caption{Choose `custom.make' as the Custom Makefile. Click Ok\label{fig:makefile}}
+\end{figure}
+
+\subsection{Writing the software application}
+\begin{itemize}
+\item Choose ``Generate bitstream''. This will create a number of C files needed to perform run-time reconfiguration.
+\item Under the applications tab, right click ``Sources'' and choose ``Add existing files\dots''. Add `testReconfiguration/locations.c' and `testReconfiguration/<TMAPmodule>.c'.
+\item Right click ``Headers'' choose ``Add existing files\dots''. Add `testReconfiguration/locations.h' and `testReconfiguration/<TMAPmodule>.h' with TMAPmodule the name of the VHDL module that has the ``-\-TMAP'' annotation.
+\item Right click ``Sources'' and choose ``Add new file\dots''. Call it `main.c' and save it.
+\item You can find a template for your main file below or at the bottom of `testReconfiguration/<TMAPmodule>.h'. Replace ``XPAR\_OPB\_XOR\_0\_BASEADDR'' with the name of the base address of your peripheral. You can find this `Generated Header: ppc405\_0/include/xparameters.h' under  `Processor: ppc405\_0'.
+\end{itemize}
+
+\begin{lstlisting}
+#include "<TMAPmodule>.h"
+
+int main(void) {
+	static XHwIcap HwIcap;
+	xil_printf("Starting EXOR test...\n\r\n\r");
+	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);
+	Xuint8 i;
+	Xuint8 parameter[NUMBER_OF_PARAMETERS];
+	Xuint8 output[NUMBER_OF_INSTANCES][16];
+	xil_printf("Configuring the LUTs for p=0...\n\r");
+	parameter[0]=0;
+	//reconfigure all the instances once
+	for (i=0;i<NUMBER_OF_INSTANCES;i++) {
+		evaluate(parameter,output);
+		reconfigure(&HwIcap,output,location_array[i]);
+	}
+	xil_printf("Configuration Complete!\n\r\n\r");
+	xil_printf("Writing 0xDEADBEAF to input register...\n\r");
+	XIo_Out32(XPAR_OPB_XOR_0_BASEADDR,0xDEADBEAF);
+	xil_printf("Reading output register: %x\n\r\n\r", 
+		XIo_In32(XPAR_OPB_XOR_0_BASEADDR+4));
+	xil_printf("End EXOR test.\n\r\n\r");
+	return 1;
+}
+\end{lstlisting}
+
+Explanation of the code:\\
+Parameters, one Xuint8 per signal. Parameters alphabetically sorted (check pcores/opb\_yourdesign/design/work/TMAPmodule.par)\\
+evaluate() generate LUT configuration for one instance. Instances alphabetically sorted (check locations.c).
+reconfigure() configure LUTs of one instance.
+
+\subsection{Testing the design}
+
+Connect using serial cable, run Minicom \\
+Download bitstream
 
 \clearpage
 \chapter{Contents}\label{sec:contents}
