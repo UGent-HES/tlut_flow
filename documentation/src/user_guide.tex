@@ -73,6 +73,7 @@
 \checkandfixthelayout
 
 \usepackage{graphicx}
+\usepackage{float}
 \graphicspath{{./img/}}
 \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 
@@ -316,9 +317,10 @@ Check if all parameters were correctly extracted from your VHDL/Verilog. See sec
 \clearpage
 \chapter{Xilinx integration}\label{sec:xilinx_flow}
 \section{Testing}
-Connect your XUPV2P board to the computer using a USB cable (for bitstream configuration) and a serial cable (for debugging).
+A number of example projects are included in this repository that can be run on a XUPV2P board. This section explains how you can run them all to test your setup.
 
-Open each of the following projects in XPS and choose ``Generate bitstream''. XPS will produce an error but this is ok.
+First, connect your XUPV2P board to the computer using a USB cable (for bitstream configuration) and a serial cable (for debugging).
+Then, open each of the following projects in XPS and choose ``Generate bitstream''. XPS will produce an error but this is ok.
 \begin{itemize}
 \item `examples/xorExample/xps'
 \item `examples/xorExample/xps\_mi'
@@ -330,7 +332,7 @@ Now you can run all tests on these projects by doing:
 > ./virtex2pro_test.sh
 \end{lstlisting}
 
-Every project is now built, loaded onto the FPGA and DCS is tested using the embedded PowerPC (you can find the debug output from the FPGA in the `received.txt' file in the project directory). This will take a long time. If everything works fine you will get the following result.
+Every project is now being built, loaded onto the FPGA and DCS is tested using the embedded PowerPC (you can find the debug output from the FPGA in the `received.txt' file in the project directory). This will take a long time. If everything works fine you will get the following result.
 %powerpc-eabi-ar: creating ../../../lib/libxil.a
 %powerpc-eabi-ar: creating ../../../lib/libxil.a
 %./virtex2pro_test.sh: line 4:  6732 Terminated cat ...
@@ -343,7 +345,15 @@ xorExample/xps_mi succeeded
 treeMult4b/xps succeeded
 \end{lstlisting}
 
+Troubleshooting:\\
+if stops before printing "failed" message. Compilation failed. Try opening the project in XPS and doing "Generate bitstream" and "Generate all user applications"\\
+If received.txt is empty, serial port problem. Try rebooting your computer\\
+Check jumpers of XUP2VP board.\\
+make sure minicom is not running
+
 \section{Your own project}
+This tutorial guides you through the setup and implementation of a design with DCS. You can use it to start your own project or test it with the `xorExample' design.
+
 
 Voorbereiding(Xilinx):\\
 Doorloop stappen 1.1 tot 2.1 van de Hes-wiki (\url{http://hes.elis.ugent.be/wiki/Wiki/%20Dynamic%20reconfiguration/tmap-xps}). Een .proj file is normaal niet nodig.\\
@@ -364,13 +374,172 @@ vanaf nu kan het project volledig gerund worden. De output (printcommands in de 
 
 Troubleshoot, - source source before running xps
 
-%\begin{figure}[!t]
+\subsection{Creating a project for the XUPV2P}
+
+\begin{itemize}
+\item Start XPS v9. Make sure that you have sourced the ``source'' file from the base directory of this repository in the same terminal as you start XPS in.
+\item    Create a new project
+\item    Chose the ``Base System Builder wizard''
+\item    Chose the project directory
+\item    Follow these steps:
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{BSB1}
+\caption{Choose to create a new design. Click Next\label{fig:BSB1}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{BSB2}
+\caption{Choose Xilinx as board vendor. Choose the XUP board. Click Next\label{fig:BSB2}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{BSB3}
+\caption{Choose to use a the PowerPc. Click Next\label{fig:BSB3}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{BSB4}
+\caption{Choose 50MHz as Bus Clock Frequency (The ICAP can maximally handle 66MHz). Click Next\label{fig:BSB4}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{BSB5}
+\caption{Retain only the OPB\_UARTLITE in the next three windows\label{fig:BSB5}}
+\end{figure}
+%\begin{figure}[H]
 %\centering
-%\includegraphics[width=1.8in]{vcgra_flow}
-%\caption{Implementation of application on VCGRA  using parameterised configuration\label{fig:vcgra_flow}}
+%\includegraphics[scale=0.4]{BSB6}
+%\caption{\label{fig:BSB6}}
 %\end{figure}
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=0.4]{BSB7}
+%\caption{\label{fig:BSB7}}
+%\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{BSB8}
+\caption{Use 64kB of memory. Click Next\label{fig:BSB8}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{BSB9}
+\caption{Choose the UART as STDIN and STDOUT. Don't generate sample applications. Click Next\label{fig:BSB9}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{BSB10}
+\caption{Generate the project. Click Generate\label{fig:BSB10}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{BSB11}
+\caption{Click Finish\label{fig:BSB11}}
+\end{figure}
 
 
+\subsection{Adding the HWICAP}
+The HWICAP is used for run-time reconfiguration of the FPGA.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{HWICAP1}
+\caption{In the IP Catalog, double click "OPB FPGA Internal Configuration Access Port". Click Yes\label{fig:HWICAP1}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{HWICAP2}
+\caption{An instance of the opb\_hwicap appears in the System Assembly View. Connect the hwicap to the opb\label{fig:HWICAP2}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{HWICAP3}
+\caption{Open the MHS file by double clicking it in the Project tab. Search the opb\_hwicap instance and change the version from \emph{1.10.a} to \emph{1.00.b}\label{fig:HWICAP3}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{HWICAP4}
+\caption{Open the MSS file by double clicking it in the Project tab. Search the opb\_hwicap instance and change the version from \emph{1.01.a} to \emph{1.00.b}\label{fig:HWICAP4}}
+\end{figure}
+
+Finally, create a symbolic link in the directory `drivers' (create the directory if needed) of your project to `examples/xorExample/xps/drivers/hwicap\_v1\_00\_b'.
+
+\subsection{Creating a DCS peripheral}
+Currently, DCS can only be done on exactly one peripheral of the OPB bus. In this section you create this OPB peripheral with memory mapped registers.
+In this section we will build a simple parameterizable module and add it to the base system build in the previous sections. The module has a 32-bit vector, a, as input, a 32-bit vector, x, as output and a one bit parameter, p. If p equals 0 the output vector, x, equals the input vector. If p equals 1 the output vector, x, is the inverse of the input vector, a. Bought the input and the output vector are memory mapped through the OPB. When the parameter, p, changes the PPC will reconfigure the modules TLUTs through the HWICAP.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP1}
+\caption{Start the Create and Import Peripheral Wizard. Start the wizard from the Hardware menu. Click Next\label{fig:COIP1}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP2}
+\caption{Choose Create templates for a new peripheral. Click Next\label{fig:COIP2}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP3}
+\caption{Choose to store the peripheral in the XPS project. Click Next\label{fig:COIP3}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP4}
+\caption{Choose a name for the peripheral (E.g. `opb\_xor'). Click Next\label{fig:COIP4}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP5}
+\caption{Choose to create an OPB peripheral. Click Next\label{fig:COIP5}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP6}
+\caption{Choose for User logic S/W register support deselect S/W reset and MIR. Click Next\label{fig:COIP6}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP7}
+\caption{Choose the required number and width of the registers. For the `xorExample' choose two 32-bit registers, one for the input and one for the output. Click Next\label{fig:COIP7}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP8}
+\caption{Don't change anything. Click Next\label{fig:COIP8}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP9}
+\caption{Don't change anything. Click Next\label{fig:COIP9}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP10}
+\caption{Deselect Generate ISE and XPS project files. Click Next\label{fig:COIP10}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{COIP11}
+\caption{Click Finish\label{fig:COIP11}}
+\end{figure}
+
+\subsection{Adding a DCS peripheral}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{AXOR1}
+\caption{In the IP Catalog, double click your OPB peripheral (E.g. `OPB\_XOR'). Click Yes.\label{fig:AXOR1}}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{AXOR2}
+\caption{An instance of the peripheral appears in the System Assembly View. Connect the peripheral to the opb\label{fig:AXOR2}}
+\end{figure}\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{AXOR3}
+\caption{Select the Addresses view in the System Assembly View. Click the Generate Addresses button\label{fig:AXOR3}}
+\end{figure}
 
 \clearpage
 \chapter{Contents}\label{sec:contents}
