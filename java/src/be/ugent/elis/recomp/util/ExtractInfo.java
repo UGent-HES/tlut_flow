@@ -141,11 +141,15 @@ public class ExtractInfo {
 		cFile.append("#define LUT_G 1"+newLine);
 		cFile.append(""+newLine);
 
-		/*System.out.println(logicalName2Instances);
-		for (Map.Entry<String, InstanceInfo> entry : logicalName2Instances.entrySet())
-            System.out.println(entry.getKey() + "/" + entry.getValue());*/
+		//System.out.println(logicalName2Instances);
+		//for (Map.Entry<String, InstanceInfo> entry : logicalName2Instances.entrySet())
+        //    System.out.println(entry.getKey() + " -> " + entry.getValue());
 
 		//System.out.println(firstLine);
+		if(logicalName2Instances.get(firstLine)==null) {
+		    System.err.println("Error: Instance '"+firstLine+"' not found");
+		    System.exit(1);
+		}
 		Vector <String> paths = new Vector(logicalName2Instances.get(firstLine).getPaths());
 		Collections.sort(paths,new AlphanumComparator());
 		System.out.println(paths);
