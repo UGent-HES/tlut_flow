@@ -112,11 +112,10 @@ If you use the TLUT tool flow in your work, please reference in your publication
 You may also refer to one of our others papers if you think it is more related.
 
 \section{Contents of this document}
-Chapter~\ref{sec:setup}: \emph{Setup}: A setup manual\\
-Chapter~\ref{sec:experiment}: \emph{Your design}: A manual for running your own experiments\\
-Chapter~\ref{sec:troubleshooting}: \emph{Troubleshooting}: Problems you may encounter and their solutions\\
+Chapter~\ref{sec:setup}: \emph{Setup}: The setup manual\\
+Chapter~\ref{sec:standalone_flow}: \emph{Standalone TLUT tool flow}: The manual for running your own experiments without implementation on an FPGA\\
+Chapter~\ref{sec:xilinx_flow}: \emph{Xilinx-integrated TLUT tool flow}: The manual for creating your own DCS project using the Xilinx XUPV2P board\\
 Chapter~\ref{sec:contents}: \emph{Contents}: Description of the contents of this package\\
-Chapter TODO
 
 \clearpage
 \chapter{Setup}\label{sec:setup}
@@ -131,28 +130,20 @@ Set your environment variables using:
 > . source
 \end{lstlisting}
 
-Your installation can be tested using the script in directory `tests'.
-\begin{lstlisting}
-> cd tests
-> ./examples_test.sh
-\end{lstlisting}
-
-Examples can be run using the included Python scripts.
-E.g.
-\begin{lstlisting}
-> cd examples/treeMult4b
-> ./treeMult4b.py
-\end{lstlisting}
+Section~\ref{sec:tlut_testing} explains how to test the TLUT tool flow, while in Section~\ref{sec:xilinx_testing} you can find information on how to test the integration with the Xilinx tool flow and the XUPV2P board.
 
 \section{Dependencies}
 \begin{itemize}
 \item Dependencies to be provided by the user:
 \begin{itemize}
+\item A UNIX operating system (tools used: gcc, bash, minicom, curl, stty, \dots)
 \item Quartus II (tested with Web Edition version 11, Web Edition v12 may work but is not supported), Altera Corporation, \url{http://www.altera.com}
 \item Java (tested with version 1.6.0), Oracle, \url{http://www.java.com}
 \item Python 2.7, \url{http://www.python.org}
 \item Xilinx Design Suite 9.1 (tested with version 9.1.02), Xilinx Inc., \url{http://www.xilinx.com}\\
-Xilinx Platform Builder is only required for implementation of DCS on a commercial FPGA. Version 9.1 is old, but it is unlikely that other versions will work.
+Version 9.1 is old, but it is unlikely that other versions will work.
+\item A Xilinx XUP Virtex-II Pro Development System (XUPV2P board)\\
+Xilinx Platform Builder and the XUPV2P board are only required for implementation of DCS on a commercial FPGA. 
 \end{itemize}
 \item Dependencies automatically downloaded and installed:
 \begin{itemize}
@@ -164,43 +155,27 @@ Xilinx Platform Builder is only required for implementation of DCS on a commerci
 \end{itemize}
 
 \clearpage
-\chapter{Your own design}\label{sec:experiment}
-\section{The run function}\label{sec:run_function}
-To test the TLUT mapper on your own design (described in VHDL or Verilog), import the \emph{run} function from \emph{fast\_tlutmap} in your own Python script and call it with the following arguments:
+\chapter{Standalone TLUT tool flow}\label{sec:standalone_flow}
+The standalone TLUT tool flow can be used to evaluate the impact of DCS on your design. This tool flow will map your annotated VHDL or Verilog design and tell how much smaller or faster (LUT depth) your design can become when using parameterized configurations.
+
+A number of examples are included in the `examples' directory that you can run using the included Python scripts.
+E.g.
 \begin{lstlisting}
-run(module, submodules, K, performCheck, verboseFlag)
+> cd examples/treeMult4b
+> ./treeMult4b.py
 \end{lstlisting}
-\begin{itemize}
-\item \textbf{module} - String\\
-The location of the top level of your design. If your design consists of only one VHDL/Verilog module, then you only have to pass the location of this module as the first argument and you can ignore the second argument.
 
-E.g. run('yourDesign.vhd')
+\section{Testing}\label{sec:tlut_testing}
+Your installation of the TLUT tool flow can be tested using the script in the directory `tests'.
+\begin{lstlisting}
+> cd tests
+> ./examples_test.sh
+\end{lstlisting}
+If you encounter errors, troubleshooting information can be found in Section~\ref{sec:tlut_troubleshooting}.
 
-\item \textbf{submodules} - list of Strings - \textit{optional}\\
-If your design consists of a top level module and several submodules, you can add a list of submodules here, for example if you have one top level module and two submodules.
 
-E.g. run('yourTopLevelModule.vhd', ['yourFirstSubModule.vhd', 'yourSecondSubModule.vhd'])
-
-\item \textbf{K} - integer - \textit{default 4}\\
-You can choose the number of inputs a LookUp Table has on your target FPGA
-
-E.g. run('yourDesign.vhd', 6)
-or run('yourDesign.vhd', K=6)
-
-\item \textbf{performCheck} - boolean - \textit{default True}\\
-When checks are turned on, the resulting mapping is verified using a miter and satisfiability solver. This ensures that the mapped circuit implements the same functionality as the input circuit.
-
-E.g. run('yourDesign.vhd', 6, True)\\
-or run('yourDesign.vhd', performCheck=False)
-
-\item \textbf{verboseFlag} - boolean - \textit{default False}\\
-This activates the verbose mode in which more information gets printed regarding the execution of the flow.
-
-E.g. run('yourDesign.vhd', 6, True, True)\\ or run('yourDesign.vhd', verboseFlag=True)
-\end{itemize}
-
-\section{A step-by-step approach}\label{sec:step_by_step}
-Below, we have provided a more step-by-step approach to set up your own Python script starting from the \emph{treeMult4b} example:
+\section{Creating your own project: A step-by-step approach}\label{sec:step_by_step}
+Below, we have provided a step-by-step approach to set up your own Python script starting from the \emph{treeMult4b} example:
 \begin{enumerate}
 \item Make a folder for your design and copy the treeMult4b folder from the examples directory. You need at least the files \emph{abc.rc} and \emph{treeMult4b.py}
 \begin{lstlisting}
@@ -250,7 +225,8 @@ endmodule
 > mv treeMult4b.py yourDesign.py
 > nano yourDesign.py
 \end{lstlisting}
-Edit the 6th line, in which the \emph{run} function is called, according to the documentation in section~\ref{sec:run_function}.
+Edit the 6th line, in which the \emph{run} function is called, according to the documentation in Section~\ref{sec:run_function}. The most important change you have to make is filling in the name of the VHDL file of your design.
+
 \item Run the modified Python script
 \begin{lstlisting}
 > ./yourDesign.py
@@ -262,13 +238,13 @@ The tool for extracting parameters from VHDL and Verilog is still limited and ca
 \begin{lstlisting}
 Stage: TLUT mapper
 Luts (TLUTs)     depth     check
-12.0 (12.0)      1.0       PASSED    
+12 (12)          1         PASSED    
 Stage: SimpleMAP
 Luts             depth     check     
-67.0             10.0      PASSED    
+67               10        PASSED    
 Stage: ABC fpga
 Luts             depth     check     
-67.0             10.0      PASSED 
+67               10        PASSED 
 \end{lstlisting}
 
 The first column shows the number of LUTs in each mapping solution. These can be compared directly and represents the number of K-LUTs needed to implement the design. In this case, the TLUT mapper needs 12 LUTs, and SimpleMAP and ABC's fpga need 67.
@@ -285,21 +261,56 @@ Finally, column 4 shows if the mapping solution has passed the equivalence test.
 
 \end{enumerate}
 
+
+\section{The $run$ function}\label{sec:run_function}
+To test the TLUT mapper on your own design (described in VHDL or Verilog), import the \emph{run} function from \emph{fast\_tlutmap} in your own Python script and call it with the following arguments:
+\begin{lstlisting}
+run(module, submodules, K, performCheck, verboseFlag)
+\end{lstlisting}
+\begin{itemize}
+\item \textbf{module} - String\\
+The location of the top level of your design. If your design consists of only one VHDL/Verilog module, then you only have to pass the location of this module as the first argument and you can ignore the second argument.
+
+E.g. run('yourDesign.vhd')
+
+\item \textbf{submodules} - list of Strings - \textit{optional}\\
+If your design consists of a top level module and several submodules, you can add a list of submodules here, for example if you have one top level module and two submodules.
+
+E.g. run('yourTopLevelModule.vhd', ['yourFirstSubModule.vhd', 'yourSecondSubModule.vhd'])
+
+\item \textbf{K} - integer - \textit{default 4}\\
+You can choose the number of inputs a LookUp Table has on your target FPGA
+
+E.g. run('yourDesign.vhd', 6)
+or run('yourDesign.vhd', K=6)
+
+\item \textbf{performCheck} - boolean - \textit{default True}\\
+When checks are turned on, the resulting mapping is verified using a miter and satisfiability solver. This ensures that the mapped circuit implements the same functionality as the input circuit.
+
+E.g. run('yourDesign.vhd', 6, True)\\
+or run('yourDesign.vhd', performCheck=False)
+
+\item \textbf{verboseFlag} - boolean - \textit{default False}\\
+This activates the verbose mode in which more information gets printed regarding the execution of the flow.
+
+E.g. run('yourDesign.vhd', 6, True, True)\\ or run('yourDesign.vhd', verboseFlag=True)
+\end{itemize}
+
+
 \section{Advanced}
 It is also possible to start from an `.aag' or `.blif' file. As a reference for this we provide examples \emph{AES} and \emph{tripleDES}. 
 Advanced experiments can be set up by copying \emph{fast\_tlutmap} and using this file as a template for your experiment.
 
-\clearpage
-\chapter{Troubleshooting}\label{sec:troubleshooting}
-Try running one of the examples (in the examples folder) first. If this works as expected your environment is set up correctly.\\
+\section{Troubleshooting}\label{sec:tlut_troubleshooting}
+Try running one of the examples in the `examples' folder to verify that your environment is set up correctly.\\
 
 These are a few common errors and their solution:
 \begin{itemize}
-\item \emph{Python ImportError: No module named fast\_tlutmap (or others):}\\
+\item \emph{Throws ``Python ImportError: No module named fast\_tlutmap'' (or others):}\\
 The environment variables probably aren't set up correctly. Try running `. source' in the main directory. 
-If you have moved the main directory, the paths in the `source' file are not longer correct. Remove this file and recreate it using `make source'.
+If you have moved the main directory, the paths in the `source' file are no longer correct. Update it using `make source' and do `. source' again.
 
-\item \emph{java.lang.OutOfMemoryError:}\\
+\item \emph{Throws ``java.lang.OutOfMemoryError'':}\\
 The Java technology mappers don't have enough memory available. Try to use the \emph{setMaxMemory} function. It can be imported from the \emph{fast\_tlutmap} Python script and should be called before the \emph{run} function. This function sets the maximum memory usage for the Java tools in megabytes.
 \lstset{language=python}
 \begin{lstlisting}
@@ -310,29 +321,34 @@ run('treeMult4b.vhd', K=4, performCheck=True, verboseFlag=False)
 \end{lstlisting}
 
 \item \emph{The number of TLUTs is 0, or the reduction in number of LUTs is lower than expected:}\\
-Check if all parameters were correctly extracted from your VHDL/Verilog. See section~\ref{sec:step_by_step}, step~\ref{sec:check_par}.
+Check if all parameters were correctly extracted from your VHDL/Verilog. See Section~\ref{sec:step_by_step}, step~\ref{sec:check_par}.
 \end{itemize}
 
 
 \clearpage
-\chapter{Xilinx integration}\label{sec:xilinx_flow}
-\section{Testing}
-A number of example projects are included in this repository that can be run on a XUPV2P board. This section explains how you can run them all to test your setup.
-
-First, connect your XUPV2P board to the computer using a USB cable (for bitstream configuration) and a serial cable (for debugging).
-Then, open each of the following projects in XPS and choose ``Generate bitstream''. XPS will produce an error but this is ok.
+\chapter{Xilinx-integrated TLUT tool flow}\label{sec:xilinx_flow}
+The Xilinx-integrated TLUT tool flow can be used to build an application with DCS on the XUPV2P board (Currently only designs in VHDL, not Verilog).
+A number of examples are included in the `examples' directory.
 \begin{itemize}
 \item `examples/xorExample/xps'
 \item `examples/xorExample/xps\_mi'
 \item `examples/treeMult4b/xps'
 \end{itemize}
+
+\section{Testing}\label{sec:xilinx_testing}
+This section explains how you can run  all these examples to test your setup.
+
+First, connect your XUPV2P board to the computer using a USB cable (for bitstream configuration) and a serial cable (for debugging).
+Then, open each of the projects `examples/xorExample/xps',  `examples/xorExample/xps\_mi' and `examples/treeMult4b/xps' in XPS and choose ``Generate bitstream''. XPS will produce an error but this is ok.
+
 Now you can run all tests on these projects by doing:
 \begin{lstlisting}
 > cd tests
 > ./virtex2pro_test.sh
 \end{lstlisting}
 
-Every project is now being built, loaded onto the FPGA and DCS is tested using the embedded PowerPC (you can find the debug output from the FPGA in the `received.txt' file in the project directory). This will take a long time. If everything works fine you will get the following result.
+Every project is now being built, loaded onto the FPGA and DCS is tested using the embedded PowerPC (you can find the debug output from the FPGA in the `received.txt' file in the project directory). This will take a long time. Make sure minicom is not running at the same time, because this will make it impossible to read the debug output from the FPGA. If everything works fine you will get the following result. 
+
 %powerpc-eabi-ar: creating ../../../lib/libxil.a
 %powerpc-eabi-ar: creating ../../../lib/libxil.a
 %./virtex2pro_test.sh: line 4:  6732 Terminated cat ...
@@ -345,14 +361,14 @@ xorExample/xps_mi succeeded
 treeMult4b/xps succeeded
 \end{lstlisting}
 
-Troubleshooting:\\
-if stops before printing "failed" message. Compilation failed. Try opening the project in XPS and doing "Generate bitstream" and "Generate all user applications"\\
-If received.txt is empty, serial port problem. Try rebooting your computer\\
-Check jumpers of XUP2VP board.\\
-make sure minicom is not running
+You can manually run one example by going to the `pcores/opb\_<design\_name>/design' subdirectory of the example and running `generateTMAPMake.py' from there (this has to be done only the first time). After this you can choose ``Download bitstream'' from within XPS.
+The debug output of the FPGA can be read with minicom.
+
+If you encounter errors, troubleshooting information can be found in Section~\ref{sec:xilinx_troubleshooting}.
 
 \section{Your own project}
 This tutorial guides you through the setup and implementation of a design with DCS. You can use it to start your own project or test it with the `xorExample' design.\\
+\\
 Step 1: Creating the project for the XUPV2P, p.\ \pageref{sec:creating_proj}\\
 Step 2: Adding the HWICAP, p.\ \pageref{sec:adding_hwicap}\\
 Step 3: Creating the DCS peripheral, p.\ \pageref{sec:creating_peripheral}\\
@@ -363,21 +379,13 @@ Step 7: Creating the custom makefile, p.\ \pageref{sec:creating_makefile}\\
 Step 8: Writing the software application, p.\ \pageref{sec:writing_software}\\
 Step 9: Testing, p.\ \pageref{sec:testing}
 
-Bron: \url{http://hes.elis.ugent.be/wiki/Wiki/%20Dynamic%20reconfiguration/tmap-xps}
+%Bron: \url{http://hes.elis.ugent.be/wiki/Wiki/%20Dynamic%20reconfiguration/tmap-xps}
 
-Stap 2.2 doorloop je ook, het toevoegen van de --PARAM annotaties is niet nodig in opb\_xor en user\_logic. (Volgens mij heeft dat geen impact, maar zou nog eens gechecked moeten worden)\\
-Pas data/system.ucf aan ...\\
-
-a) run generateTMAPMake.py in /design dir.\\
-
-
-Troubleshoot, - source source before running xps\\
-Let erop dat je system.make slechts kopieerd naar custom.make nadat je de software applicatie aangemaakt hebt.
 
 \subsection{Creating a project for the XUPV2P}\label{sec:creating_proj}
 
 \begin{itemize}
-\item Start XPS v9. Make sure that you have sourced the ``source'' file from the base directory of this repository in the same terminal as you start XPS in.
+\item Start XPS v9. Make sure that you have sourced the `source' file from the base directory of this repository in the same terminal as you start XPS in.
 \item    Create a new project
 \item    Chose the ``Base System Builder wizard''
 \item    Chose the project directory
@@ -446,7 +454,7 @@ The HWICAP is used for run-time reconfiguration of the FPGA. This peripheral mus
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{HWICAP1}
-\caption{In the IP Catalog, double click "OPB FPGA Internal Configuration Access Port". Click Yes\label{fig:HWICAP1}}
+\caption{In the IP Catalog, double click ``OPB FPGA Internal Configuration Access Port''. Click Yes\label{fig:HWICAP1}}
 \end{figure}
 \begin{figure}[H]
 \centering
@@ -469,7 +477,6 @@ Finally, create a symbolic link in the directory `drivers' (create the directory
 
 \subsection{Creating the DCS peripheral}\label{sec:creating_peripheral}
 Currently, DCS can only be done on exactly one peripheral of the OPB bus. In this section you create this OPB peripheral with memory mapped registers.
-In this section we will build a simple parameterizable module and add it to the base system build in the previous sections. The module has a 32-bit vector, a, as input, a 32-bit vector, x, as output and a one bit parameter, p. If p equals 0 the output vector, x, equals the input vector. If p equals 1 the output vector, x, is the inverse of the input vector, a. Bought the input and the output vector are memory mapped through the OPB. When the parameter, p, changes the PPC will reconfigure the modules TLUTs through the HWICAP.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{COIP1}
@@ -548,12 +555,12 @@ In this section we will build a simple parameterizable module and add it to the 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{soft1}
-\caption{Double Click "Add Software Application Project\dots" in the Applications tab\label{fig:soft1}}
+\caption{Double Click ``Add Software Application Project\dots'' in the Applications tab\label{fig:soft1}}
 \end{figure}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{soft2}
-\caption{Right click  on the project. Click "Mark to Initialize BRAMs" in the pop down menu. Also unmark ppc405\_0\_bootloop\label{fig:soft2}}
+\caption{Right click  on the project. Click ``Mark to Initialize BRAMs'' in the pop down menu. Also unmark ppc405\_0\_bootloop\label{fig:soft2}}
 \end{figure}
 
 
@@ -562,8 +569,9 @@ In this section we will build a simple parameterizable module and add it to the 
 \item Choose  ``Generate netlist''. You may immediately terminate it once started.
 \item Copy `system.make' to `custom.make' in your project directory.
 \item In `custom.make', add the line ``include tmap.make'' right after ``include system\_incl.make''.
-\item Click "Project Options..." in the "Project" menu and choose `custom.make' as the Custom Makefile (Figure~\ref{fig:makefile}).
+\item Click ``Project Options...'' in the ``Project'' menu and choose `custom.make' as the Custom Makefile (Figure~\ref{fig:makefile}).
 \end{itemize}
+Make sure that you  copy `system.make' after creating the software application. Do this again when you add new software applications.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{make}
@@ -571,14 +579,17 @@ In this section we will build a simple parameterizable module and add it to the 
 \end{figure}
 
 
+
 \subsection{Writing the DCS peripheral}\label{sec:writing_peripheral}
 \begin{itemize}
 \item Go to the subdirectory corresponding to your DCS peripheral in the `pcores' directory of the project.
 \item Copy the `hdl/vhdl' directory to the `design' directory. It should contain two files `opb\_<peripheral\_name>.vhd' and `user\_logic.vhd'.
-\item Add the VHDL code of your DCS design to the `design' directory. It is advised that you run your design through the stand alone TLUT tool flow first (Section\ \ref{sec:step_by_step}). Add the line `-\-TMAP' to the top of the file that you want to perform DCS on. This does not have to be the top level module of the peripheral.
-\item Add the names of your VHDL modules to the `.pao' file in the `data' directory. Note that if a module depends on another module it should be listed after it.
+\item Add the VHDL code of your DCS design to the `design' directory. It is advised that you run your design through the standalone TLUT tool flow first (Section\ \ref{sec:standalone_flow}). Add the line `-\--TMAP' to the top of the file that you want to perform DCS on. This does not have to be the top level module of the peripheral.
+\item Add the names of your VHDL modules to the `.pao' file in the `data' directory. Modules that are only used as a submodule of your DCS module should not be included. Note that if a module depends on another module it should be listed after it.
+\item Add the line ``OPTION CORE\_STATE = development'' to the `.mpd' file in the `data' directory to ensure that your peripheral is synthesized again if changes are made to it.
 \item Instantiate your module in the architecture description of `user\_logic.vhd' and connect the inputs and outputs to the memory-mapped registers of the OPB peripheral. Assign the parameter inputs a dummy value.\\
-E.g. for the xorExample:
+E.g. for  `xorExample':
+\lstset{language=VHDL}
 \begin{lstlisting}
 EXORS: entity work.exorw32
 port map (
@@ -587,46 +598,59 @@ port map (
      p => (others => '0')
 );
 \end{lstlisting}
-\item Remove the write functionality for read-only registers. For the xorExample,  `slv\_reg1' is read-only (Figure~\ref{fig:design1}).
+\item Remove the write functionality for read-only registers. For the `xorExample',  `slv\_reg1' is read-only (Figure~\ref{fig:design1}).
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{design1}
 \caption{Removing the write functionality for read-only registers\label{fig:design1}}
 \end{figure}
-\item Enter the `design' directory and run `generateTMAPMake.py'. This creates the custom makefile `tmap.make'. You have to rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\-TMAP' annotation.
+\item Enter the `design' directory and run `generateTMAPMake.py'. This creates the custom makefile `tmap.make'. You have to rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\--TMAP' annotation.
 \item Choose ``Generate bitstream'' in XPS to build your peripheral.
-\item edit data/system.ucf
-\end{itemize}
+\item Look near the end of the output of this command for ``Group path: '' followed by something similar to ``opb\_xor\_0/opb\_xor\_0/USER\_LOGIC\_I/EXORS/*''.
+Edit `data/system.ucf' and add the following lines before the IO constraints, replacing <group\_path> with the path found before. Increase the range of the group as needed. This area constraint makes sure that  run-time reconfiguration does not break the rest of your design by accidentally resetting BRAMs.
 
+\lstset{language=}
+\begin{lstlisting}
+INST "<group_path>" AREA_GROUP=group1;
+AREA_GROUP "group1" COMPRESSION=0;
+AREA_GROUP "group1" RANGE=SLICE_X0Y*:SLICE_X51Y*;
+\end{lstlisting}
+
+
+\end{itemize}
 
 \subsection{Writing the software application}\label{sec:writing_software}
 \begin{itemize}
-\item Choose ``Generate bitstream'' if you haven't already done this. This will create a number of C files needed to perform run-time reconfiguration.
-\item Under the applications tab, right click ``Sources'' and choose ``Add existing files\dots''. Add `testReconfiguration/locations.c' and `testReconfiguration/<TMAPmodule>.c'.
-\item Right click ``Headers'' choose ``Add existing files\dots''. Add `testReconfiguration/locations.h' and `testReconfiguration/<TMAPmodule>.h' with TMAPmodule the name of the VHDL module that has the ``-\-TMAP'' annotation.
+\item Choose ``Generate bitstream'' if you haven't already done this. This will create a number of C files in `testReconfiguration' that  contain the functions needed to perform run-time reconfiguration.
+\item Under the applications tab, right click ``Sources'' and choose ``Add existing files\dots''. Add `testReconfiguration/locations.c' and `testReconfiguration/<TMAPmodule>.c' with TMAPmodule the name of the VHDL module that has the ``-\--TMAP'' annotation.
+\item Right click ``Headers'' choose ``Add existing files\dots''. Add `testReconfiguration/locations.h' and `testReconfiguration/<TMAPmodule>.h'.
 \item Right click ``Sources'' and choose ``Add new file\dots''. Call it `main.c' and save it.\\
 You can find a template for your `main.c' file below or at the bottom of `testReconfiguration/<TMAPmodule>.h'. Replace ``XPAR\_OPB\_XOR\_0\_BASEADDR'' with the name of the base address of your peripheral. You can find this in `Generated Header: ppc405\_0/include/xparameters.h' under  `Processor: ppc405\_0'.
 \item Choose ``Build all user applications'' to build your software application.
 \end{itemize}
 
+\lstset{language=[ansi]C,showstringspaces=false}
 \begin{lstlisting}
 #include "<TMAPmodule>.h"
 
 int main(void) {
-	static XHwIcap HwIcap;
 	xil_printf("Starting EXOR test...\n\r\n\r");
+	//Initialization
+	static XHwIcap HwIcap;
 	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);
+	//Run-time reconfiguration
 	Xuint8 i;
 	Xuint8 parameter[NUMBER_OF_PARAMETERS];
 	Xuint8 output[NUMBER_OF_INSTANCES][16];
 	xil_printf("Configuring the LUTs for p=0...\n\r");
-	parameter[0]=0;
-	//reconfigure all the instances once
 	for (i=0;i<NUMBER_OF_INSTANCES;i++) {
+		//Reconfigure one instance
+		parameter[0]=0;
 		evaluate(parameter,output);
 		reconfigure(&HwIcap,output,location_array[i]);
 	}
 	xil_printf("Configuration Complete!\n\r\n\r");
+	//Testing configuration
 	xil_printf("Writing 0xDEADBEAF to input register...\n\r");
 	XIo_Out32(XPAR_OPB_XOR_0_BASEADDR,0xDEADBEAF);
 	xil_printf("Reading output register: %x\n\r\n\r", 
@@ -636,14 +660,27 @@ int main(void) {
 }
 \end{lstlisting}
 
-Explanation of the code:\\
-Parameters, one Xuint8 per signal. Parameters alphabetically sorted (check pcores/opb\_yourdesign/design/work/TMAPmodule.par)\\
-evaluate() generate LUT configuration for one instance. Instances alphabetically sorted (check locations.c).
-reconfigure() configure LUTs of one instance.
+Explanation of the functions:\\
+$evaluate(parameter, output)$ calculates the new truth table contents of the TLUTs for the new values of the parameters. The  values of the parameter signals have to be stored as boolean values in the $parameter$ array (one array element per signal line). The parameters are sorted alphabetically. You can check this ordering in `pcores/opb\_<your\_peripheral>/design/work/<TMAPmodule>.par'.\\
+$reconfigure(\&HwIcap, output, location\_array[i])$ reconfigures the TLUTs of instance $i$ with the previously computed truth table contents. The instances are also sorted alphabetically. You can find this ordering in `testReconfiguration/locations.c'.
 
 
 \subsection{Testing the design}\label{sec:testing}
-The project can now be tested. To do this connect your XUPV2P board to the computer using a USB cable (for bitstream programming) and a serial cable (for debugging). Run the program Minicom to read the debug output from your XUPV2P board. Then, choose ``Download bitstream'' in XPS.
+The project can now be tested. To do this, connect your XUPV2P board to the computer using a USB cable (for bitstream programming) and a serial cable (for debugging). Start the program minicom to read the debug output from your XUPV2P board. Then, choose ``Download bitstream'' in XPS to run your project on the FPGA.
+
+
+\section{Troubleshooting}\label{sec:xilinx_troubleshooting}
+It is assumed that you have already successfuly run the tests for the standalone TLUT tool flow (Section~\ref{sec:standalone_flow}).
+
+\begin{itemize}
+\item \emph{Throws ``tmap.py: Command not found'':}\\
+Make sure you have set the environment variables correctly by doing `. source'. You must do this in the same terminal as you start XPS in and before starting XPS.
+\item \emph{The output of minicom is garbage:}\\
+Reboot your computer to fix the corrupted state the serial port is in. The corrupted state may be caused by running minicom and `virtex2pro\_test.sh' at the same time.
+\item \emph{Reconfiguration does not happen, even for the example designs:}\\
+Check the jumper settings of the XUPV2P board.
+\end{itemize}
+
 
 
 \clearpage

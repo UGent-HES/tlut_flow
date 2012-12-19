@@ -3,21 +3,32 @@ The TLUT tool flow is a tool flow that generates FPGA configurations. Its bigges
 
 The TLUT tool flow offers an efficient implementation of DCS because it uses the concept of parameterized configurations. A parameterized configuration is a configuration in which some bits are expressed as Boolean functions of the parameters. Before the FPGA can be configured, the parameter values are used to evaluate the Boolean functions. This generates the specialized configuration. Several papers on the academic underpinnings of the TLUT tool flow are listed in the wiki of this project or are contained in the documentation directory. There you can also find more information on our current research on extending and improving the TLUT tool flow. The TLUT tool flow itself and how to use it, is described in much more detail in this user guide.
 
-##Roadmap
-We are releasing the TLUT tool flow in two phases. First, we have made the adapted TLUT technology mapper public. This will allow you to compare its results with a conventional technology mapper. We have included a framework to make this comparison very easy. The user guide provides clear examples and shows how to adapt the framework for you own uses.
+##What can I do with this tool flow?
+First, you can evaluate our adapted TLUT technology mapper. 
+This  allows you to compare its results with a conventional technology mapper and see for yourself if Dynamic Circuit Specialization can be used to optimize your application. 
+We have included a framework to make this comparison very easy. 
+The following pages provide clear examples and show how to adapt the framework for you own uses.
 
-In the second phase, which will be released soon, we will provide you with the scripts and information necessary to integrate the TLUT technology mapper with the Xilinx FPGA tool flow. This will allow you to implement your DCS implementations on commercial Xilinx FPGAs. Our first target FPGA is the Virtex II Pro. We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
+Second, our tool flow has been integrated with the Xilinx FPGA tool flow so that you can perform DCS on a commercial Virtex 2 Pro FPGA.
+A number of examples that you can run right away on the XUP V2P board are included in this repository. 
+Information on creating your own project is also included in this document.
+We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
 
 ##Installation and usage manual
 For installation instructions and an introduction to using the tool flow, please read documentation/user_guide.pdf
 
 ##Dependencies
 The user should provide the following dependencies:
-- Quartus II (e.g. Web Edition v11), Altera Corporation, <http://www.altera.com>
-- Java, <http://www.java.com>
-- Python 2.7, <http://www.python.org>
 
-##Contact information
+- A UNIX operating system (tools used: gcc, bash, minicom, curl, stty, ...)- Quartus II (tested with Web Edition version 11, Web Edition v12 may work but is not supported), Altera Corporation, <http://www.altera.com>
+- Java (tested with version 1.6.0), Oracle, <http://www.java.com>
+- Python 2.7, <http://www.python.org>
+- Xilinx Design Suite 9.1 (tested with version 9.1.02), Xilinx Inc., <http://www.xilinx.com><br>
+Version 9.1 is old, but it is unlikely that other versions will work.
+- A Xilinx XUP Virtex-II Pro Development System (XUPV2P board)<br>
+Xilinx Platform Builder and the XUPV2P board are only required for implementation of DCS on a commercial FPGA. 
+
+##Contact us
 The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group (<http://hes.elis.ugent.be>).
 
 If you encounter bugs, want to use the TLUT tool flow but need support or want to tell us about your results, please contact us.
