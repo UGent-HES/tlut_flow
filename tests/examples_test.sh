@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
+if [ ! -f ./examples_test.sh ]
+then
+    echo "Test failed: You are probably not in the 'tests' directory"
+    exit 1
+fi
+if [ ! -d ../examples ]
+then
+    echo "Test failed: Did you move the 'tests' or 'examples' directories from their original location?"
+    exit 1
+fi
 if [ ! -f ../source ]
 then
     echo "Test failed: Did you forget to run make?"
     exit 1
 fi
-. ../source
 mkdir -p work
 rm -f work/output.log
 cd ../examples

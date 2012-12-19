@@ -1,7 +1,24 @@
 #!/usr/bin/env bash
 set -e
 
+if [ ! -f ./virtex2pro_test.sh ]
+then
+    echo "Test failed: You are not in the 'tests' directory"
+    exit 1
+fi
+if [ ! -d ../examples ]
+then
+    echo "Test failed: Did you move the 'tests' or 'examples' directories from their original location?"
+    exit 1
+fi
+if [ ! -f ../source ]
+then
+    echo "Test failed: Did you forget to run make?"
+    exit 1
+fi
+
 function testCase {
+    echo Testing $1
     cd ../examples/$1/pcores/$2/design/
     generateTMAPMake.py >/dev/null
     cd - >/dev/null

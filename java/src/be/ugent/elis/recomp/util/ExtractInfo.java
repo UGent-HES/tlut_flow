@@ -152,14 +152,14 @@ public class ExtractInfo {
 		}
 		Vector <String> paths = new Vector(logicalName2Instances.get(firstLine).getPaths());
 		Collections.sort(paths,new AlphanumComparator());
-		System.out.println(paths);
+		//System.out.println(paths);
 		cFile.append("const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE] = {\n");
 		int numberOfTLUTs=0;
 		for(String path:paths){
 			// process firstLine with the first path
 			cFile.append("\t{");
 			numberOfTLUTs = 1;
-			System.out.println(path);
+			System.out.println("Searching locations for: "+path);
 			/*System.out.println(firstLine);
 			System.out.println(logicalName2Instances.get(firstLine).getSite(path));
 			System.out.println(logicalName2Instances.get(firstLine).getLut(path));*/
@@ -201,5 +201,33 @@ public class ExtractInfo {
             "extern const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE];"+newLine);
 		stream.flush();
 		stream.close();
+		
+		System.out.println("Group path: \""+greatestCommonPrefix(paths)+"*\"");
+	}
+	
+	public static String greatestCommonPrefix(Vector<String> paths) {
+		String commonPath = "";
+		String[][] folders = new String[paths.size()][];
+		for(int i = 0; i < paths.size(); i++){
+			folders[i] = paths.get(i).split("/"); //split on file separator
+		}
+		for(int j = 0; j < folders[0].length; j++){
+			String thisFolder = folders[0][j]; //grab the next folder name in the first path
+			boolean allMatched = true; //assume all have matched in case there are no more paths
+			for(int i = 1; i < folders.length && allMatched; i++){ //look at the other paths
+				if(folders[i].length < j){ //if there is no folder here
+					allMatched = false; //no match
+					break; //stop looking because we've gone as far as we can
+				}
+				//otherwise
+				allMatched &= folders[i][j].equals(thisFolder); //check if it matched
+			}
+			if(allMatched){ //if they all matched this folder name
+				commonPath += thisFolder + "/"; //add it to the answer
+			}else{//otherwise
+				break;//stop looking
+			}
+		}
+		return commonPath;
 	}
 }

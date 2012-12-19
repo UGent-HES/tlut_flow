@@ -955,22 +955,26 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 		cfile.append("}"+newLine+newLine);
 		
-		cfile.append("/*"+newLine+"#include \""+headerFileName+"\""+newLine+newLine);
+		cfile.append("/*"+newLine);
+		cfile.append("#include \""+headerFileName+"\""+newLine+newLine);
 		cfile.append("int main(void) {"+newLine);
-		cfile.append("	static XHwIcap HwIcap;"+newLine);
 		cfile.append("	xil_printf(\"Starting EXOR test...\\n\\r\\n\\r\");"+newLine);
+		cfile.append("	//Initialization"+newLine);
+		cfile.append("	static XHwIcap HwIcap;"+newLine);
 		cfile.append("	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);"+newLine);
+		cfile.append("	//Run-time reconfiguration"+newLine);
 		cfile.append("	Xuint8 i;"+newLine);
 		cfile.append("	Xuint8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
 		cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][16];"+newLine);
 		cfile.append("	xil_printf(\"Configuring the LUTs for p=0...\\n\\r\");"+newLine);
-		cfile.append("	parameter[0]=0;"+newLine);
-		cfile.append("	//reconfigure all the instances once"+newLine);
 		cfile.append("	for (i=0;i<NUMBER_OF_INSTANCES;i++) {"+newLine);
+		cfile.append("		//Reconfigure one instance"+newLine);
+		cfile.append("		parameter[0]=0;"+newLine);
 		cfile.append("		evaluate(parameter,output);"+newLine);
 		cfile.append("		reconfigure(&HwIcap,output,location_array[i]);"+newLine);
 		cfile.append("	}"+newLine);
 		cfile.append("	xil_printf(\"Configuration Complete!\\n\\r\\n\\r\");"+newLine);
+		cfile.append("	//Testing configuration"+newLine);
 		cfile.append("	xil_printf(\"Writing 0xDEADBEAF to input register...\\n\\r\");"+newLine);
 		cfile.append("	XIo_Out32(XPAR_OPB_XOR_0_BASEADDR,0xDEADBEAF);"+newLine);
 		cfile.append("	xil_printf(\"Reading output register: %x\\n\\r\\n\\r\",XIo_In32(XPAR_OPB_XOR_0_BASEADDR+4));"+newLine);

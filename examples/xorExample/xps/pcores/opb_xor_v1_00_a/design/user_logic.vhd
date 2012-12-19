@@ -98,7 +98,6 @@ entity user_logic is
   (
     -- ADD USER PORTS BELOW THIS LINE ------------------
     --USER ports added here
-    p : in  std_logic_vector(31 downto 0);
 	-- ADD USER PORTS ABOVE THIS LINE ------------------
 
     -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -140,12 +139,12 @@ architecture IMP of user_logic is
 begin
 
   --USER logic implementation added here
-  EXORS: entity opb_xor_v1_00_a.exorw32
-	port map (
-		a => slv_reg0,
-		p => p,
-		x => slv_reg1
-	);
+    EXORS: entity work.exorw32
+    port map (
+        a => slv_reg0,
+        x => slv_reg1,
+        p => (others => '0')
+    );
   ------------------------------------------
   -- Example code to read/write user logic slave model s/w accessible registers
   -- 

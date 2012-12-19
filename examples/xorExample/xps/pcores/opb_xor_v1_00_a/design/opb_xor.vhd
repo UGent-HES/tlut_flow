@@ -117,7 +117,6 @@ entity opb_xor is
   (
     -- ADD USER PORTS BELOW THIS LINE ------------------
     --USER ports added here
-    p : in  std_logic_vector(31 downto 0);
     -- ADD USER PORTS ABOVE THIS LINE ------------------
 
     -- DO NOT EDIT BELOW THIS LINE ---------------------
@@ -387,7 +386,6 @@ begin
     (
       -- MAP USER PORTS BELOW THIS LINE ------------------
       --USER ports mapped here
-      p => p,
       -- MAP USER PORTS ABOVE THIS LINE ------------------
 
       Bus2IP_Clk                     => iBus2IP_Clk,

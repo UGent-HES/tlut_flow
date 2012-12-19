@@ -21,12 +21,6 @@ def generateMake(makefileName):
         makeFile.write(dedent('''\
         #This is the make file that contains all rules for using tmap
         #You should include "%s" into your custom.make file
-        
-        #Include the lines below in the system.ucf file, above the IO contraints,
-        #Change the name of the tmapped entity and increase the range of the group as needed by your design
-        # INST "opb_xor_0/opb_xor_0/USER_LOGIC_I/EXORS/*" AREA_GROUP=group1;
-        # AREA_GROUP "group1" COMPRESSION=0;
-        # AREA_GROUP "group1" RANGE=SLICE_X0Y*:SLICE_X51Y*;
         \n'''%makefileName))
         
         driverFiles = ['$(SOFT_DIR)/%s'%os.path.splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
