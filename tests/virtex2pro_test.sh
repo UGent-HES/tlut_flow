@@ -20,7 +20,7 @@ fi
 function testCase {
     echo Testing $1
     cd ../examples/$1/pcores/$2/design/
-    generateTMAPMake.py >/dev/null
+    generateTMAPMake.py virtex2pro >/dev/null
     cd - >/dev/null
     cd ../examples/$1
     make -f custom.make clean >/dev/null

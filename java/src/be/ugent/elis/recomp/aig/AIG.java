@@ -826,7 +826,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		System.out.println("Maximum index: " + max);
 	}
 
-	public void printAAGevaluatorXilinx(PrintStream cstream, PrintStream hstream, String headerFileName) {
+	public void printAAGevaluatorXilinx(PrintStream cstream, PrintStream hstream, String headerFileName, String fpgaFamily) {
 		int max = 0;
 		StringBuilder cfile = new StringBuilder();
 		StringBuilder hfile = new StringBuilder();
@@ -838,6 +838,16 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		for (int i = 0; i < 2 + input.size() + and.size(); i++) {
 			freeVariablePool.add(i);
 		}
+		
+		int lutSize = 0;
+		if(fpgaFamily.equals("virtex2pro"))
+		    lutSize = 16;
+		else if(fpgaFamily.equals("virtex5"))
+		    lutSize = 64;
+		else {
+		    System.err.println("Error: Unsupported FPGA family: "+fpgaFamily);
+		    System.exit(1);
+		}
 	
 		Map<N,Integer> variableIndex = new HashMap<N,Integer>();
 		
@@ -845,23 +855,28 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		hfile.append("#include \"xutil.h\""+newLine);
 		hfile.append("#include \"xbasic_types.h\""+newLine);
 		hfile.append("#include \"locations.h\""+newLine+newLine);
-		hfile.append("#include <xhwicap.h>"+newLine+"#include <xstatus.h>"+newLine+"#include <xparameters.h>"+newLine+newLine);
+		hfile.append("#include <xhwicap.h>"+newLine+
+		    "#include <xhwicap_clb_lut.h>"+newLine+
+		    "#include <xstatus.h>"+newLine+
+		    "#include <xparameters.h>"+newLine+newLine);
 		
 		hfile.append(
 		    "#define HWICAP_DEVICEID       XPAR_OPB_HWICAP_0_DEVICE_ID"+newLine+
-		    "#define XHI_TARGET_DEVICEID   XHI_XC2VP30"+newLine+
+		    "#define XHI_TARGET_DEVICEID   XHI_READ_DEVICEID_FROM_ICAP"+newLine);
+		hfile.append(
+		    "#define LUT_CONFIG_WIDTH   "+lutSize+newLine+
 		    "#define NUMBER_OF_PARAMETERS  "+this.input.size()+newLine+newLine);
 		
 
 
-		hfile.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[16]);"+newLine);
-		hfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 (*newtruthtables)[16], const lutlocation location[] );"+newLine);
+		hfile.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[LUT_CONFIG_WIDTH]);"+newLine);
+		hfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 (*newtruthtables)[LUT_CONFIG_WIDTH], const lutlocation location[] );"+newLine);
 		
 		
 		cfile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
 		cfile.append("#include \""+headerFileName+"\""+newLine);
-		cfile.append("#include <xhwicap_clb_lut.h>"+newLine+"#include <xhwicap_clb_lut_struct.h>"+newLine+newLine);
-        cfile.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[16]) {"+newLine);
+		cfile.append("#include <xhwicap_clb_lut_struct.h>"+newLine+newLine);
+        cfile.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[LUT_CONFIG_WIDTH]) {"+newLine);
 		
 		cfile.append("	Xuint8 node[??];"+newLine);
 
@@ -876,7 +891,6 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			case INPUT:
 				variableIndex.put(n, freeVariablePool.poll());
 				cfile.append("	node["+variableIndex.get(n)+"] = parameter["+input.indexOf(n)+"];"+newLine);//
-
 				break;
 				
 			case AND:
@@ -888,21 +902,16 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				int child1  = variableIndex.get(n.getI1().getTail());
 				
 				cfile.append("	node["+current+"] = ");
-
 				if (n.getI0().isInverted()) {
 					cfile.append("~");
 				}
 				cfile.append("node["+child0+"]");
-				
 				cfile.append(" & ");
-
 				if (n.getI1().isInverted()) {
 					cfile.append("~");
 				}
 				cfile.append("node["+child1+"]");
-
 				cfile.append(";"+newLine);
-				
 				
 				n.setMarked(true);
 				
@@ -922,9 +931,9 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				int child  = variableIndex.get(n.getI0().getTail());
 				
 				if (n.getI0().isInverted()) {
-					cfile.append("	output["+(out/16)+"]["+(out%16)+"] = node["+child+"] & 1;"+newLine);
+					cfile.append("	output["+(out/lutSize)+"]["+(out%lutSize)+"] = node["+child+"] & 1;"+newLine);
 				} else {
-					cfile.append("	output["+(out/16)+"]["+(out%16)+"] = ~node["+child+"] & 1;"+newLine);
+					cfile.append("	output["+(out/lutSize)+"]["+(out%lutSize)+"] = ~node["+child+"] & 1;"+newLine);
 				}
 				n.setMarked(true);
 				break;
@@ -936,13 +945,12 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			if (freeVariablePool.peek() > max) {
 				max = freeVariablePool.peek();
 			}
-			
 		}
 		
 
 		cfile.append("}"+newLine+newLine);
 		cfile.append("//reconfigure one instance"+newLine);
-		cfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 (*newtruthtables)[16], const lutlocation location[] ) {"+newLine);
+		cfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 (*newtruthtables)[LUT_CONFIG_WIDTH], const lutlocation location[] ) {"+newLine);
 		cfile.append("	//reconfigure all the TLUTs one by one"+newLine);
 		cfile.append("	Xuint8 i;"+newLine);
 		cfile.append("	for(i =0;i<NUMBER_OF_TLUTS_PER_INSTANCE;i++) {"+newLine);
@@ -950,7 +958,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		cfile.append("		Xuint32 ColNum = XHwIcap_mSliceX2Col(location[i].lutCol);"+newLine);
 		cfile.append("		Xuint32 RowNum = XHwIcap_mSliceY2Row(HwIcap, location[i].lutRow);"+newLine);
 		cfile.append("		Xuint32 Slice  = XHwIcap_mSliceXY2Slice(location[i].lutCol, location[i].lutRow);"+newLine);
-		cfile.append("		Status = XHwIcap_SetClbBits(HwIcap, RowNum, ColNum, XHI_CLB_LUT.CONTENTS[Slice][location[i].lutType],newtruthtables[i], 16);"+newLine);
+		cfile.append("		Status = XHwIcap_SetClbBits(HwIcap, RowNum, ColNum, XHI_CLB_LUT.CONTENTS[Slice][location[i].lutType], newtruthtables[i], LUT_CONFIG_WIDTH);"+newLine);
 		cfile.append("	}"+newLine);
 		
 		cfile.append("}"+newLine+newLine);
@@ -965,7 +973,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		cfile.append("	//Run-time reconfiguration"+newLine);
 		cfile.append("	Xuint8 i;"+newLine);
 		cfile.append("	Xuint8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
-		cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][16];"+newLine);
+		cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][LUT_CONFIG_WIDTH];"+newLine);
 		cfile.append("	xil_printf(\"Configuring the LUTs for p=0...\\n\\r\");"+newLine);
 		cfile.append("	for (i=0;i<NUMBER_OF_INSTANCES;i++) {"+newLine);
 		cfile.append("		//Reconfigure one instance"+newLine);

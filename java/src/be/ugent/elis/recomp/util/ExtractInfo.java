@@ -53,7 +53,7 @@ public class ExtractInfo {
 
 	public static void main(String[] args) throws IOException{
 		if(args.length != 4){
-			System.out.println("USAGE: <input.xdl> <basename-names.txt> <locationcfilename> <locationheaderfilename>");
+			System.out.println("USAGE: <input.xdl> <basename-names.txt> <locationCfilename> <locationHeaderfilename>");
 			System.exit(0);
 		}
 		Design design = new Design();
@@ -67,32 +67,44 @@ public class ExtractInfo {
 		HashMap<String,InstanceInfo> logicalName2Instances = new HashMap<String,InstanceInfo>();
 		//add the LUT's in each site of the FPGA
 		Vector<String> lutsInSite = new Vector<String>();
-		if(design.getFamilyName().equals("virtex2p")){
+		if(design.getFamilyName().equals("virtex2p")) {
 			lutsInSite.add("F");
 			lutsInSite.add("G");
+		} else if(design.getFamilyName().equals("virtex5")) {
+			lutsInSite.add("A6LUT");
+			lutsInSite.add("B6LUT");
+			lutsInSite.add("C6LUT");
+			lutsInSite.add("D6LUT");
+			lutsInSite.add("A5LUT");
+			lutsInSite.add("B5LUT");
+			lutsInSite.add("C5LUT");
+			lutsInSite.add("D5LUT");
 		} else{
-			System.out.println("This device is not supported, ended program");
+			System.out.println("The device \""+design.getFamilyName()+"\" is not supported, ended program");
 			System.exit(0);
 		}
 		
 		
 		for(Instance instance:instances){
 			PrimitiveType primitiveType = instance.getType();
-			if(primitiveType==PrimitiveType.SLICE){
+			if(primitiveType==PrimitiveType.SLICE || 
+			        primitiveType==PrimitiveType.SLICEL || 
+			        primitiveType==PrimitiveType.SLICEM) {	
 				PrimitiveSite primitiveSite = instance.getPrimitiveSite();
 				String name;
 				String lutName;
 				String path;
+				if(instance.getAttribute("_NO_USER_LOGIC")!=null)
+				    continue;
 				//add each lut of site
 				for(String lutSite:lutsInSite){
-					if(instance.getAttribute(lutSite)!=null){
-						name = instance.getAttribute(lutSite).getLogicalName();
+					if(instance.getAttribute(lutSite)==null) {
+						System.err.println("Error: Not found: "+lutSite+"\n"+instance);
+						System.exit(1);
 					}
-					else{
-						//System.out.println("Instance: "+instance.toString()+"\n\n");
-						break;
-					}
-					
+                    if (instance.getAttribute(lutSite).getValue().equals("#OFF"))
+                        continue;
+                    name = instance.getAttribute(lutSite).getLogicalName();
 					lutName = name.split("/")[name.split("/").length-1];
 					if(lutName.length()<name.length()){
 						path = name.substring(0, name.length()-lutName.length());
@@ -136,14 +148,12 @@ public class ExtractInfo {
 		String newLine = System.getProperty("line.separator");
 		
 		cFile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
-		cFile.append("#include \""+args[3].substring(args[3].lastIndexOf('/')+1)+"\""+newLine+newLine);
-		cFile.append("#define LUT_F 0"+newLine);
-		cFile.append("#define LUT_G 1"+newLine);
+		cFile.append("#include \""+args[3].substring(args[3].lastIndexOf('/')+1)+"\""+newLine);
 		cFile.append(""+newLine);
 
-		//System.out.println(logicalName2Instances);
-		//for (Map.Entry<String, InstanceInfo> entry : logicalName2Instances.entrySet())
-        //    System.out.println(entry.getKey() + " -> " + entry.getValue());
+// 		System.out.println(logicalName2Instances);
+// 		for (Map.Entry<String, InstanceInfo> entry : logicalName2Instances.entrySet())
+//             System.out.println(entry.getKey() + " -> " + entry.getValue());
 
 		//System.out.println(firstLine);
 		if(logicalName2Instances.get(firstLine)==null) {
@@ -165,14 +175,14 @@ public class ExtractInfo {
 			System.out.println(logicalName2Instances.get(firstLine).getLut(path));*/
 			cFile.append("{"+logicalName2Instances.get(firstLine).getSite(path).getInstanceX()+","+
 			    logicalName2Instances.get(firstLine).getSite(path).getInstanceY()+
-			    ",LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
+			    ",XHI_CLB_LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
 			for(String lutName : names){
 				/*System.out.println(lutName);
 				System.out.println(logicalName2Instances.get(lutName).getSite(path));
 				System.out.println(logicalName2Instances.get(lutName).getLut(path));*/
 				cFile.append(",{"+logicalName2Instances.get(lutName).getSite(path).getInstanceX()+","+
 				    logicalName2Instances.get(lutName).getSite(path).getInstanceY()+
-				    ",LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
+				    ",XHI_CLB_LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
 				numberOfTLUTs++;
 			}
 			cFile.append("} /* "+path+" */,\n");
@@ -186,7 +196,9 @@ public class ExtractInfo {
 		stream.close();
 		
 		stream = new PrintStream(new BufferedOutputStream(new FileOutputStream(args[3])));
-		stream.println("#include \"xutil.h\""+newLine);
+		stream.println("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)");
+		stream.println("#include \"xutil.h\"");
+		stream.println("#include <xhwicap_clb_lut.h>"+newLine);
 		stream.println("#define NUMBER_OF_INSTANCES "+paths.size());
 		stream.println("#define NUMBER_OF_TLUTS_PER_INSTANCE "+numberOfTLUTs+newLine);
 		stream.println("#ifndef _lutlocation_type_H");

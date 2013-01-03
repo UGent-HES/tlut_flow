@@ -96,5 +96,5 @@ int main(void) {
     test(&HwIcap);
 
 	xil_printf("End EXOR test.\n\r\n\r");
-	return 1;
+	return 0;
 }

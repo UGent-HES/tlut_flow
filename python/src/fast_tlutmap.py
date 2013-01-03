@@ -15,12 +15,20 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, performCheck=True, generateImplementationFilesFlag=True, verboseFlag=False):
+def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=True, verboseFlag=False):
     ext = module.split('.')[-1].lower()
     baseName = module[:-len(ext)-1]
     if ext not in ('vhd','vhdl','v'):
         print >> sys.stderr, "Error: Module filename does not have extension '.vhd','.vhdl' or '.v':", module
         exit(3)
+        
+    if virtexFamily in ("virtex2pro",):
+        K = 4
+    elif virtexFamily in ("virtex5",):
+        K = 6
+    elif virtexFamily != None:
+        print >> sys.stderr, "Error: Unsupported FPGA family:", virtexFamily
+        exit(1)
     
     print "Stage: Creating work directory and copying design"
     try:
@@ -67,7 +75,8 @@ def run(module, submodules=[], K=4, performCheck=True, generateImplementationFil
         parconfFile = baseName + "-parconfig.aag"
         CFileName = baseName + '.c' 
         headerFileName = baseName + '.h' 
-        printCFunction(parconfFile,CFileName,headerFileName)
+        assert virtexFamily, "Error: No FPGA family provided, cannot generate C functions"
+        printCFunction(parconfFile, CFileName, headerFileName, virtexFamily)
     
     # Run regular MAP
     print "Stage: SimpleMAP"

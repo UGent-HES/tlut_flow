@@ -18,6 +18,7 @@ def checkXilinx(filePath):
 def main():
     designDir = sys.argv[1]
     softwareDir = sys.argv[2]
+    virtexFamily = sys.argv[3]
     
     baseDir = os.getcwd()
     
@@ -37,7 +38,7 @@ def main():
         if checkFile(file):
             basename,ext = os.path.splitext(file)
             lstcpy = [item for item in nonXilinxFileList if item!=file]
-            run(file, lstcpy, K=4, performCheck=True, verboseFlag=False)
+            run(file, lstcpy, performCheck=True, verboseFlag=False, virtexFamily=virtexFamily)
             assert not os.system('cp -f "work/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
             assert not os.system('cp -f "work/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
             assert not os.system('cp -f "work/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
