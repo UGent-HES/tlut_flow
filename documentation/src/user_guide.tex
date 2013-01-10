@@ -136,12 +136,12 @@ Section~\ref{sec:tlut_testing} explains how to test the TLUT tool flow, while in
 \begin{itemize}
 \item Dependencies to be provided by the user:
 \begin{itemize}
-\item A UNIX operating system (tools used: gcc, bash, minicom, curl, stty, \dots)
+\item A UNIX operating system (tools used: gcc (tested with v4.1.2), bash, minicom, curl, stty, \dots)
 \item Quartus II (tested with Web Edition version 11, Web Edition v12 may work but is not supported), Altera Corporation, \url{http://www.altera.com}
 \item Java (tested with version 1.6.0), Oracle, \url{http://www.java.com}
 \item Python 2.7, \url{http://www.python.org}
-\item Xilinx Design Suite 9.1 (tested with version 9.1.02), Xilinx Inc., \url{http://www.xilinx.com}\\
-Version 9.1 is old, but it is unlikely that other versions will work.
+\item Xilinx Design Suite 9 (tested with version 9.1 SP2 and partially tested with version 9.2), Xilinx Inc., \url{http://www.xilinx.com}\\
+Version 9 is old, but newer versions don't work well with the Virtex-II Pro.
 \item A Xilinx XUP Virtex-II Pro Development System (XUPV2P board)\\
 Xilinx Platform Builder and the XUPV2P board are only required for implementation of DCS on a commercial FPGA. 
 \end{itemize}
@@ -466,13 +466,13 @@ The HWICAP is used for run-time reconfiguration of the FPGA. This peripheral mus
 \includegraphics[scale=0.5]{HWICAP3}
 \caption{Open the MHS file by double clicking it in the Project tab. Search the opb\_hwicap instance and change the version from \emph{1.10.a} to \emph{1.00.b}\label{fig:HWICAP3}}
 \end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{HWICAP4}
-\caption{Open the MSS file by double clicking it in the Project tab. Search the opb\_hwicap instance and change the version from \emph{1.01.a} to \emph{1.00.b}\label{fig:HWICAP4}}
-\end{figure}
-
-Finally, create a symbolic link in the directory `drivers' (create the directory if needed) of your project to `examples/xorExample/xps/drivers/hwicap\_v1\_00\_b'.
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=0.5]{HWICAP4}
+%\caption{Open the MSS file by double clicking it in the Project tab. Search the opb\_hwicap instance and change the version from \emph{1.01.a} to \emph{1.00.b}\label{fig:HWICAP4}}
+%\end{figure}
+%
+%Finally, create a symbolic link in the directory `drivers' (create the directory if needed) of your project to `examples/xorExample/xps/drivers/hwicap\_v1\_00\_b'.
 
 
 \subsection{Creating the DCS peripheral}\label{sec:creating_peripheral}
@@ -607,7 +607,7 @@ port map (
 \item Enter the `design' directory and run `generateTMAPMake.py'. This creates the custom makefile `tmap.make'. You have to rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\--TMAP' annotation.
 \item Choose ``Generate bitstream'' in XPS to build your peripheral.
 \item Look near the end of the output of this command for ``Group path: '' followed by something similar to ``opb\_xor\_0/opb\_xor\_0/USER\_LOGIC\_I/EXORS/*''.
-Edit `data/system.ucf' and add the following lines before the IO constraints, replacing <group\_path> with the path found before. Increase the range of the group as needed. This area constraint makes sure that  run-time reconfiguration does not break the rest of your design by accidentally resetting BRAMs.
+Edit `data/system.ucf' and add the following lines before the IO constraints, replacing <group\_path> with the path found before. Enlarge the ``RANGE'' of the group as needed. This area constraint makes sure that  run-time reconfiguration does not break the rest of your design. This is necessary because reconfiguring a frame resets the contents of the SRLs and RAM LUTs in it. 
 
 \lstset{language=}
 \begin{lstlisting}
@@ -615,6 +615,8 @@ INST "<group_path>" AREA_GROUP=group1;
 AREA_GROUP "group1" COMPRESSION=0;
 AREA_GROUP "group1" RANGE=SLICE_X0Y*:SLICE_X51Y*;
 \end{lstlisting}
+%AREA_GROUP "group1" PLACE=CLOSED;
+%AREA_GROUP "group1" GROUP=CLOSED;
 
 
 \end{itemize}
