@@ -860,7 +860,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 		cfile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
 		cfile.append("#include \""+headerFileName+"\""+newLine);
-		cfile.append("#include <xhwicap_clb_lut.h>"+newLine+"#include <xhwicap_clb_lut_struct.h>"+newLine+newLine);
+		cfile.append("#include <xhwicap_clb_lut.h>"+newLine+newLine); 
+		    //"#include <xhwicap_clb_lut_struct.h>"+newLine
         cfile.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[16]) {"+newLine);
 		
 		cfile.append("	Xuint8 node[??];"+newLine);
