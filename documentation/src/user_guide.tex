@@ -623,11 +623,11 @@ AREA_GROUP "group1" RANGE=SLICE_X0Y*:SLICE_X51Y*;
 
 \subsection{Writing the software application}\label{sec:writing_software}
 \begin{itemize}
-\item Choose ``Generate bitstream'' if you haven't already done this. This will create a number of C files in `testReconfiguration' that  contain the functions needed to perform run-time reconfiguration.
-\item Under the applications tab, right click ``Sources'' and choose ``Add existing files\dots''. Add `testReconfiguration/locations.c' and `testReconfiguration/<TMAPmodule>.c' with TMAPmodule the name of the VHDL module that has the ``-\--TMAP'' annotation.
-\item Right click ``Headers'' choose ``Add existing files\dots''. Add `testReconfiguration/locations.h' and `testReconfiguration/<TMAPmodule>.h'.
+\item Choose ``Generate bitstream'' if you haven't already done this. This will create a number of C files in `swReconfiguration' that  contain the functions needed to perform run-time reconfiguration.
+\item Under the applications tab, right click ``Sources'' and choose ``Add existing files\dots''. Add `swReconfiguration/locations.c' and `swReconfiguration/<TMAPmodule>.c' with TMAPmodule the name of the VHDL module that has the ``-\--TMAP'' annotation.
+\item Right click ``Headers'' choose ``Add existing files\dots''. Add `swReconfiguration/locations.h' and `swReconfiguration/<TMAPmodule>.h'.
 \item Right click ``Sources'' and choose ``Add new file\dots''. Call it `main.c' and save it.\\
-You can find a template for your `main.c' file below or at the bottom of `testReconfiguration/<TMAPmodule>.h'. Replace ``XPAR\_OPB\_XOR\_0\_BASEADDR'' with the name of the base address of your peripheral. You can find this in `Generated Header: ppc405\_0/include/xparameters.h' under  `Processor: ppc405\_0'.
+You can find a template for your `main.c' file below or at the bottom of `swReconfiguration/<TMAPmodule>.h'. Replace ``XPAR\_OPB\_XOR\_0\_BASEADDR'' with the name of the base address of your peripheral. You can find this in `Generated Header: ppc405\_0/include/xparameters.h' under  `Processor: ppc405\_0'.
 \item Choose ``Build all user applications'' to build your software application.
 \end{itemize}
 
@@ -664,7 +664,7 @@ int main(void) {
 
 Explanation of the functions:\\
 $evaluate(parameter, output)$ calculates the new truth table contents of the TLUTs for the new values of the parameters. The  values of the parameter signals have to be stored as boolean values in the $parameter$ array (one array element per signal line). The parameters are sorted alphabetically. You can check this ordering in `pcores/opb\_<your\_peripheral>/design/work/<TMAPmodule>.par'.\\
-$reconfigure(\&HwIcap, output, location\_array[i])$ reconfigures the TLUTs of instance $i$ with the previously computed truth table contents. The instances are also sorted alphabetically. You can find this ordering in `testReconfiguration/locations.c'.
+$reconfigure(\&HwIcap, output, location\_array[i])$ reconfigures the TLUTs of instance $i$ with the previously computed truth table contents. The instances are also sorted alphabetically. You can find this ordering in `swReconfiguration/locations.c'.
 
 
 \subsection{Testing the design}\label{sec:testing}
@@ -675,7 +675,7 @@ The project can now be tested. To do this, connect your XUPV2P board to the comp
 It is assumed that you have already successfuly run the tests for the standalone TLUT tool flow (Section~\ref{sec:standalone_flow}).
 
 \begin{itemize}
-\item \emph{Throws ``tmap.py: Command not found'':}\\
+\item \emph{Throws ``tmapXilinx.py: Command not found'':}\\
 Make sure you have set the environment variables correctly by doing `. source'. You must do this in the same terminal as you start XPS in and before starting XPS.
 \item \emph{The output of minicom is garbage:}\\
 Reboot your computer to fix the corrupted state the serial port is in. The corrupted state may be caused by running minicom and `virtex2pro\_test.sh' at the same time.
