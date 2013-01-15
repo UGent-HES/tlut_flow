@@ -26,7 +26,7 @@ def generateMake(makefileName, virtexFamily):
         driverFiles = ['$(SOFT_DIR)/%s'%os.path.splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
         driverFiles = [file+'.c' for file in driverFiles] + [file+'.h' for file in driverFiles]
         makeFile.write(dedent('''\
-        SOFT_DIR = testReconfiguration
+        SOFT_DIR = swReconfiguration
         PCORE_NAME = %s
         TMAPDESIGN_DIR = %s
         TMAPHDL_DIR = %s
@@ -73,7 +73,7 @@ def generateMake(makefileName, virtexFamily):
         \t@echo "****************************************************"
         \t@echo "Running tmapFlow"
         \t@echo "****************************************************"
-        \ttmap.py $(TMAPDESIGN_DIR) $(SOFT_DIR) $(VIRTEX_FAMILY)
+        \ttmapXilinx.py $(TMAPDESIGN_DIR) $(SOFT_DIR) $(VIRTEX_FAMILY)
         
         $(BMM_FILE) $(WRAPPER_NGC_FILES) : $(GEN_FILES) $(LN_FILES)\n\n'''))
         
