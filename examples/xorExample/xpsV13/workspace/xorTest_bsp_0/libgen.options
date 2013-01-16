@@ -1,0 +1,3 @@
+PROCESSOR=ppc440_0
+REPOSITORIES=
+HWSPEC=../xor_design/system.xml

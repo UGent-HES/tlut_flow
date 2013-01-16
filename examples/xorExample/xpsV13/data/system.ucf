@@ -1,0 +1,32 @@
+#  Virtex 5 ML507 Evaluation Platform
+Net fpga_0_RS232_Uart_1_RX_pin LOC = AG15  |  IOSTANDARD=LVCMOS33;
+Net fpga_0_RS232_Uart_1_TX_pin LOC = AG20  |  IOSTANDARD=LVCMOS33;
+Net fpga_0_LEDs_8Bit_GPIO_IO_pin<0> LOC = AE24  |  IOSTANDARD=LVCMOS18  |  PULLDOWN  |  SLEW=SLOW  |  DRIVE=2;
+Net fpga_0_LEDs_8Bit_GPIO_IO_pin<1> LOC = AD24  |  IOSTANDARD=LVCMOS18  |  PULLDOWN  |  SLEW=SLOW  |  DRIVE=2;
+Net fpga_0_LEDs_8Bit_GPIO_IO_pin<2> LOC = AD25  |  IOSTANDARD=LVCMOS18  |  PULLDOWN  |  SLEW=SLOW  |  DRIVE=2;
+Net fpga_0_LEDs_8Bit_GPIO_IO_pin<3> LOC = G16  |  IOSTANDARD=LVCMOS25  |  PULLDOWN  |  SLEW=SLOW  |  DRIVE=2;
+Net fpga_0_LEDs_8Bit_GPIO_IO_pin<4> LOC = AD26  |  IOSTANDARD=LVCMOS18  |  PULLDOWN  |  SLEW=SLOW  |  DRIVE=2;
+Net fpga_0_LEDs_8Bit_GPIO_IO_pin<5> LOC = G15  |  IOSTANDARD=LVCMOS25  |  PULLDOWN  |  SLEW=SLOW  |  DRIVE=2;
+Net fpga_0_LEDs_8Bit_GPIO_IO_pin<6> LOC = L18  |  IOSTANDARD=LVCMOS25  |  PULLDOWN  |  SLEW=SLOW  |  DRIVE=2;
+Net fpga_0_LEDs_8Bit_GPIO_IO_pin<7> LOC = H18  |  IOSTANDARD=LVCMOS25  |  PULLDOWN  |  SLEW=SLOW  |  DRIVE=2;
+Net fpga_0_clk_1_sys_clk_pin TNM_NET = sys_clk_pin;
+TIMESPEC TS_sys_clk_pin = PERIOD sys_clk_pin 100000 kHz;
+Net fpga_0_clk_1_sys_clk_pin LOC = AH15  |  IOSTANDARD=LVCMOS33;
+Net fpga_0_rst_1_sys_rst_pin TIG;
+Net fpga_0_rst_1_sys_rst_pin LOC = E9  |  IOSTANDARD=LVCMOS33  |  PULLUP;
+
+Net "clk_100_0000MHzPLL0_ADJUST" TNM = "PLBCLK_GRP";
+Net "clock_generator_0_CLKOUT2" TNM = "ICAPCLK_GRP";
+TIMESPEC TS_TIG0 = FROM "PLBCLK_GRP" TO "ICAPCLK_GRP" TIG;
+TIMESPEC TS_TIG1 = FROM "ICAPCLK_GRP" TO "PLBCLK_GRP" TIG;
+
+#CONFIG PROHIBIT = SLICE_X1Y*;
+INST "plb_xor_0/plb_xor_0/USER_LOGIC_I/EXORS/*" AREA_GROUP=group1;
+AREA_GROUP "group1" COMPRESSION=0;
+AREA_GROUP "group1" PLACE=CLOSED;
+AREA_GROUP "group1" GROUP=CLOSED;
+AREA_GROUP "group1" RANGE=SLICE_X0Y0:SLICE_X39Y100;
+
+NET "xps_hwicap_0/xps_hwicap_0/HWICAP_CTRL_I/icap_statemachine_I1/Icap_datain_cs<*>" MAXDELAY = 2 ns; 
+NET "xps_hwicap_0/xps_hwicap_0/HWICAP_CTRL_I/icap_statemachine_I1/Icap_ce_cs" MAXDELAY = 2 ns; 
+NET "xps_hwicap_0/xps_hwicap_0/HWICAP_CTRL_I/icap_statemachine_I1/Icap_we_cs" MAXDELAY = 2 ns;
