@@ -856,28 +856,31 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		hfile.append("#include \"xbasic_types.h\""+newLine);
 		hfile.append("#include \"locations.h\""+newLine+newLine);
 		hfile.append("#include <xhwicap.h>"+newLine+
-		    "#include <xhwicap_clb_lut.h>"+newLine+
 		    "#include <xstatus.h>"+newLine+
 		    "#include <xparameters.h>"+newLine+newLine);
 		
-		hfile.append(
-		    "#define HWICAP_DEVICEID       XPAR_OPB_HWICAP_0_DEVICE_ID"+newLine+
-		    "#define XHI_TARGET_DEVICEID   XHI_READ_DEVICEID_FROM_ICAP"+newLine);
+		if(fpgaFamily.equals("virtex2pro"))
+		    hfile.append("#define HWICAP_DEVICEID       XPAR_OPB_HWICAP_0_DEVICE_ID"+newLine);
+		else if(fpgaFamily.equals("virtex5"))
+		    hfile.append("#define HWICAP_DEVICEID       XPAR_HWICAP_0_DEVICE_ID"+newLine);
+		hfile.append("#define XHI_TARGET_DEVICEID   XHI_READ_DEVICEID_FROM_ICAP"+newLine);
 		hfile.append(
 		    "#define LUT_CONFIG_WIDTH   "+lutSize+newLine+
 		    "#define NUMBER_OF_PARAMETERS  "+this.input.size()+newLine+newLine);
 		
 
 
-		hfile.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[LUT_CONFIG_WIDTH]);"+newLine);
-		hfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 (*newtruthtables)[LUT_CONFIG_WIDTH], const lutlocation location[] );"+newLine);
+		hfile.append("void evaluate(Xuint8 parameter[NUMBER_OF_PARAMETERS], Xuint8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]);"+newLine);
+		hfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] );"+newLine);
 		
 		
 		cfile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
 		cfile.append("#include \""+headerFileName+"\""+newLine);
-		cfile.append("#include <xhwicap_clb_lut.h>"+newLine+newLine); 
-		    //"#include <xhwicap_clb_lut_struct.h>"+newLine
-        cfile.append("void evaluate(Xuint8 *parameter, Xuint8 (*output)[LUT_CONFIG_WIDTH]) {"+newLine);
+		if(fpgaFamily.equals("virtex2pro"))
+		    cfile.append("#include <xhwicap_clb_lut.h>"+newLine+newLine);
+		else if(fpgaFamily.equals("virtex5"))
+		    cfile.append("#include \"xhwicap_clb_lut_replacement.h\""+newLine+newLine);
+        cfile.append("void evaluate(Xuint8 parameter[NUMBER_OF_PARAMETERS], Xuint8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]) {"+newLine);
 		
 		cfile.append("	Xuint8 node[??];"+newLine);
 
@@ -931,10 +934,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				int out = this.output.indexOf(n);
 				int child  = variableIndex.get(n.getI0().getTail());
 				
-				if (n.getI0().isInverted()) {
-					cfile.append("	output["+(out/lutSize)+"]["+(out%lutSize)+"] = node["+child+"] & 1;"+newLine);
-				} else {
+				if (n.getI0().isInverted() ^ fpgaFamily.equals("virtex2pro")) { //virtex2pro: all bits inverted
 					cfile.append("	output["+(out/lutSize)+"]["+(out%lutSize)+"] = ~node["+child+"] & 1;"+newLine);
+				} else {
+					cfile.append("	output["+(out/lutSize)+"]["+(out%lutSize)+"] = node["+child+"] & 1;"+newLine);
 				}
 				n.setMarked(true);
 				break;
@@ -951,15 +954,19 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 		cfile.append("}"+newLine+newLine);
 		cfile.append("//reconfigure one instance"+newLine);
-		cfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 (*newtruthtables)[LUT_CONFIG_WIDTH], const lutlocation location[] ) {"+newLine);
+		cfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] ) {"+newLine);
 		cfile.append("	//reconfigure all the TLUTs one by one"+newLine);
 		cfile.append("	Xuint8 i;"+newLine);
 		cfile.append("	for(i =0;i<NUMBER_OF_TLUTS_PER_INSTANCE;i++) {"+newLine);
 		cfile.append("		XStatus Status;"+newLine);
-		cfile.append("		Xuint32 ColNum = XHwIcap_mSliceX2Col(location[i].lutCol);"+newLine);
-		cfile.append("		Xuint32 RowNum = XHwIcap_mSliceY2Row(HwIcap, location[i].lutRow);"+newLine);
-		cfile.append("		Xuint32 Slice  = XHwIcap_mSliceXY2Slice(location[i].lutCol, location[i].lutRow);"+newLine);
-		cfile.append("		Status = XHwIcap_SetClbBits(HwIcap, RowNum, ColNum, XHI_CLB_LUT.CONTENTS[Slice][location[i].lutType], newtruthtables[i], LUT_CONFIG_WIDTH);"+newLine);
+		String withM = "";
+		if(fpgaFamily.equals("virtex2pro"))
+		    withM = "m";
+		else if(fpgaFamily.equals("virtex5"))
+		    withM = "";
+		cfile.append("		Xuint32 ColNum = XHwIcap_"+withM+"SliceX2Col(location[i].lutCol);"+newLine);
+		cfile.append("		Xuint32 RowNum = XHwIcap_"+withM+"SliceY2Row(HwIcap, location[i].lutRow);"+newLine);
+		cfile.append("		Status = XHwIcap_SetClbBits(HwIcap, RowNum, ColNum, XHI_CLB_LUT.CONTENTS[location[i].sliceType][location[i].lutType], newtruthtables[i], LUT_CONFIG_WIDTH);"+newLine);
 		cfile.append("	}"+newLine);
 		
 		cfile.append("}"+newLine+newLine);
@@ -967,28 +974,61 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		cfile.append("/*"+newLine);
 		cfile.append("#include \""+headerFileName+"\""+newLine+newLine);
 		cfile.append("int main(void) {"+newLine);
-		cfile.append("	xil_printf(\"Starting EXOR test...\\n\\r\\n\\r\");"+newLine);
-		cfile.append("	//Initialization"+newLine);
-		cfile.append("	static XHwIcap HwIcap;"+newLine);
-		cfile.append("	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);"+newLine);
-		cfile.append("	//Run-time reconfiguration"+newLine);
-		cfile.append("	Xuint8 i;"+newLine);
-		cfile.append("	Xuint8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
-		cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][LUT_CONFIG_WIDTH];"+newLine);
-		cfile.append("	xil_printf(\"Configuring the LUTs for p=0...\\n\\r\");"+newLine);
-		cfile.append("	for (i=0;i<NUMBER_OF_INSTANCES;i++) {"+newLine);
-		cfile.append("		//Reconfigure one instance"+newLine);
-		cfile.append("		parameter[0]=0;"+newLine);
-		cfile.append("		evaluate(parameter,output);"+newLine);
-		cfile.append("		reconfigure(&HwIcap,output,location_array[i]);"+newLine);
-		cfile.append("	}"+newLine);
-		cfile.append("	xil_printf(\"Configuration Complete!\\n\\r\\n\\r\");"+newLine);
-		cfile.append("	//Testing configuration"+newLine);
-		cfile.append("	xil_printf(\"Writing 0xDEADBEAF to input register...\\n\\r\");"+newLine);
-		cfile.append("	XIo_Out32(XPAR_OPB_XOR_0_BASEADDR,0xDEADBEAF);"+newLine);
-		cfile.append("	xil_printf(\"Reading output register: %x\\n\\r\\n\\r\",XIo_In32(XPAR_OPB_XOR_0_BASEADDR+4));"+newLine);
-		cfile.append("	xil_printf(\"End EXOR test.\\n\\r\\n\\r\");"+newLine);
-		cfile.append("	return 1;"+newLine);
+		if(fpgaFamily.equals("virtex2pro")) {
+            cfile.append("	xil_printf(\"Starting EXOR test...\\n\\r\\n\\r\");"+newLine);
+            cfile.append("	//Initialization"+newLine);
+            cfile.append("	static XHwIcap HwIcap;"+newLine);
+            cfile.append("	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);"+newLine);
+            cfile.append("	//Run-time reconfiguration"+newLine);
+            cfile.append("	Xuint8 i;"+newLine);
+            cfile.append("	Xuint8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
+            cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][LUT_CONFIG_WIDTH];"+newLine);
+            cfile.append("	xil_printf(\"Configuring the LUTs for p=0...\\n\\r\");"+newLine);
+            cfile.append("	for (i=0;i<NUMBER_OF_INSTANCES;i++) {"+newLine);
+            cfile.append("		//Reconfigure one instance"+newLine);
+            cfile.append("		parameter[0]=0;"+newLine);
+            cfile.append("		evaluate(parameter,output);"+newLine);
+            cfile.append("		reconfigure(&HwIcap,output,location_array[i]);"+newLine);
+            cfile.append("	}"+newLine);
+            cfile.append("	xil_printf(\"Configuration Complete!\\n\\r\\n\\r\");"+newLine);
+            cfile.append("	//Testing configuration"+newLine);
+            cfile.append("	xil_printf(\"Writing 0xDEADBEAF to input register...\\n\\r\");"+newLine);
+            cfile.append("	XIo_Out32(XPAR_OPB_XOR_0_BASEADDR,0xDEADBEAF);"+newLine);
+            cfile.append("	xil_printf(\"Reading output register: %x\\n\\r\\n\\r\",XIo_In32(XPAR_OPB_XOR_0_BASEADDR+4));"+newLine);
+            cfile.append("	xil_printf(\"End EXOR test.\\n\\r\\n\\r\");"+newLine);
+            cfile.append("	return 1;"+newLine);
+		} else {
+            cfile.append("	xil_printf(\"Starting EXOR test...\\n\\r\\n\\r\");"+newLine);
+            cfile.append("	//Initialization"+newLine);
+            cfile.append("	static XHwIcap HwIcap;"+newLine);
+            cfile.append("	XHwIcap_Config *CfgPtr = XHwIcap_LookupConfig(HWICAP_DEVICEID);"+newLine);
+            cfile.append("	if (CfgPtr == NULL) return XST_FAILURE;"+newLine);
+            cfile.append("	int Status = XHwIcap_CfgInitialize(&HwIcap, CfgPtr, CfgPtr->BaseAddress);"+newLine);
+            cfile.append("	if (Status != XST_SUCCESS) return XST_FAILURE;"+newLine);
+            cfile.append("	//Perform a self-test to ensure that the hardware was built correctly."+newLine);
+            cfile.append("	Status = XHwIcap_SelfTest(&HwIcap);"+newLine);
+            cfile.append("	if (Status != XST_SUCCESS) return XST_FAILURE;"+newLine);
+            cfile.append("	//Run-time reconfiguration"+newLine);
+            cfile.append("	Xuint8 i;"+newLine);
+            cfile.append("	Xuint8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
+            cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][LUT_CONFIG_WIDTH];"+newLine);
+            cfile.append("	xil_printf(\"Configuring the LUTs for p=0...\\n\\r\");"+newLine);
+            cfile.append("	for (i=0;i<NUMBER_OF_INSTANCES;i++) {"+newLine);
+            cfile.append("		//Reconfigure one instance"+newLine);
+            cfile.append("		parameter[0]=0;"+newLine);
+            cfile.append("		evaluate(parameter,output);"+newLine);
+            cfile.append("		reconfigure(&HwIcap,output,location_array[i]);"+newLine);
+            cfile.append("	}"+newLine);
+            cfile.append("	xil_printf(\"Configuration Complete!\\n\\r\\n\\r\");"+newLine);
+            cfile.append("	//Testing configuration"+newLine);
+            cfile.append("	xil_printf(\"Writing 0xDEADBEAF to input register...\\n\\r\");"+newLine);
+            cfile.append("	XIo_Out32(XPAR_PLB_XOR_0_BASEADDR,0xDEADBEAF);"+newLine);
+            cfile.append("	xil_printf(\"Reading output register: %x\\n\\r\\n\\r\",XIo_In32(XPAR_PLB_XOR_0_BASEADDR+4));"+newLine);
+            cfile.append("	xil_printf(\"End EXOR test.\\n\\r\\n\\r\");"+newLine);
+            cfile.append("	return 1;"+newLine);
+
+            
+        }
 		cfile.append("}"+newLine+"*/"+newLine);
 		
 		cstream.print(cfile.toString().replace("??", ""+max));

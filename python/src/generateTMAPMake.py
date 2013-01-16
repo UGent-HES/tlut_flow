@@ -93,16 +93,24 @@ def generateMake(makefileName, virtexFamily):
         \t@echo "Generating locations.h ..."
         \t@echo "****************************************************"
         \tjava be.ugent.elis.recomp.util.ExtractInfo $(XDL_FILE) $(TMAPDESIGN_DIR)/work/names.txt $(LOC_FILES)
+        \n'''))
+        if virtexFamily=='virtex2pro':
+            makeFile.write('bits : $(LOC_FILES)\n')
+        else:
+            makeFile.write('exporttosdk bits : $(LOC_FILES)\n')
         
-        bits : $(LOC_FILES)\n'''))
         
     os.system('mv '+makefileName+' ../../../')
 
 def main():
     if len(sys.argv)!=2:
-        print >>sys.stderr, "Error: No virtex family argument. Possibilities: Virtex2Pro, Virtex5"
+        print >>sys.stderr, "Error: No virtex family argument. Possibilities: virtex2Pro, virtex5"
         exit(1)
     virtexFamily = sys.argv[1].lower()
+    if virtexFamily not in ("virtex2pro","virtex5"):
+        print >> sys.stderr, "Error: Unsupported FPGA family:", virtexFamily
+        print >> sys.stderr, "Supported FPGA families: virtex2pro, virtex5"
+        exit(1)
         
     if not glob.glob('*.vhd*'):
         print >>sys.stderr, "Error: No vhdl files found in this directory"

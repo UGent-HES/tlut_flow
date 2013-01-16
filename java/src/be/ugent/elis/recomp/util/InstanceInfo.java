@@ -43,6 +43,7 @@ public class InstanceInfo {
 	private Vector <PrimitiveSite> sites;
 	
 	private Vector <String> luts;//F or G lut
+	private Vector <PrimitiveType> primtypes; //slice type
 	
 	/**
 	 * Constructor for a new InstanceInfo
@@ -51,20 +52,23 @@ public class InstanceInfo {
 		paths = new Vector<String>();
 		sites = new Vector<PrimitiveSite>();
 		luts = new Vector<String>();
+		primtypes = new Vector<PrimitiveType>();
 	}
 	
-	public InstanceInfo(String path, PrimitiveSite site, String lut){
+	public InstanceInfo(String path, PrimitiveSite site, String lut, PrimitiveType primtype){
 	    this();
 		//System.out.println(path);
 		paths.add(path);
 		sites.add(site);
 		luts.add(lut);
+		primtypes.add(primtype);
 	}
 	
-	public void addInstance(String path, PrimitiveSite site, String lut){
+	public void addInstance(String path, PrimitiveSite site, String lut, PrimitiveType primtype){
 		paths.add(path);
 		sites.add(site);
 		luts.add(lut);
+		primtypes.add(primtype);
 	}
 	
 	public PrimitiveSite getSite(String path){
@@ -73,6 +77,10 @@ public class InstanceInfo {
 	
 	public String getLut(String path){
 		return luts.get(paths.indexOf(path));
+	}
+	
+	public PrimitiveType getPrimitiveType(String path){
+		return primtypes.get(paths.indexOf(path));
 	}
 	
 	public Vector<String> getPaths(){

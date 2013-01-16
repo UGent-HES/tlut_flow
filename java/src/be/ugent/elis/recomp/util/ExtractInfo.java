@@ -114,9 +114,9 @@ public class ExtractInfo {
 				
 					if(logicalName2Instances.containsKey(lutName)){
 						InstanceInfo info = logicalName2Instances.get(lutName);
-						info.addInstance(path, primitiveSite, lutSite);
+						info.addInstance(path, primitiveSite, lutSite, primitiveType);
 					} else{
-						logicalName2Instances.put(lutName, new InstanceInfo(path, primitiveSite, lutSite));
+						logicalName2Instances.put(lutName, new InstanceInfo(path, primitiveSite, lutSite, primitiveType));
 					}
 				}
 			}
@@ -173,16 +173,40 @@ public class ExtractInfo {
 			/*System.out.println(firstLine);
 			System.out.println(logicalName2Instances.get(firstLine).getSite(path));
 			System.out.println(logicalName2Instances.get(firstLine).getLut(path));*/
-			cFile.append("{"+logicalName2Instances.get(firstLine).getSite(path).getInstanceX()+","+
-			    logicalName2Instances.get(firstLine).getSite(path).getInstanceY()+
-			    ",XHI_CLB_LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
+            int x = logicalName2Instances.get(firstLine).getSite(path).getInstanceX();
+            int y = logicalName2Instances.get(firstLine).getSite(path).getInstanceY();
+			cFile.append("{"+x+","+y);
+		    if(design.getFamilyName().equals("virtex2p")) {
+		        cFile.append(","+(((x % 2) << 1) + (y % 2))); //((X % 2) << 1) + (Y % 2) )
+			} else if(design.getFamilyName().equals("virtex5")) {
+		        if(x%2==0) {
+		            if(logicalName2Instances.get(firstLine).getPrimitiveType(path)==PrimitiveType.SLICEM)
+		                cFile.append(",XHI_CLB_SLICEM_EVEN");
+		            else
+		                cFile.append(",XHI_CLB_SLICEL_EVEN");
+		        } else
+		            cFile.append(",XHI_CLB_SLICEL_ODD");
+			}
+			cFile.append(",XHI_CLB_LUT_"+logicalName2Instances.get(firstLine).getLut(path)+"}");
 			for(String lutName : names){
 				/*System.out.println(lutName);
 				System.out.println(logicalName2Instances.get(lutName).getSite(path));
 				System.out.println(logicalName2Instances.get(lutName).getLut(path));*/
-				cFile.append(",{"+logicalName2Instances.get(lutName).getSite(path).getInstanceX()+","+
-				    logicalName2Instances.get(lutName).getSite(path).getInstanceY()+
-				    ",XHI_CLB_LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
+                x = logicalName2Instances.get(lutName).getSite(path).getInstanceX();
+                y = logicalName2Instances.get(lutName).getSite(path).getInstanceY();
+				cFile.append(",{"+x+","+y);
+                if(design.getFamilyName().equals("virtex2p")) {
+                    cFile.append(","+(((x % 2) << 1) + (y % 2))); //((X % 2) << 1) + (Y % 2) )
+                } else if(design.getFamilyName().equals("virtex5")) {
+                    if(x%2==0) {
+                        if(logicalName2Instances.get(lutName).getPrimitiveType(path)==PrimitiveType.SLICEM)
+                            cFile.append(",XHI_CLB_SLICEM_EVEN");
+                        else
+                            cFile.append(",XHI_CLB_SLICEL_EVEN");
+                    } else
+                        cFile.append(",XHI_CLB_SLICEL_ODD");
+                }
+				cFile.append(",XHI_CLB_LUT_"+logicalName2Instances.get(lutName).getLut(path)+"}");
 				numberOfTLUTs++;
 			}
 			cFile.append("} /* "+path+" */,\n");
@@ -198,7 +222,6 @@ public class ExtractInfo {
 		stream = new PrintStream(new BufferedOutputStream(new FileOutputStream(args[3])));
 		stream.println("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)");
 		stream.println("#include \"xutil.h\"");
-		stream.println("#include <xhwicap_clb_lut.h>"+newLine);
 		stream.println("#define NUMBER_OF_INSTANCES "+paths.size());
 		stream.println("#define NUMBER_OF_TLUTS_PER_INSTANCE "+numberOfTLUTs+newLine);
 		stream.println("#ifndef _lutlocation_type_H");
@@ -206,9 +229,22 @@ public class ExtractInfo {
 		stream.println("typedef struct {");
 		stream.println("\tXuint32 lutCol;");
 		stream.println("\tXuint32 lutRow;");
+		stream.println("\tXuint8 sliceType;");
 		stream.println("\tXuint8 lutType;");
 		stream.println("} lutlocation;");
-		stream.println("#endif"+newLine);
+		stream.println("#endif"+newLine+newLine);
+		if(design.getFamilyName().equals("virtex2p")) {
+            stream.println("#define XHI_CLB_LUT_F 0");
+            stream.println("#define XHI_CLB_LUT_G 1"+newLine);
+		} else if(design.getFamilyName().equals("virtex5")) {
+            stream.println("#define XHI_CLB_SLICEM_EVEN 0");
+            stream.println("#define XHI_CLB_SLICEL_ODD 1");
+            stream.println("#define XHI_CLB_SLICEL_EVEN 2");
+            stream.println("#define XHI_CLB_LUT_A6LUT 0");
+            stream.println("#define XHI_CLB_LUT_B6LUT 1");
+            stream.println("#define XHI_CLB_LUT_C6LUT 2");
+            stream.println("#define XHI_CLB_LUT_D6LUT 3"+newLine);
+        }
         stream.println(
             "extern const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE];"+newLine);
 		stream.flush();
