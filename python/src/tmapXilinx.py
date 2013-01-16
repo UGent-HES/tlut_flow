@@ -38,7 +38,7 @@ def main():
         if checkFile(file):
             basename,ext = os.path.splitext(file)
             lstcpy = [item for item in nonXilinxFileList if item!=file]
-            run(file, lstcpy, performCheck=True, verboseFlag=False, virtexFamily=virtexFamily)
+            run(file, lstcpy, performCheck=True, verboseFlag=False, virtexFamily=virtexFamily, generateImplementationFilesFlag=True)
             assert not os.system('cp -f "work/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
             assert not os.system('cp -f "work/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
             assert not os.system('cp -f "work/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
