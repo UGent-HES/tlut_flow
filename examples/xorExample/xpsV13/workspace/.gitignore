@@ -1,6 +1,4 @@
 *.pydevproject
-.project
-.metadata
 bin/**
 tmp/**
 tmp/**/*
@@ -12,6 +10,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+.metadata/
 
 # External tool builders
 .externalToolBuilders/
@@ -19,10 +18,10 @@ local.properties
 # Locally stored "Eclipse launch configurations"
 *.launch
 
-# CDT-specific
-.cproject
-
 # PDT-specific
 .buildpath
 
 ppc440_0
+*.elf.elfcheck
+*.elf.size
+*.elf

@@ -8,7 +8,9 @@
 /pcores/*/design/work
 /pcores/*/hdl
 /pcores/*/devl
+/SDK
 
+/etc/system.gui
 /system_log.*
 /system_xmp.*
 /platgen.opt

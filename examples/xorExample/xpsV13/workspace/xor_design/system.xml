@@ -1,7 +1,7 @@
 
 <EDKSYSTEM EDKVERSION="13.4" EDWVERSION="1.2" TIMESTAMP="Wed Jan 16 14:41:40 2013">
 
-  <SYSTEMINFO ARCH="virtex5" DEVICE="xc5vfx70t" PACKAGE="ff1136" PART="xc5vfx70tff1136-1" SOURCE="/home/kheyse/private/tlut_flow/examples/xorExample/xpsV13b/system.xmp" SPEEDGRADE="-1"/>
+  <SYSTEMINFO ARCH="virtex5" DEVICE="xc5vfx70t" PACKAGE="ff1136" PART="xc5vfx70tff1136-1" SOURCE="/home/kheyse/private/tlut_flow/examples/xorExample/xpsV13/system.xmp" SPEEDGRADE="-1"/>
 
   <EXTERNALPORTS>
     <PORT DIR="I" MHS_INDEX="0" NAME="fpga_0_RS232_Uart_1_RX_pin" SIGNAME="fpga_0_RS232_Uart_1_RX_pin">
