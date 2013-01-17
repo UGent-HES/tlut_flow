@@ -129,7 +129,7 @@ int main(void) {
 	}
 
 
-    manual_test(&HwIcap);
+    //manual_test(&HwIcap);
     test(&HwIcap);
 
 	xil_printf("End EXOR test.\n\r\n\r");

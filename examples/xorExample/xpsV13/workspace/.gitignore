@@ -25,3 +25,5 @@ ppc440_0
 *.elf.elfcheck
 *.elf.size
 *.elf
+*.bit
+*.bmm

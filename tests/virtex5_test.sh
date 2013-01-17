@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-if [ ! -f ./virtex2pro_test.sh ]
+if [ ! -f ./virtex5_test.sh ]
 then
     echo "Test failed: You are not in the 'tests' directory"
     exit 1
@@ -19,10 +19,10 @@ fi
 
 function testCase {
     echo Testing $1
-    echo Testing $1 >> work/virtex2pro_output.log
+    echo Testing $1 >> work/virtex5_output.log
     oldPWD=$PWD
     cd ../examples/$1/pcores/$2/design/
-    generateTMAPMake.py virtex2pro >> $oldPWD/work/virtex2pro_output.log
+    generateTMAPMake.py virtex5 >> $oldPWD/work/virtex5_output.log
     cd - >/dev/null
     cd ../examples/$1
     make -f custom.make clean >/dev/null
@@ -31,11 +31,12 @@ function testCase {
     PID=$!
     stty 580:5:cbd:8a3b:3:1c:7f:15:4:0:1:0:11:13:1a:0:12:f:17:16:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0 -F /dev/ttyS0 #stty -g /dev/ttyS0
     set +e
-    make -f custom.make download >> $oldPWD/work/virtex2pro_output.log
+    make -f custom.make exporttosdk >> $oldPWD/work/virtex5_output.log
+    ./runTest.sh
     if [ $? -ne 0 ]
     then
       echo "$1 compilation failed"
-      echo "Log file: work/virtex2pro_output.log"
+      echo "Log file: work/virtex5_output.log"
       exit 1
     fi
     set -e
@@ -53,8 +54,6 @@ function testCase {
 }
 
 mkdir -p work
-rm -f work/virtex2pro_output.log
+rm -f work/virtex5_output.log
 
-testCase "xorExample/xps" "opb_xor_v1_00_a"
-testCase "xorExample/xps_mi" "opb_xor_v1_00_a"
-testCase "treeMult4b/xps" "opb_mult4b_v1_00_a"
+testCase "xorExample/xpsV13" "plb_xor_v1_00_a"
