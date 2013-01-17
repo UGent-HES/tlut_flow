@@ -93,10 +93,10 @@ This  allows you to compare its results with a conventional technology mapper an
 We have included a framework to make this comparison very easy. 
 The following pages provide clear examples and show how to adapt the framework for you own uses.
 
-Second, our tool flow has been integrated with the Xilinx FPGA tool flow so that you can perform DCS on a commercial Virtex 2 Pro FPGA.
-A number of examples that you can run right away on the XUP V2P board are included in this repository. 
+Second, our tool flow has been integrated with the Xilinx FPGA tool flow so that you can perform DCS on a commercial Virtex 2 Pro  or Virtex 5 FPGA.
+A number of examples that you can run right away on either the XUPV2P board (Virtex 2 Pro) or ML507 board (Virtex 5) are included in this repository. 
 Information on creating your own project is also included in this document.
-We are currently working on extending this tool flow to more modern FPGAs, such as the Virtex 5 or 6.
+The tool flow may be extended in the future to support more FPGAs, such as the Virtex 6 and 7.
 
 \section{Contact us}
 The TLUT tool flow is released by Ghent University, ELIS department, Hardware and Embedded Systems (HES) group (\href{http://hes.elis.ugent.be}{\emph{http://hes.elis.ugent.be}}).
@@ -130,7 +130,7 @@ Set your environment variables using:
 > . source
 \end{lstlisting}
 
-Section~\ref{sec:tlut_testing} explains how to test the TLUT tool flow, while in Section~\ref{sec:xilinx_testing} you can find information on how to test the integration with the Xilinx tool flow and the XUPV2P board.
+Section~\ref{sec:tlut_testing} explains how to test the TLUT tool flow, while in Section~\ref{sec:xilinx_testing} you can find information on how to test the integration with the Xilinx tool flow and the XUPV2P or ML507 board.
 
 \section{Dependencies}
 \begin{itemize}
@@ -140,10 +140,12 @@ Section~\ref{sec:tlut_testing} explains how to test the TLUT tool flow, while in
 \item Quartus II (tested with Web Edition version 11, Web Edition v12 may work but is not supported), Altera Corporation, \url{http://www.altera.com}
 \item Java (tested with version 1.6.0), Oracle, \url{http://www.java.com}
 \item Python 2.7, \url{http://www.python.org}
-\item Xilinx Design Suite 9 (tested with version 9.1 SP2 and partially tested with version 9.2), Xilinx Inc., \url{http://www.xilinx.com}\\
+\end{itemize}
+\item Optional dependencies to be provided by the user:
+\begin{itemize}
+\item A Xilinx XUP Virtex-II Pro Development System (XUPV2P board) and Xilinx Design Suite 9 (tested with version 9.1 SP2), Xilinx Inc., \url{http://www.xilinx.com}\\ % and partially tested with version 9.2
 Version 9 is old, but newer versions don't work well with the Virtex-II Pro.
-\item A Xilinx XUP Virtex-II Pro Development System (XUPV2P board)\\
-Xilinx Platform Builder and the XUPV2P board are only required for implementation of DCS on a commercial FPGA. 
+\item A Xilinx ML507 Virtex-5 Development System and Xilinx Design Suite (tested with version 13.4), Xilinx Inc.
 \end{itemize}
 \item Dependencies automatically downloaded and installed:
 \begin{itemize}
@@ -265,7 +267,8 @@ Finally, column 4 shows if the mapping solution has passed the equivalence test.
 \section{The $run$ function}\label{sec:run_function}
 To test the TLUT mapper on your own design (described in VHDL or Verilog), import the \emph{run} function from \emph{fast\_tlutmap} in your own Python script and call it with the following arguments:
 \begin{lstlisting}
-run(module, submodules, K, performCheck, verboseFlag)
+run(module, submodules, K, virtexFamily, performCheck, 
+	verboseFlag, generateImplementationFilesFlag)
 \end{lstlisting}
 \begin{itemize}
 \item \textbf{module} - String\\
@@ -287,13 +290,18 @@ or run('yourDesign.vhd', K=6)
 \item \textbf{performCheck} - boolean - \textit{default True}\\
 When checks are turned on, the resulting mapping is verified using a miter and satisfiability solver. This ensures that the mapped circuit implements the same functionality as the input circuit.
 
-E.g. run('yourDesign.vhd', 6, True)\\
-or run('yourDesign.vhd', performCheck=False)
+E.g. run('yourDesign.vhd', performCheck=False)
 
 \item \textbf{verboseFlag} - boolean - \textit{default False}\\
 This activates the verbose mode in which more information gets printed regarding the execution of the flow.
 
-E.g. run('yourDesign.vhd', 6, True, True)\\ or run('yourDesign.vhd', verboseFlag=True)
+E.g. run('yourDesign.vhd', verboseFlag=True)
+
+\item \textbf{virtexFamily} - String - \textit{default undefined}\\
+Set the Virtex family to ``virtex2pro" or ``virtex5". This sets ``K" for you and is a required argument in combination with ``generateImplementationFilesFlag=True''. This option is only used when implementing DCS on a real FPGA.
+
+\item \textbf{generateImplementationFilesFlag} - boolean - \textit{default False}\\
+Generate VHDL files for implementation of DCS on a real FPGA. This option requires ``virtexFamily'' to be set.
 \end{itemize}
 
 
@@ -327,24 +335,33 @@ Check if all parameters were correctly extracted from your VHDL/Verilog. See Sec
 
 \clearpage
 \chapter{Xilinx-integrated TLUT tool flow}\label{sec:xilinx_flow}
-The Xilinx-integrated TLUT tool flow can be used to build an application with DCS on the XUPV2P board (Currently only designs in VHDL, not Verilog).
-A number of examples are included in the `examples' directory.
+The Xilinx-integrated TLUT tool flow can be used to build an application with DCS on the XUPV2P or ML507 board (Currently only designs in VHDL, not Verilog).
+A number of examples for the XUPV2P are included in the `examples' directory.
 \begin{itemize}
 \item `examples/xorExample/xps'
 \item `examples/xorExample/xps\_mi'
 \item `examples/treeMult4b/xps'
 \end{itemize}
 
+An example for the ML507 is also included in the `examples' directory.
+\begin{itemize}
+\item `examples/xorExample/xpsV13'
+\end{itemize}
+
 \section{Testing}\label{sec:xilinx_testing}
 This section explains how you can run  all these examples to test your setup.
 
-First, connect your XUPV2P board to the computer using a USB cable (for bitstream configuration) and a serial cable (for debugging).
-Then, open each of the projects `examples/xorExample/xps',  `examples/xorExample/xps\_mi' and `examples/treeMult4b/xps' in XPS and choose ``Generate bitstream''. XPS will produce an error but this is ok.
+First, connect your board to the computer using a USB cable (for bitstream configuration) and a serial cable (for debugging).
+Then, open each of the projects (see above) in XPS (using the version 9 for the XUPV2P and version 13.4 for the ML507) and choose ``Generate bitstream''. You may immediately terminate this process or it may produce an error but this is ok, this creates a number of files for the project so that the automated test scripts can run.
+
+%For the ML507 examples you also have to open Xilinx SDK, choose ``File'', ``Import'', ``General'', ``Existing Projects into Workspace'' and choose %the ``workspace'' subdirectory of the example. Choose not to copy the projects. Afterwards you can close SDK.
 
 Now you can run all tests on these projects by doing:
 \begin{lstlisting}
 > cd tests
 > ./virtex2pro_test.sh
+or
+> ./virtex5_test.sh
 \end{lstlisting}
 
 Every project is now being built, loaded onto the FPGA and DCS is tested using the embedded PowerPC (you can find the debug output from the FPGA in the `received.txt' file in the project directory). This will take a long time. Make sure minicom is not running at the same time, because this will make it impossible to read the debug output from the FPGA. If everything works fine you will get the following result. 
@@ -353,15 +370,18 @@ Every project is now being built, loaded onto the FPGA and DCS is tested using t
 %powerpc-eabi-ar: creating ../../../lib/libxil.a
 %./virtex2pro_test.sh: line 4:  6732 Terminated cat ...
 \begin{lstlisting}
+Testing xorExample/xps
 ...
 xorExample/xps succeeded
+Testing xorExample/xps_mi
 ...
 xorExample/xps_mi succeeded
+Testing treeMult4b/xps
 ...
 treeMult4b/xps succeeded
 \end{lstlisting}
 
-You can manually run one example by going to the `pcores/opb\_<design\_name>/design' subdirectory of the example and running `generateTMAPMake.py' from there (this has to be done only the first time). After this you can choose ``Download bitstream'' from within XPS.
+You can manually run one example by going to the `pcores/opb\_<design\_name>/design' subdirectory of the example and running `generateTMAPMake.py virtex2pro' from there (this has to be done only the first time). After this you can choose ``Download bitstream'' from within XPS (in version 13.4 you also need to run the application from Xilinx SDK).
 The debug output of the FPGA can be read with minicom.
 
 If you encounter errors, troubleshooting information can be found in Section~\ref{sec:xilinx_troubleshooting}.
@@ -377,7 +397,9 @@ Step 5: Writing the DCS peripheral, p.\ \pageref{sec:writing_peripheral}\\
 Step 6: Creating the software application, p.\ \pageref{sec:creating_software}\\
 Step 7: Creating the custom makefile, p.\ \pageref{sec:creating_makefile}\\
 Step 8: Writing the software application, p.\ \pageref{sec:writing_software}\\
-Step 9: Testing, p.\ \pageref{sec:testing}
+Step 9: Testing, p.\ \pageref{sec:testing}\\
+\\
+Differences for the Virtex 5, p.\ \pageref{sec:diff_virtex5}.
 
 %Bron: \url{http://hes.elis.ugent.be/wiki/Wiki/%20Dynamic%20reconfiguration/tmap-xps}
 
@@ -604,7 +626,7 @@ port map (
 \includegraphics[scale=0.5]{design1}
 \caption{Removing the write functionality for read-only registers\label{fig:design1}}
 \end{figure}
-\item Enter the `design' directory and run `generateTMAPMake.py'. This creates the custom makefile `tmap.make'. You have to rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\--TMAP' annotation.
+\item Enter the `design' directory and run `generateTMAPMake.py <your\_fpga>' with <your\_fpga> either ``virtex2pro'' or ``virtex5''. This creates the custom makefile `tmap.make'. You have to rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\--TMAP' annotation.
 \item Choose ``Generate bitstream'' in XPS to build your peripheral.
 \item Look near the end of the output of this command for ``Group path: '' followed by something similar to ``opb\_xor\_0/opb\_xor\_0/USER\_LOGIC\_I/EXORS/*''.
 Edit `data/system.ucf' and add the following lines before the IO constraints, replacing <group\_path> with the path found before. Enlarge the ``RANGE'' of the group as needed. This area constraint makes sure that  run-time reconfiguration does not break the rest of your design. This is necessary because reconfiguring a frame resets the contents of the SRLs and RAM LUTs in it. 
@@ -670,6 +692,16 @@ $reconfigure(\&HwIcap, output, location\_array[i])$ reconfigures the TLUTs of in
 \subsection{Testing the design}\label{sec:testing}
 The project can now be tested. To do this, connect your XUPV2P board to the computer using a USB cable (for bitstream programming) and a serial cable (for debugging). Start the program minicom to read the debug output from your XUPV2P board. Then, choose ``Download bitstream'' in XPS to run your project on the FPGA.
 
+\subsection{Differences for the Virtex 5}\label{sec:diff_virtex5}
+For the Virtex 5 FPGA the steps are similar but might look different because of the newer Xilinx Design Suite that is used.
+Summarised, you need to create a project (for the ML507 board) with a PowerPC, then add the HWICAP and connect it to the PLB bus (you don't have to change the version of the HWICAP this time) and finally create a DCS peripheral in the same way as for the Virtex 2 Pro.
+
+In the new Design Suite you use Xilinx SDK to create software applications for your board. 
+To start SDK, choose ``Export Hardware Design to SDK'' under ``Project'' from within XPS. 
+Create a new software project and add all the files in ``swReconfiguration'' to your project. 
+You should link to the files but don't copy them because they are updated by the TLUT flow when you change your design. 
+Copy the file ``xhwicap\_clb\_lut\_replacement.h'' from ``examples/xorExample/xpsV13/swReconfiguration'' to your project. This fixes a bug in the HWICAP drivers for Virtex 5.
+You may want to increase heap and stack size in the linker script of your software project.
 
 \section{Troubleshooting}\label{sec:xilinx_troubleshooting}
 It is assumed that you have already successfuly run the tests for the standalone TLUT tool flow (Section~\ref{sec:standalone_flow}).
@@ -679,8 +711,10 @@ It is assumed that you have already successfuly run the tests for the standalone
 Make sure you have set the environment variables correctly by doing `. source'. You must do this in the same terminal as you start XPS in and before starting XPS.
 \item \emph{The output of minicom is garbage:}\\
 Reboot your computer to fix the corrupted state the serial port is in. The corrupted state may be caused by running minicom and `virtex2pro\_test.sh' at the same time.
+\item \emph{Xilinx Design Suite Errors:}\\
+Make sure you are using a compatible version of the Design Suite. Version 9 for the Virtex 2 Pro and a newer one for the Virtex 5 (For the recommended versions see Section~\ref{sec:setup}.
 \item \emph{Reconfiguration does not happen, even for the example designs:}\\
-Check the jumper settings of the XUPV2P board.
+Check the jumper settings of the XUPV2P or ML507 board.
 \end{itemize}
 
 
