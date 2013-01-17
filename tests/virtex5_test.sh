@@ -32,11 +32,12 @@ function testCase {
     stty 580:5:cbd:8a3b:3:1c:7f:15:4:0:1:0:11:13:1a:0:12:f:17:16:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0 -F /dev/ttyS0 #stty -g /dev/ttyS0
     set +e
     make -f custom.make exporttosdk >> $oldPWD/work/virtex5_output.log
-    ./runTest.sh
+    ./runTest.sh >> $oldPWD/work/virtex5_output.log
     if [ $? -ne 0 ]
     then
       echo "$1 compilation failed"
       echo "Log file: work/virtex5_output.log"
+      kill $PID
       exit 1
     fi
     set -e

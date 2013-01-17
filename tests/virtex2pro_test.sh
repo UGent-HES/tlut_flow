@@ -36,6 +36,7 @@ function testCase {
     then
       echo "$1 compilation failed"
       echo "Log file: work/virtex2pro_output.log"
+      kill $PID
       exit 1
     fi
     set -e
