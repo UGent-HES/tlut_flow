@@ -25,7 +25,7 @@ function testCase {
     generateTMAPMake.py virtex5 >> $oldPWD/work/virtex5_output.log
     cd - >/dev/null
     cd ../examples/$1
-    make -f custom.make clean >/dev/null
+    #make -f custom.make clean >/dev/null
     rm -f received.txt
     cat > received.txt < /dev/ttyS0&
     PID=$!

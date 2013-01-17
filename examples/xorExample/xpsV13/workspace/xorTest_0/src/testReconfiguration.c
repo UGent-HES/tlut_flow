@@ -1,1 +1,0 @@
-../../../swReconfiguration/testReconfiguration.c

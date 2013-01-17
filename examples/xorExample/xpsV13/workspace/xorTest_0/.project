@@ -79,4 +79,36 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>exorw32.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/swReconfiguration/exorw32.c</locationURI>
+		</link>
+		<link>
+			<name>exorw32.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/swReconfiguration/exorw32.h</locationURI>
+		</link>
+		<link>
+			<name>locations.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/swReconfiguration/locations.c</locationURI>
+		</link>
+		<link>
+			<name>locations.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/swReconfiguration/locations.h</locationURI>
+		</link>
+		<link>
+			<name>testReconfiguration.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/swReconfiguration/testReconfiguration.c</locationURI>
+		</link>
+		<link>
+			<name>xhwicap_clb_lut_replacement.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/swReconfiguration/xhwicap_clb_lut_replacement.h</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
