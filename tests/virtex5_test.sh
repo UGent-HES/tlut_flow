@@ -17,6 +17,13 @@ then
     exit 1
 fi
 
+trap ctrl_c INT
+function ctrl_c() {
+        echo "Test aborted"
+        kill $PID
+        exit 1
+}
+
 function testCase {
     echo Testing $1
     echo Testing $1 >> work/virtex5_output.log
@@ -58,3 +65,4 @@ mkdir -p work
 rm -f work/virtex5_output.log
 
 testCase "xorExample/xpsV13" "plb_xor_v1_00_a"
+#testCase "treeMult4b/xpsV13" "plb_mult4b_v1_00_a"

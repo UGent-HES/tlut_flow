@@ -1,4 +1,6 @@
 #include "exorw32.h"
+#include "stdio.h"
+#include "xio.h"
 
 inline Xuint8 getBit(int word,int i) {
     return (word & (1 << i)) != 0;
@@ -50,7 +52,6 @@ void test(XHwIcap *HwIcap_p) {
 }
 
 void manual_test(XHwIcap *HwIcap_p) {
-	Xuint8 i,j;
 	Xuint32 input;
     Xuint32 mask;
 	Xuint8 parameter[NUMBER_OF_PARAMETERS];
@@ -73,7 +74,9 @@ void manual_test(XHwIcap *HwIcap_p) {
 	evaluate(parameter,output);
 	xil_printf("Evaluation Complete!\n\r\n\r");
 	reconfigure(HwIcap_p,output,location_array[0]);
-	/*for(i=0;i<NUMBER_OF_TLUTS_PER_INSTANCE;i++) {
+	/*
+	Xuint8 i,j;
+	for(i=0;i<NUMBER_OF_TLUTS_PER_INSTANCE;i++) {
 	    xil_printf("lut %d ",i);
 	    for(j=0;j<LUT_CONFIG_WIDTH;j++)
 	        xil_printf("%x",output[i][j]);

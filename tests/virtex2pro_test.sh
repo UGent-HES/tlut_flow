@@ -17,6 +17,13 @@ then
     exit 1
 fi
 
+trap ctrl_c INT
+function ctrl_c() {
+        echo "Test aborted"
+        kill $PID
+        exit 1
+}
+
 function testCase {
     echo Testing $1
     echo Testing $1 >> work/virtex2pro_output.log

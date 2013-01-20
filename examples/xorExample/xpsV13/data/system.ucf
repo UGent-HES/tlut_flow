@@ -20,12 +20,11 @@ Net "clock_generator_0_CLKOUT2" TNM = "ICAPCLK_GRP";
 TIMESPEC TS_TIG0 = FROM "PLBCLK_GRP" TO "ICAPCLK_GRP" TIG;
 TIMESPEC TS_TIG1 = FROM "ICAPCLK_GRP" TO "PLBCLK_GRP" TIG;
 
-#CONFIG PROHIBIT = SLICE_X1Y*;
 INST "plb_xor_0/plb_xor_0/USER_LOGIC_I/EXORS/*" AREA_GROUP=group1;
 AREA_GROUP "group1" COMPRESSION=0;
 AREA_GROUP "group1" PLACE=CLOSED;
 AREA_GROUP "group1" GROUP=CLOSED;
-AREA_GROUP "group1" RANGE=SLICE_X0Y0:SLICE_X39Y100;
+AREA_GROUP "group1" RANGE=SLICE_X0Y0:SLICE_X39Y39; #SLICE_XaYb:SLICE_XcYd with a%2==0, c%2==1, b%20==0, d%20==19
 
 NET "xps_hwicap_0/xps_hwicap_0/HWICAP_CTRL_I/icap_statemachine_I1/Icap_datain_cs<*>" MAXDELAY = 2 ns; 
 NET "xps_hwicap_0/xps_hwicap_0/HWICAP_CTRL_I/icap_statemachine_I1/Icap_ce_cs" MAXDELAY = 2 ns; 
