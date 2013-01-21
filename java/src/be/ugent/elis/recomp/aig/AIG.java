@@ -894,11 +894,16 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			switch (n.getType()) {
 			case INPUT:
 				variableIndex.put(n, freeVariablePool.poll());
+                if (freeVariablePool.peek() > max)
+                    max = freeVariablePool.peek();
+                    
 				cfile.append("	node["+variableIndex.get(n)+"] = parameter["+input.indexOf(n)+"];"+newLine);//
 				break;
 				
 			case AND:
 				variableIndex.put(n, freeVariablePool.poll());
+                if (freeVariablePool.peek() > max)
+                    max = freeVariablePool.peek();
 
 				int current = variableIndex.get(n);
 				
@@ -944,10 +949,6 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				
 			default:
 				break;
-			}
-			
-			if (freeVariablePool.peek() > max) {
-				max = freeVariablePool.peek();
 			}
 		}
 		
@@ -1034,7 +1035,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		cstream.print(cfile.toString().replace("??", ""+max));
 		cstream.flush();
 		
-		hstream.print(hfile.toString().replace("??", ""+max));
+		hstream.print(hfile.toString());
 		hstream.flush();
 		
 		System.out.println("Maximum index: " + max);

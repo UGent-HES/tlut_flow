@@ -337,11 +337,11 @@ def synthesize(top, submodules, verboseFlag=False):
     
     return sweepFileName
 
-def group_per(iterable,n):
+def group_per(iterable, n):
     for i in xrange(0,len(iterable),n):
         yield islice(iterable,i,i+n)
     
-def printCFunction(aagFileName,CFileName,headerFileName,virtexFamily,verboseFlag=False):
+def printCFunction(aagFileName, CFileName, headerFileName, virtexFamily, verboseFlag=False):
     cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.aig.MakeCEvaluator']
     args = [aagFileName, CFileName, headerFileName, virtexFamily]
     if verboseFlag:

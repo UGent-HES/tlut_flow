@@ -77,7 +77,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         CFileName = baseName + '.c' 
         headerFileName = baseName + '.h' 
         assert virtexFamily, "Error: No FPGA family provided, cannot generate C functions"
-        printCFunction(parconfFile, CFileName, headerFileName, virtexFamily)
+        printCFunction(parconfFile, CFileName, headerFileName, virtexFamily, verboseFlag)
     
     # Run regular MAP
     print "Stage: SimpleMAP"
