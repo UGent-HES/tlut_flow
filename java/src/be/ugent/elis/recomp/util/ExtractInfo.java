@@ -40,6 +40,7 @@ import edu.byu.ece.rapidSmith.design.Instance;
 import edu.byu.ece.rapidSmith.design.Net;
 import edu.byu.ece.rapidSmith.design.PIP;
 import edu.byu.ece.rapidSmith.device.PrimitiveType;
+import edu.byu.ece.rapidSmith.device.TileType;
 import edu.byu.ece.rapidSmith.device.PrimitiveSite;
 import edu.byu.ece.rapidSmith.device.WireType;
 import edu.byu.ece.rapidSmith.router.Node;
@@ -114,9 +115,9 @@ public class ExtractInfo {
 				
 					if(logicalName2Instances.containsKey(lutName)){
 						InstanceInfo info = logicalName2Instances.get(lutName);
-						info.addInstance(path, primitiveSite, lutSite, primitiveType);
+						info.addInstance(path, primitiveSite, lutSite, instance.getTile().getType());
 					} else{
-						logicalName2Instances.put(lutName, new InstanceInfo(path, primitiveSite, lutSite, primitiveType));
+						logicalName2Instances.put(lutName, new InstanceInfo(path, primitiveSite, lutSite, instance.getTile().getType()));
 					}
 				}
 			}
@@ -180,10 +181,14 @@ public class ExtractInfo {
 		        cFile.append(","+(((x % 2) << 1) + (y % 2))); //((X % 2) << 1) + (Y % 2) )
 			} else if(design.getFamilyName().equals("virtex5")) {
 		        if(x%2==0) {
-		            if(logicalName2Instances.get(firstLine).getPrimitiveType(path)==PrimitiveType.SLICEM)
+		           if(logicalName2Instances.get(firstLine).getPrimitiveType(path)==TileType.CLBLM)
 		                cFile.append(",XHI_CLB_SLICEM_EVEN");
-		            else
+		            else if(logicalName2Instances.get(firstLine).getPrimitiveType(path)==TileType.CLBLL)
 		                cFile.append(",XHI_CLB_SLICEL_EVEN");
+		            else {
+		                System.err.println("Unknown tile type: "+logicalName2Instances.get(firstLine).getPrimitiveType(path));
+		                System.exit(1);
+		            }
 		        } else
 		            cFile.append(",XHI_CLB_SLICEL_ODD");
 			}
@@ -199,10 +204,14 @@ public class ExtractInfo {
                     cFile.append(","+(((x % 2) << 1) + (y % 2))); //((X % 2) << 1) + (Y % 2) )
                 } else if(design.getFamilyName().equals("virtex5")) {
                     if(x%2==0) {
-                        if(logicalName2Instances.get(lutName).getPrimitiveType(path)==PrimitiveType.SLICEM)
-                            cFile.append(",XHI_CLB_SLICEM_EVEN");
-                        else
-                            cFile.append(",XHI_CLB_SLICEL_EVEN");
+		           if(logicalName2Instances.get(lutName).getPrimitiveType(path)==TileType.CLBLM)
+		                cFile.append(",XHI_CLB_SLICEM_EVEN");
+		            else if(logicalName2Instances.get(lutName).getPrimitiveType(path)==TileType.CLBLL)
+		                cFile.append(",XHI_CLB_SLICEL_EVEN");
+		            else {
+		                System.err.println("Unknown tile type: "+logicalName2Instances.get(lutName).getPrimitiveType(path));
+		                System.exit(1);
+		            }
                     } else
                         cFile.append(",XHI_CLB_SLICEL_ODD");
                 }

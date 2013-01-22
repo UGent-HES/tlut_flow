@@ -31,6 +31,7 @@ import edu.byu.ece.rapidSmith.design.Instance;
 import edu.byu.ece.rapidSmith.design.Net;
 import edu.byu.ece.rapidSmith.design.PIP;
 import edu.byu.ece.rapidSmith.device.PrimitiveType;
+import edu.byu.ece.rapidSmith.device.TileType;
 import edu.byu.ece.rapidSmith.device.PrimitiveSite;
 import edu.byu.ece.rapidSmith.device.WireType;
 import edu.byu.ece.rapidSmith.router.Node;
@@ -43,7 +44,7 @@ public class InstanceInfo {
 	private Vector <PrimitiveSite> sites;
 	
 	private Vector <String> luts;//F or G lut
-	private Vector <PrimitiveType> primtypes; //slice type
+	private Vector <TileType> primtypes; //slice type
 	
 	/**
 	 * Constructor for a new InstanceInfo
@@ -52,10 +53,10 @@ public class InstanceInfo {
 		paths = new Vector<String>();
 		sites = new Vector<PrimitiveSite>();
 		luts = new Vector<String>();
-		primtypes = new Vector<PrimitiveType>();
+		primtypes = new Vector<TileType>();
 	}
 	
-	public InstanceInfo(String path, PrimitiveSite site, String lut, PrimitiveType primtype){
+	public InstanceInfo(String path, PrimitiveSite site, String lut, TileType primtype){
 	    this();
 		//System.out.println(path);
 		paths.add(path);
@@ -64,7 +65,7 @@ public class InstanceInfo {
 		primtypes.add(primtype);
 	}
 	
-	public void addInstance(String path, PrimitiveSite site, String lut, PrimitiveType primtype){
+	public void addInstance(String path, PrimitiveSite site, String lut, TileType primtype){
 		paths.add(path);
 		sites.add(site);
 		luts.add(lut);
@@ -79,7 +80,7 @@ public class InstanceInfo {
 		return luts.get(paths.indexOf(path));
 	}
 	
-	public PrimitiveType getPrimitiveType(String path){
+	public TileType getPrimitiveType(String path){
 		return primtypes.get(paths.indexOf(path));
 	}
 	

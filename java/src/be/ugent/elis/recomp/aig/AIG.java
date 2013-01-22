@@ -889,7 +889,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 		
 		for (N n: inToOut) {
-			System.out.println(n.getName());
+			//System.out.println(n.getName());
 			
 			switch (n.getType()) {
 			case INPUT:
@@ -938,12 +938,14 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			case OUTPUT:
 				int out = this.output.indexOf(n);
 				int child  = variableIndex.get(n.getI0().getTail());
+			    //System.out.println("output ("+n+"="+(out/lutSize)+","+(out%lutSize)+")");
 				
 				if (n.getI0().isInverted() ^ fpgaFamily.equals("virtex2pro")) { //virtex2pro: all bits inverted
-					cfile.append("	output["+(out/lutSize)+"]["+(out%lutSize)+"] = ~node["+child+"] & 1;"+newLine);
+					cfile.append("	output["+(out/lutSize)+"]["+(out%lutSize)+"] = ~node["+child+"] & 1;");
 				} else {
-					cfile.append("	output["+(out/lutSize)+"]["+(out%lutSize)+"] = node["+child+"] & 1;"+newLine);
+					cfile.append("	output["+(out/lutSize)+"]["+(out%lutSize)+"] = node["+child+"] & 1;");
 				}
+			    cfile.append("\t//"+n+newLine);
 				n.setMarked(true);
 				break;
 				
