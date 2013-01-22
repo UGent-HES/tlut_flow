@@ -1,0 +1,11 @@
+##############################################################################
+## Filename:          /home/kheyse/private/tlut_flow/examples/treeMult4b/xpsV13/pcores/plb_mult4b_v1_00_a/data/plb_mult4b_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Fri Jan 18 19:52:19 2013 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib proc_common_v3_00_a  all 
+lib plbv46_slave_single_v1_01_a  all 
+lib plb_mult4b_v1_00_a treeMult4b vhdl
+lib plb_mult4b_v1_00_a user_logic vhdl
+lib plb_mult4b_v1_00_a plb_mult4b vhdl
