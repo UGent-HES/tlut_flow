@@ -17,6 +17,7 @@
 /received.txt
 /system_incl.make
 /system.make
+/XpsGuiSessionLock
 /*.log
 /pcores/*/design/abc.rc
 
