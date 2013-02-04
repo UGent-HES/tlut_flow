@@ -798,15 +798,27 @@ public class MappingAIG extends AIG<Node, Edge> {
 	public void printLutStructureVhdl(String inVhdFile, String vhdFile, String nameFile, int K) throws IOException {
 		PrintStream stream = new PrintStream(new File(vhdFile));
 		PrintStream nameStream = new PrintStream(new File(nameFile));
+		//printGraph(stream); 
 		writeHeader(stream, inVhdFile, K);		
 		String baseName = inVhdFile.substring(0,inVhdFile.lastIndexOf('.')).substring(inVhdFile.lastIndexOf('/')+1);
-	    stream.println("\nbegin");
+		stream.println("\nbegin");
 	    
 	    for (Node latch : getLatches()) {
-			
-					printLatchVhdl(baseName, latch ,stream, K, latch.getName().replace("[","").replace("]",""));	 
-				
-		}
+	    	boolean outlatch=false;
+	    	for(Node outp : getOutputs()){
+	    		if(outp.getName().replace("[","").replace("]","").equals(latch.getName().replace("[","").replace("]",""))){
+	    			outlatch=true;
+	    			break;
+	    		}
+	    	}
+			if(outlatch){
+				printLatchVhdl(baseName, latch ,stream, K, latch.getName().replace("[","").replace("]","")+"_o");
+			}
+			else{
+				printLatchVhdl(baseName, latch ,stream, K, latch.getName().replace("[","").replace("]",""));	 
+			}
+	    }
+	    
 		
 	    
 	    
@@ -833,7 +845,12 @@ public class MappingAIG extends AIG<Node, Edge> {
 				if (e.isInverted()) {
 					stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= not("+node.getName().replace("[","").replace("]","")+");");
 				} else {
-					stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+";");
+					if(node.isOLatch()){
+						stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+"_o;");
+					}
+					else{
+						stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+";");
+					}
 				}		
 			}	
 		}	
@@ -975,11 +992,26 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 	    
 	    for (Node latch : getOLatches()) {
-			
+			boolean outlatch=false;
+	    	for(Node outp : getOutputs()){
+	    		if(outp.getName().replace("[","").replace("]","").equals(latch.getName().replace("[","").replace("]",""))){
+	    			outlatch=true;
+	    			break;
+	    		}
+	    	}
+			if(outlatch){
+				signalDeclarations = signalDeclarations + "\nsignal "+latch.getName().replace("[","").replace("]","") +"_o : STD_ULOGIC ;";
+				initAttributes = initAttributes + "\nattribute INIT of "+"FD"+"_"+latch.getName().replace("[","").replace("]","")+"_o : label is \"0"+"\";";
 				
-					signalDeclarations = signalDeclarations + "\nsignal "+latch.getName().replace("[","").replace("]","") +" : STD_ULOGIC ;";
-					initAttributes = initAttributes + "\nattribute INIT of "+"FD"+"_"+latch.getName().replace("[","").replace("]","")+" : label is \"0"+"\";"; 
-
+			}
+			else{
+				signalDeclarations = signalDeclarations + "\nsignal "+latch.getName().replace("[","").replace("]","") +" : STD_ULOGIC ;";
+				initAttributes = initAttributes + "\nattribute INIT of "+"FD"+"_"+latch.getName().replace("[","").replace("]","")+" : label is \"0"+"\";";	 
+			}
+				//signalDeclarations = signalDeclarations + "\nsignal "+latch.getName().replace("[","").replace("]","") +" : STD_ULOGIC ;";
+				//initAttributes = initAttributes + "\nattribute INIT of "+"FD"+"_"+latch.getName().replace("[","").replace("]","")+" : label is \"0"+"\";"; 
+				//signalDeclarations = signalDeclarations + "\nsignal "+latch.getName().replace("[","").replace("]","") +"_o : STD_ULOGIC ;";
+				//initAttributes = initAttributes + "\nattribute INIT of "+"FD"+"_"+latch.getName().replace("[","").replace("]","")+"_o : label is \"0"+"\";";
 				
 		}
 	    
