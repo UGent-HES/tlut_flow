@@ -217,7 +217,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				String name = scan.next();
 				ilatch.get(index).setName(name+"_i");
 				latch.get(index).setName(name);
-				olatch.get(index).setName(name+"_o");
+				olatch.get(index).setName(name);
 				break;
 			default:
 				break;

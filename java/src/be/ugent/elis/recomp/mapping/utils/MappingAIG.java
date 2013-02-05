@@ -725,19 +725,12 @@ public class MappingAIG extends AIG<Node, Edge> {
 		for (AbstractNode<Node, Edge> out : getOutputs()) {
 			Edge e = out.getI0();
 			Node node = e.getTail();
-			String nodeName;
 			if(checkOutputLutInversion(node) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(node) == OutputLutInversion.MixedOuts && e.isInverted())){
 				stream.println(".names "+node.getName()+"not"+" "+out.getName());
 				stream.println("1 1");
 			}
 			else{
-				if(node.getName().endsWith("_o")){//to account for the _o added in the read-in
-					nodeName=node.getName().substring(0,node.getName().length()-"_o".length());
-				}
-				else{
-					nodeName=node.getName();
-				}
-				if (!nodeName.equals(out.getName())){
+				if (!node.getName().equals(out.getName())){
 					stream.println(".names "+node.getName()+" "+out.getName());
 					if (e.isInverted()) {
 						stream.println("0 1");
@@ -811,7 +804,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	    
 	    for (Node latch : getLatches()) {
 			
-					printLatchVhdl(baseName, latch ,stream, K, latch.getName().replace("[","").replace("]","")+"_o");	 
+					printLatchVhdl(baseName, latch ,stream, K, latch.getName().replace("[","").replace("]",""));	 
 				
 		}
 		
