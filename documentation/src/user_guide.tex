@@ -151,8 +151,8 @@ Version 9 is old, but newer versions don't work well with the Virtex-II Pro.
 \begin{itemize}
 \item Aiger 1.9.4, JKU Institute for Formal Models and Verification, \url{http://fmv.jku.at/aiger}
 \item ABC (version 810ba683c042, 5 October 2012), Berkeley Logic Synthesis and Verification Group, \url{http://www.eecs.berkeley.edu/\~alanmi/abc}
-\item RapidSmith 0.5.1, BYU RapidSmith Projec,  \url{http://rapidsmith.sourceforge.net}
-\item Hessian 4.0.7, Caucho Technology, \url{http://hessian.caucho.com}
+\item RapidSmith 0.5.1, BYU RapidSmith Projec,  \url{http://rapidsmith.sourceforge.net}\\
+And the dependencies of Rapidsmith itself, such as Hessian 4.0.6.
 \end{itemize}
 \end{itemize}
 
@@ -649,7 +649,7 @@ AREA_GROUP "group1" RANGE=SLICE_X0Y*:SLICE_X51Y*;
 \item Under the applications tab, right click ``Sources'' and choose ``Add existing files\dots''. Add `swReconfiguration/locations.c' and `swReconfiguration/<TMAPmodule>.c' with TMAPmodule the name of the VHDL module that has the ``-\--TMAP'' annotation.
 \item Right click ``Headers'' choose ``Add existing files\dots''. Add `swReconfiguration/locations.h' and `swReconfiguration/<TMAPmodule>.h'.
 \item Right click ``Sources'' and choose ``Add new file\dots''. Call it `main.c' and save it.\\
-You can find a template for your `main.c' file below or at the bottom of `swReconfiguration/<TMAPmodule>.h'. Replace ``XPAR\_OPB\_XOR\_0\_BASEADDR'' with the name of the base address of your peripheral. You can find this in `Generated Header: ppc405\_0/include/xparameters.h' under  `Processor: ppc405\_0'.
+You can find a template for your `main.c' file below or at the bottom of `swReconfiguration/<TMAPmodule>.h' (only for Virtex 2 Pro). Replace ``XPAR\_OPB\_XOR\_0\_BASEADDR'' with the name of the base address of your peripheral. You can find this in `Generated Header: ppc405\_0/include/xparameters.h' under  `Processor: ppc405\_0'.
 \item Choose ``Build all user applications'' to build your software application.
 \end{itemize}
 

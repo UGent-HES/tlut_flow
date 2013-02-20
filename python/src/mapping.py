@@ -405,10 +405,6 @@ def synthesize(top, submodules, verboseFlag=False):
     subprocess.check_call(cmd);
     
     return sweepFileName
-
-def group_per(iterable, n):
-    for i in xrange(0,len(iterable),n):
-        yield islice(iterable,i,i+n)
     
 def printCFunction(aagFileName, CFileName, headerFileName, virtexFamily, verboseFlag=False):
     cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.aig.MakeCEvaluator']
