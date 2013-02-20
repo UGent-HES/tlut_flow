@@ -798,7 +798,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	public void printLutStructureVhdl(String inVhdFile, String vhdFile, String nameFile, int K) throws IOException {
 		PrintStream stream = new PrintStream(new File(vhdFile));
 		PrintStream nameStream = new PrintStream(new File(nameFile));
-		//printGraph(stream); 
+		 
 		writeHeader(stream, inVhdFile, K);		
 		String baseName = inVhdFile.substring(0,inVhdFile.lastIndexOf('.')).substring(inVhdFile.lastIndexOf('/')+1);
 		stream.println("\nbegin");
@@ -842,14 +842,24 @@ public class MappingAIG extends AIG<Node, Edge> {
 				//stream.println("1 1");
 			}
 			else{
-				if (e.isInverted()) {
-					stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= not("+node.getName().replace("[","").replace("]","")+");");
-				} else {
-					if(node.isOLatch()){
-						stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+"_o;");
-					}
-					else{
-						stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+";");
+				if(node.getName().equals("const0")){
+					stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= \'0\';");
+				}
+				else{
+					if (e.isInverted()) {
+						if(out.getName().replace("[","").replace("]","").equals(node.getName().replace("[","").replace("]",""))){
+							stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= not("+node.getName().replace("[","").replace("]","")+");");
+						}
+						else{
+							stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= not("+node.getName().replace("[","").replace("]","")+");");
+						}
+					} else {
+						if(out.getName().replace("[","").replace("]","").equals(node.getName().replace("[","").replace("]",""))){
+							stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+"_o;");
+						}
+						else{
+								stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+";");
+						}
 					}
 				}		
 			}	
@@ -877,8 +887,17 @@ public class MappingAIG extends AIG<Node, Edge> {
 	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, PrintStream nameStream, int K, String lutName){
 		ConeInterface bestCone = visibleAnd.getBestCone();
 		ArrayList<Node> regularInputs = bestCone.getRegularInputs();
+		//String lutInstance = "--printing Inputs:\t";
+		//for (Node node : bestCone.getNodes()){
+		//	lutInstance +=node.toString()+"   ";
+		//}
+		//lutInstance+="\n--printing Regular Inputs:\t";
+		//for (Node node : bestCone.getRegularInputs()){
+		//	lutInstance +=node.toString()+"   ";
+		//}
 		int lutSize = regularInputs.size();
-		String lutInstance = "";
+		//lutInstance+="\n";
+		String lutInstance="";
 		if(bestCone.isTLUT()){
 			lutInstance = "\n"+baseName+"_TLUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
 			nameStream.println(baseName+"_TLUT"+lutSize+"_"+lutName);
@@ -924,7 +943,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	    BufferedReader vhdlFileReader = new BufferedReader( new FileReader(new File(inVhdFile)));
 	    String vhdlFileLine = vhdlFileReader.readLine();
 	    String header = "--WARNING: Don't edit. Automatically regenerated file (TLUT flow)\n";
-	    while(vhdlFileLine.indexOf("architecture") == -1){
+	    while(vhdlFileLine.toLowerCase().indexOf("architecture") == -1){
 	        header = header + vhdlFileLine + '\n' ;
 	        vhdlFileLine = vhdlFileReader.readLine();    
 	    }
@@ -945,7 +964,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 	   // }
 	    stream.println(header.trim());
 	    
-	    
+	    //line below can maybe be replaced by stream.println(vhdlFileLine), it should then use the arch name of the original vhdl file
+	    //which has no disadvantages
 	    stream.println("\narchitecture rtl of "+baseName+" is");
 	    
 	    // Add LUT templates 
