@@ -61,6 +61,10 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 (12) Applicable Law  -  This Agreement shall be governed by and construed in accordance with the laws of the Belgium, without regard to its conflicts of law rules. The Commercial courts of Gent, Belgium are exclusively competent. 
 
 (13) Assignment  -  Neither this Agreement nor any of Licensee's rights hereunder shall be assigned, sublicensed, or transferred (in insolvency proceedings, by mergers, acquisitions or otherwise) by Licensee without the written consent of UGent. Any assignment or other transfer which is inconsistent with the foregoing shall be null and void ab initio. UGent may assign all or a portion of its rights and obligations hereunder. 
+
+Copyright (c) 2012, Ghent University - HES group
+All rights reserved.
+*//*
 */
 import java.io.FileNotFoundException;
 
