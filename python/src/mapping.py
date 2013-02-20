@@ -1,3 +1,11 @@
+
+import os
+import sys
+import commands
+import subprocess
+import re
+from itertools import islice
+
 '''
 SOFTWARE LICENSE AGREEMENT
 
@@ -65,12 +73,6 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 '''
-import os
-import sys
-import commands
-import subprocess
-import re
-from itertools import islice
 
 
 maxMemory = 1024

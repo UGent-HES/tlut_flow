@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
 SOFTWARE LICENSE AGREEMENT
 
@@ -65,7 +67,6 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 '''
-#!/usr/bin/env python
 
 from fast_tlutmap import run
 import os, sys, glob
