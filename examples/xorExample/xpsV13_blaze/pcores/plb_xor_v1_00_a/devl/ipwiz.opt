@@ -1,0 +1,9 @@
+-batch 
+-create plb_xor 
+-ver 1.00.a 
+-dir "/home/todavids/private/git/tlut/examples/xorExample/xpsV13_blaze" 
+-lang vhdl 
+-bus plbv46 s 
+-reg 2 
+-xps 
+-driver 
