@@ -83,7 +83,7 @@ For installation instructions and an introduction to using the tool flow, please
 The user should provide the following dependencies:
 
 - A UNIX operating system (tools used: gcc, bash, minicom, curl, stty, ...)
-- Quartus II (tested with Web Edition version 11, Web Edition v12 may work but is not supported), Altera Corporation, <http://www.altera.com>
+- Quartus II (tested with Web Edition version 11.0 SP1), Altera Corporation, <http://www.altera.com>
 - Java (tested with version 1.6.0), Oracle, <http://www.java.com>
 - Python 2.7, <http://www.python.org>
 
