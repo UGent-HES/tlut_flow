@@ -236,7 +236,7 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	}
 
 	public void replace(N node) {
-		for (E out: node.output) {
+		for (E out: node.fanOut()) {
 			out.setTail( (N) this);
 			this.addOutput(out);
 		}
