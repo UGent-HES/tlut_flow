@@ -88,8 +88,15 @@ def generateMake(makefileName, virtexFamily):
         
         makeFile.write(dedent('''\
         #This is the make file that contains all rules for using tmap
-        #You should include "%s" into your custom.make file
+        #You should include "%s" into your custom.make file after "include system_incl.make"
+
         \n'''%makefileName))
+        
+        makeFile.write(dedent('''\
+        ifndef TLUTFLOW_PATH
+        $(error TLUTFLOW_PATH is not set; You must source the file 'source' first)
+        endif
+        \n'''))
         
         driverFiles = ['$(SOFT_DIR)/%s'%os.path.splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
         driverFiles = [file+'.c' for file in driverFiles] + [file+'.h' for file in driverFiles]
