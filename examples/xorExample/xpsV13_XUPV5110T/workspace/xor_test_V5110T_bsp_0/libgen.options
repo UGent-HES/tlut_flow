@@ -1,0 +1,3 @@
+PROCESSOR=microblaze_0
+REPOSITORIES=
+HWSPEC=../xpsV13_XUPV5110T_hw_platform/system.xml
