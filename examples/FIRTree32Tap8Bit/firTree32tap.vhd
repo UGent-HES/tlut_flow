@@ -1,3 +1,4 @@
+--TMAP
 library ieee;
 use ieee.numeric_std.all;
 use IEEE.math_real.CEIL;
@@ -14,7 +15,7 @@ generic (
 );
 port(
     i   :   in  std_logic_vector(DATA_WIDTH-1 downto 0);
---PARAM
+    --PARAM
     c0  :   in  std_logic_vector(7 downto 0);
     c1  :   in  std_logic_vector(7 downto 0);
     c2  :   in  std_logic_vector(7 downto 0);
@@ -47,7 +48,6 @@ port(
     c29  :   in  std_logic_vector(7 downto 0);
     c30  :   in  std_logic_vector(7 downto 0);
     c31  :   in  std_logic_vector(7 downto 0);
-  
 --PARAM
     o   :   out  std_logic_vector((2*DATA_WIDTH)-1+31 downto 0);
     clk :   in std_logic
@@ -59,11 +59,8 @@ architecture behavior of firTree32tap is
 
     type intermediate_t is array (0 to 32) of std_logic_vector((2*DATA_WIDTH)-1+31 downto 0);
     signal intermediate : intermediate_t := (others => (others => '0'));
-
---PARAM
     type coef_t is array (0 to 31) of std_logic_vector(DATA_WIDTH-1 downto 0);
     signal coef : coef_t;
---PARAM
     type mult_t is array (0 to 31) of std_logic_vector((2*DATA_WIDTH)-1 downto 0);
     signal mult1 : mult_t;
 
@@ -71,7 +68,6 @@ architecture behavior of firTree32tap is
 
 begin
     
---PARAM
     coef(0) <= c0;
     coef(1) <= c1;
     coef(2) <= c2;
@@ -105,7 +101,6 @@ begin
     coef(30) <= c30;
     coef(31) <= c31;
    
---PARAM
     intermediate(0) <= (others => '0');
     
                 BUF:process(clk)
@@ -123,9 +118,7 @@ begin
         )
         port map (
             a => i_buffered,
---PARAM
             b => coef(index-1),
---PARAM
             c => mult1(index-1)
         );
 

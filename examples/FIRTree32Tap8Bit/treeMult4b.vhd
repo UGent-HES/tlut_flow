@@ -1,4 +1,3 @@
---TMAP
 library ieee, std;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -13,9 +12,7 @@ generic (
 );
 port(
     a   :   in  std_logic_vector(DATA_WIDTH-1 downto 0);
---PARAM
     b  :   in  std_logic_vector(7 downto 0);
---PARAM
     o   :   out  std_logic_vector(3*DATA_WIDTH-1 downto 0)
 	 );
 end treeMult4b;

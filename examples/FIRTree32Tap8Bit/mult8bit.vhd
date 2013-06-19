@@ -37,9 +37,7 @@ generic (
 );
 port(
     a   :   in  std_logic_vector(DATA_WIDTH-1 downto 0);
---PARAM
     b   :   in  std_logic_vector(7 downto 0);
---PARAM	
     c   :   out  std_logic_vector((2*DATA_WIDTH)-1 downto 0)
     );
 end mult8bit;
@@ -56,9 +54,7 @@ begin
    port map(
 
 	a => a(3 downto 0),
---PARAM
 	b => b,
---PARAM
 	o => right
 );
 
@@ -66,9 +62,7 @@ begin
    port map(
 
 	a => a(7 downto 4),
---PARAM
 	b => b,
---PARAM
 	o => left
 );		  
 	 	

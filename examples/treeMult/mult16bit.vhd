@@ -58,9 +58,7 @@ begin
    MULTIPLIER:entity work.treeMult4b
    port map(
 	a => a(i*4-1 downto i*4-4),
---PARAM
 	b => b,
---PARAM
 	o => nibbles(i-1)
 );
 end generate MULTIPLIERS;

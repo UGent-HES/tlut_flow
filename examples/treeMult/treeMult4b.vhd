@@ -10,9 +10,7 @@ generic (
 );
 port(
     a   :   in  std_logic_vector(DATA_WIDTH-1 downto 0);
---PARAM
     b  :   in  std_logic_vector(15 downto 0);
---PARAM
     o   :   out  std_logic_vector(16+DATA_WIDTH-1 downto 0)
 	 );
 end treeMult4b;

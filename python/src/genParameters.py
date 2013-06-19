@@ -144,9 +144,14 @@ def extract_parameter_names(fname):
     elif len(nmbrs)==1:
         print >> sys.stderr, "Error: Invalid parameters section: Only one '"+paramDelimiter+"' statement found"
         exit(2)
+    elif len(nmbrs)%2!=0:
+        print >> sys.stderr, "Error: Unclosed parameters section: Uneven number of'"+paramDelimiter+"' statements found"
+        exit(3)
     else:
         #first PARAM section contains parameter signal declarations
-        paramDefs = lines[nmbrs[0]+1:nmbrs[1]]
+        paramDefs=[]
+        for ind in range(len(nmbrs)/2):
+            paramDefs.extend(lines[nmbrs[ind*2]+1:nmbrs[ind*2+1]])
         paramDefs = ''.join(paramDefs).split(';')
         paramDefs = filter(bool, map(lambda l:l.rstrip('\r\n\t ').lstrip(), paramDefs))
     
