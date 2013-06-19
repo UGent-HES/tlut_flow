@@ -137,11 +137,12 @@ Section~\ref{sec:tlut_testing} explains how to test the TLUT tool flow, while in
 \item Dependencies to be provided by the user:
 \begin{itemize}
 \item A UNIX operating system (tools used: gcc (tested with v4.1.2), bash, minicom, curl, stty, \dots)
-\item Quartus II (tested with Web Edition version 11.0 SP1), Altera Corporation, \url{http://www.altera.com}
+\item The readlink library
+\item Quartus II (tested with Web Edition version 11.0 SP1, version 11.0 SP2 or later will not work out of the box), Altera Corporation, \url{http://www.altera.com}
 %Test succeeded: 10.0 Full Version (kheyse pixie), 12.1 SP0 Full Version (maxeler)
 %Test succeeded but results differ:  8 Full Version (Tom)
 %Test partially succeeded: 11.0 SP1 Web edition (kheyse, Ubuntu Virtualbox)
-\item Java (tested with version 1.6.0), Oracle, \url{http://www.java.com}
+\item Java (tested with version 1.6.0 and 1.7), Oracle, \url{http://www.java.com}
 \item Python 2.7, \url{http://www.python.org}
 \end{itemize}
 \item Optional dependencies to be provided by the user:
@@ -726,10 +727,10 @@ Step 2: Adding the HWICAP, p.\ \pageref{sec:adding_hwicap_blaze}\\
 Step 3: Creating the DCS peripheral, p.\ \pageref{sec:creating_peripheral_blaze}\\
 Step 4: Adding the DCS peripheral, p.\ \pageref{sec:adding_peripheral_blaze}\\
 Step 5: Writing the DCS peripheral, p.\ \pageref{sec:writing_peripheral_blaze}\\
-Step 6: Creating the software application, p.\ \pageref{sec:creating_software_blaze}\\
-Step 7: Creating the custom makefile, p.\ \pageref{sec:creating_makefile_blaze}\\
-Step 8: Writing the software application, p.\ \pageref{sec:writing_software_blaze}\\
-Step 9: Testing, p.\ \pageref{sec:testing_blaze}\\
+%Step 6: Creating the software application, p.\ \pageref{sec:creating_software_blaze}\\
+Step 6: Creating the custom makefile, p.\ \pageref{sec:creating_makefile_blaze}\\
+Step 7: Writing the software application, p.\ \pageref{sec:writing_software_blaze}\\
+Step 8: Testing, p.\ \pageref{sec:testing_blaze}\\
 \\
 
 %Bron: \url{http://hes.elis.ugent.be/wiki/Wiki/%20Dynamic%20reconfiguration/tmap-xps}
@@ -889,7 +890,7 @@ The last part of this step - Defining area the constraints - can be left out for
 
 Once the DCS peripheral has been defined completely, it is necessary to define a custom makefile. This is described in p.\ \pageref{sec:creating_makefile}. If you have not done so already, do not forget to enter the `design' directory and run `generateTMAPMake.py <your\_fpga>' with <your\_fpga> either ``virtex2pro'' or ``virtex5''. This creates the custom makefile `tmap.make', which insures the TLUT toolflow hooks up correctly with the Xilinx tools. Rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\--TMAP' annotation.
 
-\subsection{Writing the software application}
+\subsection{Writing the software application}\label{sec:writing_software_blaze}
 
 The previous steps conclude the hardware part of the XPS 13.4 flow, in order to write the software application and to test the design, we will continue in the Xilinx SDK, an eclipse-based software IDE which allows the user to program the FPGA and debug as well. The following steps have to be carried out:
 \\   
