@@ -158,7 +158,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         lutstructFile = basename + "-lutstruct.blif"
         vhdFile = basename + ".vhd"
         outVhdFile = basename + "-simpletmap.vhd"
-        nameFile= "names.txt"
+        nameFile= basename +"-names.txt"
         requiredFiles = [aagFile]
         if generateImplementationFilesFlag: requiredFiles.append(vhdFile)
         for f in requiredFiles:
@@ -377,7 +377,7 @@ def synthesize(top, submodules, verboseFlag=False):
             else:
                 fout.write('set_global_assignment -name VERILOG_FILE ' + file + '\n')
     
-        fout.write('set_global_assignment -name FAMILY Stratix\n');
+        fout.write('set_global_assignment -name FAMILY Stratix \n');
         fout.write('set_global_assignment -name TOP_LEVEL_ENTITY ' + basename + '\n');
         fout.write('set_global_assignment -name DEVICE_FILTER_SPEED_GRADE FASTEST\n');
     
@@ -385,7 +385,11 @@ def synthesize(top, submodules, verboseFlag=False):
     
         fout.write('set_global_assignment -name DEVICE AUTO\n');
         fout.write('set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1\n');
-
+        fout.write('set_global_assignment -name AUTO_RAM_RECOGNITION off\n')
+        fout.write('set_global_assignment -name AUTO_ROM_RECOGNITION off\n')
+        fout.write('set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION off\n')
+        #fout.write('set_global_assignment -name AUTO_DSP_RECOGNITION off\n')
+        fout.close()
 
     cmd = 'quartus_map ' + qsfFileName
     if verboseFlag:

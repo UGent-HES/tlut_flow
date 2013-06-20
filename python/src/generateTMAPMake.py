@@ -98,6 +98,7 @@ def generateMake(makefileName, virtexFamily):
         endif
         \n'''))
         
+        tmapFiles=[os.path.splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
         driverFiles = ['$(SOFT_DIR)/%s'%os.path.splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
         driverFiles = [file+'.c' for file in driverFiles] + [file+'.h' for file in driverFiles]
         makeFile.write(dedent('''\
@@ -167,8 +168,9 @@ def generateMake(makefileName, virtexFamily):
         \t@echo "****************************************************"
         \t@echo "Generating locations.h ..."
         \t@echo "****************************************************"
-        \tjava be.ugent.elis.recomp.util.ExtractInfo $(XDL_FILE) $(TMAPDESIGN_DIR)/work/names.txt $(LOC_FILES)
-        \n'''))
+        '''))
+        for tmapFile in tmapFiles:
+            makeFile.write('\tjava be.ugent.elis.recomp.util.ExtractInfo $(XDL_FILE) $(TMAPDESIGN_DIR)/work/'+tmapFile+'/'+tmapFile+'-names.txt $(LOC_FILES)\n\n')
         if virtexFamily=='virtex2pro':
             makeFile.write('bits : $(LOC_FILES)\n')
         else:

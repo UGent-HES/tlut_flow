@@ -98,19 +98,19 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         print >> sys.stderr, "Supported FPGA families: virtex2pro, virtex5"
         exit(1)
     
-    print "Stage: Creating work directory and copying design"
+    print "Stage: Creating work/"+baseName+" directory and copying design"
     try:
-        os.system('mkdir -p work')
-        shutil.copy(module, 'work')
+        os.system('mkdir -p work/'+baseName)
+        shutil.copy(module, 'work/'+baseName)
         for submodule in submodules:
-            shutil.copy(submodule, 'work')
-        shutil.copy('abc.rc','work')
+            shutil.copy(submodule, 'work/'+baseName)
+        shutil.copy('abc.rc','work/'+baseName)
     except IOError as e:
         print >> sys.stderr, e
         exit(3)
     
     ret_pwd = os.getcwd()
-    os.chdir('work')
+    os.chdir('work/'+baseName)
     
     # Synthesis
     print "Stage: Synthesizing"
@@ -125,7 +125,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
             print "Parameters:"
             os.system('cat %s.par'%baseName)
         else:
-            print "Attention: Verify the detected parameters by inspecting work/%s.par"%baseName
+            print "Attention: Verify the detected parameters by inspecting work/"+baseName+"/%s.par"%baseName
     except AssertionError:
         exit(3)
     

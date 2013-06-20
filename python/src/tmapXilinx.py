@@ -110,9 +110,9 @@ def main():
             basename,ext = os.path.splitext(file)
             lstcpy = [item for item in nonXilinxFileList if item!=file]
             run(file, lstcpy, performCheck=True, verboseFlag=verboseFlag, virtexFamily=virtexFamily, generateImplementationFilesFlag=True)
-            assert not os.system('cp -f "work/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
-            assert not os.system('cp -f "work/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
-            assert not os.system('cp -f "work/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
+            assert not os.system('cp -f "work/'+basename+'/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
+            assert not os.system('cp -f "work/'+basename+'/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
+            assert not os.system('cp -f "work/'+basename+'/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
         else:
             assert not os.system('ln -sf "../../design/'+file+'" "../hdl/vhdl/"')
             #assert not os.system('cp -f "'+file+'" "../hdl/vhdl/"')
