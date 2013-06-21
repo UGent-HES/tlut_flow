@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-if [ ! -f ./virtex5_test.sh ]
+if [ ! -f ./virtex5_VLX110T_test.sh ]
 then
     echo "Test failed: You are not in the 'tests' directory"
     exit 1
@@ -43,12 +43,12 @@ function testCase {
     if [ $? -ne 0 ]
     then
       echo "$1 compilation failed"
-      echo "Log file: work/virtex5__VLX110T_output.log"
+      echo "Log file: work/virtex5_VLX110T_output.log"
       kill $PID
       exit 1
     fi
     set -e
-    sleep 10
+    sleep 15
     kill $PID
     #wait $PID 2>/dev/null
     if diff -bB received.txt received_expected.txt >/dev/null ; then
@@ -65,3 +65,4 @@ mkdir -p work
 rm -f work/virtex5_VLX110T_output.log
 
 testCase "xorExample/xpsV13_XUPV5110T" "plb_xor_v1_00_a"
+
