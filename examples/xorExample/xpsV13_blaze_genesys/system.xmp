@@ -3,7 +3,6 @@ XmpVersion: 13.4
 VerMgmt: 13.4
 IntStyle: default
 Flow: ise
-ModuleSearchPath: /home/akulkarn/private/Desktop/git_try/tlut_flow/examples/xorExample/xpsV13_blaze_genesys
 MHS File: system.mhs
 Architecture: virtex5
 Device: xc5vlx50t
