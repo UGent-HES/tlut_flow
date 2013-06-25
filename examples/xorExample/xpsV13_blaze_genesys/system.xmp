@@ -1,0 +1,30 @@
+#Please do not modify this file by hand
+XmpVersion: 13.4
+VerMgmt: 13.4
+IntStyle: default
+Flow: ise
+ModuleSearchPath: /home/akulkarn/private/Desktop/git_try/tlut_flow/examples/xorExample/xpsV13_blaze_genesys
+MHS File: system.mhs
+Architecture: virtex5
+Device: xc5vlx50t
+Package: ff1136
+SpeedGrade: -1
+UserCmd1: 
+UserCmd1Type: 0
+UserCmd2: 
+UserCmd2Type: 0
+GenSimTB: 0
+SdkExportBmmBit: 1
+SdkExportDir: SDK/SDK_Export
+InsertNoPads: 0
+WarnForEAArch: 1
+HdlLang: VHDL
+SimModel: BEHAVIORAL
+ExternalMemSim: 0
+UserMakeFile: /home/akulkarn/private/Desktop/git_try/tlut_flow/examples/xorExample/xpsV13_blaze_genesys/custom.make
+UcfFile: data/system.ucf
+EnableParTimingError: 1
+ShowLicenseDialog: 1
+Processor: microblaze_0
+ElfImp: 
+ElfSim: 

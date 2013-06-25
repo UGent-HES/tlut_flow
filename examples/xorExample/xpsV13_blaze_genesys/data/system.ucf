@@ -1,0 +1,8 @@
+#  Digilent Genesys System Board
+Net fpga_0_RS232_Uart_0_RX_pin LOC = AG15  |  IOSTANDARD=LVCMOS33;
+Net fpga_0_RS232_Uart_0_TX_pin LOC = AF19  |  IOSTANDARD=LVCMOS33;
+Net fpga_0_clk_1_sys_clk_pin TNM_NET = sys_clk_pin;
+TIMESPEC TS_sys_clk_pin = PERIOD sys_clk_pin 100000 kHz;
+Net fpga_0_clk_1_sys_clk_pin LOC = AG18  |  IOSTANDARD=LVCMOS33;
+Net fpga_0_rst_1_sys_rst_pin TIG;
+Net fpga_0_rst_1_sys_rst_pin LOC = E7  |  IOSTANDARD=LVCMOS25  |  PULLUP;
