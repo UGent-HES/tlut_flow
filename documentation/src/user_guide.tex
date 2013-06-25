@@ -346,9 +346,10 @@ The Xilinx-integrated TLUT tool flow has been verified and tested on the followi
 	\item \textbf{XUPV2P}: Contains a Virtex 2 pro(XC2VP20) with a PowerPC 405 processor.
 	\item \textbf{ML507}: Contains a Virtex 5(XC5VFX70T) with a PowerPC 440 processor.
 	\item \textbf{Genesys - Digilent}: Contains a Virtex 5(XC5VLX50T) that has no on-board CPU.
+        \item \textbf{XUPV5}: Contains a Virtex 5(XC5VLX110T) that has no on-board CPU.
 \end{itemize}
 
-Example projects for each of the boards are included in the 'examples' directory. For each of these boards at least the XOR-example was implemented. This example implements a XOR port that is turned on and off through run-time reconfiguration. The XUPV2P examples are implemented using Version 9 of the Xilinx tools. The ML507-board has two examples, a PowerPC and a MicroBlaze-based implementation. The Genesys board only has a MicroBlaze implementation, as it has no hardware CPU. For the Virtex 5 boards, version 13.4 of the Xilinx was used.
+Example projects for each of the boards are included in the 'examples' directory. For each of these boards at least the XOR-example was implemented. This example implements a XOR port that is turned on and off through run-time reconfiguration. The XUPV2P examples are implemented using Version 9 of the Xilinx tools. The ML507-board has two examples, a PowerPC and a MicroBlaze-based implementation. The Genesys and XUPV5 boards only has a MicroBlaze implementation, as they don't have hardware CPU. For the Virtex 5 boards, version 13.4 of the Xilinx was used.
 
 \begin{itemize}
 \item[XUPV2P :]
@@ -361,13 +362,15 @@ Example projects for each of the boards are included in the 'examples' directory
 \item `examples/treeMult4b/xpsV13'
 \item[Genesys :]
 \item `examples/xorExample/xpsV13\_blaze\_genesys'
+\item[XUPV5 :]
+\item `examples/xorExample/xpsV13\_XUPV5110T'
 \end{itemize}
 
 \section{Testing}\label{sec:xilinx_testing}
 This section explains how to run all these examples in order to test your setup.
 
 First, connect your board to the computer using a USB cable (for bitstream configuration) and a serial cable (for debugging).
-Then, open each of the projects (see above) in XPS (using the version 9 for the XUPV2P and version 13.4 for the ML507 and the Genesys board) and choose ``Generate bitstream''. You may immediately terminate this process or it may produce an error but this is OK, this creates a number of files for the project so that the automated test scripts can run.
+Then, open each of the projects (see above) in XPS (using the version 9 for the XUPV2P and version 13.4 for the ML507, Genesys and XUPV5 board) and choose ``Generate bitstream''. You may immediately terminate this process or it may produce an error but this is OK, this creates a number of files for the project so that the automated test scripts can run.
 
 %For the ML507 examples you also have to open Xilinx SDK, choose ``File'', ``Import'', ``General'', ``Existing Projects into Workspace'' and choose %the ``workspace'' subdirectory of the example. Choose not to copy the projects. Afterwards you can close SDK.
 
@@ -377,6 +380,12 @@ Now you can run all tests on these projects by doing:
 > ./virtex2pro_test.sh
 or
 > ./virtex5_test.sh
+or
+> ./virtex5_blaze_genesys_test.sh
+or
+> ./virtex5_blaze_test.sh
+or
+> .virtex5_VLX110T_test.sh
 \end{lstlisting}
 
 Every project is now being built, loaded onto the FPGA and DCS is tested using the embedded PowerPC or a MicroBlaze(you can find the debug output from the FPGA in the `received.txt' file in the project directory). This will take a long time. Make sure minicom is not running at the same time, because this will make it impossible to read the debug output from the FPGA. If everything works fine you will get the following result. 
@@ -969,7 +978,7 @@ The Genesys board was built by Digilent as a development platform for Virtex 5 F
 This changes the Project Setup described above slightly, the main differences are listed below:
 \begin{itemize}
 \item \textbf{Selecting the board configuration for the Genesys board}: \\
-While selecting board during creation of your project p.\ \pageref{sec:creating_proj_blaze}, In figure~\ref{fig:step3}, select Genesys as the board vendor. If the option is not available, source the Genesys support library, which can be found on their \href{http://www.digilentinc.com/Products/Detail.cfm?Prod=GENESYS}{website}.
+While selecting the board during creation of your project p.\ \pageref{sec:creating_proj_blaze}, In figure~\ref{fig:step3}, select Genesys as the board vendor. If the option is not available, source the Genesys support library, which can be found on their \href{http://www.digilentinc.com/Products/Detail.cfm?Prod=GENESYS}{website}.
 
 Go to Edit menu of the XPS menu bar, click on Edit preferences and follow the steps.
 \begin{figure}[H]
@@ -986,6 +995,19 @@ Before programming the FPGA as explained in the figure~\ref{fig:softwarestep8}, 
 \includegraphics[scale=0.5]{genesys_diff2}
 \caption{Select the ``Xilinx USB cable" as JTAG cable type. Click OK\label{fig:genesys_diff2}}
 \end{figure}
+
+\end{itemize}
+
+\subsection{Differences for the XUPV5  development board}\label{sec:diff_genesys}
+This board contains a Virtex 5 XC5VLX110T. It has no on-board PowerPC so DCS is implemented using a MicroBlaze softcore processor.
+
+This changes the Project Setup described above slightly, the main differences are listed below:
+\begin{itemize}
+
+\item \textbf{Selecting the board configuration for the XUPV5 board}: \\
+While selecting the board during creation of your project p.\ \pageref{sec:creating_proj_blaze}, In figure~\ref{fig:step3}, select Xilinx as the board vendor, followed by board name as `Virtex 5 ML505 Evaluation Platform'. You might notice that the selected FPGA would be Virtex 5 XC5VLX50T, however the configuration is same for Virtex 5 XC5VLX110T.
+
+While sourcing the `custom.make' file shown in p. \pageref{sec:creating_makefile}, figure~\ref{fig:makefile}, select the archictecture as Virtex 5, Device size as XC5VLX110T and then finally source the custom.make file as explained before.
 
 \end{itemize}
 
