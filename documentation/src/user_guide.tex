@@ -630,7 +630,7 @@ Make sure that you  copy `system.make' after creating the software application. 
 \begin{itemize}
 \item Go to the subdirectory corresponding to your DCS peripheral in the `pcores' directory of the project.
 \item Copy the `hdl/vhdl' directory to the `design' directory. It should contain two files `opb\_<peripheral\_name>.vhd' and `user\_logic.vhd'.
-\item Add the VHDL code of your DCS design to the `design' directory. It is advised that you run your design through the standalone TLUT tool flow first (Section\ \ref{sec:standalone_flow}). Add the line `-\--TMAP' to the top of the file that you want to perform DCS on. This does not have to be the top level module of the peripheral.
+\item Add the VHDL code of your DCS design to the `design' directory. It is advised that you run your design through the standalone TLUT tool flow first (Section\ \ref{sec:standalone_flow}). Add the line `-\--TMAP' to the top of the file that you want to perform DCS on. This does not have to be the top level module of the peripheral. For files that should not be read by the tool flow, add `-\--NOTMAP' to the top of the file. This will tell the flow to ignore this file, however, be careful not to do this for VHDL files that contain entities that are instantiated in the `-\--TMAP' file. 
 \item Add the names of your VHDL modules to the `.pao' file in the `data' directory. Modules that are only used as a submodule of your DCS module should not be included. Note that if a module depends on another module it should be listed after it.
 \item Add the line ``OPTION CORE\_STATE = development'' to the `.mpd' file in the `data' directory to ensure that your peripheral is synthesized again if changes are made to it.
 \item Instantiate your module in the architecture description of `user\_logic.vhd' and connect the inputs and outputs to the memory-mapped registers of the OPB peripheral. Assign the parameter inputs a dummy value.\\
@@ -650,7 +650,7 @@ port map (
 \includegraphics[scale=0.5]{design1}
 \caption{Removing the write functionality for read-only registers\label{fig:design1}}
 \end{figure}
-\item Enter the `design' directory and run `generateTMAPMake.py <your\_fpga>' with <your\_fpga> either ``virtex2pro'' or ``virtex5''. This creates the custom makefile `tmap.make'. You have to rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\--TMAP' annotation.
+\item Enter the `design' directory and run `generateTMAPMake.py <your\_fpga>' with <your\_fpga> either ``virtex2pro'' or ``virtex5''. This creates the custom makefile `tmap.make'. You have to rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\--TMAP' (or `-\--NOTMAP'  ) annotations.
 \item Choose ``Generate bitstream'' in XPS to build your peripheral.
 \item Look near the end of the output of this command for ``Group path: '' followed by something similar to ``opb\_xor\_0/opb\_xor\_0/USER\_LOGIC\_I/EXORS/*''.
 Edit `data/system.ucf' and add the following lines before the IO constraints, replacing <group\_path> with the path found before. Enlarge the ``RANGE'' of the group as needed. This area constraint makes sure that  run-time reconfiguration does not break the rest of your design. This is necessary because reconfiguring a frame resets the contents of the SRLs and RAM LUTs in it. 
@@ -897,7 +897,7 @@ The last part of this step - Defining area the constraints - can be left out for
 
 \subsection{Creating the custom makefile}\label{sec:creating_makefile_blaze}
 
-Once the DCS peripheral has been defined completely, it is necessary to define a custom makefile. This is described in p.\ \pageref{sec:creating_makefile}. If you have not done so already, do not forget to enter the `design' directory and run `generateTMAPMake.py <your\_fpga>' with <your\_fpga> either ``virtex2pro'' or ``virtex5''. This creates the custom makefile `tmap.make', which insures the TLUT toolflow hooks up correctly with the Xilinx tools. Rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\--TMAP' annotation.
+Once the DCS peripheral has been defined completely, it is necessary to define a custom makefile. This is described in p.\ \pageref{sec:creating_makefile}. If you have not done so already, do not forget to enter the `design' directory and run `generateTMAPMake.py <your\_fpga>' with <your\_fpga> either ``virtex2pro'' or ``virtex5''. This creates the custom makefile `tmap.make', which insures the TLUT toolflow hooks up correctly with the Xilinx tools. Rerun `generateTMAPMake.py' if you add files to the DCS peripheral or change the `-\--TMAP' (or `-\--NOTMAP' ) annotations.
 
 \subsection{Writing the software application}\label{sec:writing_software_blaze}
 
