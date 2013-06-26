@@ -1024,17 +1024,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 	    if (header.indexOf("library UNISIM;")== -1)
 	        header = headerArray[0] + libraryString + "\nentity" + headerArray[1];
 
-	    // Remove ports between --param annotations
-	    //headerArray = header.split("--[p|P][a|A][r|R][a|A][m|M][\n*]");
-	    //header = "";
-	    //for (int index=0;index < headerArray.length;index+=2){
-	    //    header = header.trim() + '\n' + headerArray[index];
-	   // }
 	    stream.println(header.trim());
 	    
-	    //line below can maybe be replaced by stream.println(vhdlFileLine), it should then use the arch name of the original vhdl file
-	    //which has no disadvantages
-	    stream.println("\narchitecture rtl of "+baseName+" is");
+	    stream.println("\n"+vhdlFileLine);
 	    
 	    // Add LUT templates 
 	    for (int i = 1;i<=K;i++){	

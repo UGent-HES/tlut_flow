@@ -74,6 +74,10 @@ import os, sys, glob
 def checkFile(filePath):
     with open(filePath,'r+') as file:
         return any("--TMAP" in s for s in file)
+
+def checkFileNoTmap(filePath):
+    with open(filePath,'r+') as file:
+        return any("--NOTMAP" in s for s in file)
         
 def checkXilinx(filePath):
     with open(filePath,'r+') as file:
@@ -99,7 +103,7 @@ def main():
     
     nonXilinxFileList = []
     for file in vhdFileList:
-        if checkXilinx(file):
+        if checkXilinx(file) or checkFileNoTmap(file):
             assert not os.system('ln -sf "../../design/'+file+'" ../hdl/vhdl/')
             #assert not os.system('cp -f "'+file+'" ../hdl/vhdl/')
         else:
