@@ -100,6 +100,7 @@ def main():
     os.chdir(designDir)
     assert not os.system('mkdir -p ../hdl/vhdl')
     vhdFileList = glob.glob('*.vhd*')
+    vhdFileList = [f for f in vhdFileList if not f.endswith('~')]
     
     nonXilinxFileList = []
     for file in vhdFileList:
