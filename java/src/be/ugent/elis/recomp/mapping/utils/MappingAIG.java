@@ -971,6 +971,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 			nameStream.println(baseName+"_TLUT"+lutSize+"_"+lutName);
 		}else {
 			lutInstance = "\n"+baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
+			nameStream.println(baseName+"_LUT"+lutSize+"_"+lutName);
 		}
 		for (int i = 0; i < lutSize ; i++){
 			//lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')');
@@ -993,9 +994,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 		Edge e = latch.getI0().getTail().getI0();
 		
 		if (e.isInverted()) {
-			latchInstance = latchInstance + ",\n\tD"+" => "+ e.getTail().getName()+ "not";
+			latchInstance = latchInstance + ",\n\tD"+" => "+ e.getTail().getName().replace('[', '(').replace(']', ')')+ "not";
 		} else {
-			latchInstance = latchInstance + ",\n\tD"+" => "+e.getTail().getName();		
+			latchInstance = latchInstance + ",\n\tD"+" => "+e.getTail().getName().replace('[', '(').replace(']', ')');		
 		}
 		
 		latchInstance = latchInstance + ");\n";
