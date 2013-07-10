@@ -953,7 +953,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	}
 	
 	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, PrintStream nameStream, int K, String lutName){
-		ConeInterface bestCone = visibleAnd.getBestCone();
+		Cone bestCone = visibleAnd.getBestCone();
 		ArrayList<Node> regularInputs = bestCone.getRegularInputs();
 		//String lutInstance = "--printing Inputs:\t";
 		//for (Node node : bestCone.getNodes()){
@@ -970,8 +970,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 			lutInstance = "\n"+baseName+"_TLUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
 			nameStream.println(baseName+"_TLUT"+lutSize+"_"+lutName);
 		}else {
-			lutInstance = "\n"+baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
-			nameStream.println(baseName+"_LUT"+lutSize+"_"+lutName);
+			BooleanFunction expr=bestCone.getBooleanFunction();
+			lutInstance = "\n"+baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>"+expr.getVHDLString()+")\nport map (O => "+lutName;
 		}
 		for (int i = 0; i < lutSize ; i++){
 			//lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')');

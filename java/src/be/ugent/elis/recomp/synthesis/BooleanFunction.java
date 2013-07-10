@@ -205,6 +205,23 @@ public class BooleanFunction {
 		
 		return result;
 	}
+	
+	public String getVHDLString() {
+		String result = new String();
+		
+		TruthTable table = new TruthTable(this);
+		result +="\"";
+		for (TruthAssignment assignment: table.getAssignments()) {
+			if(table.get(assignment)){
+				result += "1";
+			} 
+			else{
+				result+= "0";
+			}
+		}
+		result += "\"";
+		return new StringBuilder(result).reverse().toString();
+	}
 
 	
 	
