@@ -863,6 +863,14 @@ public class MappingAIG extends AIG<Node, Edge> {
 	} 
 	
 	
+	public String stripBrakets(String s) {
+		return s.replace("[","").replace("]","");
+	}
+	
+	public String replaceBrakets(String s) {
+		return s.replace('[', '(').replace(']', ')');
+	}
+	
 	public void printLutStructureVhdl(String inVhdFile, String vhdFile, String nameFile, int K) throws IOException {
 		PrintStream stream = new PrintStream(new File(vhdFile));
 		PrintStream nameStream = new PrintStream(new File(nameFile));
@@ -872,18 +880,21 @@ public class MappingAIG extends AIG<Node, Edge> {
 		stream.println("\nbegin");
 	    
 	    for (Node latch : getLatches()) {
+	    	if(latch.isOutput()){
+	    		stream.println("--"+latch.getName()+"is a latch connected to the outputs");
+	    	}
 	    	boolean outlatch=false;
 	    	for(Node outp : getOutputs()){
-	    		if(outp.getName().replace("[","").replace("]","").equals(latch.getName().replace("[","").replace("]",""))){
+	    		if(stripBrakets(outp.getName()).equals(stripBrakets(latch.getName()))){
 	    			outlatch=true;
 	    			break;
 	    		}
 	    	}
 			if(outlatch){
-				printLatchVhdl(baseName, latch ,stream, K, latch.getName().replace("[","").replace("]","")+"_o");
+				printLatchVhdl(baseName, latch ,stream, K, stripBrakets(latch.getName())+"_o");
 			}
 			else{
-				printLatchVhdl(baseName, latch ,stream, K, latch.getName().replace("[","").replace("]",""));	 
+				printLatchVhdl(baseName, latch ,stream, K, stripBrakets(latch.getName()));	 
 			}
 	    }
 	    
@@ -905,51 +916,38 @@ public class MappingAIG extends AIG<Node, Edge> {
 		for (AbstractNode<Node, Edge> out : getOutputs()) {
 			Edge e = out.getI0();
 			Node node = e.getTail();
+			String outName = replaceBrakets(out.getName());
+			
+			String nodeName;
+			if(node.isInput()){
+				nodeName = replaceBrakets(node.getName());
+			} else if(stripBrakets(out.getName()).equals(stripBrakets(node.getName()))){
+				nodeName = stripBrakets(node.getName())+"_o";
+			}
+			else {
+				nodeName = stripBrakets(node.getName());
+			}
+			
+
 			if(checkOutputLutInversion(node) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(node) == OutputLutInversion.MixedOuts && e.isInverted())){
-				stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+"not;");
+				stream.println(outName+" <= "+nodeName+"not;");
 				//stream.println("1 1");
 			}
 			else{
 				if(node.getName().equals("const0")){
-					stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= \'0\';");
+					stream.println(outName+" <= \'0\';");
 				}
 				else{
 					if (e.isInverted()) {
-						if(out.getName().replace("[","").replace("]","").equals(node.getName().replace("[","").replace("]",""))){
-							stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= not("+node.getName().replace("[","").replace("]","")+");");
-						}
-						else{
-							stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= not("+node.getName().replace("[","").replace("]","")+");");
-						}
-					} else {
-						if(out.getName().replace("[","").replace("]","").equals(node.getName().replace("[","").replace("]",""))){
-							stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+"_o;");
-						}
-						else{
-								stream.println(out.getName().replace('[', '(').replace(']', ')')+" <= "+node.getName().replace("[","").replace("]","")+";");
-						}
+						stream.println(outName+" <= not("+nodeName+");");	
+					} 
+					else {
+						stream.println(outName+" <= "+nodeName+";");
 					}
 				}		
 			}	
 		}	
 		stream.print("end;");
-	    
-		//for (Node latch : getLatches()) {
-		//	Edge e = latch.getI0().getTail().getI0();
-//			
-//			stream.println(".names "+e.getTail().getName()+" "+latch.getName()+"-edge");
-//			if (e.isInverted()) {
-//				stream.println("0 1");
-//			} else {
-//				stream.println("1 1");
-//			}
-//			
-//			stream.print(".latch");
-//			stream.print(" "+latch.getName()+"-edge");
-//			stream.print(" "+latch.getName());
-//			stream.println (" re pclk 2");
-//		}
-//		stream.println();
 	}
 	
 	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, PrintStream nameStream, int K, String lutName){
@@ -976,9 +974,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 		for (int i = 0; i < lutSize ; i++){
 			//lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')');
 			if(checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.MixedOuts ))
-				lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')')+"not";
+				lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+replaceBrakets(regularInputs.get(i).getName())+"not";
 			else
-			    lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')');
+			    lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+replaceBrakets(regularInputs.get(i).getName());
 		}
 		lutInstance = lutInstance + ");\n";
 		
@@ -994,9 +992,13 @@ public class MappingAIG extends AIG<Node, Edge> {
 		Edge e = latch.getI0().getTail().getI0();
 		
 		if (e.isInverted()) {
-			latchInstance = latchInstance + ",\n\tD"+" => "+ e.getTail().getName().replace('[', '(').replace(']', ')')+ "not";
+			if(e.getTail().isInput()){
+				latchInstance = latchInstance + ",\n\tD"+" => not("+ replaceBrakets(e.getTail().getName())+")";
+			} else {
+				latchInstance = latchInstance + ",\n\tD"+" => "+ replaceBrakets(e.getTail().getName())+ "not";
+			}
 		} else {
-			latchInstance = latchInstance + ",\n\tD"+" => "+e.getTail().getName().replace('[', '(').replace(']', ')');		
+			latchInstance = latchInstance + ",\n\tD"+" => "+ replaceBrakets(e.getTail().getName());		
 		}
 		
 		latchInstance = latchInstance + ");\n";
