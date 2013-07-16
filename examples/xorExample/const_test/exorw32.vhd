@@ -16,12 +16,15 @@ entity exorw32 is
 end exorw32;
 
 architecture behavior of exorw32 is
-    signal c : std_logic_vector(31 downto 0) := X"0f000000";
+    constant c : std_logic_vector(31 downto 0) := X"aa000000";
 begin
 
 EXORS : process (b, p)
 begin
-    for i in 31 downto 24 loop
+    for i in 31 downto 28 loop
+        x(i) <= c(i);
+    end loop;
+    for i in 27 downto 24 loop
         x(i) <= b(i) xor c(i);
     end loop;
     for i in 23 downto 0 loop

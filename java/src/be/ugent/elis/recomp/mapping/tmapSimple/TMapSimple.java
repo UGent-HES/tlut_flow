@@ -141,11 +141,6 @@ public class TMapSimple {
         
 		System.out.println("Generating the parameterizable configuration:");
 		AIG<Node, Edge> b;
-        /*if(args.length > 6){
-			 b = a.constructParamConfig(K);
-		}else{
-			 b = a.constructParamConfig_old(K);
-		}*/
 		b = a.constructParamConfig(K);
         
         System.out.println("Writing the parameterizable configuration:");
@@ -158,8 +153,7 @@ public class TMapSimple {
         	String inVhdFile = args[6];
         	String nameFile = args[8];
         	a.printLutStructureVhdl(inVhdFile, vhdFile, nameFile, K);
-        }else{
-        	//a.printLutStructureBlif_old(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
+        } else {
         	a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
         }
 

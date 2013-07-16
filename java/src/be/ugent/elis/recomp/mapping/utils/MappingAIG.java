@@ -210,124 +210,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 	}
 
 
-	public AIG<Node, Edge> constructParamConfig_old(int K) {
-		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
-		
-		
-		Map<Node,Node> parameterCopyMap = new HashMap<Node, Node>();
-		for (Node input:this.getInputs()) {
-			if (input.isParameter()) {
-				Node copy = aig.addNode(input.getName(), NodeType.INPUT);
-				parameterCopyMap.put(input, copy);
-			}
-		}
-		
-		for (Node and : getAnds()) {
-			if (and.isVisible()) {
-
-				ConeInterface bestCone = and.getBestCone();
-				
-				
-				
-				ArrayList<Node> bestConeNodesInToOut = bestCone.getNodes();
-				ArrayList<Node> regularInputs = bestCone.getRegularInputs();
-
-				
-				for (int entry=0; entry < Math.pow(2, K); entry++) {
-					Vector<Boolean> entryBinairy = new Vector<Boolean>();
-					entryBinairy.setSize(K);
-					int temp = entry;
-					for (int i = 0; i < K; i++) {
-						if (temp % 2 == 0) {
-							entryBinairy.set(i, false);
-						} else {
-							entryBinairy.set(i, true);
-						}
-						temp = temp / 2;
-					}
-					
-					Map<Node,Node>    copyMap    = new HashMap<Node,Node>();
-					Map<Node,Boolean> copyInvMap = new HashMap<Node,Boolean>();
-					
-					for (Node orig: bestConeNodesInToOut) {
-						
-						Node origI0   = orig.getI0().getTail();
-						Node copyI0;
-						boolean invI0;
-						if (regularInputs.contains(origI0)) {
-							copyI0 = aig.getConst0();
-							boolean value = entryBinairy.get(regularInputs.indexOf(origI0));
-							invI0  = orig.getI0().isInverted() ^ value;
-						} else if (parameterCopyMap.containsKey(origI0)) {
-							copyI0 = parameterCopyMap.get(origI0);
-							invI0  = orig.getI0().isInverted();
-						} else {
-							copyI0 = copyMap.get(origI0);
-							invI0  = orig.getI0().isInverted() ^ copyInvMap.get(origI0);
-						}
-						
-						Node origI1   = orig.getI1().getTail();
-						Node copyI1;
-						boolean invI1;
-						if (regularInputs.contains(origI1)) {
-							copyI1 = aig.getConst0();
-							boolean value = entryBinairy.get(regularInputs.indexOf(origI1));
-							invI1  = orig.getI1().isInverted() ^ value;
-						} else if (parameterCopyMap.containsKey(origI1)) {
-							copyI1 = parameterCopyMap.get(origI1);
-							invI1  = orig.getI1().isInverted();
-						} else {
-							copyI1 = copyMap.get(origI1);
-							invI1  = orig.getI1().isInverted() ^ copyInvMap.get(origI1);
-						}
-						
-//						Constant propagation
-						if ((copyI0 == aig.getConst0()) && (copyI1 == aig.getConst0())) {
-							copyMap.put(orig, aig.getConst0());
-							if (invI0 && invI1) {
-								copyInvMap.put(orig, true);
-							} else {
-								copyInvMap.put(orig, false);
-							}
-						} else if (copyI0 == aig.getConst0()) {
-							if (invI0) {
-								copyMap.put(orig, copyI1);
-								copyInvMap.put(orig, invI1);
-							} else {
-								copyMap.put(orig, aig.getConst0());
-								copyInvMap.put(orig, false);
-							}
-						} else if (copyI1 == aig.getConst0()) {
-							if (invI1) {
-								copyMap.put(orig, copyI0);
-								copyInvMap.put(orig, invI0);
-							} else {
-								copyMap.put(orig, aig.getConst0());
-								copyInvMap.put(orig, false);
-							}
-//						No constant propagation possible
-						} else {
-							Node copy = aig.findNode(copyI0, invI0, copyI1, invI1);
-							if (copy == null) {
-								copy = aig.addNode(and.getName()+"_"+entry+"_"+orig.getName(),copyI0, invI0, copyI1, invI1);
-							}
-							
-							copyMap.put(orig, copy);
-							copyInvMap.put(orig, false);
-						}
-					}
-					
-					Node output = aig.addNode(and.getName()+"_"+entry, NodeType.OUTPUT);
-					Node copyI0 = copyMap.get(and);
-					Edge e = aig.addEdge(copyI0, output, copyInvMap.get(and));
-					output.setI0(e);
-					copyI0.addOutput(e);
-					
-				}
-			}
-		}
-		return aig;
-	}
 
 	public AIG<Node, Edge> constructParamConfig(int K) {
 		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
@@ -611,119 +493,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 	
 
 	
-	public void printLutStructureBlif_old(PrintStream stream, int K) {
-		stream.println(".model top");
-		
-		stream.print(".inputs");		
-		for (Node in : getInputs()) {
-			if (!in.isParameter()) {
-				stream.print(" "+in.getName());
-			}
-		}
-		for (Node and : getAnds()) {
-			if (and.isVisible()) {
-				for (int entry=0; entry < Math.pow(2,K); entry++) {
-					stream.print(" "+and.getName()+"_"+entry);
-				}
-			}
-		}
-		stream.println();
-	
-		stream.print(".outputs");		
-		for (Node out : getOutputs()) {
-			stream.print(" "+out.getName());
-		}
-		stream.println();
-		stream.println();
-		
-		stream.println(".names "+ getConst0().getName());
-		stream.println("0");
-		stream.println();
-				
-		for (Node latch : getLatches()) {
-			Edge e = latch.getI0().getTail().getI0();
-			stream.println(".names "+e.getTail().getName()+" "+latch.getName()+"-edge");
-			if (e.isInverted()) {
-				stream.println("0 1");
-			} else {
-				stream.println("1 1");
-			}
-			
-			stream.print(".latch");
-			stream.print(" "+latch.getName()+"-edge");
-			stream.print(" "+latch.getName());
-			stream.println (" re pclk 2");
-		}
-		stream.println();
-		
-		for (Node and : getAnds()) {
-			if (and.isVisible()) {
-				ConeInterface bestCone = and.getBestCone();
-		
-				stream.print(".names");
-				for (int entry=0; entry < Math.pow(2,K); entry++) {
-					stream.print(" "+and.getName()+"_"+entry);
-				}
-				int j = 0;
-				for (Node n:bestCone.getRegularInputs()) {
-					stream.print(" "+n.getName());
-					j++;
-				}
-				while (j < K) {
-					stream.print(" const0");
-					j++;
-				}
-				stream.println(" "+and.getName());
-
-				for (int entry=0; entry < Math.pow(2,K); entry++) {
-					for (int i =0; i < Math.pow(2,K); i++) {
-						if (i==entry) {
-							stream.print('1');
-						} else {
-							stream.print('-');
-						}
-					}
-					
-					int temp = entry;
-					for (int i = 0; i < K; i++) {
-						if (temp % 2 == 0) {
-							stream.print('0');
-						} else {
-							stream.print('1');
-						}
-						temp = temp / 2;
-					}
-					
-					stream.println(" 1");
-				}
-				
-				stream.println();
-				
-				
-			}
-		}
-		
-
-		//The BLIF format is a little annoying.
-		for (AbstractNode<Node, Edge> out : getOutputs()) {
-			Edge e = out.getI0();
-			
-			if (!e.getTail().getName().equals(out.getName())){
-                stream.println(".names "+e.getTail().getName()+" "+out.getName());
-                if (e.isInverted()) {
-                    stream.println("0 1");
-                } else {
-                    stream.println("1 1");
-                }
-			}
-		}
-		
-		stream.print(".end");	
-		
-		stream.flush();
-		
-	}
-
 	public void printLutStructureBlif(PrintStream stream, int K) {
 		stream.println(".model top");
 		
@@ -905,10 +674,10 @@ public class MappingAIG extends AIG<Node, Edge> {
 			if (and.isVisible()) {
 				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
 				        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
-					printLutVhdl(baseName, and, stream, nameStream, K, and.getName()+"not");	 
+					printLutVhdl(baseName, and, stream, nameStream, K, and.getName()+"not", true);	 
 				}
 				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
-					printLutVhdl(baseName, and, stream, nameStream, K, and.getName());
+					printLutVhdl(baseName, and, stream, nameStream, K, and.getName(), false);
 				}
 			}	
 		}
@@ -951,7 +720,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		stream.print("end;");
 	}
 	
-	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, PrintStream nameStream, int K, String lutName) {
+	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, PrintStream nameStream, int K, String lutName, boolean inverted) {
 		Cone bestCone = visibleAnd.getBestCone();
 		ArrayList<Node> regularInputs = bestCone.getRegularInputs();
 		int lutSize = regularInputs.size();
@@ -961,10 +730,15 @@ public class MappingAIG extends AIG<Node, Edge> {
 			    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
 			nameStream.println(baseName+"_TLUT"+lutSize+"_"+lutName);
 		} else {
+	        //BUG: adapt expression for inverted inputs (LUTs with OutputLutInversion.AllOutsInverted)
+	        //possibly reversed?
 			BooleanFunction expr = bestCone.getBooleanFunction();
+			if(inverted)
+			    expr = expr.invert();
 			lutInstance += baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize + 
 			    "\ngeneric map (\n\tINIT =>"+expr.getVHDLString()+")\nport map (O => "+lutName;
 		}
+		//TODO: needs cleanup
 		for (int i = 0; i < lutSize ; i++) {
 			if(checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.AllOutsInverted || 
 			        (checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.MixedOuts ))
@@ -989,6 +763,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		Edge e = latch.getI0().getTail().getI0();
 		Node n = e.getTail();
 		
+		//TODO: needs cleanup
 		if (e.isInverted()) {
 			if(n.isInput() || n.isOLatch()) {
 				latchInstance += ",\n\tD => not("+replaceBrakets(n.getName())+")";
