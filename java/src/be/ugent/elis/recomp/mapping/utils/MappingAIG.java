@@ -571,29 +571,35 @@ public class MappingAIG extends AIG<Node, Edge> {
 	}
 	
 	// Determine the OutputLutInversion of an output Lut
-	public OutputLutInversion checkOutputLutInversion(Node node){
+	public OutputLutInversion checkOutputLutInversion(Node node) {
+	    if(!node.isGate())
+			return OutputLutInversion.notAnOutputLut;
+	    
 		// Determine whether it is a node and connected with an output
 		boolean isOutput = false;
 		Edge firstEdge = null;
-		for(Edge e : node.getOutputEdges()){
+		for(Edge e : node.getOutputEdges()) {
 			Node head = e.getHead();
-			if (head.isOutput() || head.isILatch()){
+			if (head.isOutput() || head.isILatch()) {
 				isOutput = true;
 				firstEdge = e;
 				break;
 			}
 		}
-		if(!isOutput || !node.isGate()){
+		if(!isOutput) {
 			return OutputLutInversion.notAnOutputLut; 
-		}
-		else{
+		} else {
 			// Determine the outputLutInversion
-			OutputLutInversion outlutInv; 
-			outlutInv = (firstEdge.isInverted()) ? OutputLutInversion.AllOutsInverted : OutputLutInversion.AllOutsNotInverted;
-			for(Edge e : node.getOutputEdges()){
+			OutputLutInversion outlutInv;
+			if(firstEdge.isInverted())
+			    outlutInv = OutputLutInversion.AllOutsInverted;
+			else
+			    outlutInv = OutputLutInversion.AllOutsNotInverted;
+			for(Edge e : node.getOutputEdges()) {
 				Node head = e.getHead();
-				if (head.isOutput() || head.isILatch()){
-					if (e.isInverted() && outlutInv == OutputLutInversion.AllOutsNotInverted || (!e.isInverted() && outlutInv == OutputLutInversion.AllOutsInverted)){
+				if (head.isOutput() || head.isILatch()) {
+					if (e.isInverted() && outlutInv == OutputLutInversion.AllOutsNotInverted || 
+					        (!e.isInverted() && outlutInv == OutputLutInversion.AllOutsInverted)) {
 						outlutInv = OutputLutInversion.MixedOuts;
 						break;
 					}
@@ -863,13 +869,22 @@ public class MappingAIG extends AIG<Node, Edge> {
 	} 
 	
 	
-	public String stripBrakets(String s) {
+	private String stripBrakets(String s) {
 		return s.replace("[","").replace("]","");
 	}
 	
-	public String replaceBrakets(String s) {
+	private String replaceBrakets(String s) {
 		return s.replace('[', '(').replace(']', ')');
 	}
+	
+	private boolean isOutputLatch(Node latch) {
+	    String latchName = stripBrakets(latch.getName());
+        for(Node outp : getOutputs()) {
+            if(stripBrakets(outp.getName()).equals(latchName))
+                return true;
+        }
+        return false;
+    }
 	
 	public void printLutStructureVhdl(String inVhdFile, String vhdFile, String nameFile, int K) throws IOException {
 		PrintStream stream = new PrintStream(new File(vhdFile));
@@ -879,129 +894,111 @@ public class MappingAIG extends AIG<Node, Edge> {
 		String baseName = inVhdFile.substring(0,inVhdFile.lastIndexOf('.')).substring(inVhdFile.lastIndexOf('/')+1);
 		stream.println("\nbegin");
 	    
+	    //all latches
 	    for (Node latch : getLatches()) {
-	    	if(latch.isOutput()){
-	    		stream.println("--"+latch.getName()+"is a latch connected to the outputs");
-	    	}
-	    	boolean outlatch=false;
-	    	for(Node outp : getOutputs()){
-	    		if(stripBrakets(outp.getName()).equals(stripBrakets(latch.getName()))){
-	    			outlatch=true;
-	    			break;
-	    		}
-	    	}
-			if(outlatch){
-				printLatchVhdl(baseName, latch ,stream, K, stripBrakets(latch.getName())+"_o");
-			}
-			else{
-				printLatchVhdl(baseName, latch ,stream, K, stripBrakets(latch.getName()));	 
-			}
+	    	String nameSuffix = isOutputLatch(latch) ? "_o" : "";
+			printLatchVhdl(baseName, latch ,stream, K, stripBrakets(latch.getName()) + nameSuffix); 
 	    }
 	    
-		
-	    
-	    
+	    //all luts
 	    for (Node and : getAnds()) {
 			if (and.isVisible()) {
-				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){
+				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
+				        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
 					printLutVhdl(baseName, and, stream, nameStream, K, and.getName()+"not");	 
 				}
-				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
+				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
 					printLutVhdl(baseName, and, stream, nameStream, K, and.getName());
 				}
 			}	
 		}
+		stream.println("\n");
 		
-
-		for (AbstractNode<Node, Edge> out : getOutputs()) {
+        //all outputs
+		for (Node out : getOutputs()) {
 			Edge e = out.getI0();
 			Node node = e.getTail();
 			String outName = replaceBrakets(out.getName());
 			
 			String nodeName;
-			if(node.isInput()){
+			if(node.isInput()) {
 				nodeName = replaceBrakets(node.getName());
-			} else if(stripBrakets(out.getName()).equals(stripBrakets(node.getName()))){
+			} else if(stripBrakets(out.getName()).equals(stripBrakets(node.getName()))) {   //OLATCH
 				nodeName = stripBrakets(node.getName())+"_o";
-			}
-			else {
+			} else {
 				nodeName = stripBrakets(node.getName());
 			}
 			
-
-			if(checkOutputLutInversion(node) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(node) == OutputLutInversion.MixedOuts && e.isInverted())){
-				stream.println(outName+" <= "+nodeName+"not;");
-				//stream.println("1 1");
-			}
-			else{
-				if(node.getName().equals("const0")){
-					stream.println(outName+" <= \'0\';");
-				}
-				else{
-					if (e.isInverted()) {
-						stream.println(outName+" <= not("+nodeName+");");	
-					} 
-					else {
-						stream.println(outName+" <= "+nodeName+";");
-					}
-				}		
-			}	
+			if(node.isConst0()) {
+                if(e.isInverted())
+                    stream.println(outName+" <= \'0\';");
+                else
+                    stream.println(outName+" <= \'1\';");
+            } else if(node.isInput() || node.isOLatch()) {
+                if (e.isInverted())
+                    stream.println(outName+" <= not("+nodeName+");");
+                else
+                    stream.println(outName+" <= "+nodeName+";");
+            } else if(node.isGate()) {
+                if(e.isInverted())
+				    stream.println(outName+" <= "+nodeName+"not;");
+                else
+                    stream.println(outName+" <= "+nodeName+";");
+            } else {
+                throw new RuntimeException("Unexpected node type");
+            }
 		}	
 		stream.print("end;");
 	}
 	
-	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, PrintStream nameStream, int K, String lutName){
+	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, PrintStream nameStream, int K, String lutName) {
 		Cone bestCone = visibleAnd.getBestCone();
 		ArrayList<Node> regularInputs = bestCone.getRegularInputs();
-		//String lutInstance = "--printing Inputs:\t";
-		//for (Node node : bestCone.getNodes()){
-		//	lutInstance +=node.toString()+"   ";
-		//}
-		//lutInstance+="\n--printing Regular Inputs:\t";
-		//for (Node node : bestCone.getRegularInputs()){
-		//	lutInstance +=node.toString()+"   ";
-		//}
 		int lutSize = regularInputs.size();
-		//lutInstance+="\n";
-		String lutInstance="";
-		if(bestCone.isTLUT()){
-			lutInstance = "\n"+baseName+"_TLUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
+		String lutInstance = "\n";
+		if(bestCone.isTLUT()) {
+			lutInstance += baseName+"_TLUT"+lutSize+"_"+lutName+": LUT"+lutSize + 
+			    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
 			nameStream.println(baseName+"_TLUT"+lutSize+"_"+lutName);
-		}else {
-			BooleanFunction expr=bestCone.getBooleanFunction();
-			lutInstance = "\n"+baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize+"\ngeneric map (\n\tINIT =>"+expr.getVHDLString()+")\nport map (O => "+lutName;
+		} else {
+			BooleanFunction expr = bestCone.getBooleanFunction();
+			lutInstance += baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize + 
+			    "\ngeneric map (\n\tINIT =>"+expr.getVHDLString()+")\nport map (O => "+lutName;
 		}
-		for (int i = 0; i < lutSize ; i++){
-			//lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+regularInputs.get(i).getName().replace('[', '(').replace(']', ')');
-			if(checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.MixedOuts ))
-				lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+replaceBrakets(regularInputs.get(i).getName())+"not";
+		for (int i = 0; i < lutSize ; i++) {
+			if(checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.AllOutsInverted || 
+			        (checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.MixedOuts ))
+				lutInstance += ",\n\tI" + Integer.toString(i) + " => " + 
+				    replaceBrakets(regularInputs.get(i).getName()) + "not";
 			else
-			    lutInstance = lutInstance + ",\n\tI"+Integer.toString(i)+" => "+replaceBrakets(regularInputs.get(i).getName());
+			    lutInstance += ",\n\tI" + Integer.toString(i) + " => " + 
+			        replaceBrakets(regularInputs.get(i).getName());
 		}
-		lutInstance = lutInstance + ");\n";
+		lutInstance += ");\n";
 		
 		stream.print(lutInstance);
 	} 
 	
 	
-	public void printLatchVhdl(String baseName, Node latch, PrintStream stream, int K, String latchName){
-		String latchInstance = "";
-		latchInstance = "\n"+"FD_"+latchName+": FD"+"\ngeneric map (\n\tINIT =>\'0\')\nport map (Q => "+latchName;
-		latchInstance = latchInstance + ",\n\tC"+" => "+ "clk";
+	public void printLatchVhdl(String baseName, Node latch, PrintStream stream, int K, String latchName) {
+		String latchInstance;
+		latchInstance = "\nFD_"+latchName+": FD\ngeneric map (\n\tINIT =>\'0\')\nport map (Q => "+
+		                    latchName;
+		latchInstance += ",\n\tC => clk";
 				
 		Edge e = latch.getI0().getTail().getI0();
+		Node n = e.getTail();
 		
 		if (e.isInverted()) {
-			if(e.getTail().isInput()){
-				latchInstance = latchInstance + ",\n\tD"+" => not("+ replaceBrakets(e.getTail().getName())+")";
+			if(n.isInput() || n.isOLatch()) {
+				latchInstance += ",\n\tD => not("+replaceBrakets(n.getName())+")";
 			} else {
-				latchInstance = latchInstance + ",\n\tD"+" => "+ replaceBrakets(e.getTail().getName())+ "not";
+				latchInstance += ",\n\tD => "+replaceBrakets(n.getName())+ "not";
 			}
 		} else {
-			latchInstance = latchInstance + ",\n\tD"+" => "+ replaceBrakets(e.getTail().getName());		
+			latchInstance += ",\n\tD => "+ replaceBrakets(n.getName());		
 		}
-		
-		latchInstance = latchInstance + ");\n";
+		latchInstance += ");\n";
 		
 		stream.print(latchInstance);
 	} 
@@ -1053,48 +1050,33 @@ public class MappingAIG extends AIG<Node, Edge> {
 				ConeInterface bestCone = and.getBestCone();
 				ArrayList<Node> regularInputs = bestCone.getRegularInputs();
 				int lutSize = regularInputs.size();
+				String lutOrTlut = bestCone.isTLUT() ? "TLUT" : "LUT";
 				
-				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){
+				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
+				        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
 					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+"not : STD_ULOGIC ;";
-					if(bestCone.isTLUT()) {
-						initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_TLUT"+lutSize+"_"+and.getName()+"not: label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
-					} else {
-						initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_LUT"+lutSize+"_"+and.getName()+"not: label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
-					}
+					initAttributes += "\nattribute INIT of "+baseName+"_"+lutOrTlut+lutSize+"_"+and.getName()+
+					    "not: label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
 				}
 				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
 					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+" : STD_ULOGIC ;";
-					if(bestCone.isTLUT()){
-						initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_TLUT"+lutSize+"_"+and.getName()+": label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
-					} else {
-						initAttributes = initAttributes + "\nattribute INIT of "+baseName+"_LUT"+lutSize+"_"+and.getName()+": label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
-					}
+					initAttributes += "\nattribute INIT of "+baseName+"_"+lutOrTlut+lutSize+"_"+and.getName()+
+					    ": label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
 				}
 					
 			}	
 		}
 	    
 	    for (Node latch : getOLatches()) {
-			boolean outlatch=false;
-	    	for(Node outp : getOutputs()){
-	    		if(outp.getName().replace("[","").replace("]","").equals(latch.getName().replace("[","").replace("]",""))){
-	    			outlatch=true;
-	    			break;
-	    		}
-	    	}
-			if(outlatch){
-				signalDeclarations = signalDeclarations + "\nsignal "+latch.getName().replace("[","").replace("]","") +"_o : STD_ULOGIC ;";
-				initAttributes = initAttributes + "\nattribute INIT of "+"FD"+"_"+latch.getName().replace("[","").replace("]","")+"_o : label is \"0"+"\";";
+	    	String nameSuffix = isOutputLatch(latch) ? "_o" : "";
+			
+			signalDeclarations +=  "\nsignal " + stripBrakets(latch.getName()) +
+			    nameSuffix + " : STD_ULOGIC ;";
+			initAttributes += "\nattribute INIT of FD_" + stripBrakets(latch.getName()) +
+			    nameSuffix + " : label is \"0\";";
 				
-			}
-			else{
-				signalDeclarations = signalDeclarations + "\nsignal "+latch.getName().replace("[","").replace("]","") +" : STD_ULOGIC ;";
-				initAttributes = initAttributes + "\nattribute INIT of "+"FD"+"_"+latch.getName().replace("[","").replace("]","")+" : label is \"0"+"\";";	 
-			}
-				//signalDeclarations = signalDeclarations + "\nsignal "+latch.getName().replace("[","").replace("]","") +" : STD_ULOGIC ;";
-				//initAttributes = initAttributes + "\nattribute INIT of "+"FD"+"_"+latch.getName().replace("[","").replace("]","")+" : label is \"0"+"\";"; 
-				//signalDeclarations = signalDeclarations + "\nsignal "+latch.getName().replace("[","").replace("]","") +"_o : STD_ULOGIC ;";
-				//initAttributes = initAttributes + "\nattribute INIT of "+"FD"+"_"+latch.getName().replace("[","").replace("]","")+"_o : label is \"0"+"\";";
+			//signalDeclarations = signalDeclarations + "\nsignal "+stripBrakets(latch.getName()) +" : STD_ULOGIC ;";
+			//initAttributes = initAttributes + "\nattribute INIT of FD_"+stripBrakets(latch.getName())+" : label is \"0\";"; 
 				
 		}
 	    

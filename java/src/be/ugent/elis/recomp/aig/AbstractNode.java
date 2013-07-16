@@ -105,6 +105,13 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		return type;
 	}
 
+	public boolean isConst0() {
+		if (type == NodeType.CONST0)
+			return true;
+		else 
+			return false;
+	}
+	
 	public boolean isGate() {
 		if (type == NodeType.AND)
 			return true;
