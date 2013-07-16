@@ -740,8 +740,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 		//TODO: needs cleanup
 		for (int i = 0; i < lutSize ; i++) {
-			if(checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.AllOutsInverted || 
-			        (checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.MixedOuts ))
+			if(checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.AllOutsInverted)
 				lutInstance += ",\n\tI" + Integer.toString(i) + " => " + 
 				    replaceBrakets(regularInputs.get(i).getName()) + "not";
 			else
