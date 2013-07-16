@@ -210,6 +210,12 @@ public class MappingAIG extends AIG<Node, Edge> {
 	}
 
 
+    private class ConfigurationEntry {
+        String name;
+        Node copy;
+        boolean copyInv;
+        ConfigurationEntry(String n, Node c0, boolean c1) {name = n; copy = c0; copyInv = c1;}
+    }
 
 	public AIG<Node, Edge> constructParamConfig(int K) {
 		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
@@ -229,6 +235,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 				ConeInterface bestCone = and.getBestCone();
 				ArrayList<Node> bestConeNodesInToOut = bestCone.getNodes();
 				ArrayList<Node> regularInputs = bestCone.getRegularInputs();
+				
+				ArrayList<ConfigurationEntry> configuration_entries = new ArrayList<ConfigurationEntry>();
+				ArrayList<ConfigurationEntry> configuration_entries_inv = new ArrayList<ConfigurationEntry>();
 								
 				for (int entry=0; entry < Math.pow(2, K); entry++) {
 					Vector<Boolean> entryBinairy = new Vector<Boolean>();
@@ -317,24 +326,24 @@ public class MappingAIG extends AIG<Node, Edge> {
 						}
 					}
 							
-					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){
-						Node output = aig.addNode(and.getName()+"not"+"_"+entry, NodeType.OUTPUT);
-						Node copyI0 = copyMap.get(and);
-						Edge e = aig.addEdge(copyI0, output, !copyInvMap.get(and));
-						output.setI0(e);
-						copyI0.addOutput(e);
+					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
+					        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
+						configuration_entries_inv.add(new ConfigurationEntry(and.getName()+"not"+"_"+entry, 
+						                                        copyMap.get(and), !copyInvMap.get(and)));
 					}
-					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
-						Node output = aig.addNode(and.getName()+"_"+entry, NodeType.OUTPUT);
-						Node copyI0 = copyMap.get(and);
-						Edge e = aig.addEdge(copyI0, output, copyInvMap.get(and));
-						output.setI0(e);
-						copyI0.addOutput(e);
+					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
+						configuration_entries.add(new ConfigurationEntry(and.getName()+"_"+entry, 
+						                                        copyMap.get(and), copyInvMap.get(and)));
 					}
-					
-					
-									
 				}
+				
+				configuration_entries_inv.addAll(configuration_entries);
+				for(ConfigurationEntry entry : configuration_entries_inv) {
+                    Node output = aig.addNode(entry.name, NodeType.OUTPUT);
+                    Edge e = aig.addEdge(entry.copy, output, entry.copyInv);
+                    output.setI0(e);
+                    entry.copy.addOutput(e);
+                }
 			}
 		}
 		return aig;
@@ -342,111 +351,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 
 		
 	
-//	public AIG<Node, Edge> constructParamConfig(int K) {
-//		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
-//		Map<Node, Node> parameterCopy = new HashMap<Node,Node>();
-//		
-//		
-//		//Copying the parameter part of the original AIG
-//		//Copying the nodes
-//		for (Node n: this.getAllNodes()) {
-//			if (n.isParameter()) {
-//				Node c = aig.addNode(n.getName(),n.getType());
-//				parameterCopy.put(n, c);
-//			}
-//		}
-//		//Copying the edges
-//		for (Edge e: this.getAllEdges()) {
-//			if (e.getTail().isParameter() && e.getHead().isParameter()) {
-//				Edge c = aig.addEdge(parameterCopy.get(e.getTail()),parameterCopy.get(e.getHead()), e.isInverted());
-//				c.getTail().addOutput(c);
-//				c.getHead().setI(e.getHead().inputIndex(e), c);
-//			}
-//		}
-//		
-//		
-//
-//		for (Node and : getAnds()) {
-//			if (and.isVisible()) {
-////				System.out.println(and.getName());
-////				if (and.getName().equals("a25700"))
-////					System.out.println("Arrived");
-//				Cone bestCone = and.getBestCone();
-//				Vector<Edge> bestConeInputEdges = bestCone.getInputEdges();
-//				Vector<Node> bestConeNodes = bestCone.getNodes();
-//
-//
-//				
-//				Vector<Node> regularInputs = bestCone.getRegularInputs();
-//				
-//				for (int entry=0; entry < Math.pow(2, K); entry++) {
-//	
-//					
-//					Vector<Boolean> entryBinairy = new Vector<Boolean>();
-//					entryBinairy.setSize(K);
-//					int temp = entry;
-//					for (int i = 0; i < K; i++) {
-//						if (temp % 2 == 0) {
-//							entryBinairy.set(i, false);
-//						} else {
-//							entryBinairy.set(i, true);
-//						}
-//						temp = temp / 2;
-//					}
-//					
-//					Map<Node,Node> coneCopy = new HashMap<Node, Node>();
-//
-////					System.out.println("Start");
-////					System.out.println(bestConeNodes.size());
-//					
-//					//Copy non-parameter nodes of the cone
-//					for (Node n: bestConeNodes) {	
-//						if (!n.isParameter()) {
-//							Node copy = aig.addNode(n.getName()+"_"+entry, NodeType.AND);
-//							coneCopy.put(n, copy);
-//						}
-//					}
-////					System.out.println("Stop");
-//
-//
-//					//Copy internal edges of the cone
-//					for (Node n: bestConeNodes) {
-//						if (!n.isParameter()) {
-//							Vector<Edge> inputEdges = n.getInputEdges();
-//							for (int i=0; i<2; i++) {
-//								Edge e = inputEdges.get(i);
-//								if (e.getTail().isParameter()) {
-//									Edge c = aig.addEdge(parameterCopy.get(e.getTail()), coneCopy.get(n), e.isInverted());
-//									c.getTail().addOutput(c);
-//									c.getHead().setI(e.getHead().inputIndex(e), c);
-//								} else {			
-//									if (bestCone.isInternalEdge(e)) {
-//										Edge c = aig.addEdge(coneCopy.get(e.getTail()), coneCopy.get(n), e.isInverted());
-//										c.getTail().addOutput(c);
-//										c.getHead().setI(e.getHead().inputIndex(e), c);
-//									} else if (bestConeInputEdges.contains(e)) {
-//										Edge c = aig.addEdge(aig.getConst0(), coneCopy.get(n), e.isInverted() ^ entryBinairy.get(regularInputs.indexOf(e.getTail())));
-//										c.getTail().addOutput(c);
-//										c.getHead().setI(e.getHead().inputIndex(e), c);
-//									}
-//								}
-//							}
-//						}
-//					}
-//
-//					
-//					Node out = aig.addNode(and.getName()+"_"+entry, NodeType.OUTPUT);
-//					Edge c = aig.addEdge(coneCopy.get(and), out, false);
-//					c.getTail().addOutput(c);
-//					c.getHead().setI0(c);
-//
-//				}
-//			}
-//		}
-//		
-//
-//		return aig;
-//	}
 	
 	public enum OutputLutInversion{
 		notAnOutputLut, AllOutsNotInverted, AllOutsInverted, MixedOuts
