@@ -1,0 +1,33 @@
+<project name="TLUT flow" default="compile" basedir=".">
+    <description>
+        Build the TLUT flow Java tools
+    </description>
+        
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="bin" location="bin"/>
+
+    <target name="init">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+        <mkdir dir="${bin}"/>
+    </target>
+
+    <target name="compile" depends="init"
+                description="compile the source " >
+        <!-- Compile the java code from ${src} into ${bin} -->
+        <javac srcdir="${src}" destdir="${bin}">
+            <classpath>
+                <pathelement location="../third_party/rapidSmith/"/>
+                <pathelement location="../third_party/rapidSmith/jars/hessian-4.0.6.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+
+    <target name="clean"
+                description="clean up" >
+        <delete dir="${bin}"/>
+    </target>
+</project>
