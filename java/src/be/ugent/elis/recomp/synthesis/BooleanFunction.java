@@ -207,10 +207,9 @@ public class BooleanFunction {
 	}
 	
 	public String getVHDLString() {
-		String result = new String();
+		String result = "\"";
 		
 		TruthTable table = new TruthTable(this);
-		result +="\"";
 		for (TruthAssignment assignment: table.getAssignments()) {
 			if(table.get(assignment)){
 				result += "1";
@@ -220,7 +219,23 @@ public class BooleanFunction {
 			}
 		}
 		result += "\"";
+		//Bits are reversed to adhere to Xilinx order (See http://www.markharvey.info/fpga/init/index.html#section3)
 		return new StringBuilder(result).reverse().toString();
+	}
+	
+	public String printTruthTable(){
+		String result = "\n";
+		TruthTable table = new TruthTable(this);
+		for (TruthAssignment assignment: table.getAssignments()) {
+			result += assignment.toString().replace("false", "0").replace("true", "1")+"\t";
+			if(table.get(assignment)){
+				result += "1\n";
+			} 
+			else{
+				result+= "0\n";
+			}
+		}
+		return result;
 	}
 
 	

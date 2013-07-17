@@ -634,11 +634,15 @@ public class MappingAIG extends AIG<Node, Edge> {
 			    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
 			nameStream.println(baseName+"_TLUT"+lutSize+"_"+lutName);
 		} else {
-	        //BUG: adapt expression for inverted inputs (LUTs with OutputLutInversion.AllOutsInverted)
-	        //possibly reversed?
 			BooleanFunction expr = bestCone.getBooleanFunction();
 			if(inverted)
 			    expr = expr.invert();
+			//check for inversion at the inputs, change Boolean Function if necessary
+			for (Node inputNode : regularInputs){
+				if(checkOutputLutInversion(inputNode)==OutputLutInversion.AllOutsInverted){
+					expr.setExpression(expr.getExpression().replace(inputNode.getName(),inputNode.getName()+" -"));
+				}
+			}
 			lutInstance += baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize + 
 			    "\ngeneric map (\n\tINIT =>"+expr.getVHDLString()+")\nport map (O => "+lutName;
 		}
