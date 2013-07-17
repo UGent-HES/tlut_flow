@@ -153,7 +153,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         else:
             assert ext in ('blif','aig','aag')
             
-        outFile =  'dummy' #basename + "-simpletmap.blif"
+        tlutconfFile = basename + "-tlutconfig.aag"
         parconfFile = basename + "-parconfig.aag"
         lutstructFile = basename + "-lutstruct.blif"
         vhdFile = basename + ".vhd"
@@ -168,8 +168,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
-        # args: input aag of design, input file with parameters, number of inputs per LUT, unused, output parameterised configuration bits as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
-        args = [aagFile, paramFileName, str(K), outFile, parconfFile, lutstructFile]
+        # args: input aag of design, input file with parameters, number of inputs per LUT, output configuration bits of tluts as aag, output parameterised configuration bits luts and tluts as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
+        args = [aagFile, paramFileName, str(K), tlutconfFile, parconfFile, lutstructFile]
         if generateImplementationFilesFlag: args.extend([vhdFile, outVhdFile, nameFile])
         if verboseFlag:
             print ' '.join(cmd + args)

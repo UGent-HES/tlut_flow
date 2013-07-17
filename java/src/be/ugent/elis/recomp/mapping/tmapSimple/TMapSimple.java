@@ -98,6 +98,20 @@ public class TMapSimple {
 		// Find the base name of the aag file
 		//String baseName = args[0].substring(0,args[0].lastIndexOf('.'));
 		
+		//Usage:
+		// <0> : input file with aig
+		// <1> : input file with names of all parameter signals
+		// <2> : integer/number of inputs per LUT
+		// <3> : output file with configuration aig for TLUTs
+		// <4> : output file with configuration aig for TLUTs and LUTs
+		
+		// <5> : output file with mapped blif
+	    // or
+		// <5> : output file with (T)LUT structure in blif (configuration of (T)LUTs stored separately)
+		// <6> : input VHDL file (used to copy VHDL header)
+		// <7> : output VHDL file with (T)LUT structure
+		// <8> : output file with VHDL names of TLUT instances
+		
 		// Read AIG file
 		MappingAIG a = new MappingAIG(args[0]);
 		
@@ -135,34 +149,33 @@ public class TMapSimple {
         a.visitAllInverse(new ConeSelection());
 
         
-        
-        // Writing a blif
-//        a.printMappedBlif(new PrintStream(new File(args[3])));
-        
 		System.out.println("Generating the parameterizable configuration:");
 		AIG<Node, Edge> b;
-		b = a.constructParamConfig(K);
-        
-        System.out.println("Writing the parameterizable configuration:");
+		b = a.constructParamConfig(K, true, false);
+        b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[3]))));
+		b = a.constructParamConfig(K, true, true);
         b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[4]))));
-//        b.printAAGevaluator(new PrintStream(new BufferedOutputStream( new FileOutputStream("test.c"))));
+        
         System.out.println("Writing the LUT structure:"); 
-        if(args.length > 6){
-        	a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
-        	String vhdFile = args[7];
+        if(args.length > 6) {
+        	a.printLutStructureBlif(
+        	    new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))),
+        	    K);
         	String inVhdFile = args[6];
+        	String vhdFile = args[7];
         	String nameFile = args[8];
         	a.printLutStructureVhdl(inVhdFile, vhdFile, nameFile, K);
         } else {
-        	a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))), K);
+        	a.printLutStructureBlif(
+        	    new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))),
+        	    K);
         }
 
 
-        System.out.println(a.numLuts() +"\t"+ a.getDepth() + "\t" +a.numTLuts() + "\t" +a.avDupl() +"\t"+ enumerator.getNmbrCones() +"\t"+ enumerator.getNmbrKCones() +"\t"+ enumerator.getNmbrDominatedCones());
+        System.out.println(a.numLuts() +"\t"+ a.getDepth() + "\t" +a.numTLuts() + "\t" +a.avDupl() +
+            "\t"+ enumerator.getNmbrCones() +"\t"+ enumerator.getNmbrKCones() +"\t"+
+            enumerator.getNmbrDominatedCones());
 
-//        System.out.println(a.numLuts() +"\t"+ a.getDepth() +"\t"+ enumerator.getNmbrCones() +"\t"+ enumerator.getNmbrKCones() +"\t"+ enumerator.getNmbrDominatedCones()+ "\t" + b.getAnds().size());
-
-        
 	}
 	
 }

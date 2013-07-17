@@ -217,7 +217,7 @@ public class MappingAIG extends AIG<Node, Edge> {
         ConfigurationEntry(String n, Node c0, boolean c1) {name = n; copy = c0; copyInv = c1;}
     }
 
-	public AIG<Node, Edge> constructParamConfig(int K) {
+	public AIG<Node, Edge> constructParamConfig(int K, boolean includeTLUTs, boolean includeLUTs) {
 		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
 		
 		
@@ -231,6 +231,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 		
 		for (Node and : getAnds()) {
 			if (and.isVisible()) {
+			    if(!( (includeTLUTs &&  and.getBestCone().isTLUT()) || 
+			          (includeLUTs  && !and.getBestCone().isTLUT())    ))
+    			          continue;
 				
 				ConeInterface bestCone = and.getBestCone();
 				ArrayList<Node> bestConeNodesInToOut = bestCone.getNodes();
