@@ -1,0 +1,6 @@
+run
+-ifn "rom.prj"
+-ifmt VHDL
+-ofn rom
+-ofmt ngc
+-p xc5vlx30ff324-2
