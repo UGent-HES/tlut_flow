@@ -455,6 +455,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 				}
 			}
 		}
+		aig.sortInputsAlphanumerically();
 		return aig;
 	}
 
