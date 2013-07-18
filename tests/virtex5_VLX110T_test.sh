@@ -65,4 +65,5 @@ mkdir -p work
 rm -f work/virtex5_VLX110T_output.log
 
 testCase "xorExample/xpsV13_XUPV5110T" "plb_xor_v1_00_a"
+testCase "rom/xpsV13_XUPV5110T" "plb_rom_v1_00_a"
 

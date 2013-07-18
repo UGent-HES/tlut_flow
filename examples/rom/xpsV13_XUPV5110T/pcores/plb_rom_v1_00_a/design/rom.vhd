@@ -8,14 +8,11 @@ use ieee.numeric_std.ALL;
 
 
 entity rom is
-    generic(
-    N : integer := 8
-);
     port(
     --PARAM
-    p : in  std_logic_vector(2**N-1 downto 0);
+    p : in  std_logic_vector(255 downto 0);
     --PARAM
-    a : in  std_logic_vector(N-1 downto 0);
+    a : in  std_logic_vector(7 downto 0);
     d : out std_logic --==_vector(0 downto 0)
 );
 end rom;
