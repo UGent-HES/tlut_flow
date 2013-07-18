@@ -76,16 +76,21 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Vector;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
 import be.ugent.elis.recomp.mapping.utils.Node;
+
+import com.daveKoelle.AlphanumComparator;
+
 
 public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	
@@ -1228,5 +1233,18 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 		return n;
 	}
+	
+    public void sortInputsAlphanumerically() {
+        class AlphanumNodeNameComparator implements Comparator<N> {
+            AlphanumComparator comp;
+            AlphanumNodeNameComparator() {
+                comp = new AlphanumComparator();
+            }
+            public int compare(N o1, N o2) {
+                return comp.compare(((N)o1).name, ((N)o2).name);
+            }
+        }
+        Collections.sort(input, new AlphanumNodeNameComparator());
+    }
 
 }
