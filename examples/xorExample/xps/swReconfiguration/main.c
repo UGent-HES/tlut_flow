@@ -90,7 +90,11 @@ void manual_test(XHwIcap *HwIcap_p) {
 int main(void) {
 	static XHwIcap HwIcap;
 	xil_printf("Starting EXOR test...\n\r\n\r");
-	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);
+	int Status = XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);
+	if (Status != XST_SUCCESS) {
+	    xil_printf("Initialisation failed\n\r");
+		return XST_FAILURE;
+	}
     
     //manual_test(&HwIcap);
     test(&HwIcap);
