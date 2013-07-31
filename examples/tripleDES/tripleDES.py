@@ -22,7 +22,7 @@ def main():
         os.system('mkdir -p work')
         shutil.copy(aagFileName, 'work')
         shutil.copy(parameterFileName, 'work')
-        shutil.copy('abc.rc','work')
+        shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc','work')
     except IOError as e:
         print e
         exit(3)

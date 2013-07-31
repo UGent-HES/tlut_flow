@@ -137,14 +137,11 @@ def generateMake(makefileName, virtexFamily):
         \trm -rf $(TMAPDESIGN_DIR)/work
         \trm -f $(LOC_FILES) $(XDL_FILE)
         \trm -f $(DRIVER_FILES)
-        
-        $(TMAPDESIGN_DIR)/abc.rc :
-        \tln -s $(TLUTFLOW_PATH)/third_party/etc/abc.rc $(TMAPDESIGN_DIR)/abc.rc
         \n'''))
         
         makeFile.write(dedent('''\
         #The tmap rule
-        $(DRIVER_FILES) $(GEN_FILES) : $(DESIGN_FILES) $(TMAPDESIGN_DIR)/abc.rc
+        $(DRIVER_FILES) $(GEN_FILES) : $(DESIGN_FILES)
         \tmkdir -p $(SOFT_DIR)
         \t@echo "****************************************************"
         \t@echo "Running tmapFlow"

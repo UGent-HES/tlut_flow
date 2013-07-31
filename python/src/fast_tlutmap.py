@@ -104,7 +104,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         shutil.copy(module, 'work/'+baseName)
         for submodule in submodules:
             shutil.copy(submodule, 'work/'+baseName)
-        shutil.copy('abc.rc','work/'+baseName)
+        shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc','work/'+baseName)
     except IOError as e:
         print >> sys.stderr, e
         exit(3)

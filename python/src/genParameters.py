@@ -160,14 +160,14 @@ def extract_parameter_names(fname):
     for paramDef in paramDefs:
         res = extraction_re.match(paramDef)
         if not res:
-            print >> sys.stderr, "Warning: Unrecognised signal declaration: "+paramDefs
+            print >> sys.stderr, "Warning: Unrecognised signal declaration: %s"%paramDef
         else:
             signal_type = res.group('type')
             signal_name = res.group('name')
             if signal_type in ('input','in'):
                 parameter_names.append(signal_name)
             else:
-                print >> sys.stderr, "Warning: Unsupported signal type: "+signal_type
+                print >> sys.stderr, "Warning: Unsupported signal type: %s"%signal_type
     return parameter_names
 
 def main():
