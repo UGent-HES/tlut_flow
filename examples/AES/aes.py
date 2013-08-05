@@ -3,11 +3,9 @@
 import os
 import shutil
 from mapping import * 
+from fast_tlutmap import collumnize
 
 colwidth=16
-def collumnize(items,width):
-    return ''.join([str(item).ljust(width) for item in items])
-
 def main():
     K = 4
     performCheck = True
@@ -19,14 +17,10 @@ def main():
     parameterFileName = baseName+".par"
     
     print "Stage: Creating work directory and copying design"
-    try:
-        os.system('mkdir -p work')
-        shutil.copy(aagFileName, 'work')
-        shutil.copy(parameterFileName, 'work')
-        shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc','work')
-    except IOError as e:
-        print e
-        exit(3)
+    os.system('mkdir -p work')
+    shutil.copy(aagFileName, 'work')
+    shutil.copy(parameterFileName, 'work')
+    shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc','work')
     
     os.chdir('work')
     

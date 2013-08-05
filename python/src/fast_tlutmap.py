@@ -99,15 +99,11 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         exit(1)
     
     print "Stage: Creating work/"+baseName+" directory and copying design"
-    try:
-        os.system('mkdir -p work/'+baseName)
-        shutil.copy(module, 'work/'+baseName)
-        for submodule in submodules:
-            shutil.copy(submodule, 'work/'+baseName)
-        shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc','work/'+baseName)
-    except IOError as e:
-        print >> sys.stderr, e
-        exit(3)
+    os.system('mkdir -p work/'+baseName)
+    shutil.copy(module, 'work/'+baseName)
+    for submodule in submodules:
+        shutil.copy(submodule, 'work/'+baseName)
+    shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc','work/'+baseName)
     
     ret_pwd = os.getcwd()
     os.chdir('work/'+baseName)
@@ -119,15 +115,12 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     # Automatically extract parameters from VHDL
     print "Stage: Generating parameters"
     parameterFileName = baseName+'.par'
-    try:
-        assert not os.system('genParameters.py %s %s > %s.par'%(module,blifFileName,baseName))
-        if verboseFlag:
-            print "Parameters:"
-            os.system('cat %s.par'%baseName)
-        else:
-            print "Attention: Verify the detected parameters by inspecting work/"+baseName+"/%s.par"%baseName
-    except AssertionError:
-        exit(3)
+    assert not os.system('genParameters.py %s %s > %s.par'%(module,blifFileName,baseName))
+    if verboseFlag:
+        print "Parameters:"
+        os.system('cat %s.par'%baseName)
+    else:
+        print "Attention: Verify the detected parameters by inspecting work/"+baseName+"/%s.par"%baseName
     
     # Convert BLIF to aig
     aagFileName = bliftoaag(blifFileName)

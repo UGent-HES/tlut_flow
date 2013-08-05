@@ -95,33 +95,39 @@ def main():
     if len(sys.argv)>4:
         verboseFlag = sys.argv[4]=="-v"
     
-    baseDir = os.getcwd()
+    try:
+        baseDir = os.getcwd()
     
-    os.chdir(designDir)
-    assert not os.system('mkdir -p ../hdl/vhdl')
-    vhdFileList = glob.glob('*.vhd*')
-    vhdFileList = [f for f in vhdFileList if not f.endswith('~')]
+        os.chdir(designDir)
+        assert not os.system('mkdir -p ../hdl/vhdl')
+        vhdFileList = glob.glob('*.vhd*')
+        vhdFileList = [f for f in vhdFileList if not f.endswith('~')]
     
-    nonXilinxFileList = []
-    for file in vhdFileList:
-        if checkXilinx(file) or checkFileNoTmap(file):
-            assert not os.system('ln -sf "../../design/'+file+'" ../hdl/vhdl/')
-            #assert not os.system('cp -f "'+file+'" ../hdl/vhdl/')
-        else:
-            nonXilinxFileList.append(file)
+        nonXilinxFileList = []
+        for file in vhdFileList:
+            if checkXilinx(file) or checkFileNoTmap(file):
+                assert not os.system('ln -sf "../../design/'+file+'" ../hdl/vhdl/')
+                #assert not os.system('cp -f "'+file+'" ../hdl/vhdl/')
+            else:
+                nonXilinxFileList.append(file)
 
-    for file in nonXilinxFileList:
-        if checkFile(file):
-            basename,ext = os.path.splitext(file)
-            lstcpy = [item for item in nonXilinxFileList if item!=file]
-            run(file, lstcpy, performCheck=True, verboseFlag=verboseFlag, virtexFamily=virtexFamily, generateImplementationFilesFlag=True)
-            assert not os.system('cp -f "work/'+basename+'/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
-            assert not os.system('cp -f "work/'+basename+'/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
-            assert not os.system('cp -f "work/'+basename+'/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
-        else:
-            assert not os.system('ln -sf "../../design/'+file+'" "../hdl/vhdl/"')
-            #assert not os.system('cp -f "'+file+'" "../hdl/vhdl/"')
+        for file in nonXilinxFileList:
+            if checkFile(file):
+                basename,ext = os.path.splitext(file)
+                lstcpy = [item for item in nonXilinxFileList if item!=file]
+                run(file, lstcpy, performCheck=True, verboseFlag=verboseFlag, virtexFamily=virtexFamily, generateImplementationFilesFlag=True)
+                assert not os.system('cp -f "work/'+basename+'/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
+                assert not os.system('cp -f "work/'+basename+'/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
+                assert not os.system('cp -f "work/'+basename+'/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
+            else:
+                assert not os.system('ln -sf "../../design/'+file+'" "../hdl/vhdl/"')
+                #assert not os.system('cp -f "'+file+'" "../hdl/vhdl/"')
     
+    except Exception as e:
+        print >>sys.stderr, e
+        if verboseFlag:
+            raise
+        exit(1)
 
 if __name__=="__main__":
     main()
