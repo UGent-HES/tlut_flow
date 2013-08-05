@@ -1,11 +1,3 @@
-
-import os
-import sys
-import commands
-import subprocess
-import re
-from itertools import islice
-
 '''
 SOFTWARE LICENSE AGREEMENT
 
@@ -74,6 +66,14 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 '''
 
+import os
+import sys
+import commands
+import subprocess
+import re
+from itertools import islice
+
+
 
 maxMemory = 1024
 #set maximum memory usage of Java tools, in MB
@@ -82,12 +82,16 @@ def setMaxMemory(mm):
     assert isinstance(mm,int)
     maxMemory = mm
 
+def getBasenameAndExtension(filename):
+    ext = filename.split('.')[-1].lower()
+    assert ext
+    baseName = filename[:-len(ext)-1]
+    assert baseName
+    return baseName, ext
+
 def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
     try:
-        ext = fname.split('.')[-1]
-        basefname = fname[:-len(ext)-1]
-        assert ext
-        assert basename
+        basefname, ext = getBasenameAndExtension(fname)
         
         blifFile = basefname + ".blif"
         aigFile  = basefname + ".aig"
@@ -134,10 +138,7 @@ def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
 
 def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generateImplementationFilesFlag, verboseFlag=False):
     try:
-        ext = fname.split('.')[-1]
-        basefname = fname[:-len(ext)-1]
-        assert basename, fname
-        assert ext, fname
+        basefname, ext = getBasenameAndExtension(fname)
         
         blifFile = basefname + ".blif"
         aigFile  = basefname + ".aig"
@@ -290,11 +291,9 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
     return (numLuts, depth, check)
 
 def aagtoaig(aagFileName):
-    ext = '.aag'
-    basename = aagFileName[:-len(ext)]
+    basename, ext = getBasenameAndExtension(aagFileName)
+    assert ext == 'aag'
     aigFileName = basename + '.aig'
-    assert aagFileName.endswith(ext)
-    assert aigFileName
     os.system("rm -f "+aigFileName)
     subprocess.check_call(['aigtoaig',aagFileName,aigFileName])
     if not os.path.exists(aigFileName):
@@ -303,11 +302,9 @@ def aagtoaig(aagFileName):
     return aigFileName
 
 def aigtoaag(aigFileName):
-    ext = '.aig'
-    basename = aigFileName[:-len(ext)]
+    basename, ext = getBasenameAndExtension(aigFileName)
+    assert ext == 'aig'
     aagFileName = basename + '.aag'
-    assert aigFileName.endswith(ext)
-    assert aagFileName
     os.system("rm -f "+aagFileName)
     subprocess.check_call(['aigtoaig',aigFileName,aagFileName])
     if not os.path.exists(aagFileName):
@@ -316,11 +313,9 @@ def aigtoaag(aigFileName):
     return aagFileName
  
 def bliftoaag(blifFileName):
-    ext = '.blif'
-    basename = blifFileName[:-len(ext)]
+    basename, ext = getBasenameAndExtension(blifFileName)
+    assert ext == 'blif'
     aigFileName = basename + '.aig'
-    assert blifFileName.endswith(ext)
-    assert basename
 
     # There seems to be a bug in bliftoaig when input file is large.
     # subprocess.check_call(['bliftoaig',blifFileName,basename+'.aag'])
@@ -361,9 +356,10 @@ def miter(circuit0, circuit1, verboseFlag=False):
         exit(2)
     
 def synthesize(top, submodules, verboseFlag=False):
-    ext = top.split('.')[-1].lower()
-    basename = top[:-len(ext)-1]
-    assert basename
+    basename, ext = getBasenameAndExtension(top)
+
+    blifFileName  = basename + ".blif"
+    os.system("rm -f "+blifFileName)
 
     qsfFileName = basename + ".qsf"
     with open(qsfFileName, "w") as fout:
@@ -401,7 +397,9 @@ def synthesize(top, submodules, verboseFlag=False):
         exit(3)
     print 'Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.'
     
-    blifFileName  = basename + ".blif"
+    if not os.path.exists(blifFileName):
+        raise Exception('quartus_map missing output file: %s'%blifFileName)
+    
     sweepFileName = basename + "-sweep.blif"
     cmd = ['abc', '-c', 'sweep', '-o', sweepFileName, '-t', 'blif', '-T', 'blif', blifFileName]
     if verboseFlag:

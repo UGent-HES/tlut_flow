@@ -89,23 +89,24 @@ def index(string, list):    #return indices of strings that match expression
     expr = re.compile(string)
     return [nmbr for nmbr, line in enumerate(list) if expr.match(line)]
 
+def removeBlifComments(line):
+    comment_index = line.find('#')  #remove comments
+    if comment_index != -1:
+        line = line[:comment_index]
+    return line
+
+def readCleanBlifLine(file):
+    return removeBlifComments(file.readline().lstrip().rstrip('\r\n'))
+    
 #determine which signals correspond to parameters from blif file
 def extract_parameter_signals(parameter_names, fname):
     file = open(fname, 'rU')
     #read inputs section
-    line = file.readline().lstrip().rstrip('\r\n')
+    line = readCleanBlifLine(file)
     while not line.startswith('.inputs '):
-        line = file.readline().lstrip().rstrip('\r\n')
-        comment_index = line.find('#')  #remove comments
-        if comment_index != -1:
-            line = line[:comment_index]
+        line = readCleanBlifLine(file)
     while line.endswith('\\'): #multi-line inputs section
-        line = line[:-1]+' '
-        new_line= file.readline().rstrip('\r\n').lstrip()
-        comment_index = line.find('#')  #remove comments
-        if comment_index != -1:
-            line = line[:comment_index]
-        line += new_line
+        line = line[:-1] + ' ' + readCleanBlifLine(file)
     file.close()
     #filter signal names that correspond to parameters
     parameter_names = map(str.lower, parameter_names)
