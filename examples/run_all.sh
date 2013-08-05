@@ -47,3 +47,10 @@ cd tcam
 rm -rf work
 ./tcam.py | tail -n 8
 cd ..
+
+echo
+echo rom
+cd rom
+rm -rf work
+./rom.py | tail -n 8
+cd ..
