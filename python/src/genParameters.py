@@ -89,6 +89,12 @@ def index(string, list):    #return indices of strings that match expression
     expr = re.compile(string)
     return [nmbr for nmbr, line in enumerate(list) if expr.match(line)]
 
+def removeVhdlComments(line):
+    comment_index = line.find('--')  #remove comments
+    if comment_index != -1:
+        line = line[:comment_index]
+    return line
+
 def removeBlifComments(line):
     comment_index = line.find('#')  #remove comments
     if comment_index != -1:
@@ -153,6 +159,7 @@ def extract_parameter_names(fname):
         paramDefs=[]
         for ind in range(len(nmbrs)/2):
             paramDefs.extend(lines[nmbrs[ind*2]+1:nmbrs[ind*2+1]])
+        paramDefs = map(removeVhdlComments, paramDefs)
         paramDefs = ''.join(paramDefs).split(';')
         paramDefs = filter(bool, map(lambda l:l.rstrip('\r\n\t ').lstrip(), paramDefs))
     
