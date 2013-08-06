@@ -82,7 +82,7 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, verboseFlag=False):
+def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, verboseFlag=False):
     ext = module.split('.')[-1].lower()
     baseName = module[:-len(ext)-1]
     if ext not in ('vhd','vhdl','v'):
@@ -122,6 +122,10 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         os.system('cat %s.par'%baseName)
     else:
         print "Attention: Verify the detected parameters by inspecting %s/%s.par"%(workDir, baseName)
+        
+    # Resynthesize
+    if resynthesizeFlag:
+        blifFileName = resynthesize(baseName, blifFileName)
     
     # Convert BLIF to aig
     aagFileName = bliftoaag(blifFileName)

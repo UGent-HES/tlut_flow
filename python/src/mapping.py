@@ -344,7 +344,20 @@ def miter(circuit0, circuit1, verboseFlag=False):
             print ' '.join(cmd)
             print output,
         raise Exception("Unexpected output from miter computation (verification)")
+
+def resynthesize(basename, fname, script='resyn2', verboseFlag=False):
+    basefname, ext = getBasenameAndExtension(fname)
+    assert ext in ('blif', 'aag')
     
+    outFileName = '%s_resyn.%s'%(basename, ext)
+    os.system("rm -f "+outFileName)
+    cmd = ['abc', '-c', script+'; write '+outFileName, fname]
+    subprocess.check_call(cmd)
+    if not os.path.exists(outFileName):
+        raise Exception("abc unsuccesful: resynthesized blif/aag file %s was not created"%outFileName)
+        
+    return outFileName
+
 def synthesize(top, submodules, verboseFlag=False):
     basename, ext = getBasenameAndExtension(top)
 
