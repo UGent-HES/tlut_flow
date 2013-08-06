@@ -98,15 +98,16 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         print >> sys.stderr, "Supported FPGA families: virtex2pro, virtex5"
         exit(1)
     
-    print "Stage: Creating work/"+baseName+" directory and copying design"
-    os.system('mkdir -p work/'+baseName)
-    shutil.copy(module, 'work/'+baseName)
+    workDir = "work/"+baseName
+    print "Stage: Creating %s directory and copying design"%workDir
+    assert not os.system('mkdir -p '+workDir)
+    shutil.copy(module, workDir)
     for submodule in submodules:
-        shutil.copy(submodule, 'work/'+baseName)
-    shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc','work/'+baseName)
+        shutil.copy(submodule, workDir)
+    shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc', workDir)
     
     ret_pwd = os.getcwd()
-    os.chdir('work/'+baseName)
+    os.chdir(workDir)
     
     # Synthesis
     print "Stage: Synthesizing"
@@ -120,7 +121,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         print "Parameters:"
         os.system('cat %s.par'%baseName)
     else:
-        print "Attention: Verify the detected parameters by inspecting work/"+baseName+"/%s.par"%baseName
+        print "Attention: Verify the detected parameters by inspecting %s/%s.par"%(workDir, baseName)
     
     # Convert BLIF to aig
     aagFileName = bliftoaag(blifFileName)

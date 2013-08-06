@@ -72,7 +72,7 @@ import os, sys, glob
 from textwrap import dedent
 
 def isTMAPfile(filePath):
-    with open(filePath,'r+') as file:
+    with open(filePath,'r') as file:
         return any("--TMAP" in s for s in file)    
     
 def generateMake(makefileName, virtexFamily):
@@ -98,7 +98,9 @@ def generateMake(makefileName, virtexFamily):
         endif
         \n'''))
         
-        tmapFiles=[os.path.splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
+        tmapFiles = [os.path.splitext(file)[0] 
+                        for file in glob.glob('*.vhd*') 
+                        if not file.endswith('~') and isTMAPfile(file)]
         driverFiles = ['$(SOFT_DIR)/%s'%os.path.splitext(file)[0] for file in glob.glob('*.vhd*') if isTMAPfile(file)]
         driverFiles = [file+'.c' for file in driverFiles] + [file+'.h' for file in driverFiles]
         makeFile.write(dedent('''\

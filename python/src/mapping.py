@@ -93,22 +93,25 @@ def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
-        blifFile = basefname + ".blif"
         aigFile  = basefname + ".aig"
         aagFile  = basefname + ".aag"
         outFile =  basename + "-simple.blif"
         
+        #create aig and aag version of input file
         if ext == 'blif':
-            subprocess.check_call(['abc', '-c', 'strash; write '+aigFile, blifFile])
-            subprocess.check_call(['aigtoaig', aigFile, aagFile])
+            bliftoaag(fname) #also generates aig file
         elif ext == 'aig':
-            subprocess.check_call(['aigtoaig', aigFile, aagFile])
+            aigtoaag(fname)
         elif ext == 'aag':
-            subprocess.check_call(['aigtoaig', aagFile, aigFile])
+            aagtoaig(fname)
+        else:
+            assert ext in ('blif','aig','aag')
         
-        if not os.path.exists(aagFile):
-            raise Exception('Missing input file for simpleMapper: %s'%aagFile)
-        
+        requiredFiles = [aagFile, aigFile]
+        for file in requiredFiles:
+            if not os.path.exists(file):
+                raise Exception('Missing input file for simpleMapper: %s'%file)
+
         # Actual mapping using Java tool
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.simple.SimpleMapper']
         # args: input aag file, inputs per LUT, output blif file
@@ -138,37 +141,38 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
-        blifFile = basefname + ".blif"
         aigFile  = basefname + ".aig"
         aagFile  = basefname + ".aag"
         
+        #create aig and aag version of input file
         if ext == 'blif':
-            subprocess.check_call(['abc', '-c', 'strash; write '+aigFile, blifFile])
-            subprocess.check_call(['aigtoaig', aigFile, aagFile])
+            bliftoaag(fname) #also generates aig file
         elif ext == 'aig':
-            subprocess.check_call(['aigtoaig', aigFile, aagFile])
+            aigtoaag(fname)
         elif ext == 'aag':
-            subprocess.check_call(['aigtoaig', aagFile, aigFile])
+            aagtoaig(fname)
         else:
             assert ext in ('blif','aig','aag')
             
         tlutconfFile = basename + "-tlutconfig.aag"
         parconfFile = basename + "-parconfig.aag"
         lutstructFile = basename + "-lutstruct.blif"
-        vhdFile = basename + ".vhd"
+        inVhdFile = basename + ".vhd"
         outVhdFile = basename + "-simpletmap.vhd"
-        nameFile= basename +"-names.txt"
-        requiredFiles = [aagFile]
-        if generateImplementationFilesFlag: requiredFiles.append(vhdFile)
-        for f in requiredFiles:
-            if not os.path.exists(f):
-                raise Exception('Missing input file for simpleTMapper: %s'%f)
+        nameFile = basename +"-names.txt"
+        
+        requiredFiles = [aagFile, aigFile]
+        if generateImplementationFilesFlag:
+            requiredFiles.append(inVhdFile)
+        for file in requiredFiles:
+            if not os.path.exists(file):
+                raise Exception('Missing input file for simpleTMapper: %s'%file)
         
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
         # args: input aag of design, input file with parameters, number of inputs per LUT, output configuration bits of tluts as aag, output parameterised configuration bits luts and tluts as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
         args = [aagFile, paramFileName, str(K), tlutconfFile, parconfFile, lutstructFile]
-        if generateImplementationFilesFlag: args.extend([vhdFile, outVhdFile, nameFile])
+        if generateImplementationFilesFlag: args.extend([inVhdFile, outVhdFile, nameFile])
         if verboseFlag:
             print ' '.join(cmd + args)
         output = subprocess.check_output(cmd + args)
@@ -189,7 +193,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
             raise Exception("Unexpected output from java TMapSimple")
         
         # Extracting results
-        cmd = ['abc','-c','resyn3; print_stats',aagtoaig(aagFile)]
+        cmd = ['abc','-c','resyn3; print_stats', aigFile]
         output = subprocess.check_output(cmd)
         if verboseFlag:
             print ' '.join(cmd)
@@ -288,7 +292,7 @@ def aagtoaig(aagFileName):
     os.system("rm -f "+aigFileName)
     subprocess.check_call(['aigtoaig',aagFileName,aigFileName])
     if not os.path.exists(aigFileName):
-        raise Exception("aigtoaig unsuccesful, aig file %s was not created"%aigFileName)
+        raise Exception("aigtoaig unsuccesful: aig file %s was not created"%aigFileName)
     return aigFileName
 
 def aigtoaag(aigFileName):
@@ -298,7 +302,7 @@ def aigtoaag(aigFileName):
     os.system("rm -f "+aagFileName)
     subprocess.check_call(['aigtoaig',aigFileName,aagFileName])
     if not os.path.exists(aagFileName):
-        raise Exception("aigtoaig unsuccesful, aag file %s was not created"%aagFileName)
+        raise Exception("aigtoaig unsuccesful: aag file %s was not created"%aagFileName)
     return aagFileName
  
 def bliftoaag(blifFileName):
@@ -314,7 +318,7 @@ def bliftoaag(blifFileName):
     cmd = ['abc', '-c', 'strash; zero; write '+aigFileName, blifFileName]
     subprocess.check_call(cmd)
     if not os.path.exists(aigFileName):
-        raise Exception("aigtoaig unsuccesful, aag file %s was not created"%aigFileName)
+        raise Exception("abc unsuccesful: aig file %s was not created"%aigFileName)
     print 'Please ignore the error message "Error: The current network is combinational".'
     
     aagFileName = aigtoaag(aigFileName)
