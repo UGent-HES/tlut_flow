@@ -69,59 +69,108 @@ All rights reserved.
 '''
 
 from fast_tlutmap import run
-import os, sys, glob
+import os, sys, glob, getopt, shutil
 
-def checkFile(filePath):
-    with open(filePath,'r+') as file:
+def checkFileTmap(filePath):
+    with open(filePath,'r') as file:
         return any("--TMAP" in s for s in file)
 
 def checkFileNoTmap(filePath):
-    with open(filePath,'r+') as file:
+    with open(filePath,'r') as file:
         return any("--NOTMAP" in s for s in file)
         
-def checkXilinx(filePath):
-    with open(filePath,'r+') as file:
+def checkFileXilinx(filePath):
+    with open(filePath,'r') as file:
         if any("Xilinx, Inc.  All rights reserved." in s for s in file):
             print "found Xilinx file: "+filePath
             return True
         else:
             return False
 
+def createRelativeLink(linkedFile, linkFile):
+    if os.path.exists(linkFile):
+        os.remove(linkFile)
+    os.symlink(
+        os.path.relpath(linkedFile, os.path.dirname(linkFile)), 
+        linkFile)
+
+def usage():
+    print 'Usage: tmapXilinx.py [-v] [--verbose] <designDir> <hdlDir> <softwareDir> <virtexFamily>'
+    print '\t\ttmapXilinx.py --help'
+    print 'designDir: directory containing input HDL files'
+    print 'hdlDir: directory containing output HDL files'
+    print 'softwareDir: directory containing output .c and .h files'
+    print 'virtexFamily: name of the FPGA architecture family'
+
 def main():
-    designDir = sys.argv[1]
-    softwareDir = sys.argv[2]
-    virtexFamily = sys.argv[3]
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hv", ["help", "verbose"])
+    except getopt.GetoptError as err:
+        print err
+        usage()
+        sys.exit(2)
     verboseFlag = False
-    if len(sys.argv)>4:
-        verboseFlag = sys.argv[4]=="-v"
+    for o, a in opts:
+        if o in ("-h", "--help"):
+            usage()
+            sys.exit()
+        elif o in ("-v", "--verbose"):
+            verboseFlag = True
+        #elif o in ("-w", "--workDir"):
+        ##    baseWorkDir = a
+        else:
+            assert False, "unhandled option"
+    designDir = args[0]
+    hdlDir = args[1]
+    softwareDir = args[2]
+    virtexFamily = args[3]
+    
+    baseWorkDir = designDir + "/work"
     
     try:
+        #make paths absolute
         baseDir = os.getcwd()
+        if not designDir.startswith('/'): designDir = baseDir+'/'+designDir
+        if not baseWorkDir.startswith('/'): baseWorkDir = baseDir+'/'+baseWorkDir
+        if not hdlDir.startswith('/'): hdlDir = baseDir+'/'+hdlDir
+        if not softwareDir.startswith('/'): softwareDir = baseDir+'/'+softwareDir
+        
+        if verboseFlag:
+            print 'designDir: %s\nhdlDir: %s\nsoftwareDir: %s'%(designDir, hdlDir, softwareDir)
     
+        assert not os.system('mkdir -p '+hdlDir)
+        assert not os.system('mkdir -p '+softwareDir)
+        
         os.chdir(designDir)
-        assert not os.system('mkdir -p ../hdl/vhdl')
+    
         vhdFileList = glob.glob('*.vhd*')
         vhdFileList = [f for f in vhdFileList if not f.endswith('~')]
     
-        nonXilinxFileList = []
+        notExcludedFileList = []
         for file in vhdFileList:
-            if checkXilinx(file) or checkFileNoTmap(file):
-                assert not os.system('ln -sf "../../design/'+file+'" ../hdl/vhdl/')
-                #assert not os.system('cp -f "'+file+'" ../hdl/vhdl/')
+            if checkFileXilinx(file) or checkFileNoTmap(file):
+                createRelativeLink("%s/%s"%(designDir, file), "%s/%s"%(hdlDir, file))
+                #shutil.copy(file, hdlDir)
             else:
-                nonXilinxFileList.append(file)
+                notExcludedFileList.append(file)
 
-        for file in nonXilinxFileList:
-            if checkFile(file):
-                basename,ext = os.path.splitext(file)
-                lstcpy = [item for item in nonXilinxFileList if item!=file]
-                run(file, lstcpy, performCheck=True, verboseFlag=verboseFlag, virtexFamily=virtexFamily, generateImplementationFilesFlag=True)
-                assert not os.system('cp -f "work/'+basename+'/'+basename+'-simpletmap.vhd" "../hdl/vhdl/'+basename+'.vhd"')
-                assert not os.system('cp -f "work/'+basename+'/'+basename+'.c" "%s/%s/"'%(baseDir,softwareDir))
-                assert not os.system('cp -f "work/'+basename+'/'+basename+'.h" "%s/%s/"'%(baseDir,softwareDir))
+        for file in notExcludedFileList:
+            if checkFileTmap(file):
+                basename, ext = os.path.splitext(file)
+                workDir = baseWorkDir + '/' + basename
+                lstcpy = [item for item in notExcludedFileList if item!=file]
+                
+                run(file, lstcpy, performCheck=True, verboseFlag=verboseFlag, 
+                    virtexFamily=virtexFamily, generateImplementationFilesFlag=True)
+                
+                #copy results
+                shutil.copy("%s/%s-simpletmap.vhd"%(workDir, basename), 
+                    "%s/%s.vhd"%(hdlDir, basename))
+                shutil.copy("%s/%s.c"%(workDir, basename), softwareDir)
+                shutil.copy("%s/%s.h"%(workDir, basename), softwareDir)
             else:
-                assert not os.system('ln -sf "../../design/'+file+'" "../hdl/vhdl/"')
-                #assert not os.system('cp -f "'+file+'" "../hdl/vhdl/"')
+                createRelativeLink("%s/%s"%(designDir, file), "%s/%s"%(hdlDir, file))
+                #shutil.copy(file, hdlDir)
     
     except Exception as e:
         print >>sys.stderr, e

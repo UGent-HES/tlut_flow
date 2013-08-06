@@ -148,7 +148,7 @@ def generateMake(makefileName, virtexFamily):
         \t@echo "****************************************************"
         \t@echo "Running tmapFlow"
         \t@echo "****************************************************"
-        \ttmapXilinx.py $(TMAPDESIGN_DIR) $(SOFT_DIR) $(VIRTEX_FAMILY)
+        \ttmapXilinx.py $(TMAPDESIGN_DIR) $(TMAPHDL_DIR) $(SOFT_DIR) $(VIRTEX_FAMILY)
         
         $(BMM_FILE) $(WRAPPER_NGC_FILES) : $(GEN_FILES) $(LN_FILES)\n\n'''))
         
