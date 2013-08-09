@@ -128,8 +128,12 @@ def extract_parameter_names(fname):
     ext = fname.split('.')[-1].lower()
     if ext in ('vhd','vhdl'):   #VHDL
         paramDelimiter = '--PARAM'
-        extraction_re = re.compile(r'^(?P<name>[a-z]\w*)\s*:\s*(?P<type>in|out|inout)\s*[a-z]\w*(\([\w\s+*/-]*\))?$',
-         re.IGNORECASE)
+        vhdlIdRegex = r'[a-z]\w*'
+        vhdlTypeRegex = vhdlIdRegex + \
+            r'(\([\w\s+*/-]*\)|\s+range\s+[\w\s+*/-]+\s+(downto|to)\s+[\w\s+*/-]+)?'
+        extraction_re = re.compile(
+            r'^(?P<name>'+vhdlIdRegex+r')\s*:\s*(?P<type>in|out|inout)\s*'+vhdlTypeRegex+r'$',
+            re.IGNORECASE)
     elif ext in ('v',):         #Verilog
         paramDelimiter = '//PARAM'
         extraction_re = re.compile(r'^(?P<type>input|output)\s*(\[[\w\s+*/-]*:[\w\s+*/-]*\])?\s*(?P<name>[a-z]\w*)$', 
