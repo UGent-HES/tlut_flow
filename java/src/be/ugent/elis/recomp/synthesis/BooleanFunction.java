@@ -199,8 +199,13 @@ public class BooleanFunction {
 		
 		Vector<Minterm> minterms = this.getMinterms();
 		
-		for (Minterm m:minterms) {
-			result += m + " 1\n"; 
+		if(minterms.size()==0) {
+			for(@SuppressWarnings("unused") String in : inputVariable)
+				result += "-";
+			result += " 0\n";
+		} else {
+			for (Minterm m:minterms)
+				result += m + " 1\n";
 		}
 		
 		return result;
