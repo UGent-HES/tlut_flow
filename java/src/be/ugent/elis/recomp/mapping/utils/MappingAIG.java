@@ -587,6 +587,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 	}
 	
 	private boolean isOutputLatch(Node latch) {
+	    if(!latch.isOLatch())
+	        return false;
 	    String latchName = stripBrackets(latch.getName());
         for(Node outp : getOutputs()) {
             if(stripBrackets(outp.getName()).equals(latchName))
