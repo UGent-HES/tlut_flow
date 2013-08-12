@@ -164,6 +164,7 @@ def main():
                     virtexFamily=virtexFamily, generateImplementationFilesFlag=True)
                 
                 #copy results
+                os.system("rm -f %s/%s.vhd"%(hdlDir, basename))
                 shutil.copy("%s/%s-simpletmap.vhd"%(workDir, basename), 
                     "%s/%s.vhd"%(hdlDir, basename))
                 shutil.copy("%s/%s.c"%(workDir, basename), softwareDir)

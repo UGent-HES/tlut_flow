@@ -76,10 +76,6 @@ public class ExtractInfo {
 			lutsInSite.add("B6LUT");
 			lutsInSite.add("C6LUT");
 			lutsInSite.add("D6LUT");
-			lutsInSite.add("A5LUT");
-			lutsInSite.add("B5LUT");
-			lutsInSite.add("C5LUT");
-			lutsInSite.add("D5LUT");
 		} else{
 			System.out.println("The device \""+design.getFamilyName()+"\" is not supported, ended program");
 			System.exit(0);
@@ -98,7 +94,7 @@ public class ExtractInfo {
 				if(instance.getAttribute("_NO_USER_LOGIC")!=null)
 				    continue;
 				//add each lut of site
-				for(String lutSite:lutsInSite){
+				for(String lutSite:lutsInSite) {
 					if(instance.getAttribute(lutSite)==null) {
 						System.err.println("Error: Not found: "+lutSite+"\n"+instance);
 						System.exit(1);
@@ -106,7 +102,10 @@ public class ExtractInfo {
                     if (instance.getAttribute(lutSite).getValue().equals("#OFF"))
                         continue;
                     name = instance.getAttribute(lutSite).getLogicalName();
-					lutName = name.split("/")[name.split("/").length-1];
+                    String[] name_parts = name.split("/");
+					lutName = name_parts[name_parts.length-1];
+					if(lutName.equals("LUT6")) // the LUT6_2 primitive has two outputs so "LUT6" is appended to the lut's name to differentiate between them
+					    lutName = name_parts[name_parts.length-2];
 					if(lutName.length()<name.length()){
 						path = name.substring(0, name.length()-lutName.length());
 					} else {

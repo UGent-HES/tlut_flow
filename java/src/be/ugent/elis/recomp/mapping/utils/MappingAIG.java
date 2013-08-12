@@ -633,9 +633,30 @@ public class MappingAIG extends AIG<Node, Edge> {
 		ArrayList<Node> regularInputs = bestCone.getRegularInputs();
 		int lutSize = regularInputs.size();
 		String lutInstance = "\n";
+/*
+if K==6: 
+    use the LUT6_2 primitive. This prevents two smaller LUTs from being packed together into a 6LUT with two outputs.
+LUT6_2_inst : LUT6_2
+generic map (INIT => X"0000000000000000") -- Specify LUT Contents
+port map (
+    O6 => O6,  -- 6/5-LUT output (1-bit)
+    O5 => O5,  -- 5-LUT output (1-bit)
+    I0 => I0,
+    I1 => I1,
+    I2 => I2,
+    I3 => I3,
+    I4 => I4,
+    I5 => I5
+);
+*/
 		if(bestCone.isTLUT()) {
-			lutInstance += baseName+"_TLUT"+lutSize+"_"+lutName+": LUT"+lutSize + 
-			    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (O => "+lutName;
+		    if(K==6)
+                lutInstance += baseName+"_TLUT"+lutSize+"_"+lutName+": LUT6_2" + 
+                    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (\n\tO6 => " + lutName +
+                    ",\n\tO5 => open";
+            else
+                lutInstance += baseName+"_TLUT"+lutSize+"_"+lutName+": LUT"+lutSize +
+                    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (\n\tO => " + lutName;
 			nameStream.println(baseName+"_TLUT"+lutSize+"_"+lutName);
 		} else {
 			BooleanFunction expr = bestCone.getBooleanFunction();
@@ -648,7 +669,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 				}
 			}
 			lutInstance += baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize + 
-			    "\ngeneric map (\n\tINIT =>"+expr.getVHDLString()+")\nport map (O => "+lutName;
+			    "\ngeneric map (\n\tINIT =>"+expr.getVHDLString()+")\nport map (\n\tO => "+lutName;
 		}
 		//TODO: needs cleanup
 		for (int i = 0; i < lutSize ; i++) {
@@ -658,6 +679,10 @@ public class MappingAIG extends AIG<Node, Edge> {
 			else
 			    lutInstance += ",\n\tI" + Integer.toString(i) + " => " + 
 			        replaceBrakets(regularInputs.get(i).getName());
+		}
+		if(K==6 && bestCone.isTLUT()) {
+		    for (int i = lutSize; i < K ; i++)
+		        lutInstance += ",\n\tI" + Integer.toString(i) + " => '0'";
 		}
 		lutInstance += ");\n";
 		
@@ -715,16 +740,22 @@ public class MappingAIG extends AIG<Node, Edge> {
 	    stream.println("\n"+vhdlFileLine);
 	    
 	    // Add LUT templates 
-	    for (int i = 1;i<=K;i++){	
-	    	String lutComponent = "component LUT"+Integer.toString(i)+"\ngeneric (\n\tINIT : bit_vector := X\""+Integer.toString((int) java.lang.Math.pow(2, i))+"\");\nport   (O : out STD_ULOGIC";
-	    	for(int j = 0;j<i;j++){
-	    		lutComponent = lutComponent + "; \n\tI"+Integer.toString(j)+": in STD_ULOGIC";
-	    	}
-	    	lutComponent = lutComponent + ");\nend component;";
-	    	stream.println(lutComponent);
+	    if(K==6) {
+	        stream.println("component LUT6_2\ngeneric (INIT : bit_vector := X\"1\");\n" +
+                "port (\n\tO6 : out STD_ULOGIC;\n\tO5 : out STD_ULOGIC;\n\tI0 : in STD_ULOGIC;" + 
+                "\n\tI1 : in STD_ULOGIC;\n\tI2 : in STD_ULOGIC;\n\tI3 : in STD_ULOGIC;" +
+                "\n\tI4 : in STD_ULOGIC;\n\tI5 : in STD_ULOGIC);\nend component;\n");
 	    }
+        for (int i = 1;i<=K;i++) {	
+            String lutComponent = "component LUT" + Integer.toString(i) + 
+                "\ngeneric (INIT : bit_vector := X\"1\");\nport   (O : out STD_ULOGIC";
+            for(int j = 0;j<i;j++)
+                lutComponent = lutComponent + "; \n\tI"+Integer.toString(j)+": in STD_ULOGIC";
+            lutComponent = lutComponent + ");\nend component;\n";
+            stream.println(lutComponent);
+        }
 	    // Add FF template 
-	    String ffComponent = "component FD\ngeneric (\n\tINIT : bit:= '1');\nport   (Q : out STD_ULOGIC;\n\tC : in STD_ULOGIC;\n\tD : in STD_ULOGIC);\nend component;";
+	    String ffComponent = "component FD\ngeneric (INIT : bit:= '1');\nport   (Q : out STD_ULOGIC;\n\tC : in STD_ULOGIC;\n\tD : in STD_ULOGIC);\nend component;\n";
 	    stream.println(ffComponent);
 	    
 	    // Add declaration of signals and init attributes
@@ -772,9 +803,12 @@ public class MappingAIG extends AIG<Node, Edge> {
 		
 	    // Add declaration of lock attributes
 		String lockAttributes = "\nattribute lock_pins : string;";
-		for (int i = 1;i<=K;i++){	
+		for (int i = 1;i<=K;i++) {	
 	    	lockAttributes = lockAttributes + "\nattribute lock_pins of LUT"+Integer.toString(i)+": component is \"ALL\";";
 	    }
+	    if(K==6)
+	    	lockAttributes = lockAttributes + "\nattribute lock_pins of LUT6_2: component is \"ALL\";";
+
 		stream.println(lockAttributes);
 	}
 
