@@ -546,18 +546,50 @@ public class MappingAIG extends AIG<Node, Edge> {
 	} 
 	
 	
-	private String stripBrakets(String s) {
+	private String stripBrackets(String s) {
 		return s.replace("[","").replace("]","");
 	}
 	
-	private String replaceBrakets(String s) {
+	private String replaceBrackets(String s) {
 		return s.replace('[', '(').replace(']', ')');
 	}
 	
+	private String getNodeVHDLName(Node node) {
+        String nodeName;
+        if(node.isConst0()) {
+            nodeName = "\'0\'";
+        } else if(node.isInput()) {
+            nodeName = replaceBrackets(node.getName());
+        } else if(isOutputLatch(node)) {
+            nodeName = stripBrackets(node.getName())+"_o";
+        } else {
+            nodeName = stripBrackets(node.getName());
+        }
+        return nodeName;
+    }
+    
+    private String getEdgeVHDLName(Edge e) {
+        Node node = e.getTail();
+        String nodeName = getNodeVHDLName(node);
+        if(node.isConst0()) {
+            if(e.isInverted())
+                nodeName = "\'1\'";
+        } else if(node.isInput() || node.isOLatch()) {
+            if (e.isInverted())
+                nodeName = "not("+nodeName+")";
+        } else if(node.isGate()) {
+            if(e.isInverted())
+                nodeName = nodeName+"not";
+        } else {
+            throw new RuntimeException("Unexpected node type");
+        }
+        return nodeName;
+	}
+	
 	private boolean isOutputLatch(Node latch) {
-	    String latchName = stripBrakets(latch.getName());
+	    String latchName = stripBrackets(latch.getName());
         for(Node outp : getOutputs()) {
-            if(stripBrakets(outp.getName()).equals(latchName))
+            if(stripBrackets(outp.getName()).equals(latchName))
                 return true;
         }
         return false;
@@ -574,7 +606,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	    //all latches
 	    for (Node latch : getLatches()) {
 	    	String nameSuffix = isOutputLatch(latch) ? "_o" : "";
-			printLatchVhdl(baseName, latch ,stream, K, stripBrakets(latch.getName()) + nameSuffix); 
+			printLatchVhdl(baseName, latch ,stream, K, stripBrackets(latch.getName()) + nameSuffix); 
 	    }
 	    
 	    //all luts
@@ -594,36 +626,9 @@ public class MappingAIG extends AIG<Node, Edge> {
         //all outputs
 		for (Node out : getOutputs()) {
 			Edge e = out.getI0();
-			Node node = e.getTail();
-			String outName = replaceBrakets(out.getName());
-			
-			String nodeName;
-			if(node.isInput()) {
-				nodeName = replaceBrakets(node.getName());
-			} else if(stripBrakets(out.getName()).equals(stripBrakets(node.getName()))) {   //OLATCH
-				nodeName = stripBrakets(node.getName())+"_o";
-			} else {
-				nodeName = stripBrakets(node.getName());
-			}
-			
-			if(node.isConst0()) {
-                if(e.isInverted())
-                    stream.println(outName+" <= \'0\';");
-                else
-                    stream.println(outName+" <= \'1\';");
-            } else if(node.isInput() || node.isOLatch()) {
-                if (e.isInverted())
-                    stream.println(outName+" <= not("+nodeName+");");
-                else
-                    stream.println(outName+" <= "+nodeName+";");
-            } else if(node.isGate()) {
-                if(e.isInverted())
-				    stream.println(outName+" <= "+nodeName+"not;");
-                else
-                    stream.println(outName+" <= "+nodeName+";");
-            } else {
-                throw new RuntimeException("Unexpected node type");
-            }
+			String outName = replaceBrackets(out.getName());
+            stream.println(outName + " <= " + getEdgeVHDLName(e) + ";");
+            
 		}	
 		stream.print("end;");
 	}
@@ -664,21 +669,19 @@ port map (
 			    expr = expr.invert();
 			//check for inversion at the inputs, change Boolean Function if necessary
 			for (Node inputNode : regularInputs){
-				if(checkOutputLutInversion(inputNode)==OutputLutInversion.AllOutsInverted){
+				if(checkOutputLutInversion(inputNode)==OutputLutInversion.AllOutsInverted) {
 					expr.setExpression(expr.getExpression().replace(inputNode.getName(),inputNode.getName()+" -"));
 				}
 			}
 			lutInstance += baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize + 
 			    "\ngeneric map (\n\tINIT =>"+expr.getVHDLString()+")\nport map (\n\tO => "+lutName;
 		}
-		//TODO: needs cleanup
 		for (int i = 0; i < lutSize ; i++) {
-			if(checkOutputLutInversion(regularInputs.get(i)) == OutputLutInversion.AllOutsInverted)
-				lutInstance += ",\n\tI" + Integer.toString(i) + " => " + 
-				    replaceBrakets(regularInputs.get(i).getName()) + "not";
-			else
-			    lutInstance += ",\n\tI" + Integer.toString(i) + " => " + 
-			        replaceBrakets(regularInputs.get(i).getName());
+		    Node input = regularInputs.get(i);
+		    String nodeName = getNodeVHDLName(input);
+			if(checkOutputLutInversion(input) == OutputLutInversion.AllOutsInverted)
+			    nodeName += "not";
+			lutInstance += ",\n\tI" + Integer.toString(i) + " => " + nodeName;
 		}
 		if(K==6 && bestCone.isTLUT()) {
 		    for (int i = lutSize; i < K ; i++)
@@ -699,16 +702,7 @@ port map (
 		Edge e = latch.getI0().getTail().getI0();
 		Node n = e.getTail();
 		
-		//TODO: needs cleanup
-		if (e.isInverted()) {
-			if(n.isInput() || n.isOLatch()) {
-				latchInstance += ",\n\tD => not("+replaceBrakets(n.getName())+")";
-			} else {
-				latchInstance += ",\n\tD => "+replaceBrakets(n.getName())+ "not";
-			}
-		} else {
-			latchInstance += ",\n\tD => "+ replaceBrakets(n.getName());		
-		}
+		latchInstance += ",\n\tD => " + getEdgeVHDLName(e);	
 		latchInstance += ");\n";
 		
 		stream.print(latchInstance);
@@ -787,13 +781,13 @@ port map (
 	    for (Node latch : getOLatches()) {
 	    	String nameSuffix = isOutputLatch(latch) ? "_o" : "";
 			
-			signalDeclarations +=  "\nsignal " + stripBrakets(latch.getName()) +
+			signalDeclarations +=  "\nsignal " + stripBrackets(latch.getName()) +
 			    nameSuffix + " : STD_ULOGIC ;";
-			initAttributes += "\nattribute INIT of FD_" + stripBrakets(latch.getName()) +
+			initAttributes += "\nattribute INIT of FD_" + stripBrackets(latch.getName()) +
 			    nameSuffix + " : label is \"0\";";
 				
-			//signalDeclarations = signalDeclarations + "\nsignal "+stripBrakets(latch.getName()) +" : STD_ULOGIC ;";
-			//initAttributes = initAttributes + "\nattribute INIT of FD_"+stripBrakets(latch.getName())+" : label is \"0\";"; 
+			//signalDeclarations = signalDeclarations + "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
+			//initAttributes = initAttributes + "\nattribute INIT of FD_"+stripBrackets(latch.getName())+" : label is \"0\";"; 
 				
 		}
 	    
