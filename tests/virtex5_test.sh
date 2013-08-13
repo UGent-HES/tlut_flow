@@ -65,6 +65,6 @@ mkdir -p work
 rm -f work/virtex5_output.log
 
 testCase "xorExample/xpsV13" "plb_xor_v1_00_a"
-testCase "xorExample/xpsV13_blaze" "plb_xor_v1_00_a"
+#testCase "xorExample/xpsV13_blaze" "plb_xor_v1_00_a"
 testCase "treeMult4b/xpsV13" "plb_mult4b_v1_00_a"
-
+testCase "rom/xpsV13" "plb_rom_v1_00_a"

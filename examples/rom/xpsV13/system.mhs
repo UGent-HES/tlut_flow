@@ -1,0 +1,151 @@
+
+# ##############################################################################
+# Created by Base System Builder Wizard for Xilinx EDK 13.4 Build EDK_O.87xd
+# Tue Jan  8 15:54:31 2013
+# Target Board:  Xilinx Virtex 5 ML507 Evaluation Platform Rev A
+# Family:    virtex5
+# Device:    xc5vfx70t
+# Package:   ff1136
+# Speed Grade:  -1
+# Processor number: 1
+# Processor 1: ppc440_0
+# Processor clock frequency: 100.0
+# Bus clock frequency: 100.0
+# Debug Interface: FPGA JTAG
+# ##############################################################################
+ PARAMETER VERSION = 2.1.0
+
+
+ PORT fpga_0_RS232_Uart_1_RX_pin = fpga_0_RS232_Uart_1_RX_pin, DIR = I
+ PORT fpga_0_RS232_Uart_1_TX_pin = fpga_0_RS232_Uart_1_TX_pin, DIR = O
+ PORT fpga_0_LEDs_8Bit_GPIO_IO_pin = fpga_0_LEDs_8Bit_GPIO_IO_pin, DIR = IO, VEC = [0:7]
+ PORT fpga_0_clk_1_sys_clk_pin = CLK_S, DIR = I, SIGIS = CLK, CLK_FREQ = 100000000
+ PORT fpga_0_rst_1_sys_rst_pin = sys_rst_s, DIR = I, SIGIS = RST, RST_POLARITY = 0
+
+
+BEGIN ppc440_virtex5
+ PARAMETER INSTANCE = ppc440_0
+ PARAMETER C_IDCR_BASEADDR = 0b0000000000
+ PARAMETER C_IDCR_HIGHADDR = 0b0011111111
+ PARAMETER C_SPLB0_NUM_MPLB_ADDR_RNG = 0
+ PARAMETER C_SPLB1_NUM_MPLB_ADDR_RNG = 0
+ PARAMETER HW_VER = 1.01.a
+ BUS_INTERFACE MPLB = plb_v46_0
+ BUS_INTERFACE JTAGPPC = ppc440_0_jtagppc_bus
+ BUS_INTERFACE RESETPPC = ppc_reset_bus
+ PORT CPMC440CLK = clk_100_0000MHzPLL0
+ PORT CPMINTERCONNECTCLK = clk_100_0000MHzPLL0
+ PORT CPMINTERCONNECTCLKNTO1 = net_vcc
+ PORT CPMMCCLK = clk_100_0000MHzPLL0_ADJUST
+END
+
+BEGIN plb_v46
+ PARAMETER INSTANCE = plb_v46_0
+ PARAMETER C_DCR_INTFCE = 0
+ PARAMETER HW_VER = 1.05.a
+ PORT PLB_Clk = clk_100_0000MHzPLL0_ADJUST
+ PORT SYS_Rst = sys_bus_reset
+END
+
+BEGIN xps_bram_if_cntlr
+ PARAMETER INSTANCE = xps_bram_if_cntlr_1
+ PARAMETER C_SPLB_NATIVE_DWIDTH = 64
+ PARAMETER C_SPLB_SUPPORT_BURSTS = 1
+ PARAMETER C_SPLB_P2P = 0
+ PARAMETER HW_VER = 1.00.b
+ PARAMETER C_BASEADDR = 0xfffe0000
+ PARAMETER C_HIGHADDR = 0xffffffff
+ BUS_INTERFACE SPLB = plb_v46_0
+ BUS_INTERFACE PORTA = xps_bram_if_cntlr_1_port
+END
+
+BEGIN bram_block
+ PARAMETER INSTANCE = xps_bram_if_cntlr_1_bram
+ PARAMETER HW_VER = 1.00.a
+ BUS_INTERFACE PORTA = xps_bram_if_cntlr_1_port
+END
+
+BEGIN xps_uartlite
+ PARAMETER INSTANCE = RS232_Uart_1
+ PARAMETER C_BAUDRATE = 9600
+ PARAMETER C_DATA_BITS = 8
+ PARAMETER C_USE_PARITY = 0
+ PARAMETER C_ODD_PARITY = 0
+ PARAMETER HW_VER = 1.02.a
+ PARAMETER C_BASEADDR = 0x84000000
+ PARAMETER C_HIGHADDR = 0x8400ffff
+ BUS_INTERFACE SPLB = plb_v46_0
+ PORT RX = fpga_0_RS232_Uart_1_RX_pin
+ PORT TX = fpga_0_RS232_Uart_1_TX_pin
+END
+
+BEGIN xps_gpio
+ PARAMETER INSTANCE = LEDs_8Bit
+ PARAMETER C_ALL_INPUTS = 0
+ PARAMETER C_GPIO_WIDTH = 8
+ PARAMETER C_INTERRUPT_PRESENT = 0
+ PARAMETER C_IS_DUAL = 0
+ PARAMETER HW_VER = 2.00.a
+ PARAMETER C_BASEADDR = 0x81400000
+ PARAMETER C_HIGHADDR = 0x8140ffff
+ BUS_INTERFACE SPLB = plb_v46_0
+ PORT GPIO_IO = fpga_0_LEDs_8Bit_GPIO_IO_pin
+END
+
+BEGIN clock_generator
+ PARAMETER INSTANCE = clock_generator_0
+ PARAMETER C_CLKIN_FREQ = 100000000
+ PARAMETER C_CLKOUT0_FREQ = 100000000
+ PARAMETER C_CLKOUT0_PHASE = 0
+ PARAMETER C_CLKOUT0_GROUP = PLL0
+ PARAMETER C_CLKOUT0_BUF = TRUE
+ PARAMETER C_CLKOUT1_FREQ = 100000000
+ PARAMETER C_CLKOUT1_PHASE = 0
+ PARAMETER C_CLKOUT1_GROUP = PLL0_ADJUST
+ PARAMETER C_CLKOUT1_BUF = TRUE
+ PARAMETER C_EXT_RESET_HIGH = 0
+ PARAMETER HW_VER = 4.03.a
+ PARAMETER C_CLKOUT2_FREQ = 100000000
+ PORT CLKIN = CLK_S
+ PORT CLKOUT0 = clk_100_0000MHzPLL0
+ PORT CLKOUT1 = clk_100_0000MHzPLL0_ADJUST
+ PORT CLKOUT2 = clock_generator_0_CLKOUT2
+ PORT RST = sys_rst_s
+ PORT LOCKED = Dcm_all_locked
+END
+
+BEGIN jtagppc_cntlr
+ PARAMETER INSTANCE = jtagppc_cntlr_inst
+ PARAMETER HW_VER = 2.01.c
+ BUS_INTERFACE JTAGPPC0 = ppc440_0_jtagppc_bus
+END
+
+BEGIN proc_sys_reset
+ PARAMETER INSTANCE = proc_sys_reset_0
+ PARAMETER C_EXT_RESET_HIGH = 0
+ PARAMETER HW_VER = 3.00.a
+ BUS_INTERFACE RESETPPC0 = ppc_reset_bus
+ PORT Slowest_sync_clk = clk_100_0000MHzPLL0_ADJUST
+ PORT Ext_Reset_In = sys_rst_s
+ PORT Dcm_locked = Dcm_all_locked
+ PORT Bus_Struct_Reset = sys_bus_reset
+ PORT Peripheral_Reset = sys_periph_reset
+END
+
+BEGIN xps_hwicap
+ PARAMETER INSTANCE = xps_hwicap_0
+ PARAMETER HW_VER = 5.01.a
+ PARAMETER C_BASEADDR = 0x86800000
+ PARAMETER C_HIGHADDR = 0x8680ffff
+ BUS_INTERFACE SPLB = plb_v46_0
+ PORT ICAP_Clk = clock_generator_0_CLKOUT2
+END
+
+BEGIN plb_rom
+ PARAMETER INSTANCE = plb_rom_0
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_BASEADDR = 0xc9c00000
+ PARAMETER C_HIGHADDR = 0xc9c0ffff
+ BUS_INTERFACE SPLB = plb_v46_0
+END
+

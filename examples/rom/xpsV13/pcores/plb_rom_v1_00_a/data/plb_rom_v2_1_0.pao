@@ -1,0 +1,11 @@
+##############################################################################
+## Filename:          /home/kheyse/private/tlut_flow/examples/rom/xpsV13/pcores/plb_rom_v1_00_a/data/plb_rom_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Tue Aug 13 11:07:43 2013 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib plb_rom_v1_00_a rom vhdl
+lib proc_common_v3_00_a all vhdl
+lib plbv46_slave_single_v1_01_a all vhdl
+lib plb_rom_v1_00_a user_logic vhdl
+lib plb_rom_v1_00_a plb_rom vhdl
