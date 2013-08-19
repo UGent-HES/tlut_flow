@@ -129,14 +129,15 @@ def extract_parameter_names(fname):
     if ext in ('vhd','vhdl'):   #VHDL
         paramDelimiter = '--PARAM'
         vhdlIdRegex = r'[a-z]\w*'
+        vhdlIdsRegex = vhdlIdRegex + r'(\s*,\s*'+vhdlIdRegex+r')*'
         vhdlTypeRegex = vhdlIdRegex + \
             r'(\([\w\s+*/-]*\)|\s+range\s+[\w\s+*/-]+\s+(downto|to)\s+[\w\s+*/-]+)?'
         extraction_re = re.compile(
-            r'^(?P<name>'+vhdlIdRegex+r')\s*:\s*(?P<type>in|out|inout)\s*'+vhdlTypeRegex+r'$',
+            r'^(?P<names>'+vhdlIdsRegex+r')\s*:\s*(?P<type>in|out|inout)\s*'+vhdlTypeRegex+r'$',
             re.IGNORECASE)
     elif ext in ('v',):         #Verilog
         paramDelimiter = '//PARAM'
-        extraction_re = re.compile(r'^(?P<type>input|output)\s*(\[[\w\s+*/-]*:[\w\s+*/-]*\])?\s*(?P<name>[a-z]\w*)$', 
+        extraction_re = re.compile(r'^(?P<type>input|output)\s*(\[[\w\s+*/-]*:[\w\s+*/-]*\])?\s*(?P<names>[a-z]\w*(\s*,\s*[a-z]\w*)*)$', 
         re.IGNORECASE)
     else:
         print >> sys.stderr, "Error: Unknown input file type"
@@ -175,9 +176,9 @@ def extract_parameter_names(fname):
             print >> sys.stderr, "Warning: Unrecognised signal declaration: %s"%paramDef
         else:
             signal_type = res.group('type')
-            signal_name = res.group('name')
+            signal_names = map(str.strip, res.group('names').split(','))
             if signal_type in ('input','in'):
-                parameter_names.append(signal_name)
+                parameter_names.extend(signal_names)
             else:
                 print >> sys.stderr, "Warning: Unsupported signal type: %s"%signal_type
     return parameter_names

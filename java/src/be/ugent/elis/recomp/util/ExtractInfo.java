@@ -78,7 +78,7 @@ public class ExtractInfo {
 			lutsInSite.add("D6LUT");
 		} else{
 			System.out.println("The device \""+design.getFamilyName()+"\" is not supported, ended program");
-			System.exit(0);
+			System.exit(1);
 		}
 		
 		
