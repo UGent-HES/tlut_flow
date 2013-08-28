@@ -359,7 +359,7 @@ def resynthesize(basename, fname, script='resyn2', verboseFlag=False):
     return outFileName
 
 def synthesize(top, submodules, verboseFlag=False):
-    basename, ext = getBasenameAndExtension(top)
+    basename, ext = getBasenameAndExtension(os.path.basename(top))
 
     blifFileName  = basename + ".blif"
     os.system("rm -f "+blifFileName)

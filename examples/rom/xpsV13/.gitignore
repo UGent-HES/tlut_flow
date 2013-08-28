@@ -26,6 +26,6 @@
 *.bak
 *.log
 locations.[ch]
-exorw32.[ch]
+rom.[ch]
 .svn
 *~

@@ -83,8 +83,7 @@ def collumnize(items,width):
 
 #copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
 def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, verboseFlag=False):
-    ext = module.split('.')[-1].lower()
-    baseName = module[:-len(ext)-1]
+    baseName, ext = getBasenameAndExtension(os.path.basename(module))
     if ext not in ('vhd','vhdl','v'):
         print >> sys.stderr, "Error: Module filename does not have extension '.vhd','.vhdl' or '.v':", module
         exit(3)
@@ -100,10 +99,11 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     workDir = "work/"+baseName
     print "Stage: Creating %s directory and copying design"%workDir
-    assert not os.system('mkdir -p '+workDir)
-    shutil.copy(module, workDir)
-    for submodule in submodules:
-        shutil.copy(submodule, workDir)
+    for submodule in submodules + [module]:
+        path = workDir + '/' + submodule
+        if not os.path.exists(os.path.dirname(path)):
+            os.makedirs(os.path.dirname(path))
+        shutil.copy(submodule, path)
     shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc', workDir)
     
     ret_pwd = os.getcwd()
