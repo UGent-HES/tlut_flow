@@ -108,11 +108,11 @@ public class TruthAssignment{
 	}
 
 	public boolean hasNext() {
-		boolean result = true;
 		for (Boolean b:assignmentMap.values()) {
-			result = result && b;
+			if(!b) 
+			    return true;
 		}
-		return !result;
+		return false;
 	}
 
 	public TruthAssignment next() {

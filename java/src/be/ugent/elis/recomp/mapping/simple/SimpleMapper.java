@@ -99,9 +99,9 @@ public class SimpleMapper {
         a.visitAll(enumerator);        
 		System.out.println("Cone Ranking:");
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
+        a.visitAllInverse(new ConeSelection());
         
         double depthBeforeAreaRecovery = a.getDepth();
-        a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator());
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));
         a.visitAllInverse(new ConeSelection());
