@@ -192,6 +192,10 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
                 print output,
             raise Exception("Unexpected output from java TMapSimple")
         
+        for line in output.splitlines():
+            if line.startswith("Warning: latch has only parameters in fanin cone: "):
+                print line
+        
         # Extracting results
         cmd = ['abc','-c','resyn3; print_stats', aigFile]
         output = subprocess.check_output(cmd)

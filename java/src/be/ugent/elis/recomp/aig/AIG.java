@@ -390,7 +390,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		return inverted;
 	}
 
-	private void setMarkedAll(boolean marked) {
+	public void setMarkedAll(boolean marked) {
 		for (N n: getAllNodes()) {
 			n.setMarked(marked);
 		}
@@ -1167,6 +1167,31 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		this.input = new ArrayList<N>(inputSet);
 		this.edges = new ArrayList<E>(edgesSet);
 		
+	}
+	
+	public void removeNode(Node node) {
+	    switch(node.getType()) {
+		case AND:
+			and.remove(node);
+			break;
+		case INPUT:
+			input.remove(node);
+			break;
+		case OUTPUT:
+			output.remove(node);
+			break;
+		case ILATCH:
+			ilatch.remove(node);
+			break;
+		case LATCH:
+			latch.remove(node);
+			break;
+		case OLATCH:
+			olatch.remove(node);
+			break;
+		default:
+			System.out.println("Unknown node type!");
+		}
 	}
 
 	public N addNode(String name, NodeType type) {
