@@ -138,7 +138,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     #Print C-files
     if generateImplementationFilesFlag:
-        tlutconfFile = baseName + "-tlutconfig.aag"
+        tlutconfFile = baseName + "-tlutconfig_resyn.aag"
         CFileName = baseName + '.c' 
         headerFileName = baseName + '.h' 
         assert virtexFamily, "Error: No FPGA family provided, cannot generate C functions"

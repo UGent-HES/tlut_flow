@@ -197,7 +197,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
                 print line
         
         # Extracting results
-        cmd = ['abc','-c','resyn3; print_stats', aigFile]
+        cmd = ['abc','-c','print_stats', aigFile]
         output = subprocess.check_output(cmd)
         if verboseFlag:
             print ' '.join(cmd)
@@ -213,8 +213,14 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
             raise Exception("Unexpected output from abc print_stats")
     
     
+        # Resynthesize Parameterizable Configuration
+        tlutconfbasename, parext = getBasenameAndExtension(tlutconfFile)
+        resynthesisedAIGtlutconffile = resynthesize(tlutconfbasename, aagtoaig(tlutconfFile), 
+            'rw; rf; rw; rwz; rfz; rwz', verboseFlag)
+        tlutconfFile = aigtoaag(resynthesisedAIGtlutconffile)
+        
         # Extracting results: Parameterizable Configuration
-        cmd = ['abc','-c','resyn3; print_stats',aagtoaig(parconfFile)]
+        cmd = ['abc','-c','print_stats', aagtoaig(tlutconfFile)]
         output = subprocess.check_output(cmd)
         if verboseFlag:
             print ' '.join(cmd)
@@ -351,7 +357,7 @@ def miter(circuit0, circuit1, verboseFlag=False):
 
 def resynthesize(basename, fname, script='resyn2', verboseFlag=False):
     basefname, ext = getBasenameAndExtension(fname)
-    assert ext in ('blif', 'aag')
+    assert ext in ('blif', 'aig')
     
     outFileName = '%s_resyn.%s'%(basename, ext)
     os.system("rm -f "+outFileName)
