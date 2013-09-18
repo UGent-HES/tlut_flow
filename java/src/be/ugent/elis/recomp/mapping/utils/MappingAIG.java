@@ -606,9 +606,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 		stream.println("\nbegin");
 	    
 	    //all latches
-	    for (Node latch : getLatches()) {
-	    	String nameSuffix = isOutputLatch(latch) ? "_o" : "";
-			printLatchVhdl(baseName, latch ,stream, K, stripBrackets(latch.getName()) + nameSuffix); 
+	    for (Node olatch : getOLatches()) {
+			printLatchVhdl(baseName, olatch, stream, K); 
 	    }
 	    
 	    //all luts
@@ -695,10 +694,14 @@ port map (
 	} 
 	
 	
-	public void printLatchVhdl(String baseName, Node latch, PrintStream stream, int K, String latchName) {
+	public void printLatchVhdl(String baseName, Node olatch, PrintStream stream, int K) {
+	    assert(olatch.isOLatch());
+	    Node latch = olatch.getI0().getTail();
+	    assert(latch.isLatch());
 		String latchInstance;
-		latchInstance = "\nFD_"+latchName+": FD\ngeneric map (\n\tINIT =>\'0\')\nport map (Q => "+
-		                    latchName;
+		String latchName = getNodeVHDLName(olatch);
+		latchInstance = "\n" + baseName + "_FD_" + latchName + 
+		    ": FD\ngeneric map (\n\tINIT =>\'0\')\nport map (Q => " + latchName;
 		latchInstance += ",\n\tC => clk";
 				
 		Edge e = latch.getI0().getTail().getI0();
@@ -785,7 +788,7 @@ port map (
 			
 			signalDeclarations +=  "\nsignal " + stripBrackets(latch.getName()) +
 			    nameSuffix + " : STD_ULOGIC ;";
-			initAttributes += "\nattribute INIT of FD_" + stripBrackets(latch.getName()) +
+			initAttributes += "\nattribute INIT of " + baseName + "_FD_" + stripBrackets(latch.getName()) +
 			    nameSuffix + " : label is \"0\";";
 				
 			//signalDeclarations = signalDeclarations + "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
