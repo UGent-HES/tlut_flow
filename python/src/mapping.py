@@ -412,13 +412,7 @@ def synthesize(top, submodules, verboseFlag=False):
     if not os.path.exists(blifFileName):
         raise Exception('quartus_map missing output file: %s'%blifFileName)
     
-    sweepFileName = basename + "-sweep.blif"
-    cmd = ['abc', '-c', 'sweep', '-o', sweepFileName, '-t', 'blif', '-T', 'blif', blifFileName]
-    if verboseFlag:
-        print ' '.join(cmd)
-    subprocess.check_call(cmd);
-    
-    return sweepFileName
+    return blifFileName
     
 def printCFunction(aagFileName, CFileName, headerFileName, virtexFamily, verboseFlag=False):
     cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.aig.MakeCEvaluator']
