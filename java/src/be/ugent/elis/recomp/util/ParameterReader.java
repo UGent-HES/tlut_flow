@@ -66,112 +66,24 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.tmapSimple;
+package be.ugent.elis.recomp.util;
 
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.io.InputStream;
-
+import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
-import java.util.ArrayList;
 
-import be.ugent.elis.recomp.mapping.utils.MappingAIG;
-import be.ugent.elis.recomp.mapping.utils.Edge;
-import be.ugent.elis.recomp.mapping.utils.Node;
-import be.ugent.elis.recomp.util.ParameterReader;
-
-public class ParamLatchRemover {
-
-	public static void main(String[] args) throws IOException {
+public class ParameterReader {
 	
-		MappingAIG a = new MappingAIG(args[0]);
-		
-        new ParamLatchRemover(a, new FileInputStream(args[1])).run();
-        
-        a.printAAG(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))));
-	}
-	
-	Set<String> parameter;
-    MappingAIG aig;
-
-	public ParamLatchRemover(MappingAIG aig, InputStream stream) throws FileNotFoundException    {
-	    this.aig = aig;
-		parameter = ParameterReader.readParameters(stream);
-	}
-	
-	private void recursivelyMarkParameters(Node node) {
-	    if(node.isMarked())
-	        return;
-	    node.setMarked(true);
-	    if (node.isGate()) {
-			Node node0 = node.getI0().getTail();
-			Node node1 = node.getI1().getTail();
-			
-			recursivelyMarkParameters(node0);
-			recursivelyMarkParameters(node1);
-			
-			node.setParameter(node0.isParameter() && node1.isParameter());
-		} else if (node.isILatch() || node.isLatch() || node.isOLatch() || node.isOutput()) {
-			Node node0 = node.getI0().getTail();
-						
-    		recursivelyMarkParameters(node0);
-			
-			node.setParameter(node0.isParameter());
-		} else if (node.isConst0() || node.isInput()) {
-		} else {
-		    assert(false);
+	public static Set<String> readParameters(InputStream stream) throws FileNotFoundException {
+		Set<String> parameter;
+		parameter = new HashSet<String>();
+		Scanner scanner = new Scanner(stream);
+		while (scanner.hasNext()) {
+			parameter.add(scanner.next());
 		}
-	}
-
-    private void removeLatch(Node olatch) {
-        assert olatch.isOLatch();
-        Node latch = olatch.getI0().getTail();
-        assert !olatch.getI0().isInverted();
-        assert latch.isLatch();
-        Node ilatch = latch.getI0().getTail();
-        assert !latch.getI0().isInverted();
-        assert ilatch.isILatch();
-        Edge inedge = ilatch.getI0();
-        Node innode = inedge.getTail();
-        
-        for(Edge outedge : olatch.fanOut()) {
-            outedge.setTail(innode);
-            if(inedge.isInverted())
-                outedge.setInverted(!outedge.isInverted());
-            innode.addOutput(outedge);
-        }
-        
-        innode.removeOutput(inedge);
-        aig.removeNode(olatch);
-        aig.removeNode(latch);
-        aig.removeNode(ilatch);
-    }
-
-	public void run() {
-	    aig.setMarkedAll(false);
-		for (Node n : aig.getAllNodes()) {
-			n.setParameter(false);
-		}
-	    
-	    for (Node node : aig.getInputs()) {
-            node.setParameter(parameter.contains(node.getName()));
-		}
-		for (Node output : aig.getOutputs()) {
-		    recursivelyMarkParameters(output);
-		}
-		
-		for (Node olatch : new ArrayList<Node>(aig.getOLatches())) {
-		    if(olatch.isParameter()) {
-		        System.out.println("Warning: latch has only parameters in fanin cone: " + olatch.getName());
-		        removeLatch(olatch);
-		    }
-		}
-		
-	    aig.setMarkedAll(false);
+		return parameter;
 	}
 
 }
