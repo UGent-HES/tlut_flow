@@ -66,180 +66,147 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.utils;
+package be.ugent.elis.recomp.mapping.modular;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import net.sf.javabdd.BDD;
+import net.sf.javabdd.BDDFactory;
+import net.sf.javabdd.BuDDyFactory;
+
 import be.ugent.elis.recomp.aig.AIG;
-import be.ugent.elis.recomp.aig.AbstractNode;
-import be.ugent.elis.recomp.aig.NodeType;
+import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
+import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
+import be.ugent.elis.recomp.mapping.utils.Node;
 
-
-public class Node extends AbstractNode<Node,Edge> {
-
-	ConeSet coneSet;
+public class ActivationFunctionBuilder {
 	
-
-	private Cone  bestCone;
-	
-	double depth;
-	private double areaflow;
-	private double requiredTime;
-	private int references;
-	private double estimatedFanout = -1.;
-	
-	private boolean visible;
-	
-	private boolean parameter;
-	private BDD onParamFunction;
-	private BDD offParamFunction;
-	private BDD activationFunction;
-	
-	public Node(AIG<Node, Edge> aig, NodeType type) {
-		super(aig, type);
-		this.coneSet = new ConeSet(this);
-		this.depth = 0;
-		this.areaflow = 0;
-		this.setVisible(false);
-		this.setParameter(false);
-		onParamFunction = null;
-		offParamFunction = null;
-		activationFunction = null;
-	}
-
-	public void setConeSet(ConeSet coneSet) {
-		this.coneSet = coneSet;
-	}
-
-	
-	public void setDepth(double depth) {
-		this.depth = depth;
-	}
-
-	public void setAreaflow(double areaflow) {
-		this.areaflow = areaflow;
-	}
-
-	public double getDepth() {
-		return depth;
-	}
-
-	public double getAreaflow() {
-		return areaflow;
-	}
-
-	public void addCone(SimpleCone cone) {
-		coneSet.add(cone);
-	}
-
-	public void addAllCones(ConeSet cones) {
-		coneSet.addAll(cones);
-	}
-
-	public ConeSet getConeSet() {
-		return coneSet;
-	}
-
-	public void setVisible(boolean visable) {
-		this.visible = visable;
-	}
-
-	public boolean isVisible() {
-		return visible;
-	}
-
-	public void setBestCone(Cone bestCone) {
-		this.bestCone = bestCone;
-	}
-
-	public Cone getBestCone() {
-		return bestCone;
-	}
-
-	public void setParameter(boolean parameter) {
-		this.parameter = parameter;
-	}
-
-	public boolean isParameter() {
-		return parameter;
-	}
-	
-	public boolean isSemiParameter() {
-		if(isGate())
-			return getI0().getTail().isParameter() ^ getI1().getTail().isParameter();
-		else
-			return false;
-	}
-	
-	public boolean isParameterInput() {
+	public static void main(String[] args) throws IOException {
 		
-		return isParameter() && isInput();
-	}
+		MappingAIG a = new MappingAIG(args[0]);
+		
+		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-	public void removeConeSet() {
-		this.coneSet = null;
-	}
+        new ActivationFunctionBuilder().run(a);
+    }
+	
+    private BDDFactory B;
+    private ArrayList<Node> parameter_list;
 
-	public double getRequiredTime() {
-		return requiredTime;
-	}
-
-	public void setRequiredTime(double requiredTime) {
-		this.requiredTime = requiredTime;
+	public ActivationFunctionBuilder() {
 	}
 	
-	public void updateRequiredTime(double requiredTime) {
-		this.requiredTime = Math.min(requiredTime, this.requiredTime);
-	}
-
-	public int getReferences() {
-		return references;
-	}
-	
-	public int incrementReferences() {
-		return ++references;
-	}
-	
-	public int decrementReferences() {
-		assert(references>0);
-		return --references;
+	public void run(AIG<Node, Edge> aig) {
+		init(aig);
+		for (Node node: aig.topologicalOrderInToOut(true, true))
+			calculateDeactivationFunction(node);
+		for (Node node: aig.getAllNodes())
+			node.setActivationFunction(B.zero());
+		aig.getConst0().setActivationFunction(B.zero());
+		for (Node node: aig.getAllPrimaryOutputs())
+			node.setActivationFunction(B.one());
+		for (Node node: aig.topologicalOrderOutToIn())
+			calculateActivationFunction(node);
+		//finalise(aig);
 	}
 	
-	public void resetReferences() {
-		references = 0;
+	private void init(AIG<Node, Edge> aig) {
+		parameter_list = new ArrayList<Node>();
+		for(Node input : aig.getInputs())
+			if (input.isParameterInput()) parameter_list.add(input);
+		int node_num = parameter_list.size();
+		int cache_size = node_num*1000;
+		B = BDDFactorySingleton.get(node_num, cache_size);
+	}
+	
+	private void finalise() {
+		B.done();
 	}
 
-	public double getEstimatedFanout() {
-		if(estimatedFanout < 0.)
-			estimatedFanout = fanout(); //nRefs;
-		//System.out.println(""+fanout()+","+estimatedFanout);
-		return estimatedFanout;
+	private void calculateDeactivationFunction(Node node) {
+		if (node.isPrimaryInput()) {
+			if (node.isParameterInput()) {
+				int id = parameter_list.indexOf(node);
+				assert(id>=0);
+				node.setOnParamFunction(B.ithVar(id));
+				node.setOffParamFunction(B.nithVar(id));
+			} else {
+				node.setOnParamFunction(B.zero());
+				node.setOffParamFunction(B.zero());
+			}
+		} else if (node.isGate()) {
+			Node node0 = node.getI0().getTail();
+			boolean inv0 = node.getI0().isInverted();
+			Node node1 = node.getI1().getTail();
+			boolean inv1 = node.getI1().isInverted();
+			
+			BDD onFn0, onFn1, offFn0, offFn1;
+			if(!inv0) {
+				onFn0 = node0.getOnParamFunction();
+				offFn0 = node0.getOffParamFunction();
+			} else {
+				onFn0 = node0.getOffParamFunction();
+				offFn0 = node0.getOnParamFunction();
+			}
+			if(!inv1) {
+				onFn1 = node1.getOnParamFunction();
+				offFn1 = node1.getOffParamFunction();
+			} else {
+				onFn1 = node1.getOffParamFunction();
+				offFn1 = node1.getOnParamFunction();
+			}
+			node.setOnParamFunction(onFn0.and(onFn1));
+			node.setOffParamFunction(offFn0.or(offFn1));
+		} else if (node.isPrimaryOutput()) {
+			Node node0 = node.getI0().getTail();
+			boolean inv0 = node.getI0().isInverted();
+			BDD onFn0, offFn0;
+			if(!inv0) {
+				onFn0 = node0.getOnParamFunction();
+				offFn0 = node0.getOffParamFunction();
+			} else {
+				onFn0 = node0.getOffParamFunction();
+				offFn0 = node0.getOnParamFunction();
+			}
+			node.setOnParamFunction(onFn0.id());
+			node.setOffParamFunction(offFn0.id());
+			//if(!node.getOffParamFunction().equals(B.zero()))
+			//	System.out.println("node_off: " + node.getName() + " = " + node.getOffParamFunction().toString());
+		} else if (node.isConst0()) {
+			node.setOnParamFunction(B.zero());
+			node.setOffParamFunction(B.one());
+		} else {
+			assert(node.isLatch());
+			node.setOnParamFunction(B.zero());
+			node.setOffParamFunction(B.zero());
+		}
 	}
 
-	public void setEstimatedFanout(double estimatedFanout) {
-		this.estimatedFanout = estimatedFanout;
-	}
+	private void calculateActivationFunction(Node node) {
+		assert(node.getActivationFunction()!=null);
+		node.setActivationFunction(node.getActivationFunction().andWith(node.getOnParamFunction().or(
+				node.getOffParamFunction()).not()));
+		node.setOnParamFunction(null);
+		node.setOffParamFunction(null);
+		if (node.isGate()) {
+			Node node0 = node.getI0().getTail();
+			node0.setActivationFunction(node0.getActivationFunction().orWith(node.getActivationFunction().id()));
+			Node node1 = node.getI1().getTail();
+			node1.setActivationFunction(node1.getActivationFunction().orWith(node.getActivationFunction().id()));
+		} else if (node.isPrimaryOutput()) {
+			Node node0 = node.getI0().getTail();
+			node0.setActivationFunction(node0.getActivationFunction().orWith(node.getActivationFunction().id()));
 
-	public BDD getOnParamFunction() {
-		return onParamFunction;
+			//if(!node.getActivationFunction().equals(B.one()))
+			//	System.out.println("node: " + node.getName() + " = " + node.getActivationFunction().toString());
+		} else if (node.isPrimaryInput()) {
+		} else if (node.isConst0()) {
+		} else {
+			assert(node.isLatch());
+		}
 	}
-
-	public void setOnParamFunction(BDD onParamFunction) {
-		this.onParamFunction = onParamFunction;
-	}
-
-	public BDD getOffParamFunction() {
-		return offParamFunction;
-	}
-
-	public void setOffParamFunction(BDD offParamFunction) {
-		this.offParamFunction = offParamFunction;
-	}
-
-	public BDD getActivationFunction() {
-		return activationFunction;
-	}
-
-	public void setActivationFunction(BDD activationFunction) {
-		this.activationFunction = activationFunction;
-	}
-
+	
 }

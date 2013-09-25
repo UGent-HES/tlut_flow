@@ -66,180 +66,31 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.utils;
-import net.sf.javabdd.BDD;
-import be.ugent.elis.recomp.aig.AIG;
-import be.ugent.elis.recomp.aig.AbstractNode;
-import be.ugent.elis.recomp.aig.NodeType;
+package be.ugent.elis.recomp.mapping.modular;
+
+import net.sf.javabdd.BDDFactory;
+import net.sf.javabdd.BuDDyFactory;
 
 
-public class Node extends AbstractNode<Node,Edge> {
-
-	ConeSet coneSet;
+public class BDDFactorySingleton {
 	
-
-	private Cone  bestCone;
+	static private BDDFactorySingleton singleton;
 	
-	double depth;
-	private double areaflow;
-	private double requiredTime;
-	private int references;
-	private double estimatedFanout = -1.;
-	
-	private boolean visible;
-	
-	private boolean parameter;
-	private BDD onParamFunction;
-	private BDD offParamFunction;
-	private BDD activationFunction;
-	
-	public Node(AIG<Node, Edge> aig, NodeType type) {
-		super(aig, type);
-		this.coneSet = new ConeSet(this);
-		this.depth = 0;
-		this.areaflow = 0;
-		this.setVisible(false);
-		this.setParameter(false);
-		onParamFunction = null;
-		offParamFunction = null;
-		activationFunction = null;
-	}
+    private BDDFactory B;
 
-	public void setConeSet(ConeSet coneSet) {
-		this.coneSet = coneSet;
+    private BDDFactorySingleton(int node_num, int cache_size) {
+        B = BuDDyFactory.init(node_num, cache_size);
+        B.setVarNum(node_num);
+    }
+    
+	static public BDDFactory get(int node_num, int cache_size) {
+		assert(singleton == null);
+		singleton = new BDDFactorySingleton(node_num, cache_size);
+        return singleton.B;
 	}
-
-	
-	public void setDepth(double depth) {
-		this.depth = depth;
-	}
-
-	public void setAreaflow(double areaflow) {
-		this.areaflow = areaflow;
-	}
-
-	public double getDepth() {
-		return depth;
-	}
-
-	public double getAreaflow() {
-		return areaflow;
-	}
-
-	public void addCone(SimpleCone cone) {
-		coneSet.add(cone);
-	}
-
-	public void addAllCones(ConeSet cones) {
-		coneSet.addAll(cones);
-	}
-
-	public ConeSet getConeSet() {
-		return coneSet;
-	}
-
-	public void setVisible(boolean visable) {
-		this.visible = visable;
-	}
-
-	public boolean isVisible() {
-		return visible;
-	}
-
-	public void setBestCone(Cone bestCone) {
-		this.bestCone = bestCone;
-	}
-
-	public Cone getBestCone() {
-		return bestCone;
-	}
-
-	public void setParameter(boolean parameter) {
-		this.parameter = parameter;
-	}
-
-	public boolean isParameter() {
-		return parameter;
+	static public BDDFactory get() {
+		assert(singleton != null);
+		return singleton.B;
 	}
 	
-	public boolean isSemiParameter() {
-		if(isGate())
-			return getI0().getTail().isParameter() ^ getI1().getTail().isParameter();
-		else
-			return false;
-	}
-	
-	public boolean isParameterInput() {
-		
-		return isParameter() && isInput();
-	}
-
-	public void removeConeSet() {
-		this.coneSet = null;
-	}
-
-	public double getRequiredTime() {
-		return requiredTime;
-	}
-
-	public void setRequiredTime(double requiredTime) {
-		this.requiredTime = requiredTime;
-	}
-	
-	public void updateRequiredTime(double requiredTime) {
-		this.requiredTime = Math.min(requiredTime, this.requiredTime);
-	}
-
-	public int getReferences() {
-		return references;
-	}
-	
-	public int incrementReferences() {
-		return ++references;
-	}
-	
-	public int decrementReferences() {
-		assert(references>0);
-		return --references;
-	}
-	
-	public void resetReferences() {
-		references = 0;
-	}
-
-	public double getEstimatedFanout() {
-		if(estimatedFanout < 0.)
-			estimatedFanout = fanout(); //nRefs;
-		//System.out.println(""+fanout()+","+estimatedFanout);
-		return estimatedFanout;
-	}
-
-	public void setEstimatedFanout(double estimatedFanout) {
-		this.estimatedFanout = estimatedFanout;
-	}
-
-	public BDD getOnParamFunction() {
-		return onParamFunction;
-	}
-
-	public void setOnParamFunction(BDD onParamFunction) {
-		this.onParamFunction = onParamFunction;
-	}
-
-	public BDD getOffParamFunction() {
-		return offParamFunction;
-	}
-
-	public void setOffParamFunction(BDD offParamFunction) {
-		this.offParamFunction = offParamFunction;
-	}
-
-	public BDD getActivationFunction() {
-		return activationFunction;
-	}
-
-	public void setActivationFunction(BDD activationFunction) {
-		this.activationFunction = activationFunction;
-	}
-
 }
