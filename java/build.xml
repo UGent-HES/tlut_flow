@@ -4,6 +4,7 @@
     </description>
         
     <!-- set global properties for this build -->
+    <property name="rapidsmith_src" location="../third_party/rapidSmith/"/>
     <property name="src" location="src"/>
     <property name="bin" location="bin"/>
 
@@ -15,9 +16,17 @@
     </target>
 
     <target name="compile" depends="init"
-                description="compile the source " >
+            description="compile the source " >
+        <!-- Compile the java code from rapidSmith into ${bin} -->
+        <javac srcdir="${rapidsmith_src}" destdir="${bin}" includeantruntime="false">
+            <classpath>
+                <pathelement location="../third_party/rapidSmith/jars/hessian-4.0.6.jar"/>
+                <pathelement location="../third_party/rapidSmith/jars/jopt-simple-3.2.jar"/>
+                <pathelement location="../third_party/rapidSmith/jars/qtjambi-4.6.3.jar"/>
+            </classpath>
+        </javac>
         <!-- Compile the java code from ${src} into ${bin} -->
-        <javac srcdir="${src}" destdir="${bin}">
+        <javac srcdir="${src}" destdir="${bin}" includeantruntime="false">
             <classpath>
                 <pathelement location="../third_party/rapidSmith/"/>
                 <pathelement location="../third_party/rapidSmith/jars/hessian-4.0.6.jar"/>

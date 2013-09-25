@@ -427,6 +427,20 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		return all;
 	}
 	
+	public ArrayList<N> getAllPrimaryOutputs() {
+		ArrayList<N> all = new ArrayList<N>();
+		all.addAll(output);
+		all.addAll(ilatch);
+		return all;
+	}
+	
+	public ArrayList<N> getAllPrimaryInputs() {
+		ArrayList<N> all = new ArrayList<N>();
+		all.addAll(input);
+		all.addAll(olatch);
+		return all;
+	}
+	
 	public N getNode(String name) {
 		if (nodeMap == null) {
 			nodeMap = new HashMap<String,N>();
@@ -455,7 +469,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		}
 	}
 	
-	Vector<N> topologicalOrderInToOut(boolean includeInputs, boolean includeOutputs ) {
+	public Vector<N> topologicalOrderInToOut(boolean includeInputs, boolean includeOutputs ) {
 		setMarkedAll(false);
 		
 		Vector<N> PO=new Vector<N>();
@@ -511,7 +525,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		}
 	}
 
-	Vector<N> topologicalOrderOutToIn() {
+	public Vector<N> topologicalOrderOutToIn() {
 		setMarkedAll(false);
 		
 		Vector<N> PO=new Vector<N>();

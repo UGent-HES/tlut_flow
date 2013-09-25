@@ -156,6 +156,10 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 			return false;
 	}
 	
+	public boolean isPrimaryOutput() {
+		return isOutput() || isILatch();
+	}
+	
 	public boolean isLatch() {
 		if (type == NodeType.LATCH)
 			return true;

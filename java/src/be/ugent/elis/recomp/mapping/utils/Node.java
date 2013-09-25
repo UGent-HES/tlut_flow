@@ -155,6 +155,13 @@ public class Node extends AbstractNode<Node,Edge> {
 		return parameter;
 	}
 	
+	public boolean isSemiParameter() {
+		if(isGate())
+			return getI0().getTail().isParameter() ^ getI1().getTail().isParameter();
+		else
+			return false;
+	}
+	
 	public boolean isParameterInput() {
 		
 		return isParameter() && isInput();
