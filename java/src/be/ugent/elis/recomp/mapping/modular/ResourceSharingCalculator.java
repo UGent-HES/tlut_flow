@@ -71,6 +71,12 @@ package be.ugent.elis.recomp.mapping.modular;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
@@ -82,7 +88,7 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
-public class ActivationFunctionBuilder {
+public class ResourceSharingCalculator {
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -90,135 +96,42 @@ public class ActivationFunctionBuilder {
 		
 		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-        new ActivationFunctionBuilder().run(a);
+        ActivationFunctionBuilder.run(a);
+        new ResourceSharingCalculator().run(a);
+        
     }
 	
-	static final int g_node_max = 50;
-    private BDDFactory B;
-    private ArrayList<Node> parameter_list;
-	
-	public static void run(AIG<Node, Edge> aig) {
-		new ActivationFunctionBuilder().run_instance(aig);
-	}
-
-    private ActivationFunctionBuilder() {
+	public ResourceSharingCalculator() {
 	}
 	
-	private void run_instance(AIG<Node, Edge> aig) {
+	public void run(MappingAIG aig) {
 		init(aig);
-		for (Node node: aig.topologicalOrderInToOut(true, true))
-			calculateDeactivationFunction(node);
-		for (Node node: aig.getAllNodes())
-			node.setActivationFunction(B.zero());
-		aig.getConst0().setActivationFunction(B.zero());
-		for (Node node: aig.getAllPrimaryOutputs())
-			node.setActivationFunction(B.one());
-		for (Node node: aig.topologicalOrderOutToIn())
-			calculateActivationFunction(node);
-		finalise();
+		
+		ResourceSharingOpportunitiesCalculator sharing_opportunities = 
+				new ResourceSharingOpportunitiesCalculator();
+		sharing_opportunities.run(aig);
+		
+		ArrayList<Node> lut_nodes = new ArrayList<Node>();
+		for(Node node : aig.getAnds())
+			if(node.isVisible())
+				lut_nodes.add(node);
+		for(int i=0; i<lut_nodes.size(); i++) {
+			Node node0 = lut_nodes.get(i);
+			System.out.println("Node: "+node0.getName() + "=>" + node0.getActivationFunction());
+			for(int j=i+1; j<lut_nodes.size(); j++) {
+				Node node1 = lut_nodes.get(j);
+				if(sharing_opportunities.canNodesShareResources(node0, node1))
+					System.out.println("share nodes: "+ node0.getName() + ", "+ node1.getName());
+				
+			}
+		}
+		//finalise(aig);
 	}
 	
-	private void init(AIG<Node, Edge> aig) {
-		parameter_list = new ArrayList<Node>();
-		for(Node input : aig.getInputs())
-			if (input.isParameterInput()) parameter_list.add(input);
-		int node_num = Math.max(parameter_list.size(), 10);
-		int cache_size = node_num*1000;
-		B = BDDFactorySingleton.get(node_num, cache_size);
+	private void init(MappingAIG aig) {
 	}
 	
 	private void finalise() {
-	}
-
-	private void calculateDeactivationFunction(Node node) {
-		if (node.isPrimaryInput()) {
-			if (node.isParameterInput()) {
-				int id = parameter_list.indexOf(node);
-				assert(id>=0);
-				node.setOnParamFunction(B.ithVar(id));
-				node.setOffParamFunction(B.nithVar(id));
-			} else {
-				node.setOnParamFunction(B.zero());
-				node.setOffParamFunction(B.zero());
-			}
-		} else if (node.isGate()) {
-			Node node0 = node.getI0().getTail();
-			boolean inv0 = node.getI0().isInverted();
-			Node node1 = node.getI1().getTail();
-			boolean inv1 = node.getI1().isInverted();
-			
-			BDD onFn0, onFn1, offFn0, offFn1;
-			if(!inv0) {
-				onFn0 = node0.getOnParamFunction();
-				offFn0 = node0.getOffParamFunction();
-			} else {
-				onFn0 = node0.getOffParamFunction();
-				offFn0 = node0.getOnParamFunction();
-			}
-			if(!inv1) {
-				onFn1 = node1.getOnParamFunction();
-				offFn1 = node1.getOffParamFunction();
-			} else {
-				onFn1 = node1.getOffParamFunction();
-				offFn1 = node1.getOnParamFunction();
-			}
-			if(onFn0.nodeCount() < g_node_max && offFn0.nodeCount() < g_node_max &&
-					onFn1.nodeCount() < g_node_max && offFn1.nodeCount() < g_node_max) {
-				node.setOnParamFunction(onFn0.and(onFn1));
-				node.setOffParamFunction(offFn0.or(offFn1));
-			} else {
-				node.setOnParamFunction(B.zero());
-				node.setOffParamFunction(B.zero());
-			}
-		} else if (node.isPrimaryOutput()) {
-			Node node0 = node.getI0().getTail();
-			boolean inv0 = node.getI0().isInverted();
-			BDD onFn0, offFn0;
-			if(!inv0) {
-				onFn0 = node0.getOnParamFunction();
-				offFn0 = node0.getOffParamFunction();
-			} else {
-				onFn0 = node0.getOffParamFunction();
-				offFn0 = node0.getOnParamFunction();
-			}
-			node.setOnParamFunction(onFn0.id());
-			node.setOffParamFunction(offFn0.id());
-			//if(!node.getOffParamFunction().equals(B.zero()))
-			//	System.out.println("node_off: " + node.getName() + " = " + node.getOffParamFunction().toString());
-		} else if (node.isConst0()) {
-			node.setOnParamFunction(B.zero());
-			node.setOffParamFunction(B.one());
-		} else {
-			assert(node.isLatch());
-			node.setOnParamFunction(B.zero());
-			node.setOffParamFunction(B.zero());
-		}
-	}
-
-	private void calculateActivationFunction(Node node) {
-		assert(node.getActivationFunction()!=null);
-		node.setActivationFunction(node.getActivationFunction().andWith(node.getOnParamFunction().or(
-				node.getOffParamFunction()).not()));
-		node.getOnParamFunction().free();
-		node.getOffParamFunction().free();
-		node.setOnParamFunction(null);
-		node.setOffParamFunction(null);
-		if (node.isGate()) {
-			Node node0 = node.getI0().getTail();
-			node0.setActivationFunction(node0.getActivationFunction().orWith(node.getActivationFunction().id()));
-			Node node1 = node.getI1().getTail();
-			node1.setActivationFunction(node1.getActivationFunction().orWith(node.getActivationFunction().id()));
-		} else if (node.isPrimaryOutput()) {
-			Node node0 = node.getI0().getTail();
-			node0.setActivationFunction(node0.getActivationFunction().orWith(node.getActivationFunction().id()));
-
-			//if(!node.getActivationFunction().equals(B.one()))
-			//	System.out.println("node: " + node.getName() + " = " + node.getActivationFunction().toString());
-		} else if (node.isPrimaryInput()) {
-		} else if (node.isConst0()) {
-		} else {
-			assert(node.isLatch());
-		}
 	}
 	
 }

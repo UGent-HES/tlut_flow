@@ -70,6 +70,7 @@ package be.ugent.elis.recomp.mapping.modular;
 
 import net.sf.javabdd.BDDFactory;
 import net.sf.javabdd.BuDDyFactory;
+import net.sf.javabdd.JFactory;
 
 
 public class BDDFactorySingleton {
@@ -79,7 +80,7 @@ public class BDDFactorySingleton {
     private BDDFactory B;
 
     private BDDFactorySingleton(int node_num, int cache_size) {
-        B = BuDDyFactory.init(node_num, cache_size);
+        B = JFactory.init(node_num, cache_size);
         B.setVarNum(node_num);
     }
     

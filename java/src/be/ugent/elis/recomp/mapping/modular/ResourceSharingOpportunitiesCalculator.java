@@ -71,6 +71,12 @@ package be.ugent.elis.recomp.mapping.modular;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
@@ -82,7 +88,7 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
-public class ActivationFunctionBuilder {
+public class ResourceSharingOpportunitiesCalculator {
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -90,135 +96,252 @@ public class ActivationFunctionBuilder {
 		
 		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-        new ActivationFunctionBuilder().run(a);
+        ActivationFunctionBuilder.run(a);
+        new ResourceSharingOpportunitiesCalculator().run(a);
+        
     }
 	
-	static final int g_node_max = 50;
-    private BDDFactory B;
-    private ArrayList<Node> parameter_list;
 	
-	public static void run(AIG<Node, Edge> aig) {
-		new ActivationFunctionBuilder().run_instance(aig);
+	class ActivationSet {
+		final private BDD activationFunction;
+		private Set<Node> nodes;
+		private Set<ActivationSet> impliedSets;
+		private Set<ActivationSet> impliedBySets;
+		private Set<ActivationSet> sharingOpportunities;
+		
+		ActivationSet(BDD activationFunction) {
+			this.activationFunction = activationFunction;
+			nodes = new HashSet<Node>();
+			impliedSets = new HashSet<ActivationSet>();
+			impliedBySets = new HashSet<ActivationSet>();
+		}
+		public boolean impliesSet(ActivationSet otherSet) {
+			BDD bdd = getActivationFunction().imp(otherSet.getActivationFunction());
+			boolean res = bdd.isOne();
+			bdd.free();
+			return res;
+		}
+		public boolean disjunctWithSet(ActivationSet otherSet) {
+			BDD bdd = getActivationFunction().and(otherSet.getActivationFunction());
+			boolean res = bdd.isZero();
+			bdd.free();
+			return res;
+		}
+		public BDD getActivationFunction() {
+			return activationFunction;
+		}
+		public void addNode(Node node) {
+			nodes.add(node);
+		}
+		public Set<Node> getNodes() {
+			return nodes;
+		}
+		public void addImpliedSet(ActivationSet set) {
+			impliedSets.add(set);
+		}
+		public void removeImpliedSet(ActivationSet set) {
+			impliedSets.remove(set);
+		}
+		public Set<ActivationSet> getImpliedSets() {
+			return impliedSets;
+		}
+		public void addImpliedBySet(ActivationSet set) {
+			impliedBySets.add(set);
+		}
+		public void removeImpliedBySet(ActivationSet set) {
+			impliedBySets.remove(set);
+		}
+		public Set<ActivationSet> getImpliedBySets() {
+			return impliedBySets;
+		}
+		public Set<ActivationSet> getSharingOpportunities() {
+			return sharingOpportunities;
+		}
+		public void setSharingOpportunities(Set<ActivationSet> sharingOpportunities) {
+			this.sharingOpportunities = sharingOpportunities;
+		}
+		public int getDepth() {
+			int depth = 0;
+			for(ActivationSet child : getImpliedBySets())
+				depth = Math.max(depth, child.getDepth());
+			return depth + 1;
+		}
+		public boolean canShareWith(ActivationSet set) {
+			return getSharingOpportunities().contains(set);
+		}
+		public boolean sanityCheck() {
+			for(ActivationSet child : getImpliedBySets())
+				if(!child.impliesSet(this)) return false;
+			for(ActivationSet child : getImpliedSets())
+				if(!impliesSet(child)) return false;
+			if(getSharingOpportunities() != null) {
+				for(ActivationSet child : getSharingOpportunities())
+					if(!disjunctWithSet(child)) return false;
+			}
+			return true;
+		}
 	}
 
-    private ActivationFunctionBuilder() {
+	BDDFactory B;
+	private Map<BDD,ActivationSet> activationSets;
+	
+	public ResourceSharingOpportunitiesCalculator() {
+		activationSets = new HashMap<BDD,ActivationSet>();
 	}
 	
-	private void run_instance(AIG<Node, Edge> aig) {
+	public void sanityCheck() {
+		boolean sane = true;
+		for(ActivationSet set : activationSets.values()) {
+			sane &= set.sanityCheck();
+		}
+
+		if(!sane) {
+			System.err.println("Error: unsane");
+			System.exit(1);
+		}
+	}
+	
+	public void run(AIG<Node, Edge> aig) {
 		init(aig);
-		for (Node node: aig.topologicalOrderInToOut(true, true))
-			calculateDeactivationFunction(node);
-		for (Node node: aig.getAllNodes())
-			node.setActivationFunction(B.zero());
-		aig.getConst0().setActivationFunction(B.zero());
-		for (Node node: aig.getAllPrimaryOutputs())
-			node.setActivationFunction(B.one());
-		for (Node node: aig.topologicalOrderOutToIn())
-			calculateActivationFunction(node);
+		for(Node node : aig.getAllNodes())
+			classifyNode(node);
+		if(activationSets.containsKey(B.zero())) {
+			activationSets.remove(B.zero());	//parameter nodes have activation function 0
+		}
+		buildImplicationTree();
+		sanityCheck();
+		System.out.println("size: "+activationSets.size());
+		System.out.println("depth: "+activationSets.get(B.one()).getDepth());
+
+//		for(Node node : activationSets.get(B.one()).getNodes())
+//			System.out.println("a0 "+node.getName());
+//		for(ActivationSet set : activationSets.get(B.one()).getImpliedBySets()) {
+//			System.out.println("b0 "+set.getActivationFunction().toString());
+//			for(ActivationSet set2 : set.getImpliedBySets()) {
+//				System.out.println("c0 "+set2.getActivationFunction().toString());
+//				
+//				System.out.println("hier "+set.getActivationFunction().or(set2.getActivationFunction().id().not()).isOne());
+//			}
+//		}
+//		
+		for(ActivationSet set : activationSets.values()) {
+			Set<ActivationSet> opportunities = new HashSet<ActivationSet>();
+			calculateResearchSharingOpportunities(set,
+					activationSets.get(B.one()), opportunities);
+			set.setSharingOpportunities(opportunities);
+			//System.out.println("set: "+opportunities.size()+" "+set.getNodes().size() + " " + set.getActivationFunction().toString());
+		}
+		for(ActivationSet set : new ArrayList<ActivationSet>(activationSets.values())) {
+			if(set.getActivationFunction().isOne()) continue;
+			if(set.getSharingOpportunities().size()!=0) continue;
+			for(ActivationSet other : set.getImpliedBySets()) {
+				other.getImpliedSets().addAll(set.getImpliedSets());
+				other.getImpliedSets().remove(set);
+			}
+			for(ActivationSet other : set.getImpliedSets()) {
+				other.getImpliedBySets().addAll(set.getImpliedBySets());
+				other.getImpliedBySets().remove(set);
+				other.getNodes().addAll(set.getNodes());
+			}
+			set.getImpliedBySets().clear();
+			set.getImpliedSets().clear();
+			activationSets.remove(set.getActivationFunction());
+		}
+		for(ActivationSet set : activationSets.values()) {
+			//System.out.println("set: "+set.getSharingOpportunities().size()+" "+set.getNodes().size() + " " + set.getActivationFunction().toString());
+		}
+		System.out.println("afterwards");
+		System.out.println("size: "+activationSets.size());
+		System.out.println("depth: "+activationSets.get(B.one()).getDepth());
+		sanityCheck();
 		finalise();
 	}
 	
 	private void init(AIG<Node, Edge> aig) {
-		parameter_list = new ArrayList<Node>();
-		for(Node input : aig.getInputs())
-			if (input.isParameterInput()) parameter_list.add(input);
-		int node_num = Math.max(parameter_list.size(), 10);
-		int cache_size = node_num*1000;
-		B = BDDFactorySingleton.get(node_num, cache_size);
+		B = BDDFactorySingleton.get();
+		activationSets.put(B.one(), new ActivationSet(B.one()));
 	}
 	
 	private void finalise() {
 	}
 
-	private void calculateDeactivationFunction(Node node) {
-		if (node.isPrimaryInput()) {
-			if (node.isParameterInput()) {
-				int id = parameter_list.indexOf(node);
-				assert(id>=0);
-				node.setOnParamFunction(B.ithVar(id));
-				node.setOffParamFunction(B.nithVar(id));
-			} else {
-				node.setOnParamFunction(B.zero());
-				node.setOffParamFunction(B.zero());
+	private void classifyNode(Node node) {
+		BDD activFn = node.getActivationFunction();
+		if(!activationSets.containsKey(activFn))
+			activationSets.put(activFn, new ActivationSet(activFn));
+		activationSets.get(activFn).addNode(node);
+	}
+
+	private void buildImplicationTree(ActivationSet set) {
+		LinkedList<ActivationSet> local = new LinkedList<ActivationSet>(set.getImpliedBySets());
+		Set<ActivationSet> tried = new HashSet<ActivationSet>();
+		//System.out.println("hier: "+set.getActivationFunction());
+		while(local.size() > 1) {
+			if(tried.contains(local.peek()))
+				break;
+			ActivationSet spil = local.pop();
+			//System.out.println("spil: "+spil.getActivationFunction());
+			LinkedList<ActivationSet> notImpliedBy = new LinkedList<ActivationSet>();
+			for(ActivationSet otherSet : local) {
+				if(otherSet.impliesSet(spil)) {
+					spil.addImpliedBySet(otherSet);
+					set.removeImpliedBySet(otherSet);
+				}
+				else
+					notImpliedBy.add(otherSet);
 			}
-		} else if (node.isGate()) {
-			Node node0 = node.getI0().getTail();
-			boolean inv0 = node.getI0().isInverted();
-			Node node1 = node.getI1().getTail();
-			boolean inv1 = node.getI1().isInverted();
-			
-			BDD onFn0, onFn1, offFn0, offFn1;
-			if(!inv0) {
-				onFn0 = node0.getOnParamFunction();
-				offFn0 = node0.getOffParamFunction();
-			} else {
-				onFn0 = node0.getOffParamFunction();
-				offFn0 = node0.getOnParamFunction();
-			}
-			if(!inv1) {
-				onFn1 = node1.getOnParamFunction();
-				offFn1 = node1.getOffParamFunction();
-			} else {
-				onFn1 = node1.getOffParamFunction();
-				offFn1 = node1.getOnParamFunction();
-			}
-			if(onFn0.nodeCount() < g_node_max && offFn0.nodeCount() < g_node_max &&
-					onFn1.nodeCount() < g_node_max && offFn1.nodeCount() < g_node_max) {
-				node.setOnParamFunction(onFn0.and(onFn1));
-				node.setOffParamFunction(offFn0.or(offFn1));
-			} else {
-				node.setOnParamFunction(B.zero());
-				node.setOffParamFunction(B.zero());
-			}
-		} else if (node.isPrimaryOutput()) {
-			Node node0 = node.getI0().getTail();
-			boolean inv0 = node.getI0().isInverted();
-			BDD onFn0, offFn0;
-			if(!inv0) {
-				onFn0 = node0.getOnParamFunction();
-				offFn0 = node0.getOffParamFunction();
-			} else {
-				onFn0 = node0.getOffParamFunction();
-				offFn0 = node0.getOnParamFunction();
-			}
-			node.setOnParamFunction(onFn0.id());
-			node.setOffParamFunction(offFn0.id());
-			//if(!node.getOffParamFunction().equals(B.zero()))
-			//	System.out.println("node_off: " + node.getName() + " = " + node.getOffParamFunction().toString());
-		} else if (node.isConst0()) {
-			node.setOnParamFunction(B.zero());
-			node.setOffParamFunction(B.one());
-		} else {
-			assert(node.isLatch());
-			node.setOnParamFunction(B.zero());
-			node.setOffParamFunction(B.zero());
+			notImpliedBy.add(spil);
+			tried.add(spil);
+			local = notImpliedBy;
+		}
+		
+		for(ActivationSet child : set.getImpliedBySets()) {
+			buildImplicationTree(child);
+		}
+	}
+	
+	private void buildImplicationTree() {
+		ActivationSet root = activationSets.get(B.one());
+		for(ActivationSet other : activationSets.values()) {
+			if(!other.getActivationFunction().isOne())
+				root.addImpliedBySet(other);
+		}
+		buildImplicationTree(root);
+		for(ActivationSet set : activationSets.values()) {
+			for(ActivationSet child : set.getImpliedBySets())
+				child.addImpliedSet(child);
 		}
 	}
 
-	private void calculateActivationFunction(Node node) {
-		assert(node.getActivationFunction()!=null);
-		node.setActivationFunction(node.getActivationFunction().andWith(node.getOnParamFunction().or(
-				node.getOffParamFunction()).not()));
-		node.getOnParamFunction().free();
-		node.getOffParamFunction().free();
-		node.setOnParamFunction(null);
-		node.setOffParamFunction(null);
-		if (node.isGate()) {
-			Node node0 = node.getI0().getTail();
-			node0.setActivationFunction(node0.getActivationFunction().orWith(node.getActivationFunction().id()));
-			Node node1 = node.getI1().getTail();
-			node1.setActivationFunction(node1.getActivationFunction().orWith(node.getActivationFunction().id()));
-		} else if (node.isPrimaryOutput()) {
-			Node node0 = node.getI0().getTail();
-			node0.setActivationFunction(node0.getActivationFunction().orWith(node.getActivationFunction().id()));
-
-			//if(!node.getActivationFunction().equals(B.one()))
-			//	System.out.println("node: " + node.getName() + " = " + node.getActivationFunction().toString());
-		} else if (node.isPrimaryInput()) {
-		} else if (node.isConst0()) {
+	private void calculateResearchSharingOpportunities(ActivationSet set,
+			ActivationSet shareWith, Set<ActivationSet> opportunities) {
+		if(set.equals(shareWith)) 
+			return;
+		
+		if(set.disjunctWithSet(shareWith)) {
+			//System.out.println("s1: "+set.getActivationFunction()+" to "+shareWith.getActivationFunction());
+			opportunities.add(shareWith);
+			//for(ActivationSet child : shareWith.getImpliedBySets())
+			//	calculateResearchSharingOpportunities(set, child, opportunities);
+			addAllChildren(shareWith, opportunities);
 		} else {
-			assert(node.isLatch());
+			for(ActivationSet child : shareWith.getImpliedBySets())
+				calculateResearchSharingOpportunities(set, child, opportunities);
 		}
+	}
+	
+	private void addAllChildren(ActivationSet set, Set<ActivationSet> collection) {
+		collection.addAll(set.getImpliedBySets());
+		for(ActivationSet child : set.getImpliedBySets())
+			addAllChildren(child, collection);
+	}
+	
+	public boolean canNodesShareResources(Node node0, Node node1) {
+		ActivationSet set0 = activationSets.get(node0.getActivationFunction());
+		if(set0 == null) return false;
+		ActivationSet set1 = activationSets.get(node1.getActivationFunction());
+		if(set1 == null) return false;
+		return set0.canShareWith(set1);
 	}
 	
 }

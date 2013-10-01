@@ -83,6 +83,8 @@ import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 
 import be.ugent.elis.recomp.aig.AIG;
+import be.ugent.elis.recomp.mapping.modular.ActivationFunctionBuilder;
+import be.ugent.elis.recomp.mapping.modular.ResourceSharingCalculator;
 import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
@@ -166,6 +168,11 @@ public class TMapSimple {
         System.out.println("Cone Selection:");
         a.visitAllInverse(new ConeSelection());
 
+        //Resource sharing
+        System.out.println("Activation Function Builder:");
+        ActivationFunctionBuilder.run(a);
+        System.out.println("Resource Sharing:");
+        new ResourceSharingCalculator().run(a);
         
         // Output
 		System.out.println("Generating the parameterizable configuration:");

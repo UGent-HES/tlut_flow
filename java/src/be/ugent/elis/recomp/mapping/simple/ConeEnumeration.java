@@ -113,7 +113,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		
 		if (node.isParameter()) {
 			result.add(Cone.emptyCone(node));
-			System.out.println(node.getName());
+			//System.out.println(node.getName());
 		} else {
 			
 			if (node.isPrimaryInput()) {	
