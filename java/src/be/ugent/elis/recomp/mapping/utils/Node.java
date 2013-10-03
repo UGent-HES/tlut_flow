@@ -92,6 +92,7 @@ public class Node extends AbstractNode<Node,Edge> {
 	private BDD onParamFunction;
 	private BDD offParamFunction;
 	private BDD activationFunction;
+	private BDD outputActivationFunction;
 	
 	public Node(AIG<Node, Edge> aig, NodeType type) {
 		super(aig, type);
@@ -241,5 +242,14 @@ public class Node extends AbstractNode<Node,Edge> {
 	public void setActivationFunction(BDD activationFunction) {
 		this.activationFunction = activationFunction;
 	}
+
+	public BDD getOutputActivationFunction() {
+		return outputActivationFunction;
+	}
+
+	public void setOutputActivationFunction(BDD activationFunction) {
+		this.outputActivationFunction = activationFunction;
+	}
+
 
 }

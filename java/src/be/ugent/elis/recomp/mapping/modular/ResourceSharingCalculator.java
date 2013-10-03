@@ -117,21 +117,22 @@ public class ResourceSharingCalculator {
 				lut_nodes.add(node);
 		for(int i=0; i<lut_nodes.size(); i++) {
 			Node node0 = lut_nodes.get(i);
-			System.out.println("Node: "+node0.getName() + "=>" + node0.getActivationFunction());
+			//System.out.println("Node: "+node0.getName() + "=>" + node0.getActivationFunction());
 			for(int j=i+1; j<lut_nodes.size(); j++) {
 				Node node1 = lut_nodes.get(j);
-				if(sharing_opportunities.canNodesShareResources(node0, node1))
+				if(sharing_opportunities.canNodesShareResources(node0, node1)) {
 					System.out.println("share nodes: "+ node0.getName() + ", "+ node1.getName());
-				
+					break;
+				}
 			}
 		}
-		//finalise(aig);
+		finalise(aig);
 	}
 	
 	private void init(MappingAIG aig) {
 	}
 	
-	private void finalise() {
+	private void finalise(MappingAIG aig) {
 	}
 	
 }
