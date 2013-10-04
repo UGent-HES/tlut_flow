@@ -74,7 +74,6 @@ import java.util.ArrayList;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
-import net.sf.javabdd.BuDDyFactory;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
@@ -90,7 +89,7 @@ public class ActivationFunctionBuilder {
 		
 		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-        new ActivationFunctionBuilder().run(a);
+        ActivationFunctionBuilder.run(a);
     }
 	
 	static final int g_node_max = 20;
@@ -131,14 +130,6 @@ public class ActivationFunctionBuilder {
 		int node_num = Math.max(parameter_list.size(), 10);
 		int cache_size = node_num*1000;
 		B = BDDFactorySingleton.get(node_num, cache_size);
-		
-		//Initialise activation functions to zero
-		aig.getConst0().setOutputActivationFunction(B.zero());
-		aig.getConst0().setActivationFunction(B.zero());
-		for (Node node : aig.getAllNodes()) {
-			node.setOutputActivationFunction(B.zero());
-			node.setActivationFunction(B.zero());
-		}
 	}
 	
 	private void finalise(AIG<Node, Edge> aig) {
@@ -155,50 +146,57 @@ public class ActivationFunctionBuilder {
 	}
 	
 	private void calculateDeactivationFunctions(AIG<Node, Edge> aig) {
-		for (Node node : aig.topologicalOrderInToOut(true, true))
-			calculateDeactivationFunction(node);
-	}
-	
-	private void calculateActivationFunctions(AIG<Node, Edge> aig) {
 		boolean updated_latch;
 		
-		aig.setMarkedAll(false);
-		for (Node node : aig.getOutputs()) {
-			node.setOutputActivationFunction(B.one());
-			node.setMarked(true);
+		//Initialise deactivation functions to zero
+		aig.getConst0().setOnParamFunction(B.zero());
+		aig.getConst0().setOffParamFunction(B.one());
+		for (Node node : aig.getAllNodes()) {
+			node.setOnParamFunction(B.zero());
+			node.setOffParamFunction(B.zero());
 		}
 		
-		do {
-//			System.out.format("One pass\n");
-			for (Node node : aig.topologicalOrderOutToIn())
-				updateActivationFunction(node);
-			
-			updated_latch = false;
-			for (Node olatch : aig.getOLatches()) {
-				Node latch = olatch.getI0().getTail();
-				Node ilatch = latch.getI0().getTail();
-				if(!ilatch.getOutputActivationFunction().equals(olatch.getActivationFunction())) {
-					ilatch.setOutputActivationFunction(olatch.getActivationFunction().id());
-					ilatch.setMarked(true);
-					updated_latch = true;
-				}
-				olatch.setMarked(false);
-			}
-		} while(updated_latch);
-	}
-	
-	private void calculateDeactivationFunction(Node node) {
-		if (node.isPrimaryInput()) {
+		//Initialise activation functions of inputs, and mark as updated
+		aig.setMarkedAll(false);
+		for (Node node : aig.getInputs()) {
 			if (node.isParameterInput()) {
 				int id = parameter_list.indexOf(node);
 				assert(id>=0);
 				node.setOnParamFunction(B.ithVar(id));
 				node.setOffParamFunction(B.nithVar(id));
-			} else {
-				node.setOnParamFunction(B.zero());
-				node.setOffParamFunction(B.zero());
 			}
-		} else if (node.isGate()) {
+			node.setMarked(true);
+		}
+		
+		do {
+//			System.out.format("One pass\n");
+			for (Node node : aig.topologicalOrderInToOut(true, true))
+				updateDeactivationFunction(node);
+	
+			updated_latch = false;
+			for (Node olatch : aig.getOLatches()) {
+				Node latch = olatch.getI0().getTail();
+				Node ilatch = latch.getI0().getTail();
+				if(!ilatch.getOnParamFunction().equals(olatch.getOnParamFunction())) {
+					olatch.setOnParamFunction(ilatch.getOnParamFunction().id());
+					olatch.setMarked(true);
+					updated_latch = true;
+				}
+				if(!ilatch.getOffParamFunction().equals(olatch.getOffParamFunction())) {
+					olatch.setOffParamFunction(ilatch.getOffParamFunction().id());
+					olatch.setMarked(true);
+					updated_latch = true;
+				}
+			}
+		} while(updated_latch);
+	}
+	
+	private void updateDeactivationFunction(Node node) {
+		if(!node.isMarked()) 
+			return;
+		node.setMarked(false);
+		
+		if (node.isGate()) {
 			Node node0 = node.getI0().getTail();
 			boolean inv0 = node.getI0().isInverted();
 			Node node1 = node.getI1().getTail();
@@ -219,17 +217,26 @@ public class ActivationFunctionBuilder {
 				onFn1 = node1.getOffParamFunction();
 				offFn1 = node1.getOnParamFunction();
 			}
-			if(onFn0.nodeCount() < g_node_max && offFn0.nodeCount() < g_node_max &&
-					onFn1.nodeCount() < g_node_max && offFn1.nodeCount() < g_node_max) {
-				node.setOnParamFunction(onFn0.and(onFn1));
-				node.setOffParamFunction(offFn0.or(offFn1));
+			
+			BDD onFn, offFn;
+			onFn = onFn0.and(onFn1);
+			offFn = offFn0.or(offFn1);
+			if(onFn.nodeCount() < g_node_max) {
+				node.setOnParamFunction(onFn);
+				node0.setMarked(true);
 			} else {
-				node.setOnParamFunction(B.zero());
-				node.setOffParamFunction(B.zero());
+				onFn.free();
+			}
+			if(offFn.nodeCount() < g_node_max) {
+				node.setOffParamFunction(offFn);
+				node1.setMarked(true);
+			} else {
+				offFn.free();
 			}
 		} else if (node.isPrimaryOutput()) {
 			Node node0 = node.getI0().getTail();
 			boolean inv0 = node.getI0().isInverted();
+			
 			BDD onFn0, offFn0;
 			if(!inv0) {
 				onFn0 = node0.getOnParamFunction();
@@ -240,16 +247,45 @@ public class ActivationFunctionBuilder {
 			}
 			node.setOnParamFunction(onFn0.id());
 			node.setOffParamFunction(offFn0.id());
-		} else if (node.isConst0()) {
-			node.setOnParamFunction(B.zero());
-			node.setOffParamFunction(B.one());
-		} else {
-			assert(node.isLatch());
-			node.setOnParamFunction(B.zero());
-			node.setOffParamFunction(B.zero());
 		}
 	}
+	
 
+	private void calculateActivationFunctions(AIG<Node, Edge> aig) {
+		boolean updated_latch;
+		
+		//Initialise activation functions to zero
+		aig.getConst0().setOutputActivationFunction(B.zero());
+		aig.getConst0().setActivationFunction(B.zero());
+		for (Node node : aig.getAllNodes()) {
+			node.setOutputActivationFunction(B.zero());
+			node.setActivationFunction(B.zero());
+		}
+		
+		//Initialise activation functions of outputs to one, and mark as updated
+		aig.setMarkedAll(false);
+		for (Node node : aig.getOutputs()) {
+			node.setOutputActivationFunction(B.one());
+			node.setMarked(true);
+		}
+		
+		do {
+//			System.out.format("One pass\n");
+			for (Node node : aig.topologicalOrderOutToIn())
+				updateActivationFunction(node);
+			
+			updated_latch = false;
+			for (Node olatch : aig.getOLatches()) {
+				Node latch = olatch.getI0().getTail();
+				Node ilatch = latch.getI0().getTail();
+				if(!ilatch.getOutputActivationFunction().equals(olatch.getActivationFunction())) {
+					ilatch.setOutputActivationFunction(olatch.getActivationFunction().id());
+					ilatch.setMarked(true);
+					updated_latch = true;
+				}
+			}
+		} while(updated_latch);
+	}
 
 	private void updateActivationFunction(Node node) {
 		assert(node.getOutputActivationFunction()!=null);

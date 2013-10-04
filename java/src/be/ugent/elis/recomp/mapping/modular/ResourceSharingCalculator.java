@@ -114,7 +114,7 @@ public class ResourceSharingCalculator {
 		ResourceSharingOpportunitiesCalculator reduced = sharing_opportunities.getReducedSharingOpportunities();
 		System.out.println(reduced.toString());
 		
-		ArrayList<Node> lut_nodes = new ArrayList<Node>();
+//		ArrayList<Node> lut_nodes = new ArrayList<Node>();
 //		for(Node node : aig.getAnds())
 //			if(node.isVisible())
 //				lut_nodes.add(node);
