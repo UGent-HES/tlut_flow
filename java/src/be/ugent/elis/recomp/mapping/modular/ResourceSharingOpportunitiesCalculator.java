@@ -105,21 +105,11 @@ public class ResourceSharingOpportunitiesCalculator {
 	class ActivationSet {
 		final private BDD activationFunction;
 		private Set<Node> nodes;
-		private Set<ActivationSet> impliedSets;
-		private Set<ActivationSet> impliedBySets;
 		private Set<ActivationSet> sharingOpportunities;
 		
 		ActivationSet(BDD activationFunction) {
 			this.activationFunction = activationFunction;
 			nodes = new HashSet<Node>();
-			impliedSets = new HashSet<ActivationSet>();
-			impliedBySets = new HashSet<ActivationSet>();
-		}
-		public boolean impliesSet(ActivationSet otherSet) {
-			BDD bdd = getActivationFunction().imp(otherSet.getActivationFunction());
-			boolean res = bdd.isOne();
-			bdd.free();
-			return res;
 		}
 		public boolean disjunctWithSet(ActivationSet otherSet) {
 			BDD bdd = getActivationFunction().and(otherSet.getActivationFunction());
@@ -136,54 +126,46 @@ public class ResourceSharingOpportunitiesCalculator {
 		public Set<Node> getNodes() {
 			return nodes;
 		}
-		public void addImpliedSet(ActivationSet set) {
-			impliedSets.add(set);
-		}
-		public void removeImpliedSet(ActivationSet set) {
-			impliedSets.remove(set);
-		}
-		public Set<ActivationSet> getImpliedSets() {
-			return impliedSets;
-		}
-		public void addImpliedBySet(ActivationSet set) {
-			impliedBySets.add(set);
-		}
-		public void removeImpliedBySet(ActivationSet set) {
-			impliedBySets.remove(set);
-		}
-		public Set<ActivationSet> getImpliedBySets() {
-			return impliedBySets;
-		}
 		public Set<ActivationSet> getSharingOpportunities() {
 			return sharingOpportunities;
 		}
 		public void setSharingOpportunities(Set<ActivationSet> sharingOpportunities) {
 			this.sharingOpportunities = sharingOpportunities;
 		}
-		public int getDepth() {
-			int depth = 0;
-			for(ActivationSet child : getImpliedBySets())
-				depth = Math.max(depth, child.getDepth());
-			return depth + 1;
-		}
 		public boolean canShareWith(ActivationSet set) {
 			return getSharingOpportunities().contains(set);
 		}
 		public boolean sanityCheck() {
-			for(ActivationSet child : getImpliedBySets())
-				if(!child.impliesSet(this)) return false;
-			for(ActivationSet child : getImpliedSets())
-				if(!impliesSet(child)) return false;
 			if(getSharingOpportunities() != null) {
 				for(ActivationSet child : getSharingOpportunities())
 					if(!disjunctWithSet(child)) return false;
 			}
 			return true;
 		}
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			sb.append("ActivationSet(");
+			sb.append("activation_function{");
+			sb.append(getActivationFunction().toString());
+			sb.append("},share_with{");
+			for(ActivationSet set : getSharingOpportunities()) {
+				sb.append(set.getActivationFunction().toString());
+				sb.append(',');
+			}
+			sb.append("},num_nodes{");
+			sb.append(getNodes().size());
+			sb.append("},nodes{");
+			for(Node node : getNodes()) {
+				//sb.append(node.getName());
+				//sb.append(',');
+			}
+			sb.append("})");
+			return sb.toString();
+		}
 	}
 
 	BDDFactory B;
-	private Map<BDD,ActivationSet> activationSets;
+	Map<BDD,ActivationSet> activationSets;
 	
 	public ResourceSharingOpportunitiesCalculator() {
 		activationSets = new HashMap<BDD,ActivationSet>();
@@ -203,15 +185,18 @@ public class ResourceSharingOpportunitiesCalculator {
 	
 	public void run(AIG<Node, Edge> aig) {
 		init(aig);
+		
+		//Classify nodes
 		for(Node node : aig.getAllNodes())
 			classifyNode(node);
+		if(activationSets.containsKey(B.one())) {
+			activationSets.remove(B.one());	
+		}
 		if(activationSets.containsKey(B.zero())) {
 			activationSets.remove(B.zero());	//parameter nodes have activation function 0
 		}
-		buildImplicationTree();
 		sanityCheck();
 		System.out.println("size: "+activationSets.size());
-		System.out.println("depth: "+activationSets.get(B.one()).getDepth());
 
 //		for(Node node : activationSets.get(B.one()).getNodes())
 //			System.out.println("a0 "+node.getName());
@@ -224,35 +209,23 @@ public class ResourceSharingOpportunitiesCalculator {
 //			}
 //		}
 //		
+		//Calculate sharing opportunities
 		for(ActivationSet set : activationSets.values()) {
 			Set<ActivationSet> opportunities = new HashSet<ActivationSet>();
-			calculateResearchSharingOpportunities(set,
-					activationSets.get(B.one()), opportunities);
+			for(ActivationSet otherSet : activationSets.values()) {
+				if(set.disjunctWithSet(otherSet))
+					opportunities.add(otherSet);
+			}
 			set.setSharingOpportunities(opportunities);
 			//System.out.println("set: "+opportunities.size()+" "+set.getNodes().size() + " " + set.getActivationFunction().toString());
 		}
-		for(ActivationSet set : new ArrayList<ActivationSet>(activationSets.values())) {
-			if(set.getActivationFunction().isOne()) continue;
-			if(set.getSharingOpportunities().size()!=0) continue;
-			for(ActivationSet other : set.getImpliedBySets()) {
-				other.getImpliedSets().addAll(set.getImpliedSets());
-				other.getImpliedSets().remove(set);
-			}
-			for(ActivationSet other : set.getImpliedSets()) {
-				other.getImpliedBySets().addAll(set.getImpliedBySets());
-				other.getImpliedBySets().remove(set);
-				other.getNodes().addAll(set.getNodes());
-			}
-			set.getImpliedBySets().clear();
-			set.getImpliedSets().clear();
-			activationSets.remove(set.getActivationFunction());
-		}
+		cleanUpUselessSets();
+		
 		for(ActivationSet set : activationSets.values()) {
 			//System.out.println("set: "+set.getSharingOpportunities().size()+" "+set.getNodes().size() + " " + set.getActivationFunction().toString());
 		}
 		System.out.println("afterwards");
 		System.out.println("size: "+activationSets.size());
-		System.out.println("depth: "+activationSets.get(B.one()).getDepth());
 		sanityCheck();
 		finalise();
 	}
@@ -271,69 +244,13 @@ public class ResourceSharingOpportunitiesCalculator {
 			activationSets.put(activFn, new ActivationSet(activFn));
 		activationSets.get(activFn).addNode(node);
 	}
-
-	private void buildImplicationTree(ActivationSet set) {
-		LinkedList<ActivationSet> local = new LinkedList<ActivationSet>(set.getImpliedBySets());
-		Set<ActivationSet> tried = new HashSet<ActivationSet>();
-		//System.out.println("hier: "+set.getActivationFunction());
-		while(local.size() > 1) {
-			if(tried.contains(local.peek()))
-				break;
-			ActivationSet spil = local.pop();
-			//System.out.println("spil: "+spil.getActivationFunction());
-			LinkedList<ActivationSet> notImpliedBy = new LinkedList<ActivationSet>();
-			for(ActivationSet otherSet : local) {
-				if(otherSet.impliesSet(spil)) {
-					spil.addImpliedBySet(otherSet);
-					set.removeImpliedBySet(otherSet);
-				}
-				else
-					notImpliedBy.add(otherSet);
-			}
-			notImpliedBy.add(spil);
-			tried.add(spil);
-			local = notImpliedBy;
-		}
-		
-		for(ActivationSet child : set.getImpliedBySets()) {
-			buildImplicationTree(child);
-		}
-	}
 	
-	private void buildImplicationTree() {
-		ActivationSet root = activationSets.get(B.one());
-		for(ActivationSet other : activationSets.values()) {
-			if(!other.getActivationFunction().isOne())
-				root.addImpliedBySet(other);
+	private void cleanUpUselessSets() {
+		for(ActivationSet set : new ArrayList<ActivationSet>(activationSets.values())) {
+			if(set.getActivationFunction().isOne()) continue;
+			if(set.getSharingOpportunities().size()!=0) continue;
+			activationSets.remove(set.getActivationFunction());
 		}
-		buildImplicationTree(root);
-		for(ActivationSet set : activationSets.values()) {
-			for(ActivationSet child : set.getImpliedBySets())
-				child.addImpliedSet(child);
-		}
-	}
-
-	private void calculateResearchSharingOpportunities(ActivationSet set,
-			ActivationSet shareWith, Set<ActivationSet> opportunities) {
-		if(set.equals(shareWith)) 
-			return;
-		
-		if(set.disjunctWithSet(shareWith)) {
-			//System.out.println("s1: "+set.getActivationFunction()+" to "+shareWith.getActivationFunction());
-			opportunities.add(shareWith);
-			//for(ActivationSet child : shareWith.getImpliedBySets())
-			//	calculateResearchSharingOpportunities(set, child, opportunities);
-			addAllChildren(shareWith, opportunities);
-		} else {
-			for(ActivationSet child : shareWith.getImpliedBySets())
-				calculateResearchSharingOpportunities(set, child, opportunities);
-		}
-	}
-	
-	private void addAllChildren(ActivationSet set, Set<ActivationSet> collection) {
-		collection.addAll(set.getImpliedBySets());
-		for(ActivationSet child : set.getImpliedBySets())
-			addAllChildren(child, collection);
 	}
 	
 	public boolean canNodesShareResources(Node node0, Node node1) {
@@ -342,6 +259,43 @@ public class ResourceSharingOpportunitiesCalculator {
 		ActivationSet set1 = activationSets.get(node1.getActivationFunction());
 		if(set1 == null) return false;
 		return set0.canShareWith(set1);
+	}
+	
+	public ResourceSharingOpportunitiesCalculator getReducedSharingOpportunities() {
+		ResourceSharingOpportunitiesCalculator reduced_opportunities = new ResourceSharingOpportunitiesCalculator();
+		
+		//Copy activationsets and the visible nodes they contain, skip empty sets
+		for(ActivationSet set : activationSets.values()) {
+			ActivationSet new_set = new ActivationSet(set.getActivationFunction());
+			for(Node node : set.getNodes())
+				if(node.isVisible())
+					new_set.addNode(node);
+			
+			new_set.setSharingOpportunities(set.getSharingOpportunities());
+
+			if(new_set.getNodes().size()!=0)
+				reduced_opportunities.activationSets.put(set.getActivationFunction(), new_set);
+		}
+		
+		//Copy sharing opportunities
+		for(ActivationSet set : reduced_opportunities.activationSets.values()) {
+			Set<ActivationSet> sharing_opportunities = new HashSet<ActivationSet>();
+			for(ActivationSet original_set : set.getSharingOpportunities()) {
+				if(reduced_opportunities.activationSets.containsKey(original_set.getActivationFunction()))
+						sharing_opportunities.add(reduced_opportunities.activationSets.get(original_set.getActivationFunction()));
+			}
+		}
+		reduced_opportunities.cleanUpUselessSets();
+		return reduced_opportunities;
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(ActivationSet set : activationSets.values()) {
+			sb.append(set.toString());
+			sb.append('\n');
+		}
+		return sb.toString();
 	}
 	
 }

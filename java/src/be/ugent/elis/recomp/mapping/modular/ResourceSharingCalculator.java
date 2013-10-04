@@ -111,21 +111,24 @@ public class ResourceSharingCalculator {
 				new ResourceSharingOpportunitiesCalculator();
 		sharing_opportunities.run(aig);
 		
+		ResourceSharingOpportunitiesCalculator reduced = sharing_opportunities.getReducedSharingOpportunities();
+		System.out.println(reduced.toString());
+		
 		ArrayList<Node> lut_nodes = new ArrayList<Node>();
-		for(Node node : aig.getAnds())
-			if(node.isVisible())
-				lut_nodes.add(node);
-		for(int i=0; i<lut_nodes.size(); i++) {
-			Node node0 = lut_nodes.get(i);
-			//System.out.println("Node: "+node0.getName() + "=>" + node0.getActivationFunction());
-			for(int j=i+1; j<lut_nodes.size(); j++) {
-				Node node1 = lut_nodes.get(j);
-				if(sharing_opportunities.canNodesShareResources(node0, node1)) {
-					System.out.println("share nodes: "+ node0.getName() + ", "+ node1.getName());
-					break;
-				}
-			}
-		}
+//		for(Node node : aig.getAnds())
+//			if(node.isVisible())
+//				lut_nodes.add(node);
+//		for(int i=0; i<lut_nodes.size(); i++) {
+//			Node node0 = lut_nodes.get(i);
+//			//System.out.println("Node: "+node0.getName() + "=>" + node0.getActivationFunction());
+//			for(int j=i+1; j<lut_nodes.size(); j++) {
+//				Node node1 = lut_nodes.get(j);
+//				if(reduced.canNodesShareResources(node0, node1)) {
+//					System.out.println("share nodes: "+ node0.getName() + ", "+ node1.getName());
+//					break;
+//				}
+//			}
+//		}
 		finalise(aig);
 	}
 	

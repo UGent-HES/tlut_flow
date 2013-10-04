@@ -240,8 +240,6 @@ public class ActivationFunctionBuilder {
 			}
 			node.setOnParamFunction(onFn0.id());
 			node.setOffParamFunction(offFn0.id());
-			//if(!node.getOffParamFunction().equals(B.zero()))
-			//	System.out.println("node_off: " + node.getName() + " = " + node.getOffParamFunction().toString());
 		} else if (node.isConst0()) {
 			node.setOnParamFunction(B.zero());
 			node.setOffParamFunction(B.one());
