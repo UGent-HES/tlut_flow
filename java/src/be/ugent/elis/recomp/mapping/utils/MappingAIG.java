@@ -799,4 +799,10 @@ port map (
 		}
 		sanityCheck();
 	}
+	
+	public void setUpdatedAll(boolean updated) {
+		for (Node n: getAllNodes()) {
+			n.setUpdated(updated);
+		}
+	}
 }

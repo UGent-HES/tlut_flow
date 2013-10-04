@@ -483,6 +483,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 		Vector<N> result = new Vector<N>();
 		result.addAll(intoout);
+		setMarkedAll(false);
 		return result;
 	}
 

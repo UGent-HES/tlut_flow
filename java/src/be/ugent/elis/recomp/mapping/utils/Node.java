@@ -93,6 +93,7 @@ public class Node extends AbstractNode<Node,Edge> {
 	private BDD offParamFunction;
 	private BDD activationFunction;
 	private BDD outputActivationFunction;
+	private boolean updated;
 	
 	public Node(AIG<Node, Edge> aig, NodeType type) {
 		super(aig, type);
@@ -101,9 +102,10 @@ public class Node extends AbstractNode<Node,Edge> {
 		this.areaflow = 0;
 		this.setVisible(false);
 		this.setParameter(false);
-		onParamFunction = null;
-		offParamFunction = null;
-		activationFunction = null;
+		this.onParamFunction = null;
+		this.offParamFunction = null;
+		this.activationFunction = null;
+		this.updated = false;
 	}
 
 	public void setConeSet(ConeSet coneSet) {
@@ -251,5 +253,11 @@ public class Node extends AbstractNode<Node,Edge> {
 		this.outputActivationFunction = activationFunction;
 	}
 
+	public boolean isUpdated() {
+		return updated;
+	}
 
+	public void setUpdated(boolean updated) {
+		this.updated = updated;
+	}
 }

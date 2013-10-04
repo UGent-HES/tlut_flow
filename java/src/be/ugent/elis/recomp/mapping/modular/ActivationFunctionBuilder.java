@@ -96,14 +96,14 @@ public class ActivationFunctionBuilder {
     private BDDFactory B;
     private ArrayList<Node> parameter_list;
 	
-	public static void run(AIG<Node, Edge> aig) {
+	public static void run(MappingAIG aig) {
 		new ActivationFunctionBuilder().run_instance(aig);
 	}
 
     private ActivationFunctionBuilder() {
 	}
 	
-	private void run_instance(AIG<Node, Edge> aig) {
+	private void run_instance(MappingAIG aig) {
 		init(aig);
 		//Calculate deactivation functions
 		calculateDeactivationFunctions(aig);
@@ -119,7 +119,7 @@ public class ActivationFunctionBuilder {
 		finalise(aig);
 	}
 	
-	private void init(AIG<Node, Edge> aig) {
+	private void init(MappingAIG aig) {
 		//List parameter inputs
 		parameter_list = new ArrayList<Node>();
 		for(Node input : aig.getInputs())
@@ -145,7 +145,7 @@ public class ActivationFunctionBuilder {
 		}
 	}
 	
-	private void calculateDeactivationFunctions(AIG<Node, Edge> aig) {
+	private void calculateDeactivationFunctions(MappingAIG aig) {
 		boolean updated_latch;
 		
 		//Initialise deactivation functions to zero
@@ -157,7 +157,7 @@ public class ActivationFunctionBuilder {
 		}
 		
 		//Initialise activation functions of inputs, and mark as updated
-		aig.setMarkedAll(false);
+		aig.setUpdatedAll(false);
 		for (Node node : aig.getInputs()) {
 			if (node.isParameterInput()) {
 				int id = parameter_list.indexOf(node);
@@ -165,7 +165,7 @@ public class ActivationFunctionBuilder {
 				node.setOnParamFunction(B.ithVar(id));
 				node.setOffParamFunction(B.nithVar(id));
 			}
-			node.setMarked(true);
+			node.setUpdated(true);
 		}
 		
 		do {
@@ -173,18 +173,19 @@ public class ActivationFunctionBuilder {
 			for (Node node : aig.topologicalOrderInToOut(true, true))
 				updateDeactivationFunction(node);
 	
+			aig.setUpdatedAll(false);
 			updated_latch = false;
 			for (Node olatch : aig.getOLatches()) {
 				Node latch = olatch.getI0().getTail();
 				Node ilatch = latch.getI0().getTail();
 				if(!ilatch.getOnParamFunction().equals(olatch.getOnParamFunction())) {
 					olatch.setOnParamFunction(ilatch.getOnParamFunction().id());
-					olatch.setMarked(true);
+					olatch.setUpdated(true);
 					updated_latch = true;
 				}
 				if(!ilatch.getOffParamFunction().equals(olatch.getOffParamFunction())) {
 					olatch.setOffParamFunction(ilatch.getOffParamFunction().id());
-					olatch.setMarked(true);
+					olatch.setUpdated(true);
 					updated_latch = true;
 				}
 			}
@@ -192,15 +193,14 @@ public class ActivationFunctionBuilder {
 	}
 	
 	private void updateDeactivationFunction(Node node) {
-		if(!node.isMarked()) 
-			return;
-		node.setMarked(false);
-		
 		if (node.isGate()) {
 			Node node0 = node.getI0().getTail();
 			boolean inv0 = node.getI0().isInverted();
 			Node node1 = node.getI1().getTail();
 			boolean inv1 = node.getI1().isInverted();
+			
+			if(!node0.isUpdated() && !node1.isUpdated()) 
+				return;
 			
 			BDD onFn0, onFn1, offFn0, offFn1;
 			if(!inv0) {
@@ -223,19 +223,21 @@ public class ActivationFunctionBuilder {
 			offFn = offFn0.or(offFn1);
 			if(onFn.nodeCount() < g_node_max) {
 				node.setOnParamFunction(onFn);
-				node0.setMarked(true);
 			} else {
 				onFn.free();
 			}
 			if(offFn.nodeCount() < g_node_max) {
 				node.setOffParamFunction(offFn);
-				node1.setMarked(true);
 			} else {
 				offFn.free();
 			}
+			node.setUpdated(true);
 		} else if (node.isPrimaryOutput()) {
 			Node node0 = node.getI0().getTail();
 			boolean inv0 = node.getI0().isInverted();
+
+			if(!node0.isUpdated()) 
+				return;
 			
 			BDD onFn0, offFn0;
 			if(!inv0) {
@@ -247,11 +249,12 @@ public class ActivationFunctionBuilder {
 			}
 			node.setOnParamFunction(onFn0.id());
 			node.setOffParamFunction(offFn0.id());
+			node.setUpdated(true);
 		}
 	}
 	
 
-	private void calculateActivationFunctions(AIG<Node, Edge> aig) {
+	private void calculateActivationFunctions(MappingAIG aig) {
 		boolean updated_latch;
 		
 		//Initialise activation functions to zero
@@ -263,10 +266,10 @@ public class ActivationFunctionBuilder {
 		}
 		
 		//Initialise activation functions of outputs to one, and mark as updated
-		aig.setMarkedAll(false);
+		aig.setUpdatedAll(false);
 		for (Node node : aig.getOutputs()) {
 			node.setOutputActivationFunction(B.one());
-			node.setMarked(true);
+			node.setUpdated(true);
 		}
 		
 		do {
@@ -280,7 +283,7 @@ public class ActivationFunctionBuilder {
 				Node ilatch = latch.getI0().getTail();
 				if(!ilatch.getOutputActivationFunction().equals(olatch.getActivationFunction())) {
 					ilatch.setOutputActivationFunction(olatch.getActivationFunction().id());
-					ilatch.setMarked(true);
+					ilatch.setUpdated(true);
 					updated_latch = true;
 				}
 			}
@@ -290,9 +293,9 @@ public class ActivationFunctionBuilder {
 	private void updateActivationFunction(Node node) {
 		assert(node.getOutputActivationFunction()!=null);
 		
-		if(!node.isMarked()) 
+		if(!node.isUpdated()) 
 			return;
-		node.setMarked(false);
+		node.setUpdated(false);
 
 		BDD new_activation_function = node.getOutputActivationFunction().id().andWith(node.getOnParamFunction().or(
 				node.getOffParamFunction()).not());
@@ -308,12 +311,12 @@ public class ActivationFunctionBuilder {
 		if (node.isGate() || node.isPrimaryOutput()) {
 			Node node0 = node.getI0().getTail();
 			node0.setOutputActivationFunction(node0.getOutputActivationFunction().orWith(node.getActivationFunction().id()));
-			node0.setMarked(true);
+			node0.setUpdated(true);
 		}
 		if (node.isGate()) {
 			Node node1 = node.getI1().getTail();
 			node1.setOutputActivationFunction(node1.getOutputActivationFunction().orWith(node.getActivationFunction().id()));
-			node1.setMarked(true);
+			node1.setUpdated(true);
 		}
 	}
 	
