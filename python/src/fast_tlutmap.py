@@ -82,7 +82,7 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, verboseFlag=False):
+def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, verboseFlag=False):
     baseName, ext = getBasenameAndExtension(os.path.basename(module))
     if ext not in ('vhd','vhdl','v'):
         print >> sys.stderr, "Error: Module filename does not have extension '.vhd','.vhdl' or '.v':", module
@@ -104,6 +104,8 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         if not os.path.exists(os.path.dirname(path)):
             os.makedirs(os.path.dirname(path))
         shutil.copy(submodule, path)
+    if qsfFileName:
+        shutil.copy(qsfFileName, workDir)
     shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc', workDir)
     
     ret_pwd = os.getcwd()
@@ -111,7 +113,9 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     # Synthesis
     print "Stage: Synthesizing"
-    blifFileName = synthesize(module, submodules, verboseFlag)
+    if qsfFileName == None:
+        qsfFileName = generateQSF(module, submodules)
+    blifFileName = synthesize(module, qsfFileName, verboseFlag)
     
     # Automatically extract parameters from VHDL
     print "Stage: Generating parameters"

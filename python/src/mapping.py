@@ -368,13 +368,10 @@ def resynthesize(basename, fname, script='resyn2', verboseFlag=False):
         
     return outFileName
 
-def synthesize(top, submodules, verboseFlag=False):
+def generateQSF(top, submodules):
     basename, ext = getBasenameAndExtension(os.path.basename(top))
-
-    blifFileName  = basename + ".blif"
-    os.system("rm -f "+blifFileName)
+    qsfFileName = basename + '.qsf'
     
-    qsfFileName = basename + ".qsf"
     with open(qsfFileName, "w") as fout:
         if ext in ('vhd','vhdl'):
             fout.write('set_global_assignment -name VHDL_FILE ' + top + '\n')
@@ -399,6 +396,13 @@ def synthesize(top, submodules, verboseFlag=False):
         fout.write('set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION off\n')
         #fout.write('set_global_assignment -name AUTO_DSP_RECOGNITION off\n')
         fout.close()
+    return qsfFileName
+    
+def synthesize(top, qsfFileName, verboseFlag=False):
+    basename, ext = getBasenameAndExtension(os.path.basename(top))
+
+    blifFileName  = basename + ".blif"
+    os.system("rm -f "+blifFileName)
 
     cmd = 'quartus_map ' + qsfFileName
     if verboseFlag:

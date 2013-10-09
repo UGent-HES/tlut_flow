@@ -177,7 +177,7 @@ def extract_parameter_names(fname):
         else:
             signal_type = res.group('type')
             signal_names = map(str.strip, res.group('names').split(','))
-            if signal_type in ('input','in'):
+            if signal_type.lower() in ('input','in'):
                 parameter_names.extend(signal_names)
             else:
                 print >> sys.stderr, "Warning: Unsupported signal type: %s"%signal_type
