@@ -16,37 +16,37 @@ Luts            depth           check
 5850            27              PASSED          
 Stage: ABC fpga
 Luts            depth           check           
-5868            27              PASSED          
+5858            27              PASSED          
 
 mult_verilog
 Luts (TLUTS)    depth           check           
-354 (249)       25              PASSED          
+415 (247)       26              PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-465             28              PASSED          
+479             29              PASSED          
 Stage: ABC fpga
 Luts            depth           check           
-462             28              PASSED          
+478             29              PASSED          
 
 treeMult
 Luts (TLUTS)    depth           check           
-222 (124)       27              PASSED          
+235 (128)       27              PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-624             32              PASSED          
+588             32              PASSED          
 Stage: ABC fpga
 Luts            depth           check           
-622             32              PASSED          
+588             32              PASSED          
 
 treeMult4b
 Luts (TLUTS)    depth           check           
 12 (12)         1               PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-67              10              PASSED          
+80              10              PASSED          
 Stage: ABC fpga
 Luts            depth           check           
-67              10              PASSED          
+80              10              PASSED          
 
 tripleDES
 Luts (TLUTS)    depth           check           
@@ -57,13 +57,13 @@ Luts            depth           check
 
 tcam
 Luts (TLUTS)    depth           check           
-81 (48)         7               PASSED          
+83 (48)         7               PASSED          
 Stage: SimpleMAP
 Luts            depth           check           
-177             8               PASSED          
+179             8               PASSED          
 Stage: ABC fpga
 Luts            depth           check           
-177             8               PASSED          
+180             8               PASSED          
 
 rom
 Luts (TLUTS)    depth           check           
