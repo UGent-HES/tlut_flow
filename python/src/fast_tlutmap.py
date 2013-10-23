@@ -69,7 +69,8 @@ All rights reserved.
 import os
 import shutil
 import sys
-from mapping import *   
+from mapping import *
+from genParameters import extract_parameter_signals, extract_parameter_names 
 
 
 colwidth=16
@@ -107,7 +108,10 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     print "Stage: Generating parameters"
     if parameterFileName == None:
         parameterFileName = baseName+'.par'
-        assert not os.system('genParameters.py %s %s > %s'%(module,blifFileName,parameterFileName))
+        with open(parameterFileName, "w") as parameterFile:
+            parameter_names = extract_parameter_names(module)
+            parameter_signals = extract_parameter_signals(parameter_names, blifFileName)
+            print >>parameterFile, '\n'.join(parameter_signals)
         print "Attention: Verify the detected parameters by inspecting %s/%s"%(workDir, parameterFileName)
     if verboseFlag:
         print "Parameters:"
