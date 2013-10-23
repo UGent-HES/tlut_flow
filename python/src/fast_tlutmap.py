@@ -65,11 +65,6 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 '''
-'''
-Created on Dec 15, 2009
-
-@author: kbruneel
-'''
 
 import os
 import shutil
@@ -81,32 +76,23 @@ colwidth=16
 def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
-#copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, verboseFlag=False):
+#Copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
+def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, verboseFlag=False):
     baseName, ext = getBasenameAndExtension(os.path.basename(module))
-    if ext not in ('vhd','vhdl','v'):
-        print >> sys.stderr, "Error: Module filename does not have extension '.vhd','.vhdl' or '.v':", module
-        exit(3)
         
     if virtexFamily in ("virtex2pro",):
         K = 4
     elif virtexFamily in ("virtex5",):
         K = 6
     elif virtexFamily != None:
-        print >> sys.stderr, "Error: Unsupported FPGA family:", virtexFamily
-        print >> sys.stderr, "Supported FPGA families: virtex2pro, virtex5"
-        exit(1)
+        raise Exception("Unknown virtex family: %s"%virtexFamily)
     
+    # Setup working directory
     workDir = "work/"+baseName
     print "Stage: Creating %s directory and copying design"%workDir
-    for submodule in submodules + [module]:
-        path = workDir + '/' + submodule
-        if not os.path.exists(os.path.dirname(path)):
-            os.makedirs(os.path.dirname(path))
-        shutil.copy(submodule, path)
-    if qsfFileName:
-        shutil.copy(qsfFileName, workDir)
-    shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc', workDir)
+    workFiles = [module] + submodules
+    if qsfFileName: workFiles.append(qsfFileName)
+    createWorkDirAndCopyFiles(workDir, workFiles)
     
     ret_pwd = os.getcwd()
     os.chdir(workDir)
@@ -119,20 +105,20 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     # Automatically extract parameters from VHDL
     print "Stage: Generating parameters"
-    parameterFileName = baseName+'.par'
-    assert not os.system('genParameters.py %s %s > %s.par'%(module,blifFileName,baseName))
+    if parameterFileName == None:
+        parameterFileName = baseName+'.par'
+        assert not os.system('genParameters.py %s %s > %s'%(module,blifFileName,parameterFileName))
+        print "Attention: Verify the detected parameters by inspecting %s/%s"%(workDir, parameterFileName)
     if verboseFlag:
         print "Parameters:"
-        os.system('cat %s.par'%baseName)
-    else:
-        print "Attention: Verify the detected parameters by inspecting %s/%s.par"%(workDir, baseName)
+        os.system('cat %s'%parameterFileName)
         
-    # Resynthesize
-    if resynthesizeFlag:
-        blifFileName = resynthesize(baseName, blifFileName)
-    
     # Convert BLIF to aig
     aagFileName = bliftoaag(blifFileName)
+    
+    # Resynthesize
+    if resynthesizeFlag:
+        aagFileName = resynthesize(baseName, aagFileName)
     
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
@@ -140,12 +126,11 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
     
-    #Print C-files
+    # Print C-files
     if generateImplementationFilesFlag:
         tlutconfFile = baseName + "-tlutconfig_resyn.aag"
         CFileName = baseName + '.c' 
-        headerFileName = baseName + '.h' 
-        assert virtexFamily, "Error: No FPGA family provided, cannot generate C functions"
+        headerFileName = baseName + '.h'
         printCFunction(tlutconfFile, CFileName, headerFileName, virtexFamily, verboseFlag)
     
     # Run regular MAP

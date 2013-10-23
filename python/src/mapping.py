@@ -373,15 +373,13 @@ def generateQSF(top, submodules):
     qsfFileName = basename + '.qsf'
     
     with open(qsfFileName, "w") as fout:
-        if ext in ('vhd','vhdl'):
-            fout.write('set_global_assignment -name VHDL_FILE ' + top + '\n')
-        else:
-            fout.write('set_global_assignment -name VERILOG_FILE ' + top + '\n')
-        for file in submodules:
-            if file.split('.')[-1].lower() in ('vhd','vhdl'):
+        for file in submodules + [top]:
+            if getBasenameAndExtension(file)[1] in ('vhd','vhdl'):
                 fout.writelines('set_global_assignment -name VHDL_FILE ' + file + '\n')
-            else:
+            else if getBasenameAndExtension(file)[1] in ('v',):
                 fout.write('set_global_assignment -name VERILOG_FILE ' + file + '\n')
+            else:
+                raise Exception('File does not have vhdl, vhd or v file extension: %s'%file
     
         fout.write('set_global_assignment -name FAMILY Stratix \n');
         fout.write('set_global_assignment -name TOP_LEVEL_ENTITY ' + basename + '\n');
@@ -419,6 +417,8 @@ def synthesize(top, qsfFileName, verboseFlag=False):
     return blifFileName
     
 def printCFunction(aagFileName, CFileName, headerFileName, virtexFamily, verboseFlag=False):
+    if virtexFamily not in ("virtex2pro","virtex5",):
+        raise Exception('Unsupported FPGA family:%s, Supported FPGA families: virtex2pro, virtex5'%virtexFamily)
     cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.aig.MakeCEvaluator']
     args = [aagFileName, CFileName, headerFileName, virtexFamily]
     if verboseFlag:
@@ -426,3 +426,14 @@ def printCFunction(aagFileName, CFileName, headerFileName, virtexFamily, verbose
     output = subprocess.check_output(cmd + args);
     if verboseFlag:
     	print output
+
+def createWorkDirAndCopyFiles(workDir, workFiles):
+    for file in workFiles:
+        assert not file.contains(' '), "File name must not contain spaces: %s"%file
+        assert not file.startswith('/'), "File name must be relative to current working directory: %s"%file
+        assert not os.path.realpath(file).startswith('..'), "File must be descendant of current working directory: %s"%file
+        path = workDir + '/' + file
+        if not os.path.exists(os.path.dirname(path)):
+            os.makedirs(os.path.dirname(path))
+        shutil.copy(file, path)
+    shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc', workDir)
