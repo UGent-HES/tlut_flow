@@ -45,6 +45,7 @@ third_party/aiger-${AIGER_VERSION}/aigtoaig : third_party/aiger-${AIGER_VERSION}
 
 third_party/aiger-${AIGER_VERSION} : third_party/aiger-${AIGER_VERSION}.tar.gz
 	tar -xzf third_party/aiger-${AIGER_VERSION}.tar.gz -C third_party/ 
+	touch third_party/aiger-${AIGER_VERSION}
 
 third_party/aiger-${AIGER_VERSION}.tar.gz :
 	@echo "AIGER downloaded from http://fmv.jku.at/aiger/"
@@ -68,6 +69,7 @@ third_party/abc_${ABC_VERSION} : third_party/abc_${ABC_VERSION}.tar.gz
 	tar -xzf third_party/abc_${ABC_VERSION}.tar.gz -C third_party/
 	cd third_party && mv alanmi-abc-${ABC_VERSION} abc_${ABC_VERSION}
 	cd third_party/abc_${ABC_VERSION} && patch < ../abc_makefile.patch
+	touch third_party/abc_${ABC_VERSION}
 
 third_party/abc_${ABC_VERSION}.tar.gz :
 	cd third_party && curl -O https://bitbucket.org/alanmi/abc/get/${ABC_VERSION}.tar.gz
@@ -76,6 +78,7 @@ third_party/abc_${ABC_VERSION}.tar.gz :
 
 third_party/rapidSmith : third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
 	tar -xzf third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz -C third_party/
+	touch third_party/rapidSmith
 	
 third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz :
 	cd third_party && curl -L -O http://downloads.sourceforge.net/project/rapidsmith/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
