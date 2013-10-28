@@ -66,9 +66,7 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 '''
 
-import os
-import shutil
-import sys
+import os, sys
 from mapping import *
 from genParameters import extract_parameter_signals, extract_parameter_names 
 

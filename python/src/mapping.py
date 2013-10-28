@@ -66,11 +66,7 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 '''
 
-import os
-import sys
-import commands
-import subprocess
-import re
+import os, sys, shutil, commands, subprocess, re
 from itertools import islice
 
 
@@ -375,12 +371,12 @@ def generateQSF(top, submodules):
     with open(qsfFileName, "w") as fout:
         for file in submodules + [top]:
             if getBasenameAndExtension(file)[1] in ('vhd','vhdl'):
-                fout.writelines('set_global_assignment -name VHDL_FILE ' + file + '\n')
-            else if getBasenameAndExtension(file)[1] in ('v',):
+                fout.write('set_global_assignment -name VHDL_FILE ' + file + '\n')
+            elif getBasenameAndExtension(file)[1] in ('v',):
                 fout.write('set_global_assignment -name VERILOG_FILE ' + file + '\n')
             else:
-                raise Exception('File does not have vhdl, vhd or v file extension: %s'%file
-    
+                raise Exception('File does not have vhdl, vhd or v file extension: %s'%file)
+        
         fout.write('set_global_assignment -name FAMILY Stratix \n');
         fout.write('set_global_assignment -name TOP_LEVEL_ENTITY ' + basename + '\n');
         fout.write('set_global_assignment -name DEVICE_FILTER_SPEED_GRADE FASTEST\n');
@@ -429,7 +425,7 @@ def printCFunction(aagFileName, CFileName, headerFileName, virtexFamily, verbose
 
 def createWorkDirAndCopyFiles(workDir, workFiles):
     for file in workFiles:
-        assert not file.contains(' '), "File name must not contain spaces: %s"%file
+        assert not ' ' in file, "File name must not contain spaces: %s"%file
         assert not file.startswith('/'), "File name must be relative to current working directory: %s"%file
         assert not os.path.realpath(file).startswith('..'), "File must be descendant of current working directory: %s"%file
         path = workDir + '/' + file
