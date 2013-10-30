@@ -217,19 +217,25 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         
         # Extracting results: Parameterizable Configuration
         cmd = ['abc','-c','print_stats', aagtoaig(tlutconfFile)]
-        output = subprocess.check_output(cmd)
-        if verboseFlag:
-            print ' '.join(cmd)
-            print output,
         try:
-            res = re.search(r'\band\s*=\s*(?P<paramAnds>\d+)\b',output.splitlines()[-1])
-            if not res: raise ValueError
-            paramAnds = int(res.group('paramAnds'))
-        except (ValueError, IndexError):
-            if not verboseFlag:
+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+            if verboseFlag:
                 print ' '.join(cmd)
                 print output,
-            raise Exception("Unexpected output from abc print_stats")
+            try:
+                res = re.search(r'\band\s*=\s*(?P<paramAnds>\d+)\b',output.splitlines()[-1])
+                if not res: raise ValueError
+                paramAnds = int(res.group('paramAnds'))
+            except (ValueError, IndexError):
+                if not verboseFlag:
+                    print ' '.join(cmd)
+                    print output,
+                raise Exception("Unexpected output from abc print_stats")
+        except subprocess.CalledProcessError as e:
+            if e.output.find("Abc_NtkCheckNames: Assertion `pObj' failed.")!=-1:
+                paramAnds = 0   #safe to ignore error indicates empty network
+            else:
+                raise
         
         # Verification of resulting mapping using satsolver
         if checkFunctionality:
@@ -283,7 +289,7 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
                 print output
             raise Exception('Unexpected output from abc print_stats')
         if checkFunctionality:
-            check   = miter(inFile, outFile, verboseFlag)
+            check = miter(inFile, outFile, verboseFlag)
         else:
             check = "SKIPPED"
     except subprocess.CalledProcessError as e:
@@ -335,7 +341,7 @@ def miter(circuit0, circuit1, verboseFlag=False):
     if verboseFlag:
         print ' '.join(cmd)
     try:
-        output = subprocess.check_output(cmd,stderr=subprocess.STDOUT)
+        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as ex:
         print >> sys.stderr, ex.output
         raise Exception('Verification failed')
@@ -354,14 +360,21 @@ def miter(circuit0, circuit1, verboseFlag=False):
 def resynthesize(basename, fname, script='resyn2', verboseFlag=False):
     basefname, ext = getBasenameAndExtension(fname)
     assert ext in ('blif', 'aig')
-    
     outFileName = '%s_resyn.%s'%(basename, ext)
     os.system("rm -f "+outFileName)
+    
     cmd = ['abc', '-c', script+'; write '+outFileName, fname]
-    subprocess.check_call(cmd)
+    try:
+        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        if e.output.find("Abc_NtkCheckNames: Assertion `pObj' failed.")!=-1:
+            shutil.copy(fname, outFileName) #safe to ignore error indicates empty network
+        else:
+            raise
     if not os.path.exists(outFileName):
+        print output
         raise Exception("abc unsuccesful: resynthesized blif/aag file %s was not created"%outFileName)
-        
+    
     return outFileName
 
 def generateQSF(top, submodules):
