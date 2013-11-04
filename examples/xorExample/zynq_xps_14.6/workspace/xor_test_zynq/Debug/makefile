@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include swReconfiguration/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -24,29 +25,29 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 ELFSIZE += \
-empty_app.elf.size \
+xor_test_zynq.elf.size \
 
 
 # All Target
-all: empty_app.elf secondary-outputs
+all: xor_test_zynq.elf secondary-outputs
 
 # Tool invocations
-empty_app.elf: $(OBJS) ../src/lscript.ld $(USER_OBJS)
+xor_test_zynq.elf: $(OBJS) ../src/lscript.ld $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM gcc linker'
-	arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../empty_app_bsp/ps7_cortexa9_0/lib -o "empty_app.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../xor_test_zynq_bsp/ps7_cortexa9_0/lib -o "xor_test_zynq.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-empty_app.elf.size: empty_app.elf
+xor_test_zynq.elf.size: xor_test_zynq.elf
 	@echo 'Invoking: ARM Print Size'
-	arm-xilinx-eabi-size empty_app.elf  |tee "empty_app.elf.size"
+	arm-xilinx-eabi-size xor_test_zynq.elf  |tee "xor_test_zynq.elf.size"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES)$(ELFSIZE)$(S_UPPER_DEPS) empty_app.elf
+	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES)$(ELFSIZE)$(S_UPPER_DEPS) xor_test_zynq.elf
 	-@echo ' '
 
 secondary-outputs: $(ELFSIZE)

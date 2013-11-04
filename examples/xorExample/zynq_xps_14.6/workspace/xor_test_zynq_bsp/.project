@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>empty_app_bsp</name>
+	<name>xor_test_zynq_bsp</name>
 	<comment></comment>
 	<projects>
 		<project>zynq_xps_14.6_hw_platform</project>
