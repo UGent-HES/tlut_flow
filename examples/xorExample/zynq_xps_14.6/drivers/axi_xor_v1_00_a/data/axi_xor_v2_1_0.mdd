@@ -1,0 +1,15 @@
+##############################################################################
+## Filename:          /home/akulkarn/private/Desktop/git/tlut_flow/examples/xorExample/zynq_xps_14.6/drivers/axi_xor_v1_00_a/data/axi_xor_v2_1_0.mdd
+## Description:       Microprocessor Driver Definition
+## Date:              Mon Oct 14 11:10:16 2013 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+OPTION psf_version = 2.1.0;
+
+BEGIN DRIVER axi_xor
+
+  OPTION supported_peripherals = (axi_xor);
+  OPTION depends = (common_v1_00_a);
+  OPTION copyfiles = all;
+
+END DRIVER

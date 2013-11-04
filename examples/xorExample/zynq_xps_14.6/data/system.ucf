@@ -1,0 +1,103 @@
+#
+# pin constraints
+#
+#
+# additional constraints
+#
+
+#Adding area constraint for HWICAP-Specific to Zynq (working)
+INST "axi_hwicap_0/axi_hwicap_0/*" AREA_GROUP = group1;
+AREA_GROUP "group1" RANGE=SLICE_X80Y50:SLICE_X100Y99;
+
+#Adding area constraint for XOR-Specific to Zynq (working)
+#INST "axi_xor_0/axi_xor_0/*" AREA_GROUP = group2;
+#AREA_GROUP "group2" RANGE=SLICE_X50Y25:SLICE_X113Y49;
+
+#Testing the all types of slices and LUTS by using loc and bel constraints
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a218not" LOC=SLICE_X60Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a218not" BEL=A6LUT;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a134not" LOC=SLICE_X60Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a134not" BEL=B6LUT;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a188not" LOC=SLICE_X60Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a188not" BEL=C6LUT;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a200not" LOC=SLICE_X60Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a200not" BEL=D6LUT;
+
+
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a224not" LOC=SLICE_X61Y22;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a224not" BEL=A6LUT; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a206not" LOC=SLICE_X61Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a206not" BEL=B6LUT; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a284not" LOC=SLICE_X61Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a284not" BEL=C6LUT;   
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a152not" LOC=SLICE_X61Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a152not" BEL=D6LUT;  
+  
+
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a146not" LOC=SLICE_X62Y22;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a146not" BEL=A6LUT; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a140not" LOC=SLICE_X62Y22;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a140not" BEL=B6LUT;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a194not" LOC=SLICE_X62Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a194not" BEL=C6LUT;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a182not" LOC=SLICE_X62Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a182not" BEL=D6LUT;  
+  
+
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a212not" LOC=SLICE_X63Y22; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a212not" BEL=A6LUT; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a236not" LOC=SLICE_X63Y22; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a236not" BEL=B6LUT;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a248not" LOC=SLICE_X63Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a248not" BEL=C6LUT;   
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a164not" LOC=SLICE_X63Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a164not" BEL=D6LUT;  
+  
+
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a176not" LOC=SLICE_X64Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a176not" BEL=A6LUT;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a242not" LOC=SLICE_X64Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a242not" BEL=B6LUT; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a278not" LOC=SLICE_X64Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a278not" BEL=C6LUT;   
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a170not" LOC=SLICE_X64Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a170not" BEL=D6LUT;  
+ 
+
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a296not" LOC=SLICE_X65Y22; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a296not" BEL=A6LUT;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a230not" LOC=SLICE_X65Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a230not" BEL=B6LUT;    
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a158not" LOC=SLICE_X65Y22; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a158not" BEL=C6LUT;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a272not" LOC=SLICE_X65Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a272not" BEL=D6LUT;  
+  
+
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a266not" LOC=SLICE_X66Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a266not" BEL=A6LUT; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a320not" LOC=SLICE_X66Y22; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a320not" BEL=B6LUT;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a290not" LOC=SLICE_X66Y22; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a290not" BEL=C6LUT;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a308not" LOC=SLICE_X66Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a308not" BEL=D6LUT;  
+
+
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a314not" LOC=SLICE_X67Y22;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a314not" BEL=A6LUT;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a260not" LOC=SLICE_X67Y22; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a260not" BEL=B6LUT;  
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a254not" LOC=SLICE_X67Y22;
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a254not" BEL=C6LUT;   
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a302not" LOC=SLICE_X67Y22; 
+INST "axi_xor_0/axi_xor_0/USER_LOGIC_I/EXORS/exorw32_TLUT1_a302not" BEL=D6LUT;  
+
+
+
+	
+			
+
+			
+			
+ 

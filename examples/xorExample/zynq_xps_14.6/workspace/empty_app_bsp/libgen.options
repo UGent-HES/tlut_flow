@@ -1,0 +1,3 @@
+PROCESSOR=ps7_cortexa9_0
+REPOSITORIES=
+HWSPEC=../zynq_xps_14.6_hw_platform/system.xml
