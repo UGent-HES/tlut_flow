@@ -1,0 +1,26 @@
+Starting EXOR test...
+
+Test 0 succeeded
+Test 1 succeeded
+Test 2 succeeded
+Test 3 succeeded
+Test 4 succeeded
+Test 5 succeeded
+Test 6 succeeded
+Test 7 succeeded
+Test 8 succeeded
+Test 9 succeeded
+Test 10 succeeded
+Test 11 succeeded
+Test 12 succeeded
+Test 13 succeeded
+Test 14 succeeded
+Test 15 succeeded
+Test 16 succeeded
+Test 17 succeeded
+Test 18 succeeded
+Test 19 succeeded
+Test 20 succeeded
+All tests succeeded
+End EXOR test.
+
