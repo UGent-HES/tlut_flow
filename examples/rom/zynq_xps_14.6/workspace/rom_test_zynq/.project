@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>empty_project</name>
-	<comment>empty_project_bsp - ps7_cortexa9_0</comment>
+	<name>rom_test_zynq</name>
+	<comment>rom_test_zynq_bsp - ps7_cortexa9_0</comment>
 	<projects>
-		<project>empty_project_bsp</project>
+		<project>rom_test_zynq_bsp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

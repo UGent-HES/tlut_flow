@@ -25,29 +25,29 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 ELFSIZE += \
-empty_project.elf.size \
+rom_test_zynq.elf.size \
 
 
 # All Target
-all: empty_project.elf secondary-outputs
+all: rom_test_zynq.elf secondary-outputs
 
 # Tool invocations
-empty_project.elf: $(OBJS) ../src/lscript.ld $(USER_OBJS)
+rom_test_zynq.elf: $(OBJS) ../src/lscript.ld $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM gcc linker'
-	arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../empty_project_bsp/ps7_cortexa9_0/lib -o "empty_project.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../rom_test_zynq_bsp/ps7_cortexa9_0/lib -o "rom_test_zynq.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-empty_project.elf.size: empty_project.elf
+rom_test_zynq.elf.size: rom_test_zynq.elf
 	@echo 'Invoking: ARM Print Size'
-	arm-xilinx-eabi-size empty_project.elf  |tee "empty_project.elf.size"
+	arm-xilinx-eabi-size rom_test_zynq.elf  |tee "rom_test_zynq.elf.size"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES)$(ELFSIZE)$(S_UPPER_DEPS) empty_project.elf
+	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES)$(ELFSIZE)$(S_UPPER_DEPS) rom_test_zynq.elf
 	-@echo ' '
 
 secondary-outputs: $(ELFSIZE)

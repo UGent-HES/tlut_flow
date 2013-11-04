@@ -2,19 +2,19 @@
 set -e
 
 #building
-cd workspace/rom_test_V5110T_bsp_0/
+cd workspace/rom_test_zynq_bsp/
 make clean
 make all
 cd -
-cd workspace/rom_test_V5110T_0/Debug
+cd workspace/rom_test_zynq/Debug
 make clean
 make all
 cd -
 
 #downloading
-elfcheck -hw workspace/xpsV13_XUPV5110T_hw_platform/system.xml -mode bootload -mem BRAM -pe microblaze_0 workspace/rom_test_V5110T_0/Debug/rom_test_V5110T_0.elf
+elfcheck -hw workspace/zynq_xps_14.6_hw_platform/system.xml -mode bootload -mem BRAM -pe microblaze_0 workspace/rom_test_zynq/Debug/rom_test_zynq.elf
 
-data2mem -bm implementation/system_bd.bmm -bt implementation/system.bit -bd workspace/rom_test_V5110T_0/Debug/rom_test_V5110T_0.elf tag microblaze_0 -o b implementation/download.bit
+data2mem -bm implementation/system_bd.bmm -bt implementation/system.bit -bd workspace/rom_test_zynq/Debug/rom_test_zynq.elf tag microblaze_0 -o b implementation/download.bit
 
 set +e
 impact -batch etc/download.cmd 2>&1
