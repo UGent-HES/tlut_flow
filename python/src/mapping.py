@@ -359,7 +359,7 @@ def miter(circuit0, circuit1, verboseFlag=False):
 
 def resynthesize(basename, fname, script='resyn2', verboseFlag=False):
     basefname, ext = getBasenameAndExtension(fname)
-    assert ext in ('blif', 'aig')
+    assert ext in ('blif', 'aig'), "File extension of file (%s) is not blif or aig"%fname
     outFileName = '%s_resyn.%s'%(basename, ext)
     os.system("rm -f "+outFileName)
     

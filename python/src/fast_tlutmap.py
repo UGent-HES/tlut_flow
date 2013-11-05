@@ -115,12 +115,12 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         print "Parameters:"
         os.system('cat %s'%parameterFileName)
         
-    # Convert BLIF to aig
-    aagFileName = bliftoaag(blifFileName)
-    
-    # Resynthesize
+    # Resynthesize blif (and convert to aag)
     if resynthesizeFlag:
-        aagFileName = resynthesize(baseName, aagFileName)
+        aagFileName = resynthesize(baseName, blifFileName)
+    else:
+    # Convert blif to aag
+        aagFileName = bliftoaag(blifFileName)
     
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
