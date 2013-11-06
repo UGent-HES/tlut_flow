@@ -8,7 +8,7 @@
 /third_party/aiger-*
 /third_party/abc_*
 /third_party/hessian-*.jar
-/third_party/rapidSmith-*.tgz
+/third_party/rapidSmith-*.gz
 /third_party/rapidSmith
 /examples/*/work
 /tests/work

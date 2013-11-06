@@ -43,7 +43,7 @@ swReconfiguration/rom.o: ../../../swReconfiguration/rom.c
 	@echo 'Finished building: $<'
 	@echo ' '
 
-swReconfiguration/testReconfiguration.o: ../../../testReconfiguration.c
+swReconfiguration/testReconfiguration.o: ../../../swReconfiguration/testReconfiguration.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: ARM gcc compiler'
 	arm-xilinx-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -I../../rom_test_zynq_bsp/ps7_cortexa9_0/include -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"

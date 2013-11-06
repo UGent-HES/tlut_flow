@@ -15,7 +15,6 @@
 #define DCFG_DEVICE_ID			XPAR_XDCFG_0_DEVICE_ID
 
 static XDcfg DcfgInstance;   /* Device Configuration Interface Instance */
-static XScuGic IntcInstance;	/* The instance of the Interrupt Controller */
 
 inline u8 getBit(int word,int i) {
     return (word & (1 << i)) != 0;
@@ -36,14 +35,13 @@ void test(XHwIcap *HwIcap_p) {
 	u32 input[] = {0,1315213384u, 2029622535u, 31535344u, 350602637u, 739953251u, 1794192762u, 80034313u, 3371481055u, 258653546u, 1826970330u, 358159117u, 2237711500u, 969336453u, 472183228u, 222406172u, 3344124026u, 1232896548u, 2393820680u, 96207672u, 2884104468u, 1064176016u, 591349375u, 1925242111u, 2267340650u, 1349754991u, 3688545868u, 686511857u, 4037128844u, 472527743u, 1034717425u, 36838282u, 1504556062u, 1317414206u, 1519847596u, 1443498772u, 3267185399u, 3535834504u, 593213285u, 4835301u, 3268156592u};
 	u8 parameter[NUMBER_OF_PARAMETERS];
 	u8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH];
-	u8 output_read[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH];
 
     for(i=0; i<numMask; i++) {
         flag = 0;
         //xil_printf("Configuring the LUTs for p=x%x...\n\r",mult);
         setParameterbits(mask[i],32,parameter);
         evaluate(parameter,output);
-        reconfigure(HwIcap_p,output,location_array[0]);//,output_read);
+        reconfigure(HwIcap_p,output,location_array[0]);
         //xil_printf("Configuration Complete!\n\r\n\r");
         for(j=0; j<numInput; j++) {
             //xil_printf("Writing %x to input register...\n\r",input);
@@ -72,10 +70,6 @@ void manual_test(XHwIcap *HwIcap_p) {
     u32 mask = 0;
 	u8 parameter[NUMBER_OF_PARAMETERS];
 	u8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH];
-	u8 output_read[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]; //test purpose only!
-	u8 Status;
-
-	//Status = XHwIcap_Custom_GetClbBits(HwIcap_p, )
 
 	xil_printf("Starting Manual test. . . \n\r\n\r");
 	xil_printf("Writing x%08x to the register. \n\r", input);
