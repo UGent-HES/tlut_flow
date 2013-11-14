@@ -94,7 +94,7 @@ public class ParamLatchRemover {
 	
 		MappingAIG a = new MappingAIG(args[0]);
 		
-        new NewParameterMarker(a, new FileInputStream(args[1])).run();
+        new ParamLatchRemover(a, new FileInputStream(args[1])).run();
         
         a.printAAG(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))));
 	}
