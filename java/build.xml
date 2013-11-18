@@ -21,6 +21,7 @@
             <classpath>
                 <pathelement location="../third_party/rapidSmith/"/>
                 <pathelement location="../third_party/rapidSmith/jars/hessian-4.0.6.jar"/>
+                <pathelement location="../third_party/jopt-simple-4.5.jar"/>
             </classpath>
         </javac>
     </target>

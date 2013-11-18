@@ -75,6 +75,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import joptsimple.OptionSpec;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
@@ -109,15 +115,22 @@ public class TMapSimple {
 		// <5> : input VHDL file (used to copy VHDL header)
 		// <6> : output VHDL file with (T)LUT structure
 		// <7> : output file with VHDL names of TLUT instances
-		
+
+		OptionParser parser = new OptionParser();
+        OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
+        OptionSet options = parser.parse(args);
+        
+        String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
+        
+
 		// Read AIG file
-		MappingAIG a = new MappingAIG(args[0]);
+		MappingAIG a = new MappingAIG(arguments[0]);
 		
-		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
+		a.visitAll(new ParameterMarker(new FileInputStream(arguments[1])));
 		
 		a.fixAIG();
 		
-		int K = Integer.parseInt(args[2]);
+		int K = Integer.parseInt(arguments[2]);
 
 		// Mapping
 		ConeEnumeration enumerator = new ConeEnumeration(K);
@@ -133,10 +146,10 @@ public class TMapSimple {
         a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator());
         a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
-        if(depthBeforeAreaRecovery != a.getDepth()) {
-        	System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
-        	System.exit(1);
-        }
+        	if(depthBeforeAreaRecovery != a.getDepth()) {
+        		System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
+        		System.exit(1);
+        	}
 
 
 		//Frees memory when possible
@@ -144,7 +157,7 @@ public class TMapSimple {
 //		ConeEnumeration enumerator = new ConeEnumeration(K);
 //        a.visitAll(enumerator,new ConeRanking(), new ConeSetRemove());
         
-        
+
         System.out.println("Cone Selection:");
         a.visitAllInverse(new ConeSelection());
 
@@ -153,16 +166,16 @@ public class TMapSimple {
 		AIG<Node, Edge> b;
 		b = a.constructParamConfig(K, true, false);
 		System.out.println("Printing the parameterizable configuration:");
-        b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[3]))));
+        b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(arguments[3]))));
         
         System.out.println("Writing the LUT structure:"); 
     	a.printLutStructureBlif(
-    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(args[4]))),
+    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]))),
     	    K);
-        if(args.length > 5) {
-        	String inVhdFile = args[5];
-        	String vhdFile = args[6];
-        	String nameFile = args[7];
+        if(arguments.length > 5) {
+        	String inVhdFile = arguments[5];
+        	String vhdFile = arguments[6];
+        	String nameFile = arguments[7];
         	a.printLutStructureVhdl(inVhdFile, vhdFile, nameFile, K);
         }
 

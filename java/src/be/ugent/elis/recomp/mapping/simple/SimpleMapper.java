@@ -77,6 +77,10 @@ import java.io.PrintStream;
 
 import javax.print.attribute.standard.PrinterName;
 
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import joptsimple.OptionSpec;
+
 import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 
@@ -88,12 +92,25 @@ public class SimpleMapper {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		// Read AIG file
-		MappingAIG a = new MappingAIG(args[0]);
-		
-		int K = Integer.parseInt(args[1]);
-//		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
+		OptionParser parser = new OptionParser();
+        OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
+        OptionSet options = parser.parse(args);
+
+		// Usage:
+		// <0> : input file with aag
+		// <1> : integer/number of inputs per LUT
+		// <2> : output file with mapped blif
+        //
+		// -d<int> : optional target depth
+
+        String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
+
+        // Read AIG file
+		MappingAIG a = new MappingAIG(arguments[0]);
+		
+		int K = Integer.parseInt(arguments[1]);
+		
 		// Mapping
 		System.out.println("Cone Enumeration:");
 		ConeEnumeration enumerator = new ConeEnumeration(K); 
@@ -112,7 +129,7 @@ public class SimpleMapper {
         	System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
         	System.exit(1);
         }
-        
+                
 //        a.visitAllInverse(new PrintNameVisitor());
         
         System.out.println("Cone Selection:");
@@ -121,6 +138,6 @@ public class SimpleMapper {
         System.out.println(a.numLuts() +"\t"+ a.getDepth() +"\t"+ enumerator.getNmbrCones() +"\t"+ enumerator.getNmbrKCones() +"\t"+ enumerator.getNmbrDominatedCones());
         
         // Writing a blif
-        a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))), K);        
+        a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))), K);
 	}
 }
