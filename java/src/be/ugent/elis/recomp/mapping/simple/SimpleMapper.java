@@ -131,9 +131,16 @@ public class SimpleMapper {
         a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
-        if(depthBeforeAreaRecovery != a.getDepth()) {
-        	System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
-        	System.exit(1);
+        if(target_depth == -1) {
+        	if(depthBeforeAreaRecovery != a.getDepth()) {
+        		System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
+        		System.exit(1);
+        	}
+        } else {
+        	if(a.getDepth() > target_depth) {
+        		System.err.println("Depth ("+a.getDepth()+") greater than target depth: "+target_depth);
+        		System.exit(1);
+        	}
         }
                 
         System.out.println("Cone Selection:");
