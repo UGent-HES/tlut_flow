@@ -196,7 +196,6 @@ public class ResourceSharingOpportunitiesCalculator {
 			activationSets.remove(B.zero());	//parameter nodes have activation function 0
 		}
 		sanityCheck();
-		System.out.println("size: "+activationSets.size());
 
 //		for(Node node : activationSets.get(B.one()).getNodes())
 //			System.out.println("a0 "+node.getName());
@@ -224,8 +223,6 @@ public class ResourceSharingOpportunitiesCalculator {
 		for(ActivationSet set : activationSets.values()) {
 			//System.out.println("set: "+set.getSharingOpportunities().size()+" "+set.getNodes().size() + " " + set.getActivationFunction().toString());
 		}
-		System.out.println("afterwards");
-		System.out.println("size: "+activationSets.size());
 		sanityCheck();
 		finalise();
 	}
@@ -284,6 +281,7 @@ public class ResourceSharingOpportunitiesCalculator {
 				if(reduced_opportunities.activationSets.containsKey(original_set.getActivationFunction()))
 						sharing_opportunities.add(reduced_opportunities.activationSets.get(original_set.getActivationFunction()));
 			}
+			set.setSharingOpportunities(sharing_opportunities);
 		}
 		reduced_opportunities.cleanUpUselessSets();
 		return reduced_opportunities;

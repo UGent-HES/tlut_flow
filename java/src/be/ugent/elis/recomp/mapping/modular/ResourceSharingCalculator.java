@@ -110,8 +110,10 @@ public class ResourceSharingCalculator {
 		ResourceSharingOpportunitiesCalculator sharing_opportunities = 
 				new ResourceSharingOpportunitiesCalculator();
 		sharing_opportunities.run(aig);
+		System.out.println("Number of activationsets: "+sharing_opportunities.activationSets.size());
 		
 		ResourceSharingOpportunitiesCalculator reduced = sharing_opportunities.getReducedSharingOpportunities();
+		System.out.println("Number of activationsets with visible nodes: "+reduced.activationSets.size());
 		System.out.println(reduced.toString());
 		
 //		ArrayList<Node> lut_nodes = new ArrayList<Node>();

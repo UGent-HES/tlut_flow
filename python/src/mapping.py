@@ -424,7 +424,7 @@ def synthesize(top, qsfFileName, verboseFlag=False):
     blifFileName  = basename + ".blif"
     os.system("rm -f "+blifFileName)
 
-    cmd = 'quartus_map ' + qsfFileName
+    cmd = 'quartus_map --64bit ' + qsfFileName
     if verboseFlag:
         print cmd
     output = commands.getoutput(cmd);
