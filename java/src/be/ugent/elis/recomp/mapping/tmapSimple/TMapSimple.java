@@ -96,8 +96,7 @@ public class TMapSimple {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		// Find the base name of the aag file
-		//String baseName = args[0].substring(0,args[0].lastIndexOf('.'));
+		BDDFactorySingleton.get(1000, 1000);
 		
 		//Usage:
 		// <0> : input file with aig
@@ -110,8 +109,18 @@ public class TMapSimple {
 		// <5> : input VHDL file (used to copy VHDL header)
 		// <6> : output VHDL file with (T)LUT structure
 		// <7> : output file with VHDL names of TLUT instances
-		
-		BDDFactorySingleton.get(1000, 1000);
+        //
+		// -d<int> : optional target depth
+
+		OptionParser parser = new OptionParser();
+        OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
+        OptionSpec<Integer> depth_option =
+                parser.accepts("depth").withRequiredArg().ofType( Integer.class ).defaultsTo(-1);
+        OptionSet options = parser.parse(args);
+        
+        String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
+        int target_depth = depth_option.value(options);
+        
 
 		// Read AIG file
 		MappingAIG a = new MappingAIG(args[0]);

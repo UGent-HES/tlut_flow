@@ -77,6 +77,10 @@ import java.io.PrintStream;
 
 import javax.print.attribute.standard.PrinterName;
 
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import joptsimple.OptionSpec;
+
 import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
@@ -90,40 +94,52 @@ public class SimpleMapper {
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
 		BDDFactorySingleton.get(1000, 1000);
-		
-		// Read AIG file
-		MappingAIG a = new MappingAIG(args[0]);
-		
-		int K = Integer.parseInt(args[1]);
-//		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
+		OptionParser parser = new OptionParser();
+        OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
+        OptionSpec<Integer> depth_option =
+                parser.accepts("depth").withRequiredArg().ofType( Integer.class ).defaultsTo(-1);
+        OptionSet options = parser.parse(args);
+
+		// Usage:
+		// <0> : input file with aag
+		// <1> : integer/number of inputs per LUT
+		// <2> : output file with mapped blif
+        //
+		// -d<int> : optional target depth
+
+        String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
+        int target_depth = depth_option.value(options);
+
+        // Read AIG file
+		MappingAIG a = new MappingAIG(arguments[0]);
+		
+		int K = Integer.parseInt(arguments[1]);
+		
 		// Mapping
 		System.out.println("Cone Enumeration:");
 		ConeEnumeration enumerator = new ConeEnumeration(K); 
+
         a.visitAll(enumerator);        
 		System.out.println("Cone Ranking:");
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
         a.visitAllInverse(new ConeSelection());
         
         double depthBeforeAreaRecovery = a.getDepth();
-        a.visitAllInverse(new HeightCalculator());
+        a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));
         a.visitAllInverse(new ConeSelection());
-        a.visitAllInverse(new HeightCalculator());
+        a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
         if(depthBeforeAreaRecovery != a.getDepth()) {
         	System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
         	System.exit(1);
         }
-        
-//        a.visitAllInverse(new PrintNameVisitor());
-        
+                
         System.out.println("Cone Selection:");
         a.visitAllInverse(new ConeSelection());
         
-        System.out.println(a.numLuts() +"\t"+ a.getDepth() +"\t"+ enumerator.getNmbrCones() +"\t"+ enumerator.getNmbrKCones() +"\t"+ enumerator.getNmbrDominatedCones());
-        
         // Writing a blif
-        a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))), K);        
+        a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))), K);
 	}
 }
