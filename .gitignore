@@ -9,5 +9,7 @@
 /third_party/abc_*
 /third_party/hessian-*.jar
 /third_party/rapidSmith*
+/third_party/JavaBDD
+/third_party/javabdd*
 /examples/*/work
 /tests/work
