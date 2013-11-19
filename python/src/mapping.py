@@ -70,6 +70,7 @@ import os, sys, shutil, commands, subprocess, re
 from itertools import islice
 
 
+target_depth = 100
 
 maxMemory = 1024
 #set maximum memory usage of Java tools, in MB
@@ -102,6 +103,8 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.simple.SimpleMapper']
         # args: input aag file, inputs per LUT, output blif file
         args = [aagFile, str(K), outFile]
+        if target_depth != -1:
+            args.append('-d%d'%target_depth)
         if verboseFlag:
             print ' '.join(cmd + args)
         output = subprocess.check_output(cmd + args)
@@ -150,6 +153,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
         # args: input aag of design, input file with parameters, number of inputs per LUT, output configuration bits of tluts as aag, output parameterised configuration bits luts and tluts as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
         args = [aagFile, paramFileName, str(K), parconfFile, lutstructFile]
+        if target_depth != -1:
+            args.append('-d%d'%target_depth)
         if generateImplementationFilesFlag: args.extend([inVhdFile, outVhdFile, nameFile])
         if verboseFlag:
             print ' '.join(cmd + args)
@@ -240,7 +245,11 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
         inFile = toaig(fname)
         outFile =  basename + "-fpga.blif"
         
-        cmd = ['abc', '-c', 'strash; fpga -K '+str(K)+'; write '+outFile+'; print_stats', inFile]
+        abc_cmd =  'strash; fpga -K %d'%K
+        if target_depth != -1:
+            abc_cmd += ' -D %f'%target_depth
+        abc_cmd += '; write %s; print_stats'%outFile
+        cmd = ['abc', '-c', abc_cmd, inFile]
         if verboseFlag:
             print cmd
         output = subprocess.check_output(cmd)
