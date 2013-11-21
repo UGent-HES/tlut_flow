@@ -82,15 +82,17 @@ import be.ugent.elis.recomp.mapping.utils.Node;
 public class ConeEnumeration implements Visitor<Node, Edge> {	
 
 	protected int K;
+	protected boolean allow_TLUT_cones;
 	protected int nmbrKCones;
 	protected int nmbrDominatedCones;
 	protected int nmbrCones;
  
-	public ConeEnumeration(int K) {
+	public ConeEnumeration(int K, boolean allow_TLUT_cones) {
 		nmbrCones  = 0;
 		nmbrDominatedCones = 0;
 		nmbrKCones = 0;
 		this.K = K;
+		this.allow_TLUT_cones = allow_TLUT_cones;
 	}
 	
 	public int getNmbrKCones() {
@@ -111,7 +113,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	public void visit(Node node) {
 		ConeSet result = new ConeSet(node);
 		
-		if (node.isParameter()) {
+		if (allow_TLUT_cones && node.isParameter()) {
 			result.add(Cone.emptyCone(node));
 			//System.out.println(node.getName());
 		} else {

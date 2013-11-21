@@ -90,6 +90,8 @@ import be.ugent.elis.recomp.mapping.utils.Node;
 
 public class ResourceSharingOpportunitiesCalculator {
 	
+	boolean short_activation_function = true;
+	
 	public static void main(String[] args) throws IOException {
 		
 		MappingAIG a = new MappingAIG(args[0]);
@@ -146,10 +148,16 @@ public class ResourceSharingOpportunitiesCalculator {
 			StringBuilder sb = new StringBuilder();
 			sb.append("ActivationSet(");
 			sb.append("activation_function{");
-			sb.append(getActivationFunction().toString());
+			if(short_activation_function)
+				sb.append(getActivationFunction().hashCode());
+			else
+				sb.append(getActivationFunction().toString());
 			sb.append("},share_with{");
 			for(ActivationSet set : getSharingOpportunities()) {
-				sb.append(set.getActivationFunction().toString());
+				if(short_activation_function)
+					sb.append(set.getActivationFunction().hashCode());
+				else
+					sb.append(set.getActivationFunction().toString());
 				sb.append(',');
 			}
 			sb.append("},num_nodes{");

@@ -140,7 +140,7 @@ public class TMapSimple {
 		int K = Integer.parseInt(arguments[2]);
 
 		// Mapping
-		ConeEnumeration enumerator = new ConeEnumeration(K);
+		ConeEnumeration enumerator = new ConeEnumeration(K, true);
 		System.out.println("Cone Enumeration:");
         a.visitAll(enumerator);
 		System.out.println("Cone Ranking:");
