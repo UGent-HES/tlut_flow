@@ -131,7 +131,7 @@ def extract_parameter_names(fname):
         vhdlIdRegex = r'[a-z]\w*'
         vhdlIdsRegex = vhdlIdRegex + r'(\s*,\s*'+vhdlIdRegex+r')*'
         vhdlTypeRegex = vhdlIdRegex + \
-            r'(\([\w\s+*/-]*\)|\s+range\s+[\w\s+*/-]+\s+(downto|to)\s+[\w\s+*/-]+)?'
+            r'(\s*\([\w\s+*/-]*\)|\s+range\s+[\w\s+*/-]+\s+(downto|to)\s+[\w\s+*/-]+)?'
         extraction_re = re.compile(
             r'^(?P<names>'+vhdlIdsRegex+r')\s*:\s*(?P<type>in|out|inout)\s*'+vhdlTypeRegex+r'$',
             re.IGNORECASE)
