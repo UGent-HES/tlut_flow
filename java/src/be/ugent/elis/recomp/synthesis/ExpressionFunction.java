@@ -68,30 +68,63 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.synthesis;
 
+import java.util.Scanner;
+import java.util.Stack;
 import java.util.Vector;
 
-public class Test {
+public class ExpressionFunction extends BooleanFunction {
+	private String expression;
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Vector<String> inputVariables = new Vector<String>();
-		inputVariables.add("a"); 
-		inputVariables.add("b");
-		inputVariables.add("c");
-		BooleanFunction f = new ExpressionFunction("f",inputVariables,"b c + a +");
+	public ExpressionFunction(String outputVariable, Vector<String> inputVariables, String expression) {
+		super(outputVariable, inputVariables);
 		
+		this.expression = expression;
 		
-		TruthTable table = new TruthTable(f);
+	}
+	
+	public ExpressionFunction invert() {
+		return new ExpressionFunction(getOutputVariable() + "_n", getInputVariable(), expression+ " -");
+	}
+	
+	public void invertInput(String variable) {
+		this.expression = this.expression.replace(variable, variable+" -");
+	}
+	
+	public Boolean evaluate(TruthAssignment assignment) {
+		Stack<Boolean> stack = new Stack<Boolean>();
 		
+		Scanner scan = new Scanner(expression);
+		while (scan.hasNext()) {
+			String next = scan.next();
+			if (assignment.contains(next)) {
+				stack.push(assignment.get(next));
+			} else if ( next.equals("+")) {
+				Boolean arg0 = stack.pop();
+				Boolean arg1 = stack.pop();
+				stack.push(arg0 || arg1);
+			} else if ( next.equals("*")) {
+				Boolean arg0 = stack.pop();
+				Boolean arg1 = stack.pop();
+				stack.push(arg0 && arg1);
+			} else if ( next.equals("-")) {
+				Boolean arg0 = stack.pop();
+				stack.push(!arg0);
+			} else {
+				System.err.println("Error: Bad Boolean expression!");
+			}
+		}
 		
-		TruthAssignment assignment = TruthAssignment.createFrom(f);
-		
-
-		
-		System.out.println(f.evaluate(assignment));
-
+		return stack.pop();
 	}
 
+
+
+	public String getExpression() {
+		return expression;
+	}
+
+
+	public void setExpression(String expression) {
+		this.expression = expression;
+	}
 }

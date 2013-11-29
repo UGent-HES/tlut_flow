@@ -90,9 +90,9 @@ public class TruthAssignment{
 		return result;
 	}
 
-	public TruthAssignment(BooleanFunction f) {
-		inputVariables = f.getInputVariable();
-		assignmentMap = new HashMap<String, Boolean>();
+	public TruthAssignment(Vector<String> inputVariables) {
+		this.inputVariables = inputVariables;
+		this.assignmentMap = new HashMap<String, Boolean>();
 		
 		for (String in:this.inputVariables) {
 			assignmentMap.put(in, false);
@@ -105,6 +105,10 @@ public class TruthAssignment{
 		for (String in:this.inputVariables) {
 			assignmentMap.put(in, new Boolean(truthAssignment.get(in)));
 		}
+	}
+	
+	public static TruthAssignment createFrom(BooleanFunction f) {
+		return new TruthAssignment(f.getInputVariable());
 	}
 
 	public boolean hasNext() {

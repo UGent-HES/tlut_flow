@@ -82,7 +82,7 @@ public class TruthTable {
 		assignments = new Vector<TruthAssignment>();
 		table = new HashMap<TruthAssignment, Boolean>();
 		
-		TruthAssignment assignment = new TruthAssignment(f);
+		TruthAssignment assignment = TruthAssignment.createFrom(f);
 		assignments.add(assignment);
 		table.put(assignment, f.evaluate(assignment));
 		while (assignment.hasNext()) {

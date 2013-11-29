@@ -649,7 +649,7 @@ port map (
 			//check for inversion at the inputs, change Boolean Function if necessary
 			for (Node inputNode : regularInputs){
 				if(checkOutputLutInversion(inputNode)==OutputLutInversion.AllOutsInverted) {
-					expr.setExpression(expr.getExpression().replace(inputNode.getName(),inputNode.getName()+" -"));
+					expr.invertInput(inputNode.getName());
 				}
 			}
 			lutInstance += baseName+"_LUT"+lutSize+"_"+lutName+": LUT"+lutSize + 

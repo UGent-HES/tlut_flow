@@ -68,65 +68,22 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.synthesis;
 
-import java.util.Scanner;
-import java.util.Stack;
 import java.util.Vector;
 
-public class BooleanFunction {
+public abstract class BooleanFunction {
 	private Vector<String> inputVariable;
 	private String outputVariable;
-	private String expression;
 	
-	
-	public BooleanFunction(String outputVariable, String inputVariables, String expression) {
-		this.outputVariable = outputVariable;
-		
-		this.inputVariable = new Vector<String>();
-		Scanner scan = new Scanner(inputVariables);
-		while(scan.hasNext()) {
-			String var = scan.next();
-			this.inputVariable.add(var);
-		}
-		
-		this.expression = expression;
-		
-	}
-
-	public BooleanFunction(String outputVariable, Vector<String> inputVariables, String expression) {
+	public BooleanFunction(String outputVariable, Vector<String> inputVariables) {
 		this.outputVariable = outputVariable;
 		this.inputVariable = inputVariables;
-		
-		this.expression = expression;
-		
-	}
-	
-	public Boolean evaluate(TruthAssignment assignment) {
-		Stack<Boolean> stack = new Stack<Boolean>();
-		
-		Scanner scan = new Scanner(expression);
-		while (scan.hasNext()) {
-			String next = scan.next();
-			if (assignment.contains(next)) {
-				stack.push(assignment.get(next));
-			} else if ( next.equals("+")) {
-				Boolean arg0 = stack.pop();
-				Boolean arg1 = stack.pop();
-				stack.push(arg0 || arg1);
-			} else if ( next.equals("*")) {
-				Boolean arg0 = stack.pop();
-				Boolean arg1 = stack.pop();
-				stack.push(arg0 && arg1);
-			} else if ( next.equals("-")) {
-				Boolean arg0 = stack.pop();
-				stack.push(!arg0);
-			} else {
-				System.err.println("Error: Bad Boolean expression!");
-			}
-		}
-		
-		return stack.pop();
 	}
 
+	public abstract BooleanFunction invert();
+	
+	public abstract void invertInput(String variable);
+	
+	public abstract Boolean evaluate(TruthAssignment assignment);
 
 	private Vector<Minterm> getMinterms() {
 		Vector<Minterm> result = new Vector<Minterm>();
@@ -141,40 +98,20 @@ public class BooleanFunction {
 		return result;
 	}
 
-
 	public Vector<String> getInputVariable() {
 		return inputVariable;
 	}
-
 
 	public void setInputVariable(Vector<String> inputVariable) {
 		this.inputVariable = inputVariable;
 	}
 
-
 	public String getOutputVariable() {
 		return outputVariable;
 	}
 
-
 	public void setOutputVariable(String outputVariable) {
 		this.outputVariable = outputVariable;
-	}
-
-
-	public String getExpression() {
-		return expression;
-	}
-
-
-	public void setExpression(String expression) {
-		this.expression = expression;
-	}
-
-
-	public BooleanFunction invert() {
-		BooleanFunction result = new BooleanFunction(outputVariable + "_n", inputVariable, expression+ " -");
-		return result;
 	}
 
 	public String getBlifString(String name) {
@@ -185,8 +122,6 @@ public class BooleanFunction {
 		return result;
 	}
 	
-
-
 	public String getBlifString() {
 		String result = new String();
 		
@@ -242,9 +177,4 @@ public class BooleanFunction {
 		}
 		return result;
 	}
-
-	
-	
-	
-
 }

@@ -75,9 +75,11 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
+import be.ugent.elis.recomp.synthesis.ExpressionFunction;
 
 public class Cone implements Comparable<Cone>, ConeInterface {
 	
@@ -351,26 +353,18 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 
-	
-	public BooleanFunction getBooleanFunction() {
-	
-		String inputVariables = new String();
-		ArrayList<Node> allNodes = new ArrayList<Node>();
-		allNodes.addAll(regularLeaves);
-//		allNodes.addAll(parameterLeaves);
-		for (Node n : allNodes) {
-			inputVariables += " "+n.getName();
-		}
-		
+	// Simple implementation of boolean function using expression
+	public ExpressionFunction getBooleanFunction() {
+		Vector<String> inputVariables = new Vector<String>();
+		for(Node node : regularLeaves)
+			inputVariables.add(node.getName());
 		String outputVariable = root.getName();
 		
 		String expression = getExpressionRec(root.getI0()) + " " + getExpressionRec( root.getI1()) + " *"; 
-			
-		BooleanFunction result = new BooleanFunction(outputVariable,inputVariables,expression);
 		
-		return result;
+		return new ExpressionFunction(outputVariable, inputVariables, expression);
 	}
-
+	
 	private String getExpressionRec(Edge e) {
 		String result = new String();
 		Node source = e.getTail();
@@ -388,7 +382,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		
 		return result;
 	}
-
+	
 	public boolean dominates(Cone cone) {
 		int test = this.signature & (~ cone.signature);
 		if (test==0)
