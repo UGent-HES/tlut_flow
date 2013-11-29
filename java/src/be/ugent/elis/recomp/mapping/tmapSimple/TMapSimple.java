@@ -87,6 +87,7 @@ import be.ugent.elis.recomp.mapping.simple.AreaflowOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 
 public class TMapSimple {
 
@@ -110,6 +111,8 @@ public class TMapSimple {
 		// <6> : output VHDL file with (T)LUT structure
 		// <7> : output file with VHDL names of TLUT instances
 		
+		BDDFactorySingleton.get(1000, 1000);
+
 		// Read AIG file
 		MappingAIG a = new MappingAIG(args[0]);
 		

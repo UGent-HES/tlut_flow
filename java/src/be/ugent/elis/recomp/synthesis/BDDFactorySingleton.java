@@ -68,105 +68,39 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.synthesis;
 
-import java.util.Vector;
+import net.sf.javabdd.BDDFactory;
+import net.sf.javabdd.JFactory;
 
-public abstract class BooleanFunction {
-	private Vector<String> inputVariable;
-	private String outputVariable;
-	
-	public BooleanFunction(String outputVariable, Vector<String> inputVariables) {
-		this.outputVariable = outputVariable;
-		this.inputVariable = inputVariables;
-	}
 
-	public abstract BooleanFunction invert();
+public class BDDFactorySingleton {
 	
-	public abstract void invertInput(String variable);
+	static private BDDFactorySingleton singleton;
 	
-	public abstract Boolean evaluate(TruthAssignment assignment);
+    private BDDFactory B;
 
-	public Vector<Minterm> getMinterms() {
-		Vector<Minterm> result = new Vector<Minterm>();
-		TruthTable table = new TruthTable(this);
-		
-		for (TruthAssignment assignment: table.getAssignments()) {
-			if (table.get(assignment)) {
-				result.add(assignment.minterm());
-			}
+    public class NullHandler {
+    	public void nullFunction() {}
+    }
+    
+    private BDDFactorySingleton(int node_num, int cache_size) {
+        B = JFactory.init(node_num, cache_size);
+        try {
+			B.registerGCCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
+			B.registerResizeCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+        B.setVarNum(node_num);
+    }
 
-		return result;
+	static public BDDFactory get(int node_num, int cache_size) {
+		assert(singleton == null);
+		singleton = new BDDFactorySingleton(node_num, cache_size);
+        return singleton.B;
 	}
-
-	public Vector<String> getInputVariable() {
-		return inputVariable;
-	}
-
-	public void setInputVariable(Vector<String> inputVariable) {
-		this.inputVariable = inputVariable;
-	}
-
-	public String getOutputVariable() {
-		return outputVariable;
-	}
-
-	public void setOutputVariable(String outputVariable) {
-		this.outputVariable = outputVariable;
-	}
-
-	public String getBlifString(String name) {
-		String temp = this.outputVariable;
-		this.outputVariable = name;
-		String result = getBlifString();
-		this.outputVariable = temp;
-		return result;
+	static public BDDFactory get() {
+		assert(singleton != null);
+		return singleton.B;
 	}
 	
-	public String getBlifString() {
-		String result = new String();
-		Vector<Minterm> minterms = this.getMinterms();
-		
-		if(minterms.size()==0) {
-			for(@SuppressWarnings("unused") String in : inputVariable)
-				result += "-";
-			result += " 0\n";
-		} else {
-			for (Minterm m:minterms)
-				result += m + " 1\n";
-		}
-		
-		return result;
-	}
-	
-	public String getVHDLString() {
-		String result = "\"";
-		
-		TruthTable table = new TruthTable(this);
-		for (TruthAssignment assignment: table.getAssignments()) {
-			if(table.get(assignment)){
-				result += "1";
-			} 
-			else{
-				result+= "0";
-			}
-		}
-		result += "\"";
-		//Bits are reversed to adhere to Xilinx order (See http://www.markharvey.info/fpga/init/index.html#section3)
-		return new StringBuilder(result).reverse().toString();
-	}
-	
-	public String printTruthTable(){
-		String result = "\n";
-		TruthTable table = new TruthTable(this);
-		for (TruthAssignment assignment: table.getAssignments()) {
-			result += assignment.toString().replace("false", "0").replace("true", "1")+"\t";
-			if(table.get(assignment)){
-				result += "1\n";
-			} 
-			else{
-				result+= "0\n";
-			}
-		}
-		return result;
-	}
 }

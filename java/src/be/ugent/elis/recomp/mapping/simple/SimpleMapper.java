@@ -79,6 +79,7 @@ import javax.print.attribute.standard.PrinterName;
 
 import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 
 
 public class SimpleMapper {
@@ -88,6 +89,8 @@ public class SimpleMapper {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
+		BDDFactorySingleton.get(1000, 1000);
+		
 		// Read AIG file
 		MappingAIG a = new MappingAIG(args[0]);
 		

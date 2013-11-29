@@ -77,7 +77,11 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import net.sf.javabdd.BDD;
+
 import be.ugent.elis.recomp.aig.AIG;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
+import be.ugent.elis.recomp.synthesis.BDDFunction;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 import be.ugent.elis.recomp.synthesis.ExpressionFunction;
 
@@ -354,17 +358,30 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	}
 
 	// Simple implementation of boolean function using expression
-	public ExpressionFunction getBooleanFunction() {
+//	public ExpressionFunction getBooleanFunction() {
+//		Vector<String> inputVariables = new Vector<String>();
+//		for(Node node : regularLeaves)
+//			inputVariables.add(node.getName());
+//		String outputVariable = root.getName();
+//		
+//		String expression = getExpressionRec(root.getI0()) + " " + getExpressionRec( root.getI1()) + " *"; 
+//		
+//		return new ExpressionFunction(outputVariable, inputVariables, expression);
+//	}
+	
+	// Faster implementation of boolean function using BDD
+	public BDDFunction getBooleanFunction() {
 		if(isTrivial())
-			throw new RuntimeException("Can't compute function of trivial cone");
+			throw new RuntimeException("Can't compute function of trivial cone");		
 		Vector<String> inputVariables = new Vector<String>();
 		for(Node node : regularLeaves)
 			inputVariables.add(node.getName());
 		String outputVariable = root.getName();
 		
-		String expression = getExpressionRec(root.getI0()) + " " + getExpressionRec( root.getI1()) + " *"; 
+		BDD bdd = getBDDRec(root.getI0(), inputVariables).
+				andWith(getBDDRec( root.getI1(), inputVariables)); 
 		
-		return new ExpressionFunction(outputVariable, inputVariables, expression);
+		return new BDDFunction(outputVariable, inputVariables, bdd);
 	}
 	
 	private String getExpressionRec(Edge e) {
@@ -385,6 +402,26 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 	
+	private BDD getBDDRec(Edge e, Vector<String> inputVariables) {
+		BDD result;
+		Node source = e.getTail();
+		
+		if (regularLeaves.contains(source)) {
+//		if (regularLeaves.contains(source) || parameterLeaves.contains(source)) {
+			int id = inputVariables.indexOf(source.getName());
+			assert(id!=-1);
+			result = BDDFactorySingleton.get().ithVar(id);
+		} else {
+			result = getBDDRec( source.getI0(), inputVariables).andWith(getBDDRec( source.getI1(), inputVariables));
+		}
+			
+		if (e.isInverted()) {
+			result = result.not();
+		}
+		
+		return result;
+	}
+
 	public boolean dominates(Cone cone) {
 		int test = this.signature & (~ cone.signature);
 		if (test==0)

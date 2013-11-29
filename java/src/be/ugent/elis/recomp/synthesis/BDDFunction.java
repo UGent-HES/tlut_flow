@@ -70,103 +70,57 @@ package be.ugent.elis.recomp.synthesis;
 
 import java.util.Vector;
 
-public abstract class BooleanFunction {
-	private Vector<String> inputVariable;
-	private String outputVariable;
-	
-	public BooleanFunction(String outputVariable, Vector<String> inputVariables) {
-		this.outputVariable = outputVariable;
-		this.inputVariable = inputVariables;
-	}
+import net.sf.javabdd.BDD;
+import net.sf.javabdd.BDDFactory;
+import net.sf.javabdd.BDDPairing;
 
-	public abstract BooleanFunction invert();
-	
-	public abstract void invertInput(String variable);
-	
-	public abstract Boolean evaluate(TruthAssignment assignment);
+public class BDDFunction extends BooleanFunction {
+	private BDD bdd;
 
-	public Vector<Minterm> getMinterms() {
-		Vector<Minterm> result = new Vector<Minterm>();
-		TruthTable table = new TruthTable(this);
+	public BDDFunction(String outputVariable, Vector<String> inputVariables, BDD bdd) {
+		super(outputVariable, inputVariables);
 		
-		for (TruthAssignment assignment: table.getAssignments()) {
-			if (table.get(assignment)) {
-				result.add(assignment.minterm());
-			}
-		}
-
-		return result;
-	}
-
-	public Vector<String> getInputVariable() {
-		return inputVariable;
-	}
-
-	public void setInputVariable(Vector<String> inputVariable) {
-		this.inputVariable = inputVariable;
-	}
-
-	public String getOutputVariable() {
-		return outputVariable;
-	}
-
-	public void setOutputVariable(String outputVariable) {
-		this.outputVariable = outputVariable;
-	}
-
-	public String getBlifString(String name) {
-		String temp = this.outputVariable;
-		this.outputVariable = name;
-		String result = getBlifString();
-		this.outputVariable = temp;
-		return result;
+		this.bdd = bdd;
 	}
 	
-	public String getBlifString() {
-		String result = new String();
-		Vector<Minterm> minterms = this.getMinterms();
-		
-		if(minterms.size()==0) {
-			for(@SuppressWarnings("unused") String in : inputVariable)
-				result += "-";
-			result += " 0\n";
-		} else {
-			for (Minterm m:minterms)
-				result += m + " 1\n";
-		}
-		
-		return result;
+	public BDDFunction invert() {
+		return new BDDFunction(getOutputVariable() + "_n", getInputVariable(), bdd.id().not());
 	}
 	
-	public String getVHDLString() {
-		String result = "\"";
-		
-		TruthTable table = new TruthTable(this);
-		for (TruthAssignment assignment: table.getAssignments()) {
-			if(table.get(assignment)){
-				result += "1";
-			} 
-			else{
-				result+= "0";
-			}
-		}
-		result += "\"";
-		//Bits are reversed to adhere to Xilinx order (See http://www.markharvey.info/fpga/init/index.html#section3)
-		return new StringBuilder(result).reverse().toString();
+	public void invertInput(String variable_name) {
+		int variable_id = getVariableId(variable_name);
+		if(variable_id<0)
+			throw new RuntimeException("Unknown variable name");
+		BDDFactory factory = BDDFactorySingleton.get();
+		BDDPairing replacement = factory.makePair(variable_id, factory.nithVar(variable_id));
+		this.bdd = this.bdd.veccompose(replacement);
 	}
 	
-	public String printTruthTable(){
-		String result = "\n";
-		TruthTable table = new TruthTable(this);
-		for (TruthAssignment assignment: table.getAssignments()) {
-			result += assignment.toString().replace("false", "0").replace("true", "1")+"\t";
-			if(table.get(assignment)){
-				result += "1\n";
-			} 
-			else{
-				result+= "0\n";
-			}
+	public Boolean evaluate(TruthAssignment assignment) {
+		BDD runner = getBDD();
+		while(!runner.isOne() && !runner.isZero()) {
+			String var_name = getVariableName(runner.var());
+			if(assignment.get(var_name)) 
+				runner = runner.high();
+			else
+				runner = runner.low();
 		}
-		return result;
+		return runner.isOne();
+	}
+
+	public BDD getBDD() {
+		return this.bdd;
+	}
+
+	public void setBDD(BDD bdd) {
+		this.bdd = bdd;
+	}
+	
+	private int getVariableId(String variable_name) {
+		return getInputVariable().indexOf(variable_name);
+	}
+	
+	private String getVariableName(int variable_id) {
+		return getInputVariable().get(variable_id);
 	}
 }
