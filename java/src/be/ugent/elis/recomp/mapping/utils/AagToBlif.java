@@ -92,7 +92,7 @@ public class AagToBlif {
 			n.setBestCone(c);
 		}
 		
-		a.printMappedBlif(new PrintStream(new File(args[1])));
+		a.printLutStructureBlif(new PrintStream(new File(args[1])), 1);
 
 	}
 

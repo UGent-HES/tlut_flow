@@ -130,7 +130,6 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         aigFile  = toaig(fname)
         aagFile  = toaag(fname)
             
-        tlutconfFile = basename + "-tlutconfig.aag"
         parconfFile = basename + "-parconfig.aag"
         lutstructFile = basename + "-lutstruct.blif"
         if inVhdFileName == None:
@@ -150,7 +149,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
         # args: input aag of design, input file with parameters, number of inputs per LUT, output configuration bits of tluts as aag, output parameterised configuration bits luts and tluts as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
-        args = [aagFile, paramFileName, str(K), tlutconfFile, parconfFile, lutstructFile]
+        args = [aagFile, paramFileName, str(K), parconfFile, lutstructFile]
         if generateImplementationFilesFlag: args.extend([inVhdFile, outVhdFile, nameFile])
         if verboseFlag:
             print ' '.join(cmd + args)
@@ -193,12 +192,12 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
     
     
         # Resynthesize Parameterizable Configuration
-        tlutconfbasename, parext = getBasenameAndExtension(tlutconfFile)
-        tlutconfFile = resynthesize(tlutconfbasename, tlutconfFile, 
+        parconfbasename, parext = getBasenameAndExtension(parconfFile)
+        parconfFile = resynthesize(parconfbasename, toaig(parconfFile), 
             'rw; rf; rw; rwz; rfz; rwz', verboseFlag)
         
         # Extracting results: Parameterizable Configuration
-        cmd = ['abc','-c','print_stats', toaig(tlutconfFile)]
+        cmd = ['abc','-c','print_stats', toaig(parconfFile)]
         try:
             output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
             if verboseFlag:

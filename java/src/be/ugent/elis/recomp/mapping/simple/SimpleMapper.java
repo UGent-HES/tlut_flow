@@ -91,11 +91,12 @@ public class SimpleMapper {
 		// Read AIG file
 		MappingAIG a = new MappingAIG(args[0]);
 		
+		int K = Integer.parseInt(args[1]);
 //		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
 		// Mapping
 		System.out.println("Cone Enumeration:");
-		ConeEnumeration enumerator = new ConeEnumeration(Integer.parseInt(args[1])); 
+		ConeEnumeration enumerator = new ConeEnumeration(K); 
         a.visitAll(enumerator);        
 		System.out.println("Cone Ranking:");
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
@@ -120,6 +121,6 @@ public class SimpleMapper {
         System.out.println(a.numLuts() +"\t"+ a.getDepth() +"\t"+ enumerator.getNmbrCones() +"\t"+ enumerator.getNmbrKCones() +"\t"+ enumerator.getNmbrDominatedCones());
         
         // Writing a blif
-        a.printMappedBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))));        
+        a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))), K);        
 	}
 }

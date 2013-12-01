@@ -104,14 +104,12 @@ public class TMapSimple {
 		// <1> : input file with names of all parameter signals
 		// <2> : integer/number of inputs per LUT
 		// <3> : output file with configuration aig for TLUTs
-		// <4> : output file with configuration aig for TLUTs and LUTs
+		// <4> : output file with (T)LUT structure in blif (configuration of (T)LUTs stored separately)
 		
-		// <5> : output file with mapped blif
-	    // or
-		// <5> : output file with (T)LUT structure in blif (configuration of (T)LUTs stored separately)
-		// <6> : input VHDL file (used to copy VHDL header)
-		// <7> : output VHDL file with (T)LUT structure
-		// <8> : output file with VHDL names of TLUT instances
+		// optional
+		// <5> : input VHDL file (used to copy VHDL header)
+		// <6> : output VHDL file with (T)LUT structure
+		// <7> : output file with VHDL names of TLUT instances
 		
 		// Read AIG file
 		MappingAIG a = new MappingAIG(args[0]);
@@ -169,23 +167,18 @@ public class TMapSimple {
 		System.out.println("Generating the parameterizable configuration:");
 		AIG<Node, Edge> b;
 		b = a.constructParamConfig(K, true, false);
+		System.out.println("Printing the parameterizable configuration:");
         b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[3]))));
-		b = a.constructParamConfig(K, true, true);
-        b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[4]))));
         
         System.out.println("Writing the LUT structure:"); 
-        if(args.length > 6) {
-        	a.printLutStructureBlif(
-        	    new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))),
-        	    K);
-        	String inVhdFile = args[6];
-        	String vhdFile = args[7];
-        	String nameFile = args[8];
+    	a.printLutStructureBlif(
+    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(args[4]))),
+    	    K);
+        if(args.length > 5) {
+        	String inVhdFile = args[5];
+        	String vhdFile = args[6];
+        	String nameFile = args[7];
         	a.printLutStructureVhdl(inVhdFile, vhdFile, nameFile, K);
-        } else {
-        	a.printLutStructureBlif(
-        	    new PrintStream(new BufferedOutputStream(new FileOutputStream(args[5]))),
-        	    K);
         }
 
 

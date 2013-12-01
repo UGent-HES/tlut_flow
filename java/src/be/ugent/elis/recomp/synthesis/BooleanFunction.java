@@ -85,7 +85,7 @@ public abstract class BooleanFunction {
 	
 	public abstract Boolean evaluate(TruthAssignment assignment);
 
-	private Vector<Minterm> getMinterms() {
+	public Vector<Minterm> getMinterms() {
 		Vector<Minterm> result = new Vector<Minterm>();
 		TruthTable table = new TruthTable(this);
 		
@@ -113,25 +113,9 @@ public abstract class BooleanFunction {
 	public void setOutputVariable(String outputVariable) {
 		this.outputVariable = outputVariable;
 	}
-
-	public String getBlifString(String name) {
-		String temp = this.outputVariable;
-		this.outputVariable = name;
-		String result = getBlifString();
-		this.outputVariable = temp;
-		return result;
-	}
 	
 	public String getBlifString() {
 		String result = new String();
-		
-		result += ".names";
-		for (String in : inputVariable) {
-			result += " " + in;
-		}
-		result += " " + outputVariable;
-		result += "\n";
-		
 		Vector<Minterm> minterms = this.getMinterms();
 		
 		if(minterms.size()==0) {

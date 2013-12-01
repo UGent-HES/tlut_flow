@@ -84,6 +84,7 @@ import be.ugent.elis.recomp.aig.AbstractNode;
 import be.ugent.elis.recomp.aig.ElementFactory;
 import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
+import be.ugent.elis.recomp.synthesis.Minterm;
 
 public class MappingAIG extends AIG<Node, Edge> {
 
@@ -98,78 +99,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 
 	public MappingAIG(SimpleElementFactory simpleElementFactory) {
 		super(new SimpleElementFactory());
-	}
-
-	public void printMappedBlif(PrintStream stream) {		
-		stream.println(".model top");
-	
-		stream.print(".inputs");		
-		for (AbstractNode<Node, Edge> in : getInputs()) {
-			stream.print(" "+in.getName());
-		}	
-		stream.println();
-	
-		stream.print(".outputs");		
-		for (AbstractNode<Node, Edge> out : getOutputs()) {
-			stream.print(" "+out.getName());
-		}
-		stream.println();
-		stream.println();
-		
-		stream.println(".names "+ getConst0().getName());
-		stream.println("0");
-		stream.println();
-				
-		for (AbstractNode<Node, Edge> latch : getLatches()) {
-			Edge e = latch.getI0().getTail().getI0();
-			
-			stream.println(".names "+e.getTail().getName()+" "+latch.getName()+"-edge");
-			if (e.isInverted()) {
-				stream.println("0 1");
-			} else {
-				stream.println("1 1");
-			}
-			
-			stream.print(".latch");
-			stream.print(" "+latch.getName()+"-edge");
-			stream.print(" "+latch.getName());
-			stream.println (" re pclk 2");
-		}
-		stream.println();
-		
-		for (Node and : getAnds()) {
-			if (and.isVisible()) {
-				Cone bestCone = and.getBestCone();
-				BooleanFunction f  = bestCone.getBooleanFunction();
-				stream.println(f.getBlifString());
-			}
-		}
-		
-
-		//The BLIF format is a little annoying.
-		for (AbstractNode<Node, Edge> out : getOutputs()) {
-			Edge e = out.getI0();
-			
-			
-			if (!e.getTail().getName().equals(out.getName())) {
-				stream.println(".names "+e.getTail().getName()+" "+out.getName());
-				if (e.isInverted()) {
-					stream.println("0 1");
-				} else {
-					stream.println("1 1");
-				}
-			} else {
-				// In some cases a latch has the same name as an output
-				// this should solve that problem.
-//				System.out.println("Tets");
-			}
-			
-		}
-		
-		stream.print(".end ");
-		
-		stream.flush();
-		
 	}
 
 	public int numLuts() {
@@ -382,20 +311,23 @@ public class MappingAIG extends AIG<Node, Edge> {
 	public void printLutStructureBlif(PrintStream stream, int K) {
 		stream.println(".model top");
 		
-		stream.print(".inputs");		
+		stream.print(".inputs");
+		//Regular inputs
 		for (Node in : getInputs()) {
 			if (!in.isParameter()) {
 				stream.print(" "+in.getName());
 			}
 		}
+		//TLUT configuration inputs
 		for (Node and : getAnds()) {
-			if (and.isVisible()) {
-				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){
+			if (and.isVisible() && and.getBestCone().isTLUT()) {
+				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted 
+						|| checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
 					for (int entry=0; entry < Math.pow(2,K); entry++) {
 						stream.print(" "+and.getName()+"not"+"_"+entry);
 					}
 				}
-				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
+				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
 					for (int entry=0; entry < Math.pow(2,K); entry++) {
 						stream.print(" "+and.getName()+"_"+entry);
 					}
@@ -404,6 +336,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 		stream.println();
 	
+		//Regular outputs
 		stream.print(".outputs");		
 		for (Node out : getOutputs()) {
 			stream.print(" "+out.getName());
@@ -411,61 +344,58 @@ public class MappingAIG extends AIG<Node, Edge> {
 		stream.println();
 		stream.println();
 		
+		//Constant 0
 		stream.println(".names "+ getConst0().getName());
 		stream.println("0");
 		stream.println();
 				
+		//Latches
 		for (Node latch : getLatches()) {
-			Edge e = latch.getI0().getTail().getI0();
-			Node node =  e.getTail();
-			if(checkOutputLutInversion(node) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(node) == OutputLutInversion.MixedOuts && e.isInverted())){
-				stream.println(".names "+node.getName()+"not"+" "+latch.getName()+"-edge");
-				stream.println("1 1");
-			}
-			else{
-				stream.println(".names "+node.getName()+" "+latch.getName()+"-edge");
-				if (e.isInverted()) {
-					stream.println("0 1");
-				} else {
-					stream.println("1 1");
-				}
-			}
-			stream.print(".latch");
-			stream.print(" "+latch.getName()+"-edge");
-			stream.print(" "+latch.getName());
-			stream.println (" re pclk 2");
+			printLatchBlif(latch, stream);
 		}
 		stream.println();
 		
+		//LUTs and TLUTs
 		for (Node and : getAnds()) {
 			if (and.isVisible()) {
-				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts){
-					printLutBlif(and, stream, K, and.getName()+"not");
+				if(and.getBestCone().isTLUT()) {
+					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted 
+							|| checkOutputLutInversion(and) == OutputLutInversion.MixedOuts)
+						printTLutBlif(and, stream, K, and.getName()+"not");
+					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted)
+						printTLutBlif(and, stream, K, and.getName());
+				} else {
+					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted 
+							|| checkOutputLutInversion(and) == OutputLutInversion.MixedOuts)
+						printLutBlif(and, stream, and.getName()+"not", true);
+					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted)
+						printLutBlif(and, stream, and.getName(), false);
 				}
-				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
-					printLutBlif(and, stream, K, and.getName());
-				}
-				
 			}
 		}
 		
-
+		//Output inversion (conditional)
 		//The BLIF format is a little annoying.
 		for (AbstractNode<Node, Edge> out : getOutputs()) {
 			Edge e = out.getI0();
 			Node node = e.getTail();
-			if(checkOutputLutInversion(node) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(node) == OutputLutInversion.MixedOuts && e.isInverted())){
+			if(checkOutputLutInversion(node) == OutputLutInversion.AllOutsInverted 
+					|| (checkOutputLutInversion(node) == OutputLutInversion.MixedOuts && e.isInverted())) {
 				stream.println(".names "+node.getName()+"not"+" "+out.getName());
 				stream.println("1 1");
-			}
-			else{
-				if (!node.getName().equals(out.getName())){
+			} else {
+				if (!node.getName().equals(out.getName())) {
 					stream.println(".names "+node.getName()+" "+out.getName());
 					if (e.isInverted()) {
 						stream.println("0 1");
 					} else {
 						stream.println("1 1");
 					}
+				} else {
+					// In some cases a latch has the same name as an output
+					// this should solve that problem.
+					if (e.isInverted())
+			            throw new RuntimeException("Unexpected inversion of edge");
 				}
 			}	
 		}
@@ -473,55 +403,101 @@ public class MappingAIG extends AIG<Node, Edge> {
 		stream.print(".end");	
 		
 		stream.flush();
-		
 	}
 
-	public void printLutBlif(Node visibleAnd, PrintStream stream, int K, String lutName){
+	public void printLutBlif(Node and, PrintStream stream, String lutName, boolean inverted) {
+		Cone bestCone = and.getBestCone();
+		BooleanFunction f = bestCone.getBooleanFunction();
+		if(inverted)
+			f = f.invert();
+		
+		stream.print(".names");
+		//Regular LUT inputs
+		Map<String, Node> map = new HashMap<String, Node>();
+		for (Node n : bestCone.getRegularInputs())
+			map.put(n.getName(), n);
+		for(String name : f.getInputVariable()) {
+			Node n = map.get(name);
+			if (checkOutputLutInversion(n) == OutputLutInversion.AllOutsInverted) {
+				stream.print(" "+n.getName()+"not");
+				f.invertInput(n.getName());
+		    } else
+				stream.print(" "+n.getName());
+		}
+		//Output
+		stream.println(" "+lutName);
+		
+		stream.print(f.getBlifString());
+	}
+
+	public void printTLutBlif(Node visibleAnd, PrintStream stream, int K, String lutName) {
 		ConeInterface bestCone = visibleAnd.getBestCone(); 
 		
 		stream.print(".names");
+		//LUT configuration inputs
 		for (int entry=0; entry < Math.pow(2,K); entry++) {
 			stream.print(" "+lutName+"_"+entry);
 		}
+		//Regular LUT inputs
 		int j = 0;
 		for (Node n:bestCone.getRegularInputs()) {
-			if (checkOutputLutInversion(n) == OutputLutInversion.AllOutsInverted){
+			if (checkOutputLutInversion(n) == OutputLutInversion.AllOutsInverted)
 				stream.print(" "+n.getName()+"not");
-			}
-			else{
+			else
 				stream.print(" "+n.getName());
-			}
 			j++;
 		}
+		//Fill up unused inputs
 		while (j < K) {
 			stream.print(" const0");
 			j++;
 		}
+		//Output
 		stream.println(" "+lutName);
 
+		//Implementation of LUT using mux
 		for (int entry=0; entry < Math.pow(2,K); entry++) {
+			//Select configuration bit
 			for (int i =0; i < Math.pow(2,K); i++) {
-				if (i==entry) {
+				if (i==entry)
 					stream.print('1');
-				} else {
+				else
 					stream.print('-');
-				}
 			}
-			
+			//Mux
 			int temp = entry;
 			for (int i = 0; i < K; i++) {
-				if (temp % 2 == 0) {
+				if (temp % 2 == 0)
 					stream.print('0');
-				} else {
+				else
 					stream.print('1');
-				}
 				temp = temp / 2;
 			}
-			
 			stream.println(" 1");
 		}
 		stream.println();
 	} 
+	
+	void printLatchBlif(Node latch, PrintStream stream) {
+		Edge e = latch.getI0().getTail().getI0();
+		Node node =  e.getTail();
+		if(checkOutputLutInversion(node) == OutputLutInversion.AllOutsInverted || 
+				(checkOutputLutInversion(node) == OutputLutInversion.MixedOuts && e.isInverted())) {
+			stream.println(".names "+node.getName()+"not"+" "+latch.getName()+"-edge");
+			stream.println("1 1");
+		} else {
+			stream.println(".names "+node.getName()+" "+latch.getName()+"-edge");
+			if (e.isInverted()) {
+				stream.println("0 1");
+			} else {
+				stream.println("1 1");
+			}
+		}
+		stream.print(".latch");
+		stream.print(" "+latch.getName()+"-edge");
+		stream.print(" "+latch.getName());
+		stream.println (" re pclk 2");
+	}
 	
 	
 	private String stripBrackets(String s) {
@@ -591,8 +567,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 	    //all luts
 	    for (Node and : getAnds()) {
 			if (and.isVisible()) {
-				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
-				        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
+				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted
+				        || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
 					printLutVhdl(baseName, and, stream, nameStream, K, and.getName()+"not", true);	 
 				}
 				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
@@ -607,7 +583,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 			Edge e = out.getI0();
 			String outName = replaceBrackets(out.getName());
             stream.println(outName + " <= " + getEdgeVHDLName(e) + ";");
-            
 		}	
 		stream.print("end;");
 	}
@@ -683,7 +658,6 @@ port map (
 		latchInstance += ",\n\tC => clk";
 				
 		Edge e = latch.getI0().getTail().getI0();
-		Node n = e.getTail();
 		
 		latchInstance += ",\n\tD => " + getEdgeVHDLName(e);	
 		latchInstance += ");\n";
