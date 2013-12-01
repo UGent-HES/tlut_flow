@@ -88,18 +88,25 @@ public class StrashKey < N extends AbstractNode<N,E>, E extends AbstractEdge<N,E
 		if (!(obj instanceof StrashKey<?,?>))
 		      return false;
 		
-		StrashKey<N,E> other = (StrashKey) obj;
+		StrashKey<N,E> other = (StrashKey<N,E>) obj;
 		
-		return (this.node0 == other.node0) && (this.inv0 == other.inv0) && (this.node1 == other.node1) && (this.inv1 == other.inv1); 
+		return ((this.node0 == other.node0) && 
+				(this.inv0 == other.inv0) && 
+				(this.node1 == other.node1) && 
+				(this.inv1 == other.inv1)) ||
+			   ((this.node0 == other.node1) && 
+			    (this.inv0 == other.inv1) && 
+			    (this.node1 == other.node0) && 
+			    (this.inv1 == other.inv0)); 
 
 	}
 	@Override
 	public int hashCode() {
 	    int hash = 1;
-	    hash = hash * 31 + (node0 == null ? 0 : node0.hashCode());
-	    hash = hash * 31 + (inv0 ? 0 : 1);
-	    hash = hash * 31 + (node1 == null ? 0 : node1.hashCode());
-	    hash = hash * 31 + (inv1 ? 0 : 1);
+	    hash = hash * 31 + (inv0 ? 0 : 1)
+				 + (inv1 ? 0 : 1);
+	    hash = hash * 31 + ((node0 == null ? 0 : node0.hashCode())
+	    				 ^ (node1 == null ? 0 : node1.hashCode()));
 		return hash;
 	}
 	
