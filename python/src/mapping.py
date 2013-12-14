@@ -265,8 +265,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
 
 def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
     try:
-        ext = '.blif'
-        assert fname.endswith(ext)
+        assert fname.endswith('blif') or fname.endswith('aig')
         assert basename
         inFile = fname
         outFile =  basename + "-fpga.blif"

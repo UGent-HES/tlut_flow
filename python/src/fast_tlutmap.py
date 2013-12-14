@@ -143,7 +143,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     # Run regular abc fpga
     print "Stage: ABC fpga"
-    numLuts, depth, check = fpgaMapper(baseName, aagFileName, K, performCheck, verboseFlag)
+    numLuts, depth, check = fpgaMapper(baseName, aagtoaig(aagFileName), K, performCheck, verboseFlag)
     print collumnize(['Luts','depth','check'],colwidth)
     print collumnize([numLuts,depth,check],colwidth)
     
