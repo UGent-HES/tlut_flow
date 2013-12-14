@@ -140,8 +140,7 @@ def extract_parameter_names(fname):
         extraction_re = re.compile(r'^(?P<type>input|output)\s*(\[[\w\s+*/-]*:[\w\s+*/-]*\])?\s*(?P<names>[a-z]\w*(\s*,\s*[a-z]\w*)*)$', 
         re.IGNORECASE)
     else:
-        print >> sys.stderr, "Error: Unknown input file type"
-        exit(2)
+        raise Exception("Unknown file type to extract parameters from: %s"%fname)
     
     #read file
     file = open(fname, 'rU')
@@ -150,18 +149,16 @@ def extract_parameter_names(fname):
     
     #extract PARAM section
     nmbrs = index(r"^\s*%s\s*$"%paramDelimiter, lines) #only whitespace allowed before and after --PARAM
+    
+    paramDefs=[]
     if len(nmbrs)==0:
-        print >> sys.stderr, "No parameters ("+paramDelimiter+") found in design"
-        exit()
+        print >> sys.stderr, "Warning: No parameters ('%s' ) found in design"%paramDelimiter
     elif len(nmbrs)==1:
-        print >> sys.stderr, "Error: Invalid parameters section: Only one '"+paramDelimiter+"' statement found"
-        exit(2)
+        raise Exception("Invalid parameters section: Only one '%s' statement found in file: %s"%(paramDelimiter,fname))
     elif len(nmbrs)%2!=0:
-        print >> sys.stderr, "Error: Unclosed parameters section: Uneven number of'"+paramDelimiter+"' statements found"
-        exit(3)
+        raise Exception("Unclosed parameters section: Uneven number of '%s' statements found in file: %s"%(paramDelimiter,fname))
     else:
         #first PARAM section contains parameter signal declarations
-        paramDefs=[]
         for ind in range(len(nmbrs)/2):
             paramDefs.extend(lines[nmbrs[ind*2]+1:nmbrs[ind*2+1]])
         paramDefs = map(removeVhdlComments, paramDefs)
