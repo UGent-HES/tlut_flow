@@ -84,6 +84,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
@@ -276,28 +277,29 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		}
 		
 		//Setting the symbol names
-		String word = scan.next();
-		while (word.charAt(0) != 'c') {
-			int index = Integer.parseInt( word.substring(1) );
-			switch (word.charAt(0)) {
-			case 'i':
-				variable.get(index+1).setName(scan.next());
-				break;
-			case 'o':
-				output.get(index).setName(scan.next());
-				break;
-			case 'l':
-				String name = scan.next();
-				ilatch.get(index).setName(name+"_i");
-				latch.get(index).setName(name);
-				olatch.get(index).setName(name);
-				break;
-			default:
-				break;
-			}
-			word = scan.next();
-			
-		}
+		try {
+                        String word = scan.next();
+                        while (word.charAt(0) != 'c') {
+                                int index = Integer.parseInt( word.substring(1) );
+                                switch (word.charAt(0)) {
+                                case 'i':
+                                        variable.get(index+1).setName(scan.next());
+                                        break;
+                                case 'o':
+                                        output.get(index).setName(scan.next());
+                                        break;
+                                case 'l':
+                                        String name = scan.next();
+                                        ilatch.get(index).setName(name+"_i");
+                                        latch.get(index).setName(name);
+                                        olatch.get(index).setName(name);
+                                        break;
+                                default:
+                                        break;
+                                }
+                                word = scan.next();
+                        }
+                } catch (NoSuchElementException e) {}
 		try {
 			stream.close();
 		} catch (IOException e) {
