@@ -348,7 +348,7 @@ def miter(circuit0, circuit1, verboseFlag=False):
         print output,
     if "UNSATISFIABLE" in output:
         return "PASSED"
-    elif " SATISFIABLE" in output:
+    elif "SATISFIABLE" in output:
         return "FAILED"
     else:
         if not verboseFlag:
