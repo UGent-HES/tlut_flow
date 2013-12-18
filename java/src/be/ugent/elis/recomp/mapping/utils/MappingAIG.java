@@ -216,16 +216,37 @@ public class MappingAIG extends AIG<Node, Edge> {
         boolean copyInv;
         ConfigurationEntry(String n, Node c0, boolean c1) {name = n; copy = c0; copyInv = c1;}
     }
+    
+    private class PolarisedNode {
+    	private Node node;
+    	private boolean inverted;
+    	public PolarisedNode(PolarisedNode pnode) {
+    		this(pnode.node, pnode.inverted);
+    	}
+    	public PolarisedNode(Node node, boolean inverted) {
+			this.node = node;
+			this.inverted = inverted;
+		}
+		public Node getNode() {
+			return this.node;
+		}
+		public boolean isInverted() {
+			return this.inverted;
+		}
+		public void toggleInverted(boolean toggle) {
+			this.inverted ^= toggle;
+		}
+    }
 
 	public AIG<Node, Edge> constructParamConfig(int K, boolean includeTLUTs, boolean includeLUTs) {
 		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
 		
 		
-		Map<Node,Node> parameterCopyMap = new HashMap<Node, Node>();
+		Map<Node, PolarisedNode> parameterCopyMap = new HashMap<Node, PolarisedNode>();
 		for (Node input:this.getInputs()) {
 			if (input.isParameter()) {
 				Node copy = aig.addNode(input.getName(), NodeType.INPUT);
-				parameterCopyMap.put(input, copy);
+				parameterCopyMap.put(input, new PolarisedNode(copy, false));
 			}
 		}
 		
@@ -243,100 +264,57 @@ public class MappingAIG extends AIG<Node, Edge> {
 				ArrayList<ConfigurationEntry> configuration_entries_inv = new ArrayList<ConfigurationEntry>();
 								
 				for (int entry=0; entry < Math.pow(2, K); entry++) {
-					Vector<Boolean> entryBinairy = new Vector<Boolean>();
-					entryBinairy.setSize(K);
+					Map<Node,PolarisedNode> copyMap = new HashMap<Node,PolarisedNode>(parameterCopyMap);
+
 					int temp = entry;
-					for (int i = 0; i < K; i++) {
-						if (temp % 2 == 0) {
-							entryBinairy.set(i, false);
-						} else {
-							entryBinairy.set(i, true);
-						}
+					for (Node input : regularInputs) {
+						copyMap.put(input, new PolarisedNode(aig.getConst0(), 
+							(temp % 2 != 0) ^
+							(checkOutputLutInversion(input) == OutputLutInversion.AllOutsInverted)));
 						temp = temp / 2;
-					}
-					
-					Map<Node,Node>    copyMap    = new HashMap<Node,Node>();
-					Map<Node,Boolean> copyInvMap = new HashMap<Node,Boolean>();
+					}					
 					
 					for (Node orig: bestConeNodesInToOut) {
-						Node origI0   = orig.getI0().getTail();
-						Node copyI0;
-						boolean invI0;
-						//boolean outputLutXorValue0 = checkOutputLutInversion(origI0) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(origI0) == OutputLutInversion.MixedOuts && orig.getI0().isInverted())? true : false;
-						boolean outputLutXorValue0 = checkOutputLutInversion(origI0) == OutputLutInversion.AllOutsInverted ? true : false;
-						if (regularInputs.contains(origI0)) {
-							copyI0 = aig.getConst0();
-							boolean value = entryBinairy.get(regularInputs.indexOf(origI0));
-							invI0  = (orig.getI0().isInverted() ^ value) ^ outputLutXorValue0;
-						} else if (parameterCopyMap.containsKey(origI0)) {
-							copyI0 = parameterCopyMap.get(origI0) ;
-							invI0  = orig.getI0().isInverted() ;
-						} else {
-							copyI0 = copyMap.get(origI0);
-							invI0  = orig.getI0().isInverted() ^ copyInvMap.get(origI0);
-						}
+						Node origI0 = orig.getI0().getTail();
+						PolarisedNode pnodeI0 = new PolarisedNode(copyMap.get(origI0));
+						pnodeI0.toggleInverted(orig.getI0().isInverted());
 						
-						Node origI1   = orig.getI1().getTail();
-						Node copyI1;
-						boolean invI1;
-						//boolean outputLutXorValue1 = checkOutputLutInversion(origI1) == OutputLutInversion.AllOutsInverted || (checkOutputLutInversion(origI1) == OutputLutInversion.MixedOuts && orig.getI1().isInverted())? true : false;
-						boolean outputLutXorValue1 = checkOutputLutInversion(origI1) == OutputLutInversion.AllOutsInverted ? true : false;
-						if (regularInputs.contains(origI1)) {
-							copyI1 = aig.getConst0();
-							boolean value = entryBinairy.get(regularInputs.indexOf(origI1));
-							invI1  = orig.getI1().isInverted() ^ value ^ outputLutXorValue1;
-						} else if (parameterCopyMap.containsKey(origI1)) {
-							copyI1 = parameterCopyMap.get(origI1);
-							invI1  = orig.getI1().isInverted() ;
-						} else {
-							copyI1 = copyMap.get(origI1);
-							invI1  = orig.getI1().isInverted() ^ copyInvMap.get(origI1);
-						}
+						Node origI1 = orig.getI1().getTail();
+						PolarisedNode pnodeI1 = new PolarisedNode(copyMap.get(origI1));
+						pnodeI1.toggleInverted(orig.getI1().isInverted());
 						
 //						Constant propagation
-						if ((copyI0 == aig.getConst0()) && (copyI1 == aig.getConst0())) {
-							copyMap.put(orig, aig.getConst0());
-							if (invI0 && invI1) {
-								copyInvMap.put(orig, true);
+						if (pnodeI1.getNode() == aig.getConst0()) {
+							PolarisedNode swap_var = pnodeI1;
+							pnodeI1 = pnodeI0;
+							pnodeI0 = swap_var;
+						}
+						if (pnodeI0.getNode() == aig.getConst0()) {
+							if (pnodeI0.isInverted()) {
+								copyMap.put(orig, pnodeI1);
 							} else {
-								copyInvMap.put(orig, false);
-							}
-						} else if (copyI0 == aig.getConst0()) {
-							if (invI0) {
-								copyMap.put(orig, copyI1);
-								copyInvMap.put(orig, invI1);
-							} else {
-								copyMap.put(orig, aig.getConst0());
-								copyInvMap.put(orig, false);
-							}
-						} else if (copyI1 == aig.getConst0()) {
-							if (invI1) {
-								copyMap.put(orig, copyI0);
-								copyInvMap.put(orig, invI0);
-							} else {
-								copyMap.put(orig, aig.getConst0());
-								copyInvMap.put(orig, false);
+								copyMap.put(orig, new PolarisedNode(aig.getConst0(), false));
 							}
 //						No constant propagation possible
 						} else {
-							Node copy = aig.findNode(copyI0, invI0, copyI1, invI1);
+							Node copy = aig.findNode(pnodeI0.getNode(), pnodeI0.isInverted(), pnodeI1.getNode(), pnodeI1.isInverted());
 							if (copy == null) {
-								copy = aig.addNode(and.getName()+"_"+entry+"_"+orig.getName(),copyI0, invI0, copyI1, invI1);
+								copy = aig.addNode(and.getName()+"_"+entry+"_"+orig.getName(), pnodeI0.getNode(), pnodeI0.isInverted(), pnodeI1.getNode(), pnodeI1.isInverted());
 							}
-							
-							copyMap.put(orig, copy);
-							copyInvMap.put(orig, false);
+							copyMap.put(orig, new PolarisedNode(copy, false));
 						}
 					}
 							
 					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
 					        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
+						PolarisedNode pnode = copyMap.get(and);
 						configuration_entries_inv.add(new ConfigurationEntry(and.getName()+"not"+"_"+entry, 
-						                                        copyMap.get(and), !copyInvMap.get(and)));
+																pnode.getNode(), !pnode.isInverted()));
 					}
 					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
+						PolarisedNode pnode = copyMap.get(and);
 						configuration_entries.add(new ConfigurationEntry(and.getName()+"_"+entry, 
-						                                        copyMap.get(and), copyInvMap.get(and)));
+																pnode.getNode(), pnode.isInverted()));
 					}
 				}
 				
