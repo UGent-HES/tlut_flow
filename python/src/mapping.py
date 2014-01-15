@@ -283,7 +283,7 @@ def aagtoaig(aagFileName):
     
     os.system("rm -f "+aigFileName)
     subprocess.check_call(['aigtoaig',aagFileName,aigFileName])
-    if not os.path.exists(aigFileName):
+    if not os.path.exists(aigFileName) or os.path.getsize(aigFileName) == 0:
         raise Exception("aigtoaig unsuccesful: aig file %s was not created"%aigFileName)
     return aigFileName
 
@@ -294,7 +294,7 @@ def aigtoaag(aigFileName):
         
     os.system("rm -f "+aagFileName)
     subprocess.check_call(['aigtoaig',aigFileName,aagFileName])
-    if not os.path.exists(aagFileName):
+    if not os.path.exists(aagFileName) or os.path.getsize(aagFileName) == 0:
         raise Exception("aigtoaig unsuccesful: aag file %s was not created"%aagFileName)
     return aagFileName
  
