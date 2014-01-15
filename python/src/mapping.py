@@ -85,7 +85,7 @@ def getBasenameAndExtension(filename):
     assert baseName
     return baseName, ext
 
-def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
+def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
@@ -133,7 +133,7 @@ def simpleMapper(basename, fname, K, checkFunctionality,verboseFlag=False):
         raise
     return (numLuts, depth, check)
 
-def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generateImplementationFilesFlag, verboseFlag=False):
+def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generateImplementationFilesFlag, inVhdFileName=None, verboseFlag=False):
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
@@ -153,7 +153,10 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         tlutconfFile = basename + "-tlutconfig.aag"
         parconfFile = basename + "-parconfig.aag"
         lutstructFile = basename + "-lutstruct.blif"
-        inVhdFile = basename + ".vhd"
+        if inVhdFileName == None:
+            inVhdFile = basename + ".vhd"
+        else:
+            inVhdFile = inVhdFileName
         outVhdFile = basename + "-simpletmap.vhd"
         nameFile = basename +"-names.txt"
         
