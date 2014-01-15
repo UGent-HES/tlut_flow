@@ -76,7 +76,7 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #Copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, synthesizedFileName=None, verboseFlag=False):
+def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, synthesizedFileName=None, verboseFlag=False, targetDepth=None):
     baseName, ext = getBasenameAndExtension(os.path.basename(module))
         
     if virtexFamily in ("virtex2pro",):
@@ -125,7 +125,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
     numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag)
+        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth) #, [ '--notlut'])
     print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
     
@@ -138,13 +138,13 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     # Run regular MAP
     print "Stage: SimpleMAP"
-    numLuts, depth, check = simpleMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag)
+    numLuts, depth, check = simpleMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag, targetDepth)
     print collumnize(['Luts','depth','check'],colwidth)
     print collumnize([numLuts,depth,check],colwidth)
     
     # Run regular abc fpga
     print "Stage: ABC fpga"
-    numLuts, depth, check = fpgaMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag)
+    numLuts, depth, check = fpgaMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag, targetDepth)
     print collumnize(['Luts','depth','check'],colwidth)
     print collumnize([numLuts,depth,check],colwidth)
     

@@ -70,8 +70,6 @@ import os, sys, shutil, commands, subprocess, re
 from itertools import islice
 
 
-target_depth = 100
-
 maxMemory = 1024
 #set maximum memory usage of Java tools, in MB
 def setMaxMemory(mm):
@@ -86,7 +84,7 @@ def getBasenameAndExtension(filename):
     assert baseName
     return baseName, ext
 
-def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
+def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False, target_depth=None, extra_args=[]):
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
@@ -102,8 +100,8 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
         # Actual mapping using Java tool
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.simple.SimpleMapper']
         # args: input aag file, inputs per LUT, output blif file
-        args = [aagFile, str(K), outFile]
-        if target_depth != -1:
+        args = [aagFile, str(K), outFile] + extra_args
+        if target_depth != None:
             args.append('-d%d'%target_depth)
         if verboseFlag:
             print ' '.join(cmd + args)
@@ -126,7 +124,7 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
         raise
     return (numLuts, depth, check)
 
-def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generateImplementationFilesFlag, inVhdFileName=None, verboseFlag=False):
+def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generateImplementationFilesFlag, inVhdFileName=None, verboseFlag=False, target_depth=None, extra_args=[]):
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
@@ -152,8 +150,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
         # args: input aag of design, input file with parameters, number of inputs per LUT, output configuration bits of tluts as aag, output parameterised configuration bits luts and tluts as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
-        args = [aagFile, paramFileName, str(K), parconfFile, lutstructFile]
-        if target_depth != -1:
+        args = [aagFile, paramFileName, str(K), parconfFile, lutstructFile] + extra_args
+        if target_depth != None:
             args.append('-d%d'%target_depth)
         if generateImplementationFilesFlag: args.extend([inVhdFile, outVhdFile, nameFile])
         if verboseFlag:
@@ -239,14 +237,14 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         raise
     return (numLuts, numTLuts, depth, avDup, origAnds, paramAnds, check)    
 
-def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
+def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False, target_depth=None):
     try:
         assert basename
         inFile = toaig(fname)
         outFile =  basename + "-fpga.blif"
         
         abc_cmd =  'strash; fpga -K %d'%K
-        if target_depth != -1:
+        if target_depth != None:
             abc_cmd += ' -D %f'%target_depth
         abc_cmd += '; write %s; print_stats'%outFile
         cmd = ['abc', '-c', abc_cmd, inFile]
