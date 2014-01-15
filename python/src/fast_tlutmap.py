@@ -66,7 +66,7 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 '''
 
-import os, sys
+import os, sys, random
 from mapping import *
 from genParameters import extract_parameter_signals, extract_parameter_names 
 
@@ -87,7 +87,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         raise Exception("Unknown virtex family: %s"%virtexFamily)
     
     # Setup working directory
-    workDir = "work/"+baseName
+    workDir = "work/%s_%X"%(baseName, random.randint(0,2**24))
     print "Stage: Creating %s directory and copying design"%workDir
     workFiles = [module] + submodules
     if qsfFileName: workFiles.append(qsfFileName)
