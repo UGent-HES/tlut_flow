@@ -124,16 +124,23 @@ public class TMapSimple {
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
         OptionSpec<Integer> depth_option =
                 parser.accepts("depth").withRequiredArg().ofType( Integer.class ).defaultsTo(-1);
+        OptionSpec<Void> noTLUT_option =
+                parser.accepts("notlut");
         OptionSet options = parser.parse(args);
         
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
         int target_depth = depth_option.value(options);
+        boolean noTLUT_flag = options.has(noTLUT_option);
         
 
 		// Read AIG file
 		MappingAIG a = new MappingAIG(arguments[0]);
 		
-		a.visitAll(new ParameterMarker(new FileInputStream(arguments[1])));
+		if(!noTLUT_flag) {
+			a.visitAll(new ParameterMarker(new FileInputStream(arguments[1])));
+		} else {
+			System.out.println("Warning: no tlut option active");
+		}
 		
 		a.fixAIG();
 		
@@ -168,7 +175,10 @@ public class TMapSimple {
         System.out.println("Cone Selection:");
         a.visitAllInverse(new ConeSelection());
 
-        //Resource sharing
+		if(noTLUT_flag)
+			a.visitAll(new ParameterMarker(new FileInputStream(arguments[1])));
+
+		// Resource sharing
         System.out.println("Activation Function Builder:");
         ActivationFunctionBuilder.run(a);
         System.out.println("Resource Sharing:");

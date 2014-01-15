@@ -160,13 +160,22 @@ public class ResourceSharingOpportunitiesCalculator {
 					sb.append(set.getActivationFunction().toString());
 				sb.append(',');
 			}
+			int num_and_nodes = 0;
+			for(Node node : getNodes())
+				num_and_nodes += node.isGate() ? 1 : 0;
+			sb.append("},num_and_nodes{"+num_and_nodes);
 			sb.append("},num_nodes{");
 			sb.append(getNodes().size());
-			sb.append("},nodes{");
-			for(Node node : getNodes()) {
-				//sb.append(node.getName());
-				//sb.append(',');
-			}
+//			sb.append("},nodes{");
+//			for(Node node : getNodes()) {
+//				sb.append(node.getName());
+//				sb.append(',');
+//			}
+			sb.append("},bdd_ids{");
+			int varProfile[] = getActivationFunction().varProfile();
+			for(int id = 0; id < varProfile.length; id++)
+				if(varProfile[id] != 0)
+					sb.append(""+id+",");
 			sb.append("})");
 			return sb.toString();
 		}
@@ -184,11 +193,23 @@ public class ResourceSharingOpportunitiesCalculator {
 		for(ActivationSet set : activationSets.values()) {
 			sane &= set.sanityCheck();
 		}
-
 		if(!sane) {
-			System.err.println("Error: unsane");
+			System.err.println("Error: ResourceSharingOpportunitiesCalculator not sane (1)");
 			System.exit(1);
 		}
+		
+		Set<Node> allNodes = new HashSet<Node>();
+		for(ActivationSet set : activationSets.values()) {
+			for(Node node : set.getNodes()) {
+				sane &= !allNodes.contains(node);
+				allNodes.add(node);
+			}
+		}
+		if(!sane) {
+			System.err.println("Error: ResourceSharingOpportunitiesCalculator not sane (2)");
+			System.exit(1);
+		}
+		System.out.println("Total num nodes: "+allNodes.size());
 	}
 	
 	public void run(AIG<Node, Edge> aig) {
@@ -292,6 +313,15 @@ public class ResourceSharingOpportunitiesCalculator {
 			set.setSharingOpportunities(sharing_opportunities);
 		}
 		reduced_opportunities.cleanUpUselessSets();
+		reduced_opportunities.sanityCheck();
+		for(ActivationSet set : reduced_opportunities.activationSets.values()) {
+			for(Node node : set.getNodes()) {
+				if(!node.isVisible()) {
+					System.err.println("Error: ResourceSharingOpportunitiesCalculator not sane (3)");
+					System.exit(1);
+				}
+			}
+		}
 		return reduced_opportunities;
 	}
 	

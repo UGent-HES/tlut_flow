@@ -92,7 +92,7 @@ public class ActivationFunctionBuilder {
         ActivationFunctionBuilder.run(a);
     }
 	
-	static final int g_node_max = 20;
+	static final int g_node_max = 1000000;
     private BDDFactory B;
     private ArrayList<Node> parameter_list;
 	
@@ -116,6 +116,9 @@ public class ActivationFunctionBuilder {
 				System.out.println("Warning: Unused latch or input: "+node.getName());
 			}
 		}
+		
+		for (int i=0; i<parameter_list.size(); i++)
+			System.out.println("INFO: parameter '"+parameter_list.get(i).getName()+"' has BDD id '"+i+"'");
 		finalise(aig);
 	}
 	

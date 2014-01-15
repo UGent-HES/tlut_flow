@@ -110,7 +110,7 @@ public class SimpleMapper {
 
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
         int target_depth = depth_option.value(options);
-
+        
         // Read AIG file
 		MappingAIG a = new MappingAIG(arguments[0]);
 		
@@ -118,8 +118,7 @@ public class SimpleMapper {
 		
 		// Mapping
 		System.out.println("Cone Enumeration:");
-		ConeEnumeration enumerator = new ConeEnumeration(K); 
-
+		ConeEnumeration enumerator = new ConeEnumeration(K, false); 
         a.visitAll(enumerator);        
 		System.out.println("Cone Ranking:");
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
