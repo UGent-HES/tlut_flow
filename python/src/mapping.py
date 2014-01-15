@@ -241,16 +241,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         if checkFunctionality:
             # Merging the LUT-structure and the parameterizable configuration.
             mergedFile =  basename + "-merge.aag"
-            cmd  = ['java',
-                        '-server',
-                        '-Xms%dm'%maxMemory,
-                        '-Xmx%dm'%maxMemory,
-                        'be.ugent.elis.recomp.aig.MergeAag']
-            # args: input parameterized configuration in aag, input lut structure, output aag
-            args = [parconfFile, bliftoaag(lutstructFile), mergedFile]
-            if verboseFlag:
-                print ' '.join(cmd + args)
-            output = subprocess.check_output(cmd + args);
+            mergeaag(parconfFile, bliftoaag(lutstructFile), mergedFile, verboseFlag)
         
             # Check if the merge of the LUT-structure and the parameterizable 
             # configuration have the same functionality as the input circuit.    
@@ -334,6 +325,18 @@ def bliftoaag(blifFileName):
     
     aagFileName = aigtoaag(aigFileName)
     return aagFileName
+
+def mergeaag(aagFileName1, aagFileName2, mergedAagFileName, verboseFlag=False):
+    # connects the outputs of aag 1 to the inputs of aag 2 with the same name
+    cmd  = ['java',
+                '-server',
+                '-Xms%dm'%maxMemory,
+                '-Xmx%dm'%maxMemory,
+                'be.ugent.elis.recomp.aig.MergeAag']
+    args = [aagFileName1, aagFileName2, mergedAagFileName]
+    if verboseFlag:
+        print ' '.join(cmd + args)
+    output = subprocess.check_output(cmd + args)
 
 def miter(circuit0, circuit1, verboseFlag=False):
     cmd = ['abc', '-c', 'miter ' + circuit0 + ' ' + circuit1 + '; prove']
