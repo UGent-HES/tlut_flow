@@ -77,7 +77,16 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
 public class HeightCalculator implements Visitor<Node, Edge> {
-	double oDepth = 0.;
+	double oDepth;
+
+	public HeightCalculator() {
+		this.oDepth = 0.;
+	}
+	
+	public HeightCalculator(double depth) {
+		this.oDepth = depth;
+		// Target depth will be overriden by the maximum depth of the circuit if larger.
+	}
 
 	public void init(AIG<Node, Edge> aig) {
 		for (Node n : aig.getAllNodes())
@@ -111,9 +120,10 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 			}
 
 		} else if (node.isPrimaryInput()) {
+			node.setRequiredTime(0.);
 		}
 
-		// System.out.println(node.getName());
+		//System.out.println(node.getName() + " : " + node.getRequiredTime());
 	}
 
 }

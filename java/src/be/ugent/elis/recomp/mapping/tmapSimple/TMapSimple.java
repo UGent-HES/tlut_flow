@@ -75,6 +75,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import joptsimple.OptionSpec;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
@@ -123,13 +129,13 @@ public class TMapSimple {
         
 
 		// Read AIG file
-		MappingAIG a = new MappingAIG(args[0]);
+		MappingAIG a = new MappingAIG(arguments[0]);
 		
-		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
+		a.visitAll(new ParameterMarker(new FileInputStream(arguments[1])));
 		
 		a.fixAIG();
 		
-		int K = Integer.parseInt(args[2]);
+		int K = Integer.parseInt(arguments[2]);
 
 		// Mapping
 		ConeEnumeration enumerator = new ConeEnumeration(K);
@@ -140,27 +146,28 @@ public class TMapSimple {
 
         double depthBeforeAreaRecovery = a.getDepth();
         a.visitAllInverse(new ConeSelection());
-        a.visitAllInverse(new HeightCalculator());
+        a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));
         a.visitAllInverse(new ConeSelection());
-        a.visitAllInverse(new HeightCalculator());
+        a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
-        if(depthBeforeAreaRecovery != a.getDepth()) {
-        	System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
-        	System.exit(1);
+        if(target_depth == -1) {
+        	if(depthBeforeAreaRecovery != a.getDepth()) {
+        		System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
+        		System.exit(1);
+        	}
+        } else {
+        	if(a.getDepth() > target_depth) {
+        		System.err.println("Depth ("+a.getDepth()+") greater than target depth: "+target_depth);
+        		System.exit(1);
+        	}
         }
 
-
-		//Frees memory when possible
-//		System.out.println("Cone Enumeration and Ranking:");
-//		ConeEnumeration enumerator = new ConeEnumeration(K);
-//        a.visitAll(enumerator,new ConeRanking(), new ConeSetRemove());
-        
-        
         System.out.println("Cone Selection:");
         a.visitAllInverse(new ConeSelection());
 
         
+        // Output
 		System.out.println("Generating the parameterizable configuration:");
 		AIG<Node, Edge> b;
 		b = a.constructParamConfig(K, true, false);

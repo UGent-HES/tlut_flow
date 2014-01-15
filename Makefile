@@ -26,7 +26,7 @@ source :
 	echo "export PATH=${PWD}/python/src:${PWD}/third_party/bin:"'$${PATH}' > source
 	echo "export CLASSPATH=${PWD}/java/bin:${PWD}/third_party/rapidSmith/jars/hessian-${HESSIAN_VERSION}.jar:"'$${CLASSPATH:-}' >> source
 	echo "export CLASSPATH=${PWD}/third_party/JavaBDD/javabdd-1.0b2.jar:"'$${CLASSPATH:-}' >> source
-	echo "export CLASSPATH=${PWD}/third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar"'$${CLASSPATH:-}' >> source
+	echo "export CLASSPATH=${PWD}/third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar:"'$${CLASSPATH:-}' >> source
 	echo "export PYTHONPATH=${PWD}/python/src:"'$${PYTHONPATH:-}' >> source
 	echo "export RAPIDSMITH_PATH=${PWD}/third_party/rapidSmith" >> source
 	echo "export TLUTFLOW_PATH=${PWD}" >> source
