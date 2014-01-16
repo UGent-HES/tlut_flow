@@ -89,19 +89,9 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
-        aigFile  = basefname + ".aig"
-        aagFile  = basefname + ".aag"
+        aigFile  = toaig(fname)
+        aagFile  = toaag(fname)
         outFile =  basename + "-simple.blif"
-        
-        #create aig and aag version of input file
-        if ext == 'blif':
-            bliftoaag(fname) #also generates aig file
-        elif ext == 'aig':
-            aigtoaag(fname)
-        elif ext == 'aag':
-            aagtoaig(fname)
-        else:
-            assert ext in ('blif','aig','aag')
         
         requiredFiles = [aagFile, aigFile]
         for file in requiredFiles:
@@ -137,18 +127,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
-        aigFile  = basefname + ".aig"
-        aagFile  = basefname + ".aag"
-        
-        #create aig and aag version of input file
-        if ext == 'blif':
-            bliftoaag(fname) #also generates aig file
-        elif ext == 'aig':
-            aigtoaag(fname)
-        elif ext == 'aag':
-            aagtoaig(fname)
-        else:
-            assert ext in ('blif','aig','aag')
+        aigFile  = toaig(fname)
+        aagFile  = toaag(fname)
             
         tlutconfFile = basename + "-tlutconfig.aag"
         parconfFile = basename + "-parconfig.aag"
@@ -214,12 +194,11 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
     
         # Resynthesize Parameterizable Configuration
         tlutconfbasename, parext = getBasenameAndExtension(tlutconfFile)
-        resynthesisedAIGtlutconffile = resynthesize(tlutconfbasename, aagtoaig(tlutconfFile), 
+        tlutconfFile = resynthesize(tlutconfbasename, tlutconfFile, 
             'rw; rf; rw; rwz; rfz; rwz', verboseFlag)
-        tlutconfFile = aigtoaag(resynthesisedAIGtlutconffile)
         
         # Extracting results: Parameterizable Configuration
-        cmd = ['abc','-c','print_stats', aagtoaig(tlutconfFile)]
+        cmd = ['abc','-c','print_stats', toaig(tlutconfFile)]
         try:
             output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
             if verboseFlag:
@@ -244,12 +223,11 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         if checkFunctionality:
             # Merging the LUT-structure and the parameterizable configuration.
             mergedFile =  basename + "-merge.aag"
-            mergeaag(parconfFile, bliftoaag(lutstructFile), mergedFile, verboseFlag)
+            mergeaag(parconfFile, lutstructFile, mergedFile, verboseFlag)
         
             # Check if the merge of the LUT-structure and the parameterizable 
             # configuration have the same functionality as the input circuit.    
-            mergedAigFile = aagtoaig(mergedFile)
-            check = miter(aigFile, mergedAigFile, verboseFlag)
+            check = miter(aigFile, mergedFile, verboseFlag)
         else:
             check = "SKIPPED"
     except subprocess.CalledProcessError as e:
@@ -259,9 +237,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
 
 def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
     try:
-        assert fname.endswith('blif') or fname.endswith('aig')
         assert basename
-        inFile = fname
+        inFile = toaig(fname)
         outFile =  basename + "-fpga.blif"
         
         cmd = ['abc', '-c', 'strash; fpga -K '+str(K)+'; write '+outFile+'; print_stats', inFile]
@@ -286,14 +263,18 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
         else:
             check = "SKIPPED"
     except subprocess.CalledProcessError as e:
+        if not verboseFlag:
+            print cmd
+            print output
         print >> sys.stderr, e.output
         raise
     return (numLuts, depth, check)
 
 def aagtoaig(aagFileName):
     basename, ext = getBasenameAndExtension(aagFileName)
-    assert ext == 'aag'
+    assert ext == 'aag', "aagtoaig: the extension of this file is not aag: %s"%aagFileName
     aigFileName = basename + '.aig'
+    
     os.system("rm -f "+aigFileName)
     subprocess.check_call(['aigtoaig',aagFileName,aigFileName])
     if not os.path.exists(aigFileName):
@@ -302,46 +283,67 @@ def aagtoaig(aagFileName):
 
 def aigtoaag(aigFileName):
     basename, ext = getBasenameAndExtension(aigFileName)
-    assert ext == 'aig'
+    assert ext == 'aig', "aigtoaag: the extension of this file is not aig: %s"%aigFileName
     aagFileName = basename + '.aag'
+        
     os.system("rm -f "+aagFileName)
     subprocess.check_call(['aigtoaig',aigFileName,aagFileName])
     if not os.path.exists(aagFileName):
         raise Exception("aigtoaig unsuccesful: aag file %s was not created"%aagFileName)
     return aagFileName
  
-def bliftoaag(blifFileName):
+def bliftoaig(blifFileName):
     basename, ext = getBasenameAndExtension(blifFileName)
-    assert ext == 'blif'
+    assert ext == 'blif', "bliftoaag: the extension of this file is not blif: %s"%blifFileName
     aigFileName = basename + '.aig'
-
-    # There seems to be a bug in bliftoaig when input file is large.
-    # subprocess.check_call(['bliftoaig',blifFileName,basename+'.aag'])
-    # return basename+'.aag'
 
     os.system("rm -f "+aigFileName)
     cmd = ['abc', '-c', 'strash; zero; write '+aigFileName, blifFileName]
-    subprocess.check_call(cmd)
+    output = subprocess.check_output(cmd)
     if not os.path.exists(aigFileName):
-        raise Exception("abc unsuccesful: aig file %s was not created"%aigFileName)
-    print 'Please ignore the error message "Error: The current network is combinational".'
-    
-    aagFileName = aigtoaag(aigFileName)
-    return aagFileName
+        print output
+        raise Exception("bliftoaig: abc unsuccesful: aig file %s was not created"%aigFileName)
+    #print 'Please ignore the error message "Error: The current network is combinational".'
+    return aigFileName
 
-def mergeaag(aagFileName1, aagFileName2, mergedAagFileName, verboseFlag=False):
+def toaig(fileName):
+    basename, ext = getBasenameAndExtension(fileName)
+    if ext == 'aig':
+        return fileName
+    elif ext == 'aag':
+        return aagtoaig(fileName)
+    elif ext == 'blif':
+        return bliftoaig(fileName)
+    else:
+        raise Exception("toaig does not support the extension of this file: %s"%fileName)
+        
+def toaag(fileName):
+    basename, ext = getBasenameAndExtension(fileName)
+    if ext == 'aag':
+        return fileName
+    elif ext == 'aig':
+        return aigtoaag(fileName)
+    elif ext == 'blif':
+        return aigtoaag(bliftoaig(fileName))
+    else:
+        raise Exception("toaag does not support the extension of this file: %s"%fileName)
+
+def mergeaag(fileName1, fileName2, mergedAagFileName, verboseFlag=False):
+    assert mergedAagFileName.endswith('aag')
     # connects the outputs of aag 1 to the inputs of aag 2 with the same name
     cmd  = ['java',
                 '-server',
                 '-Xms%dm'%maxMemory,
                 '-Xmx%dm'%maxMemory,
                 'be.ugent.elis.recomp.aig.MergeAag']
-    args = [aagFileName1, aagFileName2, mergedAagFileName]
+    args = [toaag(fileName1), toaag(fileName2), mergedAagFileName]
     if verboseFlag:
         print ' '.join(cmd + args)
     output = subprocess.check_output(cmd + args)
 
 def miter(circuit0, circuit1, verboseFlag=False):
+    circuit0 = toaig(circuit0)
+    circuit1 = toaig(circuit1)
     cmd = ['abc', '-c', 'miter ' + circuit0 + ' ' + circuit1 + '; prove']
     if verboseFlag:
         print ' '.join(cmd)
@@ -363,12 +365,12 @@ def miter(circuit0, circuit1, verboseFlag=False):
         raise Exception("Unexpected output from miter computation (verification)")
 
 def resynthesize(basename, fname, script='resyn2', verboseFlag=False):
+    fname = toaig(fname)
     basefname, ext = getBasenameAndExtension(fname)
-    assert ext in ('blif', 'aig'), "File extension of file (%s) is not blif or aig"%fname
-    outFileName = '%s_resyn.%s'%(basename, ext)
+    outFileName = '%s_resyn.aig'%(basename)
     os.system("rm -f "+outFileName)
     
-    cmd = ['abc', '-c', script+'; write '+outFileName, fname]
+    cmd = ['abc', '-c', script+'; zero; write '+outFileName, fname]
     try:
         output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
@@ -430,11 +432,11 @@ def synthesize(top, qsfFileName, verboseFlag=False):
     
     return blifFileName
     
-def printCFunction(aagFileName, CFileName, headerFileName, virtexFamily, verboseFlag=False):
+def printCFunction(fileName, CFileName, headerFileName, virtexFamily, verboseFlag=False):
     if virtexFamily not in ("virtex2pro","virtex5",):
         raise Exception('Unsupported FPGA family:%s, Supported FPGA families: virtex2pro, virtex5'%virtexFamily)
     cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.aig.MakeCEvaluator']
-    args = [aagFileName, CFileName, headerFileName, virtexFamily]
+    args = [toaag(fileName), CFileName, headerFileName, virtexFamily]
     if verboseFlag:
     	print ' '.join(cmd +args)
     output = subprocess.check_output(cmd + args);

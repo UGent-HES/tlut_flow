@@ -100,7 +100,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     print "Stage: Synthesizing"
     if qsfFileName == None:
         qsfFileName = generateQSF(module, submodules)
-    blifFileName = synthesize(module, qsfFileName, verboseFlag)
+    synthesizedFileName = synthesize(module, qsfFileName, verboseFlag)
     
     # Automatically extract parameters from VHDL
     print "Stage: Generating parameters"
@@ -108,23 +108,22 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         parameterFileName = baseName+'.par'
         with open(parameterFileName, "w") as parameterFile:
             parameter_names = extract_parameter_names(module)
-            parameter_signals = extract_parameter_signals(parameter_names, blifFileName)
+            parameter_signals = extract_parameter_signals(parameter_names, synthesizedFileName)
             print >>parameterFile, '\n'.join(parameter_signals)
         print "Attention: Verify the detected parameters by inspecting %s/%s"%(workDir, parameterFileName)
     if verboseFlag:
         print "Parameters:"
         os.system('cat %s'%parameterFileName)
         
-    # Resynthesize blif (and convert to aag)
+    # Resynthesize
     if resynthesizeFlag:
-        aagFileName = resynthesize(baseName, blifFileName)
-    else:
-    # Convert blif to aag
-        aagFileName = bliftoaag(blifFileName)
+        synthesizedFileName = resynthesize(baseName, synthesizedFileName)
     
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
-    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag)
+    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag)
+    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = \
+        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag)
     print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
     
@@ -137,13 +136,13 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     # Run regular MAP
     print "Stage: SimpleMAP"
-    numLuts, depth, check = simpleMapper(baseName, aagFileName, K, performCheck, verboseFlag)
+    numLuts, depth, check = simpleMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','depth','check'],colwidth)
     print collumnize([numLuts,depth,check],colwidth)
     
     # Run regular abc fpga
     print "Stage: ABC fpga"
-    numLuts, depth, check = fpgaMapper(baseName, aagtoaig(aagFileName), K, performCheck, verboseFlag)
+    numLuts, depth, check = fpgaMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag)
     print collumnize(['Luts','depth','check'],colwidth)
     print collumnize([numLuts,depth,check],colwidth)
     
