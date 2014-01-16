@@ -196,7 +196,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
     
         # Resynthesize Parameterizable Configuration
         parconfbasename, parext = getBasenameAndExtension(parconfFile)
-        parconfFile = resynthesize(parconfbasename, toaig(parconfFile), 
+        parconfFile = resynthesize(parconfbasename, parconfFile, 
             'rw; rf; rw; rwz; rfz; rwz', verboseFlag)
         
         # Extracting results: Parameterizable Configuration
@@ -280,6 +280,12 @@ def aagtoaig(aagFileName):
     basename, ext = getBasenameAndExtension(aagFileName)
     assert ext == 'aag', "aagtoaig: the extension of this file is not aag: %s"%aagFileName
     aigFileName = basename + '.aig'
+<<<<<<< HEAD
+=======
+    if os.path.exists('aigFileName') and \
+            os.path.getctime('aagFileName') < os.path.getctime('aigFileName'):
+        return
+>>>>>>> simplified aag/aig/blif conversion
     
     os.system("rm -f "+aigFileName)
     subprocess.check_call(['aigtoaig',aagFileName,aigFileName])
@@ -291,6 +297,12 @@ def aigtoaag(aigFileName):
     basename, ext = getBasenameAndExtension(aigFileName)
     assert ext == 'aig', "aigtoaag: the extension of this file is not aig: %s"%aigFileName
     aagFileName = basename + '.aag'
+<<<<<<< HEAD
+=======
+    if os.path.exists('aagFileName') and \
+            os.path.getctime('aigFileName') < os.path.getctime('aagFileName'):
+        return
+>>>>>>> simplified aag/aig/blif conversion
         
     os.system("rm -f "+aagFileName)
     subprocess.check_call(['aigtoaig',aigFileName,aagFileName])
@@ -302,12 +314,21 @@ def bliftoaig(blifFileName):
     basename, ext = getBasenameAndExtension(blifFileName)
     assert ext == 'blif', "bliftoaag: the extension of this file is not blif: %s"%blifFileName
     aigFileName = basename + '.aig'
+<<<<<<< HEAD
+=======
+    if os.path.exists('aigFileName') and \
+            os.path.getctime('blifFileName') < os.path.getctime('aigFileName'):
+        return
+>>>>>>> simplified aag/aig/blif conversion
 
     os.system("rm -f "+aigFileName)
     cmd = ['abc', '-c', 'strash; zero; write '+aigFileName, blifFileName]
     output = subprocess.check_output(cmd)
     if not os.path.exists(aigFileName):
+<<<<<<< HEAD
         print output
+=======
+>>>>>>> simplified aag/aig/blif conversion
         raise Exception("bliftoaig: abc unsuccesful: aig file %s was not created"%aigFileName)
     #print 'Please ignore the error message "Error: The current network is combinational".'
     return aigFileName
