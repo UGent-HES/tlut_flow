@@ -189,16 +189,16 @@ public class TMapSimple {
 		AIG<Node, Edge> b;
 		b = a.constructParamConfig(K, true, false);
 		System.out.println("Printing the parameterizable configuration:");
-        b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(args[3]))));
+        b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(arguments[3]))));
         
         System.out.println("Writing the LUT structure:"); 
     	a.printLutStructureBlif(
-    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(args[4]))),
+    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]))),
     	    K);
-        if(args.length > 5) {
-        	String inVhdFile = args[5];
-        	String vhdFile = args[6];
-        	String nameFile = args[7];
+        if(arguments.length > 5) {
+        	String inVhdFile = arguments[5];
+        	String vhdFile = arguments[6];
+        	String nameFile = arguments[7];
         	a.printLutStructureVhdl(inVhdFile, vhdFile, nameFile, K);
         }
 
