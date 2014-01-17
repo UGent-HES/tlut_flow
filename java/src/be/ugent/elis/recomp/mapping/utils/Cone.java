@@ -117,16 +117,9 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 
 
 	public Cone() {
-		this.root = null;
-		this.regularLeaves = new HashSet<Node>();
-//		this.parameterLeaves = new HashSet<Node>();
-		
-		this.areaflow = 0;
-		this.depth = 0;
-
+		this(null);
 	}
 
-	
 	public Cone(Node node) {
 		this.root = node;
 		this.regularLeaves = new HashSet<Node>();

@@ -114,7 +114,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ConeSet result = new ConeSet(node);
 		
 		if (allow_TLUT_cones && node.isParameter()) {
-			result.add(Cone.emptyCone(node));
+			result.addAll(mergeParameterConeSets(node));
 			//System.out.println(node.getName());
 		} else {
 			
@@ -138,6 +138,12 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		node.setConeSet(result);
 		
 		//System.out.println(node.getName() + ": " + nmbrCones);
+	}
+	
+	protected ConeSet mergeParameterConeSets(Node node) {
+		ConeSet result = new ConeSet(node);
+		result.add(Cone.emptyCone(node));
+		return result;
 	}
 
 	protected ConeSet mergeInputConeSets(Node node) {
