@@ -96,6 +96,8 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	
 	protected int signature;
 	
+	private BDD function;
+	
 	private double depth;
 	private double areaflow;
 	private int area;
@@ -123,11 +125,12 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	public Cone(Node node) {
 		this.root = node;
 		this.regularLeaves = new HashSet<Node>();
+		this.signature = 0;
+		this.function = null;
 //		this.parameterLeaves = new HashSet<Node>();
 		
 		this.areaflow = 0;
 		this.depth = 0;
-
 	}
 	
 	public static ConeInterface createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
@@ -147,6 +150,20 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		
 		return result;
 	}
+	
+	private static BDD computeFunctionOfMergedCones(Node root, Cone cone0, Cone cone1) {
+		BDD function0 = cone0.getFunction().id();
+		BDD function1 = cone1.getFunction().id();
+		
+		if(root.getI0().isInverted())
+			function0 = function0.not();
+		if(root.getI1().isInverted())
+			function1 = function1.not();
+		
+		BDD result = function0.andWith(function1);
+		
+		return result;
+	}
 
 	public static Cone mergeCones(Node node, Cone cone0, Cone cone1) {
 		Cone result = new Cone(node);
@@ -155,7 +172,17 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		
 		result.addLeaves(cone0);
 		result.addLeaves(cone1);
+		
+		result.setFunction(computeFunctionOfMergedCones(node, cone0, cone1));
 	
+		return result;
+	}
+	
+	public static Cone mergeParameterCones(Node node, Cone cone0, Cone cone1) {
+		Cone result = emptyCone(node);
+		
+		result.setFunction(computeFunctionOfMergedCones(node, cone0, cone1));
+		
 		return result;
 	}
 
@@ -163,6 +190,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		Cone result = new Cone(node);
 		result.addLeave(node);
 		result.calculateSignature();
+		result.function = BDDFactorySingleton.get().ithVar(node.getID());
 		return result;
 	}
 	
@@ -205,6 +233,13 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 			}
 		}
 		return result;
+	}
+	
+	private void setFunction(BDD function) {
+		this.function = function;
+	}
+	public BDD getFunction() {
+		return function;
 	}
 
 	/* (non-Javadoc)

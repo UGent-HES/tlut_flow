@@ -114,7 +114,10 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ConeSet result = new ConeSet(node);
 		
 		if (allow_TLUT_cones && node.isParameter()) {
-			result.addAll(mergeParameterConeSets(node));
+			if(node.isPrimaryInput())
+				result.add(Cone.trivialCone(node));
+			else
+				result.addAll(mergeParameterConeSets(node));
 			//System.out.println(node.getName());
 		} else {
 			
@@ -141,8 +144,23 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	}
 	
 	protected ConeSet mergeParameterConeSets(Node node) {
+		//Get the two child nodes of the current node
+		Node node0 = node.getI0().getTail();
+		Node node1 = node.getI1().getTail();
+		
+		//Get the cone sets of the child nodes
+		ConeSet coneSet0 = node0.getConeSet();
+		ConeSet coneSet1 = node1.getConeSet();
+		
+		if(coneSet0.getCones().size() != 1)
+			throw new RuntimeException("ConeSet of parameter node should have size 1");
+		if(coneSet1.getCones().size() != 1)
+			throw new RuntimeException("ConeSet of parameter node should have size 1");
+		Cone cone0 = coneSet0.getCones().iterator().next();
+		Cone cone1 = coneSet1.getCones().iterator().next();
+		
 		ConeSet result = new ConeSet(node);
-		result.add(Cone.emptyCone(node));
+		result.add(Cone.mergeParameterCones(node, cone0, cone1));
 		return result;
 	}
 
