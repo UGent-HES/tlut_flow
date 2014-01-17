@@ -4,6 +4,10 @@ echo DNA
 cd DNA
 rm -rf work
 ./dna.py | tail -n 8
+rm -rf work
+echo
+echo DNA+resynthesis
+./dna_resynthesis.py | tail -n 8
 cd ..
 
 echo

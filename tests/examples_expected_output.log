@@ -8,6 +8,16 @@ Stage: ABC fpga
 Luts            depth           check           
 96              5               PASSED          
 
+DNA+resynthesis
+Luts (TLUTS)    depth           check           
+19 (12)         3               PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+130             4               PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+130             4               PASSED          
+
 FIRtree
 Luts (TLUTS)    depth           check           
 2990 (1222)     25              PASSED          
