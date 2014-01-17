@@ -80,6 +80,7 @@ import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 
 public class ActivationFunctionBuilder {
 	
@@ -129,10 +130,7 @@ public class ActivationFunctionBuilder {
 			if (input.isParameterInput())
 				parameter_list.add(input);
 		
-		//Set up JavaBDD
-		int node_num = Math.max(parameter_list.size(), 10);
-		int cache_size = node_num*1000;
-		B = BDDFactorySingleton.get(node_num, cache_size);
+		B = BDDFactorySingleton.get();
 	}
 	
 	private void finalise(AIG<Node, Edge> aig) {

@@ -87,6 +87,7 @@ import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 
 public class ResourceSharingOpportunitiesCalculator {
 	
