@@ -74,6 +74,7 @@ import java.util.List;
 public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 	protected String name = null;
+	private int id;
 	private   NodeType type;
 	
 	private   ArrayList<E> input;
@@ -83,9 +84,10 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 
 	private boolean marked;
 	
-	public AbstractNode(AIG<N,E> aig, NodeType type) {
+	public AbstractNode(AIG<N,E> aig, NodeType type, int id) {
 		//this.aig = aig;
 		this.type = type;
+		this.id = id;
 		input  = new ArrayList<E>(2);
 		//input.setSize(2);
 		input.add(null);
@@ -104,6 +106,10 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 
 	public NodeType getType() {
 		return type;
+	}
+	
+	public int getID() {
+		return id;
 	}
 
 	public boolean isConst0() {

@@ -95,8 +95,8 @@ public class Node extends AbstractNode<Node,Edge> {
 	private BDD outputActivationFunction;
 	private boolean updated;
 	
-	public Node(AIG<Node, Edge> aig, NodeType type) {
-		super(aig, type);
+	public Node(AIG<Node, Edge> aig, NodeType type, int id) {
+		super(aig, type, id);
 		this.coneSet = new ConeSet(this);
 		this.depth = 0;
 		this.areaflow = 0;

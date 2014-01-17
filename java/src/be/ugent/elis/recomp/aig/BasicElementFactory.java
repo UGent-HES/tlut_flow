@@ -70,12 +70,18 @@ package be.ugent.elis.recomp.aig;
 
 public class BasicElementFactory implements ElementFactory<BasicNode, BasicEdge> {
 
+	private int id_runner;
+	
+	BasicElementFactory() {
+		id_runner = 0;
+	}
+	
 	public BasicNode newAnd(AIG<BasicNode, BasicEdge> aig) {
-		return new BasicNode(aig, NodeType.AND);
+		return new BasicNode(aig, NodeType.AND, id_runner++);
 	}
 
 	public BasicNode newConst0(AIG<BasicNode, BasicEdge> aig) {
-		return new BasicNode(aig, NodeType.CONST0);
+		return new BasicNode(aig, NodeType.CONST0, id_runner++);
 	}
 
 	public BasicEdge newEdge(BasicNode tail, BasicNode head, boolean inverted) {
@@ -83,26 +89,23 @@ public class BasicElementFactory implements ElementFactory<BasicNode, BasicEdge>
 	}
 
 	public BasicNode newILatch(AIG<BasicNode, BasicEdge> aig) {
-		return new BasicNode(aig, NodeType.ILATCH);
+		return new BasicNode(aig, NodeType.ILATCH, id_runner++);
 	}
 
 	public BasicNode newInput(AIG<BasicNode, BasicEdge> aig) {
-		return new BasicNode(aig, NodeType.INPUT);
+		return new BasicNode(aig, NodeType.INPUT, id_runner++);
 	}
 
 	public BasicNode newLatch(AIG<BasicNode, BasicEdge> aig) {
-		return new BasicNode(aig, NodeType.LATCH);
+		return new BasicNode(aig, NodeType.LATCH, id_runner++);
 	}
 
 	public BasicNode newOLatch(AIG<BasicNode, BasicEdge> aig) {
-		return new BasicNode(aig, NodeType.OLATCH);
+		return new BasicNode(aig, NodeType.OLATCH, id_runner++);
 	}
 
 	public BasicNode newOutput(AIG<BasicNode, BasicEdge> aig) {
-		return new BasicNode(aig, NodeType.OUTPUT);
+		return new BasicNode(aig, NodeType.OUTPUT, id_runner++);
 	}
-
-	
-	
 	
 }

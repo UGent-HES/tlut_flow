@@ -73,39 +73,39 @@ import be.ugent.elis.recomp.aig.ElementFactory;
 import be.ugent.elis.recomp.aig.NodeType;
 
 public class SimpleElementFactory implements ElementFactory<Node,Edge> {
+	
+	private int id_runner;
+	
+	SimpleElementFactory() {
+		id_runner = 0;
+	}
 
 	public Node newConst0(AIG<Node, Edge> aig) {
-		Node con =  new Node(aig, NodeType.CONST0);
-		return con;
+		return new Node(aig, NodeType.CONST0, id_runner++);
 	}	
 	
 	public Node newAnd(AIG<Node, Edge> aig) {
-		Node and =  new Node(aig, NodeType.AND);
-//		and.setName("a"+Integer.toString(var));
-		return and;
+		return new Node(aig, NodeType.AND, id_runner++);
 	}
 
 	public Node newILatch(AIG<Node, Edge> aig) {
-		Node latch =  new Node(aig, NodeType.ILATCH);
-		return latch;
+		return new Node(aig, NodeType.ILATCH, id_runner++);
 	}
 
 	public Node newLatch(AIG<Node, Edge> aig) {
-		Node latch =  new Node(aig, NodeType.LATCH);
-		return latch;
+		return new Node(aig, NodeType.LATCH, id_runner++);
 	}
 
 	public Node newOLatch(AIG<Node, Edge> aig) {
-		Node latch =  new Node(aig, NodeType.OLATCH);
-		return latch;
+		return new Node(aig, NodeType.OLATCH, id_runner++);
 	}
 	
 	public Node newInput(AIG<Node, Edge> aig) {
-		return new Node(aig, NodeType.INPUT);
+		return new Node(aig, NodeType.INPUT, id_runner++);
 	}
 
 	public Node newOutput(AIG<Node, Edge> aig) {
-		return new Node(aig, NodeType.OUTPUT);
+		return new Node(aig, NodeType.OUTPUT, id_runner++);
 	}
 
 	public Edge newEdge(Node tail, Node head, boolean inverted) {
