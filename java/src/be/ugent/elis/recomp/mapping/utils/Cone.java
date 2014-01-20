@@ -344,21 +344,61 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	public boolean isTLUTfeasible(int K) {
 		return size() <= K;
 	}
+	
+	public boolean isMUXfeasible(BDDidMapping bddIdMapping) {
+		ArrayList<BDD> subBDDs = getAllRegularLeaveSubBDDs(this.function, bddIdMapping);
+		for(BDD subBDD : subBDDs) {
+			if(bddContainsParameterLeaves(subBDD, bddIdMapping))
+				throw new RuntimeException("BDD variable ordering invalid: parameters should come before regular leaves");
+			if(subBDD.nodeCount() != 1)
 				return false;
-		} else {
-			return false;
 		}
+		return true;
 	}
 	
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#isTLUT()
-	 */
-	public boolean isTLUT() {
-		if (getParameterLeaves().size()==0) {
-			return false;
+	private int countNonZero(int[] array) {
+		int count = 0;
+		for(int e : array)
+			if(e!=0)
+				count++;
+		return count;
+	}
+	
+	private int countBDDVars(BDD bdd) {
+		return countNonZero(bdd.varProfile());
+	}
+	
+	public boolean isTLCfeasible(int K, BDDidMapping bddIdMapping) {
+		ArrayList<BDD> subBDDs = getAllRegularLeaveSubBDDs(this.function, bddIdMapping);
+		for(BDD subBDD : subBDDs) {
+			if(bddContainsParameterLeaves(subBDD, bddIdMapping))
+				throw new RuntimeException("BDD variable ordering invalid: parameters should come before regular leaves");
+			if(countBDDVars(subBDD) > K)
+				return false;
 		}
-		
 		return true;
+	}
+	
+	private ArrayList<BDD> getAllRegularLeaveSubBDDs(BDD bdd,
+			BDDidMapping bddIdMapping) {
+		ArrayList<BDD> result = new ArrayList<BDD>();
+		if (bdd.isZero() || bdd.isOne()
+				|| !bddIdMapping.getNode(bdd.var()).isParameter()) {
+			result.add(bdd);
+		} else {
+			result.addAll(getAllRegularLeaveSubBDDs(bdd.high(), bddIdMapping));
+			result.addAll(getAllRegularLeaveSubBDDs(bdd.low(), bddIdMapping));
+		}
+		return result;
+	}
+	
+	private boolean bddContainsParameterLeaves(BDD bdd, BDDidMapping bddIdMapping) {
+		if(bdd.isZero() || bdd.isOne())
+			return false;
+		if(bddIdMapping.getNode(bdd.var()).isParameter())
+			return true;
+		return bddContainsParameterLeaves(bdd.high(), bddIdMapping)
+				|| bddContainsParameterLeaves(bdd.low(), bddIdMapping);
 	}
 
 
