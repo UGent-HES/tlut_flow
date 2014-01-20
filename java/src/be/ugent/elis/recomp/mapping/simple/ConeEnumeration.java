@@ -67,6 +67,7 @@ All rights reserved.
 *//*
 */
 package be.ugent.elis.recomp.mapping.simple;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -74,31 +75,40 @@ import java.util.ArrayList;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
+import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.ConeSet;
 import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 
-public class ConeEnumeration implements Visitor<Node, Edge> {	
+public class ConeEnumeration implements Visitor<Node, Edge> {
 
 	protected int K;
 	protected boolean allow_TLUT_cones;
-	protected int nmbrKCones;
+	protected int nmbrConsideredCones;
+	protected int nmbrFeasibleCones;
 	protected int nmbrDominatedCones;
 	protected int nmbrCones;
- 
+	protected BDDidMapping bddIdMapping;
+
 	public ConeEnumeration(int K, boolean allow_TLUT_cones) {
-		nmbrCones  = 0;
+		nmbrConsideredCones = 0;
 		nmbrDominatedCones = 0;
-		nmbrKCones = 0;
+		nmbrCones = 0;
 		this.K = K;
 		this.allow_TLUT_cones = allow_TLUT_cones;
 	}
 	
-	public int getNmbrKCones() {
-		return nmbrKCones;
+	public int getNmbrConsideredCones() {
+		return nmbrConsideredCones;
 	}
-
+	
+	public int getNmbrFeasibleCones() {
+		return nmbrFeasibleCones;
+	}
+	
 	public int getNmbrDominatedCones() {
 		return nmbrDominatedCones;
 	}
@@ -108,75 +118,88 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	}
 
 	public void init(AIG<Node, Edge> aig) {
+		if(!(aig instanceof MappingAIG))
+			throw new RuntimeException("ConeEnumeration should be constructed with MappingAIG object");
+		bddIdMapping = new BDDidMapping((MappingAIG)aig);
+		
+		//Parameters should stay together and at the front during reordering
+		if(bddIdMapping.getParamIdRange()>=0)
+			BDDFactorySingleton.get().addVarBlock(0, bddIdMapping.getParamIdRange(), false);
 	}
 
 	public void visit(Node node) {
 		ConeSet result = new ConeSet(node);
-		
+
 		if (allow_TLUT_cones && node.isParameter()) {
-			if(node.isPrimaryInput())
-				result.add(Cone.trivialCone(node));
+			if (node.isPrimaryInput())
+				result.add(Cone.trivialParameterCone(node, bddIdMapping));
 			else
 				result.addAll(mergeParameterConeSets(node));
-			//System.out.println(node.getName());
+			// System.out.println(node.getName());
+			
 		} else {
 			
-			if (node.isPrimaryInput()) {	
-				result.add(Cone.trivialCone(node));
+			if (node.isPrimaryInput()) {
+				result.add(Cone.trivialCone(node, bddIdMapping));
+				
 			} else if (node.isGate()) {
-				ConeSet mergedConeSet  = mergeInputConeSets(node);
-				nmbrCones += mergedConeSet.size();
-				ConeSet kFeasibleCones = retainKfeasableCones(mergedConeSet);
-				ConeSet nonDominatedConeSet = removeDominatedCones(kFeasibleCones);
-				nmbrKCones += nonDominatedConeSet.size();
+				ConeSet mergedConeSet = mergeInputConeSets(node);
+				nmbrConsideredCones += mergedConeSet.size();
+				ConeSet feasibleCones = retainFeasibleCones(mergedConeSet);
+				nmbrFeasibleCones += feasibleCones.size();
+				ConeSet nonDominatedConeSet = removeDominatedCones(feasibleCones);
+				nmbrCones += nonDominatedConeSet.size();
 				result.addAll(nonDominatedConeSet);
-				result.add(Cone.trivialCone(node));
-//				if (!node.getI0().getTail().isParameter() && !node.getI1().getTail().isParameter() )
-//					result.add(Cone.trivialCone(node));
-	
+				result.add(Cone.trivialCone(node, bddIdMapping));
+				// if (!node.getI0().getTail().isParameter() &&
+				// 		!node.getI1().getTail().isParameter() )
+				// 	result.add(Cone.trivialCone(node));
+
 			} else if (node.isOutput() || node.isILatch()) {
 			}
 		}
 		result.reduceMemoryUsage();
 		node.setConeSet(result);
-		
-		//System.out.println(node.getName() + ": " + nmbrCones);
+
+		// System.out.println(node.getName() + ": " + nmbrCones);
 	}
-	
+
 	protected ConeSet mergeParameterConeSets(Node node) {
-		//Get the two child nodes of the current node
+		// Get the two child nodes of the current node
 		Node node0 = node.getI0().getTail();
 		Node node1 = node.getI1().getTail();
-		
-		//Get the cone sets of the child nodes
+
+		// Get the cone sets of the child nodes
 		ConeSet coneSet0 = node0.getConeSet();
 		ConeSet coneSet1 = node1.getConeSet();
-		
-		if(coneSet0.getCones().size() != 1)
-			throw new RuntimeException("ConeSet of parameter node should have size 1");
-		if(coneSet1.getCones().size() != 1)
-			throw new RuntimeException("ConeSet of parameter node should have size 1");
+
+		if (coneSet0.getCones().size() != 1)
+			throw new RuntimeException(
+					"ConeSet of parameter node should have size 1");
+		if (coneSet1.getCones().size() != 1)
+			throw new RuntimeException(
+					"ConeSet of parameter node should have size 1");
 		Cone cone0 = coneSet0.getCones().iterator().next();
 		Cone cone1 = coneSet1.getCones().iterator().next();
-		
+
 		ConeSet result = new ConeSet(node);
 		result.add(Cone.mergeParameterCones(node, cone0, cone1));
 		return result;
 	}
 
 	protected ConeSet mergeInputConeSets(Node node) {
-		//Get the two child nodes of the current node
+		// Get the two child nodes of the current node
 		Node node0 = node.getI0().getTail();
 		Node node1 = node.getI1().getTail();
-		
-		//Get the cone sets of the child nodes
+
+		// Get the cone sets of the child nodes
 		ConeSet coneSet0 = node0.getConeSet();
 		ConeSet coneSet1 = node1.getConeSet();
-		
-		//Merge the cone sets of the child nodes 
+
+		// Merge the cone sets of the child nodes
 		ConeSet result = new ConeSet(node);
-		for (Cone cone0:coneSet0) {
-			for (Cone cone1:coneSet1) {
+		for (Cone cone0 : coneSet0) {
+			for (Cone cone1 : coneSet1) {
 				Cone merge = Cone.mergeCones(node, cone0, cone1);
 				result.add(merge);
 			}
@@ -192,30 +215,29 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		Set<Cone> dominatedCones = new HashSet<Cone>();
 		ArrayList<Cone> temp = new ArrayList<Cone>(result.getCones());
 		Collections.sort(temp, new SizeConeComparator());
-		
-		for (int i=0; i<temp.size(); i++) {
-			for (int j=i+1; j<temp.size(); j++) {
-				
+
+		for (int i = 0; i < temp.size(); i++) {
+			for (int j = i + 1; j < temp.size(); j++) {
+
 				if (temp.get(i).dominates(temp.get(j))) {
 					dominatedCones.add(temp.get(j));
 				}
 			}
 		}
-		
-		result.removeAll(dominatedCones);	
-		
+
+		result.removeAll(dominatedCones);
+		nmbrDominatedCones += dominatedCones.size();
+
 		return result;
 	}
-	
-	protected ConeSet retainKfeasableCones(ConeSet mergedConeSet) {
-		
+
+	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
 		ConeSet result = new ConeSet(mergedConeSet.getNode());
-		for (Cone c:mergedConeSet) {
-			if (c.size() <= K) {
+		for (Cone c : mergedConeSet) {
+			if (c.isTLUTfeasible(K)) {
 				result.add(c);
 			}
 		}
-		
 		return result;
 	}
 

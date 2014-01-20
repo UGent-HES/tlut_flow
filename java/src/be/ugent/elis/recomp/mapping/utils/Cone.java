@@ -185,12 +185,18 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		
 		return result;
 	}
+	
+	public static Cone trivialParameterCone(Node node, BDDidMapping bddIdMapping) {
+		Cone result = new Cone(node);
+		result.function = BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node));
+		return result;
+	}
 
-	public static Cone trivialCone(Node node) {
+	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping) {
 		Cone result = new Cone(node);
 		result.addLeave(node);
 		result.calculateSignature();
-		result.function = BDDFactorySingleton.get().ithVar(node.getID());
+		result.function = BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node));
 		return result;
 	}
 	
@@ -327,11 +333,17 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		
 //		if ((regularLeaves.size() + parameterLeaves.size()) == 1) {
 //			if (regularLeaves.contains(this.root) || parameterLeaves.contains(this.root))
-		if (regularLeaves.size() == 1) {
-			if (regularLeaves.contains(this.root))
-
-				return true;
-			else 
+		return regularLeaves.size() == 1 
+				&& regularLeaves.contains(this.root);
+	}
+	
+	public boolean isTLUT() {
+		return getParameterLeaves().size() != 0;
+	}
+	
+	public boolean isTLUTfeasible(int K) {
+		return size() <= K;
+	}
 				return false;
 		} else {
 			return false;
