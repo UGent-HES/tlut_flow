@@ -118,17 +118,13 @@ public class ActivationFunctionBuilder {
 			}
 		}
 		
-		for (int i=0; i<parameter_list.size(); i++)
-			System.out.println("INFO: parameter '"+parameter_list.get(i).getName()+"' has BDD id '"+i+"'");
 		finalise(aig);
 	}
 	
 	private void init(MappingAIG aig) {
-		//List parameter inputs
-		parameter_list = new ArrayList<Node>();
 		for(Node input : aig.getInputs())
 			if (input.isParameterInput())
-				parameter_list.add(input);
+				System.out.println("INFO: parameter '"+input.getName()+"' has BDD id '"+aig.getBDDidMapping().getId(input)+"'");
 		
 		B = BDDFactorySingleton.get();
 	}
@@ -161,10 +157,8 @@ public class ActivationFunctionBuilder {
 		aig.setUpdatedAll(false);
 		for (Node node : aig.getInputs()) {
 			if (node.isParameterInput()) {
-				int id = parameter_list.indexOf(node);
-				assert(id>=0);
-				node.setOnParamFunction(B.ithVar(id));
-				node.setOffParamFunction(B.nithVar(id));
+				node.setOnParamFunction(B.ithVar(aig.getBDDidMapping().getId(node)));
+				node.setOffParamFunction(B.nithVar(aig.getBDDidMapping().getId(node)));
 			}
 			node.setUpdated(true);
 		}

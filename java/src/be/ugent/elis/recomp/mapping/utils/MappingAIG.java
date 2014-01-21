@@ -85,7 +85,6 @@ import be.ugent.elis.recomp.aig.ElementFactory;
 import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
-import be.ugent.elis.recomp.synthesis.Minterm;
 
 public class MappingAIG extends AIG<Node, Edge> {
 
