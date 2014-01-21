@@ -50,7 +50,7 @@ echo
 echo tripleDES
 cd tripleDES
 rm -rf work
-./tripleDES.py | tail -n 5
+./tripleDES.py | tail -n 8
 cd ..
 
 echo
