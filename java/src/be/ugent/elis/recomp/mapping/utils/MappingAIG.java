@@ -760,6 +760,8 @@ port map (
 	    // Add declaration of signals and init attributes
 	    String signalDeclarations = "";
 		String initAttributes = "\nattribute INIT : string;";
+		String sAttributes = "\nattribute S : string;";
+
 		
 	    for (Node and : getAnds()) {
 			if (and.isVisible()) {	
@@ -773,11 +775,15 @@ port map (
 					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+"not : STD_ULOGIC ;";
 					initAttributes += "\nattribute INIT of "+baseName+"_"+lutOrTlut+lutSize+"_"+and.getName()+
 					    "not: label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
+                    sAttributes += "\nattribute S of "+and.getName()+"not : signal is \"YES\";";
+					    
 				}
 				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
 					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+" : STD_ULOGIC ;";
 					initAttributes += "\nattribute INIT of "+baseName+"_"+lutOrTlut+lutSize+"_"+and.getName()+
 					    ": label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
+                    sAttributes += "\nattribute S of "+and.getName()+" : signal is \"YES\";";
+					    
 				}
 					
 			}	
@@ -790,6 +796,7 @@ port map (
 			    nameSuffix + " : STD_ULOGIC ;";
 			initAttributes += "\nattribute INIT of " + baseName + "_FD_" + stripBrackets(latch.getName()) +
 			    nameSuffix + " : label is \"0\";";
+            sAttributes += "\nattribute S of "+stripBrackets(latch.getName()) + nameSuffix + " : signal is \"YES\";";
 				
 			//signalDeclarations = signalDeclarations + "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
 			//initAttributes = initAttributes + "\nattribute INIT of FD_"+stripBrackets(latch.getName())+" : label is \"0\";"; 
@@ -799,6 +806,7 @@ port map (
 	    
 	    stream.println(signalDeclarations);
 	    stream.println(initAttributes);
+        stream.println(sAttributes);
 		
 	    // Add declaration of lock attributes
 		String lockAttributes = "\nattribute lock_pins : string;";
