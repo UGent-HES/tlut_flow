@@ -76,7 +76,7 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #Copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, synthesizedFileName=None, verboseFlag=False, targetDepth=None):
+def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, verboseFlag=False, targetDepth=None, synthesizedFileName=None):
     baseName, ext = getBasenameAndExtension(os.path.basename(module))
         
     if virtexFamily in ("virtex2pro",):
