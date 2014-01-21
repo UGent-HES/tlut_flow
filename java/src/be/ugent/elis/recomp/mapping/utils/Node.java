@@ -100,6 +100,7 @@ public class Node extends AbstractNode<Node,Edge> {
 		this.coneSet = new ConeSet(this);
 		this.depth = 0;
 		this.areaflow = 0;
+		this.requiredTime = Double.POSITIVE_INFINITY;
 		this.setVisible(false);
 		this.setParameter(false);
 		this.onParamFunction = null;

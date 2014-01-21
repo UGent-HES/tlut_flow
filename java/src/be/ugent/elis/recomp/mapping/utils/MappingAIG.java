@@ -105,7 +105,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 		int result=0;
 		for (Node node:getAnds()) {
 			if (node.isVisible()) {
-				result++;
+				if (node.getBestCone().usesLUTResource()) {
+					result++;
+				}
 			}
 		}
 		return result;

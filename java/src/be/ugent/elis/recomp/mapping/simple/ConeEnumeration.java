@@ -86,19 +86,19 @@ import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 public class ConeEnumeration implements Visitor<Node, Edge> {
 
 	protected int K;
-	protected boolean allow_TLUT_cones;
+	protected boolean tcon_mapping_flag;
 	protected int nmbrConsideredCones;
 	protected int nmbrFeasibleCones;
 	protected int nmbrDominatedCones;
 	protected int nmbrCones;
 	protected BDDidMapping bddIdMapping;
 
-	public ConeEnumeration(int K, boolean allow_TLUT_cones) {
+	public ConeEnumeration(int K, boolean tcon_mapping_flag) {
 		nmbrConsideredCones = 0;
 		nmbrDominatedCones = 0;
 		nmbrCones = 0;
 		this.K = K;
-		this.allow_TLUT_cones = allow_TLUT_cones;
+		this.tcon_mapping_flag = tcon_mapping_flag;
 	}
 	
 	public int getNmbrConsideredCones() {
@@ -130,11 +130,12 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	public void visit(Node node) {
 		ConeSet result = new ConeSet(node);
 
-		if (allow_TLUT_cones && node.isParameter()) {
+		if (node.isParameter()) {
 			if (node.isPrimaryInput())
 				result.add(Cone.trivialParameterCone(node, bddIdMapping));
-			else
+			else {
 				result.addAll(mergeParameterConeSets(node));
+			}
 			// System.out.println(node.getName());
 			
 		} else {
@@ -165,25 +166,9 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	}
 
 	protected ConeSet mergeParameterConeSets(Node node) {
-		// Get the two child nodes of the current node
-		Node node0 = node.getI0().getTail();
-		Node node1 = node.getI1().getTail();
-
-		// Get the cone sets of the child nodes
-		ConeSet coneSet0 = node0.getConeSet();
-		ConeSet coneSet1 = node1.getConeSet();
-
-		if (coneSet0.getCones().size() != 1)
-			throw new RuntimeException(
-					"ConeSet of parameter node should have size 1");
-		if (coneSet1.getCones().size() != 1)
-			throw new RuntimeException(
-					"ConeSet of parameter node should have size 1");
-		Cone cone0 = coneSet0.getCones().iterator().next();
-		Cone cone1 = coneSet1.getCones().iterator().next();
-
-		ConeSet result = new ConeSet(node);
-		result.add(Cone.mergeParameterCones(node, cone0, cone1));
+		ConeSet result = mergeInputConeSets(node);
+		if(result.size() != 1)
+			throw new RuntimeException("ConeSet of parameter node should contain only one cone");
 		return result;
 	}
 
@@ -208,9 +193,9 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		return result;
 	}
 	
-	protected ConeSet removeDominatedCones(ConeSet kFeasibleCones) {
-		ConeSet result = new ConeSet(kFeasibleCones.getNode());
-		result.addAll(kFeasibleCones);
+	protected ConeSet removeDominatedCones(ConeSet feasibleCones) {
+		ConeSet result = new ConeSet(feasibleCones.getNode());
+		result.addAll(feasibleCones);
 
 		Set<Cone> dominatedCones = new HashSet<Cone>();
 		ArrayList<Cone> temp = new ArrayList<Cone>(result.getCones());
@@ -224,19 +209,36 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				}
 			}
 		}
+		
 
 		result.removeAll(dominatedCones);
 		nmbrDominatedCones += dominatedCones.size();
 
+		for(Cone c : dominatedCones)
+			c.free();
+		
 		return result;
 	}
 
 	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
 		ConeSet result = new ConeSet(mergedConeSet.getNode());
 		for (Cone c : mergedConeSet) {
-			if (c.isTLUTfeasible(K)) {
-				result.add(c);
+			boolean feasible = true;
+			if(this.tcon_mapping_flag && c.isTCONfeasible()) {
+				feasible = true;
+				c.mapToTCON();
+			} else if(c.isTLUTfeasible(K)) {
+				feasible = true;
+				if(c.isLUTfeasible(K))
+					c.mapToLUT();
+				else
+					c.mapToTLUT();
+			} else if(this.tcon_mapping_flag && c.isTLCfeasible(K)) {
+				feasible = true;
+				c.mapToTLC();
 			}
+			if(feasible)
+				result.add(c);
 		}
 		return result;
 	}

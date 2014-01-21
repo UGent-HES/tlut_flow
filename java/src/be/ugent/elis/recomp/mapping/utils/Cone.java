@@ -91,48 +91,38 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	protected Collection<Node> regularLeaves;
 //	protected Set<Node> parameterLeaves;
 	protected int signature;
-	
+
 	private ArrayList <Node> nodes;
 	
 	private BDD function;
+	private BDDidMapping bddIdMapping;
+	
+	enum ConeType {LUT, TLUT, TCON, TLC, NONE}; 
+	private ConeType type;
 	
 	private double depth;
 	private double areaflow;
 	private int area;
 
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getSignature()
-	 */
-	public int getSignature() {
-		return signature;
-	}
-
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#setSignature(int)
-	 */
-	public void setSignature(int signature) {
-		this.signature = signature;
-	}
-
-
-	public Cone() {
-		this(null);
-	}
-
-	public Cone(Node node) {
+	public Cone(Node node, BDDidMapping bddIdMapping) {
 		this.root = node;
 		this.regularLeaves = new HashSet<Node>();
 		this.signature = 0;
 		this.function = null;
+		this.bddIdMapping = bddIdMapping;
 //		this.parameterLeaves = new HashSet<Node>();
 		
 		this.areaflow = 0;
 		this.depth = 0;
 	}
 	
-	public static ConeInterface createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
-		Cone result = new Cone(aig.getNode(root));
+	public void free() {
+		this.function.free();
+	}
+	
+	public static Cone createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
+		Cone result = new Cone(aig.getNode(root), null);
 		
 		Scanner scan;
 		
@@ -149,22 +139,14 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 	
-	private static BDD computeFunctionOfMergedCones(Node root, Cone cone0, Cone cone1) {
-		BDD function0 = cone0.getFunction().id();
-		BDD function1 = cone1.getFunction().id();
-		
-		if(root.getI0().isInverted())
-			function0 = function0.not();
-		if(root.getI1().isInverted())
-			function1 = function1.not();
-		
-		BDD result = function0.andWith(function1);
-		
+	public static Cone emptyCone(Node node, BDDidMapping bddIdMapping) {
+		Cone result = new Cone(node, bddIdMapping);
+		result.calculateSignature();
 		return result;
 	}
 
 	public static Cone mergeCones(Node node, Cone cone0, Cone cone1) {
-		Cone result = new Cone(node);
+		Cone result = new Cone(node, cone0.bddIdMapping);
 		
 		result.signature = cone0.signature | cone1.signature;
 		
@@ -176,31 +158,31 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 	
-	public static Cone mergeParameterCones(Node node, Cone cone0, Cone cone1) {
-		Cone result = emptyCone(node);
-		
-		result.setFunction(computeFunctionOfMergedCones(node, cone0, cone1));
-		
-		return result;
-	}
-	
 	public static Cone trivialParameterCone(Node node, BDDidMapping bddIdMapping) {
-		Cone result = new Cone(node);
+		Cone result = new Cone(node, bddIdMapping);
 		result.function = BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node));
 		return result;
 	}
 
 	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping) {
-		Cone result = new Cone(node);
+		Cone result = new Cone(node, bddIdMapping);
 		result.addLeave(node);
 		result.calculateSignature();
 		result.function = BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node));
 		return result;
 	}
 	
-	public static Cone emptyCone(Node node) {
-		Cone result = new Cone(node);
-		result.calculateSignature();
+	private static BDD computeFunctionOfMergedCones(Node root, Cone cone0, Cone cone1) {
+		BDD function0 = cone0.getFunction().id();
+		BDD function1 = cone1.getFunction().id();
+		
+		if(root.getI0().isInverted())
+			function0 = function0.not();
+		if(root.getI1().isInverted())
+			function1 = function1.not();
+		
+		BDD result = function0.andWith(function1);
+		
 		return result;
 	}
 
@@ -389,10 +371,10 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return size() <= K;
 	}
 	
-	public boolean isMUXfeasible(BDDidMapping bddIdMapping) {
-		ArrayList<BDD> subBDDs = getAllRegularLeaveSubBDDs(this.function, bddIdMapping);
+	public boolean isTCONfeasible() {
+		ArrayList<BDD> subBDDs = getAllRegularLeaveSubBDDs(this.function);
 		for(BDD subBDD : subBDDs) {
-			if(bddContainsParameterLeaves(subBDD, bddIdMapping))
+			if(bddContainsParameterLeaves(subBDD))
 				throw new RuntimeException("BDD variable ordering invalid: parameters should come before regular leaves");
 			if(subBDD.nodeCount() != 1)
 				return false;
@@ -412,10 +394,10 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return countNonZero(bdd.varProfile());
 	}
 	
-	public boolean isTLCfeasible(int K, BDDidMapping bddIdMapping) {
-		ArrayList<BDD> subBDDs = getAllRegularLeaveSubBDDs(this.function, bddIdMapping);
+	public boolean isTLCfeasible(int K) {
+		ArrayList<BDD> subBDDs = getAllRegularLeaveSubBDDs(this.function);
 		for(BDD subBDD : subBDDs) {
-			if(bddContainsParameterLeaves(subBDD, bddIdMapping))
+			if(bddContainsParameterLeaves(subBDD))
 				throw new RuntimeException("BDD variable ordering invalid: parameters should come before regular leaves");
 			if(countBDDVars(subBDD) > K)
 				return false;
@@ -423,26 +405,25 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return true;
 	}
 	
-	private ArrayList<BDD> getAllRegularLeaveSubBDDs(BDD bdd,
-			BDDidMapping bddIdMapping) {
+	private ArrayList<BDD> getAllRegularLeaveSubBDDs(BDD bdd) {
 		ArrayList<BDD> result = new ArrayList<BDD>();
 		if (bdd.isZero() || bdd.isOne()
 				|| !bddIdMapping.getNode(bdd.var()).isParameter()) {
 			result.add(bdd);
 		} else {
-			result.addAll(getAllRegularLeaveSubBDDs(bdd.high(), bddIdMapping));
-			result.addAll(getAllRegularLeaveSubBDDs(bdd.low(), bddIdMapping));
+			result.addAll(getAllRegularLeaveSubBDDs(bdd.high()));
+			result.addAll(getAllRegularLeaveSubBDDs(bdd.low()));
 		}
 		return result;
 	}
 	
-	private boolean bddContainsParameterLeaves(BDD bdd, BDDidMapping bddIdMapping) {
+	private boolean bddContainsParameterLeaves(BDD bdd) {
 		if(bdd.isZero() || bdd.isOne())
 			return false;
 		if(bddIdMapping.getNode(bdd.var()).isParameter())
 			return true;
-		return bddContainsParameterLeaves(bdd.high(), bddIdMapping)
-				|| bddContainsParameterLeaves(bdd.low(), bddIdMapping);
+		return bddContainsParameterLeaves(bdd.high())
+				|| bddContainsParameterLeaves(bdd.low());
 	}
 
 

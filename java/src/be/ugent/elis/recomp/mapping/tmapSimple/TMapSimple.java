@@ -118,19 +118,33 @@ public class TMapSimple {
 		// <6> : output VHDL file with (T)LUT structure
 		// <7> : output file with VHDL names of TLUT instances
         //
-		// -d<int> : optional target depth
+		// -d<int>   : optional target depth
+		// --noparam : disable TLUT mapping; more or less equivalent to SimpleMap
+		// --sharing : toggle resource/LUT sharing [default=off]
+		// --tcon    : toggle TCON mapping [default=off]
+		// --allow_depth_increase    : disable error on depth increase during area recovery [default=off]
 
 		OptionParser parser = new OptionParser();
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
         OptionSpec<Integer> depth_option =
                 parser.accepts("depth").withRequiredArg().ofType( Integer.class ).defaultsTo(-1);
-        OptionSpec<Void> noTLUT_option =
-                parser.accepts("notlut");
+        OptionSpec<Void> no_param_option =
+                parser.accepts("noparam");
+        OptionSpec<Void> resource_sharing_option =
+                parser.accepts("sharing");
+        OptionSpec<Void> tcon_mapping_option =
+                parser.accepts("tcon");
+        OptionSpec<Void> allow_depth_increase_option =
+                parser.accepts("allowDepthIncrease");
         OptionSet options = parser.parse(args);
         
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
         int target_depth = depth_option.value(options);
-        boolean noTLUT_flag = options.has(noTLUT_option);
+        boolean noTLUT_flag = options.has(no_param_option);
+        boolean resource_sharing_flag = options.has(resource_sharing_option);
+        boolean tcon_mapping_flag = options.has(tcon_mapping_option);
+        boolean allow_depth_increase_flag = options.has(allow_depth_increase_option);
+        allow_depth_increase_flag |= target_depth != -1;
         
 
 		// Read AIG file
@@ -147,7 +161,7 @@ public class TMapSimple {
 		int K = Integer.parseInt(arguments[2]);
 
 		// Mapping
-		ConeEnumeration enumerator = new ConeEnumeration(K, true);
+		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag);
 		System.out.println("Cone Enumeration:");
         a.visitAll(enumerator);
 		System.out.println("Cone Ranking:");
@@ -160,12 +174,13 @@ public class TMapSimple {
         a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
-        if(target_depth == -1) {
+        if(!allow_depth_increase_flag) {
         	if(depthBeforeAreaRecovery != a.getDepth()) {
         		System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
         		System.exit(1);
         	}
-        } else {
+        } 
+        if(target_depth != -1) {
         	if(a.getDepth() > target_depth) {
         		System.err.println("Depth ("+a.getDepth()+") greater than target depth: "+target_depth);
         		System.exit(1);
@@ -179,15 +194,16 @@ public class TMapSimple {
 			a.visitAll(new ParameterMarker(new FileInputStream(arguments[1])));
 
 		// Resource sharing
-        System.out.println("Activation Function Builder:");
-        ActivationFunctionBuilder.run(a);
-        System.out.println("Resource Sharing:");
-        new ResourceSharingCalculator().run(a);
+		if(resource_sharing_flag) {
+	        System.out.println("Activation Function Builder:");
+	        ActivationFunctionBuilder.run(a);
+	        System.out.println("Resource Sharing:");
+	        new ResourceSharingCalculator().run(a);
+		}
         
         // Output
 		System.out.println("Generating the parameterizable configuration:");
-		AIG<Node, Edge> b;
-		b = a.constructParamConfig(K, true, false);
+		AIG<Node, Edge> b = a.constructParamConfig(K, true, false);
 		System.out.println("Printing the parameterizable configuration:");
         b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(arguments[3]))));
         
