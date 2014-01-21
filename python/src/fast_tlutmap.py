@@ -128,6 +128,14 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth) #, [ '--notlut'])
     print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
+
+    # Unleash TCON mapper
+    print "Stage: TCON mapper"
+    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = \
+        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--tcon', '--allowDepthIncrease'])
+    print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
+    print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
+ 
     
     # Print C-files
     if generateImplementationFilesFlag:
