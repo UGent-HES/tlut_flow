@@ -104,7 +104,7 @@ public class TMapSimple {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		BDDFactorySingleton.get(1000, 1000);
+		BDDFactorySingleton.get(1000, 10000);
 		
 		//Usage:
 		// <0> : input file with aig

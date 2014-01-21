@@ -148,8 +148,8 @@ public class ConeRanking implements Visitor<Node, Edge> {
 			node.setBestCone(bestCone);
 			node.setDepth(bestCone.getDepth());
 			node.setAreaflow(bestCone.getAreaflow());
-//			if(bestCone.getRoot().getDepth() > bestCone.getRoot().getRequiredTime())
-//				throw new RuntimeException("New best cone does not meet depth requirements");
+			if(node.getDepth() > node.getRequiredTime())
+				throw new RuntimeException("New best cone does not meet depth requirements");
 
 			// Set the depth and area flow of the edges
 			for (Edge e : node.fanOut()) {

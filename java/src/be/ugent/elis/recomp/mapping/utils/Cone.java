@@ -119,6 +119,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	
 	public void free() {
 		this.function.free();
+		this.function = null;
 	}
 	
 	public static Cone createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
@@ -182,7 +183,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 			function1 = function1.not();
 		
 		BDD result = function0.andWith(function1);
-		
 		return result;
 	}
 
