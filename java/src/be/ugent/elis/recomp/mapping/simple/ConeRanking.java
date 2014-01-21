@@ -101,11 +101,11 @@ public class ConeRanking implements Visitor<Node, Edge> {
 				n.resetReferences();
 			for (Node n : aig.getOutputs()) {
 				n.getI0().getTail().incrementReferences();
-				referenceCone(n.getI0().getTail());
+				referenceNode(n.getI0().getTail());
 			}
 			for (Node n : aig.getILatches()) {
 				n.getI0().getTail().incrementReferences();
-				referenceCone(n.getI0().getTail());
+				referenceNode(n.getI0().getTail());
 			}
 			for (Node node : aig.getAllNodes())
 				node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getReferences()) / 3.);
@@ -131,14 +131,14 @@ public class ConeRanking implements Visitor<Node, Edge> {
 
 			// prepare for exact area calculation
 			if (areaCalculation && node.getReferences() != 0)
-				dereferenceCone(node);
+				dereferenceNode(node);
 
 			// Calculate depth, exact area and area flow for each cone.
 			for (Cone c : node.getConeSet()) {
 				if(areaCalculation)
 					c.setArea(calculateAreaOfCone(c));
-				calculateDepth(c);
-				calculateAreaflow(c);
+				c.calculateDepth();
+				c.calculateAreaflow();
 			}
 
 			// Select the best cone in the coneset.
@@ -148,6 +148,8 @@ public class ConeRanking implements Visitor<Node, Edge> {
 			node.setBestCone(bestCone);
 			node.setDepth(bestCone.getDepth());
 			node.setAreaflow(bestCone.getAreaflow());
+//			if(bestCone.getRoot().getDepth() > bestCone.getRoot().getRequiredTime())
+//				throw new RuntimeException("New best cone does not meet depth requirements");
 
 			// Set the depth and area flow of the edges
 			for (Edge e : node.fanOut()) {
@@ -157,7 +159,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 
 			// reset environment for exact area calculation
 			if (areaCalculation && node.getReferences() != 0)
-				referenceCone(node);
+				referenceNode(node);
 
 			// Set the area flow and the depth of the
 			// primary outputs.
@@ -173,43 +175,6 @@ public class ConeRanking implements Visitor<Node, Edge> {
 		return Collections.min(node.getConeSet().getCones(), coneComparator);
 	}
 
-	private void calculateAreaflow(ConeInterface cone) {
-
-		// Trivial cones should never be chosen they are only used
-		// for cone enumeration.
-		if (cone.isTrivial()) {
-
-			cone.setAreaflow(Double.POSITIVE_INFINITY);
-
-		} else {
-
-			double areaflow = 0;
-			for (Node n: cone.getRegularLeaves())
-				areaflow += n.getAreaflow()/n.getEstimatedFanout();
-
-			cone.setAreaflow(areaflow + 1);
-
-		}
-	}
-
-	private void calculateDepth(ConeInterface c) {
-
-		// Trivial cones should never be chosen they are only used
-		// for cone enumeration.
-		if (c.isTrivial()) {
-
-			c.setDepth(Double.POSITIVE_INFINITY);
-
-		} else {
-			// Edge maxDepthEdge = Collections.max(c.getInputEdges(), new
-			// DepthEdgeComparator());
-			// c.setDepth(maxDepthEdge.getDepth());
-
-			c.setDepth(c.getMaximumInputDepth() + 1);
-
-		}
-	}
-
 	/* exact area calculation algorithm:
 	 * calculating the number of LUTs used in the fanin cone of a node/cone, 
 	 * that are NOT used in the fanin of any other currently "visible" (selected) node
@@ -219,43 +184,45 @@ public class ConeRanking implements Visitor<Node, Edge> {
 	 * for every feasible cone, reference the nodes in its fanin and count those that are not used
 	 * by any other node
 	 */
-	private int dereferenceCone(Node node) {
-		int a = 1;
-		if (node.isGate()) {
-			for (Node n : node.getBestCone().getRegularLeaves()) {
-				int r = n.decrementReferences();
-				if (r == 0)
-					a += dereferenceCone(n);
-			}
-		}
-		return a;
+	private int dereferenceNode(Node node) {
+		if(node.isGate())
+			return dereferenceCone(node.getBestCone());
+		else 
+			return 0;
 	}
-
-	private int referenceCone(Node node) {
-		int a = 1;
-		if (node.isGate()) {
-			for (Node n : node.getBestCone().getRegularLeaves()) {
-				int r = n.incrementReferences();
-				if (r == 1)
-					a += referenceCone(n);
-			}
-		}
-		return a;
+	
+	private int referenceNode(Node node) {
+		if(node.isGate())
+			return referenceCone(node.getBestCone());
+		else 
+			return 0;
 	}
-
-	private int calculateAreaOfCone(ConeInterface c) {
-		int a = 1;
-		for (Node n : c.getRegularLeaves()) {
-			int r = n.incrementReferences();
-			if (r == 1)
-				a += referenceCone(n);
-		}
-		int a2 = 1;
-		for (Node n : c.getRegularLeaves()) {
+	
+	private int dereferenceCone(Cone cone) {
+		int a = cone.getAreaOfCone();
+		for (Node n : cone.getRegularLeaves()) {
 			int r = n.decrementReferences();
-			if (r == 0)
-				a2 += dereferenceCone(n);
+			if (r == 0) {
+				a += dereferenceNode(n);
+			}
 		}
+		return a;
+	}
+
+	private int referenceCone(Cone cone) {
+		int a = cone.getAreaOfCone();
+			for (Node n : cone.getRegularLeaves()) {
+				int r = n.incrementReferences();
+				if (r == 1) {
+					a += referenceNode(n);
+				}
+			}
+		return a;
+	}
+
+	private int calculateAreaOfCone(Cone c) {
+		int a = referenceCone(c);
+		int a2 = dereferenceCone(c);
 		assert (a == a2);
 		return a;
 	}

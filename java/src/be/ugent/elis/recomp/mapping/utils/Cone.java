@@ -90,11 +90,9 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	private Node root;
 	protected Collection<Node> regularLeaves;
 //	protected Set<Node> parameterLeaves;
-
+	protected int signature;
 	
 	private ArrayList <Node> nodes;
-	
-	protected int signature;
 	
 	private BDD function;
 	
@@ -206,24 +204,105 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#setRoot(be.ugent.elis.recomp.mapping.utils.Node)
-	 */
+	
+	private void setSignature(int signature) {
+		this.signature = signature;
+	}
+	
+	public int getSignature() {
+		return signature;
+	}
+
 	public void setRoot(Node root) {
 		this.root = root;
 		nodes = null;
 	}
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getRoot()
-	 */
 	public Node getRoot() {
 		return root;
 	}
+	
+	private void setFunction(BDD function) {
+		this.function = function;
+	}
+	
+	public BDD getFunction() {
+		return function;
+	}
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getParameterLeaves()
-	 */
+	public void setArea(int area) {
+		this.area = area;
+	}
+
+	public int getArea() {
+		return area;
+	}
+
+	public void setDepth(double depth) {
+		this.depth = depth;
+	}
+
+	public double getDepth() {
+		return depth;
+	}
+
+	private void setAreaflow(double areaflow) {
+		this.areaflow = areaflow;
+	}
+
+	public double getAreaflow() {
+		return areaflow;
+	}
+	
+	public int size() {
+		return regularLeaves.size();
+	}
+	
+	public boolean isLUT() {
+		return this.type == ConeType.LUT;
+	}
+	
+	public void mapToLUT() {
+		this.type = ConeType.LUT;
+	}
+	
+	public boolean isTLUT() {
+		return this.type == ConeType.TLUT;
+	}
+	
+	public void mapToTLUT() {
+		this.type = ConeType.TLUT;
+	}
+
+	public boolean isTCON() {
+		return this.type == ConeType.TCON;
+	}
+	
+	public void mapToTCON() {
+		this.type = ConeType.TCON;
+	}
+
+	public boolean TLC() {
+		return this.type == ConeType.TLC;
+	}
+	
+	public void mapToTLC() {
+		this.type = ConeType.TLC;
+	}
+	
+	public boolean usesLUTResource() {
+		return this.type == ConeType.LUT
+				|| this.type == ConeType.TLUT
+				|| this.type == ConeType.TLC;
+	}
+	
+	public boolean usesTCONResource() {
+		return this.type == ConeType.TCON
+				|| this.type == ConeType.TLC;
+	}
+
+
+
 	public Set<Node> getParameterLeaves() {
 		Set<Node> result = new HashSet<Node>();
 		HashSet<Node> nodesTest = new HashSet<Node>();
@@ -240,24 +319,11 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		}
 		return result;
 	}
-	
-	private void setFunction(BDD function) {
-		this.function = function;
-	}
-	public BDD getFunction() {
-		return function;
-	}
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getRegularLeaves()
-	 */
 	public Collection<Node> getRegularLeaves() {
 		return regularLeaves;
 	}
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#addLeave(be.ugent.elis.recomp.mapping.utils.Node)
-	 */
 	public void addLeave(Node node) {
 		nodes = null;
 
@@ -280,45 +346,26 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 //		parameterLeaves.add(node);
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#addLeaves(be.ugent.elis.recomp.mapping.utils.Cone)
-	 */
 	public void addLeaves(Cone cone0) {
 		nodes = null;
 
 		this.regularLeaves.addAll(cone0.regularLeaves);
 //		this.parameterLeaves.addAll(cone0.parameterLeaves);
 	}
-
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#setDepth(double)
-	 */
-	public void setDepth(double depth) {
-		this.depth = depth;
+	
+	public boolean hasParameterLeaves() {
+//		return getParameterLeaves().size() != 0;
+		return hasParameterLeavesRec(root);
+	}
+	
+	private boolean hasParameterLeavesRec(Node node) {
+		if(node.isParameter()) return true;
+		if(node.isPrimaryInput()) return false;
+		return hasParameterLeavesRec(node.getI0().getTail())
+				|| hasParameterLeavesRec(node.getI1().getTail());
 	}
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getDepth()
-	 */
-	public double getDepth() {
-		return depth;
-	}
-
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#setAreaflow(double)
-	 */
-	public void setAreaflow(double areaflow) {
-		this.areaflow = areaflow;
-	}
-
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getAreaflow()
-	 */
-	public double getAreaflow() {
-		return areaflow;
-	}
-
+	
 	protected void calculateSignature() {
 		signature = 0;
 		for (Node n: regularLeaves) {
@@ -326,19 +373,16 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#isTrivial()
-	 */
 	public boolean isTrivial() {
-		
 //		if ((regularLeaves.size() + parameterLeaves.size()) == 1) {
 //			if (regularLeaves.contains(this.root) || parameterLeaves.contains(this.root))
 		return regularLeaves.size() == 1 
 				&& regularLeaves.contains(this.root);
 	}
 	
-	public boolean isTLUT() {
-		return getParameterLeaves().size() != 0;
+	
+	public boolean isLUTfeasible(int K) {
+		return size() <= K && !hasParameterLeaves();
 	}
 	
 	public boolean isTLUTfeasible(int K) {
@@ -402,9 +446,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getNodes()
-	 */
 	public ArrayList<Node> getNodes() {
 		if (nodes == null) {
 			ArrayList<Node> result = new ArrayList<Node>();
@@ -453,6 +494,8 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	public BDDFunction getBooleanFunction() {
 		if(isTrivial())
 			throw new RuntimeException("Can't compute function of trivial cone");		
+		if(!isLUT())
+			throw new RuntimeException("BooleanFunction can only be computed of pure LUT cones");
 		Vector<String> inputVariables = new Vector<String>();
 		for(Node node : regularLeaves)
 			inputVariables.add(node.getName());
@@ -514,9 +557,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 //		return parameterLeaves.size();
 //	}
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getRegularInputs()
-	 */
 	public ArrayList<Node> getRegularInputs() {
 		ArrayList<Node> result = new ArrayList<Node>();
 
@@ -524,53 +564,55 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		
 		return result;
 	}
-	
-//	public Vector<Node> getParameterInputs() {
-//		Vector<Node> result = new Vector<Node>();
-//		
-//		result.addAll(parameterLeaves);
-//		
-//		return result;
-//	}
-	
-//	public Vector<Node> getLeaves() {
-//		if (nodes == null) {
-//			Vector<Node> result = new Vector<Node>();
-//			Set<Node> visited = new HashSet<Node>();
-//			nodes = getNodesRec(result,visited, root);
-//		}
-//		return nodes;
-//	}
-//
-//
-//	private Vector<Node> getLeavesRec(Vector<Node> result, Set<Node> visited, Node node) {
-//		
-//		if (!regularLeaves.contains(node) && !node.isParameterInput() && !visited.contains(node)) {
-//			
-//			visited.add(node);
-//			
-//
-//			switch (node.getType()) {
-//			case AND:
-//				getNodesRec(result, visited, node.getI0().getTail());
-//				getNodesRec(result, visited, node.getI1().getTail());
-//				break;
-//			default:
-//				break;
-//			}
-//			
-//			result.add(node);
-//
-//		}
-//		return result;
-//	}
 
+	private double getMaximumInputDepth() {
+		double result=0;
+		
+		for (Node n: regularLeaves) {
+			if (n.depth>result)
+				result = n.depth;
+		}
+		return result;
+	}
+	
+	public void calculateAreaflow() {
+		// Trivial cones should never be chosen they are only used
+		// for cone enumeration.
+		if (isTrivial()) {
+			setAreaflow(Double.POSITIVE_INFINITY);
+			
+		} else {
+			double areaflow = 0;
+			for (Node n: getRegularLeaves())
+				areaflow += n.getAreaflow()/n.getEstimatedFanout();
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#size()
-	 */
-	public int size() {
-		return regularLeaves.size();
+			setAreaflow(areaflow + getAreaOfCone());
+		}
+	}
+	
+	public void calculateDepth() {
+		// Trivial cones should never be chosen they are only used
+		// for cone enumeration.
+		if (isTrivial()) {
+			setDepth(Double.POSITIVE_INFINITY);
+
+		} else {
+			setDepth(getMaximumInputDepth() + getDepthOfCone());
+		}
+	}
+	
+	public int getAreaOfCone() {
+		if (usesLUTResource())
+			return 1;
+		else 
+			return 0;
+	}
+	
+	public int getDepthOfCone() {
+		if (usesLUTResource())
+			return 1;
+		else 
+			return 0;
 	}
 
 
@@ -648,9 +690,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#toString()
-	 */
 	@Override
 	public String toString() {
 		String result = new String();
@@ -688,33 +727,8 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see be.ugent.elis.recomp.mapping.utils.ConeInterface#getMaximumInputDepth()
-	 */
-	public double getMaximumInputDepth() {
-		double result=0;
-		
-		for (Node n: regularLeaves) {
-			if (n.depth>result)
-				result = n.depth;
-		}
-		return result;
-	}
-
 	public void reduceMemoryUsage() {
 		regularLeaves = new ArrayList<Node>(regularLeaves);
 		((ArrayList<Node>)regularLeaves).trimToSize();
 	}
-
-	public int getArea() {
-		return area;
-	}
-
-	public void setArea(int area) {
-		this.area = area;
-	}
-
-	
-	
-	
 }
