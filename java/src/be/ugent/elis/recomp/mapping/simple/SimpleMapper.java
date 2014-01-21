@@ -113,6 +113,7 @@ public class SimpleMapper {
         
         // Read AIG file
 		MappingAIG a = new MappingAIG(arguments[0]);
+		a.initBDDidMapping();
 		
 		int K = Integer.parseInt(arguments[1]);
 		

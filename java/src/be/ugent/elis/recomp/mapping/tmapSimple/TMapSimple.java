@@ -155,6 +155,7 @@ public class TMapSimple {
 		} else {
 			System.out.println("Warning: no tlut option active");
 		}
+		a.initBDDidMapping();
 		
 		a.fixAIG();
 		

@@ -84,7 +84,7 @@ import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 
 public class ConeEnumeration implements Visitor<Node, Edge> {
-
+	
 	private static final int maxConeSizeConsidered = 20;
 
 	protected int K;
@@ -122,11 +122,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	public void init(AIG<Node, Edge> aig) {
 		if(!(aig instanceof MappingAIG))
 			throw new RuntimeException("ConeEnumeration should be constructed with MappingAIG object");
-		bddIdMapping = new BDDidMapping((MappingAIG)aig);
-		
-		//Parameters should stay together and at the front during reordering
-		if(bddIdMapping.getParamIdRange()>=0)
-			BDDFactorySingleton.get().addVarBlock(0, bddIdMapping.getParamIdRange(), false);
+		bddIdMapping = ((MappingAIG)aig).getBDDidMapping();
 	}
 
 	public void visit(Node node) {

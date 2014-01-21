@@ -83,22 +83,35 @@ import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.AbstractNode;
 import be.ugent.elis.recomp.aig.ElementFactory;
 import be.ugent.elis.recomp.aig.NodeType;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 import be.ugent.elis.recomp.synthesis.Minterm;
 
 public class MappingAIG extends AIG<Node, Edge> {
 
+	BDDidMapping bddIdMapping = null;
+	
 	private MappingAIG(ElementFactory<Node, Edge> factory,
 			String fileName) throws FileNotFoundException {
 		super(factory, fileName);
 	}
 
 	public MappingAIG(String fileName) throws FileNotFoundException {
-		super(new SimpleElementFactory(), fileName);	
+		this(new SimpleElementFactory(), fileName);
 	}
 
 	public MappingAIG(SimpleElementFactory simpleElementFactory) {
 		super(new SimpleElementFactory());
+	}
+	
+	public void initBDDidMapping() {
+		bddIdMapping = new BDDidMapping(this);
+		
+		//Parameters should stay together and at the front during reordering
+		if(bddIdMapping.getParamIdRange()>=0)
+			BDDFactorySingleton.get().addVarBlock(0, bddIdMapping.getParamIdRange(), false);
+		System.out.println("range "+bddIdMapping.getParamIdRange());
+		System.out.println("size "+this.getAllNodes().size());
 	}
 
 	public int numLuts() {
@@ -138,6 +151,10 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 		
 		return result;
+	}
+	
+	public BDDidMapping getBDDidMapping() {
+		return bddIdMapping;
 	}
 
 
