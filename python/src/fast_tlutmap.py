@@ -91,6 +91,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     print "Stage: Creating %s directory and copying design"%workDir
     workFiles = [module] + submodules
     if qsfFileName: workFiles.append(qsfFileName)
+    if parameterFileName: workFiles.append(parameterFileName)
     createWorkDirAndCopyFiles(workDir, workFiles)
     
     ret_pwd = os.getcwd()
