@@ -77,53 +77,46 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
 public class HeightCalculator implements Visitor<Node, Edge> {
-	double oDepth;
+	double targetDepth;
 
 	public HeightCalculator() {
-		this.oDepth = 0.;
+		this.targetDepth = 0.;
 	}
 	
 	public HeightCalculator(double depth) {
-		this.oDepth = depth;
-		// Target depth will be overriden by the maximum depth of the circuit if larger.
+		this.targetDepth = depth;
+		// Target depth will be overridden by the maximum depth of the circuit if larger.
 	}
 
 	public void init(AIG<Node, Edge> aig) {
 		for (Node n : aig.getAllNodes())
 			n.setRequiredTime(Double.POSITIVE_INFINITY);
-		Vector<Node> PO = new Vector<Node>();
-		PO.addAll(aig.getOutputs());
-		PO.addAll(aig.getILatches());
-		for (Node n : PO)
-			oDepth = Math.max(oDepth, n.getDepth());
+		for (Node n : aig.getAllPrimaryOutputs())
+			targetDepth = Math.max(targetDepth, n.getDepth());
 	}
 
 	public void visit(Node node) {
-		// Set the required time of the
-		// primary outputs
-		if (node.isOutput() || node.isILatch()) {
+		// Set the required time of the primary outputs
+		if (node.isPrimaryOutput()) {
 			node.updateRequiredTime(oDepth);
 			node.getI0().getTail().updateRequiredTime(oDepth);
 
 		// Set the required time of the gates
 		} else if (node.isGate()) {
-
-			double requiredTime = node.getRequiredTime();
-			Cone bestCone = node.getBestCone();
-
 			if(node.isVisible()) {
+				Cone bestCone = node.getBestCone();
+				double requiredTime = node.getRequiredTime();
 				for (Node n : bestCone.getNodes())
 					if(!n.isVisible())
 						n.updateRequiredTime(requiredTime);
 				for (Node n : bestCone.getRegularLeaves())
-					n.updateRequiredTime(requiredTime-1);
+					n.updateRequiredTime(requiredTime - bestCone.getDepthOfCone());
 			}
 
+		// Set the required time of the primary inputs
 		} else if (node.isPrimaryInput()) {
 			node.setRequiredTime(0.);
 		}
-
-		//System.out.println(node.getName() + " : " + node.getRequiredTime());
 	}
 
 }
