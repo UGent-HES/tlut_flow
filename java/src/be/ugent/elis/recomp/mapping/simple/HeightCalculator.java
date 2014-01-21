@@ -98,8 +98,8 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 	public void visit(Node node) {
 		// Set the required time of the primary outputs
 		if (node.isPrimaryOutput()) {
-			node.updateRequiredTime(oDepth);
-			node.getI0().getTail().updateRequiredTime(oDepth);
+			node.updateRequiredTime(targetDepth);
+			node.getI0().getTail().updateRequiredTime(targetDepth);
 
 		// Set the required time of the gates
 		} else if (node.isGate()) {
