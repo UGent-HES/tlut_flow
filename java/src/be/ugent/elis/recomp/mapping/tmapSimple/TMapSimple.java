@@ -207,10 +207,11 @@ public class TMapSimple {
 		System.out.println("Printing the parameterizable configuration:");
         b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(arguments[3]))));
         
-        System.out.println("Writing the LUT structure:"); 
-    	a.printLutStructureBlif(
-    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]))),
-    	    K);
+        // Disabled for TCON mapper
+//        System.out.println("Writing the LUT structure:"); 
+//    	a.printLutStructureBlif(
+//    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]))),
+//    	    K);
         if(arguments.length > 5) {
         	String inVhdFile = arguments[5];
         	String vhdFile = arguments[6];
