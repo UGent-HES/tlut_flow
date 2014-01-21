@@ -171,6 +171,9 @@ public class ConeRanking implements Visitor<Node, Edge> {
 		// System.out.println(node.getName());
 	}
 
+	@Override
+	public void finish(AIG<Node,Edge> aig) {}
+
 	protected Cone bestCone(Node node) {
 		return Collections.min(node.getConeSet().getCones(), coneComparator);
 	}

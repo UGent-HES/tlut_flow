@@ -167,6 +167,9 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		// System.out.println(node.getName() + ": " + nmbrCones);
 	}
 
+	@Override
+	public void finish(AIG<Node,Edge> aig) {}
+
 	protected ConeSet mergeParameterConeSets(Node node) {
 		ConeSet result = mergeInputConeSets(node);
 		if(result.size() != 1)

@@ -126,4 +126,6 @@ public class ConeSetRemove implements Visitor<Node, Edge> {
 		System.out.println();
 	}
 
+	public void finish(AIG<Node,Edge> aig) {}
+	
 }

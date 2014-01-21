@@ -83,4 +83,7 @@ public class PrintNameVisitor implements Visitor<Node, Edge> {
 		System.out.println(node.getName());	
 	}
 
+	@Override
+	public void finish(AIG<Node,Edge> aig) {}
+
 }

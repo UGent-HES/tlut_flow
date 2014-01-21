@@ -102,5 +102,7 @@ public class ConeSelection implements Visitor<Node, Edge> {
 		}
 	}
 
+	@Override
+	public void finish(AIG<Node,Edge> aig) {}
 
 }

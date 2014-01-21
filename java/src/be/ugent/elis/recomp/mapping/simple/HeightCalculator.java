@@ -119,4 +119,7 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 		}
 	}
 
+	@Override
+	public void finish(AIG<Node,Edge> aig) {}
+
 }

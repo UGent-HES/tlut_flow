@@ -73,5 +73,7 @@ public interface Visitor< N extends AbstractNode<N,E>, E extends AbstractEdge<N,
 	void visit(N node);
 
 	void init(AIG<N,E> aig);
+	
+	void finish(AIG<N,E> aig);
 
 }

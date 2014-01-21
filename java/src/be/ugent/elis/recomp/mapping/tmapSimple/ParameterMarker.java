@@ -112,5 +112,8 @@ public class ParameterMarker implements Visitor<Node, Edge> {
 			    System.err.println("Warning: latch has only parameters in fanin cone: " + node.getName());
 		}
 	}
+	
+
+	public void finish(AIG<Node,Edge> aig) {}
 
 }

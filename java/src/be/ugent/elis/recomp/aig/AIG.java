@@ -456,6 +456,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		for (N node: this.topologicalOrderInToOut(true, true)) {
 			visitor.visit(node);			
 		}
+		visitor.finish(this);
 	}
 	
 	public void visitAll(Visitor<N,E> visitor1, Visitor<N,E> visitor2, Visitor<N,E> visitor3) {
@@ -467,6 +468,9 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			visitor2.visit(node);
 			visitor3.visit(node);			
 		}
+		visitor1.finish(this);
+		visitor2.finish(this);
+		visitor3.finish(this);
 	}
 	
 	public Vector<N> topologicalOrderInToOut(boolean includeInputs, boolean includeOutputs ) {
@@ -524,6 +528,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		for (N node: this.topologicalOrderOutToIn()) {
 			visitor.visit(node);			
 		}
+		visitor.finish(this);
 	}
 
 	public Vector<N> topologicalOrderOutToIn() {
