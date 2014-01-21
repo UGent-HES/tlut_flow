@@ -85,6 +85,8 @@ import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 
 public class ConeEnumeration implements Visitor<Node, Edge> {
 
+	private static final int maxConeSizeConsidered = 20;
+
 	protected int K;
 	protected boolean tcon_mapping_flag;
 	protected int nmbrConsideredCones;
@@ -223,7 +225,9 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
 		ConeSet result = new ConeSet(mergedConeSet.getNode());
 		for (Cone c : mergedConeSet) {
-			boolean feasible = true;
+			if(c.size() > maxConeSizeConsidered)
+				continue;
+			boolean feasible = false;
 			if(this.tcon_mapping_flag && c.isTCONfeasible()) {
 				feasible = true;
 				c.mapToTCON();
