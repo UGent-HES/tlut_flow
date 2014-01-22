@@ -93,7 +93,7 @@ public class SimpleMapper {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		BDDFactorySingleton.get(1000, 1000);
+		BDDFactorySingleton.get(100000, 2000000, 100000);
 
 		OptionParser parser = new OptionParser();
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
