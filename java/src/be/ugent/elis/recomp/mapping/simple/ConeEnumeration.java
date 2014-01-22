@@ -86,7 +86,8 @@ import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 public class ConeEnumeration implements Visitor<Node, Edge> {
 	
 	private static final int maxConeSizeConsidered = 20;
-	private static final int maxNumConesPerNode = 1000;
+	private static final int maxNumConesPerNodeConsidered = 2000;
+	private static final int maxNumConesPerNodeSaved = 1000;
 
 	protected int K;
 	protected boolean tcon_mapping_flag;
@@ -200,7 +201,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	}
 	
 	protected ConeSet limitNumCones(ConeSet cones) {
-		if(cones.size() <= maxNumConesPerNode)
+		if(cones.size() <= maxNumConesPerNodeSaved)
 			return cones;
 		
 		ConeSet result = new ConeSet(cones.getNode());
@@ -208,7 +209,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ArrayList<Cone> temp = new ArrayList<Cone>(cones.getCones());
 		Collections.sort(temp, new SizeConeComparator());
 		
-		result.addAll(temp.subList(0, maxNumConesPerNode-1));
+		result.addAll(temp.subList(0, maxNumConesPerNodeSaved-1));
 		return result;
 	}
 
