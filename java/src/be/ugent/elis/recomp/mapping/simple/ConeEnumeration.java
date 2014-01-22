@@ -186,17 +186,50 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ConeSet coneSet1 = node1.getConeSet();
 
 		// Merge the cone sets of the child nodes
-		ConeSet result = new ConeSet(node);
-		for (Cone cone0 : coneSet0) {
-			for (Cone cone1 : coneSet1) {
-				Cone merge = Cone.mergeCones(node, cone0, cone1, maxConeSizeConsidered);
-				if(merge != null)
-					result.add(merge);
-				if(result.size() >= maxNumConesPerNode)
-					return result;
+		class TwoCones {
+			public Cone cone0, cone1;
+			public TwoCones(Cone cone0, Cone cone1) {
+				this.cone0 = cone0;
+				this.cone1 = cone1;
 			}
 		}
+		ArrayList<TwoCones> mergesToConsider = new ArrayList<TwoCones>();
+		
 
+		ArrayList<Cone> cones0 = new ArrayList<Cone>(coneSet0.getCones());
+		ArrayList<Cone> cones1 = new ArrayList<Cone>(coneSet1.getCones());
+		Collections.sort(cones0, new SizeConeComparator());
+		Collections.sort(cones1, new SizeConeComparator());
+		if(cones0.size() > cones1.size()) {
+			ArrayList<Cone> tmp = cones0;
+			cones0 = cones1;
+			cones1 = tmp;
+		}
+		for(int i=0; i<cones0.size(); i++) {
+			for(int j=0; j<=i; j++) {
+				mergesToConsider.add(new TwoCones(cones0.get(i), cones1.get(j)));
+				if(i!=j)
+					mergesToConsider.add(new TwoCones(cones1.get(i), cones0.get(j)));
+				if(mergesToConsider.size() >= maxNumConesPerNodeConsidered)
+					break;
+			}
+		}
+		for(int i=cones0.size(); i<cones1.size(); i++) {
+			for(Cone cone0 : cones0) {
+				mergesToConsider.add(new TwoCones(cone0, cones1.get(i)));
+				if(mergesToConsider.size() >= maxNumConesPerNodeConsidered)
+					break;
+			}
+			if(mergesToConsider.size() >= maxNumConesPerNodeConsidered)
+				break;
+		}
+
+		ConeSet result = new ConeSet(node);
+		for(TwoCones twoCones : mergesToConsider) {
+			Cone merge = Cone.mergeCones(node, twoCones.cone0, twoCones.cone1, maxConeSizeConsidered);
+			if(merge != null) 
+				result.add(merge);
+		}
 		return result;
 	}
 	
