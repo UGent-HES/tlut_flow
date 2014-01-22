@@ -146,13 +146,16 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 
-	public static Cone mergeCones(Node node, Cone cone0, Cone cone1) {
+	public static Cone mergeCones(Node node, Cone cone0, Cone cone1, int maxConeSizeConsidered) {
 		Cone result = new Cone(node, cone0.bddIdMapping);
 		
 		result.signature = cone0.signature | cone1.signature;
 		
 		result.addLeaves(cone0);
 		result.addLeaves(cone1);
+		
+		if(result.size() > maxConeSizeConsidered)
+			return null;
 		
 		result.setFunction(computeFunctionOfMergedCones(node, cone0, cone1));
 	
