@@ -90,7 +90,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	private Node root;
 	protected Collection<Node> regularLeaves;
 //	protected Set<Node> parameterLeaves;
-	protected int signature;
+	protected long signature;
 
 	private ArrayList <Node> nodes;
 	
@@ -187,15 +187,15 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	}
 
 	
-	private void setSignature(int signature) {
+	private void setSignature(long signature) {
 		this.signature = signature;
 	}
 	
-	public int getSignature() {
+	public long getSignature() {
 		return signature;
 	}
 
-	public void setRoot(Node root) {
+	private void setRoot(Node root) {
 		this.root = root;
 		nodes = null;
 	}
@@ -351,7 +351,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	protected void calculateSignature() {
 		signature = 0;
 		for (Node n: regularLeaves) {
-			signature |= (1 << (n.hashCode() & 0x1F));
+			signature |= (1 << (n.hashCode() % 64));
 		}
 	}
 	
@@ -527,7 +527,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	}
 
 	public boolean dominates(Cone cone) {
-		int test = this.signature & (~ cone.signature);
+		long test = this.signature & (~ cone.signature);
 		if (test==0)
 			return cone.regularLeaves.containsAll(this.regularLeaves);
 		else

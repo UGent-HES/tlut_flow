@@ -74,9 +74,7 @@ import java.util.ArrayList;
 
 public interface ConeInterface {
 
-	public abstract int getSignature();
-
-	public abstract void setRoot(Node root);
+	public abstract long getSignature();
 
 	public abstract Node getRoot();
 
