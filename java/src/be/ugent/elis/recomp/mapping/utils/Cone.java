@@ -374,17 +374,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return size() <= K;
 	}
 	
-	public boolean isTCONfeasible() {
-		ArrayList<BDD> subBDDs = getAllRegularLeaveSubBDDs(this.function);
-		for(BDD subBDD : subBDDs) {
-			if(bddContainsParameterLeaves(subBDD))
-				throw new RuntimeException("BDD variable ordering invalid: parameters should come before regular leaves");
-			if(subBDD.nodeCount() != 1)
-				return false;
-		}
-		return true;
-	}
-	
 	private int countNonZero(int[] array) {
 		int count = 0;
 		for(int e : array)
@@ -393,19 +382,36 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return count;
 	}
 	
+	public boolean isTCONfeasible() {
+		boolean result = true;
+		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(this.function, this.bddIdMapping);
+		while(regularLeafSubBDDIterator.hasNext()) {
+			BDD subBDD = regularLeafSubBDDIterator.next();
+			if(countBDDVars(subBDD) > 1) {
+				result = false;
+				break;
+			}
+		}
+		regularLeafSubBDDIterator.free();
+		return result;
+	}
+	
 	private int countBDDVars(BDD bdd) {
-		return countNonZero(bdd.varProfile());
+		return bdd.support().nodeCount();
 	}
 	
 	public boolean isTLCfeasible(int K) {
-		ArrayList<BDD> subBDDs = getAllRegularLeaveSubBDDs(this.function);
-		for(BDD subBDD : subBDDs) {
-			if(bddContainsParameterLeaves(subBDD))
-				throw new RuntimeException("BDD variable ordering invalid: parameters should come before regular leaves");
-			if(countBDDVars(subBDD) > K)
-				return false;
+		boolean result = true;
+		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(this.function, this.bddIdMapping);
+		while(regularLeafSubBDDIterator.hasNext()) {
+			BDD subBDD = regularLeafSubBDDIterator.next();
+			if(countBDDVars(subBDD) > K) {
+				result = false;
+				break;
+			}
 		}
-		return true;
+		regularLeafSubBDDIterator.free();
+		return result;
 	}
 	
 	private ArrayList<BDD> getAllRegularLeaveSubBDDs(BDD bdd) {
