@@ -107,6 +107,10 @@ public class ConeSet implements Iterable<Cone> {
 	public void addAll(ConeSet coneSet) {
 		cones.addAll(coneSet.cones);
 	}
+	
+	public void addAll(Collection<Cone> addCones) {
+		cones.addAll(addCones);
+	}
 
 	public Iterator<Cone> iterator() {
 		return cones.iterator();

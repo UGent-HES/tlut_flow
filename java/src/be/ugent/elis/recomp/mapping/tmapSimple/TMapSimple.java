@@ -161,7 +161,11 @@ public class TMapSimple {
 		
 		int K = Integer.parseInt(arguments[2]);
 
-		// Mapping
+
+        System.out.println("Activation Function Builder:");
+        new ActivationFunctionBuilder(a).run();
+        
+        // Mapping
 		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag);
 		System.out.println("Cone Enumeration:");
         a.visitAll(enumerator);
@@ -196,8 +200,6 @@ public class TMapSimple {
 
 		// Resource sharing
 		if(resource_sharing_flag) {
-	        System.out.println("Activation Function Builder:");
-	        ActivationFunctionBuilder.run(a);
 	        System.out.println("Resource Sharing:");
 	        new ResourceSharingCalculator().run(a);
 		}

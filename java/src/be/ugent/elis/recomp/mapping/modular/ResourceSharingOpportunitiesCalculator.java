@@ -99,7 +99,7 @@ public class ResourceSharingOpportunitiesCalculator {
 		
 		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-        ActivationFunctionBuilder.run(a);
+        new ActivationFunctionBuilder(a).run();
         new ResourceSharingOpportunitiesCalculator().run(a);
         
     }
@@ -267,6 +267,8 @@ public class ResourceSharingOpportunitiesCalculator {
 
 	private void classifyNode(Node node) {
 		BDD activFn = node.getActivationFunction();
+		if(activFn == null)
+			throw new RuntimeException("ActivationFunctions of nodes must be computed first");
 		if(!activationSets.containsKey(activFn))
 			activationSets.put(activFn, new ActivationSet(activFn));
 		activationSets.get(activFn).addNode(node);

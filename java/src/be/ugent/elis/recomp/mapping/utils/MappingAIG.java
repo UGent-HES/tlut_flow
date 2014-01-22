@@ -109,8 +109,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 		//Parameters should stay together and at the front during reordering
 		if(bddIdMapping.getParamIdRange()>=0)
 			BDDFactorySingleton.get().addVarBlock(0, bddIdMapping.getParamIdRange(), false);
-		System.out.println("range "+bddIdMapping.getParamIdRange());
-		System.out.println("size "+this.getAllNodes().size());
 	}
 
 	public int numLuts() {

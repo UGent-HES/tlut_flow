@@ -90,27 +90,25 @@ public class ActivationFunctionBuilder {
 		
 		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-        ActivationFunctionBuilder.run(a);
+        new ActivationFunctionBuilder(a).run();
     }
 	
 	static final int g_node_max = 1000000;
-    private BDDFactory B;
-    private ArrayList<Node> parameter_list;
+	private MappingAIG aig;
+	private BDDFactory B;
 	
-	public static void run(MappingAIG aig) {
-		new ActivationFunctionBuilder().run_instance(aig);
-	}
-
-    private ActivationFunctionBuilder() {
-	}
+    public ActivationFunctionBuilder(MappingAIG aig) {
+    	this.aig = aig;
+		this.B = BDDFactorySingleton.get();
+    }
 	
-	private void run_instance(MappingAIG aig) {
-		init(aig);
+	public void run() {
+		init();
 		//Calculate deactivation functions
-		calculateDeactivationFunctions(aig);
+		calculateDeactivationFunctions();
 		
 		//Calculate activation functions and propagate activation functions past latches
-		calculateActivationFunctions(aig);
+		calculateActivationFunctions();
 		
 		for (Node node : aig.getAllPrimaryInputs()) {
 			if(!node.isParameterInput() && node.getActivationFunction().equals(B.zero())) {
@@ -118,18 +116,16 @@ public class ActivationFunctionBuilder {
 			}
 		}
 		
-		finalise(aig);
+		finalise();
 	}
 	
-	private void init(MappingAIG aig) {
+	private void init() {
 		for(Node input : aig.getInputs())
 			if (input.isParameterInput())
 				System.out.println("INFO: parameter '"+input.getName()+"' has BDD id '"+aig.getBDDidMapping().getId(input)+"'");
-		
-		B = BDDFactorySingleton.get();
 	}
 	
-	private void finalise(AIG<Node, Edge> aig) {
+	private void finalise() {
 		for (Node node : aig.getAllNodes()) {
 			if(node.getOnParamFunction()!=null) {
 				node.getOnParamFunction().free();
@@ -142,7 +138,7 @@ public class ActivationFunctionBuilder {
 		}
 	}
 	
-	private void calculateDeactivationFunctions(MappingAIG aig) {
+	private void calculateDeactivationFunctions() {
 		boolean updated_latch;
 		
 		//Initialise deactivation functions to zero
@@ -249,7 +245,7 @@ public class ActivationFunctionBuilder {
 	}
 	
 
-	private void calculateActivationFunctions(MappingAIG aig) {
+	private void calculateActivationFunctions() {
 		boolean updated_latch;
 		
 		//Initialise activation functions to zero
