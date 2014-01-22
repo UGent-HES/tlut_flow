@@ -86,6 +86,7 @@ import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 public class ConeEnumeration implements Visitor<Node, Edge> {
 	
 	private static final int maxConeSizeConsidered = 20;
+	private static final int maxNumConesPerNode = 1000;
 
 	protected int K;
 	protected boolean tcon_mapping_flag;
@@ -147,6 +148,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				ConeSet feasibleCones = retainFeasibleCones(mergedConeSet);
 				nmbrFeasibleCones += feasibleCones.size();
 				ConeSet nonDominatedConeSet = removeDominatedCones(feasibleCones);
+				nonDominatedConeSet = limitNumCones(nonDominatedConeSet);
 				nmbrCones += nonDominatedConeSet.size();
 				result.addAll(nonDominatedConeSet);
 				result.add(Cone.trivialCone(node, bddIdMapping));
@@ -188,12 +190,28 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			for (Cone cone1 : coneSet1) {
 				Cone merge = Cone.mergeCones(node, cone0, cone1, maxConeSizeConsidered);
 				if(merge != null)
-				result.add(merge);
+					result.add(merge);
+				if(result.size() >= maxNumConesPerNode)
+					return result;
 			}
 		}
 
 		return result;
 	}
+	
+	protected ConeSet limitNumCones(ConeSet cones) {
+		if(cones.size() <= maxNumConesPerNode)
+			return cones;
+		
+		ConeSet result = new ConeSet(cones.getNode());
+
+		ArrayList<Cone> temp = new ArrayList<Cone>(cones.getCones());
+		Collections.sort(temp, new SizeConeComparator());
+		
+		result.addAll(temp.subList(0, maxNumConesPerNode-1));
+		return result;
+	}
+
 	
 	protected ConeSet removeDominatedCones(ConeSet feasibleCones) {
 		ConeSet result = new ConeSet(feasibleCones.getNode());
@@ -205,13 +223,11 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 
 		for (int i = 0; i < temp.size(); i++) {
 			for (int j = i + 1; j < temp.size(); j++) {
-
 				if (temp.get(i).dominates(temp.get(j))) {
 					dominatedCones.add(temp.get(j));
 				}
 			}
 		}
-		
 
 		result.removeAll(dominatedCones);
 		nmbrDominatedCones += dominatedCones.size();
@@ -237,7 +253,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			} else // infeasible
 				continue;
 			feasible.add(c);
-			}
+		}
 		return feasible;
 	}
 
