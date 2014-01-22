@@ -223,8 +223,8 @@ public class TMapSimple {
         }
 
 
-		System.out.println(a.numLuts() + "\t" + a.getDepth() + "\t"
-				+ a.numTLuts() + "\t" + a.avDupl() + "\t"
+		System.out.println(a.numLUTs() + "\t" + a.getDepth() + "\t"
+				+ a.numTLUTs() + "\t" + a.numTCONs() + "\t" + a.avDupl() + "\t"
 				+ enumerator.getNmbrConsideredCones() + "\t"
 				+ enumerator.getNmbrFeasibleCones() + "\t"
 				+ enumerator.getNmbrCones());

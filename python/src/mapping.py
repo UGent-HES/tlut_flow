@@ -166,7 +166,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
             numLuts = int(data[0])
             depth   = int(float(data[1]))
             numTLuts =  int(data[2])
-            avDup = float(data[3])
+            numTCons =  int(data[3])
+            avDup = float(data[4])
         except (ValueError, IndexError):
             if not verboseFlag:
                 print ' '.join(cmd + args)
@@ -235,7 +236,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
     except subprocess.CalledProcessError as e:
         print >> sys.stderr, e.output
         raise
-    return (numLuts, numTLuts, depth, avDup, origAnds, paramAnds, check)    
+    return (numLuts, numTLuts, numTCons, depth, avDup, origAnds, paramAnds, check)    
 
 def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False, target_depth=None):
     try:

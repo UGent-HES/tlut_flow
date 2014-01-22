@@ -74,6 +74,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -110,28 +111,36 @@ public class MappingAIG extends AIG<Node, Edge> {
 		if(bddIdMapping.getParamIdRange()>=0)
 			BDDFactorySingleton.get().addVarBlock(0, bddIdMapping.getParamIdRange(), false);
 	}
+	
+	public Collection<Cone> getVisibleCones() {
+		ArrayList<Cone> result = new ArrayList<Cone>();
+		for (Node node:getAnds())
+			if (node.isVisible())
+				result.add(node.getBestCone());
+		return result;
+	}
 
-	public int numLuts() {
-		int result=0;
-		for (Node node:getAnds()) {
-			if (node.isVisible()) {
-				if (node.getBestCone().usesLUTResource()) {
+	public int numLUTs() {
+		int result = 0;
+		for (Cone cone : getVisibleCones())
+				if (cone.usesLUTResource())
 					result++;
-				}
-			}
-		}
 		return result;
 	}
 	
-	public int numTLuts() {
-		int result=0;
-		for (Node node:getAnds()) {
-			if (node.isVisible()) {
-				if (node.getBestCone().isTLUT()) {
+	public int numTLUTs() {
+		int result = 0;
+		for (Cone cone : getVisibleCones())
+				if (cone.isTLUT() || cone.isTLC())
 					result++;
-				}
-			}
-		}
+		return result;
+	}
+	
+	public int numTCONs() {
+		int result = 0;
+		for (Cone cone : getVisibleCones())
+				if (cone.isTCON() || cone.isTLC())
+					result++;
 		return result;
 	}
 

@@ -267,7 +267,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		this.type = ConeType.TCON;
 	}
 
-	public boolean TLC() {
+	public boolean isTLC() {
 		return this.type == ConeType.TLC;
 	}
 	
