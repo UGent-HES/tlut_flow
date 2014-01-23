@@ -116,8 +116,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 
 		// Set the area flow and the depth of the
 		// primary inputs and there output edges.
-		if (node.isInput() || node.isOLatch()) {
-
+		if (node.isPrimaryInput()) {
 			node.setDepth(0.0);
 			node.setAreaflow(0.0);
 

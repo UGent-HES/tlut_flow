@@ -116,7 +116,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			System.out.println(node.getName());
 		} else {
 			
-			if (node.isInput() || node.isOLatch()) {
+			if (node.isPrimaryInput()) {	
 				result.add(Cone.trivialCone(node));
 			} else if (node.isGate()) {
 				ConeSet mergedConeSet  = mergeInputConeSets(node);

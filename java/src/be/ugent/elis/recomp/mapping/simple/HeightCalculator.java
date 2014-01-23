@@ -112,7 +112,7 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 					n.updateRequiredTime(requiredTime-1);
 			}
 
-		} else if (node.isInput() || node.isOLatch()) {
+		} else if (node.isPrimaryInput()) {
 		}
 
 		// System.out.println(node.getName());

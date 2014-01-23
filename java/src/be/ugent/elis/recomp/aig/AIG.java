@@ -454,7 +454,6 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 	Vector<N> inToOut_rec(N node, Vector<N> vec, boolean includeInputs, boolean includeOutputs) {
 		if (!node.isMarked()) {
-						
 			switch (node.getType()) {
 			case AND:
 				inToOut_rec(node.in0Node(), vec, includeOutputs, includeOutputs);
@@ -475,6 +474,9 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 					vec.add(node);
 				node.setMarked(true);
 				break;
+			case CONST0:
+				vec.add(node);
+				node.setMarked(true);
 			default:
 				break;
 			}
@@ -1192,6 +1194,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		default:
 			System.out.println("Unknown node type!");
 		}
+	}
+	
+	public void removeEdge(E edge) {
+		edges.remove(edge);
 	}
 
 	public N addNode(String name, NodeType type) {

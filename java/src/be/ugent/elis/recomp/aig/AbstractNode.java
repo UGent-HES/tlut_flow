@@ -125,6 +125,10 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		else
 			return false;
 	}
+	
+	public boolean isPrimaryInput(){
+		return (this.isConst0() || this.isInput() || this.isOLatch());
+	}
 
 	public double fanout() {
 		return output.size();
