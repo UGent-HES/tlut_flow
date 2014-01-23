@@ -175,6 +175,16 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	private static BDD computeFunctionOfMergedCones(Node root, Cone cone0, Cone cone1) {
+		if(root.getI0().getTail() != cone0.getRoot()) {
+			Cone tmp = cone0;
+			cone0 = cone1;
+			cone1 = tmp;
+		}
+		if(root.getI0().getTail() != cone0.getRoot())
+			throw new RuntimeException();
+		if(root.getI1().getTail() != cone1.getRoot())
+			throw new RuntimeException();
+		
 		BDD function0 = cone0.getFunction().id();
 		BDD function1 = cone1.getFunction().id();
 		
