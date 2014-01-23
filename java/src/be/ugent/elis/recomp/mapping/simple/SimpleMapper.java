@@ -149,7 +149,7 @@ public class SimpleMapper {
         // Writing a blif
         a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))), K);
 
-		System.out.println(a.numLUTs() + "\t" + a.getDepth() + "\t"
+		System.out.println(a.numLUTResourcesUsed() + "\t" + a.getDepth() + "\t"
 				+ enumerator.getNmbrConsideredCones() + "\t"
 				+ enumerator.getNmbrFeasibleCones() + "\t"
 				+ enumerator.getNmbrCones());

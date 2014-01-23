@@ -81,7 +81,6 @@ import be.ugent.elis.recomp.mapping.utils.ConeSet;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
-import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 
 public class ConeEnumeration implements Visitor<Node, Edge> {
 	
@@ -133,7 +132,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		if (node.isParameter()) {
 			if (node.isPrimaryInput())
 				result.add(Cone.trivialParameterCone(node, bddIdMapping));
-			else {
+			else if (node.isGate()) {
 				result.addAll(mergeParameterConeSets(node));
 			}
 			// System.out.println(node.getName());
@@ -209,7 +208,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			for(int j=0; j<=i; j++) {
 				mergesToConsider.add(new TwoCones(cones0.get(i), cones1.get(j)));
 				if(i!=j)
-					mergesToConsider.add(new TwoCones(cones1.get(i), cones0.get(j)));
+					mergesToConsider.add(new TwoCones(cones0.get(j), cones1.get(i)));
 				if(mergesToConsider.size() >= maxNumConesPerNodeConsidered)
 					break;
 			}

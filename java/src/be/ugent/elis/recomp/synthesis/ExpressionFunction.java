@@ -75,15 +75,15 @@ import java.util.Vector;
 public class ExpressionFunction extends BooleanFunction {
 	private String expression;
 
-	public ExpressionFunction(String outputVariable, Vector<String> inputVariables, String expression) {
-		super(outputVariable, inputVariables);
+	public ExpressionFunction(Vector<String> inputVariables, String expression) {
+		super(inputVariables);
 		
 		this.expression = expression;
 		
 	}
 	
 	public ExpressionFunction invert() {
-		return new ExpressionFunction(getOutputVariable() + "_n", getInputVariable(), expression+ " -");
+		return new ExpressionFunction(getInputVariable(), expression+ " -");
 	}
 	
 	public void invertInput(String variable) {

@@ -76,15 +76,15 @@ import net.sf.javabdd.BDDPairing;
 
 public class BDDFunction extends BooleanFunction {
 	private BDD bdd;
-
-	public BDDFunction(String outputVariable, Vector<String> inputVariables, BDD bdd) {
-		super(outputVariable, inputVariables);
+	
+	public BDDFunction(Vector<String> inputVariables, BDD bdd) {
+		super(inputVariables);
 		
 		this.bdd = bdd;
 	}
 	
 	public BDDFunction invert() {
-		return new BDDFunction(getOutputVariable() + "_n", getInputVariable(), bdd.id().not());
+		return new BDDFunction(getInputVariable(), bdd.id().not());
 	}
 	
 	public void invertInput(String variable_name) {
@@ -122,5 +122,12 @@ public class BDDFunction extends BooleanFunction {
 	
 	private String getVariableName(int variable_id) {
 		return getInputVariable().get(variable_id);
+	}
+	
+	public String toString() {
+		String result = this.bdd.toString() + "\nnodes:";
+		for(String name : getInputVariable())
+			result += " " + name;
+		return result;
 	}
 }

@@ -72,6 +72,7 @@ package be.ugent.elis.recomp.mapping.utils;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.ArrayList;
@@ -82,10 +83,7 @@ import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BDDFunction;
-import be.ugent.elis.recomp.synthesis.BooleanFunction;
-import be.ugent.elis.recomp.synthesis.ExpressionFunction;
-
-public class Cone implements Comparable<Cone>, ConeInterface {
+public class Cone implements Comparable<Cone> {
 	
 	private Node root;
 	protected Collection<Node> regularLeaves;
@@ -164,7 +162,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	
 	public static Cone trivialParameterCone(Node node, BDDidMapping bddIdMapping) {
 		Cone result = new Cone(node, bddIdMapping);
-		result.function = BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node));
+		result.setFunction(BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node)));
 		return result;
 	}
 
@@ -172,7 +170,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		Cone result = new Cone(node, bddIdMapping);
 		result.addLeave(node);
 		result.calculateSignature();
-		result.function = BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node));
+		result.setFunction(BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node)));
 		return result;
 	}
 	
@@ -243,6 +241,10 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return regularLeaves.size();
 	}
 	
+	public ConeType getType() {
+		return type;
+	}
+	
 	public boolean isLUT() {
 		return this.type == ConeType.LUT;
 	}
@@ -275,9 +277,20 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		this.type = ConeType.TLC;
 	}
 	
+	public boolean isTuneable() {
+		return this.type == ConeType.TCON
+				|| this.type == ConeType.TLUT
+				|| this.type == ConeType.TLC;
+	}
+	
 	public boolean usesLUTResource() {
 		return this.type == ConeType.LUT
 				|| this.type == ConeType.TLUT
+				|| this.type == ConeType.TLC;
+	}
+	
+	public boolean usesTLUTResource() {
+		return this.type == ConeType.TLUT
 				|| this.type == ConeType.TLC;
 	}
 	
@@ -288,13 +301,9 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 
 
 
-	public Set<Node> getParameterLeaves() {
-		Set<Node> result = new HashSet<Node>();
-		HashSet<Node> nodesTest = new HashSet<Node>();
-		
-		nodesTest.addAll(getNodes());
-		
-		for (Node node: nodesTest) {
+	public Collection<Node> getParameterLeaves() {
+		HashSet<Node> result = new HashSet<Node>();
+		for (Node node: getNodesInToOut()) {
 			if (node.getI0().getTail().isParameterInput()) {
 				result.add(node.getI0().getTail());
 			}
@@ -307,6 +316,18 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 
 	public Collection<Node> getRegularLeaves() {
 		return regularLeaves;
+	}
+
+	public ArrayList<Node> getRegularLeavesInFixedOrder() {
+		ArrayList<Node> result = new ArrayList<Node>(getRegularLeaves());
+		Collections.sort(result, new AlphanumNodeNameComparator());
+		return result;
+	}
+	
+	public Collection<Node> getAllLeaves() {
+		ArrayList<Node> result = new ArrayList<Node>(getParameterLeaves());
+		result.addAll(getRegularLeaves());
+		return result;
 	}
 
 	public void addLeave(Node node) {
@@ -374,17 +395,9 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return size() <= K;
 	}
 	
-	private int countNonZero(int[] array) {
-		int count = 0;
-		for(int e : array)
-			if(e!=0)
-				count++;
-		return count;
-	}
-	
 	public boolean isTCONfeasible() {
 		boolean result = true;
-		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(this.function, this.bddIdMapping);
+		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(this.getFunction(), this.bddIdMapping);
 		while(regularLeafSubBDDIterator.hasNext()) {
 			BDD subBDD = regularLeafSubBDDIterator.next();
 			if(countBDDVars(subBDD) > 1) {
@@ -396,13 +409,13 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		return result;
 	}
 	
-	private int countBDDVars(BDD bdd) {
+	private static int countBDDVars(BDD bdd) {
 		return bdd.support().nodeCount();
 	}
 	
 	public boolean isTLCfeasible(int K) {
 		boolean result = true;
-		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(this.function, this.bddIdMapping);
+		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(this.getFunction(), this.bddIdMapping);
 		while(regularLeafSubBDDIterator.hasNext()) {
 			BDD subBDD = regularLeafSubBDDIterator.next();
 			if(countBDDVars(subBDD) > K) {
@@ -411,18 +424,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 			}
 		}
 		regularLeafSubBDDIterator.free();
-		return result;
-	}
-	
-	private ArrayList<BDD> getAllRegularLeaveSubBDDs(BDD bdd) {
-		ArrayList<BDD> result = new ArrayList<BDD>();
-		if (bdd.isZero() || bdd.isOne()
-				|| !bddIdMapping.getNode(bdd.var()).isParameter()) {
-			result.add(bdd);
-		} else {
-			result.addAll(getAllRegularLeaveSubBDDs(bdd.high()));
-			result.addAll(getAllRegularLeaveSubBDDs(bdd.low()));
-		}
 		return result;
 	}
 	
@@ -436,7 +437,7 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 	}
 
 
-	public ArrayList<Node> getNodes() {
+	public ArrayList<Node> getNodesInToOut() {
 		if (nodes == null) {
 			ArrayList<Node> result = new ArrayList<Node>();
 			Set<Node> visited = new HashSet<Node>();
@@ -489,12 +490,11 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		Vector<String> inputVariables = new Vector<String>();
 		for(Node node : regularLeaves)
 			inputVariables.add(node.getName());
-		String outputVariable = root.getName();
 		
 		BDD bdd = getBDDRec(root.getI0(), inputVariables).
 				andWith(getBDDRec( root.getI1(), inputVariables)); 
 		
-		return new BDDFunction(outputVariable, inputVariables, bdd);
+		return new BDDFunction(inputVariables, bdd);
 	}
 	
 	private String getExpressionRec(Edge e) {
@@ -502,7 +502,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		Node source = e.getTail();
 		
 		if (regularLeaves.contains(source)) {
-//		if (regularLeaves.contains(source) || parameterLeaves.contains(source)) {
 			result += source.getName();
 		} else {
 			result += getExpressionRec( source.getI0()) + " " + getExpressionRec( source.getI1()) + " *";
@@ -519,10 +518,8 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 		BDD result;
 		Node source = e.getTail();
 		
-		if (regularLeaves.contains(source)) {
-//		if (regularLeaves.contains(source) || parameterLeaves.contains(source)) {
 			int id = inputVariables.indexOf(source.getName());
-			assert(id!=-1);
+		if (id != -1) {
 			result = BDDFactorySingleton.get().ithVar(id);
 		} else {
 			result = getBDDRec( source.getI0(), inputVariables).andWith(getBDDRec( source.getI1(), inputVariables));
@@ -546,14 +543,6 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 //	public int numParameters() {
 //		return parameterLeaves.size();
 //	}
-
-	public ArrayList<Node> getRegularInputs() {
-		ArrayList<Node> result = new ArrayList<Node>();
-
-		result.addAll(regularLeaves);
-		
-		return result;
-	}
 
 	private double getMaximumInputDepth() {
 		double result=0;

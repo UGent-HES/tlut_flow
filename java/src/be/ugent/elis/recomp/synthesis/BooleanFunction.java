@@ -72,10 +72,8 @@ import java.util.Vector;
 
 public abstract class BooleanFunction {
 	private Vector<String> inputVariable;
-	private String outputVariable;
 	
-	public BooleanFunction(String outputVariable, Vector<String> inputVariables) {
-		this.outputVariable = outputVariable;
+	public BooleanFunction(Vector<String> inputVariables) {
 		this.inputVariable = inputVariables;
 	}
 
@@ -104,22 +102,6 @@ public abstract class BooleanFunction {
 
 	public void setInputVariable(Vector<String> inputVariable) {
 		this.inputVariable = inputVariable;
-	}
-
-	public String getOutputVariable() {
-		return outputVariable;
-	}
-
-	public void setOutputVariable(String outputVariable) {
-		this.outputVariable = outputVariable;
-	}
-
-	public String getBlifString(String name) {
-		String temp = this.outputVariable;
-		this.outputVariable = name;
-		String result = getBlifString();
-		this.outputVariable = temp;
-		return result;
 	}
 	
 	public String getBlifString() {

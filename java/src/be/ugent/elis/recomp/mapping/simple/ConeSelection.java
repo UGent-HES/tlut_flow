@@ -69,7 +69,7 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.simple;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
-import be.ugent.elis.recomp.mapping.utils.ConeInterface;
+import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
@@ -93,7 +93,7 @@ public class ConeSelection implements Visitor<Node, Edge> {
 			
 			if (node.isVisible()) {
 
-				ConeInterface bestCone = node.getBestCone();
+				Cone bestCone = node.getBestCone();
 				for (Node n:bestCone.getRegularLeaves()) {
 					n.setVisible(true);
 				}

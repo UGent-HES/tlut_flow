@@ -80,7 +80,7 @@ public class Test {
 		inputVariables.add("a"); 
 		inputVariables.add("b");
 		inputVariables.add("c");
-		BooleanFunction f = new ExpressionFunction("f",inputVariables,"b c + a +");
+		BooleanFunction f = new ExpressionFunction(inputVariables,"b c + a +");
 		
 		
 		TruthTable table = new TruthTable(f);

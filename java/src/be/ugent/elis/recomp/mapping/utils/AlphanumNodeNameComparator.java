@@ -64,45 +64,24 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
-*/
+ *//*
+ */
 package be.ugent.elis.recomp.mapping.utils;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.ArrayList;
+import java.util.Comparator;
 
-public interface ConeInterface {
+import be.ugent.elis.recomp.aig.AbstractNode;
 
-	public abstract long getSignature();
+import com.daveKoelle.AlphanumComparator;
 
-	public abstract Node getRoot();
+public class AlphanumNodeNameComparator implements Comparator<AbstractNode<?,?>> {
+	AlphanumComparator comp;
 
-	public abstract Collection<Node> getParameterLeaves();
+	public AlphanumNodeNameComparator() {
+		comp = new AlphanumComparator();
+	}
 
-	public abstract Collection<Node> getRegularLeaves();
-
-	public abstract void addLeave(Node node);
-
-	public abstract void addLeaves(Cone cone0);
-
-	public abstract double getDepth();
-
-	public abstract double getAreaflow();
-
-	public abstract int getArea();
-
-	public abstract boolean isTrivial();
-
-	public abstract boolean isTLUT();
-
-	//TODO: Migration to TMapCone
-	public abstract ArrayList<Node> getNodes();
-
-	public abstract ArrayList<Node> getRegularInputs();
-
-	public abstract int size();
-
-	public abstract String toString();
-
+	public int compare(AbstractNode<?,?> o1, AbstractNode<?,?> o2) {
+		return comp.compare(o1.getName(), o2.getName());
+	}
 }

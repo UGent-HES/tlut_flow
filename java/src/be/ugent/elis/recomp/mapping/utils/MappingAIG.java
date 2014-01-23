@@ -120,7 +120,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		return result;
 	}
 
-	public int numLUTs() {
+	public int numLUTResourcesUsed() {
 		int result = 0;
 		for (Cone cone : getVisibleCones())
 				if (cone.usesLUTResource())
@@ -128,18 +128,18 @@ public class MappingAIG extends AIG<Node, Edge> {
 		return result;
 	}
 	
-	public int numTLUTs() {
+	public int numTLUTResourcesUsed() {
 		int result = 0;
 		for (Cone cone : getVisibleCones())
-				if (cone.isTLUT() || cone.isTLC())
+				if (cone.usesTLUTResource())
 					result++;
 		return result;
 	}
 	
-	public int numTCONs() {
+	public int numTCONResourcesUsed() {
 		int result = 0;
 		for (Cone cone : getVisibleCones())
-				if (cone.isTCON() || cone.isTLC())
+				if (cone.usesTCONResource())
 					result++;
 		return result;
 	}
@@ -210,9 +210,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 			          (includeLUTs  && !and.getBestCone().isTLUT())    ))
     			          continue;
 				
-				ConeInterface bestCone = and.getBestCone();
-				ArrayList<Node> bestConeNodesInToOut = bestCone.getNodes();
-				ArrayList<Node> regularInputs = bestCone.getRegularInputs();
+				Cone bestCone = and.getBestCone();
+				ArrayList<Node> bestConeNodesInToOut = bestCone.getNodesInToOut();
+				ArrayList<Node> regularInputs = new ArrayList<Node>(bestCone.getRegularLeaves());
 				
 				ArrayList<ConfigurationEntry> configuration_entries = new ArrayList<ConfigurationEntry>();
 				ArrayList<ConfigurationEntry> configuration_entries_inv = new ArrayList<ConfigurationEntry>();
@@ -440,7 +440,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		stream.print(".names");
 		//Regular LUT inputs
 		Map<String, Node> map = new HashMap<String, Node>();
-		for (Node n : bestCone.getRegularInputs())
+		for (Node n : bestCone.getAllLeaves())
 			map.put(n.getName(), n);
 		for(String name : f.getInputVariable()) {
 			Node n = map.get(name);
@@ -457,7 +457,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	}
 
 	public void printTLutBlif(Node visibleAnd, PrintStream stream, int K, String lutName) {
-		ConeInterface bestCone = visibleAnd.getBestCone(); 
+		Cone bestCone = visibleAnd.getBestCone(); 
 		
 		stream.print(".names");
 		//LUT configuration inputs
@@ -466,7 +466,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 		//Regular LUT inputs
 		int j = 0;
-		for (Node n:bestCone.getRegularInputs()) {
+		for (Node n:bestCone.getRegularLeaves()) {
 			if (checkOutputLutInversion(n) == OutputLutInversion.AllOutsInverted)
 				stream.print(" "+n.getName()+"not");
 			else
@@ -581,7 +581,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		PrintStream stream = new PrintStream(new File(vhdFile));
 		PrintStream nameStream = new PrintStream(new File(nameFile));
 		 
-		writeHeader(stream, inVhdFile, K);		
+		writeVhdlHeader(stream, inVhdFile, K);		
 		String baseName = inVhdFile.substring(0,inVhdFile.lastIndexOf('.')).substring(inVhdFile.lastIndexOf('/')+1);
 		stream.println("\nbegin");
 	    
@@ -615,7 +615,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	
 	public void printLutVhdl(String baseName, Node visibleAnd, PrintStream stream, PrintStream nameStream, int K, String lutName, boolean inverted) {
 		Cone bestCone = visibleAnd.getBestCone();
-		ArrayList<Node> regularInputs = bestCone.getRegularInputs();
+		ArrayList<Node> regularInputs = bestCone.getRegularLeavesInFixedOrder();
 		int lutSize = regularInputs.size();
 		String lutInstance = "\n";
 /*
@@ -693,7 +693,7 @@ port map (
 	
 	
 	
-	private void writeHeader(PrintStream stream, String inVhdFile, int K) throws IOException {
+	private void writeVhdlHeader(PrintStream stream, String inVhdFile, int K) throws IOException {
 		// Read header old vhdl file as a String
 		String baseName = inVhdFile.substring(0,inVhdFile.lastIndexOf('.')).substring(inVhdFile.lastIndexOf('/')+1);
 	    BufferedReader vhdlFileReader = new BufferedReader( new FileReader(new File(inVhdFile)));
@@ -743,8 +743,8 @@ port map (
 		
 	    for (Node and : getAnds()) {
 			if (and.isVisible()) {	
-				ConeInterface bestCone = and.getBestCone();
-				ArrayList<Node> regularInputs = bestCone.getRegularInputs();
+				Cone bestCone = and.getBestCone();
+				ArrayList<Node> regularInputs = bestCone.getRegularLeavesInFixedOrder();
 				int lutSize = regularInputs.size();
 				String lutOrTlut = bestCone.isTLUT() ? "TLUT" : "LUT";
 				
@@ -801,7 +801,7 @@ port map (
 		int dupCount=0;
 		for (Node node:getAnds()) {
 			if (node.isVisible()) {
-				dupCount += node.getBestCone().getNodes().size();
+				dupCount += node.getBestCone().getNodesInToOut().size();
 			}
 		}
 		return (double)dupCount/this.getAnds().size();

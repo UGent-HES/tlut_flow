@@ -132,11 +132,11 @@ public class ConeSet implements Iterable<Cone> {
 		this.cones.removeAll(cones);
 	}
 
-	public boolean contains(ConeInterface cone) {
+	public boolean contains(Cone cone) {
 		return this.cones.contains(cone);
 	}
 
-	public ConeInterface getCone(String root, String rleaves, String pleaves) {
+	public Cone getCone(String root, String rleaves, String pleaves) {
 		for (Cone c:this.cones) {
 			if (c.equals(root, rleaves, pleaves)) {
 				return c;
