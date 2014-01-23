@@ -209,12 +209,16 @@ public class TMapSimple {
 		AIG<Node, Edge> b = a.constructParamConfig(K, true, false);
 		System.out.println("Printing the parameterizable configuration:");
         b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(arguments[3]))));
-        
-        // Disabled for TCON mapper
-//        System.out.println("Writing the LUT structure:"); 
-//    	a.printLutStructureBlif(
-//    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]))),
-//    	    K);
+
+        // Debug
+        System.out.println("Writing the mapped BLIF:"); 
+        a.printMappedBlif(
+    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]+"_mapped.blif"))));
+    	
+        System.out.println("Writing the LUT structure:"); 
+    	a.printLutStructureBlif(
+    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]))),
+    	    K);
         if(arguments.length > 5) {
         	String inVhdFile = arguments[5];
         	String vhdFile = arguments[6];

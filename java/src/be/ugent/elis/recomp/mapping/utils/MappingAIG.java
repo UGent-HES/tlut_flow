@@ -206,7 +206,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		
 		for (Node and : getAnds()) {
 			if (and.isVisible()) {
-			    if(!( (includeTLUTs &&  and.getBestCone().isTLUT()) || 
+			    if(!( (includeTLUTs &&  and.getBestCone().isTuneable()) || 
 			          (includeLUTs  && !and.getBestCone().isTLUT())    ))
     			          continue;
 				
@@ -217,7 +217,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 				ArrayList<ConfigurationEntry> configuration_entries = new ArrayList<ConfigurationEntry>();
 				ArrayList<ConfigurationEntry> configuration_entries_inv = new ArrayList<ConfigurationEntry>();
 								
-				for (int entry=0; entry < Math.pow(2, K); entry++) {
+				for (int entry=0; entry < Math.pow(2, bestCone.size()); entry++) {
 					Map<Node,PolarisedNode> copyMap = new HashMap<Node,PolarisedNode>(parameterCopyMap);
 
 					int temp = entry;
@@ -333,7 +333,79 @@ public class MappingAIG extends AIG<Node, Edge> {
 	}
 	
 
+	public void printMappedBlif(PrintStream stream) {		
+		stream.println(".model top");
+
+		//Inputs
+		stream.print(".inputs");		
+		for (AbstractNode<Node, Edge> in : getInputs()) {
+			stream.print(" "+in.getName());
+		}	
+		stream.println();
 	
+		//Outputs
+		stream.print(".outputs");		
+		for (Node out : getOutputs()) {
+			stream.print(" "+out.getName());
+		}
+		stream.println();
+		stream.println();
+		
+		//Constant 0
+		stream.println(".names "+ getConst0().getName());
+		stream.println("0");
+		stream.println();
+				
+		//Latches
+		for (Node latch : getLatches()) {
+			Edge e = latch.getI0().getTail().getI0();
+			
+			stream.println(".names "+e.getTail().getName()+" "+latch.getName()+"-edge");
+			if (e.isInverted()) {
+				stream.println("0 1");
+			} else {
+				stream.println("1 1");
+			}
+			
+			stream.print(".latch");
+			stream.print(" "+latch.getName()+"-edge");
+			stream.print(" "+latch.getName());
+			stream.println (" re pclk 2");
+		}
+		stream.println();
+
+		//LUTs
+		for (Node and : getAnds()) {
+			if (and.isVisible()) {						
+				printLutBlif(and, stream, and.getName(), false);
+			}
+		}
+		
+		//Output inversion (conditional)
+		//The BLIF format is a little annoying.
+		for (Node out : getOutputs()) {
+			Edge e = out.getI0();
+			Node node = e.getTail();
+			if (!node.getName().equals(out.getName())) {
+				stream.println(".names "+node.getName()+" "+out.getName());
+				if (e.isInverted()) {
+					stream.println("0 1");
+				} else {
+					stream.println("1 1");
+				}
+			} else {
+				// In some cases a latch has the same name as an output
+				// this should solve that problem.
+				if (e.isInverted())
+		            throw new RuntimeException("Unexpected inversion of edge");
+			}
+		}
+		
+		stream.print(".end ");
+		stream.flush();
+	}
+
+
 	public void printLutStructureBlif(PrintStream stream, int K) {
 		stream.println(".model top");
 		
@@ -346,15 +418,15 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 		//TLUT configuration inputs
 		for (Node and : getAnds()) {
-			if (and.isVisible() && and.getBestCone().isTLUT()) {
+			if (and.isVisible() && and.getBestCone().isTuneable()) {
 				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted 
 						|| checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
-					for (int entry=0; entry < Math.pow(2,K); entry++) {
+					for (int entry=0; entry < Math.pow(2,and.getBestCone().size()); entry++) {
 						stream.print(" "+and.getName()+"not"+"_"+entry);
 					}
 				}
 				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
-					for (int entry=0; entry < Math.pow(2,K); entry++) {
+					for (int entry=0; entry < Math.pow(2,and.getBestCone().size()); entry++) {
 						stream.print(" "+and.getName()+"_"+entry);
 					}
 				}
@@ -384,12 +456,12 @@ public class MappingAIG extends AIG<Node, Edge> {
 		//LUTs and TLUTs
 		for (Node and : getAnds()) {
 			if (and.isVisible()) {
-				if(and.getBestCone().isTLUT()) {
+				if(and.getBestCone().isTuneable()) {
 					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted 
 							|| checkOutputLutInversion(and) == OutputLutInversion.MixedOuts)
-						printTLutBlif(and, stream, K, and.getName()+"not");
+						printTLutBlif(and, stream, and.getBestCone().size(), and.getName()+"not");
 					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted)
-						printTLutBlif(and, stream, K, and.getName());
+						printTLutBlif(and, stream, and.getBestCone().size(), and.getName());
 				} else {
 					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted 
 							|| checkOutputLutInversion(and) == OutputLutInversion.MixedOuts)
@@ -451,7 +523,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 				stream.print(" "+n.getName());
 		}
 		//Output
-		stream.println(" "+lutName);
+		stream.println(" "+lutName + " #"+bestCone.getType().toString());
 		
 		stream.print(f.getBlifString());
 	}
@@ -459,7 +531,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	public void printTLutBlif(Node visibleAnd, PrintStream stream, int K, String lutName) {
 		Cone bestCone = visibleAnd.getBestCone(); 
 		
-		stream.print(".names");
+		stream.print(".names"); 
 		//LUT configuration inputs
 		for (int entry=0; entry < Math.pow(2,K); entry++) {
 			stream.print(" "+lutName+"_"+entry);
@@ -479,7 +551,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 			j++;
 		}
 		//Output
-		stream.println(" "+lutName);
+		stream.println(" "+lutName + " #"+bestCone.getType().toString());
 
 		//Implementation of LUT using mux
 		for (int entry=0; entry < Math.pow(2,K); entry++) {

@@ -495,11 +495,10 @@ public class Cone implements Comparable<Cone> {
 	public BDDFunction getBooleanFunction() {
 		if(isTrivial())
 			throw new RuntimeException("Can't compute function of trivial cone");		
-		if(!isLUT())
-			throw new RuntimeException("BooleanFunction can only be computed of pure LUT cones");
 		Vector<String> inputVariables = new Vector<String>();
-		for(Node node : regularLeaves)
+		for(Node node : getAllLeaves()) {
 			inputVariables.add(node.getName());
+		}
 		
 		BDD bdd = getBDDRec(root.getI0(), inputVariables).
 				andWith(getBDDRec( root.getI1(), inputVariables)); 
