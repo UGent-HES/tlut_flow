@@ -113,6 +113,7 @@ public class ResourceSharingOpportunitiesCalculator {
 		ActivationSet(BDD activationFunction) {
 			this.activationFunction = activationFunction;
 			nodes = new HashSet<Node>();
+			sharingOpportunities = new HashSet<ActivationSet>();
 		}
 		public boolean disjunctWithSet(ActivationSet otherSet) {
 			BDD bdd = getActivationFunction().and(otherSet.getActivationFunction());
@@ -126,6 +127,12 @@ public class ResourceSharingOpportunitiesCalculator {
 		public void addNode(Node node) {
 			nodes.add(node);
 		}
+		public int getNumAndNodes() {
+			int num_and_nodes = 0;
+			for(Node node : getNodes())
+				num_and_nodes += node.isGate() ? 1 : 0;
+			return num_and_nodes;
+		}
 		public Set<Node> getNodes() {
 			return nodes;
 		}
@@ -134,6 +141,9 @@ public class ResourceSharingOpportunitiesCalculator {
 		}
 		public void setSharingOpportunities(Set<ActivationSet> sharingOpportunities) {
 			this.sharingOpportunities = sharingOpportunities;
+		}
+		public void addSharingOpportunity(ActivationSet sharingOpportunity) {
+			this.sharingOpportunities.add(sharingOpportunity);
 		}
 		public boolean canShareWith(ActivationSet set) {
 			return getSharingOpportunities().contains(set);
@@ -161,10 +171,7 @@ public class ResourceSharingOpportunitiesCalculator {
 					sb.append(set.getActivationFunction().toString());
 				sb.append(',');
 			}
-			int num_and_nodes = 0;
-			for(Node node : getNodes())
-				num_and_nodes += node.isGate() ? 1 : 0;
-			sb.append("},num_and_nodes{"+num_and_nodes);
+			sb.append("},num_and_nodes{"+getNumAndNodes());
 			sb.append("},num_nodes{");
 			sb.append(getNodes().size());
 //			sb.append("},nodes{");
@@ -226,6 +233,7 @@ public class ResourceSharingOpportunitiesCalculator {
 			activationSets.remove(B.zero());	//parameter nodes have activation function 0
 		}
 		sanityCheck();
+		System.out.println("hier " + activationSets.size());
 
 //		for(Node node : activationSets.get(B.one()).getNodes())
 //			System.out.println("a0 "+node.getName());
@@ -239,13 +247,17 @@ public class ResourceSharingOpportunitiesCalculator {
 //		}
 //		
 		//Calculate sharing opportunities
-		for(ActivationSet set : activationSets.values()) {
-			Set<ActivationSet> opportunities = new HashSet<ActivationSet>();
-			for(ActivationSet otherSet : activationSets.values()) {
-				if(set.disjunctWithSet(otherSet))
-					opportunities.add(otherSet);
+		ArrayList<ActivationSet> activationSetsList = new ArrayList<ActivationSet>(activationSets.values());
+		
+		for(int i = 0; i<activationSetsList.size(); i++) {
+			ActivationSet set = activationSetsList.get(i);
+			for(int j = 0; j<i; j++) {
+				ActivationSet otherSet = activationSetsList.get(j);
+				if(set.disjunctWithSet(otherSet)) {
+					set.addSharingOpportunity(otherSet);
+					otherSet.addSharingOpportunity(set);
+				}
 			}
-			set.setSharingOpportunities(opportunities);
 			//System.out.println("set: "+opportunities.size()+" "+set.getNodes().size() + " " + set.getActivationFunction().toString());
 		}
 		cleanUpUselessSets();
@@ -269,9 +281,11 @@ public class ResourceSharingOpportunitiesCalculator {
 		BDD activFn = node.getActivationFunction();
 		if(activFn == null)
 			throw new RuntimeException("ActivationFunctions of nodes must be computed first");
-		if(!activationSets.containsKey(activFn))
-			activationSets.put(activFn, new ActivationSet(activFn));
-		activationSets.get(activFn).addNode(node);
+		if(node.isGate() && node.isVisible()) {
+			if(!activationSets.containsKey(activFn))
+				activationSets.put(activFn, new ActivationSet(activFn));
+			activationSets.get(activFn).addNode(node);
+		}
 	}
 	
 	private void cleanUpUselessSets() {
@@ -302,7 +316,7 @@ public class ResourceSharingOpportunitiesCalculator {
 			
 			new_set.setSharingOpportunities(set.getSharingOpportunities());
 
-			if(new_set.getNodes().size()!=0)
+			if(new_set.getNumAndNodes() != 0)
 				reduced_opportunities.activationSets.put(set.getActivationFunction(), new_set);
 		}
 		
