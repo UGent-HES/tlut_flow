@@ -308,7 +308,7 @@ public class ExtractInfo {
 		}			
 		stream.println("} lutlocation;");
 		stream.println("#endif"+newLine+newLine);
-		if(design.getFamilyName().equals("virtex2p") || design.getFamilyName().equals("virtex5")) {
+		if(design.getFamilyName().equals("virtex2p")) {
             stream.println("#define XHI_CLB_LUT_F 0");
             stream.println("#define XHI_CLB_LUT_G 1"+newLine);
 		} else if(design.getFamilyName().equals("virtex5") || design.getFamilyName().equals("zynq")|| design.getFamilyName().equals("kintex7")) {
