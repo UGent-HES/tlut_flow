@@ -324,6 +324,12 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 
+	public ArrayList<Node> getParameterLeavesInFixedOrder() {
+		ArrayList<Node> result = new ArrayList<Node>(getParameterLeaves());
+		Collections.sort(result, new AlphanumNodeNameComparator());
+		return result;
+	}
+	
 	public Collection<Node> getRegularLeaves() {
 		return regularLeaves;
 	}
@@ -337,6 +343,12 @@ public class Cone implements Comparable<Cone> {
 	public Collection<Node> getAllLeaves() {
 		ArrayList<Node> result = new ArrayList<Node>(getParameterLeaves());
 		result.addAll(getRegularLeaves());
+		return result;
+	}
+	
+	public ArrayList<Node> getAllLeavesInFixedOrder() {
+		ArrayList<Node> result = new ArrayList<Node>(getParameterLeavesInFixedOrder());
+		result.addAll(getRegularLeavesInFixedOrder());
 		return result;
 	}
 
@@ -496,7 +508,7 @@ public class Cone implements Comparable<Cone> {
 		if(isTrivial())
 			throw new RuntimeException("Can't compute function of trivial cone");		
 		Vector<String> inputVariables = new Vector<String>();
-		for(Node node : getAllLeaves()) {
+		for(Node node : getAllLeavesInFixedOrder()) {
 			inputVariables.add(node.getName());
 		}
 		

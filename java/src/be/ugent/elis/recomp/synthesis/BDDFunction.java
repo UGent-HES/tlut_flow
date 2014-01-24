@@ -68,6 +68,7 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.synthesis;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import net.sf.javabdd.BDD;
@@ -122,6 +123,52 @@ public class BDDFunction extends BooleanFunction {
 	
 	private String getVariableName(int variable_id) {
 		return getInputVariable().get(variable_id);
+	}
+	
+	@Override
+	public String getBlifString() {
+		String result = new String();
+		
+		ArrayList<String> baseMinterm = new ArrayList<String>();
+		for(@SuppressWarnings("unused") String in : getInputVariable())
+			baseMinterm.add("-");
+		ArrayList<ArrayList<String>> minterms = getMintermsList();
+		
+		if(minterms.size()==0) {
+			for(@SuppressWarnings("unused") String in : getInputVariable())
+				result += "-";
+			result += " 0\n";
+		} else {
+			for (ArrayList<String> m : minterms) {
+				for(String c : m)
+					result += c;
+				result += " 1\n";
+			}
+		}
+		
+		return result;
+	}
+	
+	private ArrayList<ArrayList<String>> getMintermsList() {
+		ArrayList<String> baseMinterm = new ArrayList<String>();
+		for(@SuppressWarnings("unused") String in : getInputVariable())
+			baseMinterm.add("-");
+		return getMintermsRec(baseMinterm, getBDD());
+	}
+	
+	private ArrayList<ArrayList<String>> getMintermsRec(ArrayList<String> intermediate, BDD subBDD) {
+		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+		if(subBDD.isZero()) {
+		} else if(subBDD.isOne()) {
+			result.add(new ArrayList<String>(intermediate));
+		} else {
+			ArrayList<String> subIntermediate = new ArrayList<String>(intermediate);
+			subIntermediate.set(subBDD.var(), "1");
+			result.addAll(getMintermsRec(subIntermediate, subBDD.high()));
+			subIntermediate.set(subBDD.var(), "0");
+			result.addAll(getMintermsRec(subIntermediate, subBDD.low()));
+		}
+		return result;
 	}
 	
 	public String toString() {
