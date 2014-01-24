@@ -122,7 +122,6 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
-    numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag)
     numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = \
         simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag)
     print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
