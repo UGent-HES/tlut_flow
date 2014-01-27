@@ -162,7 +162,7 @@ public class Cone implements Comparable<Cone> {
 	
 	public static Cone trivialParameterCone(Node node, BDDidMapping bddIdMapping) {
 		Cone result = new Cone(node, bddIdMapping);
-		result.setFunction(BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node)));
+		result.setFunction(node.getBDD(bddIdMapping));
 		return result;
 	}
 
@@ -170,7 +170,7 @@ public class Cone implements Comparable<Cone> {
 		Cone result = new Cone(node, bddIdMapping);
 		result.addLeave(node);
 		result.calculateSignature();
-		result.setFunction(BDDFactorySingleton.get().ithVar(bddIdMapping.getId(node)));
+		result.setFunction(node.getBDD(bddIdMapping));
 		return result;
 	}
 	

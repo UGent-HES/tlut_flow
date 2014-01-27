@@ -153,10 +153,10 @@ public class ActivationFunctionBuilder {
 		aig.setUpdatedAll(false);
 		for (Node node : aig.getInputs()) {
 			if (node.isParameterInput()) {
-				node.setOnParamFunction(B.ithVar(aig.getBDDidMapping().getId(node)));
-				node.setOffParamFunction(B.nithVar(aig.getBDDidMapping().getId(node)));
-			}
+				node.setOnParamFunction(node.getBDD(aig.getBDDidMapping()));
+				node.setOffParamFunction(node.getBDD(aig.getBDDidMapping()).not());
 			node.setUpdated(true);
+		}
 		}
 		
 		do {
