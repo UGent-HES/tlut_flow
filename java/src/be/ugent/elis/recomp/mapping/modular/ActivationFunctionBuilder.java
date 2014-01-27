@@ -142,22 +142,23 @@ public class ActivationFunctionBuilder {
 		boolean updated_latch;
 		
 		//Initialise deactivation functions to zero
-		aig.getConst0().setOnParamFunction(B.zero());
-		aig.getConst0().setOffParamFunction(B.one());
 		for (Node node : aig.getAllNodes()) {
 			node.setOnParamFunction(B.zero());
 			node.setOffParamFunction(B.zero());
 		}
 		
-		//Initialise activation functions of inputs, and mark as updated
+		//Initialise activation functions of parameterinputs and const0, and mark as updated
 		aig.setUpdatedAll(false);
 		for (Node node : aig.getInputs()) {
 			if (node.isParameterInput()) {
 				node.setOnParamFunction(node.getBDD(aig.getBDDidMapping()));
 				node.setOffParamFunction(node.getBDD(aig.getBDDidMapping()).not());
-			node.setUpdated(true);
+				node.setUpdated(true);
+			}
 		}
-		}
+		aig.getConst0().setOnParamFunction(B.zero());
+		aig.getConst0().setOffParamFunction(B.one());
+		aig.getConst0().setUpdated(true);
 		
 		do {
 //			System.out.format("One pass\n");
