@@ -36,6 +36,14 @@ echo treeMult4b
 cd treeMult4b
 rm -rf work
 ./treeMult4b.py | tail -n 8
+echo
+echo treeMult4b+par
+rm -rf work
+./treeMult4b_par.py | tail -n 8
+echo
+echo treeMult4b+qsf
+rm -rf work
+./treeMult4b_qsf.py | tail -n 8
 cd ..
 
 echo

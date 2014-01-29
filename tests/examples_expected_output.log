@@ -58,6 +58,26 @@ Stage: ABC fpga
 Luts            depth           check           
 80              10              PASSED          
 
+treeMult4b+par
+Luts (TLUTS)    depth           check           
+12 (12)         1               PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+80              10              PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+80              10              PASSED          
+
+treeMult4b+qsf
+Luts (TLUTS)    depth           check           
+12 (12)         1               PASSED          
+Stage: SimpleMAP
+Luts            depth           check           
+80              10              PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+80              10              PASSED          
+
 tripleDES
 Luts (TLUTS)    depth           check           
 2142 (228)      10              PASSED          
