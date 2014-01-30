@@ -95,22 +95,24 @@ public class ResourceSharingOpportunitiesCalculator {
 	
 	public static void main(String[] args) throws IOException {
 		
-		MappingAIG a = new MappingAIG(args[0]);
+		MappingAIG aig = new MappingAIG(args[0]);
 		
-		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
+		aig.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-        new ActivationFunctionBuilder(a).run();
-        new ResourceSharingOpportunitiesCalculator().run(a);
+        new ActivationFunctionBuilder(aig).run();
+        new ResourceSharingOpportunitiesCalculator().run(aig);
         
     }
 	
 	
 	class ActivationSet {
+		final private MappingAIG aig;
 		final private BDD activationFunction;
 		private Set<Node> nodes;
 		private Set<ActivationSet> sharingOpportunities;
 		
-		ActivationSet(BDD activationFunction) {
+		ActivationSet(MappingAIG aig, BDD activationFunction) {
+			this.aig = aig;
 			this.activationFunction = activationFunction;
 			nodes = new HashSet<Node>();
 			sharingOpportunities = new HashSet<ActivationSet>();
@@ -179,13 +181,16 @@ public class ResourceSharingOpportunitiesCalculator {
 //				sb.append(node.getName());
 //				sb.append(',');
 //			}
-			sb.append("},bdd_ids{");
+			sb.append("},bdd_vars{");
 			int varProfile[] = getActivationFunction().varProfile();
 			for(int id = 0; id < varProfile.length; id++)
 				if(varProfile[id] != 0)
-					sb.append(""+id+",");
+					sb.append(""+aig.getBDDidMapping().getNode(id).getName()+",");
 			sb.append("})");
 			return sb.toString();
+		}
+		public MappingAIG getAIG() {
+			return aig;
 		}
 	}
 
@@ -220,12 +225,12 @@ public class ResourceSharingOpportunitiesCalculator {
 		System.out.println("Total num nodes: "+allNodes.size());
 	}
 	
-	public void run(AIG<Node, Edge> aig) {
+	public void run(MappingAIG aig) {
 		init(aig);
 		
 		//Classify nodes
 		for(Node node : aig.getAllNodes())
-			classifyNode(node);
+			classifyNode(aig, node);
 		if(activationSets.containsKey(B.one())) {
 			activationSets.remove(B.one());	
 		}
@@ -233,19 +238,7 @@ public class ResourceSharingOpportunitiesCalculator {
 			activationSets.remove(B.zero());	//parameter nodes have activation function 0
 		}
 		sanityCheck();
-		System.out.println("hier " + activationSets.size());
 
-//		for(Node node : activationSets.get(B.one()).getNodes())
-//			System.out.println("a0 "+node.getName());
-//		for(ActivationSet set : activationSets.get(B.one()).getImpliedBySets()) {
-//			System.out.println("b0 "+set.getActivationFunction().toString());
-//			for(ActivationSet set2 : set.getImpliedBySets()) {
-//				System.out.println("c0 "+set2.getActivationFunction().toString());
-//				
-//				System.out.println("hier "+set.getActivationFunction().or(set2.getActivationFunction().id().not()).isOne());
-//			}
-//		}
-//		
 		//Calculate sharing opportunities
 		ArrayList<ActivationSet> activationSetsList = new ArrayList<ActivationSet>(activationSets.values());
 		
@@ -258,32 +251,28 @@ public class ResourceSharingOpportunitiesCalculator {
 					otherSet.addSharingOpportunity(set);
 				}
 			}
-			//System.out.println("set: "+opportunities.size()+" "+set.getNodes().size() + " " + set.getActivationFunction().toString());
 		}
 		cleanUpUselessSets();
 		
-		for(ActivationSet set : activationSets.values()) {
-			//System.out.println("set: "+set.getSharingOpportunities().size()+" "+set.getNodes().size() + " " + set.getActivationFunction().toString());
-		}
 		sanityCheck();
 		finalise();
 	}
 	
-	private void init(AIG<Node, Edge> aig) {
+	private void init(MappingAIG aig) {
 		B = BDDFactorySingleton.get();
-		activationSets.put(B.one(), new ActivationSet(B.one()));
+		activationSets.put(B.one(), new ActivationSet(aig, B.one()));
 	}
 	
 	private void finalise() {
 	}
 
-	private void classifyNode(Node node) {
+	private void classifyNode(MappingAIG aig, Node node) {
 		BDD activFn = node.getActivationFunction();
 		if(activFn == null)
 			throw new RuntimeException("ActivationFunctions of nodes must be computed first");
 		if(node.isGate() && node.isVisible()) {
 			if(!activationSets.containsKey(activFn))
-				activationSets.put(activFn, new ActivationSet(activFn));
+				activationSets.put(activFn, new ActivationSet(aig, activFn));
 			activationSets.get(activFn).addNode(node);
 		}
 	}
@@ -309,7 +298,7 @@ public class ResourceSharingOpportunitiesCalculator {
 		
 		//Copy activationsets and the visible nodes they contain, skip empty sets
 		for(ActivationSet set : activationSets.values()) {
-			ActivationSet new_set = new ActivationSet(set.getActivationFunction());
+			ActivationSet new_set = new ActivationSet(set.getAIG(), set.getActivationFunction());
 			for(Node node : set.getNodes())
 				if(node.isVisible())
 					new_set.addNode(node);

@@ -70,23 +70,9 @@ package be.ugent.elis.recomp.mapping.modular;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
-import net.sf.javabdd.BDD;
-import net.sf.javabdd.BDDFactory;
-import net.sf.javabdd.BuDDyFactory;
-
-import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
-import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
-import be.ugent.elis.recomp.mapping.utils.Node;
 
 public class ResourceSharingCalculator {
 	
@@ -111,26 +97,12 @@ public class ResourceSharingCalculator {
 				new ResourceSharingOpportunitiesCalculator();
 		sharing_opportunities.run(aig);
 		System.out.println("Number of activationsets: "+sharing_opportunities.activationSets.size());
+		System.out.println(sharing_opportunities.toString());
 		
-		ResourceSharingOpportunitiesCalculator reduced = sharing_opportunities.getReducedSharingOpportunities();
-		System.out.println("Number of activationsets with visible nodes: "+reduced.activationSets.size());
-		System.out.println(reduced.toString());
+		//ResourceSharingOpportunitiesCalculator reduced = sharing_opportunities.getReducedSharingOpportunities();
+		//System.out.println("Number of activationsets with visible nodes: "+reduced.activationSets.size());
+		//System.out.println(reduced.toString());
 		
-//		ArrayList<Node> lut_nodes = new ArrayList<Node>();
-//		for(Node node : aig.getAnds())
-//			if(node.isVisible())
-//				lut_nodes.add(node);
-//		for(int i=0; i<lut_nodes.size(); i++) {
-//			Node node0 = lut_nodes.get(i);
-//			//System.out.println("Node: "+node0.getName() + "=>" + node0.getActivationFunction());
-//			for(int j=i+1; j<lut_nodes.size(); j++) {
-//				Node node1 = lut_nodes.get(j);
-//				if(reduced.canNodesShareResources(node0, node1)) {
-//					System.out.println("share nodes: "+ node0.getName() + ", "+ node1.getName());
-//					break;
-//				}
-//			}
-//		}
 		finalise(aig);
 	}
 	

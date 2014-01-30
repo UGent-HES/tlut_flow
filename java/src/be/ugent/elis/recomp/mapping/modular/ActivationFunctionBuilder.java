@@ -70,14 +70,11 @@ package be.ugent.elis.recomp.mapping.modular;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
 
-import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
-import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
@@ -94,8 +91,8 @@ public class ActivationFunctionBuilder {
     }
 	
 	static final int g_node_max = 1000000;
-	private MappingAIG aig;
-	private BDDFactory B;
+	private final MappingAIG aig;
+	private final BDDFactory B;
 	
     public ActivationFunctionBuilder(MappingAIG aig) {
     	this.aig = aig;
@@ -120,9 +117,6 @@ public class ActivationFunctionBuilder {
 	}
 	
 	private void init() {
-		for(Node input : aig.getInputs())
-			if (input.isParameterInput())
-				System.out.println("INFO: parameter '"+input.getName()+"' has BDD id '"+aig.getBDDidMapping().getId(input)+"'");
 	}
 	
 	private void finalise() {
