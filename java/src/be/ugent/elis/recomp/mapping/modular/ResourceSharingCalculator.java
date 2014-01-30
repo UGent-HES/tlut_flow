@@ -70,6 +70,12 @@ package be.ugent.elis.recomp.mapping.modular;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
@@ -96,13 +102,18 @@ public class ResourceSharingCalculator {
 		ResourceSharingOpportunitiesCalculator sharing_opportunities = 
 				new ResourceSharingOpportunitiesCalculator();
 		sharing_opportunities.run(aig);
-		System.out.println("Number of activationsets: "+sharing_opportunities.activationSets.size());
+		System.out.println("Number of activationsets: "+sharing_opportunities.getActivationSets().size());
 		System.out.println(sharing_opportunities.toString());
 		
 		//ResourceSharingOpportunitiesCalculator reduced = sharing_opportunities.getReducedSharingOpportunities();
 		//System.out.println("Number of activationsets with visible nodes: "+reduced.activationSets.size());
 		//System.out.println(reduced.toString());
 		
+		SubsetSolution solution = find_largest_notconnected_subset(sharing_opportunities.getActivationSets().values());
+	    System.out.println("Num nodes in all activationsets: " + sharing_opportunities.totalNumAndNodes());
+	    System.out.println("Max num nodes active at any time (except those not in an activationset): " + solution.getTotal_size());
+	    System.out.println("Num nodes saved by sharing: " + (sharing_opportunities.totalNumAndNodes() - solution.getTotal_size()));
+	    
 		finalise(aig);
 	}
 	
@@ -112,4 +123,59 @@ public class ResourceSharingCalculator {
 	private void finalise(MappingAIG aig) {
 	}
 	
+	private class SubsetSolution {
+		private final Collection<ActivationSet> actiationsets;
+		private final int total_size;
+		SubsetSolution(int total_size, Collection<ActivationSet> actiationsets) {
+			this.actiationsets = actiationsets;
+			this.total_size = total_size;
+		}
+		public Collection<ActivationSet> getActiationsets() {
+			return actiationsets;
+		}
+		public int getTotal_size() {
+			return total_size;
+		}
+	}
+	private SubsetSolution find_largest_notconnected_subset(Collection<ActivationSet> activationsets) {
+		LinkedList<ActivationSet> untested_sets = new LinkedList<ActivationSet>(activationsets);
+        Collections.sort(untested_sets, new Comparator<ActivationSet>() {
+			public int compare(ActivationSet o1, ActivationSet o2) {
+				return new Integer(o1.getSharingOpportunities().size()).compareTo(o2.getSharingOpportunities().size());
+			} });
+        //untested_sets.sort(key=lambda set:len(set.share_sets))
+        return find_largest_notconnected_subset(activationsets, untested_sets);
+	}
+	
+	private SubsetSolution find_largest_notconnected_subset(Collection<ActivationSet> activationsets, Queue<ActivationSet> untested_sets) {
+		untested_sets = new LinkedList<ActivationSet>(untested_sets);
+		
+	    int total_size = 0;
+	    for(ActivationSet activationset : activationsets) {
+	    	total_size += activationset.getNumAndNodes();
+	    }
+
+	    Collection<ActivationSet> part_with, part_without;
+	    while(true) {
+	    	if(untested_sets.size() == 0) 
+	    		return new SubsetSolution(total_size, activationsets);
+	    	ActivationSet testset = untested_sets.remove();
+	    	if(!activationsets.contains(testset))
+	    		continue;
+	        part_with = new ArrayList<ActivationSet>(activationsets);
+	        for(ActivationSet share_set : testset.getSharingOpportunities())
+	        	part_with.remove(share_set);
+	        part_without = new ArrayList<ActivationSet>(activationsets);
+	        part_without.remove(testset);
+	        if(part_with.size() == activationsets.size()) 
+	            continue;
+	        break;
+	    }
+	    SubsetSolution sol_with = find_largest_notconnected_subset(part_with, untested_sets);
+	    SubsetSolution sol_without = find_largest_notconnected_subset(part_without, untested_sets);
+	    if(sol_with.getTotal_size() > sol_without.getTotal_size())
+	        return sol_with;
+	    else
+	        return sol_without;
+	}
 }
