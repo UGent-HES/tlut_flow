@@ -11,5 +11,6 @@
 /third_party/rapidSmith*
 /third_party/JavaBDD
 /third_party/javabdd*
+/third_party/jopt-simple-*.jar
 /examples/*/work
 /tests/work
