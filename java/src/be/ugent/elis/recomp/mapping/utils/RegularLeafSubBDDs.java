@@ -90,42 +90,62 @@ import be.ugent.elis.recomp.synthesis.ExpressionFunction;
 public class RegularLeafSubBDDs implements Iterator<BDD> {
 	
 	private BDDidMapping bddIdMapping;
-	private ArrayList<BDD> regularLeafSubBDDsFound;
+    private HashSet<BDD> visitedBDDs;
 	private Stack<BDD> subBDDsToAnalyse;
+    private BDD next;
 
 	public RegularLeafSubBDDs(BDD bdd, BDDidMapping bddIdMapping) {
 		this.bddIdMapping = bddIdMapping;
-		this.regularLeafSubBDDsFound = new ArrayList<BDD>();
+        this.visitedBDDs = new HashSet<BDD>();
 		this.subBDDsToAnalyse = new Stack<BDD>();
-		this.subBDDsToAnalyse.push(bdd.id());
+        BDD startBDD = bdd.id();
+		this.subBDDsToAnalyse.push(startBDD);
+        this.visitedBDDs.add(startBDD);
+        this.next = null;
 	}
 	
 	public void free() {
-		for(BDD bdd : this.regularLeafSubBDDsFound)
+		for(BDD bdd : this.visitedBDDs)
 			bdd.free();
-		this.regularLeafSubBDDsFound = null;
-		for(BDD bdd : this.subBDDsToAnalyse)
-			bdd.free();
+        this.visitedBDDs = null;
+		//for(BDD bdd : this.subBDDsToAnalyse)
+		//	bdd.free();
 		this.subBDDsToAnalyse = null;
+        this.next = null;
 	}
 
 	@Override
 	public boolean hasNext() {
-		return !this.subBDDsToAnalyse.empty();
+        while(!this.subBDDsToAnalyse.empty()) {
+            BDD subBDD = this.subBDDsToAnalyse.pop();
+            if(!subBDD.isZero() && !subBDD.isOne()
+                    && bddIdMapping.getNode(subBDD.var()).isParameter()) {
+                BDD newSubBDD = subBDD.high();
+                if(visitedBDDs.contains(newSubBDD)) {
+                    newSubBDD.free();
+                } else {
+                    this.visitedBDDs.add(newSubBDD);
+                    this.subBDDsToAnalyse.push(newSubBDD);
+                }
+                newSubBDD = subBDD.low();
+                if(visitedBDDs.contains(newSubBDD)) {
+                    newSubBDD.free();
+                } else {
+                    this.visitedBDDs.add(newSubBDD);
+                    this.subBDDsToAnalyse.push(newSubBDD);
+                }
+            } else {
+                next = subBDD;
+                return true;
+            }
+        }
+        next = null;
+		return false;
 	}
 
 	@Override
 	public BDD next() {
-		BDD subBDD = this.subBDDsToAnalyse.pop();
-		while(!subBDD.isZero() && !subBDD.isOne()
-				&& bddIdMapping.getNode(subBDD.var()).isParameter()) {
-			subBDDsToAnalyse.push(subBDD.high());
-			BDD oldSubBDD = subBDD;
-			subBDD = subBDD.low();
-			oldSubBDD.free();
-		}
-		regularLeafSubBDDsFound.add(subBDD);
-		return subBDD;
+        return next;
 	}
 
 	@Override
