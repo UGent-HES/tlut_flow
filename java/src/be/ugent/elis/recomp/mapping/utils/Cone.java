@@ -381,6 +381,10 @@ public class Cone implements Comparable<Cone> {
 //		this.parameterLeaves.addAll(cone0.parameterLeaves);
 	}
 	
+	public boolean hasRegularLeaf(Node node) {
+		return getRegularLeaves().contains(node);
+	}
+	
 	public boolean hasParameterLeaves() {
 //		return getParameterLeaves().size() != 0;
 		return hasParameterLeavesRec(root);
@@ -388,7 +392,7 @@ public class Cone implements Comparable<Cone> {
 	
 	private boolean hasParameterLeavesRec(Node node) {
 		if(node.isParameter()) return true;
-		if(node.isPrimaryInput()) return false;
+		if(hasRegularLeaf(node)) return false;
 		return hasParameterLeavesRec(node.getI0().getTail())
 				|| hasParameterLeavesRec(node.getI1().getTail());
 	}
