@@ -116,8 +116,10 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public void free() {
-		this.function.free();
-		this.function = null;
+		if(this.function != null) {
+			this.function.free();
+			this.function = null;
+		}
 	}
 	
 	public static Cone createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
@@ -144,7 +146,7 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 
-	public static Cone mergeCones(Node node, Cone cone0, Cone cone1, int maxConeSizeConsidered) {
+	public static Cone mergeCones(Node node, Cone cone0, Cone cone1, int maxConeSizeConsidered, boolean computeFunction) {
 		Cone result = new Cone(node, cone0.bddIdMapping);
 		
 		result.signature = cone0.signature | cone1.signature;
@@ -155,7 +157,8 @@ public class Cone implements Comparable<Cone> {
 		if(result.size() > maxConeSizeConsidered)
 			return null;
 		
-		result.setFunction(computeFunctionOfMergedCones(node, cone0, cone1));
+		if(computeFunction)
+			result.setFunction(computeFunctionOfMergedCones(node, cone0, cone1));
 	
 		return result;
 	}

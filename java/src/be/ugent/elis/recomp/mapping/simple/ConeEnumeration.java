@@ -225,7 +225,9 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 
 		ConeSet result = new ConeSet(node);
 		for(TwoCones twoCones : mergesToConsider) {
-			Cone merge = Cone.mergeCones(node, twoCones.cone0, twoCones.cone1, maxConeSizeConsidered);
+			Cone merge = Cone.mergeCones(node, twoCones.cone0, twoCones.cone1, 
+					tcon_mapping_flag ? maxConeSizeConsidered : K,
+					tcon_mapping_flag);
 			if(merge != null) 
 				result.add(merge);
 		}
