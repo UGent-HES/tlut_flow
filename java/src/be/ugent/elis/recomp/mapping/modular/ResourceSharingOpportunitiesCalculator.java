@@ -130,7 +130,7 @@ public class ResourceSharingOpportunitiesCalculator {
 			System.err.println("Error: ResourceSharingOpportunitiesCalculator not sane (2)");
 			System.exit(1);
 		}
-		System.out.println("Total num nodes: "+allNodes.size());
+//		System.out.println("Total num nodes: "+allNodes.size());
 	}
 	
 	public int totalNumAndNodes() {

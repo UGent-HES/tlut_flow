@@ -69,14 +69,11 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.tmapSimple;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;

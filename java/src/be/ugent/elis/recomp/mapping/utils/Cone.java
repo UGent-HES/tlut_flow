@@ -95,7 +95,7 @@ public class Cone implements Comparable<Cone> {
 	private BDD function;
 	private BDDidMapping bddIdMapping;
 	
-	enum ConeType {LUT, TLUT, TCON, TLC, NONE}; 
+	enum ConeType {LUT, TLUT, TCON, TLC, TRIVIAL, NONE}; 
 	private ConeType type;
 	
 	private double depth;
@@ -109,6 +109,7 @@ public class Cone implements Comparable<Cone> {
 		this.signature = 0;
 		this.function = null;
 		this.bddIdMapping = bddIdMapping;
+		this.type = ConeType.NONE;
 //		this.parameterLeaves = new HashSet<Node>();
 		
 		this.areaflow = 0;
@@ -165,15 +166,15 @@ public class Cone implements Comparable<Cone> {
 	
 	public static Cone trivialParameterCone(Node node, BDDidMapping bddIdMapping) {
 		Cone result = new Cone(node, bddIdMapping);
+		result.type = ConeType.TRIVIAL;
 		result.setFunction(node.getBDD(bddIdMapping));
 		return result;
 	}
 
 	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping) {
-		Cone result = new Cone(node, bddIdMapping);
+		Cone result = trivialParameterCone(node, bddIdMapping);
 		result.addLeave(node);
 		result.calculateSignature();
-		result.setFunction(node.getBDD(bddIdMapping));
 		return result;
 	}
 	
@@ -256,6 +257,12 @@ public class Cone implements Comparable<Cone> {
 	
 	public ConeType getType() {
 		return type;
+	}
+	
+	public boolean isTrivial() {
+//		return regularLeaves.size() == 1 
+//				&& regularLeaves.contains(this.root);
+		return type == ConeType.TRIVIAL;
 	}
 	
 	public boolean isLUT() {
@@ -408,13 +415,6 @@ public class Cone implements Comparable<Cone> {
 		}
 	}
 	
-	public boolean isTrivial() {
-//		if ((regularLeaves.size() + parameterLeaves.size()) == 1) {
-//			if (regularLeaves.contains(this.root) || parameterLeaves.contains(this.root))
-		return regularLeaves.size() == 1 
-				&& regularLeaves.contains(this.root);
-	}
-	
 	
 	public boolean isLUTfeasible(int K) {
 		return size() <= K && !hasParameterLeaves();
@@ -439,7 +439,10 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	private static int countBDDVars(BDD bdd) {
-		return bdd.support().nodeCount();
+		BDD support = bdd.support();
+		int res = support.nodeCount();
+		support.free();
+		return res;
 	}
 	
 	public boolean isTLCfeasible(int K) {

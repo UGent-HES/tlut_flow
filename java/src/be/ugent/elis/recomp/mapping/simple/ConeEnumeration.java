@@ -156,7 +156,6 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				// 		!node.getI1().getTail().isParameter() )
 				// 	result.add(Cone.trivialCone(node));
 
-			} else if (node.isOutput() || node.isILatch()) {
 			}
 		}
 		result.reduceMemoryUsage();
@@ -204,23 +203,21 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			cones0 = cones1;
 			cones1 = tmp;
 		}
-		for(int i=0; i<cones0.size(); i++) {
+		EnumerateConesToConsider1 : for(int i=0; i<cones0.size(); i++) {
 			for(int j=0; j<=i; j++) {
 				mergesToConsider.add(new TwoCones(cones0.get(i), cones1.get(j)));
 				if(i!=j)
 					mergesToConsider.add(new TwoCones(cones0.get(j), cones1.get(i)));
 				if(mergesToConsider.size() >= maxNumConesPerNodeConsidered)
-					break;
+					break EnumerateConesToConsider1;
 			}
 		}
-		for(int i=cones0.size(); i<cones1.size(); i++) {
+		EnumerateConesToConsider2 : for(int i=cones0.size(); i<cones1.size(); i++) {
 			for(Cone cone0 : cones0) {
 				mergesToConsider.add(new TwoCones(cone0, cones1.get(i)));
 				if(mergesToConsider.size() >= maxNumConesPerNodeConsidered)
-					break;
+					break EnumerateConesToConsider2;
 			}
-			if(mergesToConsider.size() >= maxNumConesPerNodeConsidered)
-				break;
 		}
 
 		ConeSet result = new ConeSet(node);
@@ -244,6 +241,10 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		Collections.sort(temp, new SizeConeComparator());
 		
 		result.addAll(temp.subList(0, maxNumConesPerNodeSaved-1));
+		
+		for(Cone cone : temp.subList(maxNumConesPerNodeSaved, temp.size()))
+			cone.free();
+		
 		return result;
 	}
 
@@ -276,7 +277,8 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
 		ConeSet feasible = new ConeSet(mergedConeSet.getNode());
 		for (Cone c : mergedConeSet) {
-			if(this.tcon_mapping_flag && c.isTCONfeasible()) {
+			if(c.isTrivial()) {
+			} else if(this.tcon_mapping_flag && c.isTCONfeasible()) {
 				c.mapToTCON();
 			} else if(c.isTLUTfeasible(K)) {
 				if(c.isLUTfeasible(K))
