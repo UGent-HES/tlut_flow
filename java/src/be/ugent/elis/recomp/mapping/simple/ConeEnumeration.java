@@ -151,7 +151,8 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				nonDominatedConeSet = limitNumCones(nonDominatedConeSet);
 				nmbrCones += nonDominatedConeSet.size();
 				result.addAll(nonDominatedConeSet);
-				result.add(Cone.trivialCone(node, bddIdMapping));
+				if(nodeNeedsTrivialCone(node, result))
+					result.add(Cone.trivialCone(node, bddIdMapping));
 				// if (!node.getI0().getTail().isParameter() &&
 				// 		!node.getI1().getTail().isParameter() )
 				// 	result.add(Cone.trivialCone(node));
@@ -166,6 +167,13 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 
 	@Override
 	public void finish(AIG<Node,Edge> aig) {}
+	
+	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {
+		for(Cone cone : coneset.getCones())
+			if(cone.isTCON())
+				return false;
+		return true;
+	}
 
 	protected ConeSet mergeParameterConeSets(Node node) {
 		ConeSet result = mergeInputConeSets(node);
