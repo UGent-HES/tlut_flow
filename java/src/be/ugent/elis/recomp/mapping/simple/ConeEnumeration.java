@@ -285,8 +285,10 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 					c.mapToTLUT();
 			} else if(this.tcon_mapping_flag && c.isTLCfeasible(K)) {
 				c.mapToTLC();
-			} else // infeasible
+			} else {// infeasible
+				c.free();
 				continue;
+			}
 			feasible.add(c);
 		}
 		return feasible;

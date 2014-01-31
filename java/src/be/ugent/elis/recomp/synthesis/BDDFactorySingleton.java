@@ -83,21 +83,32 @@ public class BDDFactorySingleton {
     }
     
     private BDDFactorySingleton(int var_num, int node_num, int cache_size) {
-        B = JFactory.init(node_num, cache_size);
+        B = BDDFactory.init("java", node_num, cache_size);
         try {
 			B.registerGCCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
 			B.registerResizeCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
+//    		B.setIncreaseFactor(0.5);
+    		B.setMaxIncrease(1000000000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
         B.setVarNum(var_num);
     }
 
-	static public BDDFactory get(int var_num, int node_num, int cache_size) {
+	static public BDDFactory create(int var_num, int node_num, int cache_size) {
 		assert(singleton == null);
 		singleton = new BDDFactorySingleton(var_num, node_num, cache_size);
         return singleton.B;
 	}
+	
+	static public void destroy() {
+//		System.out.println(singleton.B.getGCStats().toString());
+//		System.out.println(singleton.B.getCacheStats().toString());
+//		System.out.println("Active nodes: "+singleton.B.getNodeNum());
+		singleton.B.done();
+		singleton = null;
+	}
+	
 	static public BDDFactory get() {
 		assert(singleton != null);
 		return singleton.B;

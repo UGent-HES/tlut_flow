@@ -104,7 +104,7 @@ public class TMapSimple {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		BDDFactorySingleton.get(100000, 2000000, 100000);
+		BDDFactorySingleton.create(50000, 10000000, 10000);
 		
 		//Usage:
 		// <0> : input file with aig
@@ -232,6 +232,8 @@ public class TMapSimple {
 				+ enumerator.getNmbrConsideredCones() + "\t"
 				+ enumerator.getNmbrFeasibleCones() + "\t"
 				+ enumerator.getNmbrCones());
+
+		BDDFactorySingleton.destroy();
 	}
 	
 }
