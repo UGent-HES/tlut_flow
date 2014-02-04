@@ -119,7 +119,7 @@ public class SimpleMapper {
 		
 		// Mapping
 		System.out.println("Cone Enumeration:");
-		ConeEnumeration enumerator = new ConeEnumeration(K, false); 
+		ConeEnumeration enumerator = new ConeEnumeration(K, false, false); 
         a.visitAll(enumerator);        
 		System.out.println("Cone Ranking:");
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));

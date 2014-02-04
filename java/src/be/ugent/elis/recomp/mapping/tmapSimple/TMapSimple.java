@@ -101,7 +101,7 @@ public class TMapSimple {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		BDDFactorySingleton.create(50000, 10000000, 10000);
+		BDDFactorySingleton.create(500000, 10000000, 10000);
 		
 		//Usage:
 		// <0> : input file with aig
@@ -163,7 +163,7 @@ public class TMapSimple {
         new ActivationFunctionBuilder(a).run();
         
         // Mapping
-		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag);
+		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag, tcon_mapping_flag);
 		System.out.println("Cone Enumeration:");
         a.visitAll(enumerator);
 		System.out.println("Cone Ranking:");
@@ -208,9 +208,9 @@ public class TMapSimple {
         b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(arguments[3]))));
 
         // Debug
-        System.out.println("Writing the mapped BLIF:"); 
-        a.printMappedBlif(
-    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]+"_mapped.blif"))));
+//        System.out.println("Writing the mapped BLIF:"); 
+//        a.printMappedBlif(
+//    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]+"_mapped.blif"))));
     	
         System.out.println("Writing the LUT structure:"); 
     	a.printLutStructureBlif(

@@ -90,18 +90,20 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 
 	protected int K;
 	protected boolean tcon_mapping_flag;
+	protected boolean tlc_mapping_flag;
 	protected int nmbrConsideredCones;
 	protected int nmbrFeasibleCones;
 	protected int nmbrDominatedCones;
 	protected int nmbrCones;
 	protected BDDidMapping bddIdMapping;
 
-	public ConeEnumeration(int K, boolean tcon_mapping_flag) {
+	public ConeEnumeration(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag) {
 		nmbrConsideredCones = 0;
 		nmbrDominatedCones = 0;
 		nmbrCones = 0;
 		this.K = K;
 		this.tcon_mapping_flag = tcon_mapping_flag;
+		this.tlc_mapping_flag = tlc_mapping_flag;
 	}
 	
 	public int getNmbrConsideredCones() {
@@ -299,7 +301,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 					c.mapToLUT();
 				else
 					c.mapToTLUT();
-			} else if(this.tcon_mapping_flag && c.isTLCfeasible(K)) {
+			} else if(this.tlc_mapping_flag && c.isTLCfeasible(K)) {
 				c.mapToTLC();
 			} else {// infeasible
 				c.free();
