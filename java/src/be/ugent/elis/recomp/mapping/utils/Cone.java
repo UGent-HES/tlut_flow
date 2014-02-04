@@ -81,6 +81,7 @@ import java.util.Vector;
 import net.sf.javabdd.BDD;
 
 import be.ugent.elis.recomp.aig.AIG;
+import be.ugent.elis.recomp.mapping.utils.Cone.ConeType;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BDDFunction;
 public class Cone implements Comparable<Cone> {
@@ -95,7 +96,7 @@ public class Cone implements Comparable<Cone> {
 	private BDD function;
 	private BDDidMapping bddIdMapping;
 	
-	enum ConeType {LUT, TLUT, TCON, TLC, TRIVIAL, NONE}; 
+	enum ConeType {LUT, TLUT, TCON, TLC, TRIVIAL, NONE, UNMAPPED}; 
 	private ConeType type;
 	
 	private double depth;
@@ -109,7 +110,7 @@ public class Cone implements Comparable<Cone> {
 		this.signature = 0;
 		this.function = null;
 		this.bddIdMapping = bddIdMapping;
-		this.type = ConeType.NONE;
+		this.type = ConeType.UNMAPPED;
 //		this.parameterLeaves = new HashSet<Node>();
 		
 		this.areaflow = 0;
@@ -176,6 +177,15 @@ public class Cone implements Comparable<Cone> {
 		result.addLeave(node);
 		result.calculateSignature();
 		return result;
+	}
+
+	public static Cone outputCone(Node node, BDDidMapping bddIdMapping) {
+		if(!node.isPrimaryOutput())
+			throw new RuntimeException("Only call this function with primary output node");
+		Cone cone = new Cone(node, bddIdMapping);
+		cone.addLeave(node.getI0().getHead());
+		cone.mapToNone();
+		return cone;
 	}
 	
 	private static BDD computeFunctionOfMergedCones(Node root, Cone cone0, Cone cone1) {
@@ -255,8 +265,17 @@ public class Cone implements Comparable<Cone> {
 		return regularLeaves.size();
 	}
 	
+	public void checkMapped() {
+		if(type == ConeType.UNMAPPED)
+			throw new RuntimeException("Cone is not mapped to specific primitive yet");
+	}
+	
 	public ConeType getType() {
 		return type;
+	}
+	
+	public void mapToNone() {
+		this.type = ConeType.NONE;
 	}
 	
 	public boolean isTrivial() {
@@ -265,7 +284,12 @@ public class Cone implements Comparable<Cone> {
 		return type == ConeType.TRIVIAL;
 	}
 	
+	public void mapToTrivial() {
+		this.type = ConeType.TRIVIAL;
+	}
+	
 	public boolean isLUT() {
+		checkMapped();
 		return this.type == ConeType.LUT;
 	}
 	
@@ -274,6 +298,7 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public boolean isTLUT() {
+		checkMapped();
 		return this.type == ConeType.TLUT;
 	}
 	
@@ -282,6 +307,7 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public boolean isTCON() {
+		checkMapped();
 		return this.type == ConeType.TCON;
 	}
 	
@@ -290,6 +316,7 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public boolean isTLC() {
+		checkMapped();
 		return this.type == ConeType.TLC;
 	}
 	
@@ -298,23 +325,27 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public boolean isTuneable() {
+		checkMapped();
 		return this.type == ConeType.TCON
 				|| this.type == ConeType.TLUT
 				|| this.type == ConeType.TLC;
 	}
 	
 	public boolean usesLUTResource() {
+		checkMapped();
 		return this.type == ConeType.LUT
 				|| this.type == ConeType.TLUT
 				|| this.type == ConeType.TLC;
 	}
 	
 	public boolean usesTLUTResource() {
+		checkMapped();
 		return this.type == ConeType.TLUT
 				|| this.type == ConeType.TLC;
 	}
 	
 	public boolean usesTCONResource() {
+		checkMapped();
 		return this.type == ConeType.TCON
 				|| this.type == ConeType.TLC;
 	}

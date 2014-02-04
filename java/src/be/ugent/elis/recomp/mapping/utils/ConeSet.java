@@ -123,6 +123,12 @@ public class ConeSet implements Iterable<Cone> {
 	public Collection<Cone> getCones() {
 		return cones;
 	}
+	
+	public Cone getOnlyCone() {
+		if(size() != 1)
+			throw new RuntimeException("Coneset should have exactly one cone");
+		return getCones().iterator().next();
+	}
 
 	public void setCones(Collection<Cone> cones) {
 		this.cones = cones;

@@ -129,20 +129,15 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	public void visit(Node node) {
 		ConeSet result = new ConeSet(node);
 
-		if (node.isParameter()) {
-			if (node.isPrimaryInput())
+		if (node.isPrimaryInput()) {
+			if (node.isParameter())
 				result.add(Cone.trivialParameterCone(node, bddIdMapping));
-			else if (node.isGate()) {
-				result.addAll(mergeParameterConeSets(node));
-			}
-			// System.out.println(node.getName());
-			
-		} else {
-			
-			if (node.isPrimaryInput()) {
+			else 
 				result.add(Cone.trivialCone(node, bddIdMapping));
-				
-			} else if (node.isGate()) {
+		} else if(node.isGate()) {
+			if (node.isParameter())
+				result.addAll(mergeParameterConeSets(node));
+			else {
 				ConeSet mergedConeSet = mergeInputConeSets(node);
 				nmbrConsideredCones += mergedConeSet.size();
 				ConeSet feasibleCones = retainFeasibleCones(mergedConeSet);
@@ -156,8 +151,9 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				// if (!node.getI0().getTail().isParameter() &&
 				// 		!node.getI1().getTail().isParameter() )
 				// 	result.add(Cone.trivialCone(node));
-
 			}
+		} else if(node.isPrimaryOutput()) {
+			result.add(Cone.outputCone(node, bddIdMapping));
 		}
 		result.reduceMemoryUsage();
 		node.setConeSet(result);
@@ -176,9 +172,19 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	}
 
 	protected ConeSet mergeParameterConeSets(Node node) {
-		ConeSet result = mergeInputConeSets(node);
-		if(result.size() != 1)
-			throw new RuntimeException("ConeSet of parameter node should contain only one cone");
+		// Get the two child nodes of the current node
+		Node node0 = node.getI0().getTail();
+		Node node1 = node.getI1().getTail();
+
+		Cone merge = Cone.mergeCones(node, node0.getConeSet().getOnlyCone(), node1.getConeSet().getOnlyCone(), 
+				tcon_mapping_flag ? maxConeSizeConsidered : K,
+				tcon_mapping_flag);
+		if(merge == null) 
+			throw new RuntimeException("Parameter coneset should contain one cone");
+		merge.mapToTrivial();
+		
+		ConeSet result = new ConeSet(node);
+		result.add(merge);
 		return result;
 	}
 

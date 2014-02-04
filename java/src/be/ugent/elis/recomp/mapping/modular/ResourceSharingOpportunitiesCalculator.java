@@ -185,7 +185,7 @@ public class ResourceSharingOpportunitiesCalculator {
 		BDD activFn = node.getActivationFunction();
 		if(activFn == null)
 			throw new RuntimeException("ActivationFunctions of nodes must be computed first");
-		if(node.isGate() && node.isVisible()) {
+		if(node.isVisible() && node.getBestCone().usesLUTResource()) {
 			if(!activationSets.containsKey(activFn))
 				activationSets.put(activFn, new ActivationSet(aig, activFn));
 			activationSets.get(activFn).addNode(node);

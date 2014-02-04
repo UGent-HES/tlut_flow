@@ -74,6 +74,7 @@ import java.util.Comparator;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;
+import be.ugent.elis.recomp.mapping.utils.ConeSet;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
@@ -118,6 +119,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 		if (node.isPrimaryInput()) {
 			node.setDepth(0.0);
 			node.setAreaflow(0.0);
+			node.setBestCone(node.getConeSet().getOnlyCone());
 
 			for (Edge e : node.fanOut()) {
 				e.setDepth(0.0);
@@ -162,9 +164,10 @@ public class ConeRanking implements Visitor<Node, Edge> {
 
 			// Set the area flow and the depth of the
 			// primary outputs.
-		} else if (node.isOutput() || node.isILatch()) {
+		} else if (node.isPrimaryOutput()) {
 			node.setDepth(node.getI0().getDepth());
 			node.setAreaflow(node.getI0().getAreaflow());
+			node.setBestCone(node.getConeSet().getOnlyCone());
 		}
 
 		// System.out.println(node.getName());

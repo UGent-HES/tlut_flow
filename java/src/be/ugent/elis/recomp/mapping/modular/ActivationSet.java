@@ -35,6 +35,8 @@ class ActivationSet {
 	}
 	
 	public void addNode(Node node) {
+		if(!(node.isVisible() && node.getBestCone().usesLUTResource()))
+			throw new RuntimeException("Not a valid node for an activationset");
 		nodes.add(node);
 	}
 	
