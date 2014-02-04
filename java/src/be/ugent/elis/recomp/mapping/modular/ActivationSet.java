@@ -40,13 +40,6 @@ class ActivationSet {
 		nodes.add(node);
 	}
 	
-	public int getNumAndNodes() {
-		int num_and_nodes = 0;
-		for(Node node : getNodes())
-			num_and_nodes += node.isGate() ? 1 : 0;
-		return num_and_nodes;
-	}
-	
 	public Set<Node> getNodes() {
 		return nodes;
 	}
@@ -75,6 +68,10 @@ class ActivationSet {
 		return true;
 	}
 	
+	public int numLUTResources() {
+		return getNodes().size();
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("ActivationSet(");
@@ -91,9 +88,7 @@ class ActivationSet {
 				sb.append(set.getActivationFunction().toString());
 			sb.append(',');
 		}
-		sb.append("},num_and_nodes{"+getNumAndNodes());
-		sb.append("},num_nodes{");
-		sb.append(getNodes().size());
+		sb.append("},num_luts{"+numLUTResources());
 //			sb.append("},nodes{");
 //			for(Node node : getNodes()) {
 //				sb.append(node.getName());

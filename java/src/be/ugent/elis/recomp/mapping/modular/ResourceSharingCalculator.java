@@ -110,10 +110,11 @@ public class ResourceSharingCalculator {
 		//System.out.println(reduced.toString());
 		
 		SubsetSolution solution = find_largest_notconnected_subset(sharing_opportunities.getActivationSets().values());
-	    System.out.println("Num nodes in all activationsets: " + sharing_opportunities.totalNumAndNodes());
-	    System.out.println("Max num nodes active at any time (except those not in an activationset): " + solution.getTotal_size());
-	    System.out.println("Num nodes saved by sharing: " + (sharing_opportunities.totalNumAndNodes() - solution.getTotal_size()));
-	    
+		int numLUTsSaved = sharing_opportunities.totalNumLUTResources() - solution.getTotalNumLUTResources();
+	    System.out.println("Num LUTs in all activationsets: " + sharing_opportunities.totalNumLUTResources());
+	    System.out.println("Max LUTs active at any time (except those not in an activationset): " + solution.getTotalNumLUTResources());
+	    System.out.println("Num LUTs saved by sharing: " + numLUTsSaved);
+	    System.out.println("Num LUT resources used with sharing: " + (aig.numLUTResourcesUsed() - numLUTsSaved));
 		finalise(aig);
 	}
 	
@@ -125,18 +126,19 @@ public class ResourceSharingCalculator {
 	
 	private class SubsetSolution {
 		private final Collection<ActivationSet> actiationsets;
-		private final int total_size;
+		private final int totalNumLUTResources;
 		SubsetSolution(int total_size, Collection<ActivationSet> actiationsets) {
 			this.actiationsets = actiationsets;
-			this.total_size = total_size;
+			this.totalNumLUTResources = total_size;
 		}
 		public Collection<ActivationSet> getActiationsets() {
 			return actiationsets;
 		}
-		public int getTotal_size() {
-			return total_size;
+		public int getTotalNumLUTResources() {
+			return totalNumLUTResources;
 		}
 	}
+	
 	private SubsetSolution find_largest_notconnected_subset(Collection<ActivationSet> activationsets) {
 		LinkedList<ActivationSet> untested_sets = new LinkedList<ActivationSet>(activationsets);
         Collections.sort(untested_sets, new Comparator<ActivationSet>() {
@@ -152,7 +154,7 @@ public class ResourceSharingCalculator {
 		
 	    int total_size = 0;
 	    for(ActivationSet activationset : activationsets) {
-	    	total_size += activationset.getNumAndNodes();
+	    	total_size += activationset.numLUTResources();
 	    }
 
 	    Collection<ActivationSet> part_with, part_without;
@@ -173,7 +175,7 @@ public class ResourceSharingCalculator {
 	    }
 	    SubsetSolution sol_with = find_largest_notconnected_subset(part_with, untested_sets);
 	    SubsetSolution sol_without = find_largest_notconnected_subset(part_without, untested_sets);
-	    if(sol_with.getTotal_size() > sol_without.getTotal_size())
+	    if(sol_with.getTotalNumLUTResources() > sol_without.getTotalNumLUTResources())
 	        return sol_with;
 	    else
 	        return sol_without;

@@ -86,18 +86,6 @@ import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 
 public class ResourceSharingOpportunitiesCalculator {
 	
-	public static void main(String[] args) throws IOException {
-		
-		MappingAIG aig = new MappingAIG(args[0]);
-		
-		aig.visitAll(new ParameterMarker(new FileInputStream(args[1])));
-
-        new ActivationFunctionBuilder(aig).run();
-        new ResourceSharingOpportunitiesCalculator().run(aig);
-        
-    }
-	
-	
 	private BDDFactory B;
 	private Map<BDD,ActivationSet> activationSets;
 	
@@ -133,10 +121,10 @@ public class ResourceSharingOpportunitiesCalculator {
 //		System.out.println("Total num nodes: "+allNodes.size());
 	}
 	
-	public int totalNumAndNodes() {
+	public int totalNumLUTResources() {
 		int num_nodes = 0;
 		for(ActivationSet activationset : activationSets.values())
-			num_nodes += activationset.getNumAndNodes();
+			num_nodes += activationset.numLUTResources();
 		return num_nodes;
 	}
 	
@@ -220,7 +208,7 @@ public class ResourceSharingOpportunitiesCalculator {
 			
 			new_set.setSharingOpportunities(set.getSharingOpportunities());
 
-			if(new_set.getNumAndNodes() != 0)
+			if(new_set.numLUTResources() != 0)
 				reduced_opportunities.activationSets.put(set.getActivationFunction(), new_set);
 		}
 		
