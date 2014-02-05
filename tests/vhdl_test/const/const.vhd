@@ -1,25 +1,21 @@
---TMAP
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 
-entity exorw32 is
+entity const is
     port(
-    --PARAM
     p : in  std_logic_vector(31 downto 0);
-    --PARAM
     b : in  std_logic_vector(31 downto 0);
     x : out std_logic_vector(31 downto 0)
 );
-end exorw32;
+end const;
 
-architecture behavior of exorw32 is
+architecture behavior of const is
     constant c : std_logic_vector(31 downto 0) := X"aa000000";
 begin
 
-EXORS : process (b, p)
+process (b, p)
 begin
     for i in 31 downto 28 loop
         x(i) <= c(i);

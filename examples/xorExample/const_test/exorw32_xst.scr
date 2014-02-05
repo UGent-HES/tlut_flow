@@ -1,6 +1,0 @@
-run
--ifn "exorw32.prj"
--ifmt VHDL
--ofn exorw32
--ofmt ngc
--p xc5vlx30ff324-2
