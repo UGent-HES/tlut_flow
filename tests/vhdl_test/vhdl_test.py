@@ -24,7 +24,14 @@ class CompileTest(unittest.TestCase):
 
     def test_vector(self):
         self.build('vector/vector.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
-        
+
+    def test_matrix(self):
+        self.build('matrix/matrix.vhd', ['matrix/matrix_type_pkg.vhd'], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
+    
+    @unittest.expectedFailure
+    def test_matrix2(self):
+        self.build('matrix2/matrix2.vhd', ['matrix2/matrix_type_pkg.vhd'], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
+
     @unittest.skip('The toolflow currently can\'t handle reset signals') 
     def test_sbox(self):
         self.build('sbox/sbox.vhd', ['sbox/aes_pkg.vhd'], K=6, virtexFamily='virtex5', containsLatches=True, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
@@ -128,7 +135,7 @@ class CompileTest(unittest.TestCase):
         if verboseFlag:
             print "Stage: Creating %s directory and copying design"%verificationWorkDir
         verificationModule = "%s.vhd"%baseName
-        verificationSubModules = glob.glob('primitives/*')
+        verificationSubModules = glob.glob('primitives/*') + submodules
         verificationWorkFiles = verificationSubModules
         try:
             shutil.rmtree(verificationWorkDir)
