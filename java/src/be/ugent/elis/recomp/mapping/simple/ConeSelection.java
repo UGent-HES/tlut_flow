@@ -84,7 +84,7 @@ public class ConeSelection implements Visitor<Node, Edge> {
 	public void visit(Node node) {
 		
 		// Set the child nodes of the outputs visible.
-		if (node.isOutput() || node.isILatch()) {
+		if (node.isPrimaryOutput()) {
 			
 			node.getI0().getTail().setVisible(true);
 		

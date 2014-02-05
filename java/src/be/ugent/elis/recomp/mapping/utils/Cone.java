@@ -64,7 +64,6 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
 package be.ugent.elis.recomp.mapping.utils;
 
@@ -72,7 +71,6 @@ package be.ugent.elis.recomp.mapping.utils;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.ArrayList;
@@ -81,12 +79,12 @@ import java.util.Vector;
 import net.sf.javabdd.BDD;
 
 import be.ugent.elis.recomp.aig.AIG;
-import be.ugent.elis.recomp.mapping.utils.Cone.ConeType;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BDDFunction;
+
 public class Cone implements Comparable<Cone> {
 	
-	private Node root;
+	private final Node root;
 	protected Collection<Node> regularLeaves;
 //	protected Set<Node> parameterLeaves;
 	protected long signature;
@@ -218,11 +216,6 @@ public class Cone implements Comparable<Cone> {
 	
 	public long getSignature() {
 		return signature;
-	}
-
-	private void setRoot(Node root) {
-		this.root = root;
-		nodes = null;
 	}
 
 	public Node getRoot() {

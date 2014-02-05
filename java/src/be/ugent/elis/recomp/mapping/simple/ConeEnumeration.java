@@ -136,6 +136,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				result.add(Cone.trivialParameterCone(node, bddIdMapping));
 			else 
 				result.add(Cone.trivialCone(node, bddIdMapping));
+			
 		} else if(node.isGate()) {
 			if (node.isParameter())
 				result.addAll(mergeParameterConeSets(node));
@@ -154,6 +155,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				// 		!node.getI1().getTail().isParameter() )
 				// 	result.add(Cone.trivialCone(node));
 			}
+			
 		} else if(node.isPrimaryOutput()) {
 			result.add(Cone.outputCone(node, bddIdMapping));
 		}

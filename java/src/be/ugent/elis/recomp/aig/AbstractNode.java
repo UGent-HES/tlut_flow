@@ -74,8 +74,8 @@ import java.util.List;
 public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 	protected String name = null;
-	private int id;
-	private   NodeType type;
+	private final int id;
+	private final NodeType type;
 	
 	private   ArrayList<E> input;
 	private   ArrayList<E> output;
