@@ -267,6 +267,10 @@ public class Cone implements Comparable<Cone> {
 		return type;
 	}
 	
+	public boolean isUnmapped() {
+		return type == ConeType.UNMAPPED;
+	}
+	
 	public void mapToNone() {
 		this.type = ConeType.NONE;
 	}
@@ -573,10 +577,12 @@ public class Cone implements Comparable<Cone> {
 		BDD result;
 		Node source = e.getTail();
 		
-			int id = inputVariables.indexOf(source.getName());
+		int id = inputVariables.indexOf(source.getName());
 		if (id != -1) {
 			result = BDDFactorySingleton.get().ithVar(id);
 		} else {
+			if(source.getI0().getTail() == source || source.getI0().getTail() == source)
+				throw new RuntimeException("Loop in aig");
 			result = getBDDRec( source.getI0(), inputVariables).andWith(getBDDRec( source.getI1(), inputVariables));
 		}
 			
