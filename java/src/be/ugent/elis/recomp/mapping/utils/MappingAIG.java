@@ -779,5 +779,23 @@ port map (
 			}
 		}
 		return (double)dupCount/this.getAnds().size();
+	}
+
+	public void fixAIG() {
+		//Fix for parameters directly connected to the output
+		ArrayList<Node> outputList = getOutputs();
+		for(Node outNode: outputList){
+			Edge inputEdge = outNode.getI0();
+			Node inputNode = inputEdge.getTail(); 
+			if(inputNode.isInput() && inputNode.isParameter()){
+				String name = "a_"+outNode.getName().replace("[","_").replace("]","");
+				Node andNode = addNode(name, inputNode, false, getConst0(), true);
+				Edge e = addEdge(andNode, outNode, false);
+				outNode.setI0(e); //replaces edge
+				andNode.addOutput(e);
+				inputNode.removeOutput(inputEdge);
+				removeEdge(inputEdge);
+			}
+		}
 	}	
 }

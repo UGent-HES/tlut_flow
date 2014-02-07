@@ -75,7 +75,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
@@ -116,21 +115,7 @@ public class TMapSimple {
 		
 		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 		
-		//Fix for parameters directly connected to the output
-		ArrayList<Node> outputList = a.getOutputs();
-		for(Node outNode: outputList){
-			Edge inputEdge = outNode.getI0();
-			Node inputNode = inputEdge.getTail(); 
-			if(inputNode.isInput() && inputNode.isParameter()){
-				String name = "a_"+outNode.getName().replace("[","_").replace("]","");
-				Node andNode = a.addNode(name, inputNode, false, a.getConst0(), true);
-				Edge e = a.addEdge(andNode, outNode, false);
-				outNode.setI0(e);//replaces edge
-				andNode.addOutput(e);
-				inputNode.removeOutput(inputEdge);
-				a.removeEdge(inputEdge);
-			}
-		}
+		a.fixAIG();
 		
 		int K = Integer.parseInt(args[2]);
 
@@ -185,7 +170,6 @@ public class TMapSimple {
         System.out.println(a.numLuts() +"\t"+ a.getDepth() + "\t" +a.numTLuts() + "\t" +a.avDupl() +
             "\t"+ enumerator.getNmbrCones() +"\t"+ enumerator.getNmbrKCones() +"\t"+
             enumerator.getNmbrDominatedCones());
-
 	}
 	
 }
