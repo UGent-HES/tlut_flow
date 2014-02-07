@@ -406,6 +406,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		all.addAll(ilatch);
 		all.addAll(latch);
 		all.addAll(olatch);
+		all.add(const0);
 		return all;
 	}
 	
@@ -527,6 +528,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				break;
 			case INPUT:
 			case OLATCH:
+			case CONST0:
 				if(node.allFanoutIsMarked()) {
 					vec.add(node);
 					node.setMarked(true);

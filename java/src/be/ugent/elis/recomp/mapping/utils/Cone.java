@@ -355,6 +355,8 @@ public class Cone implements Comparable<Cone>, ConeInterface {
 
 	// Simple implementation of boolean function using expression
 	public ExpressionFunction getBooleanFunction() {
+		if(isTrivial())
+			throw new RuntimeException("Can't compute function of trivial cone");
 		Vector<String> inputVariables = new Vector<String>();
 		for(Node node : regularLeaves)
 			inputVariables.add(node.getName());
