@@ -17,5 +17,6 @@ architecture rtl of test3 is
 begin
     out_dummy <= in_dummy1 or in_dummy2;
     out_dummy2 <= '0';
-	out_param <= in_param;
+	out_param(0) <= in_param(0);
+    out_param(1) <= not(in_param(1));
 end rtl;

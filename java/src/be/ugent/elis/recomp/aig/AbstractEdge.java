@@ -90,10 +90,16 @@ public abstract class AbstractEdge< N extends AbstractNode<N,E>, E extends Abstr
 		this.tail = tail;
 	}
 
+	/**
+	 * Get the tail/source of the edge.
+	 */
 	public N getTail() {
 		return (N) tail;
 	}
 
+	/**
+	 * Get the head/sink of the edge.
+	 */
 	public void setHead(N head) {
 		this.head = (N) head;
 	}

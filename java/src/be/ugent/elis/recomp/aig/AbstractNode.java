@@ -144,7 +144,8 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	}
 	
 	public void removeOutput(E edge) {
-		output.remove(edge);
+		if(!output.remove(edge))
+			throw new RuntimeException("Trying to remove edge that is not an output");
 	}
 
 	public ArrayList<E> fanOut() {

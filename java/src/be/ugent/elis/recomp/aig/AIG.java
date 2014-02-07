@@ -409,6 +409,21 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		all.add(const0);
 		return all;
 	}
+
+	public ArrayList<N> getAllPrimaryInputs() {
+		ArrayList<N> all = new ArrayList<N>();
+		all.addAll(input);
+		all.addAll(olatch);
+		all.add(const0);
+		return all;
+	}
+	
+	public ArrayList<N> getAllPrimaryOutputs() {
+		ArrayList<N> all = new ArrayList<N>();
+		all.addAll(output);
+		all.addAll(ilatch);
+		return all;
+	}
 	
 	public N getNode(String name) {
 		if (nodeMap == null) {
@@ -1153,7 +1168,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				E outEdge = out.getI0();
 				N outDriver = outEdge.getTail();
 				
-				out.removeOutput(outEdge);
+				outDriver.removeOutput(outEdge);
 				
 				for (E e: in.getOutputEdges()) {
 					e.setTail(outDriver);
@@ -1201,7 +1216,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	}
 	
 	public void removeEdge(E edge) {
-		edges.remove(edge);
+		if(!edges.remove(edge))
+			throw new RuntimeException("Trying to remove edge that doesn't exist");
 	}
 
 	public N addNode(String name, NodeType type) {
