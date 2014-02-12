@@ -76,7 +76,7 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #Copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, verboseFlag=False, targetDepth=None, synthesizedFileName=None):
+def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, verboseFlag=False, targetDepth=None, synthesizedFileName=None, extraArgs=[], workDir=None):
     baseName, ext = getBasenameAndExtension(os.path.basename(module))
         
     if virtexFamily in ("virtex2pro",):
@@ -87,7 +87,8 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         raise Exception("Unknown virtex family: %s"%virtexFamily)
     
     # Setup working directory
-    workDir = "work/%s"%baseName
+    if not workDir:
+        workDir = "work/%s"%baseName
     print "Stage: Creating %s directory and copying design"%workDir
     workFiles = [module] + submodules
     if qsfFileName: workFiles.append(qsfFileName)
@@ -125,14 +126,14 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
     numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth) #, [ '--notlut'])
+        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing'] + extraArgs)
     print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
 
     # Unleash TCON mapper
     print "Stage: TCON mapper"
     numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--tcon', '--allowDepthIncrease', '--sharing'])
+        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing', '--tcon', '--allowDepthIncrease'] + extraArgs)
     print collumnize(['Luts (TLUT/TCON)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+'/'+str(numTCONs)+')',depth,check],colwidth)
  
