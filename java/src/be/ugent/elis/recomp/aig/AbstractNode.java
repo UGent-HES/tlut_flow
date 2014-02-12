@@ -237,15 +237,12 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	}
 
 	public boolean allFanoutIsMarked() {
-		boolean result = true;
 		for (E edge:output) {
-			if (edge.getHead().isMarked()) {
-				result = result && true;
-			} else {
-				result = result && false;				
+			if (!edge.getHead().isMarked()) {
+				return false;
 			}
 		}
-		return result;
+		return true;
 	}
 
 	public List<E> getInputEdges() {
