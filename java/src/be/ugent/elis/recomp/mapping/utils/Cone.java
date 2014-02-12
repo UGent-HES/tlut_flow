@@ -100,6 +100,7 @@ public class Cone implements Comparable<Cone> {
 	private double depth;
 	private double areaflow;
 	private int area;
+	private boolean hasParameterLeaves;
 
 
 	public Cone(Node node, BDDidMapping bddIdMapping) {
@@ -109,6 +110,7 @@ public class Cone implements Comparable<Cone> {
 		this.function = null;
 		this.bddIdMapping = bddIdMapping;
 		this.type = ConeType.UNMAPPED;
+		this.hasParameterLeaves = false;
 //		this.parameterLeaves = new HashSet<Node>();
 		
 		this.areaflow = 0;
@@ -154,6 +156,8 @@ public class Cone implements Comparable<Cone> {
 		result.addLeaves(cone0);
 		result.addLeaves(cone1);
 		
+		result.hasParameterLeaves = cone0.hasParameterLeaves || cone1.hasParameterLeaves;
+		
 		if(result.size() > maxConeSizeConsidered)
 			return null;
 		
@@ -166,12 +170,14 @@ public class Cone implements Comparable<Cone> {
 	public static Cone trivialParameterCone(Node node, BDDidMapping bddIdMapping) {
 		Cone result = new Cone(node, bddIdMapping);
 		result.type = ConeType.TRIVIAL;
+		result.hasParameterLeaves = true;
 		result.setFunction(node.getBDD(bddIdMapping));
 		return result;
 	}
 
 	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping) {
 		Cone result = trivialParameterCone(node, bddIdMapping);
+		result.hasParameterLeaves = false;
 		result.addLeave(node);
 		result.calculateSignature();
 		return result;
@@ -425,7 +431,8 @@ public class Cone implements Comparable<Cone> {
 	
 	public boolean hasParameterLeaves() {
 //		return getParameterLeaves().size() != 0;
-		return hasParameterLeavesRec(root);
+		//return hasParameterLeavesRec(root);
+		return hasParameterLeaves;
 	}
 	
 	private boolean hasParameterLeavesRec(Node node) {
