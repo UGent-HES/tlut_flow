@@ -30,22 +30,12 @@ import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Vector;
-import java.util.Map;
-
-import edu.byu.ece.rapidSmith.design.Attribute;
 import edu.byu.ece.rapidSmith.design.Design;
 import edu.byu.ece.rapidSmith.design.Instance;
-import edu.byu.ece.rapidSmith.design.Net;
-import edu.byu.ece.rapidSmith.design.PIP;
 import edu.byu.ece.rapidSmith.device.PrimitiveType;
 import edu.byu.ece.rapidSmith.device.TileType;
 import edu.byu.ece.rapidSmith.device.PrimitiveSite;
-import edu.byu.ece.rapidSmith.device.WireType;
-import edu.byu.ece.rapidSmith.router.Node;
-import edu.byu.ece.rapidSmith.util.FileTools;
-
 import com.daveKoelle.AlphanumComparator;
 
 
@@ -160,7 +150,7 @@ public class ExtractInfo {
 		    System.err.println("Error: Instance '"+firstLine+"' not found");
 		    System.exit(1);
 		}
-		Vector <String> paths = new Vector(logicalName2Instances.get(firstLine).getPaths());
+		Vector<String> paths = new Vector<String>(logicalName2Instances.get(firstLine).getPaths());
 		Collections.sort(paths,new AlphanumComparator());
 		//System.out.println(paths);
 		cFile.append("const lutlocation location_array[NUMBER_OF_INSTANCES][NUMBER_OF_TLUTS_PER_INSTANCE] = {\n");

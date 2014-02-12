@@ -68,8 +68,6 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.mapping.modular;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -79,7 +77,6 @@ import java.util.Set;
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
 
-import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;

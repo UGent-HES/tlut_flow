@@ -70,8 +70,6 @@ package be.ugent.elis.recomp.mapping.tmapSimple;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
-import be.ugent.elis.recomp.mapping.utils.Cone;
-import be.ugent.elis.recomp.mapping.utils.ConeSet;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 

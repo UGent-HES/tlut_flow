@@ -69,7 +69,6 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.utils;
 
 import be.ugent.elis.recomp.aig.AbstractEdge;
-import be.ugent.elis.recomp.aig.AbstractNode;
 
 public class Edge extends AbstractEdge<Node,Edge> {
 

@@ -20,22 +20,10 @@
  */
 package be.ugent.elis.recomp.util;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Vector;
 
-import edu.byu.ece.rapidSmith.design.Attribute;
-import edu.byu.ece.rapidSmith.design.Design;
-import edu.byu.ece.rapidSmith.design.Instance;
-import edu.byu.ece.rapidSmith.design.Net;
-import edu.byu.ece.rapidSmith.design.PIP;
-import edu.byu.ece.rapidSmith.device.PrimitiveType;
 import edu.byu.ece.rapidSmith.device.TileType;
 import edu.byu.ece.rapidSmith.device.PrimitiveSite;
-import edu.byu.ece.rapidSmith.device.WireType;
-import edu.byu.ece.rapidSmith.router.Node;
-import edu.byu.ece.rapidSmith.util.FileTools;
 
 public class InstanceInfo {
 	

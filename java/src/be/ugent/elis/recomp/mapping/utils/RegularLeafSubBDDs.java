@@ -69,23 +69,11 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.utils;
 
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.ArrayList;
 import java.util.Stack;
-import java.util.Vector;
 
 import net.sf.javabdd.BDD;
-
-import be.ugent.elis.recomp.aig.AIG;
-import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
-import be.ugent.elis.recomp.synthesis.BDDFunction;
-import be.ugent.elis.recomp.synthesis.BooleanFunction;
-import be.ugent.elis.recomp.synthesis.ExpressionFunction;
 
 public class RegularLeafSubBDDs implements Iterator<BDD> {
 	

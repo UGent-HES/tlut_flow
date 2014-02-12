@@ -82,13 +82,7 @@ public class Test {
 		inputVariables.add("c");
 		BooleanFunction f = new ExpressionFunction(inputVariables,"b c + a +");
 		
-		
-		TruthTable table = new TruthTable(f);
-		
-		
 		TruthAssignment assignment = TruthAssignment.createFrom(f);
-		
-
 		
 		System.out.println(f.evaluate(assignment));
 

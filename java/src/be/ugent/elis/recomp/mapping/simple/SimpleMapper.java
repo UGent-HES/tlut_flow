@@ -69,19 +69,14 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.simple;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-
-import javax.print.attribute.standard.PrinterName;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 
-import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 

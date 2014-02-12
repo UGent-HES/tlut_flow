@@ -68,8 +68,6 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.mapping.simple;
 
-import java.util.Vector;
-
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;

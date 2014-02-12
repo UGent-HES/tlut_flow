@@ -78,7 +78,6 @@ import java.util.ArrayList;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
-
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.modular.ActivationFunctionBuilder;
 import be.ugent.elis.recomp.mapping.modular.ResourceSharingCalculator;
