@@ -85,6 +85,7 @@ import be.ugent.elis.recomp.mapping.utils.Node;
 public class ConeEnumeration implements Visitor<Node, Edge> {
 	
 	private static final int maxConeSizeConsidered = 20;
+	private static final int maxBddSizeConsidered = 10;
 	private static final int maxNumConesPerNodeConsidered = 2000;
 	private static final int maxNumConesPerNodeSaved = 1000;
 
@@ -182,7 +183,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 
 		Cone merge = Cone.mergeCones(node, node0.getConeSet().getOnlyCone(), node1.getConeSet().getOnlyCone(), 
 				tcon_mapping_flag ? maxConeSizeConsidered : K,
-				tcon_mapping_flag);
+				maxBddSizeConsidered, tcon_mapping_flag);
 		if(merge == null) 
 			throw new RuntimeException("Parameter coneset should contain one cone");
 		merge.mapToTrivial();
@@ -242,9 +243,10 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		for(TwoCones twoCones : mergesToConsider) {
 			Cone merge = Cone.mergeCones(node, twoCones.cone0, twoCones.cone1, 
 					tcon_mapping_flag ? maxConeSizeConsidered : K,
-					tcon_mapping_flag);
-			if(merge != null) 
+					maxBddSizeConsidered, tcon_mapping_flag);
+			if(merge != null) {
 				result.add(merge);
+			}
 		}
 		return result;
 	}

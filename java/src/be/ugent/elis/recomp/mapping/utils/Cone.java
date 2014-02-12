@@ -161,8 +161,13 @@ public class Cone implements Comparable<Cone> {
 		if(result.size() > maxConeSizeConsidered)
 			return null;
 		
-		if(computeFunction)
+		if(computeFunction) {
 			result.setFunction(computeFunctionOfMergedCones(node, cone0, cone1));
+			if(result.getFunction().nodeCount() > maxBddSizeConsidered) {
+				result.free();
+				return null;
+			}
+		}
 	
 		return result;
 	}
