@@ -119,6 +119,7 @@ public class TMapSimple {
 		// --sharing : toggle resource/LUT sharing [default=off]
 		// --tcon    : toggle TCON mapping [default=off]
 		// --allow_depth_increase    : disable error on depth increase during area recovery [default=off]
+		// --nolutstruct : disable output of (T)LUT structure in blif [default=off]
 
 		OptionParser parser = new OptionParser();
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
@@ -132,6 +133,8 @@ public class TMapSimple {
                 parser.accepts("tcon");
         OptionSpec<Void> allow_depth_increase_option =
                 parser.accepts("allowDepthIncrease");
+        OptionSpec<Void> no_lutstruct_option =
+                parser.accepts("nolutstruct");
         OptionSet options = parser.parse(args);
         
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
@@ -141,6 +144,8 @@ public class TMapSimple {
         boolean tcon_mapping_flag = options.has(tcon_mapping_option);
         boolean allow_depth_increase_flag = options.has(allow_depth_increase_option);
         allow_depth_increase_flag |= target_depth != -1;
+        boolean write_lutstruct_flag = !options.has(no_lutstruct_option);
+        boolean write_vhdstruct_flag = arguments.length > 5;
         
 
 		// Read AIG file
@@ -211,11 +216,13 @@ public class TMapSimple {
 //        a.printMappedBlif(
 //    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]+"_mapped.blif"))));
     	
-        System.out.println("Writing the LUT structure:"); 
-    	a.printLutStructureBlif(
-    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]))),
-    	    K);
-        if(arguments.length > 5) {
+        if(write_lutstruct_flag) {
+        	System.out.println("Writing the LUT structure:"); 
+        	a.printLutStructureBlif(
+            	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]))),
+            	    K);
+        }
+        if(write_vhdstruct_flag) {
         	String inVhdFile = arguments[5];
         	String vhdFile = arguments[6];
         	String nameFile = arguments[7];
