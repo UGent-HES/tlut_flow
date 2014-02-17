@@ -202,6 +202,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         for line in output.splitlines():
             if line.startswith("Warning: latch has only parameters in fanin cone: "):
                 print line
+            if line.startswith("Num LUT resources used with sharing:"):
+                print line
         
         # Extracting results
         origAnds = getAIGStats(aigFile, verboseFlag)
