@@ -107,8 +107,8 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         synthesizedFileName = synthesize(module, qsfFileName, verboseFlag)
     
     # Automatically extract parameters from VHDL
-    print "Stage: Generating parameters"
     if parameterFileName == None:
+        print "Stage: Generating parameters"
         parameterFileName = baseName+'.par'
         with open(parameterFileName, "w") as parameterFile:
             parameter_names = extract_parameter_names(module)
@@ -121,6 +121,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         
     # Resynthesize
     if resynthesizeFlag:
+        print "Stage: Resynthesizing"
         synthesizedFileName = resynthesize(baseName, synthesizedFileName)
     
     # Unleash TLUT mapper
@@ -140,6 +141,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     # Print C-files
     if generateImplementationFilesFlag:
+        print "Stage: Generating C driver files"
         tlutconfFile = baseName + "-parconfig_resyn.aig"
         CFileName = baseName + '.c' 
         headerFileName = baseName + '.h'
