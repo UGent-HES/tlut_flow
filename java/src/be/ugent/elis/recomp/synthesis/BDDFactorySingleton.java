@@ -69,6 +69,7 @@ All rights reserved.
 package be.ugent.elis.recomp.synthesis;
 
 import net.sf.javabdd.BDDFactory;
+import net.sf.javabdd.BDDFactory.ReorderMethod;
 
 
 public class BDDFactorySingleton {
@@ -88,6 +89,7 @@ public class BDDFactorySingleton {
 			B.registerResizeCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
 //    		B.setIncreaseFactor(0.5);
     		B.setMaxIncrease(1000000000);
+    		B.autoReorder(BDDFactory.REORDER_WIN2ITE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,6 +106,7 @@ public class BDDFactorySingleton {
 //		System.out.println(singleton.B.getGCStats().toString());
 //		System.out.println(singleton.B.getCacheStats().toString());
 //		System.out.println("Active nodes: "+singleton.B.getNodeNum());
+//		System.out.println(singleton.B.getReorderStats().toString());
 		singleton.B.done();
 		singleton = null;
 	}
