@@ -124,6 +124,31 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False, targ
         raise
     return (numLuts, depth, check)
 
+
+def getAIGStats(fileName, verboseFlag):
+    cmd = ['abc', '-c', 'print_stats', toaig(fileName)]
+    try:
+        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        if verboseFlag:
+            print ' '.join(cmd)
+            print output
+        try:
+            res = re.search(r'\band\s*=\s*(?P<ands>\d+)\b', output.splitlines()[-1])
+            if not res:
+                raise ValueError
+            ands = int(res.group('ands'))
+        except (ValueError, IndexError):
+            if not verboseFlag:
+                print ' '.join(cmd)
+                print output
+            raise Exception("Unexpected output from abc print_stats")
+    except subprocess.CalledProcessError as e:
+        if e.output.find("Abc_NtkCheckNames: Assertion `pObj' failed.") != -1:
+            ands = 0 #safe to ignore error indicates empty network
+        else:
+            raise
+    return ands
+
 def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generateImplementationFilesFlag, inVhdFileName=None, verboseFlag=False, target_depth=None, extra_args=[]):
     try:
         basefname, ext = getBasenameAndExtension(fname)
@@ -161,8 +186,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
             print output
         
         # Extracting results
-        data = output.splitlines()[-1].split()
         try:
+            data = output.splitlines()[-1].split()
             numLuts = int(data[0])
             depth   = int(float(data[1]))
             numTLuts =  int(data[2])
@@ -179,20 +204,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
                 print line
         
         # Extracting results
-        cmd = ['abc','-c','print_stats', aigFile]
-        output = subprocess.check_output(cmd)
-        if verboseFlag:
-            print ' '.join(cmd)
-            print output,
-        try:
-            res = re.search(r'\band\s*=\s*(?P<origAnds>\d+)\b',output.splitlines()[-1])
-            if not res: raise ValueError
-            origAnds = int(res.group('origAnds'))
-        except (ValueError, IndexError):
-            if not verboseFlag:
-                print ' '.join(cmd)
-                print output,
-            raise Exception("Unexpected output from abc print_stats")
+        origAnds = getAIGStats(aigFile, verboseFlag)
     
     
         # Resynthesize Parameterizable Configuration
@@ -201,26 +213,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
             'rw; rf; rw; rwz; rfz; rwz', verboseFlag)
         
         # Extracting results: Parameterizable Configuration
-        cmd = ['abc','-c','print_stats', toaig(parconfFile)]
-        try:
-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-            if verboseFlag:
-                print ' '.join(cmd)
-                print output,
-            try:
-                res = re.search(r'\band\s*=\s*(?P<paramAnds>\d+)\b',output.splitlines()[-1])
-                if not res: raise ValueError
-                paramAnds = int(res.group('paramAnds'))
-            except (ValueError, IndexError):
-                if not verboseFlag:
-                    print ' '.join(cmd)
-                    print output,
-                raise Exception("Unexpected output from abc print_stats")
-        except subprocess.CalledProcessError as e:
-            if e.output.find("Abc_NtkCheckNames: Assertion `pObj' failed.")!=-1:
-                paramAnds = 0   #safe to ignore error indicates empty network
-            else:
-                raise
+        paramAnds = getAIGStats(parconfFile, verboseFlag)
         
         # Verification of resulting mapping using satsolver
         if checkFunctionality:
@@ -255,6 +248,7 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False, target
         if verboseFlag:
             print output
         
+        #Extract results
         try:
             res = re.search(r'\bnd\s*=\s*(?P<numLuts>\d+)\b.*\blev\s*=\s*(?P<depth>\d+)\b',output)
             if not res: raise ValueError
@@ -265,6 +259,7 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False, target
                 print cmd
                 print output
             raise Exception('Unexpected output from abc print_stats')
+        
         if checkFunctionality:
             check = miter(inFile, outFile, verboseFlag)
         else:
