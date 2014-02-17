@@ -85,6 +85,7 @@ import be.ugent.elis.recomp.synthesis.BDDFunction;
 public class Cone implements Comparable<Cone> {
 	
 	private final Node root;
+	private final Cone parent0, parent1;
 	protected Collection<Node> regularLeaves;
 //	protected Set<Node> parameterLeaves;
 	protected long signature;
@@ -104,7 +105,13 @@ public class Cone implements Comparable<Cone> {
 
 
 	public Cone(Node node, BDDidMapping bddIdMapping) {
+		this(node, bddIdMapping, null, null);
+	}
+	
+	public Cone(Node node, BDDidMapping bddIdMapping, Cone parent0, Cone parent1) {
 		this.root = node;
+		this.parent0 = parent0;
+		this.parent1 = parent1;
 		this.regularLeaves = new HashSet<Node>();
 		this.signature = 0;
 		this.function = null;
@@ -148,8 +155,8 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 
-	public static Cone mergeCones(Node node, Cone cone0, Cone cone1, int maxConeSizeConsidered, boolean computeFunction) {
-		Cone result = new Cone(node, cone0.bddIdMapping);
+	public static Cone mergeCones(Node node, Cone cone0, Cone cone1, int maxConeSizeConsidered, int maxBddSizeConsidered, boolean computeFunction) {
+		Cone result = new Cone(node, cone0.bddIdMapping, cone0, cone1);
 		
 		result.signature = cone0.signature | cone1.signature;
 		
