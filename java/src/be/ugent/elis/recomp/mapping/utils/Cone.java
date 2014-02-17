@@ -507,6 +507,8 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public boolean isTLCfeasible(int K) {
+		if(!hasParameterLeaves())
+			return isLUTfeasible(K);
 		BDD bdd = this.getFunction();
 		bdd = bdd.and(this.getRoot().getActivationFunction());
 		boolean result = true;
