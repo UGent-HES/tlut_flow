@@ -134,9 +134,6 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ConeSet result = new ConeSet(node);
 
 		if (node.isPrimaryInput()) {
-			if (node.isParameter())
-				result.add(Cone.trivialParameterCone(node, bddIdMapping));
-			else 
 				result.add(Cone.trivialCone(node, bddIdMapping));
 			
 		} else if(node.isGate()) {

@@ -179,19 +179,28 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 	
-	public static Cone trivialParameterCone(Node node, BDDidMapping bddIdMapping) {
+	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping) {
 		Cone result = new Cone(node, bddIdMapping);
 		result.type = ConeType.TRIVIAL;
-		result.hasParameterLeaves = true;
+		result.hasParameterLeaves = node.isParameter();
 		result.setFunction(node.getBDD(bddIdMapping));
+		if(!node.isParameter())
+			result.addLeave(node);
+		result.calculateSignature();
 		return result;
 	}
 
-	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping) {
-		Cone result = trivialParameterCone(node, bddIdMapping);
-		result.hasParameterLeaves = false;
-		result.addLeave(node);
-		result.calculateSignature();
+	public static Cone twoInputCone(Node node, BDDidMapping bddIdMapping) {
+		Edge edge0 = node.getI0();
+		Edge edge1 = node.getI1();
+		Node node0 = edge0.getTail();
+		Node node1 = edge1.getTail();
+		
+		Cone cone0 = Cone.trivialCone(node0, bddIdMapping);
+		Cone cone1 = Cone.trivialCone(node1, bddIdMapping);
+		Cone result = Cone.mergeCones(node, cone0, cone1, Integer.MAX_VALUE, Integer.MAX_VALUE, true);
+		cone0.free();
+		cone1.free();
 		return result;
 	}
 
@@ -199,7 +208,10 @@ public class Cone implements Comparable<Cone> {
 		if(!node.isPrimaryOutput())
 			throw new RuntimeException("Only call this function with primary output node");
 		Cone cone = new Cone(node, bddIdMapping);
-		cone.addLeave(node.getI0().getHead());
+		Node head = node.getI0().getHead();
+		cone.addLeave(head);
+		cone.calculateSignature();
+		cone.setFunction(head.getBDD(bddIdMapping));
 		cone.mapToNone();
 		return cone;
 	}
