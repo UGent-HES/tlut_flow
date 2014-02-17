@@ -183,7 +183,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				maxBddSizeConsidered, tcon_mapping_flag);
 		if(merge == null) 
 			throw new RuntimeException("Parameter coneset should contain one cone");
-		merge.mapToTrivial();
+		merge.mapToNone();
 		
 		ConeSet result = new ConeSet(node);
 		result.add(merge);

@@ -144,7 +144,9 @@ public class ConeRanking implements Visitor<Node, Edge> {
 			// Select the best cone in the coneset.
 			Cone bestCone = bestCone(node);
 			if(bestCone.isTrivial())
-				throw new RuntimeException("Best cone should not be trivial");
+				throw new RuntimeException("Best cone is trivial");
+			if(bestCone.isUnmapped())
+				throw new RuntimeException("Best cone is unmapped");
 			node.setBestCone(bestCone);
 			node.setDepth(bestCone.getDepth());
 			node.setAreaflow(bestCone.getAreaflow());
