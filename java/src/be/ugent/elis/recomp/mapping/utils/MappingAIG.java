@@ -106,10 +106,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 	
 	public void initBDDidMapping() {
 		bddIdMapping = new BDDidMapping(this);
-		
-		//Parameters should stay together and at the front during reordering
-		if(bddIdMapping.getParamIdRange()>=0)
-			BDDFactorySingleton.get().addVarBlock(0, bddIdMapping.getParamIdRange(), false);
 	}
 	
 	public Collection<Cone> getVisibleCones() {
