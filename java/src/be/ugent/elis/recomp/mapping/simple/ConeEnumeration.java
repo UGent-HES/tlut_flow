@@ -86,6 +86,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	
 	private static final int maxConeSizeConsidered = 20;
 	private static final int maxBddSizeConsidered = 10;
+	private static final int maxBddSizeConsideredToMerge = 20;//6;
 	private static final int maxNumConesPerNodeConsidered = 2000;
 	private static final int maxNumConesPerNodeSaved = 1000;
 
@@ -143,7 +144,6 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				result.addAll(mergeParameterConeSets(node));
 			else {
 				ConeSet mergedConeSet = mergeInputConeSets(node);
-				nmbrConsideredCones += mergedConeSet.size();
 				ConeSet feasibleCones = retainFeasibleCones(mergedConeSet);
 				nmbrFeasibleCones += feasibleCones.size();
 				ConeSet nonDominatedConeSet = removeDominatedCones(feasibleCones);
@@ -212,6 +212,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		}
 		ArrayList<TwoCones> mergesToConsider = new ArrayList<TwoCones>();
 		
+		boolean coneSkipped = false;
 
 		ArrayList<Cone> cones0 = new ArrayList<Cone>(coneSet0.getCones());
 		ArrayList<Cone> cones1 = new ArrayList<Cone>(coneSet1.getCones());
@@ -223,7 +224,15 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			cones1 = tmp;
 		}
 		EnumerateConesToConsider1 : for(int i=0; i<cones0.size(); i++) {
+			if(!considerToMergeCone(cones0.get(i))) {
+				coneSkipped = true;
+				continue;
+			}
 			for(int j=0; j<=i; j++) {
+				if(!considerToMergeCone(cones1.get(j))) {
+					coneSkipped = true;
+					continue;
+				}
 				mergesToConsider.add(new TwoCones(cones0.get(i), cones1.get(j)));
 				if(i!=j)
 					mergesToConsider.add(new TwoCones(cones0.get(j), cones1.get(i)));
@@ -238,6 +247,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 					break EnumerateConesToConsider2;
 			}
 		}
+		nmbrConsideredCones += mergesToConsider.size();
 
 		ConeSet result = new ConeSet(node);
 		for(TwoCones twoCones : mergesToConsider) {
@@ -246,11 +256,30 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 					maxBddSizeConsidered, tcon_mapping_flag);
 			if(merge != null) {
 				result.add(merge);
+			} else {
+				coneSkipped = true;
 			}
 		}
+		
+		/*
+		 * If two cones are not merged (because of heuristic optimisation) then
+		 * add the cone containing the two inputs of the node In most cases this
+		 * cone is already produced by merging the corresponding trivial cones,
+		 * but in TCONMAP it is possible that this doesn't happen because the
+		 * trivial cone of one of the inputs is not available (due to heuristic
+		 * optimisation)
+		 */
+		if(coneSkipped)
+			result.add(Cone.twoInputCone(node, bddIdMapping));
 		return result;
 	}
 	
+	private boolean considerToMergeCone(Cone cone) {
+		if(cone.getFunction() == null)
+			return true;
+		return cone.getFunction().nodeCount() <= maxBddSizeConsideredToMerge;
+	}
+
 	protected ConeSet limitNumCones(ConeSet cones) {
 		if(cones.size() <= maxNumConesPerNodeSaved)
 			return cones;
