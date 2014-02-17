@@ -485,7 +485,9 @@ public class Cone implements Comparable<Cone> {
 	
 	public boolean isTCONfeasible() {
 		boolean result = true;
-		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(this.getFunction(), this.bddIdMapping);
+		BDD bdd = this.getFunction();
+		bdd = bdd.and(this.getRoot().getActivationFunction());
+		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(bdd, this.bddIdMapping);
 		while(regularLeafSubBDDIterator.hasNext()) {
 			BDD subBDD = regularLeafSubBDDIterator.next();
 			if(countBDDVars(subBDD) > 1) {
@@ -505,8 +507,10 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public boolean isTLCfeasible(int K) {
+		BDD bdd = this.getFunction();
+		bdd = bdd.and(this.getRoot().getActivationFunction());
 		boolean result = true;
-		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(this.getFunction(), this.bddIdMapping);
+		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(bdd, this.bddIdMapping);
 		while(regularLeafSubBDDIterator.hasNext()) {
 			BDD subBDD = regularLeafSubBDDIterator.next();
 			if(countBDDVars(subBDD) > K) {
