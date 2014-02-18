@@ -69,6 +69,7 @@ All rights reserved.
 package be.ugent.elis.recomp.aig;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
@@ -235,8 +236,8 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		return result;
 	}
 
-	public ArrayList<E> getInputEdges() {
-		return input;
+	public List<E> getInputEdges() {
+		return input.subList(0, getNumInputs());
 	}
 	
 	public ArrayList<E> getOutputEdges() {
@@ -254,4 +255,20 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		}
 	}
 	
+	public int getNumInputs() {
+		switch(type) {
+		case AND:
+			return 2;
+		case LATCH:
+		case OLATCH:
+		case ILATCH:
+		case OUTPUT:
+			return 1;
+		case CONST0:
+		case INPUT:
+			return 0;
+		default:
+			throw new RuntimeException("Invalid option");
+		}
+	}
 }
