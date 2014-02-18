@@ -88,7 +88,7 @@ public class ResourceSharingCalculator {
 		
 		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-        new ActivationFunctionBuilder(a).run();
+        new ActivationFunctionBuilder(a, false).run();
         new ResourceSharingCalculator().run(a);
         
     }
