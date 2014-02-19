@@ -71,6 +71,7 @@ package be.ugent.elis.recomp.mapping.utils;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import net.sf.javabdd.BDD;
@@ -78,17 +79,38 @@ import net.sf.javabdd.BDD;
 public class RegularLeafSubBDDs implements Iterator<BDD> {
 	
 	private BDDidMapping bddIdMapping;
+	/**
+	 * BDDs that are or have been on the subBDDsToAnalyse stack
+	 */
     private HashSet<BDD> visitedBDDs;
+    /**
+     * BDDs that are scheduled to be analysed
+     */
 	private Stack<BDD> subBDDsToAnalyse;
+	/**
+	 * BDDs containing only non-parameter inputs
+	 */
+	private LinkedList<BDD> regularLeafSubBDDs;
+	/**
+	 * Queue to iterate again over regularLeafSubBDDs that have been found before
+	 */
+	private LinkedList<BDD> rerunQueue;
+	/**
+	 * hasNext() computes and stores the next regularLeafSubBDD here
+	 */
     private BDD next;
 
 	public RegularLeafSubBDDs(BDD bdd, BDDidMapping bddIdMapping) {
 		this.bddIdMapping = bddIdMapping;
         this.visitedBDDs = new HashSet<BDD>();
 		this.subBDDsToAnalyse = new Stack<BDD>();
+        this.regularLeafSubBDDs = new LinkedList<BDD>();
+        this.rerunQueue = new LinkedList<BDD>();
+        
         BDD startBDD = bdd.id();
 		this.subBDDsToAnalyse.push(startBDD);
         this.visitedBDDs.add(startBDD);
+        
         this.next = null;
 	}
 	
@@ -100,14 +122,22 @@ public class RegularLeafSubBDDs implements Iterator<BDD> {
 		//	bdd.free();
 		this.subBDDsToAnalyse = null;
         this.next = null;
+        this.rerunQueue = null;
 	}
 
 	@Override
 	public boolean hasNext() {
+		//Iterate over the regularLeafSubBDDs that we found before (rerunQueue is filled in reset())
+		while(!rerunQueue.isEmpty()) {
+			next = rerunQueue.pop();
+			return true;
+		}
+		//Calculate new regularLeafSubBDDs
         while(!this.subBDDsToAnalyse.empty()) {
             BDD subBDD = this.subBDDsToAnalyse.pop();
             if(!subBDD.isZero() && !subBDD.isOne()
                     && bddIdMapping.getNode(subBDD.var()).isParameter()) {
+            	//Didn't find a new one; push it's children on the analysis stack if they aren't on there and haven't been analysed yet
                 BDD newSubBDD = subBDD.high();
                 if(visitedBDDs.contains(newSubBDD)) {
                     newSubBDD.free();
@@ -123,7 +153,9 @@ public class RegularLeafSubBDDs implements Iterator<BDD> {
                     this.subBDDsToAnalyse.push(newSubBDD);
                 }
             } else {
+            	//Found a new one
                 next = subBDD;
+                regularLeafSubBDDs.add(next);
                 return true;
             }
         }
@@ -139,5 +171,9 @@ public class RegularLeafSubBDDs implements Iterator<BDD> {
 	@Override
 	public void remove() {
 		throw new RuntimeException("Not implemented");
+	}
+
+	public void reset() {
+		rerunQueue.addAll(regularLeafSubBDDs);
 	}
 }

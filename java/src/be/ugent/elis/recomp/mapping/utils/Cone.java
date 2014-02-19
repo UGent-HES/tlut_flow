@@ -105,6 +105,10 @@ public class Cone implements Comparable<Cone> {
 	private int area;
 	private boolean hasParameterLeaves;
 
+	private RegularLeafSubBDDs regularLeafSubBDDIterator;
+
+	private BDD feasibilityFunction;
+
 
 	public Cone(Node node, BDDidMapping bddIdMapping) {
 		this(node, bddIdMapping, null, null);
@@ -485,45 +489,61 @@ public class Cone implements Comparable<Cone> {
 		return size() <= K;
 	}
 	
-	public boolean isTCONfeasible() {
-		boolean result = true;
-		BDD bdd = this.getFunction();
-		bdd = bdd.and(this.getRoot().getActivationFunction());
-		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(bdd, this.bddIdMapping);
-		while(regularLeafSubBDDIterator.hasNext()) {
-			BDD subBDD = regularLeafSubBDDIterator.next();
-			if(countBDDVars(subBDD) > 1) {
-				result = false;
-				break;
-			}
-		}
-		regularLeafSubBDDIterator.free();
-		return result;
+	private static int countNonZero(int[] array) {
+		int count = 0;
+		for(int e : array)
+			count += e!=0 ? 1 : 0;
+		return count;
 	}
 	
 	private static int countBDDVars(BDD bdd) {
 		BDD support = bdd.support();
 		int res = support.nodeCount();
 		support.free();
+//		if(res != countNonZero(bdd.varProfile()))
+//			throw new RuntimeException("invalid support"); 
 		return res;
+	}
+	
+	public boolean isNoneFeasible() {
+		return isTLCfeasible(0);
+	}
+	
+	public boolean isTCONfeasible() {
+		return isTLCfeasible(1);
 	}
 	
 	public boolean isTLCfeasible(int K) {
 		if(!hasParameterLeaves())
 			return isLUTfeasible(K);
-		BDD bdd = this.getFunction();
-		bdd = bdd.and(this.getRoot().getActivationFunction());
-		boolean result = true;
-		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(bdd, this.bddIdMapping);
+		regularLeafSubBDDIterator.reset();
 		while(regularLeafSubBDDIterator.hasNext()) {
-			BDD subBDD = regularLeafSubBDDIterator.next();
-			if(countBDDVars(subBDD) > K) {
-				result = false;
-				break;
+			if(countBDDVars(regularLeafSubBDDIterator.next()) > K)
+				return false;
 			}
+		return true;
 		}
+	
+	public void initFeasibilityCalculation(boolean bddsUsed) {
+		if(bddsUsed) {
+			if(feasibility_uses_activationfunction)
+				feasibilityFunction = this.getFunction().and(this.getRoot().getActivationFunction());
+			else
+				feasibilityFunction = this.getFunction();
+			regularLeafSubBDDIterator = new RegularLeafSubBDDs(feasibilityFunction, this.bddIdMapping);
+		}
+		
+	}
+	
+	public void finishFeasibilityCalculation() {
+		if(regularLeafSubBDDIterator != null) {
 		regularLeafSubBDDIterator.free();
-		return result;
+			regularLeafSubBDDIterator = null;
+		}
+		if(feasibilityFunction != null && feasibility_uses_activationfunction) {
+			feasibilityFunction.free();
+			feasibilityFunction = null;
+		}
 	}
 	
 	private boolean bddContainsParameterLeaves(BDD bdd) {

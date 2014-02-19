@@ -322,9 +322,13 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	}
 
 	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
-		ConeSet feasible = new ConeSet(mergedConeSet.getNode());
+		ConeSet feasibleCones = new ConeSet(mergedConeSet.getNode());
 		for (Cone c : mergedConeSet) {
+			c.initFeasibilityCalculation(this.tcon_mapping_flag);
+			boolean feasible = true;
 			if(c.isTrivial()) {
+//			} else if(this.tcon_mapping_flag && c.isNoneFeasible()) {
+//				c.mapToNone();
 			} else if(this.tcon_mapping_flag && c.isTCONfeasible()) {
 				c.mapToTCON();
 			} else if(c.isTLUTfeasible(K)) {
@@ -336,11 +340,13 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				c.mapToTLC();
 			} else {// infeasible
 				c.free();
-				continue;
+				feasible = false;
 			}
-			feasible.add(c);
+			if(feasible)
+				feasibleCones.add(c);
+			c.finishFeasibilityCalculation();
 		}
-		return feasible;
+		return feasibleCones;
 	}
 
 }
