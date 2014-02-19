@@ -77,12 +77,14 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import net.sf.javabdd.BDD;
-
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BDDFunction;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class Cone implements Comparable<Cone> {
+	
+	static private final boolean feasibility_uses_activationfunction = GlobalConstants.feasibility_uses_activationfunction;
 	
 	private final Node root;
 	private final Cone parent0, parent1;

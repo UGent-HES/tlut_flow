@@ -76,9 +76,9 @@ import java.io.PrintStream;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
-
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 
 public class SimpleMapper {
@@ -88,7 +88,8 @@ public class SimpleMapper {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		BDDFactorySingleton.create(100000, 2000000, 100000);
+		BDDFactorySingleton.create(GlobalConstants.bddVarNum,
+				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
 
 		OptionParser parser = new OptionParser();
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );

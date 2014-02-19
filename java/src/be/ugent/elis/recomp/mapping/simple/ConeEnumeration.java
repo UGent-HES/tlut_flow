@@ -81,14 +81,15 @@ import be.ugent.elis.recomp.mapping.utils.ConeSet;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class ConeEnumeration implements Visitor<Node, Edge> {
 	
-	private static final int maxConeSizeConsidered = 20;
-	private static final int maxBddSizeConsidered = 10;
-	private static final int maxBddSizeConsideredToMerge = 20;//6;
-	private static final int maxNumConesPerNodeConsidered = 2000;
-	private static final int maxNumConesPerNodeSaved = 1000;
+	private static final int maxConeSizeConsidered = GlobalConstants.maxConeSizeConsidered;
+	private static final int maxBddSizeConsidered = GlobalConstants.maxBddSizeConsidered;
+	private static final int maxBddSizeConsideredToMerge = GlobalConstants.maxBddSizeConsidered;// 6;
+	private static final int maxNumConesPerNodeConsidered = GlobalConstants.maxNumConesPerNodeConsidered;
+	private static final int maxNumConesPerNodeSaved = GlobalConstants.maxNumConesPerNodeSaved;
 
 	protected int K;
 	protected boolean tcon_mapping_flag;
