@@ -187,18 +187,19 @@ public class TMapSimple {
         a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
-        if(!allow_depth_increase_flag) {
+
         	if(depthBeforeAreaRecovery != a.getDepth()) {
-        		System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
+    		if(!allow_depth_increase_flag) {
+        		System.err.println("Error: Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
         		System.exit(1);
+    		} else {
+        		System.err.println("Warning: Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
         	}
         } 
-        if(target_depth != -1) {
-        	if(a.getDepth() > target_depth) {
-        		System.err.println("Depth ("+a.getDepth()+") greater than target depth: "+target_depth);
+        if(target_depth != -1 && a.getDepth() > target_depth) {
+    		System.err.println("Error: Depth ("+a.getDepth()+") greater than target depth: "+target_depth);
         		System.exit(1);
         	}
-        }
 
         System.out.println("Cone Selection:");
         a.visitAllInverse(new ConeSelection());
@@ -301,13 +302,13 @@ public class TMapSimple {
         System.out.println("less "+lessCones);
         System.out.println("same "+sameCones);
 
+		BDDFactorySingleton.destroy();
+
 		System.out.println(a.numLUTResourcesUsed() + "\t" + a.getDepth() + "\t"
 				+ a.numTLUTResourcesUsed() + "\t" + a.numTCONResourcesUsed() + "\t" + a.avDupl() + "\t"
 				+ enumerator.getNmbrConsideredCones() + "\t"
 				+ enumerator.getNmbrFeasibleCones() + "\t"
 				+ enumerator.getNmbrCones());
-
-		BDDFactorySingleton.destroy();
 	}
 	
 }
