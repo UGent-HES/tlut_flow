@@ -123,6 +123,7 @@ public class TMapSimple {
 		// --tcon    : toggle TCON mapping [default=off]
 		// --allow_depth_increase    : disable error on depth increase during area recovery [default=off]
 		// --nolutstruct : disable output of (T)LUT structure in blif [default=off]
+		// --mappedblif : enable output of mapped blif [default=off]
 
 		OptionParser parser = new OptionParser();
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
@@ -138,6 +139,8 @@ public class TMapSimple {
                 parser.accepts("allowDepthIncrease");
         OptionSpec<Void> no_lutstruct_option =
                 parser.accepts("nolutstruct");
+        OptionSpec<Void> mappedblif_option =
+                parser.accepts("mappedblif");
         OptionSet options = parser.parse(args);
         
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
@@ -147,6 +150,7 @@ public class TMapSimple {
         boolean tcon_mapping_flag = options.has(tcon_mapping_option);
         boolean allow_depth_increase_flag = options.has(allow_depth_increase_option);
         allow_depth_increase_flag |= target_depth != -1;
+        boolean write_mappedblif_flag = options.has(mappedblif_option);
         boolean write_lutstruct_flag = !options.has(no_lutstruct_option);
         boolean write_vhdstruct_flag = arguments.length > 5;
         
@@ -208,23 +212,25 @@ public class TMapSimple {
 	        new ResourceSharingCalculator().run(a);
 		}
         
-        // Output
+        // Debug
+		if(write_mappedblif_flag) {
+	        System.out.println("Writing the mapped BLIF:"); 
+	        a.printMappedBlif(
+	    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]+"_mapped.blif"))));
+		}
+
+        if(write_lutstruct_flag) {
 		System.out.println("Generating the parameterizable configuration:");
 		AIG<Node, Edge> b = a.constructParamConfig(K, true, false);
-		System.out.println("Printing the parameterizable configuration:");
+			System.out.println("Writing the parameterizable configuration:");
         b.printAAG(new PrintStream(new BufferedOutputStream( new FileOutputStream(arguments[3]))));
 
-        // Debug
-//        System.out.println("Writing the mapped BLIF:"); 
-//        a.printMappedBlif(
-//    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]+"_mapped.blif"))));
-    	
-        if(write_lutstruct_flag) {
         	System.out.println("Writing the LUT structure:"); 
         	a.printLutStructureBlif(
             	    new PrintStream(new BufferedOutputStream(new FileOutputStream(arguments[4]))),
             	    K);
         }
+        
         if(write_vhdstruct_flag) {
         	String inVhdFile = arguments[5];
         	String vhdFile = arguments[6];
