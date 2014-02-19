@@ -85,6 +85,7 @@ import java.util.Collections;
 import java.util.NoSuchElementException;
 
 import be.ugent.elis.recomp.mapping.utils.AlphanumNodeNameComparator;
+import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
 
@@ -1337,4 +1338,16 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
     	}
     }
 
+	
+	public float getAvgBDDSize() {
+        int numCones = 0;
+        int sumBddSize = 0;
+        for(N n : getAllNodes()) {
+        	for(Cone cone : ((Node)n).getConeSet().getCones()) {
+	    		sumBddSize += cone.getFunction().nodeCount();
+	    		numCones += 1;
+        	}
+        }
+        return sumBddSize/(float)(numCones);
+	}
 }

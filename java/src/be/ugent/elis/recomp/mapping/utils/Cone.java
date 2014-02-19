@@ -103,6 +103,7 @@ public class Cone implements Comparable<Cone> {
 	private double depth;
 	private double areaflow;
 	private int area;
+	private int uses;
 	private boolean hasParameterLeaves;
 
 	private RegularLeafSubBDDs regularLeafSubBDDIterator;
@@ -128,6 +129,8 @@ public class Cone implements Comparable<Cone> {
 		
 		this.areaflow = 0;
 		this.depth = 0;
+		
+		this.uses = 0;
 	}
 	
 	public void free() {
@@ -184,7 +187,7 @@ public class Cone implements Comparable<Cone> {
 	
 		return result;
 	}
-	
+
 	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping) {
 		Cone result = new Cone(node, bddIdMapping);
 		result.type = ConeType.TRIVIAL;
@@ -195,7 +198,7 @@ public class Cone implements Comparable<Cone> {
 		result.calculateSignature();
 		return result;
 	}
-
+	
 	public static Cone twoInputCone(Node node, BDDidMapping bddIdMapping) {
 		Edge edge0 = node.getI0();
 		Edge edge1 = node.getI1();
@@ -520,9 +523,9 @@ public class Cone implements Comparable<Cone> {
 		while(regularLeafSubBDDIterator.hasNext()) {
 			if(countBDDVars(regularLeafSubBDDIterator.next()) > K)
 				return false;
-			}
-		return true;
 		}
+		return true;
+	}
 	
 	public void initFeasibilityCalculation(boolean bddsUsed) {
 		if(bddsUsed) {
@@ -537,7 +540,7 @@ public class Cone implements Comparable<Cone> {
 	
 	public void finishFeasibilityCalculation() {
 		if(regularLeafSubBDDIterator != null) {
-		regularLeafSubBDDIterator.free();
+			regularLeafSubBDDIterator.free();
 			regularLeafSubBDDIterator = null;
 		}
 		if(feasibilityFunction != null && feasibility_uses_activationfunction) {
@@ -829,5 +832,20 @@ public class Cone implements Comparable<Cone> {
 	public void reduceMemoryUsage() {
 		regularLeaves = new ArrayList<Node>(regularLeaves);
 		((ArrayList<Node>)regularLeaves).trimToSize();
+	}
+
+	public void markAsRetained() {
+		if(parent0 != null)
+			parent0.incrementUse();
+		if(parent1 != null)
+			parent1.incrementUse();
+	}
+
+	private void incrementUse() {
+		uses++;
+	}
+	
+	public int getUses() {
+		return uses;
 	}
 }

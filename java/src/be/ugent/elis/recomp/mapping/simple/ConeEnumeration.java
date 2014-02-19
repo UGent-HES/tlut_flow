@@ -73,6 +73,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.ArrayList;
 
+import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
@@ -99,6 +100,8 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	protected int nmbrDominatedCones;
 	protected int nmbrCones;
 	protected BDDidMapping bddIdMapping;
+	private int sumBddSize = 0;
+	private int numBdd = 0;
 
 	public ConeEnumeration(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag) {
 		nmbrConsideredCones = 0;
@@ -135,7 +138,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ConeSet result = new ConeSet(node);
 
 		if (node.isPrimaryInput()) {
-				result.add(Cone.trivialCone(node, bddIdMapping));
+			result.add(Cone.trivialCone(node, bddIdMapping));
 			
 		} else if(node.isGate()) {
 			if (node.isParameter())
@@ -153,6 +156,8 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				// if (!node.getI0().getTail().isParameter() &&
 				// 		!node.getI1().getTail().isParameter() )
 				// 	result.add(Cone.trivialCone(node));
+				for(Cone c : result.getCones())
+					c.markAsRetained();
 			}
 			
 		} else if(node.isPrimaryOutput()) {
@@ -168,9 +173,11 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	public void finish(AIG<Node,Edge> aig) {}
 	
 	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {
-		for(Cone cone : coneset.getCones())
+		
+		for(Cone cone : coneset.getCones()) {
 			if(cone.isTCON())
 				return false;
+		}
 		return true;
 	}
 
@@ -209,7 +216,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			}
 		}
 		ArrayList<TwoCones> mergesToConsider = new ArrayList<TwoCones>();
-		
+
 		boolean coneSkipped = false;
 
 		ArrayList<Cone> cones0 = new ArrayList<Cone>(coneSet0.getCones());
@@ -254,6 +261,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 					maxBddSizeConsidered, tcon_mapping_flag);
 			if(merge != null) {
 				result.add(merge);
+				updateBddSizeAverage(merge.getFunction());	
 			} else {
 				coneSkipped = true;
 			}
@@ -276,6 +284,17 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		if(cone.getFunction() == null)
 			return true;
 		return cone.getFunction().nodeCount() <= maxBddSizeConsideredToMerge;
+	}
+
+	private void updateBddSizeAverage(BDD bdd) {
+		if(bdd != null) {
+			sumBddSize += bdd.nodeCount();
+			numBdd += 1;
+		}
+	}
+	
+	public float getBddSizeAverage() {
+		return (float)sumBddSize/numBdd;
 	}
 
 	protected ConeSet limitNumCones(ConeSet cones) {

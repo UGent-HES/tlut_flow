@@ -88,6 +88,7 @@ import be.ugent.elis.recomp.mapping.simple.ConeSelection;
 import be.ugent.elis.recomp.mapping.simple.HeightCalculator;
 import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.simple.AreaflowOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
@@ -231,6 +232,68 @@ public class TMapSimple {
         	a.printLutStructureVhdl(inVhdFile, vhdFile, nameFile, K);
         }
 
+        int usesTCONcones = 0;
+        int usesTLUTcones = 0;
+        int usesTLCcones = 0;
+        int usesTrivialCones = 0;
+        int numCones = 0;
+        int sumBddSize = 0;
+        for(Node n : a.getAllNodes()) {
+        	for(Cone cone : n.getConeSet().getCones()) {
+        		if(cone.isTCON())
+        			usesTCONcones += cone.getUses();
+	    		if(cone.isTLC())
+	    			usesTLCcones += cone.getUses();
+	    		if(cone.isTLUT() || cone.isLUT())
+	    			usesTLUTcones += cone.getUses();
+	    		if(cone.isTrivial())
+	    			usesTrivialCones += cone.getUses();
+	    		if(cone.getFunction() != null)
+	    			sumBddSize += cone.getFunction().nodeCount();
+	    		numCones += 1;
+        	}
+        }
+        System.out.println("usesTCONcones "+usesTCONcones);
+        System.out.println("usesTLUTcones "+usesTLUTcones);
+        System.out.println("usesTLCcones "+usesTLCcones);
+        System.out.println("usesTrivialCones "+usesTrivialCones);
+        
+        System.out.println("numCones "+numCones);
+        System.out.println("avg bdd size "+(sumBddSize/(float)(numCones)));
+        System.out.println("avg bdd size considered "+enumerator.getBddSizeAverage());
+
+        for(Node n : a.getAllNodes())
+        	n.resetReferences();
+        for(Node n : a.getAllNodes()) {
+        	for(Edge e:n.getInputEdges())
+        		e.getTail().incrementReferences();
+        }
+        for(Node n : a.getAllNodes())
+        	n.setEstimatedFanout(n.getReferences());
+        for(Node n : a.getAllNodes())
+        	n.resetReferences();
+        for(Cone c : a.getVisibleCones()) {
+        	for(Node n : c.getAllLeaves())
+        		n.incrementReferences();
+        }
+        int moreCones = 0;
+        int lessCones = 0;
+        int sameCones = 0;
+        for(Cone c : a.getVisibleCones()) {
+        	if(0 != c.getRoot().getReferences()) {
+        		if(c.getRoot().getEstimatedFanout() < c.getRoot().getReferences())
+        			moreCones++;
+
+        		if(c.getRoot().getEstimatedFanout() > c.getRoot().getReferences())
+        			lessCones++;
+        		if(c.getRoot().getEstimatedFanout() == c.getRoot().getReferences())
+        			sameCones++;
+        		//System.out.println(c.getRoot().getEstimatedFanout() + " <=> " + c.getRoot().getReferences());
+        	}
+        }
+        System.out.println("more "+moreCones);
+        System.out.println("less "+lessCones);
+        System.out.println("same "+sameCones);
 
 		System.out.println(a.numLUTResourcesUsed() + "\t" + a.getDepth() + "\t"
 				+ a.numTLUTResourcesUsed() + "\t" + a.numTCONResourcesUsed() + "\t" + a.avDupl() + "\t"
