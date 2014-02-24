@@ -472,19 +472,13 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	public Vector<N> topologicalOrderInToOut(boolean includeInputs, boolean includeOutputs ) {
 		setMarkedAll(false);
 		
-		Vector<N> PO=new Vector<N>();
-		PO.addAll(output);
-		PO.addAll(ilatch);
-		
 		Vector<N> intoout = new Vector<N>();
-		for (N out : PO) {
+		for (N out : getAllPrimaryOutputs()) {
 			inToOut_rec(out, intoout, includeInputs, includeOutputs);
 		}
 		
-		Vector<N> result = new Vector<N>();
-		result.addAll(intoout);
 		setMarkedAll(false);
-		return result;
+		return intoout;
 	}
 
 	Vector<N> inToOut_rec(N node, Vector<N> vec, boolean includeInputs, boolean includeOutputs) {
@@ -530,18 +524,13 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	public Vector<N> topologicalOrderOutToIn() {
 		setMarkedAll(false);
 		
-		Vector<N> PO=new Vector<N>();
-		PO.addAll(output);
-		PO.addAll(ilatch);
-		
 		Vector<N> intoout = new Vector<N>();
-		for (N out : PO) {
+		for (N out : getAllPrimaryOutputs()) {
 			outToIn_rec(out, intoout);
 		}
 		
-		Vector<N> result = new Vector<N>();
-		result.addAll(intoout);
-		return result;
+		setMarkedAll(false);
+		return intoout;
 	}
 
 
