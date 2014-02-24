@@ -84,7 +84,6 @@ import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.AbstractNode;
 import be.ugent.elis.recomp.aig.ElementFactory;
 import be.ugent.elis.recomp.aig.NodeType;
-import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
 public class MappingAIG extends AIG<Node, Edge> {
@@ -373,7 +372,22 @@ public class MappingAIG extends AIG<Node, Edge> {
 		//LUTs
 		for (Node and : getAnds()) {
 			if (and.isVisible()) {						
-				printLutBlif(and, stream, and.getName(), false);
+				Cone bestCone = and.getBestCone();
+				BooleanFunction f = bestCone.getBooleanFunction();
+				
+				stream.print(".names");
+				//Regular LUT inputs
+				Map<String, Node> map = new HashMap<String, Node>();
+				for (Node n : bestCone.getAllLeaves())
+					map.put(n.getName(), n);
+				for(String name : f.getInputVariable()) {
+					stream.print(" "+ map.get(name).getName());
+				}
+				//Output
+				stream.println(" "+and.getName() + " #"+bestCone.getType().toString());
+				
+				stream.print(f.getBlifString());
+				f.free();
 			}
 		}
 		
