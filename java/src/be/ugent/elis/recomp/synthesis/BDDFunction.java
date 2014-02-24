@@ -177,4 +177,10 @@ public class BDDFunction extends BooleanFunction {
 			result += " " + name;
 		return result;
 	}
+	
+	@Override
+	public void free() {
+		this.bdd.free();
+		this.bdd = null;
+	}
 }

@@ -151,4 +151,7 @@ public abstract class BooleanFunction {
 		}
 		return result;
 	}
+
+	public void free() {
+	}
 }

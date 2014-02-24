@@ -522,6 +522,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		stream.println(" "+lutName + " #"+bestCone.getType().toString());
 		
 		stream.print(f.getBlifString());
+		f.free();
 	}
 
 	public void printTLutBlif(Node visibleAnd, PrintStream stream, int K, String lutName) {
