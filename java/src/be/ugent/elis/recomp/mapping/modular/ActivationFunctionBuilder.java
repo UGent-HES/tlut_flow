@@ -159,7 +159,7 @@ public class ActivationFunctionBuilder {
 		aig.getConst0().setOnParamFunction(B.zero()); //const1 is never 'on'
 		aig.getConst0().setOffParamFunction(B.one()); //const0 is always 'off'
 		aig.getConst0().setUpdated(true);
-		
+
 		boolean updated_latch;
 		do {
 //			System.out.format("One pass\n");
@@ -278,7 +278,7 @@ public class ActivationFunctionBuilder {
 			node.setOutputActivationFunction(B.one());
 			node.setUpdated(true);
 		}
-		
+
 		boolean updated_latch;
 		do {
 //			System.out.format("One pass\n");
@@ -332,11 +332,16 @@ public class ActivationFunctionBuilder {
 	}
 
 	private void checkForUnusedPrimaryInputs() {
+		int count = 0;
 		for (Node node : aig.getAllPrimaryInputs()) {
 			if(!node.isParameterInput() && node.getActivationFunction().equals(B.zero())) {
-				System.out.println("Warning: Unused latch or input: "+node.getName());
+				count++;
+				if(count <= 10)
+					System.out.println("Warning: Unused latch or input: "+node.getName());
 			}
 		}
+		if(count > 10)
+			System.out.println("Warning: Unused latch or input: " + count + " warnings in total");
 	}
 	
 }
