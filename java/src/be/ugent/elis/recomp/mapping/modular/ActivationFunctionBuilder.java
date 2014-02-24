@@ -79,6 +79,7 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class ActivationFunctionBuilder {
 	
@@ -91,7 +92,7 @@ public class ActivationFunctionBuilder {
         new ActivationFunctionBuilder(a, false).run();
     }
 	
-	static final int g_node_max = 1000000;
+	static final int g_node_max = GlobalConstants.maxActivationFunctionSize;
 	private final MappingAIG aig;
 	private final BDDFactory B;
 	private final boolean cone_based;
@@ -104,6 +105,7 @@ public class ActivationFunctionBuilder {
 	
 	public void run() {
 		init();
+		
 		//Calculate deactivation functions
 		calculateDeactivationFunctions();
 		

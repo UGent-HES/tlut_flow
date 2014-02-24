@@ -80,4 +80,6 @@ public class GlobalConstants {
 	public static final int bddVarNum = 500000;
 	public static final int bddNodeTableSize = 10000000;
 	public static final int bddCacheSize = 100000;
+	
+	public static final int maxActivationFunctionSize = 1000000;
 }
