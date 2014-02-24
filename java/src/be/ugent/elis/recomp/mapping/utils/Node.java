@@ -247,6 +247,9 @@ public class Node extends AbstractNode<Node,Edge> {
 	}
 
 	public void setOnParamFunction(BDD onParamFunction) {
+		//Node is owner of onparamfunction
+		if(this.onParamFunction != null)
+			this.onParamFunction.free();
 		this.onParamFunction = onParamFunction;
 	}
 
@@ -255,6 +258,9 @@ public class Node extends AbstractNode<Node,Edge> {
 	}
 
 	public void setOffParamFunction(BDD offParamFunction) {
+		//Node is owner of offparamfunction
+		if(this.offParamFunction != null)
+			this.offParamFunction.free();
 		this.offParamFunction = offParamFunction;
 	}
 
@@ -263,6 +269,8 @@ public class Node extends AbstractNode<Node,Edge> {
 	}
 
 	public void setActivationFunction(BDD activationFunction) {
+		if(this.activationFunction != null)
+			this.activationFunction.free();
 		this.activationFunction = activationFunction;
 	}
 
@@ -271,6 +279,8 @@ public class Node extends AbstractNode<Node,Edge> {
 	}
 
 	public void setOutputActivationFunction(BDD activationFunction) {
+		if(this.outputActivationFunction != null)
+			this.outputActivationFunction.free();
 		this.outputActivationFunction = activationFunction;
 	}
 

@@ -123,9 +123,6 @@ public class ActivationFunctionBuilder {
 	private void finalise() {
 		for (Node node : aig.getAllNodes()) {
 			if(node.getOnParamFunction()!=null) {
-				node.getOnParamFunction().free();
-				node.getOffParamFunction().free();
-				node.getOutputActivationFunction().free();
 				node.setOnParamFunction(null);
 				node.setOffParamFunction(null);
 				node.setOutputActivationFunction(null);
@@ -136,15 +133,12 @@ public class ActivationFunctionBuilder {
 	public void unsetActivationFunctions() {
 		for (Node node : aig.getAllNodes()) {
 			if(node.getActivationFunction() != null) {
-				node.getActivationFunction().free();
 				node.setActivationFunction(null);
 			}
 		}
 	}
 	
 	private void calculateDeactivationFunctions() {
-		boolean updated_latch;
-
 		//Initialise all nodes to 'not updated'
 		aig.setUpdatedAll(false);
 		
@@ -162,10 +156,11 @@ public class ActivationFunctionBuilder {
 				node.setUpdated(true);
 			}
 		}
-		aig.getConst0().setOnParamFunction(B.one());
-		aig.getConst0().setOffParamFunction(B.zero());
+		aig.getConst0().setOnParamFunction(B.zero()); //const1 is never 'on'
+		aig.getConst0().setOffParamFunction(B.one()); //const0 is always 'off'
 		aig.getConst0().setUpdated(true);
 		
+		boolean updated_latch;
 		do {
 //			System.out.format("One pass\n");
 			//This will propagate all updates from PIs to POs
@@ -182,9 +177,14 @@ public class ActivationFunctionBuilder {
 	}
 
 	private boolean updateOLatchDeactivationFunction(Node olatch) {
-		boolean updated_latch = false;
+		if(!olatch.isOLatch())
+			throw new RuntimeException("Expected OLatch");
 		Node latch = olatch.getI0().getTail();
 		Node ilatch = latch.getI0().getTail();
+		if(!ilatch.isILatch())
+			throw new RuntimeException("Grandparent of OLatch expected to be ILatch");
+
+		boolean updated_latch = false;
 		if(!ilatch.getOnParamFunction().equals(olatch.getOnParamFunction())) {
 			olatch.setOnParamFunction(ilatch.getOnParamFunction().id());
 			olatch.setUpdated(true);
@@ -262,8 +262,6 @@ public class ActivationFunctionBuilder {
 	
 
 	private void calculateActivationFunctions() {
-		boolean updated_latch;
-		
 		//Initialise all nodes to 'not updated'
 		aig.setUpdatedAll(false);
 		
@@ -281,6 +279,7 @@ public class ActivationFunctionBuilder {
 			node.setUpdated(true);
 		}
 		
+		boolean updated_latch;
 		do {
 //			System.out.format("One pass\n");
 			for (Node node : aig.topologicalOrderOutToIn())
@@ -320,14 +319,13 @@ public class ActivationFunctionBuilder {
 			new_activation_function.free();
 			return;
 		} else {
-			node.getActivationFunction().free();
 			node.setActivationFunction(new_activation_function);
 		}
 		
 		if (node.isGate() || node.isPrimaryOutput()) {
 			for(Edge edge : node.getInputEdges()) {
 				Node node0 = edge.getTail();
-				node0.setOutputActivationFunction(node0.getOutputActivationFunction().orWith(node.getActivationFunction().id()));
+				node0.setOutputActivationFunction(node0.getOutputActivationFunction().or(node.getActivationFunction()));
 				node0.setUpdated(true);
 			}
 		}
