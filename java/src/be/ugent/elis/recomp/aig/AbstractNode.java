@@ -135,10 +135,6 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		return output.size();
 	}
 
-	public void addInput(E edge) {
-		input.add(edge);
-	}
-
 	
 	public void addOutput(E edge) {
 		output.add(edge);
@@ -196,10 +192,14 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	}
 
 	public void setI0(E i0) {
+		if(getNumInputs()<1)
+			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" cannot have I0 edge");
 		input.set(0, i0);
 	}
 	
 	public void setI(int i, E e) {
+		if(i<0 || getNumInputs()<=i)
+			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" does not have edge "+i);
 		input.set(i, e);
 	}
 	
@@ -209,6 +209,8 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	}
 
 	public void setI1(E i1) {
+		if(getNumInputs()<2)
+			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" cannot have I1 edge");
 		input.set(1, i1);
 	}
 
