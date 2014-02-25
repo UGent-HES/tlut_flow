@@ -257,6 +257,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 			}
 		}
 		aig.sortInputsAlphanumerically();
+		aig.sanityCheck();
 		return aig;
 	}
 
@@ -796,5 +797,6 @@ port map (
 				removeEdge(inputEdge);
 			}
 		}
-	}	
+		sanityCheck();
+	}
 }

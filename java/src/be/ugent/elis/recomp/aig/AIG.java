@@ -380,6 +380,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			edge0.getTail().addOutput(edge0);
 			edge1.getTail().addOutput(edge1);
 		}
+		
+		sanityCheck();
 	}
 
 	private boolean literalIsInverted(int lit) {
@@ -1188,6 +1190,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		this.input = new ArrayList<N>(inputSet);
 		this.edges = new ArrayList<E>(edgesSet);
 		
+		sanityCheck();
 	}
 	
 	public void removeNode(Node node) {
@@ -1296,6 +1299,36 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
             }
         }
         Collections.sort(input, new AlphanumNodeNameComparator());
+    }
+    
+    public void sanityCheck() {
+    	for(N o : getOutputs())
+    		if(o.getOutputEdges().size() != 0)
+    			throw new RuntimeException("Output node "+o.toString()+" has an output edge");
+    	for(N n : getAllNodes()) {
+    		for(E e : n.getOutputEdges()) {
+    			if(e == null)
+    				throw new RuntimeException("Node "+n.toString()+" has null output edge");
+    			if(e.getTail() != n)
+    				throw new RuntimeException("Node "+n.toString()+" is not the tail of one of its output edges: "+e.toString());
+    			N head = e.getHead();
+    			if(head == null)
+    				throw new RuntimeException("Head of edge "+e.toString()+" is null");
+    			if(!head.getInputEdges().contains(e))
+    				throw new RuntimeException("Edge "+e.toString()+" is not one of the input edges of its head");
+    		}
+    		for(E e : n.getInputEdges()) {
+    			if(e == null)
+    				throw new RuntimeException("Node "+n.toString()+" has null input edge");
+    			if(e.getHead() != n)
+    				throw new RuntimeException("Node "+n.toString()+" is not the head of one of its input edges: "+e.toString());
+    			N tail = e.getTail();
+    			if(tail == null)
+    				throw new RuntimeException("Tail of edge "+e.toString()+" is null");
+    			if(!tail.getOutputEdges().contains(e))
+    				throw new RuntimeException("Edge "+e.toString()+" is not one of the output edges of its tail");
+    		}
+    	}
     }
 
 }
