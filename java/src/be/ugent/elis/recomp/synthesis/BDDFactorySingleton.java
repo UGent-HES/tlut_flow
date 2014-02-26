@@ -85,11 +85,11 @@ public class BDDFactorySingleton {
     private BDDFactorySingleton(int var_num, int node_num, int cache_size) {
         B = BDDFactory.init("java", node_num, cache_size);
         try {
-			B.registerGCCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
-			B.registerResizeCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
+//			B.registerGCCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
+//			B.registerResizeCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
 //    		B.setIncreaseFactor(0.5);
-    		B.setMaxIncrease(1000000000);
-    		B.autoReorder(BDDFactory.REORDER_WIN2ITE);
+    		B.setMaxIncrease(100000000);
+//    		B.autoReorder(BDDFactory.REORDER_WIN2ITE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
