@@ -357,7 +357,8 @@ def miter(circuit0, circuit1, verboseFlag=False):
         output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as ex:
         print >> sys.stderr, ex.output
-        raise Exception('Verification failed')
+        #raise Exception('Verification failed')
+        return "UNDEFINED"
     if verboseFlag:
         print output,
     if "UNSATISFIABLE" in output:
