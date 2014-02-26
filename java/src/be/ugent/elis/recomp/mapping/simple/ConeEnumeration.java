@@ -153,9 +153,6 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				result.addAll(nonDominatedConeSet);
 				if(nodeNeedsTrivialCone(node, result))
 					result.add(Cone.trivialCone(node, bddIdMapping));
-				// if (!node.getI0().getTail().isParameter() &&
-				// 		!node.getI1().getTail().isParameter() )
-				// 	result.add(Cone.trivialCone(node));
 				for(Cone c : result.getCones())
 					c.markAsRetained();
 			}
@@ -173,7 +170,12 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	public void finish(AIG<Node,Edge> aig) {}
 	
 	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {
-		
+		if(!node.isGate())
+			throw new RuntimeException("This function expects a AND node");
+
+		if (node.getI0().getTail().isParameter() ||
+		 		node.getI1().getTail().isParameter() )
+		 	return false;
 		for(Cone cone : coneset.getCones()) {
 			if(cone.isTCON())
 				return false;
