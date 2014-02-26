@@ -71,8 +71,8 @@ package be.ugent.elis.recomp.util;
 
 public class GlobalConstants {
 	public static final boolean feasibility_uses_activationfunction = true;
-	public static final int maxConeSizeConsidered = 20;
-	public static final int maxBddSizeConsidered = 100000000;
+	public static final int maxConeSizeConsidered = 10000;
+	public static final int maxBddSizeConsidered = 100;
 	public static final int maxBddSizeConsideredToMerge = 15;
 	public static final int maxNumConesPerNodeConsidered = 2000;
 	public static final int maxNumConesPerNodeSaved = 1000;
