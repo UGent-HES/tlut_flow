@@ -137,6 +137,8 @@ public class TMapSimple {
                 parser.accepts("sharing");
         OptionSpec<Void> tcon_mapping_option =
                 parser.accepts("tcon");
+        OptionSpec<Void> notlc_mapping_option =
+                parser.accepts("notlc");
         OptionSpec<Void> allow_depth_increase_option =
                 parser.accepts("allowDepthIncrease");
         OptionSpec<Void> no_lutstruct_option =
@@ -150,6 +152,7 @@ public class TMapSimple {
         boolean noTLUT_flag = options.has(no_param_option);
         boolean resource_sharing_flag = options.has(resource_sharing_option);
         boolean tcon_mapping_flag = options.has(tcon_mapping_option);
+        boolean tlc_mapping_flag = !options.has(notlc_mapping_option);
         boolean allow_depth_increase_flag = options.has(allow_depth_increase_option);
         allow_depth_increase_flag |= target_depth != -1;
         boolean write_mappedblif_flag = options.has(mappedblif_option);
@@ -176,7 +179,7 @@ public class TMapSimple {
         new ActivationFunctionBuilder(a, false).run();
         
         // Mapping
-		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag, tcon_mapping_flag);
+		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag, tlc_mapping_flag);
 		System.out.println("Cone Enumeration:");
         a.visitAll(enumerator);
 		System.out.println("Cone Ranking:");
@@ -252,10 +255,10 @@ public class TMapSimple {
         }
         System.out.println("Debug: Avg BDD size: "+(sumBddSize/(float)(numCones)));
         System.out.println("Debug: Avg BDD size considered: "+enumerator.getBddSizeAverage());
-        
+
         System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
         System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());
-
+		
 		Logger.getLogger().finalLog();
 
 		BDDFactorySingleton.destroy();
