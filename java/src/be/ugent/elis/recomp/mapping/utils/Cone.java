@@ -103,7 +103,6 @@ public class Cone implements Comparable<Cone> {
 	private double depth;
 	private double areaflow;
 	private int area;
-	private int uses;
 	private boolean hasParameterLeaves;
 
 	private RegularLeafSubBDDs regularLeafSubBDDIterator;
@@ -129,8 +128,6 @@ public class Cone implements Comparable<Cone> {
 		
 		this.areaflow = 0;
 		this.depth = 0;
-		
-		this.uses = 0;
 	}
 	
 	public void free() {
@@ -832,20 +829,5 @@ public class Cone implements Comparable<Cone> {
 	public void reduceMemoryUsage() {
 		regularLeaves = new ArrayList<Node>(regularLeaves);
 		((ArrayList<Node>)regularLeaves).trimToSize();
-	}
-
-	public void markAsRetained() {
-		if(parent0 != null)
-			parent0.incrementUse();
-		if(parent1 != null)
-			parent1.incrementUse();
-	}
-
-	private void incrementUse() {
-		uses++;
-	}
-	
-	public int getUses() {
-		return uses;
 	}
 }

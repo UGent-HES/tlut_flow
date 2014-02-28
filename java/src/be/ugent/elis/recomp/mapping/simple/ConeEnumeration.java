@@ -153,8 +153,6 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				result.addAll(nonDominatedConeSet);
 				if(nodeNeedsTrivialCone(node, result))
 					result.add(Cone.trivialCone(node, bddIdMapping));
-				for(Cone c : result.getCones())
-					c.markAsRetained();
 			}
 			
 		} else if(node.isPrimaryOutput()) {
