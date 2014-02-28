@@ -546,15 +546,6 @@ public class Cone implements Comparable<Cone> {
 		}
 	}
 	
-	private boolean bddContainsParameterLeaves(BDD bdd) {
-		if(bdd.isZero() || bdd.isOne())
-			return false;
-		if(bddIdMapping.getNode(bdd.var()).isParameter())
-			return true;
-		return bddContainsParameterLeaves(bdd.high())
-				|| bddContainsParameterLeaves(bdd.low());
-	}
-
 
 	public ArrayList<Node> getNodesInToOut() {
 		if (nodes == null) {

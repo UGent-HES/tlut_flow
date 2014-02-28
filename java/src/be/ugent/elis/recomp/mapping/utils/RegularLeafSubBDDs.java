@@ -163,8 +163,19 @@ public class RegularLeafSubBDDs implements Iterator<BDD> {
 		return false;
 	}
 
+	private boolean bddContainsParameterLeaves(BDD bdd) {
+		if(bdd.isZero() || bdd.isOne())
+			return false;
+		if(bddIdMapping.getNode(bdd.var()).isParameter())
+			return true;
+		return bddContainsParameterLeaves(bdd.high())
+				|| bddContainsParameterLeaves(bdd.low());
+	}
+
 	@Override
 	public BDD next() {
+//		if(bddContainsParameterLeaves(next))
+//			throw new RuntimeException("RegularLeafSubBDD contains parameter leaves");
         return next;
 	}
 
