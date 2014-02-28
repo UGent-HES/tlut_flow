@@ -86,6 +86,7 @@ import java.util.NoSuchElementException;
 
 import be.ugent.elis.recomp.mapping.utils.AlphanumNodeNameComparator;
 import be.ugent.elis.recomp.mapping.utils.Cone;
+import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
 
@@ -1184,7 +1185,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		sanityCheck();
 	}
 	
-	public void removeNode(Node node) {
+	public void removeNode(N node) {
 	    switch(node.getType()) {
 		case AND:
 			and.remove(node);

@@ -111,15 +111,10 @@ public class Node extends AbstractNode<Node,Edge> {
 	}
 
 	public void free() {
-		if(onParamFunction != null)
-			onParamFunction.free();
-		if(offParamFunction != null)
-			offParamFunction.free();
-		if(activationFunction != null)
-			activationFunction.free();
-		onParamFunction = null;
-		offParamFunction = null;
-		activationFunction = null;
+		setOutputActivationFunction(null);
+		setOnParamFunction(null);
+		setOffParamFunction(null);
+		setActivationFunction(null);
 	}
 
 	public void setConeSet(ConeSet coneSet) {

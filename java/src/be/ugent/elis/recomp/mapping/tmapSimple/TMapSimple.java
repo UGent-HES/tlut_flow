@@ -94,6 +94,7 @@ import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
+import be.ugent.elis.recomp.util.logging.Logger;
 
 public class TMapSimple {
 
@@ -119,11 +120,12 @@ public class TMapSimple {
         //
 		// -d<int>   : optional target depth
 		// --noparam : disable TLUT mapping; more or less equivalent to SimpleMap
-		// --sharing : toggle resource/LUT sharing [default=off]
-		// --tcon    : toggle TCON mapping [default=off]
-		// --allow_depth_increase    : disable error on depth increase during area recovery [default=off]
-		// --nolutstruct : disable output of (T)LUT structure in blif [default=off]
-		// --mappedblif : enable output of mapped blif [default=off]
+		// --sharing : turn on resource/LUT sharing
+		// --tcon    : turn on TCON mapping
+		// --notlc   : turn off TLC mapping
+		// --allow_depth_increase    : disable error on depth increase during area recovery
+		// --nolutstruct : disable output of (T)LUT structure in blif
+		// --mappedblif : enable output of mapped blif
 
 		OptionParser parser = new OptionParser();
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
@@ -171,7 +173,7 @@ public class TMapSimple {
 
 
         System.out.println("Activation Function Builder:");
-        new ActivationFunctionBuilder(a).run();
+        new ActivationFunctionBuilder(a, false).run();
         
         // Mapping
 		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag, tcon_mapping_flag);

@@ -80,17 +80,9 @@ import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
+import be.ugent.elis.recomp.util.logging.Logger;
 
 public class ActivationFunctionBuilder {
-	
-	public static void main(String[] args) throws IOException {
-		
-		MappingAIG a = new MappingAIG(args[0]);
-		
-		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
-
-        new ActivationFunctionBuilder(a, false).run();
-    }
 	
 	static final int g_node_max = GlobalConstants.maxActivationFunctionSize;
 	private final MappingAIG aig;
@@ -123,8 +115,6 @@ public class ActivationFunctionBuilder {
 	private void finalise() {
 		for (Node node : aig.getAllNodes()) {
 			if(node.getOnParamFunction()!=null) {
-				node.setOnParamFunction(null);
-				node.setOffParamFunction(null);
 				node.setOutputActivationFunction(null);
 			}
 		}
@@ -132,9 +122,9 @@ public class ActivationFunctionBuilder {
 	
 	public void unsetActivationFunctions() {
 		for (Node node : aig.getAllNodes()) {
-			if(node.getActivationFunction() != null) {
-				node.setActivationFunction(null);
-			}
+			node.setOnParamFunction(null);
+			node.setOffParamFunction(null);
+			node.setActivationFunction(null);
 		}
 	}
 	
@@ -318,8 +308,8 @@ public class ActivationFunctionBuilder {
 				.andWith(
 						node.getOnParamFunction()
 								.or(node.getOffParamFunction()).not());
-		if(node.getActivationFunction() != null &&
-				node.getActivationFunction().equals(new_activation_function)) {
+		if(node.getActivationFunction() != null
+				&& node.getActivationFunction().equals(new_activation_function)) {
 			new_activation_function.free();
 			return;
 		} else {
@@ -338,7 +328,7 @@ public class ActivationFunctionBuilder {
 	private void checkForUnusedPrimaryInputs() {
 		int count = 0;
 		for (Node node : aig.getAllPrimaryInputs()) {
-			if(!node.isParameterInput() && node.getActivationFunction().equals(B.zero())) {
+			if(node.getActivationFunction().equals(B.zero()) && !node.isParameterInput() && !node.isConst0()) {
 				count++;
 				if(count <= 10)
 					System.out.println("Warning: Unused latch or input: "+node.getName());

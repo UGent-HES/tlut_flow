@@ -83,6 +83,10 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
+import be.ugent.elis.recomp.util.logging.ConeNotConsidered_BDDSize;
+import be.ugent.elis.recomp.util.logging.ConeNumToConsiderReached;
+import be.ugent.elis.recomp.util.logging.ConeNumToSaveReached;
+import be.ugent.elis.recomp.util.logging.Logger;
 
 public class ConeEnumeration implements Visitor<Node, Edge> {
 	
@@ -350,10 +354,8 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		for (Cone c : mergedConeSet) {
 			c.initFeasibilityCalculation(this.tcon_mapping_flag);
 			boolean feasible = true;
-			if(c.isTrivial()) {
-//			} else if(this.tcon_mapping_flag && c.isNoneFeasible()) {
-//				c.mapToNone();
-			} else if(this.tcon_mapping_flag && c.isTCONfeasible()) {
+			if(c.isUnmapped()) {
+				if(this.tcon_mapping_flag && c.isTCONfeasible()) {
 				c.mapToTCON();
 			} else if(c.isTLUTfeasible(K)) {
 				if(c.isLUTfeasible(K))
@@ -365,6 +367,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			} else {// infeasible
 				c.free();
 				feasible = false;
+			}
 			}
 			if(feasible)
 				feasibleCones.add(c);
