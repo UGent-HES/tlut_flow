@@ -248,11 +248,13 @@ public class TMapSimple {
 	    		numCones += 1;
         	}
         }
+        System.out.println("Debug: Avg BDD size: "+(sumBddSize/(float)(numCones)));
+        System.out.println("Debug: Avg BDD size considered: "+enumerator.getBddSizeAverage());
         
-        System.out.println("numCones "+numCones);
-        System.out.println("avg bdd size "+(sumBddSize/(float)(numCones)));
-        System.out.println("avg bdd size considered "+enumerator.getBddSizeAverage());
+        System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
+        System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());
 
+		Logger.getLogger().finalLog();
 
 		BDDFactorySingleton.destroy();
 
