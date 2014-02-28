@@ -189,7 +189,14 @@ public class Cone implements Comparable<Cone> {
 		Cone result = new Cone(node, bddIdMapping);
 		result.type = ConeType.TRIVIAL;
 		result.hasParameterLeaves = node.isParameter();
-		result.setFunction(node.getBDD(bddIdMapping));
+		if(node.getOnParamFunction() != null && node.getOffParamFunction() != null) {
+			result.setFunction(
+					node.getBDD(bddIdMapping)
+					.orWith(node.getOnParamFunction().id())
+					.andWith(node.getOffParamFunction().id().not()));
+		} else {
+			result.setFunction(node.getBDD(bddIdMapping));
+		}
 		if(!node.isParameter())
 			result.addLeave(node);
 		result.calculateSignature();
@@ -547,7 +554,7 @@ public class Cone implements Comparable<Cone> {
 			feasibilityFunction = null;
 		}
 	}
-	
+
 
 	public ArrayList<Node> getNodesInToOut() {
 		if (nodes == null) {
