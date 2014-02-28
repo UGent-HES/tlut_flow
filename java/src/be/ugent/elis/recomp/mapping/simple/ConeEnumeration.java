@@ -174,13 +174,31 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {
 		if(!node.isGate())
 			throw new RuntimeException("This function expects a AND node");
-
+		
+		//if node has a primary output as parent, this node will be the root of a selected cone anyway
+		for(Edge edge : node.getOutputEdges()) {
+			if(edge.getHead().isPrimaryOutput())
+				return true;
+		}
+		
+		if (node.isParameter())
+			return false;
 		if (node.getI0().getTail().isParameter() ||
 		 		node.getI1().getTail().isParameter() )
 		 	return false;
-		for(Cone cone : coneset.getCones()) {
-			if(cone.isTCON())
-				return false;
+		
+		
+		//if TLCs are enabled, every TCON cone can be merged with a TLUT or TCON cone at the output of the node
+		if(tlc_mapping_flag) {
+			for(Cone cone : coneset.getCones()) {
+				if(cone.isTCON())
+					return false;
+			}
+//			for(Cone cone : coneset.getCones()) {
+//				if(!cone.isTCON())
+//					return true;
+//			}
+//			return false;
 		}
 		return true;
 	}
@@ -316,7 +334,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		
 		for(Cone cone : temp.subList(maxNumConesPerNodeSaved, temp.size()))
 			cone.free();
-		
+
 		if(cones.getCones().size() > maxNumConesPerNodeSaved)
 			Logger.getLogger().log(new ConeNumToSaveReached(cones.getNode()));
 		
@@ -356,18 +374,18 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			boolean feasible = true;
 			if(c.isUnmapped()) {
 				if(this.tcon_mapping_flag && c.isTCONfeasible()) {
-				c.mapToTCON();
-			} else if(c.isTLUTfeasible(K)) {
-				if(c.isLUTfeasible(K))
-					c.mapToLUT();
-				else
-					c.mapToTLUT();
-			} else if(this.tlc_mapping_flag && c.isTLCfeasible(K)) {
-				c.mapToTLC();
-			} else {// infeasible
-				c.free();
-				feasible = false;
-			}
+					c.mapToTCON();
+				} else if(c.isTLUTfeasible(K)) {
+					if(c.isLUTfeasible(K))
+						c.mapToLUT();
+					else
+						c.mapToTLUT();
+				} else if(this.tlc_mapping_flag && c.isTLCfeasible(K)) {
+					c.mapToTLC();
+				} else {// infeasible
+					c.free();
+					feasible = false;
+				}
 			}
 			if(feasible)
 				feasibleCones.add(c);
