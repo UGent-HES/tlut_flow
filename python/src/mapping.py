@@ -206,6 +206,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
                 print line
             if line.startswith("Warning: Unused latch or input:"):
                 print line
+            if line.startswith("Debug: "):
+                print line
         
         # Extracting results
         origAnds = getAIGStats(aigFile, verboseFlag)
