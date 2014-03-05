@@ -86,8 +86,10 @@ public class Logger {
 	
 	public void finalLog() {
 		ConeNotConsidered_BDDSize.finalLog();
+		ConeNotConsideredToMerge_BDDSize.finalLog();
 		ConeNumToConsiderReached.finalLog();
 		ConeNumToSaveReached.finalLog();
+//		ConeFeasibilityMessage.finalLog();
 	}
 
 }

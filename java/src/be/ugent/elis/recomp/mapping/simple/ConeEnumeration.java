@@ -83,6 +83,8 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
+import be.ugent.elis.recomp.util.logging.ConeFeasibilityMessage;
+import be.ugent.elis.recomp.util.logging.ConeNotConsideredToMerge_BDDSize;
 import be.ugent.elis.recomp.util.logging.ConeNotConsidered_BDDSize;
 import be.ugent.elis.recomp.util.logging.ConeNumToConsiderReached;
 import be.ugent.elis.recomp.util.logging.ConeNumToSaveReached;
@@ -92,7 +94,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	
 	private static final int maxConeSizeConsidered = GlobalConstants.maxConeSizeConsidered;
 	private static final int maxBddSizeConsidered = GlobalConstants.maxBddSizeConsidered;
-	private static final int maxBddSizeConsideredToMerge = GlobalConstants.maxBddSizeConsidered;// 6;
+	private static final int maxBddSizeConsideredToMerge = GlobalConstants.maxBddSizeConsideredToMerge;
 	private static final int maxNumConesPerNodeConsidered = GlobalConstants.maxNumConesPerNodeConsidered;
 	private static final int maxNumConesPerNodeSaved = GlobalConstants.maxNumConesPerNodeSaved;
 
@@ -241,25 +243,36 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 
 		boolean coneSkipped = false;
 
-		ArrayList<Cone> cones0 = new ArrayList<Cone>(coneSet0.getCones());
-		ArrayList<Cone> cones1 = new ArrayList<Cone>(coneSet1.getCones());
+		ArrayList<Cone> cones0 = new ArrayList<Cone>();
+		ArrayList<Cone> cones1 = new ArrayList<Cone>();
+		for(Cone c : coneSet0.getCones()) {
+			if(considerToMergeCone(c))
+				cones0.add(c);
+			else {
+				coneSkipped = true;
+				Logger.getLogger().log(new ConeNotConsideredToMerge_BDDSize(c));
+			}
+		}
+		for(Cone c : coneSet1.getCones()) {
+			if(considerToMergeCone(c))
+				cones1.add(c);
+			else {
+				coneSkipped = true;
+				Logger.getLogger().log(new ConeNotConsideredToMerge_BDDSize(c));
+			}
+		}
+		
 		Collections.sort(cones0, new SizeConeComparator());
 		Collections.sort(cones1, new SizeConeComparator());
+		
 		if(cones0.size() > cones1.size()) {
 			ArrayList<Cone> tmp = cones0;
 			cones0 = cones1;
 			cones1 = tmp;
 		}
+		
 		EnumerateConesToConsider1 : for(int i=0; i<cones0.size(); i++) {
-			if(!considerToMergeCone(cones0.get(i))) {
-				coneSkipped = true;
-				continue;
-			}
 			for(int j=0; j<=i; j++) {
-				if(!considerToMergeCone(cones1.get(j))) {
-					coneSkipped = true;
-					continue;
-				}
 				mergesToConsider.add(new TwoCones(cones0.get(i), cones1.get(j)));
 				if(i!=j)
 					mergesToConsider.add(new TwoCones(cones0.get(j), cones1.get(i)));
@@ -383,12 +396,15 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				} else if(this.tlc_mapping_flag && c.isTLCfeasible(K)) {
 					c.mapToTLC();
 				} else {// infeasible
-					c.free();
 					feasible = false;
 				}
 			}
-			if(feasible)
+			//Logger.getLogger().log(new ConeFeasibilityMessage(c));
+			if(feasible) {
 				feasibleCones.add(c);
+			} else {
+				c.free();
+			}
 			c.finishFeasibilityCalculation();
 		}
 		return feasibleCones;
