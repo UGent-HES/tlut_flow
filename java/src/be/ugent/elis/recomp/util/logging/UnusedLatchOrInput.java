@@ -14,7 +14,14 @@ public class UnusedLatchOrInput extends AbstractMessage {
 
 	@Override
 	void doLog() {
-		System.out.println("Warning: Unused latch or input: "+node.getName());
+		if(numMessages < 0) {
+			if(node.isInput())
+				System.out.println("Warning: Unused input: "+node.getName());
+			else if(node.isOLatch())
+				System.out.println("Warning: Unused latch: "+node.getName());
+			else
+				throw new RuntimeException("Unexpected node type");
+		}
 	}
 	
 	static void finalLog() {

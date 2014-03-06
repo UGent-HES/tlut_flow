@@ -84,6 +84,7 @@ import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
 import be.ugent.elis.recomp.util.logging.ConeFeasibilityMessage;
+import be.ugent.elis.recomp.util.logging.ConeFeasibilityMessage2;
 import be.ugent.elis.recomp.util.logging.ConeNotConsideredToMerge_BDDSize;
 import be.ugent.elis.recomp.util.logging.ConeNotConsidered_BDDSize;
 import be.ugent.elis.recomp.util.logging.ConeNumToConsiderReached;
@@ -101,6 +102,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	protected int K;
 	protected boolean tcon_mapping_flag;
 	protected boolean tlc_mapping_flag;
+	protected boolean build_bdd_function;
 	protected int nmbrConsideredCones;
 	protected int nmbrFeasibleCones;
 	protected int nmbrDominatedCones;
@@ -116,6 +118,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		this.K = K;
 		this.tcon_mapping_flag = tcon_mapping_flag;
 		this.tlc_mapping_flag = tlc_mapping_flag;
+		this.build_bdd_function = tcon_mapping_flag || tlc_mapping_flag;
 	}
 	
 	public int getNmbrConsideredCones() {
@@ -144,29 +147,30 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ConeSet result = new ConeSet(node);
 
 		if (node.isPrimaryInput()) {
-			result.add(Cone.trivialCone(node, bddIdMapping));
+			result.add(Cone.trivialCone(node, bddIdMapping, build_bdd_function));
 			
 		} else if(node.isGate()) {
 			if (node.isParameter())
 				result.addAll(mergeParameterConeSets(node));
 			else {
-				ConeSet mergedConeSet = mergeInputConeSets(node);
-				ConeSet feasibleCones = retainFeasibleCones(mergedConeSet);
-				nmbrFeasibleCones += feasibleCones.size();
-				ConeSet nonDominatedConeSet = removeDominatedCones(feasibleCones);
-				nonDominatedConeSet = limitNumCones(nonDominatedConeSet);
-				nmbrCones += nonDominatedConeSet.size();
-				result.addAll(nonDominatedConeSet);
+				ConeSet cones = mergeInputConeSets(node);
+				cones = retainFeasibleCones(cones);
+				nmbrFeasibleCones += cones.size();
+				cones = removeDominatedCones(cones);
+				//cones = customFilterCones(cones);
+				cones = limitNumCones(cones);
+				nmbrCones += cones.size();
+				result.addAll(cones);
 				if(nodeNeedsTrivialCone(node, result))
-					result.add(Cone.trivialCone(node, bddIdMapping));
+					result.add(Cone.trivialCone(node, bddIdMapping, build_bdd_function));
 			}
 			
 		} else if(node.isPrimaryOutput()) {
-			result.add(Cone.outputCone(node, bddIdMapping));
+			result.add(Cone.outputCone(node, bddIdMapping, build_bdd_function));
 		}
 		result.reduceMemoryUsage();
 		node.setConeSet(result);
-
+		
 		// System.out.println(node.getName() + ": " + nmbrCones);
 	}
 
@@ -212,7 +216,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 
 		Cone merge = Cone.mergeCones(node, node0.getConeSet().getOnlyCone(), node1.getConeSet().getOnlyCone(), 
 				tcon_mapping_flag ? maxConeSizeConsidered : K,
-				maxBddSizeConsidered, tcon_mapping_flag);
+				maxBddSizeConsidered, build_bdd_function);
 		if(merge == null) 
 			throw new RuntimeException("Parameter coneset should contain one cone");
 		merge.mapToNone();
@@ -313,7 +317,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		 * optimisation)
 		 */
 		if(coneSkipped)
-			result.add(Cone.twoInputCone(node, bddIdMapping));
+			result.add(Cone.twoInputCone(node, bddIdMapping, build_bdd_function));
 		return result;
 	}
 	
@@ -379,7 +383,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		
 		return result;
 	}
-
+	
 	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
 		ConeSet feasibleCones = new ConeSet(mergedConeSet.getNode());
 		for (Cone c : mergedConeSet) {
@@ -400,6 +404,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				}
 			}
 			//Logger.getLogger().log(new ConeFeasibilityMessage(c));
+			//Logger.getLogger().log(new ConeFeasibilityMessage2(c));
 			if(feasible) {
 				feasibleCones.add(c);
 			} else {

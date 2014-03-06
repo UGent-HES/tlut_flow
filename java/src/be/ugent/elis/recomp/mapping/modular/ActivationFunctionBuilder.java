@@ -81,6 +81,7 @@ import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
 import be.ugent.elis.recomp.util.logging.Logger;
+import be.ugent.elis.recomp.util.logging.UnusedLatchOrInput;
 
 public class ActivationFunctionBuilder {
 	
@@ -326,16 +327,11 @@ public class ActivationFunctionBuilder {
 	}
 
 	private void checkForUnusedPrimaryInputs() {
-		int count = 0;
 		for (Node node : aig.getAllPrimaryInputs()) {
 			if(node.getActivationFunction().equals(B.zero()) && !node.isParameterInput() && !node.isConst0()) {
-				count++;
-				if(count <= 10)
-					System.out.println("Warning: Unused latch or input: "+node.getName());
+				Logger.getLogger().log(new UnusedLatchOrInput(node));
 			}
 		}
-		if(count > 10)
-			System.out.println("Warning: Unused latch or input: " + count + " warnings in total");
 	}
 	
 }

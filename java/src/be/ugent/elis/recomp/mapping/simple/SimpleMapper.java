@@ -106,12 +106,17 @@ public class SimpleMapper {
 
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
         int target_depth = depth_option.value(options);
+        String aig_in_filename = arguments[0];
+		int K = Integer.parseInt(arguments[1]);
+		String mapped_blif_out_filename = arguments[2];
         
         // Read AIG file
-		MappingAIG a = new MappingAIG(arguments[0]);
-		a.initBDDidMapping();
+		MappingAIG a = new MappingAIG(aig_in_filename);
+		//a.initBDDidMapping();
 		
-		int K = Integer.parseInt(arguments[1]);
+		
+		// Start the clock!
+		long start_time = System.currentTimeMillis();
 		
 		// Mapping
 		System.out.println("Cone Enumeration:");
@@ -121,30 +126,41 @@ public class SimpleMapper {
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
         a.visitAllInverse(new ConeSelection());
         
+		System.out.println("Area Recovery:");
         double depthBeforeAreaRecovery = a.getDepth();
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));
         a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
-        if(target_depth == -1) {
-        	if(depthBeforeAreaRecovery != a.getDepth()) {
-        		System.err.println("Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
-        		System.exit(1);
-        	}
-        } else {
-        	if(a.getDepth() > target_depth) {
-        		System.err.println("Depth ("+a.getDepth()+") greater than target depth: "+target_depth);
-        		System.exit(1);
-        	}
+        
+		System.out.println("Cone Selection:");
+		a.visitAllInverse(new ConeSelection());
+
+        // Compare depth before and after area recovery
+        if(target_depth == -1 && depthBeforeAreaRecovery != a.getDepth()) {
+    		System.err.println("Error: Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
+    		System.exit(1);
+        } 
+        if(target_depth != -1 && a.getDepth() > target_depth) {
+    		System.err.println("Error: Depth ("+a.getDepth()+") greater than target depth: "+target_depth);
+        	System.exit(1);
         }
-                
-        System.out.println("Cone Selection:");
-        a.visitAllInverse(new ConeSelection());
+        
+        // Stop the clock!
+		long elapsed_time = System.currentTimeMillis() - start_time;
+		System.out.println("Debug: Elapsed time: "+String.format("%3.3es", elapsed_time/1000.));
         
         // Writing a blif
-        a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))), K);
+        a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))), K);
+ 
+        // Debug stats
+        //System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
+        System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());
 
+		// Cleanup
+		BDDFactorySingleton.destroy();
+		
 		System.out.println(a.numLUTResourcesUsed() + "\t" + a.getDepth() + "\t"
 				+ enumerator.getNmbrConsideredCones() + "\t"
 				+ enumerator.getNmbrFeasibleCones() + "\t"

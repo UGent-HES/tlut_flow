@@ -114,6 +114,12 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False, targ
         numLuts = int(data[0])
         depth   = int(float(data[1]))
         
+        for line in output.splitlines():
+            if line.startswith("Warning: "):
+                print line
+            if line.startswith("Debug: "):
+                print line
+        
         # Verification of resulting mapping using satsolver
         if checkFunctionality:
             check = miter(aigFile, outFile, verboseFlag)
@@ -200,11 +206,9 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
             raise Exception("Unexpected output from java TMapSimple")
         
         for line in output.splitlines():
-            if line.startswith("Warning: latch has only parameters in fanin cone: "):
-                print line
             if line.startswith("Num LUT resources used with sharing:"):
                 print line
-            if line.startswith("Warning: Unused latch or input:"):
+            if line.startswith("Warning: "):
                 print line
             if line.startswith("Debug: "):
                 print line

@@ -127,18 +127,24 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
     numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, [] + extraArgs)
+        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, extraArgs)
     print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
 
     # Unleash TCON mapper
+    print "Stage: TCON mapper + TLC"
+    numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
+        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing', '--tcon', '--tlc'] + extraArgs)
+    print collumnize(['Luts (TLUT/TCON)','depth','check'],colwidth)
+    print collumnize([str(numLuts)+' ('+str(numTLUTs)+'/'+str(numTCONs)+')',depth,check],colwidth)
+ 
+     # Unleash TCON mapper
     print "Stage: TCON mapper"
     numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
         simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing', '--tcon'] + extraArgs)
     print collumnize(['Luts (TLUT/TCON)','depth','check'],colwidth)
     print collumnize([str(numLuts)+' ('+str(numTLUTs)+'/'+str(numTCONs)+')',depth,check],colwidth)
- 
-    
+   
     # Print C-files
     if generateImplementationFilesFlag:
         print "Stage: Generating C driver files"
