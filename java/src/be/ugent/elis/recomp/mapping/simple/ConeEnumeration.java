@@ -85,7 +85,7 @@ import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
 import be.ugent.elis.recomp.util.logging.ConeFeasibilityMessage;
 import be.ugent.elis.recomp.util.logging.ConeFeasibilityMessage2;
-import be.ugent.elis.recomp.util.logging.ConeNotConsideredToMerge_BDDSize;
+import be.ugent.elis.recomp.util.logging.ConeNotConsideredToMerge;
 import be.ugent.elis.recomp.util.logging.ConeNotConsidered_BDDSize;
 import be.ugent.elis.recomp.util.logging.ConeNumToConsiderReached;
 import be.ugent.elis.recomp.util.logging.ConeNumToSaveReached;
@@ -254,7 +254,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				cones0.add(c);
 			else {
 				coneSkipped = true;
-				Logger.getLogger().log(new ConeNotConsideredToMerge_BDDSize(c));
+				Logger.getLogger().log(new ConeNotConsideredToMerge(c));
 			}
 		}
 		for(Cone c : coneSet1.getCones()) {
@@ -262,7 +262,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				cones1.add(c);
 			else {
 				coneSkipped = true;
-				Logger.getLogger().log(new ConeNotConsideredToMerge_BDDSize(c));
+				Logger.getLogger().log(new ConeNotConsideredToMerge(c));
 			}
 		}
 		

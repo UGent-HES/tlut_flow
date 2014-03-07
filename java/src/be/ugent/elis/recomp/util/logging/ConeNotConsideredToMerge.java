@@ -2,11 +2,11 @@ package be.ugent.elis.recomp.util.logging;
 
 import be.ugent.elis.recomp.mapping.utils.Cone;
 
-public class ConeNotConsideredToMerge_BDDSize extends AbstractMessage {
+public class ConeNotConsideredToMerge extends AbstractMessage {
 	static int numMessages = 0;
 	Cone cone;
 
-	public ConeNotConsideredToMerge_BDDSize(Cone cone) {
+	public ConeNotConsideredToMerge(Cone cone) {
 		super();
 		this.cone = cone;
 		numMessages++;
