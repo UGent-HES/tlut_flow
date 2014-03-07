@@ -97,13 +97,13 @@ public abstract class AbstractEdge< N extends AbstractNode<N,E>, E extends Abstr
 		return (N) tail;
 	}
 
-	/**
-	 * Get the head/sink of the edge.
-	 */
 	public void setHead(N head) {
 		this.head = (N) head;
 	}
 
+	/**
+	 * Get the head/sink of the edge.
+	 */
 	public N getHead() {
 		return head;
 	}

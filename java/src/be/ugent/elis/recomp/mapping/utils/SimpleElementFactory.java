@@ -81,7 +81,9 @@ public class SimpleElementFactory implements ElementFactory<Node,Edge> {
 	}
 
 	public Node newConst0(AIG<Node, Edge> aig) {
-		return new Node(aig, NodeType.CONST0, id_runner++);
+		Node const0 = new Node(aig, NodeType.CONST0, id_runner++);
+		const0.setName("const0");
+		return const0;
 	}	
 	
 	public Node newAnd(AIG<Node, Edge> aig) {

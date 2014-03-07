@@ -81,7 +81,9 @@ public class BasicElementFactory implements ElementFactory<BasicNode, BasicEdge>
 	}
 
 	public BasicNode newConst0(AIG<BasicNode, BasicEdge> aig) {
-		return new BasicNode(aig, NodeType.CONST0, id_runner++);
+		BasicNode const0 = new BasicNode(aig, NodeType.CONST0, id_runner++);
+		const0.setName("const0");
+		return const0;
 	}
 
 	public BasicEdge newEdge(BasicNode tail, BasicNode head, boolean inverted) {

@@ -75,6 +75,10 @@ public class BasicAIG extends AIG<BasicNode, BasicEdge> {
 	public BasicAIG(String fileName) throws FileNotFoundException {
 		super(new BasicElementFactory(), fileName);
 	}
+	
+	public BasicAIG() {
+		super(new BasicElementFactory());
+	}
 
 
 

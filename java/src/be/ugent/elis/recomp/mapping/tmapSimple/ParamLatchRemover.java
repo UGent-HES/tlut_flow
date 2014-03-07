@@ -70,71 +70,46 @@ package be.ugent.elis.recomp.mapping.tmapSimple;
 
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.InputStream;
-
-import java.util.Set;
 import java.util.ArrayList;
 
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
-import be.ugent.elis.recomp.util.ParameterReader;
 
 public class ParamLatchRemover {
 
 	public static void main(String[] args) throws IOException {
 	
 		MappingAIG a = new MappingAIG(args[0]);
-		
-        new ParamLatchRemover(a, new FileInputStream(args[1])).run();
-        
+		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
+
+        new ParamLatchRemover(a).run();
+
         a.printAAG(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))));
 	}
 	
-	Set<String> parameter;
     MappingAIG aig;
 
-	public ParamLatchRemover(MappingAIG aig, InputStream stream) throws FileNotFoundException    {
+	public ParamLatchRemover(MappingAIG aig) {
 	    this.aig = aig;
-		parameter = ParameterReader.readParameters(stream);
 	}
 	
-	private void recursivelyMarkParameters(Node node) {
-	    if(node.isMarked())
-	        return;
-	    node.setMarked(true);
-	    if (node.isGate()) {
-			Node node0 = node.getI0().getTail();
-			Node node1 = node.getI1().getTail();
-			
-			recursivelyMarkParameters(node0);
-			recursivelyMarkParameters(node1);
-			
-			node.setParameter(node0.isParameter() && node1.isParameter());
-		} else if (node.isILatch() || node.isLatch() || node.isOLatch() || node.isOutput()) {
-			Node node0 = node.getI0().getTail();
-						
-    		recursivelyMarkParameters(node0);
-			
-			node.setParameter(node0.isParameter());
-		} else if (node.isConst0() || node.isInput()) {
-		} else {
-		    assert(false);
-		}
-	}
-
     private void removeLatch(Node olatch) {
-        assert olatch.isOLatch();
+        if(!olatch.isOLatch())
+        	throw new RuntimeException("Expected OLatch");
         Node latch = olatch.getI0().getTail();
-        assert !olatch.getI0().isInverted();
-        assert latch.isLatch();
+        if(olatch.getI0().isInverted())
+        	throw new RuntimeException("Input edge of OLatch is not supposed to be inverted");
+        if(!latch.isLatch())
+        	throw new RuntimeException("Expected Latch");
         Node ilatch = latch.getI0().getTail();
-        assert !latch.getI0().isInverted();
-        assert ilatch.isILatch();
+        if(latch.getI0().isInverted())
+        	throw new RuntimeException("Input edge of Latch is not supposed to be inverted");
+       if(!ilatch.isILatch())
+        	throw new RuntimeException("Expected ILatch");
         Edge inedge = ilatch.getI0();
         Node innode = inedge.getTail();
         
@@ -146,23 +121,13 @@ public class ParamLatchRemover {
         }
         
         innode.removeOutput(inedge);
+        aig.removeEdge(inedge);
         aig.removeNode(olatch);
         aig.removeNode(latch);
         aig.removeNode(ilatch);
     }
 
 	public void run() {
-	    aig.setMarkedAll(false);
-		for (Node n : aig.getAllNodes()) {
-			n.setParameter(false);
-		}
-	    
-	    for (Node node : aig.getInputs()) {
-            node.setParameter(parameter.contains(node.getName()));
-		}
-		for (Node output : aig.getOutputs()) {
-		    recursivelyMarkParameters(output);
-		}
 		
 		for (Node olatch : new ArrayList<Node>(aig.getOLatches())) {
 		    if(olatch.isParameter()) {
@@ -171,7 +136,8 @@ public class ParamLatchRemover {
 		    }
 		}
 		
-	    aig.setMarkedAll(false);
+		aig.sanityCheck();
 	}
+	
 
 }

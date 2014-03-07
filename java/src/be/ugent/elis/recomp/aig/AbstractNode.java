@@ -215,6 +215,8 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	
 
 	public E getI0() {
+		if(getNumInputs()<1)
+			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" cannot have I0 edge");
 		return input.get(0);
 	}
 
@@ -225,6 +227,8 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	}
 
 	public E getI1() {
+		if(getNumInputs()<2)
+			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" cannot have I1 edge");
 		return input.get(1);
 	}
 

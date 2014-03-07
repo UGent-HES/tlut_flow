@@ -86,13 +86,12 @@ import java.util.NoSuchElementException;
 
 import be.ugent.elis.recomp.mapping.utils.AlphanumNodeNameComparator;
 import be.ugent.elis.recomp.mapping.utils.Cone;
-import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
 
 public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	
-	N         const0;
+	final N      const0;
 	
 	ArrayList<N> input;
 	
@@ -119,101 +118,155 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		and    = new ArrayList<N>();
 		output = new ArrayList<N>();
 		edges  = new ArrayList<E>();
+		
 		this.factory = factory;
+		this.const0 = this.factory.newConst0(this);
 		
 		strashMap = new HashMap<StrashKey<N,E>,N>();
-		
-		N con = factory.newConst0(this);
-		this.const0 = con;
-		con.setName("const0");
 	}
 	
 	public AIG(ElementFactory<N,E> factory, String fileName) throws FileNotFoundException{
-		input  = new ArrayList<N>();
-		ilatch = new ArrayList<N>();
-		latch  = new ArrayList<N>();
-		olatch = new ArrayList<N>();
-		and    = new ArrayList<N>();
-		output = new ArrayList<N>();
-		edges  = new ArrayList<E>();
-		this.factory = factory;
-
-		strashMap = new HashMap<StrashKey<N,E>,N>();
+		this(factory);
 		
-		this.readAAG(fileName);
+		readAAG(fileName);
 	}
 	
-	public AIG( AIG<N,E> aig) {
-		input  = new ArrayList<N>();
-		ilatch = new ArrayList<N>();
-		latch  = new ArrayList<N>();
-		olatch = new ArrayList<N>();
-		and    = new ArrayList<N>();
-		output = new ArrayList<N>();
-		edges  = new ArrayList<E>();
-		this.factory = aig.factory;
-	
-		strashMap = new HashMap<StrashKey<N,E>,N>();
+	public AIG(AIG<N,E> aig) {
+		this(aig.factory);
 		
-		Map<N,N> findCopy = new HashMap<N,N>();
+		Map<N,N> copyMap = new HashMap<N,N>();
 		
-		N con = factory.newConst0(this);
-		this.const0 = con;
-		con.setName("const0");
-		findCopy.put(aig.getConst0(), con);
-		
-		for (N node:aig.input) {
-			N copy = factory.newInput(this);
-			input.add(copy);
-			findCopy.put(node, copy);
-		}
-		for (N node:aig.ilatch) {
-			N copy = factory.newILatch(this);
-			ilatch.add(copy);
-			findCopy.put(node, copy);
-		}
-		for (N node:aig.latch) {
-			N copy = factory.newLatch(this);
-			latch.add(copy);
-			findCopy.put(node, copy);
-		}
-		for (N node:aig.olatch) {
-			N copy = factory.newOLatch(this);
-			olatch.add(copy);
-			findCopy.put(node, copy);
-		}
-		for (N node:aig.and) {
-			N copy = factory.newAnd(this);
-			and.add(copy);
-			findCopy.put(node, copy);
-		}
-		for (N node:aig.output) {
-			N copy = factory.newOutput(this);
-			output.add(copy);
-			findCopy.put(node, copy);
-		}
-		
-		//Set names of the copies
-		for (N node: aig.getAllNodes()) {
-			findCopy.get(node).setName(node.getName());
+		//Copy the nodes
+		for (N node : aig.getAllNodes()) {
+			N node_copy = addNode(node.getName(), node.getType());
+			copyMap.put(node, node_copy);
 		}
 		
 		//Copy the edges
-		for (E edge: aig.getAllEdges()) {
-			N tail = findCopy.get(edge.getTail());
-			N head = findCopy.get(edge.getHead());
+		for (E edge : aig.getAllEdges()) {
+			N tail_copy = copyMap.get(edge.getTail());
+			N head_copy = copyMap.get(edge.getHead());
 			
-			E copy = factory.newEdge(tail, head, edge.isInverted());
-			edges.add(copy);
+			E edge_copy = addEdge(tail_copy, head_copy, edge.isInverted());
 			
-			tail.addOutput(copy);
-			head.setI(edge.getInputIndex(), copy);
-			
+			tail_copy.addOutput(edge_copy);
+			head_copy.setI(edge.getInputIndex(), edge_copy);
+		}
+	}
+    
+    private class PolarisedNode {
+    	private final N node;
+    	private final boolean inverted;
+    	public PolarisedNode(PolarisedNode pnode) {
+    		this(pnode.node, pnode.inverted);
+    	}
+    	public PolarisedNode(N node, boolean inverted) {
+			this.node = node;
+			this.inverted = inverted;
+		}
+		public N getNode() {
+			return this.node;
+		}
+		public boolean isInverted() {
+			return this.inverted;
+		}
+		public PolarisedNode toggleInverted(boolean toggle) {
+			return new PolarisedNode(node, inverted ^ toggle);
+		}
+    }
+
+	public void copyStrash(AIG<N,E> aig) {
+		Map<N,PolarisedNode> propagateMap = new HashMap<N,PolarisedNode>();
+		
+		//Copy primary inputs
+		for (N node : aig.getAllPrimaryInputs()) {
+			N node_copy = addNode(node.getName(), node.getType());
+			propagateMap.put(node, new PolarisedNode(node_copy, false));
 		}
 		
+		//Propagate constants and strash and nodes at the same time
+		for (N orig : aig.topologicalOrderInToOut(false, false)) {
+			E e0 = orig.getI0();
+			E e1 = orig.getI1();
+			
+			N origI0 = e0.getTail();
+			PolarisedNode pnodeI0 = propagateMap.get(origI0);
+			pnodeI0 = pnodeI0.toggleInverted(e0.isInverted());
+			
+			N origI1 = e1.getTail();
+			PolarisedNode pnodeI1 = propagateMap.get(origI1);
+			pnodeI1 = pnodeI1.toggleInverted(e1.isInverted());
+			
+//			Constant propagation
+			if (pnodeI1.getNode() == this.getConst0()) {
+				PolarisedNode swap_var = pnodeI1;
+				pnodeI1 = pnodeI0;
+				pnodeI0 = swap_var;
+			}
+			if (pnodeI0.getNode() == this.getConst0()) {
+				if (pnodeI0.isInverted()) {
+					propagateMap.put(orig, pnodeI1);
+				} else {
+					propagateMap.put(orig, new PolarisedNode(this.getConst0(), false));
+				}
+//			No constant propagation possible
+			} else {
+				N copy = this.findNode(pnodeI0.getNode(), pnodeI0.isInverted(), pnodeI1.getNode(), pnodeI1.isInverted());
+				if (copy == null) {
+					copy = this.addNode(orig.getName(), pnodeI0.getNode(), pnodeI0.isInverted(), pnodeI1.getNode(), pnodeI1.isInverted());
+				}
+				propagateMap.put(orig, new PolarisedNode(copy, false));
+			}
+		}
+		
+		// Copy latches
+		for (N olatch : aig.getOLatches()) {
+			N latch = olatch.getI0().getTail();
+			N ilatch = latch.getI0().getTail();
+			if(!ilatch.isILatch()) 
+				throw new RuntimeException("Grandparent of OLatch is expected to be ILatch");
+			E iedge = ilatch.getI0();
+			N inode = iedge.getTail();
+			
+			PolarisedNode olatch_cp_pn = propagateMap.get(olatch);
+			N olatch_cp = olatch_cp_pn.getNode();
+			if(!olatch_cp.isOLatch())
+				throw new RuntimeException("Copy of OLatch is supposed to be OLatch");
+			N latch_cp = addNode(latch.getName(), NodeType.LATCH);
+			N ilatch_cp = addNode(ilatch.getName(), NodeType.ILATCH);
+			PolarisedNode inode_cp_pn = propagateMap.get(inode);
+			inode_cp_pn = inode_cp_pn.toggleInverted(iedge.isInverted());
+			N inode_cp = inode_cp_pn.getNode();
 
+			E olatch_e_cp = addEdge(latch_cp, olatch_cp, false);
+			latch_cp.addOutput(olatch_e_cp);
+			olatch_cp.setI0(olatch_e_cp);
+			E latch_e_cp = addEdge(ilatch_cp, latch_cp, false);
+			ilatch_cp.addOutput(latch_e_cp);
+			latch_cp.setI0(latch_e_cp);
+			E ilatch_e_cp = addEdge(inode_cp, ilatch_cp, inode_cp_pn.isInverted());
+			inode_cp.addOutput(ilatch_e_cp);
+			ilatch_cp.setI0(ilatch_e_cp);
+		}
+		
+		// Copy outputs
+		for (N output : aig.getOutputs()) {
+			E iedge = output.getI0();
+			N inode = iedge.getTail();
+
+			N output_cp = addNode(output.getName(), NodeType.OUTPUT);
+			PolarisedNode inode_cp_pn = propagateMap.get(inode);
+			inode_cp_pn = inode_cp_pn.toggleInverted(iedge.isInverted());
+			N inode_cp = inode_cp_pn.getNode();
+			
+			E copy_e = addEdge(inode_cp, output_cp, inode_cp_pn.isInverted());
+			inode_cp.addOutput(copy_e);
+			output_cp.setI0(copy_e);
+		}
+		
+		sanityCheck();
 	}
-
+	
 	private void readAAG(String filename) throws FileNotFoundException {
 		
 		FileInputStream stream = new FileInputStream(new File(filename));
@@ -230,10 +283,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		variable.setSize(M+1);
 		
 		
-		N con = factory.newConst0(this);
-		this.const0 = con;
-		con.setName("const0");
-		variable.set(0, con);
+		variable.set(0, this.const0);
 				
 		for (int i=0; i<I; i++) {
 			int var = scan.nextInt()/2;
@@ -275,28 +325,28 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 		//Setting the symbol names
 		try {
-                        String word = scan.next();
-                        while (word.charAt(0) != 'c') {
-                                int index = Integer.parseInt( word.substring(1) );
-                                switch (word.charAt(0)) {
-                                case 'i':
-                                        variable.get(index+1).setName(scan.next());
-                                        break;
-                                case 'o':
-                                        output.get(index).setName(scan.next());
-                                        break;
-                                case 'l':
-                                        String name = scan.next();
-                                        ilatch.get(index).setName(name+"_i");
-                                        latch.get(index).setName(name);
-                                        olatch.get(index).setName(name);
-                                        break;
-                                default:
-                                        break;
-                                }
-                                word = scan.next();
-                        }
-                } catch (NoSuchElementException e) {}
+            String word = scan.next();
+            while (word.charAt(0) != 'c') {
+                    int index = Integer.parseInt( word.substring(1) );
+                    switch (word.charAt(0)) {
+                    case 'i':
+                            variable.get(index+1).setName(scan.next());
+                            break;
+                    case 'o':
+                            output.get(index).setName(scan.next());
+                            break;
+                    case 'l':
+                            String name = scan.next();
+                            ilatch.get(index).setName(name+"_i");
+                            latch.get(index).setName(name);
+                            olatch.get(index).setName(name);
+                            break;
+                    default:
+                            break;
+                    }
+                    word = scan.next();
+            }
+        } catch (NoSuchElementException e) {}
 		try {
 			stream.close();
 		} catch (IOException e) {
@@ -328,18 +378,15 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			N latch  = this.latch.get(l);
 			N olatch = this.olatch.get(l);
 			
-			E edge = factory.newEdge(variable.get(lit/2), ilatch, literalIsInverted(lit));
-			edges.add(edge);
+			E edge = addEdge(variable.get(lit/2), ilatch, literalIsInverted(lit));
 			ilatch.setI0(edge);
 			edge.getTail().addOutput(edge);
 			
-			E iedge = factory.newEdge(ilatch , latch , false);
-			edges.add(iedge);
+			E iedge = addEdge(ilatch , latch , false);
 			latch.setI0(iedge);
 			ilatch.addOutput(iedge);
 
-			E oedge = factory.newEdge(latch , olatch , false);
-			edges.add(oedge);
+			E oedge = addEdge(latch , olatch , false);
 			olatch.setI0(oedge);
 			latch.addOutput(oedge);
 		}
@@ -349,8 +396,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 			N out = this.output.get(o);
 			
-			E edge = factory.newEdge(variable.get(lit/2), out, literalIsInverted(lit));
-			edges.add(edge);
+			E edge = addEdge(variable.get(lit/2), out, literalIsInverted(lit));
 			
 			out.setI0(edge);
 			
@@ -365,11 +411,9 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			
 			N and = this.and.get(i);
 
-			E edge0 = factory.newEdge(variable.get(lit0/2), and,literalIsInverted(lit0));
-			edges.add(edge0);
+			E edge0 = addEdge(variable.get(lit0/2), and,literalIsInverted(lit0));
 
-			E edge1 = factory.newEdge(variable.get(lit1/2), and,literalIsInverted(lit1));
-			edges.add(edge1);
+			E edge1 = addEdge(variable.get(lit1/2), and,literalIsInverted(lit1));
 			
 			and.setI0(edge0);
 			and.setI1(edge1);
@@ -491,7 +535,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				node.setMarked(true);
 				break;
 			case CONST0:
-				vec.add(node);
+				if (includeInputs)
+					vec.add(node);
 				node.setMarked(true);
 			default:
 				break;
@@ -583,10 +628,6 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	
 	public N getConst0() {
 		return const0;
-	}
-
-	public void setConst0(N const0) {
-		this.const0 = const0;
 	}
 	
 	public boolean hasLatch() {
@@ -1205,6 +1246,9 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		case OLATCH:
 			olatch.remove(node);
 			break;
+		case CONST0:
+			//Const0 is unique and cannot be removed
+			break;
 		default:
 			System.out.println("Unknown node type!");
 		}
@@ -1241,6 +1285,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		case OLATCH:
 			n = factory.newOLatch(this);
 			olatch.add(n);
+			break;
+		case CONST0:
+			//Only one const0 instance may exist and is created on construction of the AIG
+			n = getConst0();
 			break;
 		default:
 			System.out.println("Unknown node type!");
@@ -1280,16 +1328,53 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		return n;
 	}
 	
+//	public void replaceNode(N old, N new_) {
+//		for(E e : old.getOutputEdges()) {
+//			E ne = addEdge(new_, e.getHead(), e.isInverted());
+//			e.getHead().replaceInputEdge(e, ne);
+//			new_.addOutput(ne);
+//			removeEdge(e);
+//		}
+//		for(E e : old.getInputEdges()) {
+//			E ne = addEdge(e.getTail(), new_, e.isInverted());
+//			new_.addInput(ne);
+//			e.getTail().removeOutput(e);
+//			e.getTail().addOutput(ne); //e.getTail().replaceOutputEdge(e, ne);
+//			removeEdge(e);
+//		}
+//		if(old.isGate() && old.getOutputEdges().size()==0)
+//			removeNode(old);
+//	}
+	
     public void sortInputsAlphanumerically() {
         Collections.sort(input, new AlphanumNodeNameComparator());
     }
     
     public void sanityCheck() {
+    	int num_output_edges = 0;
+    	int num_input_edges = 0;
+    	for(N n : getOLatches()) {
+    		if(n.getI0() == null)
+    			throw new RuntimeException("OLatch node "+n.toString()+" expects non-null input");
+    		if(!n.getI0().getTail().isLatch())
+    			throw new RuntimeException("OLatch node "+n.toString()+" expects Latch node as input");
+    		if(n.getI0().isInverted())
+    			throw new RuntimeException("OLatch node "+n.toString()+" input is not supposed to be inverted");
+    	}
+    	for(N n : getLatches()) {
+    		if(n.getI0() == null)
+    			throw new RuntimeException("Latch node "+n.toString()+" expects non-null input");
+    		if(!n.getI0().getTail().isILatch())
+    			throw new RuntimeException("Latch node "+n.toString()+" expects ILatch node as input");
+    		if(n.getI0().isInverted())
+    			throw new RuntimeException("Latch node "+n.toString()+" input is not supposed to be inverted");
+    	}
     	for(N o : getOutputs())
     		if(o.getOutputEdges().size() != 0)
     			throw new RuntimeException("Output node "+o.toString()+" has an output edge");
     	for(N n : getAllNodes()) {
     		for(E e : n.getOutputEdges()) {
+    			num_output_edges++;
     			if(e == null)
     				throw new RuntimeException("Node "+n.toString()+" has null output edge");
     			if(e.getTail() != n)
@@ -1301,6 +1386,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
     				throw new RuntimeException("Edge "+e.toString()+" is not one of the input edges of its head");
     		}
     		for(E e : n.getInputEdges()) {
+    			num_input_edges++;
     			if(e == null)
     				throw new RuntimeException("Node "+n.toString()+" has null input edge");
     			if(e.getHead() != n)
@@ -1312,6 +1398,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
     				throw new RuntimeException("Edge "+e.toString()+" is not one of the output edges of its tail");
     		}
     	}
+    	if(num_output_edges != edges.size())
+    		throw new RuntimeException("Number of output edges of nodes does not equal number of edges of AIG");
+    	if(num_input_edges != edges.size())
+    		throw new RuntimeException("Number of input edges of nodes does not equal number of edges of AIG");
     }
 
 	

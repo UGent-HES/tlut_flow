@@ -90,16 +90,11 @@ public class MappingAIG extends AIG<Node, Edge> {
 
 	BDDidMapping bddIdMapping = null;
 	
-	private MappingAIG(ElementFactory<Node, Edge> factory,
-			String fileName) throws FileNotFoundException {
-		super(factory, fileName);
-	}
-
 	public MappingAIG(String fileName) throws FileNotFoundException {
-		this(new SimpleElementFactory(), fileName);
+		super(new SimpleElementFactory(), fileName);
 	}
 
-	public MappingAIG(SimpleElementFactory simpleElementFactory) {
+	public MappingAIG() {
 		super(new SimpleElementFactory());
 	}
 	
@@ -188,7 +183,7 @@ public class MappingAIG extends AIG<Node, Edge> {
     }
 
 	public AIG<Node, Edge> constructParamConfig(int K, boolean includeTLUTs, boolean includeLUTs) {
-		AIG<Node, Edge> aig = new MappingAIG(new SimpleElementFactory());
+		AIG<Node, Edge> aig = new MappingAIG();
 		
 		
 		Map<Node, PolarisedNode> parameterCopyMap = new HashMap<Node, PolarisedNode>();
