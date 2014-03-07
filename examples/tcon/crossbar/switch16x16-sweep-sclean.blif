@@ -1,0 +1,504 @@
+# Benchmark "switch16x16" written by ABC on Fri Sep 30 15:21:02 2011
+.model switch16x16
+.inputs i[10] p_testl2[5] i[9] p_testl2[4] i[8] i[11] p_test_02m[1] i[6] \
+ p_testl1[5] i[5] p_testl1[4] i[4] i[7] p_test_02m[0] i[2] p_testl0[5] i[1] \
+ p_testl0[4] i[0] i[3] i[14] p_testl3[5] i[13] p_testl3[4] i[12] i[15] \
+ p_testr0[1] p_testl2[3] p_testl2[2] p_test_01m[1] p_testl1[3] p_testl1[2] \
+ p_test_01m[0] p_testl0[3] p_testl0[2] p_testl3[3] p_testl3[2] p_testr0[0] \
+ p_testl2[1] p_testl2[0] p_test_00m[1] p_testl1[1] p_testl1[0] \
+ p_test_00m[0] p_testl0[1] p_testl0[0] p_testl3[1] p_testl3[0] p_testl2[7] \
+ p_testl2[6] p_test_03m[1] p_testl1[7] p_testl1[6] p_test_03m[0] \
+ p_testl0[7] p_testl0[6] p_testl3[7] p_testl3[6] p_testr0[3] p_testr0[2] \
+ p_testr0[5] p_testr0[4] p_testr0[7] p_testr0[6] p_test_02m[3] \
+ p_test_02m[2] p_testr1[1] p_test_01m[3] p_test_01m[2] p_testr1[0] \
+ p_test_00m[3] p_test_00m[2] p_test_03m[3] p_test_03m[2] p_testr1[3] \
+ p_testr1[2] p_testr1[5] p_testr1[4] p_testr1[7] p_testr1[6] p_test_02m[5] \
+ p_test_02m[4] p_testr2[1] p_test_01m[5] p_test_01m[4] p_testr2[0] \
+ p_test_00m[5] p_test_00m[4] p_test_03m[5] p_test_03m[4] p_testr2[3] \
+ p_testr2[2] p_testr2[5] p_testr2[4] p_testr2[7] p_testr2[6] p_test_02m[7] \
+ p_test_02m[6] p_testr3[1] p_test_01m[7] p_test_01m[6] p_testr3[0] \
+ p_test_00m[7] p_test_00m[6] p_test_03m[7] p_test_03m[6] p_testr3[3] \
+ p_testr3[2] p_testr3[5] p_testr3[4] p_testr3[7] p_testr3[6]
+.outputs o[0] o[1] o[2] o[3] o[4] o[5] o[6] o[7] o[8] o[9] o[10] o[11] \
+ o[12] o[13] o[14] o[15]
+# 240
+.names p_testl2[5] i[9] p_testl2[4] i[8] n128
+0-01 1
+1-1- 1
+-11- 1
+# 241
+.names i[10] p_testl2[5] n128 i[11] n129
+110- 1
+-01- 1
+--11 1
+# 242
+.names p_testl1[5] i[5] p_testl1[4] i[4] n130
+0-01 1
+1-1- 1
+-11- 1
+# 243
+.names i[6] p_testl1[5] n130 i[7] n131
+110- 1
+-01- 1
+--11 1
+# 244
+.names p_testl0[5] i[1] p_testl0[4] i[0] n132
+0-01 1
+1-1- 1
+-11- 1
+# 245
+.names i[2] p_testl0[5] n132 i[3] n133
+110- 1
+-01- 1
+--11 1
+# 246
+.names p_test_02m[1] n131 p_test_02m[0] n133 n134
+0-01 1
+1-1- 1
+-11- 1
+# 247
+.names p_testl3[5] i[13] p_testl3[4] i[12] n135
+0-01 1
+1-1- 1
+-11- 1
+# 248
+.names i[14] p_testl3[5] n135 i[15] n136
+110- 1
+-01- 1
+--11 1
+# 249
+.names n129 p_test_02m[1] n134 n136 n137
+110- 1
+-01- 1
+--11 1
+# 250
+.names p_testl2[3] i[9] p_testl2[2] i[8] n138
+0-01 1
+1-1- 1
+-11- 1
+# 251
+.names i[10] p_testl2[3] n138 i[11] n139
+110- 1
+-01- 1
+--11 1
+# 252
+.names p_testl1[3] i[5] p_testl1[2] i[4] n140
+0-01 1
+1-1- 1
+-11- 1
+# 253
+.names i[6] p_testl1[3] n140 i[7] n141
+110- 1
+-01- 1
+--11 1
+# 254
+.names p_testl0[3] i[1] p_testl0[2] i[0] n142
+0-01 1
+1-1- 1
+-11- 1
+# 255
+.names i[2] p_testl0[3] n142 i[3] n143
+110- 1
+-01- 1
+--11 1
+# 256
+.names p_test_01m[1] n141 p_test_01m[0] n143 n144
+0-01 1
+1-1- 1
+-11- 1
+# 257
+.names p_testl3[3] i[13] p_testl3[2] i[12] n145
+0-01 1
+1-1- 1
+-11- 1
+# 258
+.names i[14] p_testl3[3] n145 i[15] n146
+110- 1
+-01- 1
+--11 1
+# 259
+.names n139 p_test_01m[1] n144 n146 n147
+110- 1
+-01- 1
+--11 1
+# 260
+.names p_testl2[1] i[9] p_testl2[0] i[8] n148
+0-01 1
+1-1- 1
+-11- 1
+# 261
+.names i[10] p_testl2[1] n148 i[11] n149
+110- 1
+-01- 1
+--11 1
+# 262
+.names p_testl1[1] i[5] p_testl1[0] i[4] n150
+0-01 1
+1-1- 1
+-11- 1
+# 263
+.names i[6] p_testl1[1] n150 i[7] n151
+110- 1
+-01- 1
+--11 1
+# 264
+.names p_testl0[1] i[1] p_testl0[0] i[0] n152
+0-01 1
+1-1- 1
+-11- 1
+# 265
+.names i[2] p_testl0[1] n152 i[3] n153
+110- 1
+-01- 1
+--11 1
+# 266
+.names p_test_00m[1] n151 p_test_00m[0] n153 n154
+0-01 1
+1-1- 1
+-11- 1
+# 267
+.names p_testl3[1] i[13] p_testl3[0] i[12] n155
+0-01 1
+1-1- 1
+-11- 1
+# 268
+.names i[14] p_testl3[1] n155 i[15] n156
+110- 1
+-01- 1
+--11 1
+# 269
+.names n149 p_test_00m[1] n154 n156 n157
+110- 1
+-01- 1
+--11 1
+# 270
+.names p_testr0[1] n147 p_testr0[0] n157 n158
+0-01 1
+1-1- 1
+-11- 1
+# 271
+.names p_testl2[7] i[9] p_testl2[6] i[8] n159
+0-01 1
+1-1- 1
+-11- 1
+# 272
+.names i[10] p_testl2[7] n159 i[11] n160
+110- 1
+-01- 1
+--11 1
+# 273
+.names p_testl1[7] i[5] p_testl1[6] i[4] n161
+0-01 1
+1-1- 1
+-11- 1
+# 274
+.names i[6] p_testl1[7] n161 i[7] n162
+110- 1
+-01- 1
+--11 1
+# 275
+.names p_testl0[7] i[1] p_testl0[6] i[0] n163
+0-01 1
+1-1- 1
+-11- 1
+# 276
+.names i[2] p_testl0[7] n163 i[3] n164
+110- 1
+-01- 1
+--11 1
+# 277
+.names p_test_03m[1] n162 p_test_03m[0] n164 n165
+0-01 1
+1-1- 1
+-11- 1
+# 278
+.names p_testl3[7] i[13] p_testl3[6] i[12] n166
+0-01 1
+1-1- 1
+-11- 1
+# 279
+.names i[14] p_testl3[7] n166 i[15] n167
+110- 1
+-01- 1
+--11 1
+# 280
+.names n160 p_test_03m[1] n165 n167 n168
+110- 1
+-01- 1
+--11 1
+# 281
+.names n137 p_testr0[1] n158 n168 o[0]
+110- 1
+-01- 1
+--11 1
+# 282
+.names p_testr0[3] n147 p_testr0[2] n157 n170
+0-01 1
+1-1- 1
+-11- 1
+# 283
+.names n137 p_testr0[3] n170 n168 o[1]
+110- 1
+-01- 1
+--11 1
+# 284
+.names p_testr0[5] n147 p_testr0[4] n157 n172
+0-01 1
+1-1- 1
+-11- 1
+# 285
+.names n137 p_testr0[5] n172 n168 o[2]
+110- 1
+-01- 1
+--11 1
+# 286
+.names p_testr0[7] n147 p_testr0[6] n157 n174
+0-01 1
+1-1- 1
+-11- 1
+# 287
+.names n137 p_testr0[7] n174 n168 o[3]
+110- 1
+-01- 1
+--11 1
+# 288
+.names p_test_02m[3] n131 p_test_02m[2] n133 n176
+0-01 1
+1-1- 1
+-11- 1
+# 289
+.names n129 p_test_02m[3] n176 n136 n177
+110- 1
+-01- 1
+--11 1
+# 290
+.names p_test_01m[3] n141 p_test_01m[2] n143 n178
+0-01 1
+1-1- 1
+-11- 1
+# 291
+.names n139 p_test_01m[3] n178 n146 n179
+110- 1
+-01- 1
+--11 1
+# 292
+.names p_test_00m[3] n151 p_test_00m[2] n153 n180
+0-01 1
+1-1- 1
+-11- 1
+# 293
+.names n149 p_test_00m[3] n180 n156 n181
+110- 1
+-01- 1
+--11 1
+# 294
+.names p_testr1[1] n179 p_testr1[0] n181 n182
+0-01 1
+1-1- 1
+-11- 1
+# 295
+.names p_test_03m[3] n162 p_test_03m[2] n164 n183
+0-01 1
+1-1- 1
+-11- 1
+# 296
+.names n160 p_test_03m[3] n183 n167 n184
+110- 1
+-01- 1
+--11 1
+# 297
+.names n177 p_testr1[1] n182 n184 o[4]
+110- 1
+-01- 1
+--11 1
+# 298
+.names p_testr1[3] n179 p_testr1[2] n181 n186
+0-01 1
+1-1- 1
+-11- 1
+# 299
+.names n177 p_testr1[3] n186 n184 o[5]
+110- 1
+-01- 1
+--11 1
+# 300
+.names p_testr1[5] n179 p_testr1[4] n181 n188
+0-01 1
+1-1- 1
+-11- 1
+# 301
+.names n177 p_testr1[5] n188 n184 o[6]
+110- 1
+-01- 1
+--11 1
+# 302
+.names p_testr1[7] n179 p_testr1[6] n181 n190
+0-01 1
+1-1- 1
+-11- 1
+# 303
+.names n177 p_testr1[7] n190 n184 o[7]
+110- 1
+-01- 1
+--11 1
+# 304
+.names p_test_02m[5] n131 p_test_02m[4] n133 n192
+0-01 1
+1-1- 1
+-11- 1
+# 305
+.names n129 p_test_02m[5] n192 n136 n193
+110- 1
+-01- 1
+--11 1
+# 306
+.names p_test_01m[5] n141 p_test_01m[4] n143 n194
+0-01 1
+1-1- 1
+-11- 1
+# 307
+.names n139 p_test_01m[5] n194 n146 n195
+110- 1
+-01- 1
+--11 1
+# 308
+.names p_test_00m[5] n151 p_test_00m[4] n153 n196
+0-01 1
+1-1- 1
+-11- 1
+# 309
+.names n149 p_test_00m[5] n196 n156 n197
+110- 1
+-01- 1
+--11 1
+# 310
+.names p_testr2[1] n195 p_testr2[0] n197 n198
+0-01 1
+1-1- 1
+-11- 1
+# 311
+.names p_test_03m[5] n162 p_test_03m[4] n164 n199
+0-01 1
+1-1- 1
+-11- 1
+# 312
+.names n160 p_test_03m[5] n199 n167 n200
+110- 1
+-01- 1
+--11 1
+# 313
+.names n193 p_testr2[1] n198 n200 o[8]
+110- 1
+-01- 1
+--11 1
+# 314
+.names p_testr2[3] n195 p_testr2[2] n197 n202
+0-01 1
+1-1- 1
+-11- 1
+# 315
+.names n193 p_testr2[3] n202 n200 o[9]
+110- 1
+-01- 1
+--11 1
+# 316
+.names p_testr2[5] n195 p_testr2[4] n197 n204
+0-01 1
+1-1- 1
+-11- 1
+# 317
+.names n193 p_testr2[5] n204 n200 o[10]
+110- 1
+-01- 1
+--11 1
+# 318
+.names p_testr2[7] n195 p_testr2[6] n197 n206
+0-01 1
+1-1- 1
+-11- 1
+# 319
+.names n193 p_testr2[7] n206 n200 o[11]
+110- 1
+-01- 1
+--11 1
+# 320
+.names p_test_02m[7] n131 p_test_02m[6] n133 n208
+0-01 1
+1-1- 1
+-11- 1
+# 321
+.names n129 p_test_02m[7] n208 n136 n209
+110- 1
+-01- 1
+--11 1
+# 322
+.names p_test_01m[7] n141 p_test_01m[6] n143 n210
+0-01 1
+1-1- 1
+-11- 1
+# 323
+.names n139 p_test_01m[7] n210 n146 n211
+110- 1
+-01- 1
+--11 1
+# 324
+.names p_test_00m[7] n151 p_test_00m[6] n153 n212
+0-01 1
+1-1- 1
+-11- 1
+# 325
+.names n149 p_test_00m[7] n212 n156 n213
+110- 1
+-01- 1
+--11 1
+# 326
+.names p_testr3[1] n211 p_testr3[0] n213 n214
+0-01 1
+1-1- 1
+-11- 1
+# 327
+.names p_test_03m[7] n162 p_test_03m[6] n164 n215
+0-01 1
+1-1- 1
+-11- 1
+# 328
+.names n160 p_test_03m[7] n215 n167 n216
+110- 1
+-01- 1
+--11 1
+# 329
+.names n209 p_testr3[1] n214 n216 o[12]
+110- 1
+-01- 1
+--11 1
+# 330
+.names p_testr3[3] n211 p_testr3[2] n213 n218
+0-01 1
+1-1- 1
+-11- 1
+# 331
+.names n209 p_testr3[3] n218 n216 o[13]
+110- 1
+-01- 1
+--11 1
+# 332
+.names p_testr3[5] n211 p_testr3[4] n213 n220
+0-01 1
+1-1- 1
+-11- 1
+# 333
+.names n209 p_testr3[5] n220 n216 o[14]
+110- 1
+-01- 1
+--11 1
+# 334
+.names p_testr3[7] n211 p_testr3[6] n213 n222
+0-01 1
+1-1- 1
+-11- 1
+# 335
+.names n209 p_testr3[7] n222 n216 o[15]
+110- 1
+-01- 1
+--11 1
+.end

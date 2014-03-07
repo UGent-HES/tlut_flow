@@ -76,6 +76,11 @@ def setMaxMemory(mm):
     global maxMemory
     assert isinstance(mm,int)
     maxMemory = mm
+    
+debugOutputFlag = False
+def setDebugOutputFlag(flag):
+    global debugOutputFlag
+    debugOutputFlag = flag
 
 def getBasenameAndExtension(filename):
     ext = filename.split('.')[-1].lower()
@@ -114,11 +119,12 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False, targ
         numLuts = int(data[0])
         depth   = int(float(data[1]))
         
-        for line in output.splitlines():
-            if line.startswith("Warning: "):
-                print line
-            if line.startswith("Debug: "):
-                print line
+        if debugOutputFlag:
+            for line in output.splitlines():
+                if line.startswith("Warning: "):
+                    print line
+                if line.startswith("Debug: "):
+                    print line
         
         # Verification of resulting mapping using satsolver
         if checkFunctionality:
@@ -205,13 +211,14 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
                 print output,
             raise Exception("Unexpected output from java TMapSimple")
         
-        for line in output.splitlines():
-            if line.startswith("Num LUT resources used with sharing:"):
-                print line
-            if line.startswith("Warning: "):
-                print line
-            if line.startswith("Debug: "):
-                print line
+        if debugOutputFlag:
+            for line in output.splitlines():
+                if line.startswith("Num LUT resources used with sharing:"):
+                    print line
+                if line.startswith("Warning: "):
+                    print line
+                if line.startswith("Debug: "):
+                    print line
         
         # Extracting results
         origAnds = getAIGStats(aigFile, verboseFlag)

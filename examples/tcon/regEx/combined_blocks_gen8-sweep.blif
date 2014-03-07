@@ -1,0 +1,1457 @@
+# Benchmark "combined_blocks_gen8" written by ABC on Mon Jan 23 16:02:34 2012
+.model combined_blocks_gen8
+.inputs counterQ8[7] encoder_range_low8[7] counterQ8[6] \
+ encoder_range_low8[6] counterQ8[5] encoder_range_low8[5] counterQ8[4] \
+ encoder_range_low8[4] counterQ8[3] encoder_range_low8[3] counterQ8[2] \
+ encoder_range_low8[2] counterQ8[0] encoder_range_low8[0] counterQ8[1] \
+ encoder_range_low8[1] encoder_range_up8[7] encoder_range_up8[6] \
+ encoder_range_up8[5] encoder_range_up8[4] encoder_range_up8[3] \
+ encoder_range_up8[2] encoder_range_up8[0] encoder_range_up8[1] params8[7] \
+ params8[6] encoder_range_low7[7] encoder_range_low7[6] counterQ7[5] \
+ encoder_range_low7[5] counterQ7[4] encoder_range_low7[4] counterQ7[3] \
+ encoder_range_low7[3] counterQ7[2] encoder_range_low7[2] counterQ7[0] \
+ encoder_range_low7[0] counterQ7[1] encoder_range_low7[1] counterQ7[6] \
+ counterQ7[7] encoder_range_up7[7] encoder_range_up7[6] \
+ encoder_range_up7[5] encoder_range_up7[4] encoder_range_up7[3] \
+ encoder_range_up7[2] encoder_range_up7[0] encoder_range_up7[1] params7[7] \
+ params7[6] params7[9] params6[6] counterQ6[7] encoder_range_low6[7] \
+ counterQ6[6] encoder_range_low6[6] counterQ6[5] encoder_range_low6[5] \
+ counterQ6[4] encoder_range_low6[4] counterQ6[3] encoder_range_low6[3] \
+ counterQ6[2] encoder_range_low6[2] counterQ6[0] encoder_range_low6[0] \
+ counterQ6[1] encoder_range_low6[1] encoder_range_up6[7] \
+ encoder_range_up6[6] encoder_range_up6[5] encoder_range_up6[4] \
+ encoder_range_up6[3] encoder_range_up6[2] encoder_range_up6[0] \
+ encoder_range_up6[1] params6[7] counterQ5[7] encoder_range_low5[7] \
+ counterQ5[6] encoder_range_low5[6] counterQ5[5] encoder_range_low5[5] \
+ counterQ5[4] encoder_range_low5[4] counterQ5[3] encoder_range_low5[3] \
+ counterQ5[2] encoder_range_low5[2] counterQ5[0] encoder_range_low5[0] \
+ counterQ5[1] encoder_range_low5[1] encoder_range_up5[7] \
+ encoder_range_up5[6] encoder_range_up5[5] encoder_range_up5[4] \
+ encoder_range_up5[3] encoder_range_up5[2] encoder_range_up5[0] \
+ encoder_range_up5[1] params5[7] params5[6] params4[6] GrpR_In Op_In \
+ params1[9] counterQ1[7] encoder_range_low1[7] counterQ1[6] \
+ encoder_range_low1[6] counterQ1[5] encoder_range_low1[5] counterQ1[4] \
+ encoder_range_low1[4] counterQ1[3] encoder_range_low1[3] counterQ1[2] \
+ encoder_range_low1[2] counterQ1[0] encoder_range_low1[0] counterQ1[1] \
+ encoder_range_low1[1] encoder_range_up1[7] encoder_range_up1[6] \
+ encoder_range_up1[5] encoder_range_up1[4] encoder_range_up1[3] \
+ encoder_range_up1[2] encoder_range_up1[0] encoder_range_up1[1] params1[7] \
+ params1[6] params2[9] counterQ2[7] encoder_range_low2[7] counterQ2[6] \
+ encoder_range_low2[6] counterQ2[5] encoder_range_low2[5] counterQ2[4] \
+ encoder_range_low2[4] counterQ2[3] encoder_range_low2[3] counterQ2[2] \
+ encoder_range_low2[2] counterQ2[0] encoder_range_low2[0] counterQ2[1] \
+ encoder_range_low2[1] encoder_range_up2[7] encoder_range_up2[6] \
+ encoder_range_up2[5] encoder_range_up2[4] encoder_range_up2[3] \
+ encoder_range_up2[2] encoder_range_up2[0] encoder_range_up2[1] params2[7] \
+ params2[6] params3[9] params3[7] params3[6] encoder_range_low3[7] \
+ counterQ3[6] encoder_range_low3[6] counterQ3[5] encoder_range_low3[5] \
+ counterQ3[4] encoder_range_low3[4] counterQ3[3] encoder_range_low3[3] \
+ counterQ3[2] encoder_range_low3[2] counterQ3[0] encoder_range_low3[0] \
+ counterQ3[1] encoder_range_low3[1] counterQ3[7] encoder_range_up3[7] \
+ encoder_range_up3[6] encoder_range_up3[5] encoder_range_up3[4] \
+ encoder_range_up3[3] encoder_range_up3[2] encoder_range_up3[0] \
+ encoder_range_up3[1] params4[9] counterQ4[7] encoder_range_low4[7] \
+ counterQ4[6] encoder_range_low4[6] counterQ4[5] encoder_range_low4[5] \
+ counterQ4[4] encoder_range_low4[4] counterQ4[3] encoder_range_low4[3] \
+ counterQ4[2] encoder_range_low4[2] counterQ4[0] encoder_range_low4[0] \
+ counterQ4[1] encoder_range_low4[1] encoder_range_up4[7] \
+ encoder_range_up4[6] encoder_range_up4[5] encoder_range_up4[4] \
+ encoder_range_up4[3] encoder_range_up4[2] encoder_range_up4[0] \
+ encoder_range_up4[1] params4[7] params5[9] params6[9] params8[9] \
+ Char_In[0] char_p8[0] params8[13] Char_In[7] Char_In[4] char_p8[4] \
+ char_p8[7] Char_In[2] Char_In[6] char_p8[6] char_p8[2] Char_In[1] \
+ Char_In[3] char_p8[3] char_p8[1] params8[12] Char_In[5] char_p8[5] \
+ params8[14] params3[2] GrpL_In params1[8] params2[8] params3[8] params3[3] \
+ GrpIn_In params1[3] params1[2] params1[4] params2[3] params2[2] params2[4] \
+ params1[1] Ip_In params1[0] params2[1] params2[0] params3[1] params3[0] \
+ params4[1] params4[0] params4[2] params4[8] params4[3] params3[4] \
+ params5[1] params5[0] params4[4] params5[3] params5[2] params5[8] \
+ params6[1] params6[0] params6[2] params6[8] params6[3] params5[4] \
+ params7[1] params7[0] params7[2] params7[3] params7[8] params6[4] \
+ params8[1] params8[0] params8[2] params8[8] params8[3] params7[4] \
+ params7[13] params7[14] char_p7[4] char_p7[7] char_p7[6] char_p7[2] \
+ char_p7[3] char_p7[1] params7[12] char_p7[5] char_p7[0] params6[13] \
+ params6[14] char_p6[4] char_p6[7] char_p6[6] char_p6[2] char_p6[3] \
+ char_p6[1] params6[12] char_p6[5] char_p6[0] params5[13] params5[14] \
+ char_p5[4] char_p5[7] char_p5[6] char_p5[2] char_p5[3] char_p5[1] \
+ params5[12] char_p5[5] char_p5[0] params4[13] params4[14] char_p4[4] \
+ char_p4[7] char_p4[6] char_p4[2] char_p4[3] char_p4[1] params4[12] \
+ char_p4[5] char_p4[0] params3[13] params3[14] char_p3[4] char_p3[7] \
+ char_p3[6] char_p3[2] char_p3[3] char_p3[1] params3[12] char_p3[5] \
+ char_p3[0] params2[13] params2[14] char_p2[4] char_p2[7] char_p2[6] \
+ char_p2[2] char_p2[3] char_p2[1] params2[12] char_p2[5] char_p2[0] \
+ params1[13] params1[14] char_p1[4] char_p1[7] char_p1[6] char_p1[2] \
+ char_p1[3] char_p1[1] params1[12] char_p1[5] char_p1[0] Cnt_En_In \
+ params1[10] params2[10] params3[10] params4[10] params5[10] params6[10] \
+ params7[10] params8[10] Syn_Rst_In params1[11] params2[11] params3[11] \
+ params4[11] params5[11] params6[11] params7[11] params8[11] params8[4] \
+ params8[5] params7[5] params6[5] params5[5] params1[5] params2[5] \
+ params3[5] params4[5] Clk Asyn_Rst
+.outputs Op_Out Cnt_En_Out Syn_Rst_Out GrpIn_Out GrpL_Out GrpR_Out Ip_Out \
+ Syn_Rst_Inter1_out Syn_Rst_Inter2_out Syn_Rst_Inter3_out \
+ Syn_Rst_Inter4_out Syn_Rst_Inter5_out Syn_Rst_Inter6_out \
+ Syn_Rst_Inter7_out Syn_Rst_Inter8_out Cnt_En_Inter1_out Cnt_En_Inter2_out \
+ Cnt_En_Inter3_out Cnt_En_Inter4_out Cnt_En_Inter5_out Cnt_En_Inter6_out \
+ Cnt_En_Inter7_out Cnt_En_Inter8_out
+
+.latch       g280         g1  2
+.latch       g281        g16  2
+.latch       g282        g32  2
+.latch       g283        g49  2
+.latch       g284        g67  2
+.latch       g285        g85  2
+.latch       g286       g103  2
+.latch       g287       g123  2
+.latch       g212       g153  2
+.latch       g219       g154  2
+.latch       g226       g155  2
+.latch       g233       g156  2
+.latch       g240       g157  2
+.latch       g254       g170  2
+.latch       g261       g171  2
+.latch       g247       g177  2
+
+# 873
+.names n736 Cnt_En_Out
+1 1
+# 874
+.names n744 Syn_Rst_Out
+1 1
+# 875
+.names n674 GrpL_Out
+1 1
+# 876
+.names n621 GrpR_Out
+1 1
+# 877
+.names n737 Syn_Rst_Inter1_out
+1 1
+# 878
+.names n738 Syn_Rst_Inter2_out
+1 1
+# 879
+.names n739 Syn_Rst_Inter3_out
+1 1
+# 880
+.names n740 Syn_Rst_Inter4_out
+1 1
+# 881
+.names n741 Syn_Rst_Inter5_out
+1 1
+# 882
+.names n742 Syn_Rst_Inter6_out
+1 1
+# 883
+.names n743 Syn_Rst_Inter7_out
+1 1
+# 884
+.names n744 Syn_Rst_Inter8_out
+1 1
+# 885
+.names n729 Cnt_En_Inter1_out
+1 1
+# 886
+.names n730 Cnt_En_Inter2_out
+1 1
+# 887
+.names n731 Cnt_En_Inter3_out
+1 1
+# 888
+.names n732 Cnt_En_Inter4_out
+1 1
+# 889
+.names n733 Cnt_En_Inter5_out
+1 1
+# 890
+.names n734 Cnt_En_Inter6_out
+1 1
+# 891
+.names n735 Cnt_En_Inter7_out
+1 1
+# 892
+.names n736 Cnt_En_Inter8_out
+1 1
+# 893
+.names counterQ8[0] encoder_range_low8[0] counterQ8[1] \
+ encoder_range_low8[1] n484
+010- 1
+01-1 1
+--01 1
+# 894
+.names counterQ8[2] encoder_range_low8[2] n484 n485
+01- 1
+0-1 1
+-11 1
+# 895
+.names counterQ8[3] encoder_range_low8[3] n485 n486
+01- 1
+0-1 1
+-11 1
+# 896
+.names counterQ8[4] encoder_range_low8[4] n486 n487
+01- 1
+0-1 1
+-11 1
+# 897
+.names counterQ8[5] encoder_range_low8[5] n487 n488
+01- 1
+0-1 1
+-11 1
+# 898
+.names counterQ8[6] encoder_range_low8[6] n488 n489
+01- 1
+0-1 1
+-11 1
+# 899
+.names counterQ8[7] encoder_range_low8[7] n489 n490
+01- 1
+0-1 1
+-11 1
+# 900
+.names encoder_range_up8[0] counterQ8[0] encoder_range_up8[1] counterQ8[1] \
+ n491
+010- 1
+01-1 1
+--01 1
+# 901
+.names encoder_range_up8[2] counterQ8[2] n491 n492
+01- 1
+0-1 1
+-11 1
+# 902
+.names encoder_range_up8[3] counterQ8[3] n492 n493
+01- 1
+0-1 1
+-11 1
+# 903
+.names encoder_range_up8[4] counterQ8[4] n493 n494
+01- 1
+0-1 1
+-11 1
+# 904
+.names encoder_range_up8[5] counterQ8[5] n494 n495
+01- 1
+0-1 1
+-11 1
+# 905
+.names encoder_range_up8[6] counterQ8[6] n495 n496
+01- 1
+0-1 1
+-11 1
+# 906
+.names encoder_range_up8[7] counterQ8[7] n496 n497
+01- 1
+0-1 1
+-11 1
+# 907
+.names counterQ7[0] encoder_range_low7[0] counterQ7[1] \
+ encoder_range_low7[1] n498
+010- 1
+01-1 1
+--01 1
+# 908
+.names counterQ7[2] encoder_range_low7[2] n498 n499
+01- 1
+0-1 1
+-11 1
+# 909
+.names counterQ7[3] encoder_range_low7[3] n499 n500
+01- 1
+0-1 1
+-11 1
+# 910
+.names counterQ7[4] encoder_range_low7[4] n500 n501
+01- 1
+0-1 1
+-11 1
+# 911
+.names counterQ7[5] encoder_range_low7[5] n501 n502
+01- 1
+0-1 1
+-11 1
+# 912
+.names encoder_range_low7[6] n502 counterQ7[6] n503
+11- 1
+1-0 1
+-10 1
+# 913
+.names encoder_range_up7[0] counterQ7[0] encoder_range_up7[1] counterQ7[1] \
+ n504
+010- 1
+01-1 1
+--01 1
+# 914
+.names encoder_range_up7[2] counterQ7[2] n504 n505
+01- 1
+0-1 1
+-11 1
+# 915
+.names encoder_range_up7[3] counterQ7[3] n505 n506
+01- 1
+0-1 1
+-11 1
+# 916
+.names encoder_range_up7[4] counterQ7[4] n506 n507
+01- 1
+0-1 1
+-11 1
+# 917
+.names encoder_range_up7[5] counterQ7[5] n507 n508
+01- 1
+0-1 1
+-11 1
+# 918
+.names counterQ7[6] encoder_range_up7[6] n508 n509
+001 1
+110 1
+# 919
+.names counterQ7[7] encoder_range_up7[7] n509 counterQ7[6] n510
+0001 1
+0010 1
+1100 1
+1111 1
+# 920
+.names encoder_range_low7[7] n503 counterQ7[7] n510 n511
+0000 1
+0-11 1
+-011 1
+# 921
+.names g16 n511 params7[7] params7[6] n512
+1-0- 1
+-110 1
+# 922
+.names counterQ6[0] encoder_range_low6[0] counterQ6[1] \
+ encoder_range_low6[1] n513
+010- 1
+01-1 1
+--01 1
+# 923
+.names counterQ6[2] encoder_range_low6[2] n513 n514
+01- 1
+0-1 1
+-11 1
+# 924
+.names counterQ6[3] encoder_range_low6[3] n514 n515
+01- 1
+0-1 1
+-11 1
+# 925
+.names counterQ6[4] encoder_range_low6[4] n515 n516
+01- 1
+0-1 1
+-11 1
+# 926
+.names counterQ6[5] encoder_range_low6[5] n516 n517
+01- 1
+0-1 1
+-11 1
+# 927
+.names counterQ6[6] encoder_range_low6[6] n517 n518
+01- 1
+0-1 1
+-11 1
+# 928
+.names counterQ6[7] encoder_range_low6[7] n518 n519
+01- 1
+0-1 1
+-11 1
+# 929
+.names encoder_range_up6[0] counterQ6[0] encoder_range_up6[1] counterQ6[1] \
+ n520
+010- 1
+01-1 1
+--01 1
+# 930
+.names encoder_range_up6[2] counterQ6[2] n520 n521
+01- 1
+0-1 1
+-11 1
+# 931
+.names encoder_range_up6[3] counterQ6[3] n521 n522
+01- 1
+0-1 1
+-11 1
+# 932
+.names encoder_range_up6[4] counterQ6[4] n522 n523
+01- 1
+0-1 1
+-11 1
+# 933
+.names encoder_range_up6[5] counterQ6[5] n523 n524
+01- 1
+0-1 1
+-11 1
+# 934
+.names encoder_range_up6[6] counterQ6[6] n524 n525
+01- 1
+0-1 1
+-11 1
+# 935
+.names encoder_range_up6[7] counterQ6[7] n525 n526
+01- 1
+0-1 1
+-11 1
+# 936
+.names params6[7] params6[6] n527
+10 1
+# 937
+.names g32 n519 n526 n527 n528
+1--0 1
+-001 1
+# 938
+.names counterQ5[0] encoder_range_low5[0] counterQ5[1] \
+ encoder_range_low5[1] n529
+010- 1
+01-1 1
+--01 1
+# 939
+.names counterQ5[2] encoder_range_low5[2] n529 n530
+01- 1
+0-1 1
+-11 1
+# 940
+.names counterQ5[3] encoder_range_low5[3] n530 n531
+01- 1
+0-1 1
+-11 1
+# 941
+.names counterQ5[4] encoder_range_low5[4] n531 n532
+01- 1
+0-1 1
+-11 1
+# 942
+.names counterQ5[5] encoder_range_low5[5] n532 n533
+01- 1
+0-1 1
+-11 1
+# 943
+.names counterQ5[6] encoder_range_low5[6] n533 n534
+01- 1
+0-1 1
+-11 1
+# 944
+.names counterQ5[7] encoder_range_low5[7] n534 n535
+01- 1
+0-1 1
+-11 1
+# 945
+.names encoder_range_up5[0] counterQ5[0] encoder_range_up5[1] counterQ5[1] \
+ n536
+010- 1
+01-1 1
+--01 1
+# 946
+.names encoder_range_up5[2] counterQ5[2] n536 n537
+01- 1
+0-1 1
+-11 1
+# 947
+.names encoder_range_up5[3] counterQ5[3] n537 n538
+01- 1
+0-1 1
+-11 1
+# 948
+.names encoder_range_up5[4] counterQ5[4] n538 n539
+01- 1
+0-1 1
+-11 1
+# 949
+.names encoder_range_up5[5] counterQ5[5] n539 n540
+01- 1
+0-1 1
+-11 1
+# 950
+.names encoder_range_up5[6] counterQ5[6] n540 n541
+01- 1
+0-1 1
+-11 1
+# 951
+.names encoder_range_up5[7] counterQ5[7] n541 n542
+01- 1
+0-1 1
+-11 1
+# 952
+.names params5[7] params5[6] n543
+10 1
+# 953
+.names g49 n535 n542 n543 n544
+1--0 1
+-001 1
+# 954
+.names GrpR_In Op_In params1[9] n545
+1-1 1
+-10 1
+# 955
+.names counterQ1[0] encoder_range_low1[0] counterQ1[1] \
+ encoder_range_low1[1] n546
+010- 1
+01-1 1
+--01 1
+# 956
+.names counterQ1[2] encoder_range_low1[2] n546 n547
+01- 1
+0-1 1
+-11 1
+# 957
+.names counterQ1[3] encoder_range_low1[3] n547 n548
+01- 1
+0-1 1
+-11 1
+# 958
+.names counterQ1[4] encoder_range_low1[4] n548 n549
+01- 1
+0-1 1
+-11 1
+# 959
+.names counterQ1[5] encoder_range_low1[5] n549 n550
+01- 1
+0-1 1
+-11 1
+# 960
+.names counterQ1[6] encoder_range_low1[6] n550 n551
+01- 1
+0-1 1
+-11 1
+# 961
+.names counterQ1[7] encoder_range_low1[7] n551 n552
+01- 1
+0-1 1
+-11 1
+# 962
+.names encoder_range_up1[0] counterQ1[0] encoder_range_up1[1] counterQ1[1] \
+ n553
+010- 1
+01-1 1
+--01 1
+# 963
+.names encoder_range_up1[2] counterQ1[2] n553 n554
+01- 1
+0-1 1
+-11 1
+# 964
+.names encoder_range_up1[3] counterQ1[3] n554 n555
+01- 1
+0-1 1
+-11 1
+# 965
+.names encoder_range_up1[4] counterQ1[4] n555 n556
+01- 1
+0-1 1
+-11 1
+# 966
+.names encoder_range_up1[5] counterQ1[5] n556 n557
+01- 1
+0-1 1
+-11 1
+# 967
+.names encoder_range_up1[6] counterQ1[6] n557 n558
+01- 1
+0-1 1
+-11 1
+# 968
+.names encoder_range_up1[7] counterQ1[7] n558 n559
+01- 1
+0-1 1
+-11 1
+# 969
+.names params1[7] params1[6] n560
+10 1
+# 970
+.names g67 n552 n559 n560 n561
+1--0 1
+-001 1
+# 971
+.names n545 n561 params1[6] params2[9] n562
+1-1- 1
+1--1 1
+-1-0 1
+# 972
+.names counterQ2[0] encoder_range_low2[0] counterQ2[1] \
+ encoder_range_low2[1] n563
+010- 1
+01-1 1
+--01 1
+# 973
+.names counterQ2[2] encoder_range_low2[2] n563 n564
+01- 1
+0-1 1
+-11 1
+# 974
+.names counterQ2[3] encoder_range_low2[3] n564 n565
+01- 1
+0-1 1
+-11 1
+# 975
+.names counterQ2[4] encoder_range_low2[4] n565 n566
+01- 1
+0-1 1
+-11 1
+# 976
+.names counterQ2[5] encoder_range_low2[5] n566 n567
+01- 1
+0-1 1
+-11 1
+# 977
+.names counterQ2[6] encoder_range_low2[6] n567 n568
+01- 1
+0-1 1
+-11 1
+# 978
+.names counterQ2[7] encoder_range_low2[7] n568 n569
+01- 1
+0-1 1
+-11 1
+# 979
+.names encoder_range_up2[0] counterQ2[0] encoder_range_up2[1] counterQ2[1] \
+ n570
+010- 1
+01-1 1
+--01 1
+# 980
+.names encoder_range_up2[2] counterQ2[2] n570 n571
+01- 1
+0-1 1
+-11 1
+# 981
+.names encoder_range_up2[3] counterQ2[3] n571 n572
+01- 1
+0-1 1
+-11 1
+# 982
+.names encoder_range_up2[4] counterQ2[4] n572 n573
+01- 1
+0-1 1
+-11 1
+# 983
+.names encoder_range_up2[5] counterQ2[5] n573 n574
+01- 1
+0-1 1
+-11 1
+# 984
+.names encoder_range_up2[6] counterQ2[6] n574 n575
+01- 1
+0-1 1
+-11 1
+# 985
+.names encoder_range_up2[7] counterQ2[7] n575 n576
+01- 1
+0-1 1
+-11 1
+# 986
+.names params2[7] params2[6] n577
+10 1
+# 987
+.names g85 n569 n576 n577 n578
+1--0 1
+-001 1
+# 988
+.names n562 n578 params2[6] params3[9] n579
+1-1- 1
+1--1 1
+-1-0 1
+# 989
+.names params3[7] params3[6] n580
+10 1
+# 990
+.names n578 n562 params2[6] n581
+1-- 1
+-11 1
+# 991
+.names params3[6] n562 n581 params3[9] n582
+11-1 1
+1-10 1
+# 992
+.names counterQ3[0] encoder_range_low3[0] counterQ3[1] \
+ encoder_range_low3[1] n583
+010- 1
+01-1 1
+--01 1
+# 993
+.names counterQ3[2] encoder_range_low3[2] n583 n584
+01- 1
+0-1 1
+-11 1
+# 994
+.names counterQ3[3] encoder_range_low3[3] n584 n585
+01- 1
+0-1 1
+-11 1
+# 995
+.names counterQ3[4] encoder_range_low3[4] n585 n586
+01- 1
+0-1 1
+-11 1
+# 996
+.names counterQ3[5] encoder_range_low3[5] n586 n587
+01- 1
+0-1 1
+-11 1
+# 997
+.names counterQ3[6] encoder_range_low3[6] n587 n588
+01- 1
+0-1 1
+-11 1
+# 998
+.names encoder_range_up3[0] counterQ3[0] encoder_range_up3[1] counterQ3[1] \
+ n589
+010- 1
+01-1 1
+--01 1
+# 999
+.names encoder_range_up3[2] counterQ3[2] n589 n590
+01- 1
+0-1 1
+-11 1
+# 1000
+.names encoder_range_up3[3] counterQ3[3] n590 n591
+01- 1
+0-1 1
+-11 1
+# 1001
+.names encoder_range_up3[4] counterQ3[4] n591 n592
+01- 1
+0-1 1
+-11 1
+# 1002
+.names encoder_range_up3[5] counterQ3[5] n592 n593
+01- 1
+0-1 1
+-11 1
+# 1003
+.names encoder_range_up3[6] counterQ3[6] n593 n594
+01- 1
+0-1 1
+-11 1
+# 1004
+.names counterQ3[7] encoder_range_up3[7] n594 n595
+001 1
+110 1
+# 1005
+.names encoder_range_low3[7] n588 counterQ3[7] n595 n596
+0000 0
+0-11 0
+-011 0
+# 1006
+.names g103 n580 n582 n596 n597
+000- 0
+-101 0
+# 1007
+.names params4[6] n579 n597 params4[9] n598
+11-1 1
+1-10 1
+# 1008
+.names counterQ4[0] encoder_range_low4[0] counterQ4[1] \
+ encoder_range_low4[1] n599
+010- 1
+01-1 1
+--01 1
+# 1009
+.names counterQ4[2] encoder_range_low4[2] n599 n600
+01- 1
+0-1 1
+-11 1
+# 1010
+.names counterQ4[3] encoder_range_low4[3] n600 n601
+01- 1
+0-1 1
+-11 1
+# 1011
+.names counterQ4[4] encoder_range_low4[4] n601 n602
+01- 1
+0-1 1
+-11 1
+# 1012
+.names counterQ4[5] encoder_range_low4[5] n602 n603
+01- 1
+0-1 1
+-11 1
+# 1013
+.names counterQ4[6] encoder_range_low4[6] n603 n604
+01- 1
+0-1 1
+-11 1
+# 1014
+.names counterQ4[7] encoder_range_low4[7] n604 n605
+01- 1
+0-1 1
+-11 1
+# 1015
+.names encoder_range_up4[0] counterQ4[0] encoder_range_up4[1] counterQ4[1] \
+ n606
+010- 1
+01-1 1
+--01 1
+# 1016
+.names encoder_range_up4[2] counterQ4[2] n606 n607
+01- 1
+0-1 1
+-11 1
+# 1017
+.names encoder_range_up4[3] counterQ4[3] n607 n608
+01- 1
+0-1 1
+-11 1
+# 1018
+.names encoder_range_up4[4] counterQ4[4] n608 n609
+01- 1
+0-1 1
+-11 1
+# 1019
+.names encoder_range_up4[5] counterQ4[5] n609 n610
+01- 1
+0-1 1
+-11 1
+# 1020
+.names encoder_range_up4[6] counterQ4[6] n610 n611
+01- 1
+0-1 1
+-11 1
+# 1021
+.names encoder_range_up4[7] counterQ4[7] n611 n612
+01- 1
+0-1 1
+-11 1
+# 1022
+.names params4[7] params4[6] n613
+10 1
+# 1023
+.names g123 n605 n612 n613 n614
+1--0 1
+-001 1
+# 1024
+.names n598 n614 params5[9] n615
+1-0 1
+-10 1
+# 1025
+.names params5[9] n579 n597 params4[9] n616
+11-1 1
+1-10 1
+# 1026
+.names n544 params5[6] n615 n616 n617
+00-- 0
+0-00 0
+# 1027
+.names n617 params6[9] n615 n616 n618
+00-- 0
+-100 0
+# 1028
+.names params7[9] params6[6] n528 n618 n619
+000- 1
+1--0 1
+--00 1
+# 1029
+.names n512 params7[6] g16 n619 n620
+00-- 0
+0-01 0
+# 1030
+.names n620 params8[9] n619 n621
+10- 1
+-10 1
+# 1031
+.names Char_In[7] Char_In[4] char_p8[4] char_p8[7] n622
+0000 1
+0110 1
+1001 1
+1111 1
+# 1032
+.names Char_In[2] Char_In[6] char_p8[6] char_p8[2] n623
+0000 1
+0110 1
+1001 1
+1111 1
+# 1033
+.names Char_In[1] Char_In[3] char_p8[3] char_p8[1] n624
+0000 1
+0110 1
+1001 1
+1111 1
+# 1034
+.names params8[12] Char_In[5] char_p8[5] params8[14] n625
+001- 1
+010- 1
+---1 1
+# 1035
+.names n622 n623 n624 n625 n626
+1110 1
+# 1036
+.names Char_In[0] char_p8[0] params8[13] n626 n627
+0001 1
+011- 1
+101- 1
+1101 1
+--10 1
+# 1037
+.names GrpL_In g67 params1[8] n628
+1-1 1
+-10 1
+# 1038
+.names n628 g85 params2[8] n629
+1-1 1
+-10 1
+# 1039
+.names n629 g103 params3[8] n630
+1-1 1
+-10 1
+# 1040
+.names params3[2] n581 n630 params3[3] n631
+11-- 1
+1-1- 1
+-1-0 1
+# 1041
+.names Op_In GrpIn_In params1[3] params1[2] n632
+1-0- 1
+1--1 1
+-110 1
+# 1042
+.names n632 params1[2] n628 n633
+1-- 1
+-11 1
+# 1043
+.names GrpIn_In n633 params1[4] n634
+1-1 1
+-10 1
+# 1044
+.names params1[6] GrpR_In Op_In params1[9] n635
+11-1 1
+1-10 1
+# 1045
+.names params2[2] n635 n561 n629 n636
+000- 0
+-000 0
+# 1046
+.names params2[3] n634 params2[2] n636 n637
+0--1 1
+110- 1
+--11 1
+# 1047
+.names n634 n637 params2[4] n638
+1-1 1
+-10 1
+# 1048
+.names n631 n638 params3[3] params3[2] n639
+1--- 1
+-110 1
+# 1049
+.names g171 params1[1] Ip_In params1[0] n640
+1--1 1
+-110 1
+# 1050
+.names n640 n633 params1[0] params1[1] n641
+00-- 0
+0-01 0
+# 1051
+.names g170 n641 params2[1] params2[0] n642
+1--1 1
+-110 1
+# 1052
+.names n642 n637 params2[0] params2[1] n643
+00-- 0
+0-01 0
+# 1053
+.names n639 n643 params3[1] params3[0] n644
+1-0- 1
+1--1 1
+-110 1
+# 1054
+.names n644 params3[0] g177 n645
+1-- 1
+-11 1
+# 1055
+.names g157 n645 params4[1] params4[0] n646
+1--1 1
+-110 1
+# 1056
+.names params3[8] n628 g85 params2[8] n647
+11-1 1
+1-10 1
+# 1057
+.names g103 params3[8] n648
+10 1
+# 1058
+.names g123 params4[8] n647 n648 n649
+00-- 0
+-100 0
+# 1059
+.names params4[2] n597 n649 params4[3] n650
+11-- 1
+1-1- 1
+-1-0 1
+# 1060
+.names n638 n639 params3[4] n651
+1-1 1
+-10 1
+# 1061
+.names n650 params4[3] n651 params4[2] n652
+1--- 1
+-110 1
+# 1062
+.names n646 n652 params4[0] params4[1] n653
+00-- 0
+0-01 0
+# 1063
+.names g156 n653 params5[1] params5[0] n654
+1--1 1
+-110 1
+# 1064
+.names n651 n652 params4[4] n655
+1-1 1
+-10 1
+# 1065
+.names params5[8] g49 n649 n656
+00- 1
+1-0 1
+# 1066
+.names n598 n614 n656 params5[2] n657
+0011 1
+1--0 1
+-1-0 1
+# 1067
+.names n655 params5[3] params5[2] n657 n658
+11-0 1
+1-01 1
+-001 1
+--10 1
+# 1068
+.names n654 n658 params5[0] params5[1] n659
+00-- 0
+0-01 0
+# 1069
+.names g155 n659 params6[1] params6[0] n660
+1--1 1
+-110 1
+# 1070
+.names g32 params6[8] n656 n661
+10- 1
+-10 1
+# 1071
+.names params6[2] n617 n661 params6[3] n662
+11-- 1
+1-1- 1
+-1-0 1
+# 1072
+.names n655 n658 params5[4] n663
+1-1 1
+-10 1
+# 1073
+.names n662 params6[3] n663 params6[2] n664
+1--- 1
+-110 1
+# 1074
+.names n660 n664 params6[0] params6[1] n665
+00-- 0
+0-01 0
+# 1075
+.names g154 n665 params7[1] params7[0] n666
+1--1 1
+-110 1
+# 1076
+.names n528 n618 params6[6] n667
+1-- 1
+-11 1
+# 1077
+.names params7[8] g16 n661 n668
+00- 1
+1-0 1
+# 1078
+.names n667 params7[2] params7[3] n668 n669
+11-- 1
+1-0- 1
+-1-0 1
+# 1079
+.names n663 n664 params6[4] n670
+1-1 1
+-10 1
+# 1080
+.names n669 n670 params7[3] params7[2] n671
+1--- 1
+-110 1
+# 1081
+.names n666 n671 params7[0] params7[1] n672
+00-- 0
+0-01 0
+# 1082
+.names g153 n672 params8[1] params8[0] n673
+1--1 1
+-110 1
+# 1083
+.names g1 params8[8] n668 n674
+10- 1
+-10 1
+# 1084
+.names params8[2] n620 n674 params8[3] n675
+11-- 1
+1-1- 1
+-1-0 1
+# 1085
+.names n670 n671 params7[4] n676
+1-1 1
+-10 1
+# 1086
+.names n675 params8[3] n676 params8[2] n677
+1--- 1
+-110 1
+# 1087
+.names params8[1] params8[0] n678
+10 1
+# 1088
+.names n627 n673 n677 n678 g212
+11-- 1
+1-10 1
+# 1089
+.names Char_In[7] Char_In[4] char_p7[4] char_p7[7] n680
+0000 1
+0110 1
+1001 1
+1111 1
+# 1090
+.names Char_In[2] Char_In[6] char_p7[6] char_p7[2] n681
+0000 1
+0110 1
+1001 1
+1111 1
+# 1091
+.names Char_In[1] Char_In[3] char_p7[3] char_p7[1] n682
+0000 1
+0110 1
+1001 1
+1111 1
+# 1092
+.names n682 params7[12] Char_In[5] char_p7[5] n683
+11-- 1
+1-00 1
+1-11 1
+# 1093
+.names Char_In[0] char_p7[0] n684
+01 1
+10 1
+# 1094
+.names n680 n681 n683 n684 n685
+1110 1
+# 1095
+.names n672 params7[13] params7[14] n685 g219
+1001 1
+111- 1
+11-0 1
+# 1096
+.names Char_In[7] Char_In[4] char_p6[4] char_p6[7] n687
+0000 1
+0110 1
+1001 1
+1111 1
+# 1097
+.names Char_In[2] Char_In[6] char_p6[6] char_p6[2] n688
+0000 1
+0110 1
+1001 1
+1111 1
+# 1098
+.names Char_In[1] Char_In[3] char_p6[3] char_p6[1] n689
+0000 1
+0110 1
+1001 1
+1111 1
+# 1099
+.names n689 params6[12] Char_In[5] char_p6[5] n690
+11-- 1
+1-00 1
+1-11 1
+# 1100
+.names Char_In[0] char_p6[0] n691
+01 1
+10 1
+# 1101
+.names n687 n688 n690 n691 n692
+1110 1
+# 1102
+.names n665 params6[13] params6[14] n692 g226
+1001 1
+111- 1
+11-0 1
+# 1103
+.names Char_In[7] Char_In[4] char_p5[4] char_p5[7] n694
+0000 1
+0110 1
+1001 1
+1111 1
+# 1104
+.names Char_In[2] Char_In[6] char_p5[6] char_p5[2] n695
+0000 1
+0110 1
+1001 1
+1111 1
+# 1105
+.names Char_In[1] Char_In[3] char_p5[3] char_p5[1] n696
+0000 1
+0110 1
+1001 1
+1111 1
+# 1106
+.names n696 params5[12] Char_In[5] char_p5[5] n697
+11-- 1
+1-00 1
+1-11 1
+# 1107
+.names Char_In[0] char_p5[0] n698
+01 1
+10 1
+# 1108
+.names n694 n695 n697 n698 n699
+1110 1
+# 1109
+.names n659 params5[13] params5[14] n699 g233
+1001 1
+111- 1
+11-0 1
+# 1110
+.names Char_In[7] Char_In[4] char_p4[4] char_p4[7] n701
+0000 1
+0110 1
+1001 1
+1111 1
+# 1111
+.names Char_In[2] Char_In[6] char_p4[6] char_p4[2] n702
+0000 1
+0110 1
+1001 1
+1111 1
+# 1112
+.names Char_In[1] Char_In[3] char_p4[3] char_p4[1] n703
+0000 1
+0110 1
+1001 1
+1111 1
+# 1113
+.names n703 params4[12] Char_In[5] char_p4[5] n704
+11-- 1
+1-00 1
+1-11 1
+# 1114
+.names Char_In[0] char_p4[0] n705
+01 1
+10 1
+# 1115
+.names n701 n702 n704 n705 n706
+1110 1
+# 1116
+.names n653 params4[13] params4[14] n706 g240
+1001 1
+111- 1
+11-0 1
+# 1117
+.names Char_In[7] Char_In[4] char_p3[4] char_p3[7] n708
+0000 1
+0110 1
+1001 1
+1111 1
+# 1118
+.names Char_In[2] Char_In[6] char_p3[6] char_p3[2] n709
+0000 1
+0110 1
+1001 1
+1111 1
+# 1119
+.names Char_In[1] Char_In[3] char_p3[3] char_p3[1] n710
+0000 1
+0110 1
+1001 1
+1111 1
+# 1120
+.names n710 params3[12] Char_In[5] char_p3[5] n711
+11-- 1
+1-00 1
+1-11 1
+# 1121
+.names Char_In[0] char_p3[0] n712
+01 1
+10 1
+# 1122
+.names n708 n709 n711 n712 n713
+1110 1
+# 1123
+.names n645 params3[13] params3[14] n713 g247
+1001 1
+111- 1
+11-0 1
+# 1124
+.names Char_In[7] Char_In[4] char_p2[4] char_p2[7] n715
+0000 1
+0110 1
+1001 1
+1111 1
+# 1125
+.names Char_In[2] Char_In[6] char_p2[6] char_p2[2] n716
+0000 1
+0110 1
+1001 1
+1111 1
+# 1126
+.names Char_In[1] Char_In[3] char_p2[3] char_p2[1] n717
+0000 1
+0110 1
+1001 1
+1111 1
+# 1127
+.names n717 params2[12] Char_In[5] char_p2[5] n718
+11-- 1
+1-00 1
+1-11 1
+# 1128
+.names Char_In[0] char_p2[0] n719
+01 1
+10 1
+# 1129
+.names n715 n716 n718 n719 n720
+1110 1
+# 1130
+.names n643 params2[13] params2[14] n720 g254
+1001 1
+111- 1
+11-0 1
+# 1131
+.names Char_In[7] Char_In[4] char_p1[4] char_p1[7] n722
+0000 1
+0110 1
+1001 1
+1111 1
+# 1132
+.names Char_In[2] Char_In[6] char_p1[6] char_p1[2] n723
+0000 1
+0110 1
+1001 1
+1111 1
+# 1133
+.names Char_In[1] Char_In[3] char_p1[3] char_p1[1] n724
+0000 1
+0110 1
+1001 1
+1111 1
+# 1134
+.names n724 params1[12] Char_In[5] char_p1[5] n725
+11-- 1
+1-00 1
+1-11 1
+# 1135
+.names Char_In[0] char_p1[0] n726
+01 1
+10 1
+# 1136
+.names n722 n723 n725 n726 n727
+1110 1
+# 1137
+.names n641 params1[13] params1[14] n727 g261
+1001 1
+111- 1
+11-0 1
+# 1138
+.names g261 Cnt_En_In params1[10] n729
+1-- 1
+-11 1
+# 1139
+.names g254 n729 params2[10] n730
+1-- 1
+-11 1
+# 1140
+.names g247 n730 params3[10] n731
+1-- 1
+-11 1
+# 1141
+.names g240 n731 params4[10] n732
+1-- 1
+-11 1
+# 1142
+.names g233 n732 params5[10] n733
+1-- 1
+-11 1
+# 1143
+.names g226 n733 params6[10] n734
+1-- 1
+-11 1
+# 1144
+.names g219 n734 params7[10] n735
+1-- 1
+-11 1
+# 1145
+.names g212 n735 params8[10] n736
+1-- 1
+-11 1
+# 1146
+.names g261 Syn_Rst_In params1[11] n737
+1-- 1
+-11 1
+# 1147
+.names g254 n737 params2[11] n738
+1-- 1
+-11 1
+# 1148
+.names g247 n738 params3[11] n739
+1-- 1
+-11 1
+# 1149
+.names g240 n739 params4[11] n740
+1-- 1
+-11 1
+# 1150
+.names g233 n740 params5[11] n741
+1-- 1
+-11 1
+# 1151
+.names g226 n741 params6[11] n742
+1-- 1
+-11 1
+# 1152
+.names g219 n742 params7[11] n743
+1-- 1
+-11 1
+# 1153
+.names g212 n743 params8[11] n744
+1-- 1
+-11 1
+# 1154
+.names n676 n677 params8[4] GrpIn_Out
+1-1 1
+-10 1
+# 1155
+.names n673 n677 params8[0] params8[1] Ip_Out
+00-- 0
+0-01 0
+# 1156
+.names g153 n677 params8[5] g280
+1-- 1
+-11 1
+# 1157
+.names g154 n671 params7[5] g281
+1-- 1
+-11 1
+# 1158
+.names g155 n664 params6[5] g282
+1-- 1
+-11 1
+# 1159
+.names g156 n658 params5[5] g283
+1-- 1
+-11 1
+# 1160
+.names g171 n633 params1[5] g284
+1-- 1
+-11 1
+# 1161
+.names g170 n637 params2[5] g285
+1-- 1
+-11 1
+# 1162
+.names g177 n639 params3[5] g286
+1-- 1
+-11 1
+# 1163
+.names g157 n652 params4[5] g287
+1-- 1
+-11 1
+# 1164
+.names g1 params8[7] n497 n490 n755
+10-- 1
+-100 1
+# 1165
+.names g1 n755 n621 params8[6] Op_Out
+0-01 0
+-0-0 0
+.end

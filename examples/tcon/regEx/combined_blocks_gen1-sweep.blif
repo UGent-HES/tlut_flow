@@ -1,0 +1,199 @@
+# Benchmark "combined_blocks_gen1" written by ABC on Mon Jan 23 16:03:21 2012
+.model combined_blocks_gen1
+.inputs counterQ1[7] encoder_range_low1[7] counterQ1[6] \
+ encoder_range_low1[6] counterQ1[5] encoder_range_low1[5] counterQ1[4] \
+ encoder_range_low1[4] counterQ1[3] encoder_range_low1[3] counterQ1[2] \
+ encoder_range_low1[2] counterQ1[0] encoder_range_low1[0] counterQ1[1] \
+ encoder_range_low1[1] encoder_range_up1[7] encoder_range_up1[6] \
+ encoder_range_up1[5] encoder_range_up1[4] encoder_range_up1[3] \
+ encoder_range_up1[2] encoder_range_up1[0] encoder_range_up1[1] params1[7] \
+ params1[6] GrpR_In Op_In params1[9] params1[1] Ip_In params1[0] GrpIn_In \
+ params1[3] params1[2] GrpL_In params1[8] params1[13] params1[14] \
+ Char_In[7] Char_In[4] char_p1[4] char_p1[7] Char_In[2] Char_In[6] \
+ char_p1[6] char_p1[2] Char_In[1] Char_In[3] char_p1[3] char_p1[1] \
+ params1[12] Char_In[5] char_p1[5] Char_In[0] char_p1[0] Cnt_En_In \
+ params1[10] Syn_Rst_In params1[11] params1[4] params1[5] Clk Asyn_Rst
+.outputs Op_Out Cnt_En_Out Syn_Rst_Out GrpIn_Out GrpL_Out GrpR_Out Ip_Out \
+ Syn_Rst_Inter1_out Cnt_En_Inter1_out
+
+.latch        g33         g1  2
+.latch        g29        g17  2
+
+# 145
+.names n113 Cnt_En_Out
+1 1
+# 146
+.names n114 Syn_Rst_Out
+1 1
+# 147
+.names n103 GrpL_Out
+1 1
+# 148
+.names n100 GrpR_Out
+1 1
+# 149
+.names n105 Ip_Out
+1 1
+# 150
+.names n114 Syn_Rst_Inter1_out
+1 1
+# 151
+.names n113 Cnt_En_Inter1_out
+1 1
+# 152
+.names counterQ1[0] encoder_range_low1[0] counterQ1[1] \
+ encoder_range_low1[1] n86
+010- 1
+01-1 1
+--01 1
+# 153
+.names counterQ1[2] encoder_range_low1[2] n86 n87
+01- 1
+0-1 1
+-11 1
+# 154
+.names counterQ1[3] encoder_range_low1[3] n87 n88
+01- 1
+0-1 1
+-11 1
+# 155
+.names counterQ1[4] encoder_range_low1[4] n88 n89
+01- 1
+0-1 1
+-11 1
+# 156
+.names counterQ1[5] encoder_range_low1[5] n89 n90
+01- 1
+0-1 1
+-11 1
+# 157
+.names counterQ1[6] encoder_range_low1[6] n90 n91
+01- 1
+0-1 1
+-11 1
+# 158
+.names counterQ1[7] encoder_range_low1[7] n91 n92
+01- 1
+0-1 1
+-11 1
+# 159
+.names encoder_range_up1[0] counterQ1[0] encoder_range_up1[1] counterQ1[1] \
+ n93
+010- 1
+01-1 1
+--01 1
+# 160
+.names encoder_range_up1[2] counterQ1[2] n93 n94
+01- 1
+0-1 1
+-11 1
+# 161
+.names encoder_range_up1[3] counterQ1[3] n94 n95
+01- 1
+0-1 1
+-11 1
+# 162
+.names encoder_range_up1[4] counterQ1[4] n95 n96
+01- 1
+0-1 1
+-11 1
+# 163
+.names encoder_range_up1[5] counterQ1[5] n96 n97
+01- 1
+0-1 1
+-11 1
+# 164
+.names encoder_range_up1[6] counterQ1[6] n97 n98
+01- 1
+0-1 1
+-11 1
+# 165
+.names encoder_range_up1[7] counterQ1[7] n98 n99
+01- 1
+0-1 1
+-11 1
+# 166
+.names GrpR_In Op_In params1[9] n100
+1-1 1
+-10 1
+# 167
+.names g17 params1[1] Ip_In params1[0] n101
+1--1 1
+-110 1
+# 168
+.names Op_In GrpIn_In params1[3] params1[2] n102
+1-0- 1
+1--1 1
+-110 1
+# 169
+.names GrpL_In g1 params1[8] n103
+1-1 1
+-10 1
+# 170
+.names n102 params1[2] n103 n104
+1-- 1
+-11 1
+# 171
+.names n101 n104 params1[0] params1[1] n105
+00-- 0
+0-01 0
+# 172
+.names Char_In[7] Char_In[4] char_p1[4] char_p1[7] n106
+0000 1
+0110 1
+1001 1
+1111 1
+# 173
+.names Char_In[2] Char_In[6] char_p1[6] char_p1[2] n107
+0000 1
+0110 1
+1001 1
+1111 1
+# 174
+.names Char_In[1] Char_In[3] char_p1[3] char_p1[1] n108
+0000 1
+0110 1
+1001 1
+1111 1
+# 175
+.names n108 params1[12] Char_In[5] char_p1[5] n109
+11-- 1
+1-00 1
+1-11 1
+# 176
+.names Char_In[0] char_p1[0] n110
+01 1
+10 1
+# 177
+.names n106 n107 n109 n110 n111
+1110 1
+# 178
+.names n105 params1[13] params1[14] n111 g29
+1001 1
+111- 1
+11-0 1
+# 179
+.names g29 Cnt_En_In params1[10] n113
+1-- 1
+-11 1
+# 180
+.names g29 Syn_Rst_In params1[11] n114
+1-- 1
+-11 1
+# 181
+.names GrpIn_In n104 params1[4] GrpIn_Out
+1-1 1
+-10 1
+# 182
+.names g17 n104 params1[5] g33
+1-- 1
+-11 1
+# 183
+.names g1 params1[7] n99 n92 n117
+10-- 1
+-100 1
+# 184
+.names g1 n117 n100 params1[6] Op_Out
+0-01 0
+-0-0 0
+.end

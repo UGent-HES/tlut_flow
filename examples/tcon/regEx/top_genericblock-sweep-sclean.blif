@@ -1,0 +1,257 @@
+# Benchmark "top_genericblock" written by ABC on Tue Oct  4 14:38:09 2011
+.model top_genericblock
+.inputs encoder_range_low[7] encoder_range_low[6] encoder_range_low[5] \
+ encoder_range_low[4] encoder_range_low[3] encoder_range_low[2] \
+ encoder_range_low[0] encoder_range_low[1] encoder_range_up[7] \
+ encoder_range_up[6] encoder_range_up[5] encoder_range_up[4] \
+ encoder_range_up[3] encoder_range_up[2] encoder_range_up[0] \
+ encoder_range_up[1] params[6] params[7] GrpR_In Op_In params[9] params[0] \
+ Ip_In params[1] GrpIn_In params[2] params[3] GrpL_In params[8] params[13] \
+ params[14] Char_In[7] Char_In[4] char_p[4] char_p[7] Char_In[2] Char_In[6] \
+ char_p[6] char_p[2] Char_In[1] Char_In[3] char_p[3] char_p[1] params[12] \
+ Char_In[5] char_p[5] Char_In[0] char_p[0] Cnt_En_In params[10] Syn_Rst_In \
+ params[11] params[4] params[5] Clk Asyn_Rst
+.outputs Op_Out Cnt_En_Out Syn_Rst_Out GrpIn_Out GrpL_Out GrpR_Out Ip_Out
+
+.latch        g41         g1  2
+.latch        g46         g2  0
+.latch        g48         g3  0
+.latch        g50         g4  0
+.latch        g51         g5  0
+.latch        g53         g6  0
+.latch        g55         g7  0
+.latch        g60         g8  0
+.latch        g57         g9  0
+.latch        g37        g25  2
+
+# 159
+.names n125 Syn_Rst_Out
+1 1
+# 160
+.names n114 GrpL_Out
+1 1
+# 161
+.names n111 GrpR_Out
+1 1
+# 162
+.names n116 Ip_Out
+1 1
+# 163
+.names g8 encoder_range_low[0] g9 encoder_range_low[1] n97
+010- 1
+01-1 1
+--01 1
+# 164
+.names g7 encoder_range_low[2] n97 n98
+01- 1
+0-1 1
+-11 1
+# 165
+.names g6 encoder_range_low[3] n98 n99
+01- 1
+0-1 1
+-11 1
+# 166
+.names g5 encoder_range_low[4] n99 n100
+01- 1
+0-1 1
+-11 1
+# 167
+.names g4 encoder_range_low[5] n100 n101
+01- 1
+0-1 1
+-11 1
+# 168
+.names g3 encoder_range_low[6] n101 n102
+01- 1
+0-1 1
+-11 1
+# 169
+.names g2 encoder_range_low[7] n102 n103
+01- 1
+0-1 1
+-11 1
+# 170
+.names encoder_range_up[0] g8 encoder_range_up[1] g9 n104
+010- 1
+01-1 1
+--01 1
+# 171
+.names encoder_range_up[2] g7 n104 n105
+01- 1
+0-1 1
+-11 1
+# 172
+.names encoder_range_up[3] g6 n105 n106
+01- 1
+0-1 1
+-11 1
+# 173
+.names encoder_range_up[4] g5 n106 n107
+01- 1
+0-1 1
+-11 1
+# 174
+.names encoder_range_up[5] g4 n107 n108
+01- 1
+0-1 1
+-11 1
+# 175
+.names encoder_range_up[6] g3 n108 n109
+01- 1
+0-1 1
+-11 1
+# 176
+.names encoder_range_up[7] g2 n109 n110
+01- 1
+0-1 1
+-11 1
+# 177
+.names GrpR_In Op_In params[9] n111
+1-1 1
+-10 1
+# 178
+.names g25 params[0] Ip_In params[1] n112
+1--1 1
+-110 1
+# 179
+.names Op_In GrpIn_In params[2] params[3] n113
+1-0- 1
+1--1 1
+-110 1
+# 180
+.names GrpL_In g1 params[8] n114
+1-1 1
+-10 1
+# 181
+.names n113 params[3] n114 n115
+1-- 1
+-11 1
+# 182
+.names n112 n115 params[1] params[0] n116
+00-- 0
+0-01 0
+# 183
+.names Char_In[7] Char_In[4] char_p[4] char_p[7] n117
+0000 1
+0110 1
+1001 1
+1111 1
+# 184
+.names Char_In[2] Char_In[6] char_p[6] char_p[2] n118
+0000 1
+0110 1
+1001 1
+1111 1
+# 185
+.names Char_In[1] Char_In[3] char_p[3] char_p[1] n119
+0000 1
+0110 1
+1001 1
+1111 1
+# 186
+.names n119 params[12] Char_In[5] char_p[5] n120
+11-- 1
+1-00 1
+1-11 1
+# 187
+.names Char_In[0] char_p[0] n121
+01 1
+10 1
+# 188
+.names n117 n118 n120 n121 n122
+1110 1
+# 189
+.names n116 params[13] params[14] n122 g37
+1001 1
+111- 1
+11-0 1
+# 190
+.names g37 Cnt_En_In params[10] Cnt_En_Out
+1-- 1
+-11 1
+# 191
+.names g37 Syn_Rst_In params[11] n125
+1-- 1
+-11 1
+# 192
+.names GrpIn_In n115 params[4] GrpIn_Out
+1-1 1
+-10 1
+# 193
+.names g25 n115 params[5] g41
+1-- 1
+-11 1
+# 194
+.names g6 g7 g9 g8 n128
+1111 1
+# 195
+.names g3 g4 g5 n128 n129
+1111 1
+# 196
+.names Cnt_En_In params[10] n130
+11 1
+# 197
+.names g2 n129 n130 g37 n131
+11-- 1
+--00 1
+# 198
+.names g2 n131 n129 n125 g46
+0010 1
+11-0 1
+1-00 1
+# 199
+.names g4 g5 n128 n133
+111 1
+# 200
+.names g3 n131 n133 n125 g48
+0010 1
+11-0 1
+1-00 1
+# 201
+.names g5 n128 n135
+11 1
+# 202
+.names g4 n131 n135 n125 g50
+0010 1
+11-0 1
+1-00 1
+# 203
+.names g5 n131 n128 n125 g51
+0010 1
+11-0 1
+1-00 1
+# 204
+.names g7 g9 g8 n138
+111 1
+# 205
+.names g6 n131 n138 n125 g53
+0010 1
+11-0 1
+1-00 1
+# 206
+.names g9 g8 n140
+11 1
+# 207
+.names g7 n131 n140 n125 g55
+0010 1
+11-0 1
+1-00 1
+# 208
+.names n125 g8 n131 g60
+000 1
+011 1
+# 209
+.names g9 n131 g8 n125 g57
+0010 1
+11-0 1
+1-00 1
+# 210
+.names g1 params[6] n110 n103 n144
+10-- 1
+-100 1
+# 211
+.names g1 n144 n111 params[7] Op_Out
+0-01 0
+-0-0 0
+.end

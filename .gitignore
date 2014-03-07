@@ -12,5 +12,5 @@
 /third_party/JavaBDD
 /third_party/javabdd*
 /third_party/jopt-simple-*.jar
-/examples/*/work
+/examples/**/work
 /tests/work

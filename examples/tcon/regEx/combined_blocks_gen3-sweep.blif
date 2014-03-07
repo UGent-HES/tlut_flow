@@ -1,0 +1,558 @@
+# Benchmark "combined_blocks_gen3" written by ABC on Fri Feb 17 12:13:25 2012
+.model combined_blocks_gen3
+.inputs counterQ3[7] encoder_range_low3[7] counterQ3[6] \
+ encoder_range_low3[6] counterQ3[5] encoder_range_low3[5] counterQ3[4] \
+ encoder_range_low3[4] counterQ3[3] encoder_range_low3[3] counterQ3[2] \
+ encoder_range_low3[2] counterQ3[0] encoder_range_low3[0] counterQ3[1] \
+ encoder_range_low3[1] encoder_range_up3[7] encoder_range_up3[6] \
+ encoder_range_up3[5] encoder_range_up3[4] encoder_range_up3[3] \
+ encoder_range_up3[2] encoder_range_up3[0] encoder_range_up3[1] params3[7] \
+ params3[6] GrpR_In Op_In params1[9] counterQ1[7] encoder_range_low1[7] \
+ counterQ1[6] encoder_range_low1[6] counterQ1[5] encoder_range_low1[5] \
+ counterQ1[4] encoder_range_low1[4] counterQ1[3] encoder_range_low1[3] \
+ counterQ1[2] encoder_range_low1[2] counterQ1[0] encoder_range_low1[0] \
+ counterQ1[1] encoder_range_low1[1] encoder_range_up1[7] \
+ encoder_range_up1[6] encoder_range_up1[5] encoder_range_up1[4] \
+ encoder_range_up1[3] encoder_range_up1[2] encoder_range_up1[0] \
+ encoder_range_up1[1] params1[7] params1[6] params2[9] counterQ2[7] \
+ encoder_range_low2[7] counterQ2[6] encoder_range_low2[6] counterQ2[5] \
+ encoder_range_low2[5] counterQ2[4] encoder_range_low2[4] counterQ2[3] \
+ encoder_range_low2[3] counterQ2[2] encoder_range_low2[2] counterQ2[0] \
+ encoder_range_low2[0] counterQ2[1] encoder_range_low2[1] \
+ encoder_range_up2[7] encoder_range_up2[6] encoder_range_up2[5] \
+ encoder_range_up2[4] encoder_range_up2[3] encoder_range_up2[2] \
+ encoder_range_up2[0] encoder_range_up2[1] params2[7] params2[6] params3[9] \
+ params1[1] Ip_In params1[0] GrpIn_In params1[3] params1[2] GrpL_In \
+ params1[8] params2[1] params2[0] params2[3] params1[4] params2[2] \
+ params2[8] params3[2] params3[8] params3[3] params2[4] params3[0] \
+ params3[1] params3[13] params3[14] Char_In[7] Char_In[4] char_p3[4] \
+ char_p3[7] Char_In[2] Char_In[6] char_p3[6] char_p3[2] Char_In[1] \
+ Char_In[3] char_p3[3] char_p3[1] params3[12] Char_In[5] char_p3[5] \
+ Char_In[0] char_p3[0] params2[13] params2[14] char_p2[4] char_p2[7] \
+ char_p2[6] char_p2[2] char_p2[3] char_p2[1] params2[12] char_p2[5] \
+ char_p2[0] params1[13] params1[14] char_p1[4] char_p1[7] char_p1[6] \
+ char_p1[2] char_p1[3] char_p1[1] params1[12] char_p1[5] char_p1[0] \
+ Cnt_En_In params1[10] params2[10] params3[10] Syn_Rst_In params1[11] \
+ params2[11] params3[11] params3[4] params3[5] params1[5] params2[5] Clk \
+ Asyn_Rst
+.outputs Op_Out Cnt_En_Out Syn_Rst_Out GrpIn_Out GrpL_Out GrpR_Out Ip_Out \
+ Syn_Rst_Inter1_out Syn_Rst_Inter2_out Syn_Rst_Inter3_out Cnt_En_Inter1_out \
+ Cnt_En_Inter2_out Cnt_En_Inter3_out
+
+.latch       g103         g1  2
+.latch       g104        g17  2
+.latch       g105        g35  2
+.latch        g88        g53  2
+.latch        g95        g54  2
+.latch        g81        g72  2
+
+# 353
+.names n291 Cnt_En_Out
+1 1
+# 354
+.names n294 Syn_Rst_Out
+1 1
+# 355
+.names n262 GrpL_Out
+1 1
+# 356
+.names n248 GrpR_Out
+1 1
+# 357
+.names n267 Ip_Out
+1 1
+# 358
+.names n292 Syn_Rst_Inter1_out
+1 1
+# 359
+.names n293 Syn_Rst_Inter2_out
+1 1
+# 360
+.names n294 Syn_Rst_Inter3_out
+1 1
+# 361
+.names n289 Cnt_En_Inter1_out
+1 1
+# 362
+.names n290 Cnt_En_Inter2_out
+1 1
+# 363
+.names n291 Cnt_En_Inter3_out
+1 1
+# 364
+.names counterQ3[0] encoder_range_low3[0] counterQ3[1] \
+ encoder_range_low3[1] n200
+010- 1
+01-1 1
+--01 1
+# 365
+.names counterQ3[2] encoder_range_low3[2] n200 n201
+01- 1
+0-1 1
+-11 1
+# 366
+.names counterQ3[3] encoder_range_low3[3] n201 n202
+01- 1
+0-1 1
+-11 1
+# 367
+.names counterQ3[4] encoder_range_low3[4] n202 n203
+01- 1
+0-1 1
+-11 1
+# 368
+.names counterQ3[5] encoder_range_low3[5] n203 n204
+01- 1
+0-1 1
+-11 1
+# 369
+.names counterQ3[6] encoder_range_low3[6] n204 n205
+01- 1
+0-1 1
+-11 1
+# 370
+.names counterQ3[7] encoder_range_low3[7] n205 n206
+01- 1
+0-1 1
+-11 1
+# 371
+.names encoder_range_up3[0] counterQ3[0] encoder_range_up3[1] counterQ3[1] \
+ n207
+010- 1
+01-1 1
+--01 1
+# 372
+.names encoder_range_up3[2] counterQ3[2] n207 n208
+01- 1
+0-1 1
+-11 1
+# 373
+.names encoder_range_up3[3] counterQ3[3] n208 n209
+01- 1
+0-1 1
+-11 1
+# 374
+.names encoder_range_up3[4] counterQ3[4] n209 n210
+01- 1
+0-1 1
+-11 1
+# 375
+.names encoder_range_up3[5] counterQ3[5] n210 n211
+01- 1
+0-1 1
+-11 1
+# 376
+.names encoder_range_up3[6] counterQ3[6] n211 n212
+01- 1
+0-1 1
+-11 1
+# 377
+.names encoder_range_up3[7] counterQ3[7] n212 n213
+01- 1
+0-1 1
+-11 1
+# 378
+.names GrpR_In Op_In params1[9] n214
+1-1 1
+-10 1
+# 379
+.names counterQ1[0] encoder_range_low1[0] counterQ1[1] \
+ encoder_range_low1[1] n215
+010- 1
+01-1 1
+--01 1
+# 380
+.names counterQ1[2] encoder_range_low1[2] n215 n216
+01- 1
+0-1 1
+-11 1
+# 381
+.names counterQ1[3] encoder_range_low1[3] n216 n217
+01- 1
+0-1 1
+-11 1
+# 382
+.names counterQ1[4] encoder_range_low1[4] n217 n218
+01- 1
+0-1 1
+-11 1
+# 383
+.names counterQ1[5] encoder_range_low1[5] n218 n219
+01- 1
+0-1 1
+-11 1
+# 384
+.names counterQ1[6] encoder_range_low1[6] n219 n220
+01- 1
+0-1 1
+-11 1
+# 385
+.names counterQ1[7] encoder_range_low1[7] n220 n221
+01- 1
+0-1 1
+-11 1
+# 386
+.names encoder_range_up1[0] counterQ1[0] encoder_range_up1[1] counterQ1[1] \
+ n222
+010- 1
+01-1 1
+--01 1
+# 387
+.names encoder_range_up1[2] counterQ1[2] n222 n223
+01- 1
+0-1 1
+-11 1
+# 388
+.names encoder_range_up1[3] counterQ1[3] n223 n224
+01- 1
+0-1 1
+-11 1
+# 389
+.names encoder_range_up1[4] counterQ1[4] n224 n225
+01- 1
+0-1 1
+-11 1
+# 390
+.names encoder_range_up1[5] counterQ1[5] n225 n226
+01- 1
+0-1 1
+-11 1
+# 391
+.names encoder_range_up1[6] counterQ1[6] n226 n227
+01- 1
+0-1 1
+-11 1
+# 392
+.names encoder_range_up1[7] counterQ1[7] n227 n228
+01- 1
+0-1 1
+-11 1
+# 393
+.names params1[7] params1[6] n229
+10 1
+# 394
+.names g17 n221 n228 n229 n230
+1--0 1
+-001 1
+# 395
+.names n214 n230 params1[6] params2[9] n231
+1-1- 1
+1--1 1
+-1-0 1
+# 396
+.names counterQ2[0] encoder_range_low2[0] counterQ2[1] \
+ encoder_range_low2[1] n232
+010- 1
+01-1 1
+--01 1
+# 397
+.names counterQ2[2] encoder_range_low2[2] n232 n233
+01- 1
+0-1 1
+-11 1
+# 398
+.names counterQ2[3] encoder_range_low2[3] n233 n234
+01- 1
+0-1 1
+-11 1
+# 399
+.names counterQ2[4] encoder_range_low2[4] n234 n235
+01- 1
+0-1 1
+-11 1
+# 400
+.names counterQ2[5] encoder_range_low2[5] n235 n236
+01- 1
+0-1 1
+-11 1
+# 401
+.names counterQ2[6] encoder_range_low2[6] n236 n237
+01- 1
+0-1 1
+-11 1
+# 402
+.names counterQ2[7] encoder_range_low2[7] n237 n238
+01- 1
+0-1 1
+-11 1
+# 403
+.names encoder_range_up2[0] counterQ2[0] encoder_range_up2[1] counterQ2[1] \
+ n239
+010- 1
+01-1 1
+--01 1
+# 404
+.names encoder_range_up2[2] counterQ2[2] n239 n240
+01- 1
+0-1 1
+-11 1
+# 405
+.names encoder_range_up2[3] counterQ2[3] n240 n241
+01- 1
+0-1 1
+-11 1
+# 406
+.names encoder_range_up2[4] counterQ2[4] n241 n242
+01- 1
+0-1 1
+-11 1
+# 407
+.names encoder_range_up2[5] counterQ2[5] n242 n243
+01- 1
+0-1 1
+-11 1
+# 408
+.names encoder_range_up2[6] counterQ2[6] n243 n244
+01- 1
+0-1 1
+-11 1
+# 409
+.names encoder_range_up2[7] counterQ2[7] n244 n245
+01- 1
+0-1 1
+-11 1
+# 410
+.names params2[7] params2[6] n246
+10 1
+# 411
+.names g35 n238 n245 n246 n247
+1--0 1
+-001 1
+# 412
+.names n231 n247 params2[6] params3[9] n248
+1-1- 1
+1--1 1
+-1-0 1
+# 413
+.names g54 params1[1] Ip_In params1[0] n249
+1--1 1
+-110 1
+# 414
+.names Op_In GrpIn_In params1[3] params1[2] n250
+1-0- 1
+1--1 1
+-110 1
+# 415
+.names GrpL_In g17 params1[8] n251
+1-1 1
+-10 1
+# 416
+.names n250 params1[2] n251 n252
+1-- 1
+-11 1
+# 417
+.names n249 n252 params1[0] params1[1] n253
+00-- 0
+0-01 0
+# 418
+.names g53 n253 params2[1] params2[0] n254
+1--1 1
+-110 1
+# 419
+.names GrpIn_In n252 params1[4] n255
+1-1 1
+-10 1
+# 420
+.names params1[6] GrpR_In Op_In params1[9] n256
+11-1 1
+1-10 1
+# 421
+.names n251 g35 params2[8] n257
+1-1 1
+-10 1
+# 422
+.names params2[2] n256 n230 n257 n258
+000- 0
+-000 0
+# 423
+.names params2[3] n255 params2[2] n258 n259
+0--1 1
+110- 1
+--11 1
+# 424
+.names n254 n259 params2[0] params2[1] n260
+00-- 0
+0-01 0
+# 425
+.names n247 n231 params2[6] n261
+1-- 1
+-11 1
+# 426
+.names n257 g1 params3[8] n262
+1-1 1
+-10 1
+# 427
+.names params3[2] n261 n262 params3[3] n263
+11-- 1
+1-1- 1
+-1-0 1
+# 428
+.names n255 n259 params2[4] n264
+1-1 1
+-10 1
+# 429
+.names n263 params3[3] n264 params3[2] n265
+1--- 1
+-110 1
+# 430
+.names params3[0] g72 params3[1] n266
+0-1 1
+11- 1
+# 431
+.names n260 n265 params3[0] n266 n267
+0-01 0
+-0-0 0
+# 432
+.names Char_In[7] Char_In[4] char_p3[4] char_p3[7] n268
+0000 1
+0110 1
+1001 1
+1111 1
+# 433
+.names Char_In[2] Char_In[6] char_p3[6] char_p3[2] n269
+0000 1
+0110 1
+1001 1
+1111 1
+# 434
+.names Char_In[1] Char_In[3] char_p3[3] char_p3[1] n270
+0000 1
+0110 1
+1001 1
+1111 1
+# 435
+.names n270 params3[12] Char_In[5] char_p3[5] n271
+11-- 1
+1-00 1
+1-11 1
+# 436
+.names Char_In[0] char_p3[0] n272
+01 1
+10 1
+# 437
+.names n268 n269 n271 n272 n273
+1110 1
+# 438
+.names n267 params3[13] params3[14] n273 g81
+1001 1
+111- 1
+11-0 1
+# 439
+.names Char_In[7] Char_In[4] char_p2[4] char_p2[7] n275
+0000 1
+0110 1
+1001 1
+1111 1
+# 440
+.names Char_In[2] Char_In[6] char_p2[6] char_p2[2] n276
+0000 1
+0110 1
+1001 1
+1111 1
+# 441
+.names Char_In[1] Char_In[3] char_p2[3] char_p2[1] n277
+0000 1
+0110 1
+1001 1
+1111 1
+# 442
+.names n277 params2[12] Char_In[5] char_p2[5] n278
+11-- 1
+1-00 1
+1-11 1
+# 443
+.names Char_In[0] char_p2[0] n279
+01 1
+10 1
+# 444
+.names n275 n276 n278 n279 n280
+1110 1
+# 445
+.names n260 params2[13] params2[14] n280 g88
+1001 1
+111- 1
+11-0 1
+# 446
+.names Char_In[7] Char_In[4] char_p1[4] char_p1[7] n282
+0000 1
+0110 1
+1001 1
+1111 1
+# 447
+.names Char_In[2] Char_In[6] char_p1[6] char_p1[2] n283
+0000 1
+0110 1
+1001 1
+1111 1
+# 448
+.names Char_In[1] Char_In[3] char_p1[3] char_p1[1] n284
+0000 1
+0110 1
+1001 1
+1111 1
+# 449
+.names n284 params1[12] Char_In[5] char_p1[5] n285
+11-- 1
+1-00 1
+1-11 1
+# 450
+.names Char_In[0] char_p1[0] n286
+01 1
+10 1
+# 451
+.names n282 n283 n285 n286 n287
+1110 1
+# 452
+.names n253 params1[13] params1[14] n287 g95
+1001 1
+111- 1
+11-0 1
+# 453
+.names g95 Cnt_En_In params1[10] n289
+1-- 1
+-11 1
+# 454
+.names g88 n289 params2[10] n290
+1-- 1
+-11 1
+# 455
+.names g81 n290 params3[10] n291
+1-- 1
+-11 1
+# 456
+.names g95 Syn_Rst_In params1[11] n292
+1-- 1
+-11 1
+# 457
+.names g88 n292 params2[11] n293
+1-- 1
+-11 1
+# 458
+.names g81 n293 params3[11] n294
+1-- 1
+-11 1
+# 459
+.names n264 n265 params3[4] GrpIn_Out
+1-1 1
+-10 1
+# 460
+.names g72 n265 params3[5] g103
+1-- 1
+-11 1
+# 461
+.names g54 n252 params1[5] g104
+1-- 1
+-11 1
+# 462
+.names g53 n259 params2[5] g105
+1-- 1
+-11 1
+# 463
+.names g1 params3[7] n213 n206 n299
+10-- 1
+-100 1
+# 464
+.names g1 n299 n248 params3[6] Op_Out
+0-01 0
+-0-0 0
+.end

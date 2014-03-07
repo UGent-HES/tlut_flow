@@ -1,0 +1,156 @@
+# Benchmark "tlc4" written by ABC on Tue Feb 28 10:27:58 2012
+.model tlc4
+.inputs input1[0] p[0] p[1] input1[1] input2[1] input2[2] input1[2] \
+ input2[3] input2[4] input1[4] input2[5] input1[5] input2[6] input1[6] \
+ input2[7] input1[8] input2[8] input2[9] input1[9] input2[10] input1[10] \
+ input2[11] input2[12] input1[12] input2[13] input1[13] input2[14] \
+ input1[14] input2[15] input1[15]
+.outputs output[0] output[1] output[2] output[3] output[4] output[5] \
+ output[6] output[7] output[8] output[9] output[10] output[11] output[12] \
+ output[13] output[14] output[15]
+# 76
+.names input1[0] p[0] p[1] output[0]
+101 1
+110 1
+# 77
+.names input1[1] p[1] input2[1] p[0] output[1]
+001- 1
+100- 1
+11-1 1
+-110 1
+# 78
+.names p[0] p[1] n48
+00 0
+# 79
+.names input1[1] input2[1] p[1] n49
+110 1
+# 80
+.names input1[2] p[1] p[0] n50
+11- 1
+1-0 1
+# 81
+.names input2[2] n48 n49 n50 output[2]
+0-01 1
+0-10 1
+1000 1
+1011 1
+-101 1
+-110 1
+# 82
+.names n49 n50 input2[2] n48 n52
+11-- 1
+1-10 1
+-110 1
+# 83
+.names n52 p[1] input2[3] output[3]
+011 1
+10- 1
+1-0 1
+# 84
+.names p[0] input2[4] input1[4] p[1] output[4]
+0-10 1
+11-0 1
+-011 1
+-101 1
+# 85
+.names input1[4] input2[4] n55
+11 1
+# 86
+.names p[1] input1[5] p[0] n56
+110 1
+# 87
+.names p[1] input2[5] n55 n56 output[5]
+00-1 1
+01-0 1
+1-01 1
+1-10 1
+# 88
+.names p[1] input2[6] n58
+11 1
+# 89
+.names p[0] input1[6] n59
+11 1
+# 90
+.names n55 n56 n58 n59 output[6]
+0-01 1
+0-10 1
+1100 1
+1111 1
+-001 1
+-010 1
+# 91
+.names n58 n59 n55 n56 n61
+11-- 1
+1-11 1
+-111 1
+# 92
+.names n61 p[1] input2[7] output[7]
+001 1
+11- 1
+1-0 1
+# 93
+.names input1[8] p[1] input2[8] p[0] output[8]
+001- 1
+100- 1
+11-1 1
+-110 1
+# 94
+.names input2[9] input1[9] p[0] n64
+1-1 1
+-10 1
+# 95
+.names n64 input1[8] input2[8] p[1] output[9]
+1--1 1
+-110 1
+# 96
+.names input2[10] p[1] input1[10] p[0] output[10]
+001- 1
+11-1 1
+1-01 1
+--10 1
+# 97
+.names input1[10] p[0] p[1] n67
+10- 1
+1-0 1
+# 98
+.names n67 input2[10] input2[11] p[0] output[11]
+11-1 1
+--10 1
+# 99
+.names input2[12] p[0] input1[12] p[1] output[12]
+11-- 1
+-010 1
+# 100
+.names input2[13] input1[13] p[1] p[0] output[13]
+010- 1
+100- 1
+1-10 1
+# 101
+.names input2[14] p[0] p[1] n71
+100 1
+# 102
+.names p[0] input1[14] n72
+11 1
+# 103
+.names input1[13] input2[13] p[1] n73
+110 1
+# 104
+.names p[1] input2[15] p[0] input1[15] n74
+1001 1
+111- 1
+11-0 1
+# 105
+.names n71 n72 n74 n73 output[15]
+001- 1
+1-01 1
+-101 1
+--10 1
+# 106
+.names p[0] input1[14] n71 n73 output[14]
+0-01 1
+0-10 1
+1100 1
+1111 1
+-001 1
+-010 1
+.end
