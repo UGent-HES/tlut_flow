@@ -69,10 +69,12 @@ All rights reserved.
 package be.ugent.elis.recomp.aig;
 
 public class StrashKey < N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
-	N node0;
-	boolean inv0;
-	N node1;
-	boolean inv1;
+	
+	final N node0;
+	final boolean inv0;
+	final N node1;
+	final boolean inv1;
+	
 	public StrashKey(N node0, boolean inv0, N node1, boolean inv1) {
 		super();
 		this.node0 = node0;
@@ -80,6 +82,7 @@ public class StrashKey < N extends AbstractNode<N,E>, E extends AbstractEdge<N,E
 		this.node1 = node1;
 		this.inv1 = inv1;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		
@@ -100,13 +103,14 @@ public class StrashKey < N extends AbstractNode<N,E>, E extends AbstractEdge<N,E
 			    (this.inv1 == other.inv0)); 
 
 	}
+	
 	@Override
 	public int hashCode() {
 	    int hash = 1;
 	    hash = hash * 31 + (inv0 ? 0 : 1)
 				 + (inv1 ? 0 : 1);
-	    hash = hash * 31 + ((node0 == null ? 0 : node0.hashCode())
-	    				 ^ (node1 == null ? 0 : node1.hashCode()));
+	    hash = hash * 31 + (node0 == null ? 0 : node0.hashCode())
+	    				 + (node1 == null ? 0 : node1.hashCode());
 		return hash;
 	}
 	

@@ -265,6 +265,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		}
 		
 		sanityCheck();
+		strashCheck();
 	}
 	
 	private void readAAG(String filename) throws FileNotFoundException {
@@ -1402,6 +1403,27 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
     		throw new RuntimeException("Number of output edges of nodes does not equal number of edges of AIG");
     	if(num_input_edges != edges.size())
     		throw new RuntimeException("Number of input edges of nodes does not equal number of edges of AIG");
+    }
+    
+    public void strashCheck() {
+    	strashMap.clear();
+    	
+    	for(N n : getAnds()) {
+    		if(n.getOutputEdges().size() == 0)
+    			throw new RuntimeException("AND should have at least one output");
+    		for(E e : n.getInputEdges()) {
+    			if(e.getTail().isConst0())
+    				throw new RuntimeException("Input of AND should not be Const0");
+    		}
+    		if(n.getI0().equals(n.getI1()))
+    			throw new RuntimeException("AND should have two different inputs");
+    		
+    		StrashKey<N,E> key = new StrashKey<N,E>(n.getI0().getTail(), n.getI0().isInverted(),
+    												n.getI1().getTail(), n.getI1().isInverted());
+    		if(strashMap.get(key) != null)
+    			throw new RuntimeException("AND node with same strashkey already exists");
+    		strashMap.put(key, n);
+    	}
     }
 
 	
