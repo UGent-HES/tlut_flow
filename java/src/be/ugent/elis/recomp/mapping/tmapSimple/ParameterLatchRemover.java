@@ -79,36 +79,31 @@ import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
 
-public class ParamLatchRemover {
+public class ParameterLatchRemover {
 
 	public static void main(String[] args) throws IOException {
 	
 		MappingAIG a = new MappingAIG(args[0]);
-		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-        new ParamLatchRemover(a).run();
+        new ParameterLatchRemover(a, new ParameterMarker(new FileInputStream(args[1]))).run();
 
         a.printAAG(new PrintStream(new BufferedOutputStream(new FileOutputStream(args[2]))));
 	}
 	
     MappingAIG aig;
+    ParameterMarker parameter_marker;
 
-	public ParamLatchRemover(MappingAIG aig) {
+	public ParameterLatchRemover(MappingAIG aig, ParameterMarker parameter_marker) {
 	    this.aig = aig;
+	    this.parameter_marker = parameter_marker;
 	}
 	
     private void removeLatch(Node olatch) {
         if(!olatch.isOLatch())
         	throw new RuntimeException("Expected OLatch");
         Node latch = olatch.getI0().getTail();
-        if(olatch.getI0().isInverted())
-        	throw new RuntimeException("Input edge of OLatch is not supposed to be inverted");
-        if(!latch.isLatch())
-        	throw new RuntimeException("Expected Latch");
         Node ilatch = latch.getI0().getTail();
-        if(latch.getI0().isInverted())
-        	throw new RuntimeException("Input edge of Latch is not supposed to be inverted");
-       if(!ilatch.isILatch())
+        if(!ilatch.isILatch())
         	throw new RuntimeException("Expected ILatch");
         Edge inedge = ilatch.getI0();
         Node innode = inedge.getTail();
@@ -121,23 +116,28 @@ public class ParamLatchRemover {
         }
         
         innode.removeOutput(inedge);
-        aig.removeEdge(inedge);
         aig.removeNode(olatch);
+        aig.removeEdge(olatch.getI0());
         aig.removeNode(latch);
+        aig.removeEdge(latch.getI0());
         aig.removeNode(ilatch);
+        aig.removeEdge(ilatch.getI0());
     }
 
 	public void run() {
-		
-		for (Node olatch : new ArrayList<Node>(aig.getOLatches())) {
-		    if(olatch.isParameter()) {
-		        System.out.println("Warning: latch has only parameters in fanin cone: " + olatch.getName());
-		        removeLatch(olatch);
-		    }
-		}
-		
-		aig.sanityCheck();
+		boolean latches_removed = false;
+		do {
+			aig.visitAll(parameter_marker);
+			
+			for (Node olatch : new ArrayList<Node>(aig.getOLatches())) {
+			    if(olatch.isParameter()) {
+			        System.out.println("Warning: latch with only parameters in fanin has been removed: " + olatch.getName());
+			        removeLatch(olatch);
+			        latches_removed = true;
+			    }
+			}
+			
+			aig.sanityCheck();
+		} while(latches_removed);
 	}
-	
-
 }
