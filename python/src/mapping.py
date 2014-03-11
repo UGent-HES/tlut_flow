@@ -227,7 +227,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         # Resynthesize Parameterizable Configuration
         parconfbasename, parext = getBasenameAndExtension(parconfFile)
         parconfFile = resynthesize(parconfbasename, parconfFile, 
-            'rw; rf; rw; rwz; rfz; rwz', verboseFlag)
+            'rw; rf; rw; rwz; rfz; rwz')
         
         # Extracting results: Parameterizable Configuration
         paramAnds = getAIGStats(parconfFile, verboseFlag)

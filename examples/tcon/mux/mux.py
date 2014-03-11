@@ -10,6 +10,7 @@ def main():
         K=4, 
         performCheck=True, 
         verboseFlag=False,
+        resynthesizeFlag=True,
         synthesizedFileName=module, 
         parameterFileName="parameters_mux.par",
         extraArgs=['--nolutstruct'])

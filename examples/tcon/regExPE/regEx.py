@@ -5,6 +5,7 @@ import glob
 from fast_tconmap import run
 
 def main():
+    print "regex"
     run("design/grid_tile.vhd", 
         glob.glob("design/*.vhd"), 
         K=4, 
