@@ -384,7 +384,7 @@ def miter(circuit0, circuit1, verboseFlag=False):
             print output,
         raise Exception("Unexpected output from miter computation (verification)")
 
-def resynthesize(basename, fname, script='resyn2', verboseFlag=False):
+def resynthesize(basename, fname, script='resyn2'):
     fname = toaig(fname)
     basefname, ext = getBasenameAndExtension(fname)
     outFileName = '%s_resyn.aig'%(basename)
@@ -464,12 +464,19 @@ def printCFunction(fileName, CFileName, headerFileName, virtexFamily, verboseFla
     	print output
 
 def createWorkDirAndCopyFiles(workDir, workFiles):
+    workDir += '/'
+    try:
+        os.makedirs(os.path.dirname(workDir))
+    except OSError:
+        pass
     for file in workFiles:
         assert not ' ' in file, "File name must not contain spaces: %s"%file
         assert not file.startswith('/'), "File name must be relative to current working directory: %s"%file
         assert not os.path.realpath(file).startswith('..'), "File must be descendant of current working directory: %s"%file
-        path = workDir + '/' + file
-        if not os.path.exists(os.path.dirname(path)):
+        path = workDir + file
+        try:
             os.makedirs(os.path.dirname(path))
+        except OSError:
+            pass
         shutil.copy(file, path)
     shutil.copy(os.environ['TLUTFLOW_PATH']+'/third_party/etc/abc.rc', workDir)

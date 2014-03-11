@@ -6,7 +6,10 @@ from fast_tconmap import run
 def main():
     print 'tlc4'
     module = "tlc4-sweep.blif"
-    run(module, K=4, performCheck=True, verboseFlag=False,
+    run(module, 
+        K=4, 
+        performCheck=True, 
+        verboseFlag=False,
         synthesizedFileName=module, 
         parameterFileName="parameters_ps.par")
 
