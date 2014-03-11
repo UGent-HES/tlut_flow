@@ -302,7 +302,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 					maxBddSizeConsidered, tcon_mapping_flag);
 			if(merge != null) {
 				result.add(merge);
-				updateBddSizeAverage(merge.getFunction());	
+				//updateBddSizeAverage(merge.getFunction());	
 			} else {
 				coneSkipped = true;
 			}

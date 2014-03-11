@@ -216,6 +216,10 @@ public class TMapSimple {
         	System.exit(1);
         }
 
+        // Stop the clock!
+		long elapsed_time = System.currentTimeMillis() - start_time;
+		System.out.println("Debug: Elapsed time after mapping: "+String.format("%3.3es", elapsed_time/1000.));
+
 		// Resource sharing
 		if(resource_sharing_flag) {
 	        System.out.println("Resource Sharing:");
@@ -223,14 +227,14 @@ public class TMapSimple {
 		}
 
         // Stop the clock!
-		long elapsed_time = System.currentTimeMillis() - start_time;
-		System.out.println("Debug: Elapsed time: "+String.format("%3.3es", elapsed_time/1000.));
+		elapsed_time = System.currentTimeMillis() - start_time;
+		System.out.println("Debug: Elapsed time after resource sharing: "+String.format("%3.3es", elapsed_time/1000.));
         
         // Debug output: mapped blif file
 		if(write_mappedblif_flag) {
 	        System.out.println("Writing the mapped BLIF:"); 
 	        a.printMappedBlif(
-	    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(lutstruct_out_filename+"_mapped.blif"))));
+	    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(aig_in_filename+"_mapped.blif"))));
 		}
 
 		// Output: parameterised configuration and lut structure

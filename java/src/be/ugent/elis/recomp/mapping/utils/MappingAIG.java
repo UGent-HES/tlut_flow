@@ -98,6 +98,11 @@ public class MappingAIG extends AIG<Node, Edge> {
 		super(new SimpleElementFactory());
 	}
 	
+	/**
+	 * Initialise BDDidMapping object.
+	 * Has to be called after parameter marking because the mapping gives 
+	 * parameters the lowest ids.
+	 */
 	public void initBDDidMapping() {
 		bddIdMapping = new BDDidMapping(this);
 	}
