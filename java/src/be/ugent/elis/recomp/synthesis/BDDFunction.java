@@ -93,8 +93,9 @@ public class BDDFunction extends BooleanFunction {
 		if(variable_id<0)
 			throw new RuntimeException("Unknown variable name");
 		BDDFactory factory = BDDFactorySingleton.get();
-		BDDPairing replacement = factory.makePair(variable_id, factory.nithVar(variable_id));
-		this.bdd = this.bdd.veccompose(replacement);
+		//BDDPairing replacement = factory.makePair(variable_id, factory.nithVar(variable_id));
+		//this.bdd = this.bdd.veccompose(replacement);
+		this.bdd = this.bdd.compose(factory.nithVar(variable_id), variable_id);
 	}
 	
 	public Boolean evaluate(TruthAssignment assignment) {
