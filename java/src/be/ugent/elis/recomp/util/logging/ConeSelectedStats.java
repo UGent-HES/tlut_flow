@@ -1,6 +1,7 @@
 package be.ugent.elis.recomp.util.logging;
 
 import be.ugent.elis.recomp.mapping.utils.Cone;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class ConeSelectedStats extends AbstractMessage {
 	static int numMessages = 0;
@@ -27,8 +28,10 @@ public class ConeSelectedStats extends AbstractMessage {
 		this.cone = cone;
 		
 		if(cone.getFunction() != null) {
-			int bin = getBin(cone.getFunction().nodeCount());
-			hist[bin]++;
+			if(GlobalConstants.binizeStatsFlag) {
+				int bin = getBin(cone.getFunction().nodeCount());
+				hist[bin]++;
+			}
 			numBDDs++;
 		}
 		numMessages++;
@@ -40,7 +43,7 @@ public class ConeSelectedStats extends AbstractMessage {
 	}
 	
 	static void finalLog() {
-		if(numBDDs>0) {
+		if(numBDDs>0 && GlobalConstants.binizeStatsFlag) {
 			for(int j = 0; j<bins.length; j++)
 				System.out.println("Debug: Bin: "+bins[j]+" Selected cones: "+hist[j]);
 		}

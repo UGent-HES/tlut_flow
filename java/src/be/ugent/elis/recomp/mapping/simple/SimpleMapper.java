@@ -150,7 +150,7 @@ public class SimpleMapper {
         
         // Stop the clock!
 		long elapsed_time = System.currentTimeMillis() - start_time;
-		System.out.println("Debug: Elapsed time: "+String.format("%3.3es", elapsed_time/1000.));
+		System.out.println("Debug: Elapsed time after mapping: "+String.format("%3.3es", elapsed_time/1000.));
         
         // Writing a blif
         a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))), K);
