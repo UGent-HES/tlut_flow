@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
 import sys
-from fast_tconmap import run
+from fast_tconmap import run, setMaxMemory
 
 def main():
     print 'tlc2'
+    setMaxMemory(5000)
     module = "tlc2-sweep.blif"
     run(
         module, 
