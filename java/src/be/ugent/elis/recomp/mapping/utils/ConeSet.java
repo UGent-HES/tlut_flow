@@ -91,6 +91,11 @@ public class ConeSet implements Iterable<Cone> {
 		this.node=input.getNode();
 		cones.addAll(input.cones);
 	}
+	
+	public void free() {
+		for(Cone c : getCones())
+			c.free();
+	}
 
 	public Node getNode() {
 		return node;

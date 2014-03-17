@@ -441,6 +441,16 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			n.setMarked(marked);
 		}
 	}
+	
+	public int numNodes() {
+		return input.size() +
+			and.size() +
+			output.size() +
+			ilatch.size() +
+			latch.size() +
+			olatch.size() +
+			1; //const0
+	}
 
 	public ArrayList<N> getAllNodes() {
 		ArrayList<N> all = new ArrayList<N>();

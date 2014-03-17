@@ -95,6 +95,7 @@ public class Node extends AbstractNode<Node,Edge> {
 	private BDD activationFunction;
 	private BDD outputActivationFunction;
 	private boolean updated;
+	private boolean conesEnumerated;
 	
 	public Node(AIG<Node, Edge> aig, NodeType type, int id) {
 		super(aig, type, id);
@@ -285,5 +286,22 @@ public class Node extends AbstractNode<Node,Edge> {
 
 	public void setUpdated(boolean updated) {
 		this.updated = updated;
+	}
+	
+	public void setConesEnumerated() {
+		conesEnumerated = true;
+	}
+	
+	public boolean isConesEnumerated() {
+		return conesEnumerated;
+	}
+
+	public boolean isFanoutConeEnumerationDone() {
+		for (Edge edge : getOutputEdges()) {
+			if (!edge.getHead().isConesEnumerated()) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

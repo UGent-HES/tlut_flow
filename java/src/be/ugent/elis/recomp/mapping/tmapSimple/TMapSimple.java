@@ -103,8 +103,6 @@ public class TMapSimple {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		BDDFactorySingleton.create(GlobalConstants.bddVarNum,
-				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
 		
 		//Usage:
 		// <0> : input file with aig
@@ -164,6 +162,11 @@ public class TMapSimple {
 
 		// Read AIG file
 		MappingAIG a = new MappingAIG(aig_in_filename);
+		
+
+		// Initialise BDD library
+		BDDFactorySingleton.create(a.numNodes(),
+				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
 		
 		// Mark parameters
 		a.visitAll(new ParameterMarker(new FileInputStream(parameter_in_filename)));
@@ -273,7 +276,7 @@ public class TMapSimple {
 //	        System.out.println("Debug: Avg BDD size considered: "+enumerator.getBddSizeAverage());
 //        }
         
-//        System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
+        System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
         System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());
 		
 		Logger.getLogger().finalLog();

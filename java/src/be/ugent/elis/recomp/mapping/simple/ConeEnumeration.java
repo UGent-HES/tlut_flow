@@ -83,8 +83,8 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
-import be.ugent.elis.recomp.util.logging.ConeFeasibilityMessage;
-import be.ugent.elis.recomp.util.logging.ConeFeasibilityMessage2;
+import be.ugent.elis.recomp.util.logging.ConeConsideredStats;
+import be.ugent.elis.recomp.util.logging.ConeFeasibilityStats;
 import be.ugent.elis.recomp.util.logging.ConeNotConsideredToMerge;
 import be.ugent.elis.recomp.util.logging.ConeNotConsidered_BDDSize;
 import be.ugent.elis.recomp.util.logging.ConeNumToConsiderReached;
@@ -108,8 +108,6 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	protected int nmbrDominatedCones;
 	protected int nmbrCones;
 	protected BDDidMapping bddIdMapping;
-	private int sumBddSize = 0;
-	private int numBdd = 0;
 
 	public ConeEnumeration(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag) {
 		nmbrConsideredCones = 0;
@@ -167,9 +165,20 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			
 		} else if(node.isPrimaryOutput()) {
 			result.add(Cone.outputCone(node, bddIdMapping, build_bdd_function));
+		} else {
 		}
 		result.reduceMemoryUsage();
 		node.setConeSet(result);
+		node.setConesEnumerated();
+		
+		if(GlobalConstants.freeBDDafterEnumeration) {
+			for(Edge e : node.getInputEdges()) {
+				Node parent = e.getTail();
+				if(parent.isFanoutConeEnumerationDone()) {
+					parent.getConeSet().free();
+				}
+			}
+		}
 		
 		// System.out.println(node.getName() + ": " + nmbrCones);
 	}
@@ -247,6 +256,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 
 		boolean coneSkipped = false;
 
+		// Filter cones that are not considered to merge
 		ArrayList<Cone> cones0 = new ArrayList<Cone>();
 		ArrayList<Cone> cones1 = new ArrayList<Cone>();
 		for(Cone c : coneSet0.getCones()) {
@@ -268,6 +278,9 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		
 		Collections.sort(cones0, new SizeConeComparator());
 		Collections.sort(cones1, new SizeConeComparator());
+//		Collections.sort(cones0, new BDDSizeConeComparator());
+//		Collections.sort(cones1, new BDDSizeConeComparator());
+		
 		
 		if(cones0.size() > cones1.size()) {
 			ArrayList<Cone> tmp = cones0;
@@ -302,7 +315,8 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 					maxBddSizeConsidered, tcon_mapping_flag);
 			if(merge != null) {
 				result.add(merge);
-				//updateBddSizeAverage(merge.getFunction());	
+				if(GlobalConstants.enableStatsFlag)
+					Logger.getLogger().log(new ConeConsideredStats(merge));
 			} else {
 				coneSkipped = true;
 			}
@@ -326,18 +340,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			return true;
 		return cone.getFunction().nodeCount() <= maxBddSizeConsideredToMerge;
 	}
-
-	private void updateBddSizeAverage(BDD bdd) {
-		if(bdd != null) {
-			sumBddSize += bdd.nodeCount();
-			numBdd += 1;
-		}
-	}
 	
-	public float getBddSizeAverage() {
-		return (float)sumBddSize/numBdd;
-	}
-
 	protected ConeSet limitNumCones(ConeSet cones) {
 		if(cones.size() <= maxNumConesPerNodeSaved)
 			return cones;
@@ -368,9 +371,14 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		Collections.sort(temp, new SizeConeComparator());
 
 		for (int i = 0; i < temp.size(); i++) {
+			if (temp.get(i) == null)
+				continue;
 			for (int j = i + 1; j < temp.size(); j++) {
+				if (temp.get(j) == null)
+					continue;
 				if (temp.get(i).dominates(temp.get(j))) {
 					dominatedCones.add(temp.get(j));
+					temp.set(j, null);
 				}
 			}
 		}
@@ -403,8 +411,8 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 					feasible = false;
 				}
 			}
-			//Logger.getLogger().log(new ConeFeasibilityMessage(c));
-			//Logger.getLogger().log(new ConeFeasibilityMessage2(c));
+			if(GlobalConstants.enableStatsFlag)
+			Logger.getLogger().log(new ConeFeasibilityStats(c));
 			if(feasible) {
 				feasibleCones.add(c);
 			} else {

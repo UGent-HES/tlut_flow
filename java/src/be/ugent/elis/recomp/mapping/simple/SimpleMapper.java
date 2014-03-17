@@ -88,8 +88,6 @@ public class SimpleMapper {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		BDDFactorySingleton.create(GlobalConstants.bddVarNum,
-				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
 
 		OptionParser parser = new OptionParser();
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
@@ -113,7 +111,10 @@ public class SimpleMapper {
         // Read AIG file
 		MappingAIG a = new MappingAIG(aig_in_filename);
 		//a.initBDDidMapping();
-		
+
+		// Initialise BDD library
+		BDDFactorySingleton.create(a.numNodes(),
+				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
 		
 		// Start the clock!
 		long start_time = System.currentTimeMillis();

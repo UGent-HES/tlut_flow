@@ -516,8 +516,11 @@ public class MappingAIG extends AIG<Node, Edge> {
 	public void printLutBlif(Node and, PrintStream stream, String lutName, boolean inverted) {
 		Cone bestCone = and.getBestCone();
 		BooleanFunction f = bestCone.getBooleanFunction();
-		if(inverted)
-			f = f.invert();
+		if(inverted) {
+			BooleanFunction f_old = f;
+			f = f_old.invert();
+			f_old.free();
+		}
 		
 		stream.print(".names");
 		//Regular LUT inputs

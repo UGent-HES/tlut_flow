@@ -4,7 +4,7 @@ import sys
 from fast_tconmap import run, setMaxMemory
 
 def main():
-    setMaxMemory(4000)
+    setMaxMemory(5000)
     module = "cross16-sweep.blif"
     print module
     run(module, 

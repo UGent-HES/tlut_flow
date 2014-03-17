@@ -85,10 +85,11 @@ import be.ugent.elis.recomp.util.GlobalConstants;
 public class ParameterUnusedLatchRemover {
 
 	public static void main(String[] args) throws IOException {
-		BDDFactorySingleton.create(GlobalConstants.bddVarNum,
-				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
 	
 		MappingAIG a = new MappingAIG(args[0]);
+		
+		BDDFactorySingleton.create(a.numNodes(),
+				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
 
 		MappingAIG strash_aig = new ParameterUnusedLatchRemover(a, new ParameterMarker(new FileInputStream(args[1]))).run();
 

@@ -72,6 +72,9 @@ import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.util.GlobalConstants;
+import be.ugent.elis.recomp.util.logging.ConeSelectedStats;
+import be.ugent.elis.recomp.util.logging.Logger;
 
 
 public class ConeSelection implements Visitor<Node, Edge> {
@@ -87,6 +90,8 @@ public class ConeSelection implements Visitor<Node, Edge> {
 		if (node.isPrimaryOutput()) {
 			
 			node.getI0().getTail().setVisible(true);
+			if(GlobalConstants.enableStatsFlag)
+				Logger.getLogger().log(new ConeSelectedStats(node.getI0().getTail().getBestCone()));
 		
 		// Make source nodes of the bestcones of visible nodes visible.
 		} else if (node.isGate()) {
@@ -96,6 +101,8 @@ public class ConeSelection implements Visitor<Node, Edge> {
 				Cone bestCone = node.getBestCone();
 				for (Node n:bestCone.getRegularLeaves()) {
 					n.setVisible(true);
+					if(GlobalConstants.enableStatsFlag)
+						Logger.getLogger().log(new ConeSelectedStats(n.getBestCone()));
 				}
 				
 			}

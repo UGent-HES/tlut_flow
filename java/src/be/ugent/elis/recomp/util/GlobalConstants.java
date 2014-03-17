@@ -64,22 +64,23 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
 package be.ugent.elis.recomp.util;
 
 
 public class GlobalConstants {
+	public static final boolean enableStatsFlag = false;
+	public static final boolean freeBDDafterEnumeration = true;
 	public static final boolean feasibility_uses_activationfunction = true;
+	
 	public static final int maxConeSizeConsidered = Integer.MAX_VALUE;
-	public static final int maxBddSizeConsidered = Integer.MAX_VALUE;//200; //100;
-	public static final int maxBddSizeConsideredToMerge = 100;//15;
+	public static final int maxBddSizeConsidered = Integer.MAX_VALUE;//200; //100; 64;//
+	public static final int maxBddSizeConsideredToMerge = 100;//64;//15;
 	public static final int maxNumConesPerNodeConsidered = 2000;
 	public static final int maxNumConesPerNodeSaved = 1000;
 	
-	public static final int bddVarNum = 500000;
-	public static final int bddNodeTableSize = 10000000;
-	public static final int bddCacheSize = 100000;
+	public static final int bddNodeTableSize = 40000000;
+	public static final int bddCacheSize = 1000000;
 	
-	public static final int maxActivationFunctionSize = 1000000;
+	public static final int maxActivationFunctionSize = Integer.MAX_VALUE;
 }

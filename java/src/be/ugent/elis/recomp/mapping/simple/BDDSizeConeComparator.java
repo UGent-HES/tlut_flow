@@ -66,34 +66,24 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.util.logging;
+package be.ugent.elis.recomp.mapping.simple;
 
-public class Logger {
-	
-	private static Logger singleton = new Logger();
-	
-	public static Logger getLogger() {
-		return singleton;
-	}
-	
-	public void log(String message) {
-		System.out.println(message);
-	}
-	
-	public void log(AbstractMessage message) {
-		message.doLog();
-	}
-	
-	public void finalLog() {
-		ConeNotConsidered_BDDSize.finalLog();
-		ConeNotConsideredToMerge.finalLog();
-		ConeNumToConsiderReached.finalLog();
-		ConeNumToSaveReached.finalLog();
-		ConeComputedStats.finalLog();
-		ConeConsideredStats.finalLog();
-		ConeFeasibilityStats.finalLog();
-		ConeSelectedStats.finalLog();
-		UnusedLatchOrInput.finalLog();
+import java.util.Comparator;
+
+import be.ugent.elis.recomp.mapping.utils.Cone;
+
+public class BDDSizeConeComparator implements Comparator<Cone> {
+
+	public int compare(Cone o1, Cone o2) {
+		int o1size = o1.getFunction() != null ? o1.getFunction().nodeCount() : o1.size();
+		int o2size = o2.getFunction() != null ? o2.getFunction().nodeCount() : o2.size();
+		if (o1size > o2size) {
+			return 1;
+		} else if (o1size < o2size) {
+			return -1;
+		} else {
+			return 0;
+		}
 	}
 
 }

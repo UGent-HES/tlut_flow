@@ -81,6 +81,7 @@ import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BDDFunction;
 import be.ugent.elis.recomp.util.GlobalConstants;
+import be.ugent.elis.recomp.util.logging.ConeComputedStats;
 import be.ugent.elis.recomp.util.logging.ConeNotConsidered_BDDSize;
 import be.ugent.elis.recomp.util.logging.Logger;
 
@@ -133,7 +134,8 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public void free() {
-		setFunction(null);
+		if(!isTrivial())
+			setFunction(null);
 	}
 	
 	public static Cone createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
@@ -175,6 +177,8 @@ public class Cone implements Comparable<Cone> {
 		
 		if(computeFunction) {
 			result.setFunction(computeFunctionOfMergedCones(node, cone0, cone1));
+			if(GlobalConstants.enableStatsFlag)
+				Logger.getLogger().log(new ConeComputedStats(result));
 			if(result.getFunction().nodeCount() > maxBddSizeConsidered) {
 				result.free();
 				Logger.getLogger().log(new ConeNotConsidered_BDDSize(result));
@@ -456,7 +460,7 @@ public class Cone implements Comparable<Cone> {
 		if (node.isParameter() && node.isInput()) {
 //			parameterLeaves.add(node);
 		} else {
-			regularLeaves.add(node);
+			addRegularLeave(node);
 		}
 	}
 
@@ -480,7 +484,7 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public boolean hasRegularLeaf(Node node) {
-		return getRegularLeaves().contains(node);
+		return this.regularLeaves.contains(node);
 	}
 	
 	public boolean hasParameterLeaves() {
