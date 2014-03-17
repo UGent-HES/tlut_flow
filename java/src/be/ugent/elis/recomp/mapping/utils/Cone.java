@@ -111,6 +111,8 @@ public class Cone implements Comparable<Cone> {
 	private RegularLeafSubBDDs regularLeafSubBDDIterator;
 
 	private BDD feasibilityFunction;
+	
+	private int hashCode = 0;
 
 
 	public Cone(Node node, BDDidMapping bddIdMapping) {
@@ -454,30 +456,31 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 
-	public void addLeave(Node node) {
-		nodes = null;
-
+	private void addLeave(Node node) {
 		if (node.isParameter() && node.isInput()) {
-//			parameterLeaves.add(node);
+			addParameterLeave(node);
 		} else {
 			addRegularLeave(node);
 		}
 	}
 
-	public void addRegularLeave(Node node) {
+	private void addRegularLeave(Node node) {
 		nodes = null;
+		hashCode = 0;
 
 		regularLeaves.add(node);
 	}
 
-	public void addParameterLeave(Node node) {
-		nodes = null;
+	private void addParameterLeave(Node node) {
+//		nodes = null;
+//		hashCode = 0;
 
 //		parameterLeaves.add(node);
 	}
 
-	public void addLeaves(Cone cone0) {
+	private void addLeaves(Cone cone0) {
 		nodes = null;
+		hashCode = 0;
 
 		this.regularLeaves.addAll(cone0.regularLeaves);
 //		this.parameterLeaves.addAll(cone0.parameterLeaves);
@@ -800,12 +803,14 @@ public class Cone implements Comparable<Cone> {
 
 	@Override
 	public int hashCode() {
-		int result = this.root.hashCode();
-		for (Node n:regularLeaves)
-			result ^= n.hashCode();
-//		for (Node n:parameterLeaves)
-//			result ^= n.hashCode();	
-		return result;
+		if(hashCode == 0) {
+			hashCode = root.hashCode();
+			for (Node n : regularLeaves)
+				hashCode ^= n.hashCode();
+//			for (Node n : parameterLeaves)
+//				hashCode ^= n.hashCode();	
+		}
+		return hashCode;
 	}
 
 	@Override

@@ -87,10 +87,13 @@ public class DepthOrientedConeComparator implements Comparator<Cone> {
 			else if (o1.getAreaflow() < o2.getAreaflow())
 				return -1;
 			else {
-				return o1.toString().compareTo(o2.toString());
+				if(o1.hashCode() < o2.hashCode())
+					return -1;
+				else if(o1.hashCode() > o2.hashCode())
+					return 1;
+				else
+					return 0;
 			}
-				
-
 		}
 	}
 

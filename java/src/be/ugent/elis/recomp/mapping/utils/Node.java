@@ -304,4 +304,9 @@ public class Node extends AbstractNode<Node,Edge> {
 		}
 		return true;
 	}
+	
+	@Override
+	public int hashCode() {
+		return getID();
+	}
 }

@@ -80,7 +80,12 @@ public class SizeConeComparator implements Comparator<Cone> {
 		} else if (o1.size() < o2.size()) {
 			return -1;
 		} else {
-			return 0;
+			if(o1.hashCode() < o2.hashCode())
+				return -1;
+			else if(o1.hashCode() > o2.hashCode())
+				return 1;
+			else
+				return 0;
 		}
 	}
 

@@ -392,6 +392,37 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		return result;
 	}
 	
+	protected ConeSet customFilterCones(ConeSet cones) {
+
+		boolean hasTCON = false;
+		for(Cone cone : cones.getCones()) {
+			if(!cone.isLUTfeasible(K) && cone.isTCON())
+				hasTCON = true;
+		}
+		boolean hasTCONtwoInputcone = false;
+		if(hasTCON) {
+			Cone tmp = Cone.twoInputCone(cones.getNode(), bddIdMapping, build_bdd_function);
+			tmp.initFeasibilityCalculation(tcon_mapping_flag);
+			if(tmp.isTCONfeasible()) {
+				hasTCONtwoInputcone = true;
+				//System.out.println("Debug: Node with TCON cone does not have TCON-feasible twoinput cone: "+cones.getNode().toString());
+			//} else {
+				//System.out.println("Debug: Node with TCON cone does have TCON-feasible twoinput cone: "+cones.getNode().toString());
+			}
+			tmp.finishFeasibilityCalculation();
+			tmp.free();
+		}
+		if(hasTCONtwoInputcone) {
+			ConeSet result = new ConeSet(cones.getNode());
+			for(Cone c : cones.getCones()) {
+				result.add(c);
+			}
+			return result;
+		} else {
+			return cones;
+		}
+	}
+
 	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
 		ConeSet feasibleCones = new ConeSet(mergedConeSet.getNode());
 		for (Cone c : mergedConeSet) {
@@ -412,7 +443,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				}
 			}
 			if(GlobalConstants.enableStatsFlag)
-			Logger.getLogger().log(new ConeFeasibilityStats(c));
+				Logger.getLogger().log(new ConeFeasibilityStats(c));
 			if(feasible) {
 				feasibleCones.add(c);
 			} else {

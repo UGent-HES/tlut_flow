@@ -93,8 +93,14 @@ public class AreaflowOrientedConeComparator implements Comparator<Cone> {
 			return 1;
 		else if (o1.getDepth() < o2.getDepth())
 			return -1;
-		else
-			return o1.toString().compareTo(o2.toString());
+		else {
+			if(o1.hashCode() < o2.hashCode())
+				return -1;
+			else if(o1.hashCode() > o2.hashCode())
+				return 1;
+			else
+				return 0;
+		}
 	}
 
 }
