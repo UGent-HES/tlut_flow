@@ -1,0 +1,78 @@
+modular
+modular without AES key expansion (AES,_exp)
+
+Luts (TLUTS)    depth           check           
+66135 (1704)    10              SKIPPED  
+65876 (1448/256)10              SKIPPED     Num LUT resources used with sharing: 61925   
+65879 (1396/308)10              SKIPPED     Num LUT resources used with sharing: 61928      
+66438           10              SKIPPED         
+65188           10              SKIPPED             
+
+without AES key expansion (AES,_exp)
+63152           7               SKIPPED         
+62582           7               SKIPPED         
+
+3DES
+4179            10              PASSED          
+4261            10              PASSED        
+
+
+
+
+
+with key parameterised ((OLD))
+.
+modular
+share 4869 LUTs
+ActivationSet(activation_function{<0:1>},share_with{<0:0>,},num_nodes{4869},nodes{})
+ActivationSet(activation_function{<0:0>},share_with{<0:1>,},num_nodes{63033},nodes{})
+65502 (1798)    11?              SKIPPED => 60633
+48621           62              SKIPPED         
+
+modular
+share 4997 LUTs
+ActivationSet(activation_function{<0:1>},share_with{<0:0>,},num_nodes{4997},nodes{})
+ActivationSet(activation_function{<0:0>},share_with{<0:1>,},num_nodes{63509},nodes{})
+66106 (1704)    10              SKIPPED => 61109  
+66407           10              SKIPPED         
+65188           10              SKIPPED         
+
+AES
+62274 (1505)    7               SKIPPED         
+78855           58              SKIPPED         
+77270           58              SKIPPED         
+
+without AES key expansion
+62790 (1408)    7               SKIPPED         
+63166           7               SKIPPED         
+62582           7               SKIPPED         
+
+
+3DES
+4062 (280)      10              PASSED          
+4175            10              PASSED          
+4261            10              PASSED          
+
+
+
+
+AES without AES key expansion, target 8
+62278 (1408)    8               SKIPPED         
+62576           8               SKIPPED         
+61051           8               SKIPPED  
+
+AES without AES key expansion, target 9
+62246 (1408)    8               SKIPPED         
+62522           8               SKIPPED         
+60981           9               SKIPPED         
+
+AES without AES key expansion, target 10
+62108 (1408)    8               SKIPPED         
+62404           8               SKIPPED         
+60954           10              SKIPPED    
+
+AES without AES key expansion, target 20
+62087 (1408)    9               SKIPPED         
+62374           9               SKIPPED         
+60954           10              SKIPPED  
+

@@ -1,0 +1,87 @@
+Stage: Creating work/AES directory and copying design
+Stage: Synthesizing
+Info: *******************************************************************
+Info: Running Quartus II Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Mon Mar 17 12:50:42 2014
+Info: Command: quartus_map AES.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file AES/addRoundKey.vhd
+    Info: Found design unit 1: AddRoundKey-Behavioral
+    Info: Found entity 1: AddRoundKey
+Info: Found 2 design units, including 1 entities, in source file AES/k_AES.vhd
+    Info: Found design unit 1: k_AES-Behavioral
+    Info: Found entity 1: k_AES
+Warning (10639): VHDL warning at kround.vhd(33): constant value overflow
+Info: Found 2 design units, including 1 entities, in source file AES/kround.vhd
+    Info: Found design unit 1: kround-Behavioral
+    Info: Found entity 1: kround
+Info: Found 2 design units, including 1 entities, in source file AES/mixColumns.vhd
+    Info: Found design unit 1: mixColumns-Behavioral
+    Info: Found entity 1: mixColumns
+Info: Found 2 design units, including 1 entities, in source file AES/mixColumn.vhd
+    Info: Found design unit 1: mixColumn-Behavioral
+    Info: Found entity 1: mixColumn
+Info: Found 2 design units, including 1 entities, in source file AES/rotword.vhd
+    Info: Found design unit 1: rotword-behavioural
+    Info: Found entity 1: rotword
+Info: Found 2 design units, including 1 entities, in source file AES/round0.vhd
+    Info: Found design unit 1: round0-Behavioral
+    Info: Found entity 1: round0
+Info: Found 2 design units, including 1 entities, in source file AES/round.vhd
+    Info: Found design unit 1: round-Behavioral
+    Info: Found entity 1: round
+Info: Found 2 design units, including 1 entities, in source file AES/shiftRows.vhd
+    Info: Found design unit 1: shiftRows-Behavioral
+    Info: Found entity 1: shiftRows
+Info: Found 2 design units, including 1 entities, in source file AES/subBytes.vhd
+    Info: Found design unit 1: subBytes-Behavioral
+    Info: Found entity 1: subBytes
+Info: Found 2 design units, including 1 entities, in source file AES/subByte.vhd
+    Info: Found design unit 1: subByte-Behavioral
+    Info: Found entity 1: subByte
+Info: Found 2 design units, including 1 entities, in source file AES/subWord.vhd
+    Info: Found design unit 1: subword-behavioural
+    Info: Found entity 1: subword
+Info: Found 2 design units, including 1 entities, in source file AES/AES.vhd
+    Info: Found design unit 1: AES-Behavioral
+    Info: Found entity 1: AES
+Info: Elaborating entity "AES" for the top level hierarchy
+Info: Elaborating entity "round0" for hierarchy "round0:R"
+Info: Elaborating entity "AddRoundKey" for hierarchy "round0:R|AddRoundKey:addroundkey0"
+Info: Elaborating entity "round" for hierarchy "round:\ROUNDS:1:R"
+Info: Elaborating entity "subBytes" for hierarchy "round:\ROUNDS:1:R|subBytes:SB"
+Info: Elaborating entity "subByte" for hierarchy "round:\ROUNDS:1:R|subBytes:SB|subByte:\GEN:0:SUB"
+Info: Elaborating entity "shiftRows" for hierarchy "round:\ROUNDS:1:R|shiftRows:SR"
+Info: Elaborating entity "mixColumns" for hierarchy "round:\ROUNDS:1:R|mixColumns:MC"
+Info: Elaborating entity "mixColumn" for hierarchy "round:\ROUNDS:1:R|mixColumns:MC|mixColumn:MIXCOLUMN0"
+Error: Quartus II Analysis & Synthesis was unsuccessful. 0 errors, 1 warning
+    Error: Peak virtual memory: 313 megabytes
+    Error: Processing ended: Mon Mar 17 12:56:20 2014
+    Error: Elapsed time: 00:05:38
+    Error: Total CPU time (on all processors): 00:05:34
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+Stage: Generating parameters
+Attention: Verify the detected parameters by inspecting work/AES/AES.par
+Stage: TLUT mapper
+Luts (TLUTS)    depth           check           
+63151 (0)       7               SKIPPED         
+Stage: SimpleMAP
+Luts            depth           check           
+63152           7               SKIPPED         
+Stage: ABC fpga
+Luts            depth           check           
+62582           7               SKIPPED         

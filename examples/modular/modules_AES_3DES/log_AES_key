@@ -1,0 +1,268 @@
+Stage: Creating work/k_AES directory and copying design
+Stage: Synthesizing
+quartus_map --64bit k_AES.qsf
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Tue Nov  5 15:45:17 2013
+Info: Command: quartus_map k_AES.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file AES/addRoundKey.vhd
+    Info: Found design unit 1: AddRoundKey-Behavioral
+    Info: Found entity 1: AddRoundKey
+Info: Found 2 design units, including 1 entities, in source file AES/AES.vhd
+    Info: Found design unit 1: AES-Behavioral
+    Info: Found entity 1: AES
+Warning (10639): VHDL warning at kround.vhd(33): constant value overflow
+Info: Found 2 design units, including 1 entities, in source file AES/kround.vhd
+    Info: Found design unit 1: kround-Behavioral
+    Info: Found entity 1: kround
+Info: Found 2 design units, including 1 entities, in source file AES/mixColumns.vhd
+    Info: Found design unit 1: mixColumns-Behavioral
+    Info: Found entity 1: mixColumns
+Info: Found 2 design units, including 1 entities, in source file AES/mixColumn.vhd
+    Info: Found design unit 1: mixColumn-Behavioral
+    Info: Found entity 1: mixColumn
+Info: Found 2 design units, including 1 entities, in source file AES/rotword.vhd
+    Info: Found design unit 1: rotword-behavioural
+    Info: Found entity 1: rotword
+Info: Found 2 design units, including 1 entities, in source file AES/round0.vhd
+    Info: Found design unit 1: round0-Behavioral
+    Info: Found entity 1: round0
+Info: Found 2 design units, including 1 entities, in source file AES/round.vhd
+    Info: Found design unit 1: round-Behavioral
+    Info: Found entity 1: round
+Info: Found 2 design units, including 1 entities, in source file AES/shiftRows.vhd
+    Info: Found design unit 1: shiftRows-Behavioral
+    Info: Found entity 1: shiftRows
+Info: Found 2 design units, including 1 entities, in source file AES/subBytes.vhd
+    Info: Found design unit 1: subBytes-Behavioral
+    Info: Found entity 1: subBytes
+Info: Found 2 design units, including 1 entities, in source file AES/subByte.vhd
+    Info: Found design unit 1: subByte-Behavioral
+    Info: Found entity 1: subByte
+Info: Found 2 design units, including 1 entities, in source file AES/subWord.vhd
+    Info: Found design unit 1: subword-behavioural
+    Info: Found entity 1: subword
+Info: Found 2 design units, including 1 entities, in source file AES/k_AES.vhd
+    Info: Found design unit 1: k_AES-Behavioral
+    Info: Found entity 1: k_AES
+Info: Elaborating entity "k_AES" for the top level hierarchy
+Info: Elaborating entity "kround" using architecture "A:behavioral" for hierarchy "kround:\KROUNDS:1:KR"
+Info: Elaborating entity "rotword" using architecture "A:behavioural" for hierarchy "kround:\KROUNDS:1:KR|rotword:RT"
+Info: Elaborating entity "subword" using architecture "A:behavioural" for hierarchy "kround:\KROUNDS:1:KR|subword:SW"
+Info: Elaborating entity "subByte" for hierarchy "kround:\KROUNDS:1:KR|subword:SW|subByte:\GEN:key_in[0]
+key_in[1]
+key_in[2]
+key_in[3]
+key_in[4]
+key_in[5]
+key_in[6]
+key_in[7]
+key_in[8]
+key_in[9]
+key_in[10]
+key_in[11]
+key_in[12]
+key_in[13]
+key_in[14]
+key_in[15]
+key_in[16]
+key_in[17]
+key_in[18]
+key_in[19]
+key_in[20]
+key_in[21]
+key_in[22]
+key_in[23]
+key_in[24]
+key_in[25]
+key_in[26]
+key_in[27]
+key_in[28]
+key_in[29]
+key_in[30]
+key_in[31]
+key_in[32]
+key_in[33]
+key_in[34]
+key_in[35]
+key_in[36]
+key_in[37]
+key_in[38]
+key_in[39]
+key_in[40]
+key_in[41]
+key_in[42]
+key_in[43]
+key_in[44]
+key_in[45]
+key_in[46]
+key_in[47]
+key_in[48]
+key_in[49]
+key_in[50]
+key_in[51]
+key_in[52]
+key_in[53]
+key_in[54]
+key_in[55]
+key_in[56]
+key_in[57]
+key_in[58]
+key_in[59]
+key_in[60]
+key_in[61]
+key_in[62]
+key_in[63]
+key_in[64]
+key_in[65]
+key_in[66]
+key_in[67]
+key_in[68]
+key_in[69]
+key_in[70]
+key_in[71]
+key_in[72]
+key_in[73]
+key_in[74]
+key_in[75]
+key_in[76]
+key_in[77]
+key_in[78]
+key_in[79]
+key_in[80]
+key_in[81]
+key_in[82]
+key_in[83]
+key_in[84]
+key_in[85]
+key_in[86]
+key_in[87]
+key_in[88]
+key_in[89]
+key_in[90]
+key_in[91]
+key_in[92]
+key_in[93]
+key_in[94]
+key_in[95]
+key_in[96]
+key_in[97]
+key_in[98]
+key_in[99]
+key_in[100]
+key_in[101]
+key_in[102]
+key_in[103]
+key_in[104]
+key_in[105]
+key_in[106]
+key_in[107]
+key_in[108]
+key_in[109]
+key_in[110]
+key_in[111]
+key_in[112]
+key_in[113]
+key_in[114]
+key_in[115]
+key_in[116]
+key_in[117]
+key_in[118]
+key_in[119]
+key_in[120]
+key_in[121]
+key_in[122]
+key_in[123]
+key_in[124]
+key_in[125]
+key_in[126]
+key_in[127]
+ABC command line: "strash; zero; write k_AES_resyn.aig".
+
+Converting 1408 flops from don't-care to zero initial value.
+ABC command line: "strash; zero; write k_AES_resyn.aig".
+
+Converting 1408 flops from don't-care to zero initial value.
+0:SUB"
+Info: Elaborating entity "round0" for hierarchy "round0:R"
+Info: Elaborating entity "AddRoundKey" for hierarchy "round0:R|AddRoundKey:addroundkey0"
+Info: Elaborating entity "round" for hierarchy "round:\ROUNDS:1:R"
+Info: Elaborating entity "subBytes" for hierarchy "round:\ROUNDS:1:R|subBytes:SB"
+Info: Elaborating entity "shiftRows" for hierarchy "round:\ROUNDS:1:R|shiftRows:SR"
+Info: Elaborating entity "mixColumns" for hierarchy "round:\ROUNDS:1:R|mixColumns:MC"
+Info: Elaborating entity "mixColumn" for hierarchy "round:\ROUNDS:1:R|mixColumns:MC|mixColumn:MIXCOLUMN0"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 1 warning
+    Error: Peak virtual memory: 480 megabytes
+    Error: Processing ended: Tue Nov  5 15:57:48 2013
+    Error: Elapsed time: 00:12:31
+    Error: Total CPU time (on all processors): 00:12:26
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+Stage: Generating parameters
+Attention: Verify the detected parameters by inspecting work/k_AES/k_AES.par
+Parameters:
+Stage: TLUT mapper
+Please ignore the error message "Error: The current network is combinational".
+java -server -Xms2048m -Xmx2048m be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple k_AES_resyn.aag k_AES.par 4 k_AES-tlutconfig.aag k_AES-parconfig.aag k_AES-lutstruct.blif
+Cone Enumeration:
+Cone Ranking:
+Cone Selection:
+Activation Function Builder:
+Resizing node table from 131 to 257
+Resizing node table from 257 to 509
+Resizing node table from 509 to 1013
+Resizing node table from 1013 to 2017
+Resizing node table from 2017 to 4027
+Resizing node table from 4027 to 8053
+Resizing node table from 8053 to 16103
+Resizing node table from 16103 to 32203
+Warning: Unused latch or input: clk
+Resource Sharing:
+Number of activationsets: 580
+Number of activationsets with visible nodes: 0
+
+Generating the parameterizable configuration:
+Writing the LUT structure:
+62272	7.0	1505	52.21032877946254	4774966	1057860	0
+
+abc -c print_stats k_AES_resyn.aig
+ABC command line: "print_stats".
+
+k_AES_resyn  : i/o =  257/  128  lat = 1408  and = 206491  lev =173
+abc -c print_stats k_AES-tlutconfig_resyn.aig
+ABC command line: "print_stats".
+
+k_AES-tlutconfig_resyn: i/o =  128/24080  lat =    0  and =  40171  lev =167
+Luts (TLUTS)    depth           check           
+62272 (1505)    7               SKIPPED         
+Stage: SimpleMAP
+Please ignore the error message "Error: The current network is combinational".
+java -server -Xms2048m -Xmx2048m be.ugent.elis.recomp.mapping.simple.SimpleMapper k_AES_resyn.aag 4 k_AES-simple.blif
+Cone Enumeration:
+Cone Ranking:
+Cone Selection:
+78853	58.0	11163279	1483453	0
+
+Luts            depth           check           
+78853           58              SKIPPED         
+Stage: ABC fpga
+['abc', '-c', 'strash; fpga -K 4; write k_AES-fpga.blif; print_stats', 'k_AES.blif']
+ABC command line: "strash; fpga -K 4; write k_AES-fpga.blif; print_stats".
+
+Cannot open input file "k_AES.blif". 
+Error: Empty network.
+

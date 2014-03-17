@@ -1,0 +1,215 @@
+Stage: Creating work/modules directory and copying design
+Stage: Synthesizing
+quartus_map --64bit modules.qsf
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Tue Nov  5 15:29:03 2013
+Info: Command: quartus_map modules.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file 3DES/add_key.vhd
+    Info: Found design unit 1: add_key-Behavioral
+    Info: Found entity 1: add_key
+Info: Found 2 design units, including 1 entities, in source file 3DES/add_left.vhd
+    Info: Found design unit 1: add_left-Behavioral
+    Info: Found entity 1: add_left
+Info: Found 2 design units, including 1 entities, in source file 3DES/block_top.vhd
+    Info: Found design unit 1: block_top-Behavioral
+    Info: Found entity 1: block_top
+Info: Found 2 design units, including 1 entities, in source file 3DES/des_cipher_top.vhd
+    Info: Found design unit 1: des_cipher_top-Behavioral
+    Info: Found entity 1: des_cipher_top
+Info: Found 2 design units, including 1 entities, in source file 3DES/des_top.vhd
+    Info: Found design unit 1: des_top-Behavioral
+    Info: Found entity 1: des_top
+Info: Found 2 design units, including 1 entities, in source file 3DES/e_expansion_function.vhd
+    Info: Found design unit 1: e_expansion_function-Behavioral
+    Info: Found entity 1: e_expansion_function
+Info: Found 2 design units, including 1 entities, in source file 3DES/key_schedule.vhd
+    Info: Found design unit 1: key_schedule-Behavioral
+    Info: Found entity 1: key_schedule
+Info: Found 2 design units, including 1 entities, in source file 3DES/p_box.vhd
+    Info: Found design unit 1: p_box-Behavioral
+    Info: Found entity 1: p_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/s_box.vhd
+    Info: Found design unit 1: s_box-Behavioral
+    Info: Found entity 1: s_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/s1_box.vhd
+    Info: Found design unit 1: s1_box-Behavioral
+    Info: Found entity 1: s1_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/s2_box.vhd
+    Info: Found design unit 1: s2_box-Behavioral
+    Info: Found entity 1: s2_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/s3_box.vhd
+    Info: Found design unit 1: s3_box-Behavioral
+    Info: Found entity 1: s3_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/s4_box.vhd
+    Info: Found design unit 1: s4_box-Behavioral
+    Info: Found entity 1: s4_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/s5_box.vhd
+    Info: Found design unit 1: s5_box-Behavioral
+    Info: Found entity 1: s5_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/s6_box.vhd
+    Info: Found design unit 1: s6_box-Behavioral
+    Info: Found entity 1: s6_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/s7_box.vhd
+    Info: Found design unit 1: s7_box-Behavioral
+    Info: Found entity 1: s7_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/s8_box.vhd
+    Info: Found design unit 1: s8_box-Behavioral
+    Info: Found entity 1: s8_box
+Info: Found 2 design units, including 1 entities, in source file 3DES/tdes_top.vhd
+    Info: Found design unit 1: tdes_top-Behavioral
+    Info: Found entity 1: tdes_top
+Info: Found 2 design units, including 1 entities, in source file AES/addRoundKey.vhd
+    Info: Found design unit 1: AddRoundKey-Behavioral
+    Info: Found entity 1: AddRoundKey
+Info: Found 2 design units, including 1 entities, in source file AES/AES.vhd
+    Info: Found design unit 1: AES-Behavioral
+    Info: Found entity 1: AES
+Info: Found 2 design units, including 1 entities, in source file AES/k_AES.vhd
+    Info: Found design unit 1: k_AES-Behavioral
+    Info: Found entity 1: k_AES
+Warning (10639): VHDL warning at kround.vhd(33): constant value overflow
+Info: Found 2 design units, including 1 entities, in source file AES/kround.vhd
+    Info: Found design unit 1: kround-Behavioral
+    Info: Found entity 1: kround
+Info: Found 2 design units, including 1 entities, in source file AES/mixColumns.vhd
+    Info: Found design unit 1: mixColumns-Behavioral
+    Info: Found entity 1: mixColumns
+Info: Found 2 design units, including 1 entities, in source file AES/mixColumn.vhd
+    Info: Found design unit 1: mixColumn-Behavioral
+    Info: Found entity 1: mixColumn
+Info: Found 2 design units, including 1 entities, in source file AES/rotword.vhd
+    Info: Found design unit 1: rotword-behavioural
+    Info: Found entity 1: rotword
+Info: Found 2 design units, including 1 entities, in source file AES/round0.vhd
+    Info: Found design unit 1: round0-Behavioral
+    Info: Found entity 1: round0
+Info: Found 2 design units, including 1 entities, in source file AES/round.vhd
+    Info: Found design unit 1: round-Behavioral
+    Info: Found entity 1: round
+Info: Found 2 design units, including 1 entities, in source file AES/shiftRows.vhd
+    Info: Found design unit 1: shiftRows-Behavioral
+    Info: Found entity 1: shiftRows
+Info: Found 2 design units, including 1 entities, in source file AES/subBytes.vhd
+    Info: Found design unit 1: subBytes-Behavioral
+    Info: Found entity 1: subBytes
+Info: Found 2 design units, including 1 entities, in source file AES/subByte.vhd
+    Info: Found design unit 1: subByte-Behavioral
+    Info: Found entity 1: subByte
+Info: Found 2 design units, including 1 entities, in source file AES/subWord.vhd
+    Info: Found design unit 1: subword-behavioural
+    Info: Found entity 1: subword
+Info: Found 2 design units, including 1 entities, in source file modules.vhd
+    Info: Found design unit 1: modules-behavior
+    Info: Found entity 1: modules
+Info: Elaborating entity "modules" for the top level hierarchy
+Info: Elaborating entity "tdes_top" for hierarchy "tdes_top:TDES"
+Info: Elaborating entity "des_cipher_top" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1"
+Info: Elaborating entity "key_schedule" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|key_schedule:KEYSCHEDULE"
+Info: Elaborating entity "des_top" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP"
+Info: Elaborating entity "block_top" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP"
+Info: Elaborating entity "e_expansion_function" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|e_expansion_function:E_EXPANSIONFUNCTION"
+Info: Elaborating entity "add_key" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|add_key:ADDKEY"
+Info: Elaborating entity "s_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX"
+Info: Elaborating entity "s1_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s1_box:S1"
+Info: Elaborating entity "s2_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s2_box:S2"
+Info: Elaborating entity "s3_box" for p
+ABC command line: "strash; zero; write modules_resyn.aig".
+
+Converting 2481 flops from don't-care to zero initial value.
+hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s3_box:S3"
+Info: Elaborating entity "s4_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s4_box:S4"
+Info: Elaborating entity "s5_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s5_box:S5"
+Info: Elaborating entity "s6_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s6_box:S6"
+Info: Elaborating entity "s7_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s7_box:S7"
+Info: Elaborating entity "s8_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s8_box:S8"
+Info: Elaborating entity "p_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|p_box:PBOX"
+Info: Elaborating entity "add_left" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|add_left:ADDLEFT"
+Info: Elaborating entity "k_AES" for hierarchy "k_AES:AES"
+Info: Elaborating entity "kround" using architecture "A:behavioral" for hierarchy "k_AES:AES|kround:\KROUNDS:1:KR"
+Info: Elaborating entity "rotword" using architecture "A:behavioural" for hierarchy "k_AES:AES|kround:\KROUNDS:1:KR|rotword:RT"
+Info: Elaborating entity "subword" using architecture "A:behavioural" for hierarchy "k_AES:AES|kround:\KROUNDS:1:KR|subword:SW"
+Info: Elaborating entity "subByte" for hierarchy "k_AES:AES|kround:\KROUNDS:1:KR|subword:SW|subByte:\GEN:0:SUB"
+Info: Elaborating entity "round0" for hierarchy "k_AES:AES|round0:R"
+Info: Elaborating entity "AddRoundKey" for hierarchy "k_AES:AES|round0:R|AddRoundKey:addroundkey0"
+Info: Elaborating entity "round" for hierarchy "k_AES:AES|round:\ROUNDS:1:R"
+Info: Elaborating entity "subBytes" for hierarchy "k_AES:AES|round:\ROUNDS:1:R|subBytes:SB"
+Info: Elaborating entity "shiftRows" for hierarchy "k_AES:AES|round:\ROUNDS:1:R|shiftRows:SR"
+Info: Elaborating entity "mixColumns" for hierarchy "k_AES:AES|round:\ROUNDS:1:R|mixColumns:MC"
+Info: Elaborating entity "mixColumn" for hierarchy "k_AES:AES|round:\ROUNDS:1:R|mixColumns:MC|mixColumn:MIXCOLUMN0"
+Warning: 3 hierarchies have connectivity warnings - see the Connectivity Checks report folder
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 2 warnings
+    Error: Peak virtual memory: 496 megabytes
+    Error: Processing ended: Tue Nov  5 15:42:17 2013
+    Error: Elapsed time: 00:13:14
+    Error: Total CPU time (on all processors): 00:13:08
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+Stage: Generating parameters
+Attention: Verify the detected parameters by inspecting work/modules/modules.par
+Parameters:
+Stage: TLUT mapper
+Please ignore the error message "Error: The current network is combinational".
+java -server -Xms2048m -Xmx2048m be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple modules_resyn.aag modules.par 4 modules-tlutconfig.aag modules-parconfig.aag modules-lutstruct.blif
+Cone Enumeration:
+Cone Ranking:
+Cone Selection:
+Activation Function Builder:
+Resizing node table from 11 to 19
+Resizing node table from 19 to 37
+Warning: Unused latch or input: clk
+Resource Sharing:
+Number of activationsets: 2
+Number of activationsets with visible nodes: 2
+ActivationSet(activation_function{<0:1>},share_with{<0:0>,},num_nodes{4941},nodes{})
+ActivationSet(activation_function{<0:0>},share_with{<0:1>,},num_nodes{80423},nodes{})
+
+Generating the parameterizable configuration:
+Writing the LUT structure:
+82889	57.0	128	1.6522159851778475	11750311	1563658	0
+
+abc -c print_stats modules_resyn.aig
+ABC command line: "print_stats".
+
+modules_resyn: i/o =  317/  129  lat = 2497  and = 218052  lev =172
+abc -c print_stats modules-tlutconfig_resyn.aig
+ABC command line: "print_stats".
+
+modules-tlutconfig_resyn: i/o =    1/ 2048  lat =    0  and =      0  lev =  0
+LutsABC command line: "strash; zero; write modules_resyn.aig".
+
+Converting 2481 flops from don't-care to zero initial value.
+ (TLUTS)    depth           check           
+82889 (128)     57              SKIPPED         
+Stage: SimpleMAP
+Please ignore the error message "Error: The current network is combinational".
+java -server -Xms2048m -Xmx2048m be.ugent.elis.recomp.mapping.simple.SimpleMapper modules_resyn.aag 4 modules-simple.blif
+Cone Enumeration:
+Cone Ranking:
+Cone Selection:
+82887	57.0	11750311	1563658	0
+
+Luts            depth           check           
+82887           57              SKIPPED         
+Stage: ABC fpga
+['abc', '-c', 'strash; fpga -K 4; write modules-fpga.blif; print_stats', 'modules.blif']
+ABC command line: "strash; fpga -K 4; write modules-fpga.blif; print_stats".
+
+modules      : i/o =  317/  129  lat = 2497  nd = 48621  edge = 190412  bdd  =276298  lev = 62
+
+Luts            depth           check           
+48621           62              SKIPPED         
