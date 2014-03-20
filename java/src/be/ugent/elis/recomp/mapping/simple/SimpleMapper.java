@@ -156,7 +156,7 @@ public class SimpleMapper {
         a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))), K);
  
         // Debug stats
-        //System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
+        System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
         System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());
 
 		// Cleanup
