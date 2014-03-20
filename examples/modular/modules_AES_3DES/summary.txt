@@ -1,5 +1,5 @@
 modular
-modular without AES key expansion (AES,_exp)
+modular without AES key expansion (AES,_exp) used in paper
 
 Luts (TLUTS)    depth           check           
 66135 (1704)    10              SKIPPED  
