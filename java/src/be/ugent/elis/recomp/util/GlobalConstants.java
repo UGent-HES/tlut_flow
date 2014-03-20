@@ -76,7 +76,7 @@ public class GlobalConstants {
 	
 	public static final int maxConeSizeConsidered = Integer.MAX_VALUE;
 	public static final int maxBddSizeConsidered = Integer.MAX_VALUE;
-	public static final int maxBddSizeConsideredToMerge = 100;
+	public static final int maxBddSizeConsideredToMerge = Integer.MAX_VALUE;
 	public static final int maxNumConesPerNodeConsidered = 2000;
 	public static final int maxNumConesPerNodeSaved = 1000;
 	
