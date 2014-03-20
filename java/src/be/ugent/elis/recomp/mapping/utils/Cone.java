@@ -528,12 +528,13 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	private static int countBDDVars(BDD bdd) {
-		BDD support = bdd.support();
-		int res = support.nodeCount();
-		support.free();
-//		if(res != countNonZero(bdd.varProfile()))
-//			throw new RuntimeException("invalid support"); 
-		return res;
+		return bdd.supportSize();
+//		BDD support = bdd.support();
+//		int res = support.nodeCount();
+//		support.free();
+////		if(res != countNonZero(bdd.varProfile()))
+////			throw new RuntimeException("invalid support"); 
+//		return res;
 	}
 	
 	public boolean isNoneFeasible() {
