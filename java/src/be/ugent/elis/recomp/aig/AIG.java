@@ -1441,7 +1441,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
         int numCones = 0;
         int sumBddSize = 0;
         for(N n : getAllNodes()) {
-        	for(Cone cone : ((Node)n).getConeSet().getCones()) {
+        	for(Cone cone : ((Node)(Object)n).getConeSet().getCones()) {
 	    		sumBddSize += cone.getFunction().nodeCount();
 	    		numCones += 1;
         	}
