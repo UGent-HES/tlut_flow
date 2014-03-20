@@ -30,9 +30,8 @@
             <classpath>
                 <pathelement location="../third_party/rapidSmith/"/>
                 <pathelement location="../third_party/rapidSmith/jars/hessian-4.0.6.jar"/>
-                <pathelement location="../third_party/JavaBDD/javabdd-1.0b2.jar"/>
+                <pathelement location="../third_party/javabdd_src_1.0b2/JavaBDD/"/>
                 <pathelement location="../third_party/jopt-simple-4.5.jar"/>
-                <pathelement location="../third_party/JavaBDD/javabdd-1.0b2.jar"/>
             </classpath>
         </javac>
     </target>

@@ -19,13 +19,13 @@ java : $(javaClasses:.java=.class)
 $(javaClasses:.java=.class) : rapidSmith
 .java.class :
 	mkdir -p java/bin
-	javac -d java/bin -classpath java/src:third_party/rapidSmith:third_party/rapidSmith/jars/hessian-${HESSIAN_VERSION}.jar:third_party/JavaBDD/javabdd-1.0b2.jar:third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar $<
+	javac -d java/bin -classpath java/src:third_party/rapidSmith:third_party/rapidSmith/jars/hessian-${HESSIAN_VERSION}.jar:third_party/javabdd_src_1.0b2/JavaBDD/:third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar $<
 
 
 source :
 	echo "export PATH=${PWD}/python/src:${PWD}/third_party/bin:"'$${PATH}' > source
 	echo "export CLASSPATH=${PWD}/java/bin:${PWD}/third_party/rapidSmith/jars/hessian-${HESSIAN_VERSION}.jar:"'$${CLASSPATH:-}' >> source
-	echo "export CLASSPATH=${PWD}/third_party/JavaBDD/javabdd-1.0b2.jar:"'$${CLASSPATH:-}' >> source
+	echo "export CLASSPATH=${PWD}/third_party/javabdd_src_1.0b2/JavaBDD/:"'$${CLASSPATH:-}' >> source
 	echo "export CLASSPATH=${PWD}/third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar:"'$${CLASSPATH:-}' >> source
 	echo "export PYTHONPATH=${PWD}/python/src:"'$${PYTHONPATH:-}' >> source
 	echo "export RAPIDSMITH_PATH=${PWD}/third_party/rapidSmith" >> source
@@ -37,7 +37,8 @@ third_party : aigtoaig abc rapidSmith javabdd jopt_simple
 aigtoaig : third_party/aiger-${AIGER_VERSION}/aigtoaig third_party/bin/aigtoaig
 abc : third_party/abc_${ABC_VERSION}/abc third_party/bin/abc third_party/etc/abc.rc
 rapidSmith : third_party/rapidSmith
-javabdd : third_party/JavaBDD/javabdd-${JAVABDD_VERSION}.jar
+javabdd : third_party/javabdd_src_1.0b2
+#javabdd : third_party/JavaBDD/javabdd-${JAVABDD_VERSION}.jar
 jopt_simple : third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar
 
 third_party/bin/aigtoaig :
@@ -88,12 +89,15 @@ third_party/rapidSmith : third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
 third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz :
 	cd third_party && curl -L -O http://downloads.sourceforge.net/project/rapidsmith/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
 
-third_party/javabdd_${JAVABDD_VERSION}.tar.gz :
-	cd third_party && curl -L -O http://cznic.dl.sourceforge.net/project/javabdd/javabdd-linux/${JAVABDD_VERSION}%20Linux%20binary/javabdd_${JAVABDD_VERSION}.tar.gz
+#third_party/javabdd_${JAVABDD_VERSION}.tar.gz :
+#	cd third_party && curl -L -O http://cznic.dl.sourceforge.net/project/javabdd/javabdd-linux/${JAVABDD_VERSION}%20Linux%20binary/javabdd_${JAVABDD_VERSION}.tar.gz
 
-third_party/JavaBDD/javabdd-${JAVABDD_VERSION}.jar : third_party/javabdd_${JAVABDD_VERSION}.tar.gz
-	tar -xzf third_party/javabdd_${JAVABDD_VERSION}.tar.gz -C third_party
-	touch third_party/JavaBDD/javabdd-${JAVABDD_VERSION}.jar
+#third_party/JavaBDD/javabdd-${JAVABDD_VERSION}.jar : third_party/javabdd_${JAVABDD_VERSION}.tar.gz
+#	tar -xzf third_party/javabdd_${JAVABDD_VERSION}.tar.gz -C third_party
+#	touch third_party/JavaBDD/javabdd-${JAVABDD_VERSION}.jar
+
+third_party/javabdd_src_1.0b2 :
+	git clone git@github.ugent.be:kheyse/javabdd.git javabdd_src_1.0b2
 
 third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar : 
 	cd third_party && curl -O http://central.maven.org/maven2/net/sf/jopt-simple/jopt-simple/${JOPT_SIMPLE_VERSION}/jopt-simple-${JOPT_SIMPLE_VERSION}.jar
