@@ -76,7 +76,7 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #Copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, verboseFlag=False, targetDepth=None, synthesizedFileName=None, extraArgs=[], workDir=None):
+def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, resynthesizeFlag=False, qsfFileName=None, verboseFlag=False, targetDepth=None, synthesizedFileName=None, extraArgs=[], workDir=None):
     baseName, ext = getBasenameAndExtension(os.path.basename(module))
         
     if virtexFamily in ("virtex2pro",):
@@ -92,14 +92,11 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     print "Stage: Creating %s directory and copying design"%workDir
     workFiles = [module] + submodules
     if qsfFileName: workFiles.append(qsfFileName)
-    if parameterFileName: workFiles.append(parameterFileName)
     if synthesizedFileName: workFiles.append(synthesizedFileName)
     createWorkDirAndCopyFiles(workDir, workFiles)
     
     ret_pwd = os.getcwd()
     os.chdir(workDir)
-    
-    setDebugOutputFlag(True)
     
     # Synthesis
     if synthesizedFileName == None:
@@ -109,57 +106,23 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         synthesizedFileName = synthesize(module, qsfFileName, verboseFlag)
     
     # Automatically extract parameters from VHDL
-    if parameterFileName == None:
-        print "Stage: Generating parameters"
-        parameterFileName = baseName+'.par'
-        with open(parameterFileName, "w") as parameterFile:
-            parameter_names = extract_parameter_names(module)
-            parameter_signals = extract_parameter_signals(parameter_names, synthesizedFileName)
-            print >>parameterFile, '\n'.join(parameter_signals)
-        print "Attention: Verify the detected parameters by inspecting %s/%s"%(workDir, parameterFileName)
-    if verboseFlag:
-        print "Parameters:"
-        os.system('cat %s'%parameterFileName)
+    parameterFileName = 'empty.par'
+    os.system('touch '+parameterFileName)
         
     # Resynthesize
     if resynthesizeFlag:
         print "Stage: Resynthesizing"
-        synthesizedFileName = resynthesize(baseName, synthesizedFileName)
-    
-    # Unleash TLUT mapper
-    print "Stage: TLUT mapper"
-    numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, extraArgs)
-    print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
-    print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
-
-    # Unleash TCON mapper
-    print "Stage: TCON mapper + TLC"
-    numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing', '--tcon', '--tlc'] + extraArgs)
-    print collumnize(['Luts (TLUT/TCON)','depth','check'],colwidth)
-    print collumnize([str(numLuts)+' ('+str(numTLUTs)+'/'+str(numTCONs)+')',depth,check],colwidth)
- 
-     # Unleash TCON mapper
-    print "Stage: TCON mapper"
-    numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing', '--tcon'] + extraArgs)
-    print collumnize(['Luts (TLUT/TCON)','depth','check'],colwidth)
-    print collumnize([str(numLuts)+' ('+str(numTLUTs)+'/'+str(numTCONs)+')',depth,check],colwidth)
-   
-    # Print C-files
-    if generateImplementationFilesFlag:
-        print "Stage: Generating C driver files"
-        tlutconfFile = baseName + "-parconfig_resyn.aig"
-        CFileName = baseName + '.c' 
-        headerFileName = baseName + '.h'
-        printCFunction(tlutconfFile, CFileName, headerFileName, virtexFamily, verboseFlag)
+        synthesizedFileName = resynthesize(baseName, synthesizedFileName, script='resyn;resyn2')
     
     # Run regular MAP
     print "Stage: SimpleMAP"
-    numLuts, depth, check = simpleMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag, targetDepth)
-    print collumnize(['Luts','depth','check'],colwidth)
-    print collumnize([numLuts,depth,check],colwidth)
+#     numLuts, depth, check = simpleMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag, targetDepth, extraArgs)
+#     print collumnize(['Luts','depth','check'],colwidth)
+#     print collumnize([numLuts,depth,check],colwidth)
+    numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
+        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, False, module, verboseFlag, targetDepth, extraArgs)
+    print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
+    print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
     
     # Run regular abc fpga
     print "Stage: ABC fpga"
@@ -172,6 +135,3 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
 if __name__=="__main__":
     print 'Call the function run of this file with your vhdl module as its first argument (optional list of submodule as second argument)'
     print 'or copy and edit this file to use it as a template for your experiment.'
-
-
-#from time_tconmap import *

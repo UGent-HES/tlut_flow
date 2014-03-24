@@ -69,11 +69,20 @@ All rights reserved.
 import os, sys, random
 from mapping import *
 from genParameters import extract_parameter_signals, extract_parameter_names 
+from cStringIO import StringIO
 
+N = 10
 
 colwidth=16
 def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
+
+def extractElapsedTime(text):
+    return float(filter(lambda s: s.startswith("Debug: Elapsed time after mapping:"),
+                text.splitlines())[0].split()[-1][:-1].replace(',','.'))
+def extractElapsedTimeSharing(text):
+    return float(filter(lambda s: s.startswith("Debug: Elapsed time after resource sharing:"),
+                text.splitlines())[0].split()[-1][:-1].replace(',','.'))
 
 #Copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
 def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, verboseFlag=False, targetDepth=None, synthesizedFileName=None, extraArgs=[], workDir=None):
@@ -128,50 +137,59 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     # Unleash TLUT mapper
     print "Stage: TLUT mapper"
-    numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, extraArgs)
-    print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
-    print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
+    exc_time = 0.
+    for _ in xrange(N):
+        old_stdout = sys.stdout
+        sys.stdout = myio = StringIO()
+        numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
+            simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, extraArgs)
+        sys.stdout = old_stdout
+        exc_time += extractElapsedTime(myio.getvalue())
+    print "Execution time: %gs"%(exc_time/N)
 
     # Unleash TCON mapper
     print "Stage: TCON mapper + TLC"
-    numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing', '--tcon', '--tlc'] + extraArgs)
-    print collumnize(['Luts (TLUT/TCON)','depth','check'],colwidth)
-    print collumnize([str(numLuts)+' ('+str(numTLUTs)+'/'+str(numTCONs)+')',depth,check],colwidth)
+    exc_time = 0.
+    exc_time_sharing = 0.
+    for _ in xrange(N):
+        old_stdout = sys.stdout
+        sys.stdout = myio = StringIO()
+        numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
+            simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing', '--tcon', '--tlc'] + extraArgs)
+        sys.stdout = old_stdout
+        exc_time += extractElapsedTime(myio.getvalue())
+        exc_time_sharing += extractElapsedTimeSharing(myio.getvalue())
+    print "Execution time: %gs"%(exc_time/N)
+    print "Execution time sharing: %gs"%(exc_time_sharing/N)
  
      # Unleash TCON mapper
     print "Stage: TCON mapper"
-    numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-        simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing', '--tcon'] + extraArgs)
-    print collumnize(['Luts (TLUT/TCON)','depth','check'],colwidth)
-    print collumnize([str(numLuts)+' ('+str(numTLUTs)+'/'+str(numTCONs)+')',depth,check],colwidth)
-   
-    # Print C-files
-    if generateImplementationFilesFlag:
-        print "Stage: Generating C driver files"
-        tlutconfFile = baseName + "-parconfig_resyn.aig"
-        CFileName = baseName + '.c' 
-        headerFileName = baseName + '.h'
-        printCFunction(tlutconfFile, CFileName, headerFileName, virtexFamily, verboseFlag)
+    exc_time = 0.
+    exc_time_sharing = 0.
+    for _ in xrange(N):
+        old_stdout = sys.stdout
+        sys.stdout = myio = StringIO()
+        numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
+            simpleTMapper(baseName, synthesizedFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, targetDepth, ['--sharing', '--tcon'] + extraArgs)
+        sys.stdout = old_stdout
+        exc_time += extractElapsedTime(myio.getvalue())
+        exc_time_sharing += extractElapsedTimeSharing(myio.getvalue())
+    print "Execution time: %gs"%(exc_time/N)
+    print "Execution time sharing: %gs"%(exc_time_sharing/N)
     
     # Run regular MAP
     print "Stage: SimpleMAP"
-    numLuts, depth, check = simpleMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag, targetDepth)
-    print collumnize(['Luts','depth','check'],colwidth)
-    print collumnize([numLuts,depth,check],colwidth)
-    
-    # Run regular abc fpga
-    print "Stage: ABC fpga"
-    numLuts, depth, check = fpgaMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag, targetDepth)
-    print collumnize(['Luts','depth','check'],colwidth)
-    print collumnize([numLuts,depth,check],colwidth)
+    exc_time = 0.
+    for _ in xrange(N):
+        old_stdout = sys.stdout
+        sys.stdout = myio = StringIO()
+        numLuts, depth, check = simpleMapper(baseName, synthesizedFileName, K, performCheck, verboseFlag, targetDepth)
+        sys.stdout = old_stdout
+        exc_time += extractElapsedTime(myio.getvalue())
+    print "Execution time: %gs"%(exc_time/N)
     
     os.chdir(ret_pwd)
     
 if __name__=="__main__":
     print 'Call the function run of this file with your vhdl module as its first argument (optional list of submodule as second argument)'
     print 'or copy and edit this file to use it as a template for your experiment.'
-
-
-#from time_tconmap import *
