@@ -87,6 +87,8 @@ def extractElapsedTimeSharing(text):
 #Copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
 def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, verboseFlag=False, targetDepth=None, synthesizedFileName=None, extraArgs=[], workDir=None):
     baseName, ext = getBasenameAndExtension(os.path.basename(module))
+    
+    performCheck = False
         
     if virtexFamily in ("virtex2pro",):
         K = 4

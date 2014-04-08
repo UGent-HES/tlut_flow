@@ -1,17 +1,24 @@
 #!/usr/bin/env python
-# This has been merged into the ResourceSharingCalculator in Java
 
-import sys, re
+import sys
+import os
+import re
+import pydot
 from collections import defaultdict
 
 verbose_flag = False
+export_graphs = False
 
 class ActivationSet:
     def __init__(self, id, size):
         self.id = id
         self.size = size
+        self.size_to_map = size
+        self.unused = size
         self.share_sets = None
+        self.share_sets_reduced = None
         self.share_ids = None
+        self.map_to = []
     def __str__(self):
         return "ActivationSet(id=%d,size=%d,share_ids=%s)"%(self.id,self.size,self.share_ids) #[set.id for set in self.share_sets])
     def __repr__(self):
@@ -40,34 +47,20 @@ def parse():
         activationsets[id].share_ids = share_ids
         if verbose_flag:
             print activationsets[id]
-        return activationsets
-
-def main():
-    activationsets = parse()
+    return set(activationsets.values())
     
-#     print 'cluster partitioning\n', '\n'.join(map(repr,cluster_partition(activationsets.values())))
-
-#     print 'share ids partitioning'
-#     partitioning = shareids_partition(activationsets.values())
-#     for part in partitioning:
-#         print repr(part), repr(part[0].share_sets), 'total size=', sum(activationset.size for activationset in part)
-        
-    print 'connected components partitioning'
-    partitioning = connected_partition(activationsets.values())
-    sum_largest_notconnected_subset_size = 0
-    #print len(activationsets.values())
-    for part in partitioning:
-        largest_notconnected_subset_size, largest_notconnected_subset = find_largest_notconnected_subset(part)
-        #print len(part), '#'
-        #print map(str,part), '==>', 
-        if verbose_flag:
-            print map(str,largest_notconnected_subset), 'total size=', largest_notconnected_subset_size
-        sum_largest_notconnected_subset_size += largest_notconnected_subset_size
+def largest_unconnected_subset(activationsets):
+    largest_notconnected_subset_size, largest_notconnected_subset = find_largest_notconnected_subset(activationsets)
+    #print len(part), '#'
+    #print map(str,part), '==>', 
+    if verbose_flag:
+        print map(str,largest_notconnected_subset), 'total size=', largest_notconnected_subset_size
     
     sum_all_activationset_size = sum(activationset.size for activationset in activationsets.values())
     print 'num nodes in all activationsets:', sum_all_activationset_size
     print 'max num nodes active at any time (except those not in an activationset):', sum_largest_notconnected_subset_size
     print 'num nodes saved:', sum_all_activationset_size-sum_largest_notconnected_subset_size
+    return largest_notconnected_subset
 
 def cluster_partition(activationsets, partition_ids=None):
     if partition_ids==None: partition_ids = [activationset.id for activationset in activationsets]
@@ -136,5 +129,108 @@ def find_largest_notconnected_subset(activationsets, untested_sets=None):
     else:
         return (max_without, part_without)
 
+    
+def draw_activationsets(activationsets):
+    global graph
+    graph = pydot.Dot(graph_type='graph')
+    
+    for s in activationsets:
+        node = pydot.Node("%s (%d)"%(s.id, s.size))
+        graph.add_node(node)
+        s.dot_node = node
+    
+    for s in activationsets:
+        for s2 in s.share_sets:
+            if s.id<=s2.id:
+                edge = pydot.Edge(s.dot_node, s2.dot_node)
+                graph.add_edge(edge)
+            else:
+                assert s in s2.share_sets
+
+    largest_notconnected_subset_size, largest_notconnected_subset = \
+        find_largest_notconnected_subset(activationsets)
+    for s in largest_notconnected_subset:
+        s.dot_node.set_penwidth(5)
+
+    try:
+        os.remove('sharing_graph.pdf')
+    except OSError:
+        pass
+    #graph.write_pdf('sharing_graph.pdf')
+    
+def draw_resource_mapping(activationsets):
+    mapping_graph = pydot.Dot(graph_type='digraph')
+    
+    for s in activationsets:
+        node = pydot.Node("%s (%d)"%(s.id, s.size))
+        mapping_graph.add_node(node)
+        s.dot_node = node
+    
+    for s in activationsets:
+        for map_to in s.map_to:
+            edge = pydot.Edge(s.dot_node, map_to.dot_node)
+            mapping_graph.add_edge(edge)
+
+    largest_notconnected_subset_size, largest_notconnected_subset = \
+        find_largest_notconnected_subset(activationsets)
+    for s in largest_notconnected_subset:
+        s.dot_node.set_penwidth(5)
+
+    mapping_graph.write_raw('mapping_graph.dot')
+    try:
+        os.remove('mapping_graph.pdf')
+    except OSError:
+        pass
+    if export_graphs:
+        mapping_graph.write_pdf('mapping_graph.pdf')
+
+def map_resources(activationsets):
+    for s in activationsets:
+        s.share_sets_reduced = set(s.share_sets)
+        s.size_to_map = s.size
+        s.unused = s.size
+        
+    largest_notconnected_subset_size, largest_notconnected_subset = \
+        find_largest_notconnected_subset(activationsets)
+    for s in largest_notconnected_subset:
+        s.size_to_map = 0
+        
+    todo_sets = [s for s in largest_notconnected_subset if s.share_sets_reduced]
+    skipped_sets = set()
+    
+    while todo_sets:
+        todo_sets.sort(key=lambda s: s.unused)
+        parent = todo_sets.pop(-1)
+        for child in sorted(parent.share_sets_reduced, key=lambda s: s.size_to_map, reverse=True):
+            if child.size_to_map==0:
+                continue
+            child.map_to.append(parent)
+            if parent.unused >= child.size_to_map:
+                parent.unused -= child.size_to_map
+                child.size_to_map = 0
+                todo_sets.append(child)
+            else:
+                child.size_to_map -= parent.unused
+                parent.unused = 0
+            child.share_sets_reduced.intersection_update(parent.share_sets_reduced)
+            for e in graph.get_edge(parent.dot_node.get_name(), child.dot_node.get_name()):
+                e.set_color("red")
+            if parent.unused == 0:
+                break
+                
+    for s in activationsets:
+        if s.size_to_map != 0:
+            print "unmapped:", s
+    
+
+def main():
+    activationsets = parse()
+    draw_activationsets(activationsets)
+    map_resources(activationsets)
+    draw_resource_mapping(activationsets)
+    
+    if export_graphs:
+        graph.write_pdf('sharing_graph.pdf')
+    
 if __name__=="__main__":
     main()

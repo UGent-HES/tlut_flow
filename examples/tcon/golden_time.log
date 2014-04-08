@@ -1,39 +1,39 @@
 cross16-sweep.blif
 Stage: Creating work/cross16-sweep directory and copying design
 Stage: TLUT mapper
-Execution time: 0.1736s
+Execution time: 0.1662s
 Stage: TCON mapper + TLC
-Execution time: 0.2385s
-Execution time sharing: 0.2433s
+Execution time: 0.2251s
+Execution time sharing: 0.2301s
 Stage: TCON mapper
-Execution time: 0.8924s
-Execution time sharing: 0.897s
+Execution time: 0.8603s
+Execution time sharing: 0.8653s
 Stage: SimpleMAP
-Execution time: 0.1943s
+Execution time: 0.1907s
 tlc2
 Stage: Creating work/tlc2-sweep directory and copying design
 Stage: TLUT mapper
-Execution time: 0.1427s
+Execution time: 0.1433s
 Stage: TCON mapper + TLC
-Execution time: 0.7382s
-Execution time sharing: 0.7432s
+Execution time: 0.7278s
+Execution time sharing: 0.7328s
 Stage: TCON mapper
-Execution time: 0.3586s
-Execution time sharing: 0.365s
+Execution time: 0.3346s
+Execution time sharing: 0.3416s
 Stage: SimpleMAP
-Execution time: 0.1293s
+Execution time: 0.1262s
 tlc4
 Stage: Creating work/tlc4-sweep directory and copying design
 Stage: TLUT mapper
-Execution time: 0.0426s
+Execution time: 0.0411s
 Stage: TCON mapper + TLC
-Execution time: 0.1049s
-Execution time sharing: 0.1093s
+Execution time: 0.0997s
+Execution time sharing: 0.1045s
 Stage: TCON mapper
-Execution time: 0.1113s
-Execution time sharing: 0.1159s
+Execution time: 0.105s
+Execution time sharing: 0.1102s
 Stage: SimpleMAP
-Execution time: 0.0607s
+Execution time: 0.061s
 regex
 Stage: Creating work/grid_tile directory and copying design
 Stage: Synthesizing
@@ -53,7 +53,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Mon Mar 17 17:41:17 2014
+    Info: Processing started: Mon Mar 24 15:18:00 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file design/countDecoder.vhd
@@ -76,21 +76,21 @@ Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Coun
 Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 0 warnings
-    Error: Peak virtual memory: 397 megabytes
-    Error: Processing ended: Mon Mar 17 17:41:21 2014
-    Error: Elapsed time: 00:00:04
-    Error: Total CPU time (on all processors): 00:00:03
+    Error: Peak virtual memory: 398 megabytes
+    Error: Processing ended: Mon Mar 24 15:18:02 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
 Stage: Generating parameters
 Attention: Verify the detected parameters by inspecting work/grid_tile/grid_tile.par
 Stage: Resynthesizing
 Stage: TLUT mapper
-Execution time: 0.0521s
+Execution time: 0.0479s
 Stage: TCON mapper + TLC
-Execution time: 0.2051s
-Execution time sharing: 0.2094s
+Execution time: 0.218s
+Execution time sharing: 0.2231s
 Stage: TCON mapper
-Execution time: 0.1866s
-Execution time sharing: 0.1911s
+Execution time: 0.1793s
+Execution time sharing: 0.1843s
 Stage: SimpleMAP
-Execution time: 0.0569s
+Execution time: 0.0554s
