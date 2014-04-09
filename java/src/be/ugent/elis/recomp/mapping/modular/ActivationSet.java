@@ -1,5 +1,6 @@
 package be.ugent.elis.recomp.mapping.modular;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,11 @@ class ActivationSet {
 	final private BDD activationFunction;
 	private Set<Node> nodes;
 	private Set<ActivationSet> sharingOpportunities;
+	
+	private Set<ActivationSet> sharingOpportunitiesLeft;
+	private int numNodesToMap;
+	private int numNodesToUse;
+	private ArrayList<ActivationSet> resourceSharing = new ArrayList<ActivationSet>();
 	
 	ActivationSet(MappingAIG aig, BDD activationFunction) {
 		this.aig = aig;
@@ -102,7 +108,41 @@ class ActivationSet {
 		sb.append("})");
 		return sb.toString();
 	}
+	
 	public MappingAIG getAIG() {
 		return aig;
+	}
+
+	public Set<ActivationSet> getSharingOpportunitiesLeft() {
+		return sharingOpportunitiesLeft;
+	}
+
+	public void setSharingOpportunitiesLeft(
+			Set<ActivationSet> sharingOpportunitiesLeft) {
+		this.sharingOpportunitiesLeft = sharingOpportunitiesLeft;
+	}
+
+	public int getNumNodesToMap() {
+		return numNodesToMap;
+	}
+
+	public void setNumNodesToMap(int numNodesToMap) {
+		this.numNodesToMap = numNodesToMap;
+	}
+
+	public int getNumNodesToUse() {
+		return numNodesToUse;
+	}
+
+	public void setNumNodesToUse(int numNodesToUse) {
+		this.numNodesToUse = numNodesToUse;
+	}
+	
+	public ArrayList<ActivationSet> getResourceSharing() {
+		return resourceSharing;
+	}
+	
+	public void addResourceSharing(ActivationSet set) {
+		resourceSharing.add(set);
 	}
 }

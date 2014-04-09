@@ -64,8 +64,8 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
-*/
+ *//*
+ */
 package be.ugent.elis.recomp.mapping.modular;
 
 import java.io.FileInputStream;
@@ -74,110 +74,228 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 
 public class ResourceSharingCalculator {
-	
+
 	public static void main(String[] args) throws IOException {
-		
+
 		MappingAIG a = new MappingAIG(args[0]);
-		
+
 		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
 
-        new ActivationFunctionBuilder(a, false).run();
-        new ResourceSharingCalculator().run(a);
-        
-    }
-	
+		new ActivationFunctionBuilder(a, false).run();
+		new ResourceSharingCalculator().run(a);
+
+	}
+
 	public ResourceSharingCalculator() {
 	}
-	
+
 	public void run(MappingAIG aig) {
 		init(aig);
-		
-		ResourceSharingOpportunitiesCalculator sharing_opportunities = 
-				new ResourceSharingOpportunitiesCalculator();
+
+		ResourceSharingOpportunitiesCalculator sharing_opportunities = new ResourceSharingOpportunitiesCalculator();
 		sharing_opportunities.run(aig);
-		System.out.println("Number of activationsets: "+sharing_opportunities.getActivationSets().size());
+		System.out.println("Number of activationsets: "
+				+ sharing_opportunities.getActivationSets().size());
 		System.out.println(sharing_opportunities.toString());
-		
-		//ResourceSharingOpportunitiesCalculator reduced = sharing_opportunities.getReducedSharingOpportunities();
-		//System.out.println("Number of activationsets with visible nodes: "+reduced.activationSets.size());
-		//System.out.println(reduced.toString());
-		
-		SubsetSolution solution = find_largest_notconnected_subset(sharing_opportunities.getActivationSets().values());
-		int numLUTsSaved = sharing_opportunities.totalNumLUTResources() - solution.getTotalNumLUTResources();
-	    System.out.println("Num LUTs in all activationsets: " + sharing_opportunities.totalNumLUTResources());
-	    System.out.println("Max LUTs active at any time (except those not in an activationset): " + solution.getTotalNumLUTResources());
-	    System.out.println("Num LUTs saved by sharing: " + numLUTsSaved);
-	    System.out.println("Num LUT resources used with sharing: " + (aig.numLUTResourcesUsed() - numLUTsSaved));
+
+		// ResourceSharingOpportunitiesCalculator reduced =
+		// sharing_opportunities.getReducedSharingOpportunities();
+		// System.out.println("Number of activationsets with visible nodes: "+reduced.activationSets.size());
+		// System.out.println(reduced.toString());
+
+		SubsetSolution solution = find_largest_notconnected_subset(sharing_opportunities
+				.getActivationSets().values());
+		int numLUTsSaved = sharing_opportunities.totalNumLUTResources()
+				- solution.getTotalNumLUTResources();
+		System.out.println("Num LUTs in all activationsets: "
+				+ sharing_opportunities.totalNumLUTResources());
+		System.out
+				.println("Max LUTs active at any time (except those not in an activationset): "
+						+ solution.getTotalNumLUTResources());
+		System.out.println("Num LUTs saved by sharing: " + numLUTsSaved);
+		System.out.println("Num LUT resources used with sharing: "
+				+ (aig.numLUTResourcesUsed() - numLUTsSaved));
+		map_resources(sharing_opportunities.getActivationSets().values(),
+				solution);
 		finalise(aig);
 	}
-	
+
 	private void init(MappingAIG aig) {
 	}
-	
+
 	private void finalise(MappingAIG aig) {
 	}
-	
+
 	private class SubsetSolution {
-		private final Collection<ActivationSet> actiationsets;
+		private final Collection<ActivationSet> activationsets;
 		private final int totalNumLUTResources;
-		SubsetSolution(int total_size, Collection<ActivationSet> actiationsets) {
-			this.actiationsets = actiationsets;
+
+		SubsetSolution(int total_size, Collection<ActivationSet> activationsets) {
+			this.activationsets = activationsets;
 			this.totalNumLUTResources = total_size;
 		}
-		public Collection<ActivationSet> getActiationsets() {
-			return actiationsets;
+
+		public Collection<ActivationSet> getActivationsets() {
+			return activationsets;
 		}
+
 		public int getTotalNumLUTResources() {
 			return totalNumLUTResources;
 		}
 	}
-	
-	private SubsetSolution find_largest_notconnected_subset(Collection<ActivationSet> activationsets) {
-		LinkedList<ActivationSet> untested_sets = new LinkedList<ActivationSet>(activationsets);
-        Collections.sort(untested_sets, new Comparator<ActivationSet>() {
-			public int compare(ActivationSet o1, ActivationSet o2) {
-				return new Integer(o1.getSharingOpportunities().size()).compareTo(o2.getSharingOpportunities().size());
-			} });
-        //untested_sets.sort(key=lambda set:len(set.share_sets))
-        return find_largest_notconnected_subset(activationsets, untested_sets);
-	}
-	
-	private SubsetSolution find_largest_notconnected_subset(Collection<ActivationSet> activationsets, Queue<ActivationSet> untested_sets) {
-		untested_sets = new LinkedList<ActivationSet>(untested_sets);
-		
-	    int total_size = 0;
-	    for(ActivationSet activationset : activationsets) {
-	    	total_size += activationset.numLUTResources();
-	    }
 
-	    Collection<ActivationSet> part_with, part_without;
-	    while(true) {
-	    	if(untested_sets.size() == 0) 
-	    		return new SubsetSolution(total_size, activationsets);
-	    	ActivationSet testset = untested_sets.remove();
-	    	if(!activationsets.contains(testset))
-	    		continue;
-	        part_with = new ArrayList<ActivationSet>(activationsets);
-	        for(ActivationSet share_set : testset.getSharingOpportunities())
-	        	part_with.remove(share_set);
-	        part_without = new ArrayList<ActivationSet>(activationsets);
-	        part_without.remove(testset);
-	        if(part_with.size() == activationsets.size()) 
-	            continue;
-	        break;
-	    }
-	    SubsetSolution sol_with = find_largest_notconnected_subset(part_with, untested_sets);
-	    SubsetSolution sol_without = find_largest_notconnected_subset(part_without, untested_sets);
-	    if(sol_with.getTotalNumLUTResources() > sol_without.getTotalNumLUTResources())
-	        return sol_with;
-	    else
-	        return sol_without;
+	private SubsetSolution find_largest_notconnected_subset(
+			Collection<ActivationSet> activationsets) {
+		LinkedList<ActivationSet> untested_sets = new LinkedList<ActivationSet>(
+				activationsets);
+		// untested_sets.sort(key=lambda set:len(set.share_sets))
+		Collections.sort(untested_sets, new Comparator<ActivationSet>() {
+			public int compare(ActivationSet o1, ActivationSet o2) {
+				return Integer.valueOf(o1.getSharingOpportunities().size())
+						.compareTo(o2.getSharingOpportunities().size());
+			}
+		});
+		return find_largest_notconnected_subset_rec(activationsets,
+				untested_sets);
+	}
+
+	private SubsetSolution find_largest_notconnected_subset_rec(
+			Collection<ActivationSet> activationsets,
+			Queue<ActivationSet> untested_sets) {
+		untested_sets = new LinkedList<ActivationSet>(untested_sets);
+
+		int total_size = 0;
+		for (ActivationSet activationset : activationsets) {
+			total_size += activationset.numLUTResources();
+		}
+
+		Collection<ActivationSet> part_with, part_without;
+		while (true) {
+			if (untested_sets.size() == 0)
+				return new SubsetSolution(total_size, activationsets);
+			ActivationSet testset = untested_sets.remove();
+			if (!activationsets.contains(testset))
+				continue;
+			part_with = new ArrayList<ActivationSet>(activationsets);
+			for (ActivationSet share_set : testset.getSharingOpportunities())
+				part_with.remove(share_set);
+			part_without = new ArrayList<ActivationSet>(activationsets);
+			part_without.remove(testset);
+			if (part_with.size() == activationsets.size())
+				continue;
+			break;
+		}
+		SubsetSolution sol_with = find_largest_notconnected_subset_rec(
+				part_with, untested_sets);
+		SubsetSolution sol_without = find_largest_notconnected_subset_rec(
+				part_without, untested_sets);
+		if (sol_with.getTotalNumLUTResources() > sol_without
+				.getTotalNumLUTResources())
+			return sol_with;
+		else
+			return sol_without;
+	}
+
+	private void map_resources(Collection<ActivationSet> activationsets,
+			SubsetSolution largest_notconnected_subset) {
+		if(activationsets.isEmpty())
+			return;
+		// for s in activationsets:
+		// s.share_sets_reduced = set(s.share_sets)
+		// s.size_to_map = s.size
+		// s.unused = s.size
+		for (ActivationSet s : activationsets) {
+			s.setSharingOpportunitiesLeft(new HashSet<ActivationSet>(s
+					.getSharingOpportunities()));
+			s.setNumNodesToMap(s.numLUTResources());
+			s.setNumNodesToUse(s.numLUTResources());
+		}
+		// for s in largest_notconnected_subset:
+		// s.size_to_map = 0
+		for (ActivationSet s : largest_notconnected_subset.activationsets) {
+			s.setNumNodesToMap(0);
+		}
+
+		// todo_sets = largest_notconnected_subset[:]
+		PriorityQueue<ActivationSet> todo_sets = new PriorityQueue<ActivationSet>(
+				largest_notconnected_subset.activationsets.size(),
+				new Comparator<ActivationSet>() {
+					public int compare(ActivationSet o1, ActivationSet o2) {
+						return -Integer.valueOf(o1.getNumNodesToUse()).compareTo(o2.getNumNodesToUse());
+					}
+				});
+		todo_sets.addAll(largest_notconnected_subset.activationsets);
+
+		// while todo_sets:
+		while (!todo_sets.isEmpty()) {
+			// todo_sets.sort(key=lambda s: s.unused) //solved by using
+			// priorityqueue
+			// parent = todo_sets.pop(-1)
+			ActivationSet parent = todo_sets.poll();
+			// for child in sorted(parent.share_sets_reduced, key=lambda s:s.size_to_map, reverse=True):
+			ArrayList<ActivationSet> sortedChildren = new ArrayList<ActivationSet>(parent.getSharingOpportunitiesLeft());
+			Collections.sort(sortedChildren, 
+				new Comparator<ActivationSet>() {
+					public int compare(ActivationSet o1, ActivationSet o2) {
+						return -Integer.valueOf(o1.getNumNodesToMap()).compareTo(o2.getNumNodesToMap());
+					}
+				});
+			for (ActivationSet child : sortedChildren) {
+				// if child.size_to_map==0:
+				// continue
+				if (child.getNumNodesToMap() == 0)
+					continue;
+				// child.map_to.append(parent)
+				child.addResourceSharing(parent);
+				// if parent.unused >= child.size_to_map:
+				// parent.unused -= child.size_to_map
+				// child.size_to_map = 0
+				// todo_sets.append(child)
+				// else:
+				// child.size_to_map -= parent.unused
+				// parent.unused = 0
+				if (parent.getNumNodesToUse() >= child.getNumNodesToMap()) {
+					parent.setNumNodesToUse(parent.getNumNodesToUse()
+							- child.getNumNodesToMap());
+					child.setNumNodesToMap(0);
+					todo_sets.add(child);
+				} else {
+					child.setNumNodesToMap(child.getNumNodesToMap()
+							- parent.getNumNodesToUse());
+					parent.setNumNodesToUse(0);
+				}
+				// child.share_sets_reduced.intersection_update(parent.share_sets_reduced)
+				child.getSharingOpportunitiesLeft().retainAll(
+						parent.getSharingOpportunitiesLeft());
+				// if parent.unused == 0:
+				// break
+				if (parent.getNumNodesToUse() == 0)
+					break;
+			}
+		}
+		// for s in activationsets:
+		// if s.size_to_map != 0:
+		// print "unmapped:", s
+		for (ActivationSet s : activationsets) {
+			if (s.getNumNodesToMap() != 0) {
+				System.out
+						.println("Warning: Resource sharing incomplete: " + s);
+			}
+			for (ActivationSet s2 : s.getResourceSharing()) {
+				System.out.println("Debug: Share: "
+						+ s.getActivationFunction().hashCode() + " (" + s.numLUTResources() + ") "
+						+ " -> "
+						+ s2.getActivationFunction().hashCode() + " (" + s2.numLUTResources() + ")");
+			}
+		}
 	}
 }
