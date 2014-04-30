@@ -7,7 +7,7 @@ import pydot
 from collections import defaultdict
 
 verbose_flag = False
-export_graphs = False
+export_graphs = True
 
 class ActivationSet:
     def __init__(self, id, size):
@@ -195,28 +195,29 @@ def map_resources(activationsets):
     for s in largest_notconnected_subset:
         s.size_to_map = 0
         
-    todo_sets = [s for s in largest_notconnected_subset if s.share_sets_reduced]
-    skipped_sets = set()
-    
+    todo_sets = set(s for s in largest_notconnected_subset if s.share_sets_reduced)
     while todo_sets:
-        todo_sets.sort(key=lambda s: s.unused)
-        parent = todo_sets.pop(-1)
-        for child in sorted(parent.share_sets_reduced, key=lambda s: s.size_to_map, reverse=True):
-            if child.size_to_map==0:
-                continue
-            child.map_to.append(parent)
-            if parent.unused >= child.size_to_map:
-                parent.unused -= child.size_to_map
-                child.size_to_map = 0
-                todo_sets.append(child)
-            else:
-                child.size_to_map -= parent.unused
-                parent.unused = 0
-            child.share_sets_reduced.intersection_update(parent.share_sets_reduced)
-            for e in graph.get_edge(parent.dot_node.get_name(), child.dot_node.get_name()):
-                e.set_color("red")
-            if parent.unused == 0:
-                break
+        parent = max(todo_sets, key=lambda s: s.unused)
+        if not parent.share_sets_reduced:
+            todo_sets.remove(parent)
+            continue
+        child = max(parent.share_sets_reduced, key=lambda s: s.size_to_map)
+        if child.size_to_map==0:
+            todo_sets.remove(parent)
+            continue
+        child.map_to.append(parent)
+        if parent.unused >= child.size_to_map:
+            parent.unused -= child.size_to_map
+            child.size_to_map = 0
+            todo_sets.add(child)
+        else:
+            child.size_to_map -= parent.unused
+            parent.unused = 0
+        child.share_sets_reduced.intersection_update(parent.share_sets_reduced)
+        for e in graph.get_edge(parent.dot_node.get_name(), child.dot_node.get_name()):
+            e.set_color("red")
+        if parent.unused == 0:
+            todo_sets.remove(parent)
                 
     for s in activationsets:
         if s.size_to_map != 0:

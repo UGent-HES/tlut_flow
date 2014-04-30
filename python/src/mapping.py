@@ -219,6 +219,8 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
                     print line
                 if line.startswith("Debug: "):
                     print line
+                if line.startswith("ActivationSet"):
+                    print line
         
         # Extracting results
         origAnds = getAIGStats(aigFile, verboseFlag)

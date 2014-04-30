@@ -106,6 +106,8 @@ public class StrashKey < N extends AbstractNode<N,E>, E extends AbstractEdge<N,E
 	
 	@Override
 	public int hashCode() {
+		// Maybe have a look at http://en.wikipedia.org/wiki/Cantor_pairing_function#Cantor_pairing_function
+		// for a better hashing function
 	    int hash = 1;
 	    hash = hash * 31 + (inv0 ? 0 : 1)
 				 + (inv1 ? 0 : 1);

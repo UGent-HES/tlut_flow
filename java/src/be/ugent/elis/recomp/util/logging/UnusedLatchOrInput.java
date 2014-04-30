@@ -25,6 +25,8 @@ public class UnusedLatchOrInput extends AbstractMessage {
 	}
 	
 	static void finalLog() {
-		System.out.println("Warning: Unused latch or input: " + numMessages + " warnings in total");
+		if(numMessages > 0) {
+			System.out.println("Warning: Unused latch or input: " + numMessages + " warnings in total");
+		}
 	}
 }

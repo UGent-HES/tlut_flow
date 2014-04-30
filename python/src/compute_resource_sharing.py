@@ -40,7 +40,7 @@ def parse():
         activationsets[id].share_ids = share_ids
         if verbose_flag:
             print activationsets[id]
-        return activationsets
+    return set(activationsets.values())
 
 def main():
     activationsets = parse()
@@ -53,7 +53,7 @@ def main():
 #         print repr(part), repr(part[0].share_sets), 'total size=', sum(activationset.size for activationset in part)
         
     print 'connected components partitioning'
-    partitioning = connected_partition(activationsets.values())
+    partitioning = connected_partition(activationsets)
     sum_largest_notconnected_subset_size = 0
     #print len(activationsets.values())
     for part in partitioning:
@@ -64,7 +64,7 @@ def main():
             print map(str,largest_notconnected_subset), 'total size=', largest_notconnected_subset_size
         sum_largest_notconnected_subset_size += largest_notconnected_subset_size
     
-    sum_all_activationset_size = sum(activationset.size for activationset in activationsets.values())
+    sum_all_activationset_size = sum(activationset.size for activationset in activationsets)
     print 'num nodes in all activationsets:', sum_all_activationset_size
     print 'max num nodes active at any time (except those not in an activationset):', sum_largest_notconnected_subset_size
     print 'num nodes saved:', sum_all_activationset_size-sum_largest_notconnected_subset_size

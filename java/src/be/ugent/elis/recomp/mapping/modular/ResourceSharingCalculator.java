@@ -124,6 +124,7 @@ public class ResourceSharingCalculator {
 		System.out.println("Num LUTs saved by sharing: " + numLUTsSaved);
 		System.out.println("Num LUT resources used with sharing: "
 				+ (aig.numLUTResourcesUsed() - numLUTsSaved));
+		//System.out.println("Debug: Min activation sets: "+solution);
 		map_resources(sharing_opportunities.getActivationSets().values(),
 				solution);
 		finalise(aig);
@@ -150,6 +151,14 @@ public class ResourceSharingCalculator {
 
 		public int getTotalNumLUTResources() {
 			return totalNumLUTResources;
+		}
+		public String toString() {
+			StringBuilder res = new StringBuilder();
+			res.append("{");
+			for(ActivationSet set : activationsets)
+				res.append(set.toString() + ", ");
+			res.append("}");
+			return res.toString();
 		}
 	}
 
@@ -207,25 +216,27 @@ public class ResourceSharingCalculator {
 
 	private void map_resources(Collection<ActivationSet> activationsets,
 			SubsetSolution largest_notconnected_subset) {
+		// find a (indirect) mapping for all the LUT resources (nodes) in the activationsets 
+		// to LUT resources of the largest_notconnected_subset activation sets (minimum required LUT resources)
+
 		if(activationsets.isEmpty())
 			return;
-		// for s in activationsets:
-		// s.share_sets_reduced = set(s.share_sets)
-		// s.size_to_map = s.size
-		// s.unused = s.size
+		// initialise working variables
 		for (ActivationSet s : activationsets) {
-			s.setSharingOpportunitiesLeft(new HashSet<ActivationSet>(s
-					.getSharingOpportunities()));
+			// the other activation sets this set can be mapped to
+			s.setSharingOpportunitiesLeft(new HashSet<ActivationSet>(
+					s.getSharingOpportunities()));
+			// the number of LUT resources that have to be mapped to another activation set
 			s.setNumNodesToMap(s.numLUTResources());
+			// the number of LUT resources of this activation set that other LUTs can be mapped to
 			s.setNumNodesToUse(s.numLUTResources());
 		}
-		// for s in largest_notconnected_subset:
-		// s.size_to_map = 0
+		// activation sets of the largest subset are not mapped to other subsets
 		for (ActivationSet s : largest_notconnected_subset.activationsets) {
 			s.setNumNodesToMap(0);
 		}
 
-		// todo_sets = largest_notconnected_subset[:]
+		// todo_sets sorted with activation set with most nodes to use first
 		PriorityQueue<ActivationSet> todo_sets = new PriorityQueue<ActivationSet>(
 				largest_notconnected_subset.activationsets.size(),
 				new Comparator<ActivationSet>() {
@@ -235,60 +246,55 @@ public class ResourceSharingCalculator {
 				});
 		todo_sets.addAll(largest_notconnected_subset.activationsets);
 
-		// while todo_sets:
 		while (!todo_sets.isEmpty()) {
-			// todo_sets.sort(key=lambda s: s.unused) //solved by using
-			// priorityqueue
-			// parent = todo_sets.pop(-1)
 			ActivationSet parent = todo_sets.poll();
-			// for child in sorted(parent.share_sets_reduced, key=lambda s:s.size_to_map, reverse=True):
-			ArrayList<ActivationSet> sortedChildren = new ArrayList<ActivationSet>(parent.getSharingOpportunitiesLeft());
-			Collections.sort(sortedChildren, 
-				new Comparator<ActivationSet>() {
-					public int compare(ActivationSet o1, ActivationSet o2) {
-						return -Integer.valueOf(o1.getNumNodesToMap()).compareTo(o2.getNumNodesToMap());
-					}
-				});
-			for (ActivationSet child : sortedChildren) {
-				// if child.size_to_map==0:
-				// continue
-				if (child.getNumNodesToMap() == 0)
-					continue;
-				// child.map_to.append(parent)
-				child.addResourceSharing(parent);
-				// if parent.unused >= child.size_to_map:
-				// parent.unused -= child.size_to_map
-				// child.size_to_map = 0
-				// todo_sets.append(child)
-				// else:
-				// child.size_to_map -= parent.unused
-				// parent.unused = 0
-				if (parent.getNumNodesToUse() >= child.getNumNodesToMap()) {
-					parent.setNumNodesToUse(parent.getNumNodesToUse()
-							- child.getNumNodesToMap());
-					child.setNumNodesToMap(0);
-					todo_sets.add(child);
-				} else {
-					child.setNumNodesToMap(child.getNumNodesToMap()
-							- parent.getNumNodesToUse());
-					parent.setNumNodesToUse(0);
+			// nothing left to do here
+			if (parent.getSharingOpportunitiesLeft().isEmpty())
+				continue;
+			// get child with max num nodes left to map
+			ActivationSet child = Collections.max(parent.getSharingOpportunitiesLeft(), 
+			new Comparator<ActivationSet>() {
+				public int compare(ActivationSet o1, ActivationSet o2) {
+					int r = Integer.valueOf(o1.getNumNodesToMap())
+								.compareTo(o2.getNumNodesToMap());
+					if(r == 0)
+						return -Integer.valueOf(o1.getSharingOpportunitiesLeft().size())
+							.compareTo(o2.getSharingOpportunitiesLeft().size());
+					else
+						return r;
 				}
-				// child.share_sets_reduced.intersection_update(parent.share_sets_reduced)
-				child.getSharingOpportunitiesLeft().retainAll(
-						parent.getSharingOpportunitiesLeft());
-				// if parent.unused == 0:
-				// break
-				if (parent.getNumNodesToUse() == 0)
-					break;
+			});
+			// nothing left to do here
+			if (child.getNumNodesToMap() == 0)
+				continue;
+			// store the mapping
+			child.addResourceSharing(parent);
+			// reduce the number of nodes to map of the child
+			// and reduce the number of nodes to use of the parent
+			if (parent.getNumNodesToUse() >= child.getNumNodesToMap()) {
+				parent.setNumNodesToUse(parent.getNumNodesToUse()
+						- child.getNumNodesToMap());
+				child.setNumNodesToMap(0);
+				// once a child is fully mapped, other activation sets can map to this child
+				todo_sets.add(child);
+			} else {
+				child.setNumNodesToMap(child.getNumNodesToMap()
+						- parent.getNumNodesToUse());
+				parent.setNumNodesToUse(0);
 			}
+			// A child shares resources with the parent. Therefore, other sets that want to share resources
+			// with this child will have to share resources with the parent too now.
+			child.getSharingOpportunitiesLeft().retainAll(
+					parent.getSharingOpportunitiesLeft());
+			// Add parent to todo list only if still nodes left to use. 
+			// Need to remove and add again because sorting key has changed.
+			if(parent.getNumNodesToUse()>0)
+				todo_sets.add(parent);
 		}
-		// for s in activationsets:
-		// if s.size_to_map != 0:
-		// print "unmapped:", s
+		
 		for (ActivationSet s : activationsets) {
 			if (s.getNumNodesToMap() != 0) {
-				System.out
-						.println("Warning: Resource sharing incomplete: " + s);
+				System.out.println("Warning: Resource sharing incomplete: " + s);
 			}
 			for (ActivationSet s2 : s.getResourceSharing()) {
 				System.out.println("Debug: Share: "

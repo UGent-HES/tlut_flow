@@ -99,6 +99,8 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     ret_pwd = os.getcwd()
     os.chdir(workDir)
     
+    setDebugOutputFlag(False)
+
     # Synthesis
     if synthesizedFileName == None:
         print "Stage: Synthesizing"
