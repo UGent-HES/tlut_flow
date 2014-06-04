@@ -68,24 +68,26 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.mapping.modular;
 
+
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
+import be.ugent.elis.recomp.synthesis.BDDFunction;
 import be.ugent.elis.recomp.util.GlobalConstants;
 import be.ugent.elis.recomp.util.logging.Logger;
 import be.ugent.elis.recomp.util.logging.UnusedLatchOrInput;
 
-public class ActivationFunctionBuilder {
+public class MappedActivationFunctionBuilder {
 	
 	static final int g_node_max = GlobalConstants.maxActivationFunctionSize;
 	private final MappingAIG aig;
 	private final BDDFactory B;
 	private final boolean cone_based;
 	
-    public ActivationFunctionBuilder(MappingAIG aig, boolean cone_based) {
+    public MappedActivationFunctionBuilder(MappingAIG aig, boolean cone_based) {
     	this.aig = aig;
 		this.B = BDDFactorySingleton.get();
 		this.cone_based = cone_based;
@@ -100,12 +102,13 @@ public class ActivationFunctionBuilder {
 		//Calculate activation functions and propagate activation functions past latches
 		calculateActivationFunctions();
 		
-		//checkForUnusedPrimaryInputs();
+		checkForUnusedPrimaryInputs();
 		
 		finalise();
 	}
 	
 	private void init() {
+		unsetActivationFunctions();
 	}
 	
 	private void finalise() {
@@ -273,7 +276,8 @@ public class ActivationFunctionBuilder {
 		do {
 //			System.out.format("One pass\n");
 			for (Node node : aig.topologicalOrderOutToIn())
-				updateActivationFunction(node);
+				if(node.isVisible())
+					updateActivationFunction(node);
 			
 			updated_latch = false;
 			for (Node olatch : aig.getOLatches())
@@ -282,9 +286,11 @@ public class ActivationFunctionBuilder {
 	}
 
 	private boolean updateOLatchActivationFunction(Node olatch) {
-		boolean updated_latch = false;
+		if(!olatch.isOLatch())
+			throw new RuntimeException("Expected OLatch");
 		Node latch = olatch.getI0().getTail();
 		Node ilatch = latch.getI0().getTail();
+		boolean updated_latch = false;
 		if(!ilatch.getOutputActivationFunction().equals(olatch.getActivationFunction())) {
 			ilatch.setOutputActivationFunction(olatch.getActivationFunction().id());
 			ilatch.setUpdated(true);
@@ -295,21 +301,65 @@ public class ActivationFunctionBuilder {
 
 	private void updateActivationFunction(Node node) {
 		assert(node.getOutputActivationFunction()!=null);
+		assert(node.isVisible());
 		
 		if(!node.isUpdated()) 
 			return;
 		node.setUpdated(false);
 
+		BDD local_function;
+		if(GlobalConstants.feasibility_uses_activationfunction)
+			local_function = node.getBestCone().getFunction().and(node.getOutputActivationFunction());
+		else
+			local_function = node.getBestCone().getFunction();
+		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(local_function, aig.getBDDidMapping());
+		
+
 		BDD new_activation_function = node.getOutputActivationFunction().id()
 				.andWith(
 						node.getOnParamFunction()
 								.or(node.getOffParamFunction()).not());
-		if(node.getActivationFunction() != null
-				&& node.getActivationFunction().equals(new_activation_function)) {
+		if(node.getActivationFunction().equals(new_activation_function)) {
 			new_activation_function.free();
 			return;
 		} else {
 			node.setActivationFunction(new_activation_function);
+		}
+		
+		//System.out.println(node.getName());
+		//System.out.println(local_function);
+		if (node.isGate() || node.isPrimaryOutput()) {
+			//Iterate over parameter configurations of the LUT and remember which inputs are used for each configuration
+			while(regularLeafSubBDDIterator.hasNext()) {
+				BDDPair pair = regularLeafSubBDDIterator.next();
+				BDD param_condition = pair.first;
+				BDD lut_function = pair.second;
+				BDD lut_support_it = lut_function.support();
+				
+				//System.out.println(param_condition);
+				while(!lut_support_it.isOne()) {
+					int var_id = lut_support_it.var();
+					//System.out.println(var_id);
+					BDD n_lut_support_it = lut_support_it.high(); //TODO: free old bdd
+					lut_support_it.free();
+					lut_support_it = n_lut_support_it;
+					Node n = aig.getBDDidMapping().getNode(var_id);
+					//System.out.println(n.getName() + " hier");
+					n.setOutputActivationFunction(n.getOutputActivationFunction().or(param_condition));
+					n.setUpdated(true);
+				}
+				param_condition.free();
+				lut_function.free();
+			}
+		}
+		
+		/*BDD new_activation_function = BDDFactorySingleton.get().one();
+		if(node.getActivationFunction() != null
+				&& node.getActivationFunction().equals(local_function)) {
+			local_function.free();
+			return;
+		} else {
+			node.setActivationFunction(local_function);
 		}
 		
 		if (node.isGate() || node.isPrimaryOutput()) {
@@ -318,7 +368,7 @@ public class ActivationFunctionBuilder {
 				node0.setOutputActivationFunction(node0.getOutputActivationFunction().or(node.getActivationFunction()));
 				node0.setUpdated(true);
 			}
-		}
+		}*/
 	}
 
 	private void checkForUnusedPrimaryInputs() {

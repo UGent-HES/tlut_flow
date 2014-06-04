@@ -14,7 +14,7 @@ public class UnusedLatchOrInput extends AbstractMessage {
 
 	@Override
 	void doLog() {
-		if(numMessages < 0) {
+		if(numMessages < 10) {
 			if(node.isInput())
 				System.out.println("Warning: Unused input: "+node.getName());
 			else if(node.isOLatch())

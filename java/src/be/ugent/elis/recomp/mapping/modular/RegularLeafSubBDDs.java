@@ -64,24 +64,91 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
+*//*
 */
-package be.ugent.elis.recomp.util;
+package be.ugent.elis.recomp.mapping.modular;
 
 
-public class GlobalConstants {
-	public static final boolean enableStatsFlag = false;
-	public static final boolean binizeStatsFlag = false;
-	public static final boolean freeBDDafterEnumeration = false;
-	public static final boolean feasibility_uses_activationfunction = true;
+import java.util.Iterator;
+import java.util.Stack;
+
+import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
+import net.sf.javabdd.BDD;
+import net.sf.javabdd.BDDFactory;
+
+public class RegularLeafSubBDDs implements Iterator<BDDPair> {
 	
-	public static final int maxConeSizeConsidered = Integer.MAX_VALUE;
-	public static final int maxBddSizeConsidered = Integer.MAX_VALUE;
-	public static final int maxBddSizeConsideredToMerge = Integer.MAX_VALUE;
-	public static final int maxNumConesPerNodeConsidered = 2000;
-	public static final int maxNumConesPerNodeSaved = 1000;
+	private BDDidMapping bddIdMapping;
+	private BDDFactory factory;
+    /**
+     * BDDs that are scheduled to be analysed
+     */
+	private Stack<BDDPair> subBDDsToAnalyse;
+	/**
+	 * hasNext() computes and stores the next regularLeafSubBDD here
+	 */
+    private BDDPair next;
+
+	public RegularLeafSubBDDs(BDD bdd, BDDidMapping bddIdMapping) {
+		this.bddIdMapping = bddIdMapping;
+		this.factory = bdd.getFactory();
+		this.subBDDsToAnalyse = new Stack<BDDPair>();
+        
+        BDD startBDD = bdd.id();
+		this.subBDDsToAnalyse.push(new BDDPair(factory.one(), startBDD));
+        
+        this.next = null;
+	}
 	
-	public static final int bddNodeTableSize = 40000000;
-	public static final int bddCacheSize = 1000000;
-	
-	public static final int maxActivationFunctionSize = Integer.MAX_VALUE;
+	public void free() {
+		this.subBDDsToAnalyse = null;
+        this.next = null;
+	}
+
+	@Override
+	public boolean hasNext() {
+		//Calculate new regularLeafSubBDDs
+        while(!this.subBDDsToAnalyse.empty()) {
+        	BDDPair pair = this.subBDDsToAnalyse.pop();
+            BDD subBDD = pair.second;
+            if(!subBDD.isZero() && !subBDD.isOne()
+                    && bddIdMapping.getNode(subBDD.var()).isParameter()) {
+            	BDD newWhenBDD = pair.first.and(factory.ithVar(subBDD.var()));
+                BDD newSubBDD = subBDD.high();
+                this.subBDDsToAnalyse.push(new BDDPair(newWhenBDD, newSubBDD));
+                newWhenBDD = pair.first.and(factory.nithVar(subBDD.var()));
+                newSubBDD = subBDD.low();
+                this.subBDDsToAnalyse.push(new BDDPair(newWhenBDD, newSubBDD));
+                pair.first.free();
+                subBDD.free();
+            } else {
+            	//Found a new one
+                next = pair;
+                return true;
+            }
+        }
+        next = null;
+		return false;
+	}
+
+	private boolean bddContainsParameterLeaves(BDD bdd) {
+		if(bdd.isZero() || bdd.isOne())
+			return false;
+		if(bddIdMapping.getNode(bdd.var()).isParameter())
+			return true;
+		return bddContainsParameterLeaves(bdd.high())
+				|| bddContainsParameterLeaves(bdd.low());
+	}
+
+	@Override
+	public BDDPair next() {
+//		if(bddContainsParameterLeaves(next))
+//			throw new RuntimeException("RegularLeafSubBDD contains parameter leaves");
+        return next;
+	}
+
+	@Override
+	public void remove() {
+		throw new RuntimeException("Not implemented");
+	}
 }

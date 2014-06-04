@@ -64,24 +64,18 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
+*//*
 */
-package be.ugent.elis.recomp.util;
+package be.ugent.elis.recomp.mapping.modular;
 
+import net.sf.javabdd.BDD;
 
-public class GlobalConstants {
-	public static final boolean enableStatsFlag = false;
-	public static final boolean binizeStatsFlag = false;
-	public static final boolean freeBDDafterEnumeration = false;
-	public static final boolean feasibility_uses_activationfunction = true;
-	
-	public static final int maxConeSizeConsidered = Integer.MAX_VALUE;
-	public static final int maxBddSizeConsidered = Integer.MAX_VALUE;
-	public static final int maxBddSizeConsideredToMerge = Integer.MAX_VALUE;
-	public static final int maxNumConesPerNodeConsidered = 2000;
-	public static final int maxNumConesPerNodeSaved = 1000;
-	
-	public static final int bddNodeTableSize = 40000000;
-	public static final int bddCacheSize = 1000000;
-	
-	public static final int maxActivationFunctionSize = Integer.MAX_VALUE;
+public class BDDPair {
+	public final BDD first;
+	public final BDD second;
+
+	BDDPair(BDD f, BDD s) {
+		first = f;
+		second = s;
+	}
 }

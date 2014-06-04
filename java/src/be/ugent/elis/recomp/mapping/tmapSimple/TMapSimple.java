@@ -74,12 +74,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Map;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.modular.ActivationFunctionBuilder;
+import be.ugent.elis.recomp.mapping.modular.MappedActivationFunctionBuilder;
 import be.ugent.elis.recomp.mapping.modular.ResourceSharingCalculator;
 import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
@@ -223,6 +225,14 @@ public class TMapSimple {
 		long elapsed_time = System.currentTimeMillis() - start_time;
 		System.out.println("Debug: Elapsed time after mapping: "+String.format("%3.3es", elapsed_time/1000.));
 
+		// Build activation functions for resource sharing again
+		if(use_bdd_flag) {
+	        System.out.println("Mapped AIG Activation Function Builder:");
+	        MappedActivationFunctionBuilder activ_fn_builder = new MappedActivationFunctionBuilder(a, false);
+	        activ_fn_builder.unsetActivationFunctions();
+	        activ_fn_builder.run();
+		}
+		
 		// Resource sharing
 		if(resource_sharing_flag) {
 	        System.out.println("Resource Sharing:");
