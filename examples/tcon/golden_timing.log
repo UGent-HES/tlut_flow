@@ -1,0 +1,96 @@
+cross16-sweep.blif
+Stage: Creating work/cross16-sweep directory and copying design
+Stage: TLUT mapper
+Execution time: 0.1622s
+Stage: TCON mapper + TLC
+Execution time: 0.2214s
+Execution time sharing: 0.2266s
+Stage: TCON mapper
+Execution time: 0.8223s
+Execution time sharing: 0.827s
+Stage: SimpleMAP
+Execution time: 0.1939s
+tlc2
+Stage: Creating work/tlc2-sweep directory and copying design
+Stage: TLUT mapper
+Execution time: 0.1415s
+Stage: TCON mapper + TLC
+Execution time: 0.7167s
+Execution time sharing: 0.7229s
+Stage: TCON mapper
+Execution time: 0.3268s
+Execution time sharing: 0.3346s
+Stage: SimpleMAP
+Execution time: 0.1235s
+tlc4
+Stage: Creating work/tlc4-sweep directory and copying design
+Stage: TLUT mapper
+Execution time: 0.0404s
+Stage: TCON mapper + TLC
+Execution time: 0.0981s
+Execution time sharing: 0.1042s
+Stage: TCON mapper
+Execution time: 0.1058s
+Execution time sharing: 0.1117s
+Stage: SimpleMAP
+Execution time: 0.0579s
+regex
+Stage: Creating work/grid_tile directory and copying design
+Stage: Synthesizing
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions
+    Info: and other software and tools, and its AMPP partner logic
+    Info: functions, and any output files from any of the foregoing
+    Info: (including device programming or simulation files), and any
+    Info: associated documentation or information are expressly subject
+    Info: to the terms and conditions of the Altera Program License
+    Info: Subscription Agreement, Altera MegaCore Function License
+    Info: Agreement, or other applicable license agreement, including,
+    Info: without limitation, that your use is for the sole purpose of
+    Info: programming logic devices manufactured by Altera and sold by
+    Info: Altera or its authorized distributors.  Please refer to the
+    Info: applicable agreement for further details.
+    Info: Processing started: Mon Apr 28 10:41:06 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file design/countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file design/counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file design/test.vhd
+    Info: Found design unit 1: test-RTL
+    Info: Found entity 1: test
+Info: Found 2 design units, including 1 entities, in source file design/top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file design/grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 0 warnings
+    Error: Peak virtual memory: 398 megabytes
+    Error: Processing ended: Mon Apr 28 10:41:09 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+Stage: Generating parameters
+Attention: Verify the detected parameters by inspecting work/grid_tile/grid_tile.par
+Stage: Resynthesizing
+Stage: TLUT mapper
+Execution time: 0.0484s
+Stage: TCON mapper + TLC
+Execution time: 0.2114s
+Execution time sharing: 0.2165s
+Stage: TCON mapper
+Execution time: 0.1786s
+Execution time sharing: 0.1837s
+Stage: SimpleMAP
+Execution time: 0.0527s
