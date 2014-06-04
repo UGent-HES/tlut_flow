@@ -1,45 +1,43 @@
 cross16-sweep.blif
 Stage: Creating work/cross16-sweep directory and copying design
 Stage: TLUT mapper
-Debug: Elapsed time after mapping: 1,580e-01s
-Debug: Elapsed time after resource sharing: 1,600e-01s
+Debug: Elapsed time after mapping: 1,570e-01s
+Debug: Elapsed time after resource sharing: 1,590e-01s
 Debug: Num Cones considered: 8976
 Debug: Num Cones retained: 2896
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 0
 Debug: Times max cone num to save reached: 0
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUTS)    depth           check           
 80 (80)         2               PASSED          
 Stage: TCON mapper + TLC
-Debug: Elapsed time after mapping: 2,140e-01s
+Debug: Elapsed time after mapping: 2,540e-01s
 Num LUT resources used with sharing: 0
-Debug: Elapsed time after resource sharing: 2,190e-01s
+Debug: Elapsed time after resource sharing: 2,790e-01s
 Debug: Num Cones considered: 800
 Debug: Num Cones retained: 800
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 0
 Debug: Times max cone num to save reached: 0
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUT/TCON)depth           check           
 0 (0/16)        0               PASSED          
 Stage: TCON mapper
-Debug: Elapsed time after mapping: 9,540e-01s
+Debug: Elapsed time after mapping: 8,160e-01s
 Num LUT resources used with sharing: 0
-Debug: Elapsed time after resource sharing: 9,590e-01s
+Debug: Elapsed time after resource sharing: 8,330e-01s
 Debug: Num Cones considered: 52688
 Debug: Num Cones retained: 24818
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 16
 Debug: Times max cone num to save reached: 0
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUT/TCON)depth           check           
 0 (0/163)       0               PASSED          
 Stage: SimpleMAP
-Debug: Elapsed time: 1,790e-01s
+Debug: Elapsed time after mapping: 2,100e-01s
+Debug: Num Cones considered: 11120
 Debug: Num Cones retained: 3952
 Luts            depth           check           
 160             4               PASSED          
@@ -49,45 +47,71 @@ Luts            depth           check
 tlc2
 Stage: Creating work/tlc2-sweep directory and copying design
 Stage: TLUT mapper
-Debug: Elapsed time after mapping: 1,600e-01s
-Debug: Elapsed time after resource sharing: 1,620e-01s
+Debug: Elapsed time after mapping: 1,380e-01s
+Debug: Elapsed time after resource sharing: 1,400e-01s
 Debug: Num Cones considered: 10852
 Debug: Num Cones retained: 2146
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 0
 Debug: Times max cone num to save reached: 0
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUTS)    depth           check           
 50 (24)         7               PASSED          
 Stage: TCON mapper + TLC
-Debug: Elapsed time after mapping: 6,970e-01s
+Debug: Elapsed time after mapping: 7,240e-01s
+ActivationSet(activation_function{668},share_with{631,},num_luts{1},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{631},share_with{642,690,644,677,668,},num_luts{4},bdd_vars{p[2],p[0],})
+ActivationSet(activation_function{644},share_with{642,690,79137,692,631,677,},num_luts{1},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{692},share_with{644,},num_luts{1},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{677},share_with{642,644,631,},num_luts{4},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{79137},share_with{642,644,},num_luts{3},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{690},share_with{644,631,},num_luts{2},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{636},share_with{642,},num_luts{6},bdd_vars{p[2],p[0],})
+ActivationSet(activation_function{642},share_with{79137,636,644,631,677,},num_luts{4},bdd_vars{p[2],p[0],p[1],})
 Num LUT resources used with sharing: 22
-Debug: Elapsed time after resource sharing: 7,020e-01s
+Debug: Share: 631 (4)  -> 677 (4)
+Debug: Share: 644 (1)  -> 631 (4)
+Debug: Share: 642 (4)  -> 636 (6)
+Debug: Elapsed time after resource sharing: 7,350e-01s
 Debug: Num Cones considered: 32520
 Debug: Num Cones retained: 10968
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 7
 Debug: Times max cone num to save reached: 5
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUT/TCON)depth           check           
 31 (11/9)       5               PASSED          
 Stage: TCON mapper
-Debug: Elapsed time after mapping: 3,370e-01s
-Num LUT resources used with sharing: 24
-Debug: Elapsed time after resource sharing: 3,430e-01s
+Debug: Elapsed time after mapping: 3,930e-01s
+ActivationSet(activation_function{668},share_with{631,},num_luts{1},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{685},share_with{631,677,642,46895,},num_luts{1},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{631},share_with{668,677,644,642,685,},num_luts{6},bdd_vars{p[2],p[0],})
+ActivationSet(activation_function{46919},share_with{644,642,},num_luts{1},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{46895},share_with{644,642,685,},num_luts{2},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{644},share_with{631,677,642,688,46919,46895,},num_luts{2},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{677},share_with{631,644,642,685,},num_luts{8},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{688},share_with{644,},num_luts{2},bdd_vars{p[2],p[0],p[1],})
+ActivationSet(activation_function{636},share_with{642,},num_luts{8},bdd_vars{p[2],p[0],})
+ActivationSet(activation_function{642},share_with{631,677,644,636,46919,685,46895,},num_luts{13},bdd_vars{p[2],p[0],p[1],})
+Num LUT resources used with sharing: 22
+Warning: Resource sharing incomplete: ActivationSet(activation_function{685},share_with{631,677,642,46895,},num_luts{1},bdd_vars{p[2],p[0],p[1],})
+Warning: Resource sharing incomplete: ActivationSet(activation_function{631},share_with{668,677,644,642,685,},num_luts{6},bdd_vars{p[2],p[0],})
+Debug: Share: 631 (6)  -> 668 (1)
+Debug: Share: 644 (2)  -> 46895 (2)
+Debug: Share: 642 (13)  -> 677 (8)
+Debug: Share: 642 (13)  -> 636 (8)
+Debug: Elapsed time after resource sharing: 4,130e-01s
 Debug: Num Cones considered: 8558
 Debug: Num Cones retained: 1858
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 0
 Debug: Times max cone num to save reached: 0
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUT/TCON)depth           check           
 44 (22/13)      6               PASSED          
 Stage: SimpleMAP
-Debug: Elapsed time: 1,420e-01s
+Debug: Elapsed time after mapping: 1,220e-01s
+Debug: Num Cones considered: 9458
 Debug: Num Cones retained: 1844
 Luts            depth           check           
 96              7               PASSED          
@@ -97,45 +121,57 @@ Luts            depth           check
 tlc4
 Stage: Creating work/tlc4-sweep directory and copying design
 Stage: TLUT mapper
-Debug: Elapsed time after mapping: 4,500e-02s
-Debug: Elapsed time after resource sharing: 4,700e-02s
+Debug: Elapsed time after mapping: 4,000e-02s
+Debug: Elapsed time after resource sharing: 4,200e-02s
 Debug: Num Cones considered: 680
 Debug: Num Cones retained: 333
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 0
 Debug: Times max cone num to save reached: 0
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUTS)    depth           check           
 20 (19)         2               PASSED          
 Stage: TCON mapper + TLC
-Debug: Elapsed time after mapping: 1,080e-01s
-Num LUT resources used with sharing: 11
-Debug: Elapsed time after resource sharing: 1,130e-01s
+Debug: Elapsed time after mapping: 9,700e-02s
+ActivationSet(activation_function{4},share_with{368,5,376,},num_luts{4},bdd_vars{p[1],})
+ActivationSet(activation_function{368},share_with{4,376,},num_luts{2},bdd_vars{p[0],p[1],})
+ActivationSet(activation_function{5},share_with{4,},num_luts{6},bdd_vars{p[1],})
+ActivationSet(activation_function{376},share_with{368,4,},num_luts{1},bdd_vars{p[0],p[1],})
+Num LUT resources used with sharing: 9
+Debug: Share: 4 (4)  -> 5 (6)
+Debug: Share: 376 (1)  -> 368 (2)
+Debug: Elapsed time after resource sharing: 1,090e-01s
 Debug: Num Cones considered: 554
 Debug: Num Cones retained: 299
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 0
 Debug: Times max cone num to save reached: 0
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUT/TCON)depth           check           
 14 (14/10)      1               PASSED          
 Stage: TCON mapper
-Debug: Elapsed time after mapping: 1,070e-01s
-Num LUT resources used with sharing: 12
-Debug: Elapsed time after resource sharing: 1,120e-01s
+Debug: Elapsed time after mapping: 1,100e-01s
+ActivationSet(activation_function{4},share_with{368,376,5,},num_luts{4},bdd_vars{p[1],})
+ActivationSet(activation_function{368},share_with{4,376,370,},num_luts{2},bdd_vars{p[0],p[1],})
+ActivationSet(activation_function{5},share_with{4,370,},num_luts{7},bdd_vars{p[1],})
+ActivationSet(activation_function{370},share_with{368,376,5,},num_luts{2},bdd_vars{p[0],p[1],})
+ActivationSet(activation_function{376},share_with{368,4,370,},num_luts{1},bdd_vars{p[0],p[1],})
+Num LUT resources used with sharing: 9
+Debug: Share: 4 (4)  -> 5 (7)
+Debug: Share: 370 (2)  -> 5 (7)
+Debug: Share: 376 (1)  -> 368 (2)
+Debug: Elapsed time after resource sharing: 1,230e-01s
 Debug: Num Cones considered: 671
 Debug: Num Cones retained: 331
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 0
 Debug: Times max cone num to save reached: 0
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUT/TCON)depth           check           
 16 (15/10)      2               PASSED          
 Stage: SimpleMAP
-Debug: Elapsed time: 6,000e-02s
+Debug: Elapsed time after mapping: 6,300e-02s
+Debug: Num Cones considered: 1905
 Debug: Num Cones retained: 641
 Luts            depth           check           
 31              3               PASSED          
@@ -161,7 +197,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Mon Mar 17 16:24:54 2014
+    Info: Processing started: Wed Jun  4 16:29:22 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file design/countDecoder.vhd
@@ -184,30 +220,30 @@ Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Coun
 Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 0 warnings
-    Error: Peak virtual memory: 398 megabytes
-    Error: Processing ended: Mon Mar 17 16:24:58 2014
-    Error: Elapsed time: 00:00:04
-    Error: Total CPU time (on all processors): 00:00:03
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Wed Jun  4 16:29:33 2014
+    Error: Elapsed time: 00:00:11
+    Error: Total CPU time (on all processors): 00:00:10
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
 Stage: Generating parameters
 Attention: Verify the detected parameters by inspecting work/grid_tile/grid_tile.par
 Stage: Resynthesizing
 Stage: TLUT mapper
-Debug: Elapsed time after mapping: 4,800e-02s
-Debug: Elapsed time after resource sharing: 5,000e-02s
+Debug: Elapsed time after mapping: 4,700e-02s
+Debug: Elapsed time after resource sharing: 4,900e-02s
 Debug: Num Cones considered: 1255
 Debug: Num Cones retained: 422
 Debug: Num cones not considered because of excessive BDD size: 0
 Debug: Num cones not considered to merge because of excessive BDD size: 0
 Debug: Times max cone num to consider reached: 0
 Debug: Times max cone num to save reached: 0
-Warning: Unused latch or input: 0 warnings in total
 Luts (TLUTS)    depth           check           
 26 (12)         4               PASSED          
 Stage: TCON mapper + TLC
-Debug: Elapsed time after mapping: 2,010e-01s
+Debug: Elapsed time after mapping: 2,050e-01s
+Warning: Unused input: clk
 Num LUT resources used with sharing: 23
-Debug: Elapsed time after resource sharing: 2,060e-01s
+Debug: Elapsed time after resource sharing: 2,460e-01s
 Debug: Num Cones considered: 1002
 Debug: Num Cones retained: 375
 Debug: Num cones not considered because of excessive BDD size: 0
@@ -218,9 +254,10 @@ Warning: Unused latch or input: 1 warnings in total
 Luts (TLUT/TCON)depth           check           
 23 (9/2)        4               PASSED          
 Stage: TCON mapper
-Debug: Elapsed time after mapping: 1,740e-01s
+Debug: Elapsed time after mapping: 1,850e-01s
+Warning: Unused input: clk
 Num LUT resources used with sharing: 23
-Debug: Elapsed time after resource sharing: 1,790e-01s
+Debug: Elapsed time after resource sharing: 2,360e-01s
 Debug: Num Cones considered: 1022
 Debug: Num Cones retained: 392
 Debug: Num cones not considered because of excessive BDD size: 0
@@ -231,7 +268,8 @@ Warning: Unused latch or input: 1 warnings in total
 Luts (TLUT/TCON)depth           check           
 23 (9/2)        4               PASSED          
 Stage: SimpleMAP
-Debug: Elapsed time: 5,400e-02s
+Debug: Elapsed time after mapping: 5,300e-02s
+Debug: Num Cones considered: 1562
 Debug: Num Cones retained: 481
 Luts            depth           check           
 42              5               PASSED          
