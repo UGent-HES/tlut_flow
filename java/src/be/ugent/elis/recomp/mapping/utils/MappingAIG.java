@@ -89,7 +89,7 @@ import be.ugent.elis.recomp.synthesis.BooleanFunction;
 public class MappingAIG extends AIG<Node, Edge> {
 
 	BDDidMapping bddIdMapping = null;
-	
+
 	public MappingAIG(String fileName) throws FileNotFoundException {
 		super(new SimpleElementFactory(), fileName);
 	}
@@ -100,11 +100,16 @@ public class MappingAIG extends AIG<Node, Edge> {
 	
 	/**
 	 * Initialise BDDidMapping object.
-	 * Has to be called after parameter marking because the mapping gives 
-	 * parameters the lowest ids.
+	 * Has to be called after parameter marking because the mapping 
+	 * needs to know how many parameters exist.
+	 * It gives the parameters the lowest ids.
 	 */
 	public void initBDDidMapping() {
 		bddIdMapping = new BDDidMapping(this);
+	}
+	
+	public BDDidMapping getBDDidMapping() {
+		return bddIdMapping;
 	}
 	
 	public Collection<Cone> getVisibleCones() {
@@ -153,11 +158,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 		
 		return result;
 	}
-	
-	public BDDidMapping getBDDidMapping() {
-		return bddIdMapping;
-	}
-
 
     private class ConfigurationEntry {
         String name;

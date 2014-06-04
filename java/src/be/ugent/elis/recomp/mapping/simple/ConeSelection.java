@@ -88,7 +88,7 @@ public class ConeSelection implements Visitor<Node, Edge> {
 		
 		// Set the child nodes of the outputs visible.
 		if (node.isPrimaryOutput()) {
-			
+			node.setVisible(true);
 			node.getI0().getTail().setVisible(true);
 			if(GlobalConstants.enableStatsFlag)
 				Logger.getLogger().log(new ConeSelectedStats(node.getI0().getTail().getBestCone()));

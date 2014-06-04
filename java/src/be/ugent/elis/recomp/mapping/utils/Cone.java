@@ -229,7 +229,7 @@ public class Cone implements Comparable<Cone> {
 		if(!node.isPrimaryOutput())
 			throw new RuntimeException("Only call this function with primary output node");
 		Cone cone = new Cone(node, bddIdMapping);
-		Node head = node.getI0().getHead();
+		Node head = node.getI0().getTail();
 		cone.addLeave(head);
 		cone.calculateSignature();
 		if(build_bdd_function)
