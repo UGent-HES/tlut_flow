@@ -84,4 +84,6 @@ public class GlobalConstants {
 	public static final int bddCacheSize = 1000000;
 	
 	public static final int maxActivationFunctionSize = Integer.MAX_VALUE;
+	
+	public static final boolean logLongActivationFunctionDescription = false;
 }

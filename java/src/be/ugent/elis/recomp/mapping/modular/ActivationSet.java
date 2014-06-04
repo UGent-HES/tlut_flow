@@ -7,10 +7,11 @@ import java.util.Set;
 import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 class ActivationSet {
 	
-	boolean short_activation_function = true;
+	final boolean short_activation_function = !GlobalConstants.logLongActivationFunctionDescription;
 	
 	final private MappingAIG aig;
 	final private BDD activationFunction;

@@ -315,36 +315,33 @@ public class MappedActivationFunctionBuilder {
 		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(local_function, aig.getBDDidMapping());
 		
 
-		BDD new_activation_function = node.getOutputActivationFunction().id()
-				.andWith(
-						node.getOnParamFunction()
-								.or(node.getOffParamFunction()).not());
-		if(node.getActivationFunction().equals(new_activation_function)) {
-			new_activation_function.free();
-			return;
-		} else {
-			node.setActivationFunction(new_activation_function);
-		}
+		BDD new_activation_function = BDDFactorySingleton.get().zero(); 
 		
 		//System.out.println(node.getName());
 		//System.out.println(local_function);
 		if (node.isGate() || node.isPrimaryOutput()) {
-			//Iterate over parameter configurations of the LUT and remember which inputs are used for each configuration
+			//Iterate over parameter configurations of the LUT and remember which inputs are used for each configuration: update the output activationfunction of those inputs accordingly
+			//Iterate over parameter configurations of the LUT and remember which configurations require a LUT implementation: update the current activationfunction accordingly
 			while(regularLeafSubBDDIterator.hasNext()) {
 				BDDPair pair = regularLeafSubBDDIterator.next();
 				BDD param_condition = pair.first;
 				BDD lut_function = pair.second;
 				BDD lut_support_it = lut_function.support();
+				int lut_support_size = lut_support_it.nodeCount();
+				
+				if(lut_support_size > 1 ||
+						(node.isPrimaryOutput() || node.isPrimaryInput()) && lut_support_size > 0) {
+					new_activation_function.orWith(param_condition.id());
+				}
 				
 				//System.out.println(param_condition);
 				while(!lut_support_it.isOne()) {
 					int var_id = lut_support_it.var();
 					//System.out.println(var_id);
-					BDD n_lut_support_it = lut_support_it.high(); //TODO: free old bdd
+					BDD n_lut_support_it = lut_support_it.high();
 					lut_support_it.free();
 					lut_support_it = n_lut_support_it;
 					Node n = aig.getBDDidMapping().getNode(var_id);
-					//System.out.println(n.getName() + " hier");
 					n.setOutputActivationFunction(n.getOutputActivationFunction().or(param_condition));
 					n.setUpdated(true);
 				}
@@ -352,23 +349,19 @@ public class MappedActivationFunctionBuilder {
 				lut_function.free();
 			}
 		}
-		
-		/*BDD new_activation_function = BDDFactorySingleton.get().one();
-		if(node.getActivationFunction() != null
-				&& node.getActivationFunction().equals(local_function)) {
-			local_function.free();
+		if(node.isPrimaryOutput() || node.isPrimaryInput()) { //primary inputs and outputs should be active if at least one "input" is needed
+			new_activation_function.free();
+			new_activation_function = node.getOutputActivationFunction().id()
+					.andWith(
+							node.getOnParamFunction()
+									.or(node.getOffParamFunction()).not());
+		}
+		if(node.getActivationFunction().equals(new_activation_function)) {
+			new_activation_function.free();
 			return;
 		} else {
-			node.setActivationFunction(local_function);
+			node.setActivationFunction(new_activation_function);
 		}
-		
-		if (node.isGate() || node.isPrimaryOutput()) {
-			for(Edge edge : node.getInputEdges()) {
-				Node node0 = edge.getTail();
-				node0.setOutputActivationFunction(node0.getOutputActivationFunction().or(node.getActivationFunction()));
-				node0.setUpdated(true);
-			}
-		}*/
 	}
 
 	private void checkForUnusedPrimaryInputs() {
