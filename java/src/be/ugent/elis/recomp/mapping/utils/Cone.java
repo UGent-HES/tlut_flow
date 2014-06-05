@@ -77,6 +77,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import net.sf.javabdd.BDD;
+import net.sf.javabdd.BDDPairing;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BDDFunction;
@@ -582,37 +583,19 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 	
-	// Faster implementation of boolean function using BDD
-	public BDDFunction getBooleanFunction() {
-		if(isTrivial())
-			throw new RuntimeException("Can't compute function of trivial cone");		
-		Vector<String> inputVariables = new Vector<String>();
+	public BDDFunction getBooleanFunction() {		
+        Vector<String> inputVariables = new Vector<String>();
+        BDDPairing bdd_var_replacement = BDDFactorySingleton.get().makePair();
+        int i = 0;
 		for(Node node : getAllLeavesInFixedOrder()) {
 			inputVariables.add(node.getName());
+			bdd_var_replacement.set(bddIdMapping.getId(node), i);
+			i++;
 		}
 		
-		BDD bdd = getBDDRec(root.getI0(), inputVariables).
-				andWith(getBDDRec( root.getI1(), inputVariables)); 
+		BDD bdd = getLocalFunction().replace(bdd_var_replacement);
 		
 		return new BDDFunction(inputVariables, bdd);
-	}
-	
-	private BDD getBDDRec(Edge e, Vector<String> inputVariables) {
-		BDD result;
-		Node source = e.getTail();
-		
-		int id = inputVariables.indexOf(source.getName());
-		if (id != -1) {
-			result = BDDFactorySingleton.get().ithVar(id);
-		} else {
-			result = getBDDRec( source.getI0(), inputVariables).andWith(getBDDRec( source.getI1(), inputVariables));
-		}
-			
-		if (e.isInverted()) {
-			result = result.not();
-		}
-		
-		return result;
 	}
 
 	private BDD calculateFunctionOfMergedCones() {
