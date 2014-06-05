@@ -88,8 +88,9 @@ public class ParameterUnusedLatchRemover {
 	
 		MappingAIG a = new MappingAIG(args[0]);
 		
-		BDDFactorySingleton.create(a.numNodes(),
+		BDDFactorySingleton.create(
 				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
+		BDDFactorySingleton.get().setVarNum(a.numNodes());
 
 		MappingAIG strash_aig = new ParameterUnusedLatchRemover(a, new ParameterMarker(new FileInputStream(args[1]))).run();
 

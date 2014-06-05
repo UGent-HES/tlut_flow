@@ -113,16 +113,14 @@ public class MappedActivationFunctionBuilder {
 	
 	private void finalise() {
 		for (Node node : aig.getAllNodes()) {
-			if(node.getOnParamFunction()!=null) {
-				node.setOutputActivationFunction(null);
-			}
+			node.setOutputActivationFunction(null);
 		}
 	}
 	
 	public void unsetActivationFunctions() {
 		for (Node node : aig.getAllNodes()) {
-			node.setOnParamFunction(null);
-			node.setOffParamFunction(null);
+			node.setOnParamFunction(BDDFactorySingleton.get().zero());
+			node.setOffParamFunction(BDDFactorySingleton.get().zero());
 			node.setActivationFunction(null);
 		}
 	}

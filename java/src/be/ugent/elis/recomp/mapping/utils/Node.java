@@ -106,8 +106,8 @@ public class Node extends AbstractNode<Node,Edge> {
 		this.requiredTime = Double.POSITIVE_INFINITY;
 		this.setVisible(false);
 		this.setParameter(false);
-		this.onParamFunction = null;
-		this.offParamFunction = null;
+		this.onParamFunction = BDDFactorySingleton.get().zero();
+		this.offParamFunction = BDDFactorySingleton.get().zero();
 		this.activationFunction = null;
 		this.updated = false;
 	}

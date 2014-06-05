@@ -107,14 +107,14 @@ public class SimpleMapper {
         String aig_in_filename = arguments[0];
 		int K = Integer.parseInt(arguments[1]);
 		String mapped_blif_out_filename = arguments[2];
+		
+		// Initialise BDD library
+		BDDFactorySingleton.create(GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
         
         // Read AIG file
 		MappingAIG a = new MappingAIG(aig_in_filename);
-		//a.initBDDidMapping();
-
-		// Initialise BDD library
-		BDDFactorySingleton.create(a.numNodes(),
-				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
+		BDDFactorySingleton.get().setVarNum(a.numNodes());
+		a.initBDDidMapping();
 		
 		// Start the clock!
 		long start_time = System.currentTimeMillis();

@@ -82,7 +82,7 @@ public class BDDFactorySingleton {
     	public void nullFunction() {}
     }
     
-    private BDDFactorySingleton(int var_num, int node_num, int cache_size) {
+    private BDDFactorySingleton(int node_num, int cache_size) {
         B = BDDFactory.init("java", node_num, cache_size);
         try {
 //			B.registerGCCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
@@ -93,12 +93,11 @@ public class BDDFactorySingleton {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        B.setVarNum(var_num);
     }
 
-	static public BDDFactory create(int var_num, int node_num, int cache_size) {
+	static public BDDFactory create(int node_num, int cache_size) {
 		assert(singleton == null);
-		singleton = new BDDFactorySingleton(var_num, node_num, cache_size);
+		singleton = new BDDFactorySingleton(node_num, cache_size);
         return singleton.B;
 	}
 	

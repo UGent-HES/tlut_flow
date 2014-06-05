@@ -162,18 +162,16 @@ public class TMapSimple {
 
         boolean use_bdd_flag = tcon_mapping_flag || tlc_mapping_flag || resource_sharing_flag;
 
+		// Initialise BDD library
+		BDDFactorySingleton.create(GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
+
 		// Read AIG file
 		MappingAIG a = new MappingAIG(aig_in_filename);
-		
-
-		// Initialise BDD library
-		BDDFactorySingleton.create(a.numNodes(),
-				GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
+		BDDFactorySingleton.get().setVarNum(a.numNodes());
 		
 		// Mark parameters
 		a.visitAll(new ParameterMarker(new FileInputStream(parameter_in_filename)));
-		if(use_bdd_flag)
-			a.initBDDidMapping();
+		a.initBDDidMapping();
 		
 		// Perform a fix to the aig when outputs are connected to parameter inputs
 		a.fixAIG();
