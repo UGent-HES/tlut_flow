@@ -188,13 +188,12 @@ public class Cone implements Comparable<Cone> {
 			return null;
 		
 		if(build_bdd_function) {
-			result.setLocalFunction(computeFunctionOfMergedCones(root, cone0, cone1));
+			result.setLocalFunction(result.calculateLocalFunction());
 			if(GlobalConstants.enableStatsFlag)
 				Logger.getLogger().log(new ConeComputedStats(result));
 			if(result.getLocalFunction().nodeCount() > maxBddSizeConsidered) {
 				result.free();
 				Logger.getLogger().log(new ConeNotConsidered_BDDSize(result));
-				return null;
 			}
 		}
 	
@@ -206,14 +205,7 @@ public class Cone implements Comparable<Cone> {
 		result.type = ConeType.TRIVIAL;
 		result.hasParameterLeaves = node.isParameter();
 		if(build_bdd_function) {
-			if(feasibility_uses_activationfunction) {
-				result.setLocalFunction(
-						node.getBDD(bddIdMapping)
-						.orWith(node.getOnParamFunction().id())
-						.andWith(node.getOffParamFunction().id().not()));
-			} else {
-				result.setLocalFunction(node.getBDD(bddIdMapping));
-			}
+			result.setLocalFunction(result.calculateLocalFunction());
 		}
 		if(!node.isParameter())
 			result.addLeave(node);
@@ -243,24 +235,10 @@ public class Cone implements Comparable<Cone> {
 		cone.addLeave(tail);
 		cone.calculateSignature();
 		if(build_bdd_function)
-			cone.setLocalFunction(tail.getBDD(bddIdMapping));
+			cone.setLocalFunction(cone.calculateLocalFunction());
 		cone.mapToNone();
 		return cone;
 	}
-	
-	private static BDD computeFunctionOfMergedCones(Node root, Cone cone0, Cone cone1) {
-		BDD function0 = cone0.getLocalFunction().id();
-		BDD function1 = cone1.getLocalFunction().id();
-		
-		if(root.getI0().isInverted())
-			function0 = function0.not();
-		if(root.getI1().isInverted())
-			function1 = function1.not();
-		
-		BDD result = function0.andWith(function1);
-		return result;
-	}
-
 	
 	private void setSignature(long signature) {
 		this.signature = signature;
@@ -293,6 +271,8 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public BDD getLocalFunction() {
+		//if(localFunction == null)
+		//	localFunction = calculateLocalFunction();
 		return localFunction;
 	}
 
@@ -614,18 +594,6 @@ public class Cone implements Comparable<Cone> {
 		}
 		return result;
 	}
-
-	// Simple implementation of boolean function using expression
-//	public ExpressionFunction getBooleanFunction() {
-//		Vector<String> inputVariables = new Vector<String>();
-//		for(Node node : regularLeaves)
-//			inputVariables.add(node.getName());
-//		String outputVariable = root.getName();
-//		
-//		String expression = getExpressionRec(root.getI0()) + " " + getExpressionRec( root.getI1()) + " *"; 
-//		
-//		return new ExpressionFunction(outputVariable, inputVariables, expression);
-//	}
 	
 	// Faster implementation of boolean function using BDD
 	public BDDFunction getBooleanFunction() {
@@ -640,23 +608,6 @@ public class Cone implements Comparable<Cone> {
 				andWith(getBDDRec( root.getI1(), inputVariables)); 
 		
 		return new BDDFunction(inputVariables, bdd);
-	}
-	
-	private String getExpressionRec(Edge e) {
-		String result = new String();
-		Node source = e.getTail();
-		
-		if (regularLeaves.contains(source)) {
-			result += source.getName();
-		} else {
-			result += getExpressionRec( source.getI0()) + " " + getExpressionRec( source.getI1()) + " *";
-		}	
-			
-		if (e.isInverted()) {
-			result += " -";
-		}
-		
-		return result;
 	}
 	
 	private BDD getBDDRec(Edge e, Vector<String> inputVariables) {
@@ -675,6 +626,34 @@ public class Cone implements Comparable<Cone> {
 		}
 		
 		return result;
+	}
+
+	private BDD calculateFunctionOfMergedCones() {
+		BDD function0 = parent0.getLocalFunction().id();
+		BDD function1 = parent1.getLocalFunction().id();
+		
+		if(root.getI0().isInverted())
+			function0 = function0.not();
+		if(root.getI1().isInverted())
+			function1 = function1.not();
+		
+		BDD result = function0.andWith(function1);
+		return result;
+	}
+
+	private BDD calculateLocalFunction() {
+		if(root.isPrimaryOutput()) {
+			BDD tmp = root.getI0().getTail().getBDD(bddIdMapping);
+			if(root.getI0().isInverted()) {
+				tmp = tmp.not();
+			}
+			return tmp;
+		} else if(root.isPrimaryInput() || isTrivial()) {
+			return root.getBDD(bddIdMapping);
+		} else if(root.isGate()) {
+			return calculateFunctionOfMergedCones();
+		} else
+			throw new RuntimeException();
 	}
 
 	public boolean dominates(Cone cone) {
