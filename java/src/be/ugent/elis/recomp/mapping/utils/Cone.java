@@ -164,8 +164,18 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 
-	public static Cone mergeCones(Node node, Cone cone0, Cone cone1, int maxConeSizeConsidered, int maxBddSizeConsidered, boolean computeFunction) {
-		Cone result = new Cone(node, cone0.bddIdMapping, cone0, cone1);
+	public static Cone mergeCones(Node root, Cone cone0, Cone cone1, int maxConeSizeConsidered, int maxBddSizeConsidered, boolean build_bdd_function) {
+		if(root.getI0().getTail() != cone0.getRoot()) {
+			Cone tmp = cone0;
+			cone0 = cone1;
+			cone1 = tmp;
+		}
+		if(root.getI0().getTail() != cone0.getRoot())
+			throw new RuntimeException();
+		if(root.getI1().getTail() != cone1.getRoot())
+			throw new RuntimeException();
+
+		Cone result = new Cone(root, cone0.bddIdMapping, cone0, cone1);
 		
 		result.signature = cone0.signature | cone1.signature;
 		
@@ -177,8 +187,8 @@ public class Cone implements Comparable<Cone> {
 		if(result.size() > maxConeSizeConsidered)
 			return null;
 		
-		if(computeFunction) {
-			result.setLocalFunction(computeFunctionOfMergedCones(node, cone0, cone1));
+		if(build_bdd_function) {
+			result.setLocalFunction(computeFunctionOfMergedCones(root, cone0, cone1));
 			if(GlobalConstants.enableStatsFlag)
 				Logger.getLogger().log(new ConeComputedStats(result));
 			if(result.getLocalFunction().nodeCount() > maxBddSizeConsidered) {
@@ -239,16 +249,6 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	private static BDD computeFunctionOfMergedCones(Node root, Cone cone0, Cone cone1) {
-		if(root.getI0().getTail() != cone0.getRoot()) {
-			Cone tmp = cone0;
-			cone0 = cone1;
-			cone1 = tmp;
-		}
-		if(root.getI0().getTail() != cone0.getRoot())
-			throw new RuntimeException();
-		if(root.getI1().getTail() != cone1.getRoot())
-			throw new RuntimeException();
-		
 		BDD function0 = cone0.getLocalFunction().id();
 		BDD function1 = cone1.getLocalFunction().id();
 		
