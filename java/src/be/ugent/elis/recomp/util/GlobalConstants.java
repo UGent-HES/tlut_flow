@@ -71,7 +71,7 @@ package be.ugent.elis.recomp.util;
 public class GlobalConstants {
 	public static final boolean enableStatsFlag = false;
 	public static final boolean binizeStatsFlag = false;
-	public static final boolean freeBDDafterEnumeration = false;
+	public static final boolean freeBDDafterEnumeration = true;
 	public static final boolean feasibility_uses_activationfunction = true;
 	
 	public static final int maxConeSizeConsidered = Integer.MAX_VALUE;

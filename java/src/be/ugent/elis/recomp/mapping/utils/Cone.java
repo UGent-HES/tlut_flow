@@ -136,8 +136,7 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public void free() {
-		if(!isTrivial())
-			setLocalFunction(null);
+		setLocalFunction(null);
 	}
 	
 	public static Cone createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
@@ -164,7 +163,7 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 
-	public static Cone mergeCones(Node root, Cone cone0, Cone cone1, int maxConeSizeConsidered, int maxBddSizeConsidered, boolean build_bdd_function) {
+	public static Cone mergeCones(Node root, Cone cone0, Cone cone1, int maxConeSizeConsidered, int maxBddSizeConsidered) {
 		if(root.getI0().getTail() != cone0.getRoot()) {
 			Cone tmp = cone0;
 			cone0 = cone1;
@@ -187,55 +186,43 @@ public class Cone implements Comparable<Cone> {
 		if(result.size() > maxConeSizeConsidered)
 			return null;
 		
-		if(build_bdd_function) {
-			result.setLocalFunction(result.calculateLocalFunction());
-			if(GlobalConstants.enableStatsFlag)
-				Logger.getLogger().log(new ConeComputedStats(result));
-			if(result.getLocalFunction().nodeCount() > maxBddSizeConsidered) {
-				result.free();
-				Logger.getLogger().log(new ConeNotConsidered_BDDSize(result));
-			}
-		}
+		//if(GlobalConstants.enableStatsFlag)
+		//	Logger.getLogger().log(new ConeComputedStats(result));
 	
 		return result;
 	}
 
-	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping, boolean build_bdd_function) {
+	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping) {
 		Cone result = new Cone(node, bddIdMapping);
 		result.type = ConeType.TRIVIAL;
 		result.hasParameterLeaves = node.isParameter();
-		if(build_bdd_function) {
-			result.setLocalFunction(result.calculateLocalFunction());
-		}
 		if(!node.isParameter())
 			result.addLeave(node);
 		result.calculateSignature();
 		return result;
 	}
 	
-	public static Cone twoInputCone(Node node, BDDidMapping bddIdMapping, boolean build_bdd_function) {
+	public static Cone twoInputCone(Node node, BDDidMapping bddIdMapping) {
 		Edge edge0 = node.getI0();
 		Edge edge1 = node.getI1();
 		Node node0 = edge0.getTail();
 		Node node1 = edge1.getTail();
 		
-		Cone cone0 = Cone.trivialCone(node0, bddIdMapping, build_bdd_function);
-		Cone cone1 = Cone.trivialCone(node1, bddIdMapping, build_bdd_function);
-		Cone result = Cone.mergeCones(node, cone0, cone1, Integer.MAX_VALUE, Integer.MAX_VALUE, build_bdd_function);
+		Cone cone0 = Cone.trivialCone(node0, bddIdMapping);
+		Cone cone1 = Cone.trivialCone(node1, bddIdMapping);
+		Cone result = Cone.mergeCones(node, cone0, cone1, Integer.MAX_VALUE, Integer.MAX_VALUE);
 		cone0.free();
 		cone1.free();
 		return result;
 	}
 
-	public static Cone outputCone(Node node, BDDidMapping bddIdMapping, boolean build_bdd_function) {
+	public static Cone outputCone(Node node, BDDidMapping bddIdMapping) {
 		if(!node.isPrimaryOutput())
 			throw new RuntimeException("Only call this function with primary output node");
 		Cone cone = new Cone(node, bddIdMapping);
 		Node tail = node.getI0().getTail();
 		cone.addLeave(tail);
 		cone.calculateSignature();
-		if(build_bdd_function)
-			cone.setLocalFunction(cone.calculateLocalFunction());
 		cone.mapToNone();
 		return cone;
 	}
@@ -271,8 +258,8 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public BDD getLocalFunction() {
-		//if(localFunction == null)
-		//	localFunction = calculateLocalFunction();
+		if(localFunction == null)
+			localFunction = calculateLocalFunction();
 		return localFunction;
 	}
 

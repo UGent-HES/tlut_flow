@@ -145,7 +145,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ConeSet result = new ConeSet(node);
 
 		if (node.isPrimaryInput()) {
-			result.add(Cone.trivialCone(node, bddIdMapping, build_bdd_function));
+			result.add(Cone.trivialCone(node, bddIdMapping));
 			
 		} else if(node.isGate()) {
 			if (node.isParameter())
@@ -160,11 +160,11 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				nmbrCones += cones.size();
 				result.addAll(cones);
 				if(nodeNeedsTrivialCone(node, result))
-					result.add(Cone.trivialCone(node, bddIdMapping, build_bdd_function));
+					result.add(Cone.trivialCone(node, bddIdMapping));
 			}
 			
 		} else if(node.isPrimaryOutput()) {
-			result.add(Cone.outputCone(node, bddIdMapping, build_bdd_function));
+			result.add(Cone.outputCone(node, bddIdMapping));
 		} else {
 		}
 		result.reduceMemoryUsage();
@@ -225,7 +225,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 
 		Cone merge = Cone.mergeCones(node, node0.getConeSet().getOnlyCone(), node1.getConeSet().getOnlyCone(), 
 				tcon_mapping_flag ? maxConeSizeConsidered : K,
-				maxBddSizeConsidered, build_bdd_function);
+				maxBddSizeConsidered);
 		if(merge == null) 
 			throw new RuntimeException("Parameter coneset should contain one cone");
 		merge.mapToNone();
@@ -312,7 +312,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		for(TwoCones twoCones : mergesToConsider) {
 			Cone merge = Cone.mergeCones(node, twoCones.cone0, twoCones.cone1, 
 					tcon_mapping_flag ? maxConeSizeConsidered : K,
-					maxBddSizeConsidered, tcon_mapping_flag);
+					maxBddSizeConsidered);
 			if(merge != null) {
 				result.add(merge);
 				if(GlobalConstants.enableStatsFlag)
@@ -331,7 +331,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		 * optimisation)
 		 */
 		if(coneSkipped)
-			result.add(Cone.twoInputCone(node, bddIdMapping, build_bdd_function));
+			result.add(Cone.twoInputCone(node, bddIdMapping));
 		return result;
 	}
 	
@@ -401,7 +401,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		}
 		boolean hasTCONtwoInputcone = false;
 		if(hasTCON) {
-			Cone tmp = Cone.twoInputCone(cones.getNode(), bddIdMapping, build_bdd_function);
+			Cone tmp = Cone.twoInputCone(cones.getNode(), bddIdMapping);
 			tmp.initFeasibilityCalculation(tcon_mapping_flag);
 			if(tmp.isTCONfeasible()) {
 				hasTCONtwoInputcone = true;

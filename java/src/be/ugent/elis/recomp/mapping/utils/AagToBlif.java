@@ -86,7 +86,7 @@ public class AagToBlif {
 		for (Node n : a.getAnds()) {
 			n.setVisible(true);
 			
-			Cone c = SimpleCone.twoInputCone(n, null, false);
+			Cone c = SimpleCone.twoInputCone(n, null);
 			n.setBestCone(c);
 		}
 		
