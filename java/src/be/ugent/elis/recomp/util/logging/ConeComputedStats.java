@@ -26,12 +26,12 @@ public class ConeComputedStats extends AbstractMessage {
 		super();
 		this.cone = cone;
 		
-		if(cone.getFunction() != null) {
+		if(cone.isLocalFunctionDefined()) {
 			if(GlobalConstants.binizeStatsFlag) {
-				int bin = getBin(cone.getFunction().nodeCount());
+				int bin = getBin(cone.getLocalFunction().nodeCount());
 				hist[bin]++;
 			}
-			sumSize += cone.getFunction().nodeCount();
+			sumSize += cone.getLocalFunction().nodeCount();
 			numBDDs++;
 		}
 		numMessages++;

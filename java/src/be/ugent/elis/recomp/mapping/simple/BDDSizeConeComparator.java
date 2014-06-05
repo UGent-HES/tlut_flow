@@ -75,8 +75,8 @@ import be.ugent.elis.recomp.mapping.utils.Cone;
 public class BDDSizeConeComparator implements Comparator<Cone> {
 
 	public int compare(Cone o1, Cone o2) {
-		int o1size = o1.getFunction() != null ? o1.getFunction().nodeCount() : o1.size();
-		int o2size = o2.getFunction() != null ? o2.getFunction().nodeCount() : o2.size();
+		int o1size = o1.isLocalFunctionDefined() ? o1.getLocalFunction().nodeCount() : o1.size();
+		int o2size = o2.isLocalFunctionDefined() ? o2.getLocalFunction().nodeCount() : o2.size();
 		if (o1size > o2size) {
 			return 1;
 		} else if (o1size < o2size) {

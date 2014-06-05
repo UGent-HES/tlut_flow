@@ -97,7 +97,7 @@ public class Cone implements Comparable<Cone> {
 
 	private ArrayList <Node> nodes;
 	
-	private BDD function;
+	private BDD localFunction;
 	private BDDidMapping bddIdMapping;
 	
 	enum ConeType {LUT, TLUT, TCON, TLC, TRIVIAL, NONE, UNMAPPED}; 
@@ -125,7 +125,7 @@ public class Cone implements Comparable<Cone> {
 		this.parent1 = parent1;
 		this.regularLeaves = new HashSet<Node>();
 		this.signature = 0;
-		this.function = null;
+		this.localFunction = null;
 		this.bddIdMapping = bddIdMapping;
 		this.type = ConeType.UNMAPPED;
 		this.hasParameterLeaves = false;
@@ -137,7 +137,7 @@ public class Cone implements Comparable<Cone> {
 	
 	public void free() {
 		if(!isTrivial())
-			setFunction(null);
+			setLocalFunction(null);
 	}
 	
 	public static Cone createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
@@ -178,10 +178,10 @@ public class Cone implements Comparable<Cone> {
 			return null;
 		
 		if(computeFunction) {
-			result.setFunction(computeFunctionOfMergedCones(node, cone0, cone1));
+			result.setLocalFunction(computeFunctionOfMergedCones(node, cone0, cone1));
 			if(GlobalConstants.enableStatsFlag)
 				Logger.getLogger().log(new ConeComputedStats(result));
-			if(result.getFunction().nodeCount() > maxBddSizeConsidered) {
+			if(result.getLocalFunction().nodeCount() > maxBddSizeConsidered) {
 				result.free();
 				Logger.getLogger().log(new ConeNotConsidered_BDDSize(result));
 				return null;
@@ -197,12 +197,12 @@ public class Cone implements Comparable<Cone> {
 		result.hasParameterLeaves = node.isParameter();
 		if(build_bdd_function) {
 			if(feasibility_uses_activationfunction) {
-				result.setFunction(
+				result.setLocalFunction(
 						node.getBDD(bddIdMapping)
 						.orWith(node.getOnParamFunction().id())
 						.andWith(node.getOffParamFunction().id().not()));
 			} else {
-				result.setFunction(node.getBDD(bddIdMapping));
+				result.setLocalFunction(node.getBDD(bddIdMapping));
 			}
 		}
 		if(!node.isParameter())
@@ -229,11 +229,11 @@ public class Cone implements Comparable<Cone> {
 		if(!node.isPrimaryOutput())
 			throw new RuntimeException("Only call this function with primary output node");
 		Cone cone = new Cone(node, bddIdMapping);
-		Node head = node.getI0().getTail();
-		cone.addLeave(head);
+		Node tail = node.getI0().getTail();
+		cone.addLeave(tail);
 		cone.calculateSignature();
 		if(build_bdd_function)
-			cone.setFunction(head.getBDD(bddIdMapping));
+			cone.setLocalFunction(tail.getBDD(bddIdMapping));
 		cone.mapToNone();
 		return cone;
 	}
@@ -249,8 +249,8 @@ public class Cone implements Comparable<Cone> {
 		if(root.getI1().getTail() != cone1.getRoot())
 			throw new RuntimeException();
 		
-		BDD function0 = cone0.getFunction().id();
-		BDD function1 = cone1.getFunction().id();
+		BDD function0 = cone0.getLocalFunction().id();
+		BDD function1 = cone1.getLocalFunction().id();
 		
 		if(root.getI0().isInverted())
 			function0 = function0.not();
@@ -282,14 +282,18 @@ public class Cone implements Comparable<Cone> {
 		return parent1;
 	}
 
-	private void setFunction(BDD function) {
-		if(this.function != null)
-			this.function.free();
-		this.function = function;
+	private void setLocalFunction(BDD function) {
+		if(this.localFunction != null && this.localFunction != function)
+			this.localFunction.free();
+		this.localFunction = function;
 	}
 	
-	public BDD getFunction() {
-		return function;
+	public boolean isLocalFunctionDefined() {
+		return localFunction != null;
+	}
+	
+	public BDD getLocalFunction() {
+		return localFunction;
 	}
 
 	public void setArea(int area) {
@@ -559,9 +563,9 @@ public class Cone implements Comparable<Cone> {
 	public void initFeasibilityCalculation(boolean bddsUsed) {
 		if(bddsUsed) {
 			if(feasibility_uses_activationfunction)
-				feasibilityFunction = this.getFunction().and(this.getRoot().getActivationFunction());
+				feasibilityFunction = this.getLocalFunction().and(this.getRoot().getActivationFunction());
 			else
-				feasibilityFunction = this.getFunction();
+				feasibilityFunction = this.getLocalFunction();
 			regularLeafSubBDDIterator = new RegularLeafSubBDDs(feasibilityFunction, this.bddIdMapping);
 		}
 		
@@ -663,8 +667,6 @@ public class Cone implements Comparable<Cone> {
 		if (id != -1) {
 			result = BDDFactorySingleton.get().ithVar(id);
 		} else {
-			if(source.getI0().getTail() == source || source.getI0().getTail() == source)
-				throw new RuntimeException("Loop in aig");
 			result = getBDDRec( source.getI0(), inputVariables).andWith(getBDDRec( source.getI1(), inputVariables));
 		}
 			

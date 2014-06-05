@@ -336,9 +336,9 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	}
 	
 	private boolean considerToMergeCone(Cone cone) {
-		if(cone.getFunction() == null)
+		if(!cone.isLocalFunctionDefined())
 			return true;
-		return cone.getFunction().nodeCount() <= maxBddSizeConsideredToMerge;
+		return cone.getLocalFunction().nodeCount() <= maxBddSizeConsideredToMerge;
 	}
 	
 	protected ConeSet limitNumCones(ConeSet cones) {

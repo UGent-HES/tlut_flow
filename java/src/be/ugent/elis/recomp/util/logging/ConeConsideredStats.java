@@ -19,7 +19,7 @@ public class ConeConsideredStats extends AbstractMessage {
 		super();
 		this.cone = cone;
 		
-		BDD bdd = cone.getFunction();
+		BDD bdd = cone.getLocalFunction();
 		
 		if(bdd != null) {
 			int nodeCount = bdd.nodeCount();

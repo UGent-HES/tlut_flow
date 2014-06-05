@@ -309,9 +309,9 @@ public class MappedActivationFunctionBuilder {
 
 		BDD local_function;
 		if(GlobalConstants.feasibility_uses_activationfunction)
-			local_function = node.getBestCone().getFunction().and(node.getOutputActivationFunction());
+			local_function = node.getBestCone().getLocalFunction().and(node.getOutputActivationFunction());
 		else
-			local_function = node.getBestCone().getFunction();
+			local_function = node.getBestCone().getLocalFunction();
 		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(local_function, aig.getBDDidMapping());
 		
 
