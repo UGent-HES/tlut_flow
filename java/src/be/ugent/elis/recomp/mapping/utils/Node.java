@@ -72,6 +72,7 @@ import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.AbstractNode;
 import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 
 public class Node extends AbstractNode<Node,Edge> {
@@ -230,12 +231,24 @@ public class Node extends AbstractNode<Node,Edge> {
 	public void setEstimatedFanout(double estimatedFanout) {
 		this.estimatedFanout = estimatedFanout;
 	}
-	
-	public BDD getBDD(BDDidMapping bddIdMapping) {
+	public BDD getParamRestrictedBDD(BDDidMapping bddIdMapping) {
+		return	getPureBDD(bddIdMapping)
+					.orWith(getOnParamFunction().id())
+					.andWith(getOffParamFunction().id().not());
+	}
+	public BDD getPureBDD(BDDidMapping bddIdMapping) {
 		if(isConst0())
 			return BDDFactorySingleton.get().zero();
 		else
 			return BDDFactorySingleton.get().ithVar(bddIdMapping.getId(this));
+	}
+	
+	public BDD getBDD(BDDidMapping bddIdMapping) {
+		if(GlobalConstants.feasibility_uses_activationfunction) {
+			return getParamRestrictedBDD(bddIdMapping);
+		} else {
+			return getPureBDD(bddIdMapping);
+		}
 	}
 
 	public BDD getOnParamFunction() {
