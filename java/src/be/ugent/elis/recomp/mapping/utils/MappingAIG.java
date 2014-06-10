@@ -74,15 +74,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-import java.util.ArrayList;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.AbstractNode;
-import be.ugent.elis.recomp.aig.ElementFactory;
 import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
@@ -373,7 +372,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		for (Node and : getAnds()) {
 			if (and.isVisible()) {						
 				Cone bestCone = and.getBestCone();
-				BooleanFunction f = bestCone.getBooleanFunction();
+				BooleanFunction f = bestCone.getBooleanFunction(false);
 				
 				stream.print(".names");
 				//Regular LUT inputs
@@ -381,7 +380,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 				for (Node n : bestCone.getAllLeaves())
 					map.put(n.getName(), n);
 				for(String name : f.getInputVariable()) {
-					stream.print(" "+ map.get(name).getName());
+					stream.print(" "+ name);
 				}
 				//Output
 				stream.println(" "+and.getName() + " #"+bestCone.getType().toString());
@@ -515,7 +514,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 
 	public void printLutBlif(Node and, PrintStream stream, String lutName, boolean inverted) {
 		Cone bestCone = and.getBestCone();
-		BooleanFunction f = bestCone.getBooleanFunction();
+		BooleanFunction f = bestCone.getBooleanFunction(false);
 		if(inverted) {
 			BooleanFunction f_old = f;
 			f = f_old.invert();
@@ -529,11 +528,12 @@ public class MappingAIG extends AIG<Node, Edge> {
 			map.put(n.getName(), n);
 		for(String name : f.getInputVariable()) {
 			Node n = map.get(name);
-			if (checkOutputLutInversion(n) == OutputLutInversion.AllOutsInverted) {
+			if (n != null &&
+					checkOutputLutInversion(n) == OutputLutInversion.AllOutsInverted) {
 				stream.print(" "+n.getName()+"not");
 				f.invertInput(n.getName());
 		    } else
-				stream.print(" "+n.getName());
+				stream.print(" "+name);
 		}
 		//Output
 		stream.println(" "+lutName + " #"+bestCone.getType().toString());
@@ -730,11 +730,11 @@ port map (
                     "\ngeneric map (\n\tINIT =>X\"1\")\nport map (\n\tO => " + lutName;
 			nameStream.println(baseName+"_TLUT"+lutSize+"_"+lutName);
 		} else {
-			BooleanFunction expr = bestCone.getBooleanFunction();
+			BooleanFunction expr = bestCone.getBooleanFunction(false);
 			if(inverted)
 			    expr = expr.invert();
 			//check for inversion at the inputs, change Boolean Function if necessary
-			for (Node inputNode : regularInputs){
+			for (Node inputNode : regularInputs) {
 				if(checkOutputLutInversion(inputNode)==OutputLutInversion.AllOutsInverted) {
 					expr.invertInput(inputNode.getName());
 				}

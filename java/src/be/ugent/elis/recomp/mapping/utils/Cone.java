@@ -68,12 +68,12 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.utils;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import net.sf.javabdd.BDD;
@@ -82,9 +82,6 @@ import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BDDFunction;
 import be.ugent.elis.recomp.util.GlobalConstants;
-import be.ugent.elis.recomp.util.logging.ConeComputedStats;
-import be.ugent.elis.recomp.util.logging.ConeNotConsidered_BDDSize;
-import be.ugent.elis.recomp.util.logging.Logger;
 
 public class Cone implements Comparable<Cone> {
 	
@@ -262,6 +259,15 @@ public class Cone implements Comparable<Cone> {
 		if(localFunction == null)
 			localFunction = calculateLocalFunction();
 		return localFunction;
+	}
+	
+	public BDD getParamRestrictedLocalFunction() {
+		if(GlobalConstants.feasibility_uses_activationfunction && getRoot().getActivationFunction()!=null)
+			return getLocalFunction().and(getRoot().getActivationFunction())
+				.orWith(getRoot().getOnParamFunction().id())
+				.andWith(getRoot().getOffParamFunction().id().not());
+		else
+			return getLocalFunction().id();
 	}
 
 	public void setArea(int area) {
@@ -530,10 +536,7 @@ public class Cone implements Comparable<Cone> {
 	
 	public void initFeasibilityCalculation(boolean bddsUsed) {
 		if(bddsUsed) {
-			if(feasibility_uses_activationfunction)
-				feasibilityFunction = this.getLocalFunction().and(this.getRoot().getActivationFunction());
-			else
-				feasibilityFunction = this.getLocalFunction();
+			feasibilityFunction = getParamRestrictedLocalFunction();
 			regularLeafSubBDDIterator = new RegularLeafSubBDDs(feasibilityFunction, this.bddIdMapping);
 		}
 		
@@ -544,7 +547,7 @@ public class Cone implements Comparable<Cone> {
 			regularLeafSubBDDIterator.free();
 			regularLeafSubBDDIterator = null;
 		}
-		if(feasibilityFunction != null && feasibility_uses_activationfunction) {
+		if(feasibilityFunction != null) {
 			feasibilityFunction.free();
 			feasibilityFunction = null;
 		}
@@ -583,17 +586,28 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 	
-	public BDDFunction getBooleanFunction() {		
+	public BDDFunction getBooleanFunction(boolean paramRestricted) {
+		BDD bdd;
+		if(paramRestricted)
+			bdd = getParamRestrictedLocalFunction();
+		else
+			bdd = getLocalFunction();
+		
         Vector<String> inputVariables = new Vector<String>();
         BDDPairing bdd_var_replacement = BDDFactorySingleton.get().makePair();
         int i = 0;
-		for(Node node : getAllLeavesInFixedOrder()) {
+		BDD it = bdd.support();
+		while(!it.isOne()) {
+			Node node = bddIdMapping.getNode(it.var());
 			inputVariables.add(node.getName());
-			bdd_var_replacement.set(bddIdMapping.getId(node), i);
+			bdd_var_replacement.set(it.var(), i);
+			BDD it_n = it.high();
+			it.free();
+			it = it_n;
 			i++;
 		}
 		
-		BDD bdd = getLocalFunction().replace(bdd_var_replacement);
+		bdd = bdd.replace(bdd_var_replacement);
 		
 		return new BDDFunction(inputVariables, bdd);
 	}
