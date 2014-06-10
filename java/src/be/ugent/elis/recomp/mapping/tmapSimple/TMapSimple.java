@@ -124,7 +124,7 @@ public class TMapSimple {
 		// --tlc     : turn on TLC mapping
 		// --allow_depth_increase    : disable error on depth increase during area recovery
 		// --nolutstruct : disable output of (T)LUT structure in blif
-		// --mappedblif : enable output of mapped blif
+		// --mappedblif=<filename> : enable output of mapped blif, output will be written to filename
 
 		OptionParser parser = new OptionParser();
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
@@ -140,8 +140,8 @@ public class TMapSimple {
                 parser.accepts("allowDepthIncrease");
         OptionSpec<Void> no_lutstruct_option =
                 parser.accepts("nolutstruct");
-        OptionSpec<Void> mappedblif_option =
-                parser.accepts("mappedblif");
+        OptionSpec<String> mappedblif_option =
+                parser.accepts("mappedblif").withRequiredArg().ofType(String.class);
         OptionSet options = parser.parse(args);
         
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
@@ -157,6 +157,7 @@ public class TMapSimple {
         String aig_in_filename = arguments[0];
         String parameter_in_filename = arguments[1];
 		int K = Integer.parseInt(arguments[2]);
+		String mapped_blif_out_filename = mappedblif_option.value(options);
         String param_config_out_filename = arguments[3];
 		String lutstruct_out_filename = arguments[4];
 
@@ -184,6 +185,7 @@ public class TMapSimple {
 		if(use_bdd_flag) {
 	        System.out.println("Activation Function Builder:");
 	        new ActivationFunctionBuilder(a).run();
+	        //new DummyActivationFunctionBuilder(a).run();
 		}
         
         // Mapping
@@ -243,7 +245,7 @@ public class TMapSimple {
 		if(write_mappedblif_flag) {
 	        System.out.println("Writing the mapped BLIF:"); 
 	        a.printMappedBlif(
-	    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(aig_in_filename+"_mapped.blif"))));
+	    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
 		}
 
 		// Output: parameterised configuration and lut structure
