@@ -321,9 +321,12 @@ def bliftoaig(blifFileName):
     os.system("rm -f "+aigFileName)
     cmd = ['abc', '-c', 'strash; zero; write '+aigFileName, blifFileName]
     output = subprocess.check_output(cmd)
+    if "non-driven nets in network" in output:
+        print output
+        raise Exception("bliftoaig: abc unsuccesful: blif file '%s' contains unconnected nets"%blifFileName)
     if not os.path.exists(aigFileName):
         print output
-        raise Exception("bliftoaig: abc unsuccesful: aig file %s was not created"%aigFileName)
+        raise Exception("bliftoaig: abc unsuccesful: aig file '%s' was not created"%aigFileName)
     #print 'Please ignore the error message "Error: The current network is combinational".'
     return aigFileName
 
