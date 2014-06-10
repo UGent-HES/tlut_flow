@@ -64,33 +64,37 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
 package be.ugent.elis.recomp.mapping.modular;
 
 
 import net.sf.javabdd.BDD;
-import net.sf.javabdd.BDDFactory;
-import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
-import be.ugent.elis.recomp.synthesis.BDDFunction;
 import be.ugent.elis.recomp.util.GlobalConstants;
-import be.ugent.elis.recomp.util.logging.Logger;
-import be.ugent.elis.recomp.util.logging.UnusedLatchOrInput;
 
-public class MappedActivationFunctionBuilder {
+/**
+ * Activation functions (boolean function of parameters) computed using this class 
+ * will be false when the value of a node can be calculated using only the parameters, 
+ * and the node can thus be implemented by tying it to ground or vcc, when the output 
+ * depends on a single input of the bestcone of the node, and can thus be
+ * implemented using a (inverted) connection, or the output is not used by another 
+ * visible cone (LUT).
+ * In other words, the activation function of a node is true when it has to be implemented
+ * using a LUT.
+ * When traverse_latches is true, activation and deactivation functions can be transferred
+ * across latches. Eg. when the output of a latch is inactive, the input is too.
+ * Parameter values are assumed to be constant. This may therefore change the function
+ * of the circuit.
+ */
+public class MappedActivationFunctionBuilder extends AbstractActivationFunctionBuilder {
 	
 	static final int g_node_max = GlobalConstants.maxActivationFunctionSize;
-	private final MappingAIG aig;
-	private final BDDFactory B;
-	private final boolean cone_based;
+	static final boolean traverse_latches = true;
 	
-    public MappedActivationFunctionBuilder(MappingAIG aig, boolean cone_based) {
-    	this.aig = aig;
-		this.B = BDDFactorySingleton.get();
-		this.cone_based = cone_based;
+    public MappedActivationFunctionBuilder(MappingAIG aig) {
+    	super(aig);
     }
 	
 	public void run() {
@@ -107,25 +111,7 @@ public class MappedActivationFunctionBuilder {
 		finalise();
 	}
 	
-	private void init() {
-		unsetActivationFunctions();
-	}
-	
-	private void finalise() {
-		for (Node node : aig.getAllNodes()) {
-			node.setOutputActivationFunction(null);
-		}
-	}
-	
-	public void unsetActivationFunctions() {
-		for (Node node : aig.getAllNodes()) {
-			node.setOnParamFunction(BDDFactorySingleton.get().zero());
-			node.setOffParamFunction(BDDFactorySingleton.get().zero());
-			node.setActivationFunction(null);
-		}
-	}
-	
-	private void calculateDeactivationFunctions() {
+	protected void calculateDeactivationFunctions() {
 		//Initialise all nodes to 'not updated'
 		aig.setUpdatedAll(false);
 		
@@ -158,8 +144,10 @@ public class MappedActivationFunctionBuilder {
 			
 			//Push updates to deactivationfunctions across the latch boundary (from POs to PIs)
 			updated_latch = false;
-			for (Node olatch : aig.getOLatches())
-				updated_latch |= updateOLatchDeactivationFunction(olatch);
+			if(traverse_latches) {
+				for (Node olatch : aig.getOLatches())
+					updated_latch |= updateOLatchDeactivationFunction(olatch);
+			}
 		} while(updated_latch);
 	}
 
@@ -252,7 +240,7 @@ public class MappedActivationFunctionBuilder {
 	}
 	
 
-	private void calculateActivationFunctions() {
+	protected void calculateActivationFunctions() {
 		//Initialise all nodes to 'not updated'
 		aig.setUpdatedAll(false);
 		
@@ -265,7 +253,7 @@ public class MappedActivationFunctionBuilder {
 		}
 		
 		//Initialise activation functions of outputs to one, and mark as updated
-		for (Node node : aig.getOutputs()) {
+		for (Node node : traverse_latches ? aig.getOutputs() : aig.getAllPrimaryOutputs()) {
 			node.setOutputActivationFunction(B.one());
 			node.setUpdated(true);
 		}
@@ -278,8 +266,10 @@ public class MappedActivationFunctionBuilder {
 					updateActivationFunction(node);
 			
 			updated_latch = false;
-			for (Node olatch : aig.getOLatches())
-				updated_latch |= updateOLatchActivationFunction(olatch);
+			if(traverse_latches) {
+				for (Node olatch : aig.getOLatches())
+					updated_latch |= updateOLatchActivationFunction(olatch);
+			}
 		} while(updated_latch);
 	}
 
@@ -359,14 +349,6 @@ public class MappedActivationFunctionBuilder {
 			return;
 		} else {
 			node.setActivationFunction(new_activation_function);
-		}
-	}
-
-	private void checkForUnusedPrimaryInputs() {
-		for (Node node : aig.getAllPrimaryInputs()) {
-			if(node.getActivationFunction().equals(B.zero()) && !node.isParameterInput() && !node.isConst0()) {
-				Logger.getLogger().log(new UnusedLatchOrInput(node));
-			}
 		}
 	}
 	

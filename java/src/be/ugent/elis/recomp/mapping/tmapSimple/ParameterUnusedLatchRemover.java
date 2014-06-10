@@ -136,7 +136,7 @@ public class ParameterUnusedLatchRemover {
 		aig.visitAll(parameter_marker);
         aig.initBDDidMapping();
 		
-        new ActivationFunctionBuilder(aig, false).run();
+        new ActivationFunctionBuilder(aig).run();
         
 		for (Node olatch : new ArrayList<Node>(aig.getOLatches())) {
 		    if(olatch.getActivationFunction().isZero()) {
