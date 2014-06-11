@@ -73,12 +73,13 @@ import java.util.Iterator;
 import java.util.Stack;
 
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
+import be.ugent.elis.recomp.mapping.utils.Node;
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
 
 public class RegularLeafSubBDDs implements Iterator<BDDPair> {
 	
-	private BDDidMapping bddIdMapping;
+	private BDDidMapping<Node> bddIdMapping;
 	private BDDFactory factory;
     /**
      * BDDs that are scheduled to be analysed

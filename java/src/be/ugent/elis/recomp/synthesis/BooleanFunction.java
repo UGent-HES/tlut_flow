@@ -64,94 +64,136 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
-*/
+ *//*
+ */
 package be.ugent.elis.recomp.synthesis;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
-public abstract class BooleanFunction {
-	private Vector<String> inputVariable;
-	
-	public BooleanFunction(Vector<String> inputVariables) {
-		this.inputVariable = inputVariables;
-	}
+import net.sf.javabdd.BDD;
+import net.sf.javabdd.BDDFactory;
+import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 
-	public abstract BooleanFunction invert();
-	
-	public abstract void invertInput(String variable);
-	
-	public abstract Boolean evaluate(TruthAssignment assignment);
+public class BooleanFunction<V> {
 
-	public Vector<Minterm> getMinterms() {
-		Vector<Minterm> result = new Vector<Minterm>();
-		TruthTable table = new TruthTable(this);
-		
-		for (TruthAssignment assignment: table.getAssignments()) {
-			if (table.get(assignment)) {
-				result.add(assignment.minterm());
-			}
+	/**
+	 * Mapping must only contain the used variables (but may contain more for
+	 * ease of use)
+	 */
+	private BDDidMapping<V> mapping;
+	private ArrayList<V> inputVariables = null;
+
+	private BDD bdd;
+
+	public BooleanFunction(BDDidMapping<V> mapping, BDD bdd) {
+		this.mapping = mapping;
+		this.bdd = bdd;
+		this.inputVariables = new ArrayList<V>();
+		BDD var = this.bdd.support();
+		while (!var.isOne()) {
+			inputVariables.add(mapping.getNode(var.var()));
+			BDD nvar = var.high();
+			var.free();
+			var = nvar;
 		}
-
-		return result;
 	}
 
-	public Vector<String> getInputVariable() {
-		return inputVariable;
+	public BDD getBDD() {
+		return this.bdd;
 	}
 
-	public void setInputVariable(Vector<String> inputVariable) {
-		this.inputVariable = inputVariable;
+	public BDDidMapping<V> getBDDidMapping() {
+		return mapping;
 	}
-	
-	public String getBlifString() {
-		String result = new String();
-		Vector<Minterm> minterms = this.getMinterms();
-		
-		if(minterms.size()==0) {
-			for(@SuppressWarnings("unused") String in : inputVariable)
-				result += "-";
-			result += " 0\n";
+
+	public BooleanFunction<V> invert() {
+		return new BooleanFunction<V>(getBDDidMapping(), bdd.id().not());
+	}
+
+	public <K> BooleanFunction<K> translateMapping(Map<V, K> translation) {
+		return new BooleanFunction<K>(mapping.translateMapping(translation),
+				bdd);
+	}
+
+	public BooleanFunction<V> invertInput(V node) {
+		int variable_id = getBDDidMapping().getId(node);
+		if (variable_id < 0)
+			throw new RuntimeException("Unknown variable name");
+		BDDFactory factory = BDDFactorySingleton.get();
+		return new BooleanFunction<V>(getBDDidMapping(), this.bdd.id().compose(
+				factory.nithVar(variable_id), variable_id));
+	}
+
+	public ArrayList<V> getInputVariables() {
+		return inputVariables;
+	}
+
+	// public Boolean evaluate(TruthAssignment assignment) {
+	// BDD runner = getBDD();
+	// while(!runner.isOne() && !runner.isZero()) {
+	// String var_name = getVariableName(runner.var());
+	// if(assignment.get(var_name))
+	// runner = runner.high();
+	// else
+	// runner = runner.low();
+	// }
+	// return runner.isOne();
+	// }
+
+	public ArrayList<ArrayList<String>> getMinterms() {
+		ArrayList<String> baseMinterm = new ArrayList<String>();
+		for (@SuppressWarnings("unused")
+		V in : getInputVariables())
+			baseMinterm.add("-");
+		return getMintermsRec(baseMinterm, getBDD());
+	}
+
+	private ArrayList<ArrayList<String>> getMintermsRec(
+			ArrayList<String> intermediate, BDD subBDD) {
+		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+		if (subBDD.isZero()) {
+		} else if (subBDD.isOne()) {
+			result.add(new ArrayList<String>(intermediate));
 		} else {
-			for (Minterm m:minterms)
-				result += m + " 1\n";
+			ArrayList<String> subIntermediate = new ArrayList<String>(intermediate);
+			subIntermediate.set(getLocalVarIndex(subBDD.var()), "1");
+			result.addAll(getMintermsRec(subIntermediate, subBDD.high()));
+			subIntermediate.set(getLocalVarIndex(subBDD.var()), "0");
+			result.addAll(getMintermsRec(subIntermediate, subBDD.low()));
 		}
-		
 		return result;
 	}
-	
-	public String getVHDLString() {
-		String result = "\"";
-		
-		TruthTable table = new TruthTable(this);
-		for (TruthAssignment assignment: table.getAssignments()) {
-			if(table.get(assignment)){
-				result += "1";
-			} 
-			else{
-				result+= "0";
-			}
-		}
-		result += "\"";
-		//Bits are reversed to adhere to Xilinx order (See http://www.markharvey.info/fpga/init/index.html#section3)
-		return new StringBuilder(result).reverse().toString();
+
+	private int getLocalVarIndex(int var) {
+		return getInputVariables().indexOf(mapping.getNode(var));
 	}
 	
-	public String printTruthTable(){
-		String result = "\n";
-		TruthTable table = new TruthTable(this);
-		for (TruthAssignment assignment: table.getAssignments()) {
-			result += assignment.toString().replace("false", "0").replace("true", "1")+"\t";
-			if(table.get(assignment)){
-				result += "1\n";
-			} 
-			else{
-				result+= "0\n";
-			}
-		}
+	
+	public String toString() {
+		String result = this.bdd.toString() + "\nnodes:";
+		for (V var : getInputVariables())
+			result += " " + var.toString();
 		return result;
 	}
 
 	public void free() {
+		this.bdd.free();
+		this.bdd = null;
+	}
+
+	public String getTruthTableString() {
+		String result = "";
+		TruthTable table = new TruthTable(this);
+		for (TruthAssignment assignment : table.getAssignments()) {
+			if (table.get(assignment)) {
+				result += "1";
+			} else {
+				result += "0";
+			}
+		}
+		return result;
 	}
 }

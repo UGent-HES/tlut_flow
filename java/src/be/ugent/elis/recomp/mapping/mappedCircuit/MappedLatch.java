@@ -64,127 +64,66 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
-*/
-package be.ugent.elis.recomp.mapping.utils;
+ */
 
+package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.io.PrintStream;
 
-import net.sf.javabdd.BDD;
+import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.Node;
 
-public class RegularLeafSubBDDs implements Iterator<BDD> {
-	
-	private BDDidMapping<Node> bddIdMapping;
-	/**
-	 * BDDs that are or have been on the subBDDsToAnalyse stack
-	 */
-    private HashSet<BDD> visitedBDDs;
-    /**
-     * BDDs that are scheduled to be analysed
-     */
-	private Stack<BDD> subBDDsToAnalyse;
-	/**
-	 * BDDs containing only non-parameter inputs
-	 */
-	private LinkedList<BDD> regularLeafSubBDDs;
-	/**
-	 * Queue to iterate again over regularLeafSubBDDs that have been found before
-	 */
-	private LinkedList<BDD> rerunQueue;
-	/**
-	 * hasNext() computes and stores the next regularLeafSubBDD here
-	 */
-    private BDD next;
+public class MappedLatch extends MappedPrimaryOutput {
 
-	public RegularLeafSubBDDs(BDD bdd, BDDidMapping bddIdMapping) {
-		this.bddIdMapping = bddIdMapping;
-        this.visitedBDDs = new HashSet<BDD>();
-		this.subBDDsToAnalyse = new Stack<BDD>();
-        this.regularLeafSubBDDs = new LinkedList<BDD>();
-        this.rerunQueue = new LinkedList<BDD>();
-        
-        BDD startBDD = bdd.id();
-		this.subBDDsToAnalyse.push(startBDD);
-        this.visitedBDDs.add(startBDD);
-        
-        this.next = null;
+	MappedLatch(MappedCircuit circuit, String name) {
+		super(circuit, name);
 	}
 	
-	public void free() {
-		for(BDD bdd : this.visitedBDDs)
-			bdd.free();
-        this.visitedBDDs = null;
-		//for(BDD bdd : this.subBDDsToAnalyse)
-		//	bdd.free();
-		this.subBDDsToAnalyse = null;
-        this.next = null;
-        this.rerunQueue = null;
-	}
-
-	@Override
-	public boolean hasNext() {
-		//Iterate over the regularLeafSubBDDs that we found before (rerunQueue is filled in reset())
-		while(!rerunQueue.isEmpty()) {
-			next = rerunQueue.pop();
-			return true;
-		}
-		//Calculate new regularLeafSubBDDs
-        while(!this.subBDDsToAnalyse.empty()) {
-            BDD subBDD = this.subBDDsToAnalyse.pop();
-            if(!subBDD.isZero() && !subBDD.isOne()
-                    && bddIdMapping.getNode(subBDD.var()).isParameter()) {
-            	//Didn't find a new one; push it's children on the analysis stack if they aren't on there and haven't been analysed yet
-                BDD newSubBDD = subBDD.high();
-                if(visitedBDDs.contains(newSubBDD)) {
-                    newSubBDD.free();
-                } else {
-                    this.visitedBDDs.add(newSubBDD);
-                    this.subBDDsToAnalyse.push(newSubBDD);
-                }
-                newSubBDD = subBDD.low();
-                if(visitedBDDs.contains(newSubBDD)) {
-                    newSubBDD.free();
-                } else {
-                    this.visitedBDDs.add(newSubBDD);
-                    this.subBDDsToAnalyse.push(newSubBDD);
-                }
-            } else {
-            	//Found a new one
-                next = subBDD;
-                regularLeafSubBDDs.add(next);
-                return true;
-            }
-        }
-        next = null;
+	public boolean isOutputLatch() {
+		//TODO
 		return false;
 	}
 
-	private boolean bddContainsParameterLeaves(BDD bdd) {
-		if(bdd.isZero() || bdd.isOne())
-			return false;
-		if(bddIdMapping.getNode(bdd.var()).isParameter())
-			return true;
-		return bddContainsParameterLeaves(bdd.high())
-				|| bddContainsParameterLeaves(bdd.low());
+	public String getBlifString() {
+		return ".latch " + getSource().getBlifIdentifier() + " "
+				+ getBlifIdentifier() + " re pclk 2";
 	}
 
-	@Override
-	public BDD next() {
-//		if(bddContainsParameterLeaves(next))
-//			throw new RuntimeException("RegularLeafSubBDD contains parameter leaves");
-        return next;
+	public String getVhdlSignalIdentifier() {
+		return super.getVhdlSignalIdentifier() + (isOutputLatch() ? "_o" : "");
 	}
 
-	@Override
-	public void remove() {
-		throw new RuntimeException("Not implemented");
+	public String getVhdlIdentifier() {
+		return getCircuit().getName() + "_FD_" + getVhdlSignalIdentifier();
 	}
 
-	public void reset() {
-		rerunQueue.addAll(regularLeafSubBDDs);
+	public String getVhdlString() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(getVhdlIdentifier() + ": FD\n");
+		builder.append("generic map (\n\tINIT =>\'0\')\n");
+		builder.append("port map (Q => " + getVhdlSignalIdentifier() + ",\n");
+		builder.append("\tC => clk,\n");
+		builder.append("\tD => " + getSource().getVhdlSignalIdentifier() + ");");
+
+		return builder.toString();
+	}
+
+	public String getVhdlHeaderString() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("signal " + getVhdlSignalIdentifier()
+				+ " : STD_ULOGIC ;\n");
+		builder.append("attribute INIT of " + getVhdlIdentifier()
+				+ " : label is \"0\";\n");
+		builder.append("attribute S of " + getVhdlSignalIdentifier()
+				+ " : signal is \"YES\";\n");
+
+		// signalDeclarations = signalDeclarations +
+		// "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
+		// initAttributes = initAttributes +
+		// "\nattribute INIT of FD_"+stripBrackets(latch.getName())+" : label is \"0\";";
+
+		return builder.toString();
 	}
 }

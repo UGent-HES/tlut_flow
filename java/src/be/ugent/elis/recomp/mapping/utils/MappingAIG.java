@@ -64,7 +64,6 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
 package be.ugent.elis.recomp.mapping.utils;
 
@@ -80,14 +79,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import net.sf.javabdd.BDD;
+
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.AbstractNode;
 import be.ugent.elis.recomp.aig.NodeType;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedGate;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedInput;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedLatch;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedNode;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedOutput;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedPrimaryOutput;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
 public class MappingAIG extends AIG<Node, Edge> {
 
-	BDDidMapping bddIdMapping = null;
+	private BDDidMapping<Node> bddIdMapping = null;
+	private int param_id_range = -1;
 
 	public MappingAIG(String fileName) throws FileNotFoundException {
 		super(new SimpleElementFactory(), fileName);
@@ -104,10 +114,35 @@ public class MappingAIG extends AIG<Node, Edge> {
 	 * It gives the parameters the lowest ids.
 	 */
 	public void initBDDidMapping() {
-		bddIdMapping = new BDDidMapping(this);
+		bddIdMapping = new BDDidMapping<Node>();
+		
+		int id_runner = 0;
+		
+		//Parameters should get lowest ids
+		for(Node node : getInputs())
+			if(node.isParameter())
+				bddIdMapping.mapNodeToId(node, id_runner++);
+		param_id_range = id_runner - 1;
+		
+		//Other nodes get higher ids than parameters
+		for(Node node : getInputs())
+			if(!node.isParameter())
+				bddIdMapping.mapNodeToId(node, id_runner++);
+		ArrayList<Node> all = new ArrayList<Node>();
+		all.addAll(getAnds());
+		all.addAll(getOutputs());
+		all.addAll(getILatches());
+		all.addAll(getLatches());
+		all.addAll(getOLatches());
+		for(Node node : all)
+			bddIdMapping.mapNodeToId(node, id_runner++);
+		
+		//Parameters should stay together and at the front during reordering
+		if(param_id_range >= 0)
+			BDDFactorySingleton.get().addVarBlock(0, param_id_range, false);
 	}
 	
-	public BDDidMapping getBDDidMapping() {
+	public BDDidMapping<Node> getBDDidMapping() {
 		return bddIdMapping;
 	}
 	
@@ -157,7 +192,15 @@ public class MappingAIG extends AIG<Node, Edge> {
 		
 		return result;
 	}
-
+	
+	/**
+	 * Parameters of the aig have ids from 0 to param_id_range (including).
+	 * @return param_id_range
+	 */
+	public int getParamIdRange() {
+		return param_id_range;
+	}
+	
     private class ConfigurationEntry {
         String name;
         Node copy;
@@ -165,27 +208,6 @@ public class MappingAIG extends AIG<Node, Edge> {
         ConfigurationEntry(String n, Node c0, boolean c1) {name = n; copy = c0; copyInv = c1;}
     }
     
-    private class PolarisedNode {
-    	private Node node;
-    	private boolean inverted;
-    	public PolarisedNode(PolarisedNode pnode) {
-    		this(pnode.node, pnode.inverted);
-    	}
-    	public PolarisedNode(Node node, boolean inverted) {
-			this.node = node;
-			this.inverted = inverted;
-		}
-		public Node getNode() {
-			return this.node;
-		}
-		public boolean isInverted() {
-			return this.inverted;
-		}
-		public void toggleInverted(boolean toggle) {
-			this.inverted ^= toggle;
-		}
-    }
-
 	public AIG<Node, Edge> constructParamConfig(int K, boolean includeTLUTs, boolean includeLUTs) {
 		AIG<Node, Edge> aig = new MappingAIG();
 		
@@ -326,93 +348,95 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 	}
 	
+	public MappedCircuit constructMappedCircuit(int K) {
+		MappedCircuit circuit = new MappedCircuit("top");
 
-	public void printMappedBlif(PrintStream stream) {		
-		stream.println(".model top");
+		HashMap<PolarisedNode<Node>,MappedNode> mapping = new HashMap<PolarisedNode<Node>,MappedNode>();
+		HashMap<PolarisedNode<Node>,MappedPrimaryOutput> outputMapping = new HashMap<PolarisedNode<Node>,MappedPrimaryOutput>();
+		BDDidMapping<MappedNode> nBddIdMapping = new BDDidMapping<MappedNode>(); 
 
-		//Inputs
-		stream.print(".inputs");		
-		for (AbstractNode<Node, Edge> in : getInputs()) {
-			stream.print(" "+in.getName());
-		}	
-		stream.println();
-	
-		//Outputs
-		stream.print(".outputs");		
-		for (Node out : getOutputs()) {
-			stream.print(" "+out.getName());
+		mapping.put(new PolarisedNode<Node>(getConst0(), false), circuit.getConst0());
+		for(Node in : getInputs()) {
+			MappedInput mappedN = circuit.addInput(in.getName());
+			mapping.put(new PolarisedNode<Node>(in, false), mappedN);
+			nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(in));
 		}
-		stream.println();
-		stream.println();
+		for(Node out : getOutputs()) {
+			MappedOutput mappedN = circuit.addOutput(out.getName());
+			outputMapping.put(new PolarisedNode<Node>(out, false), mappedN);
+		}
+		for(Node olatch : getOLatches()) {
+			Node latch = olatch.getI0().getTail();
+			Node ilatch = latch.getI0().getTail();
+			MappedLatch mappedN = circuit.addLatch(latch.getName());
+			mapping.put(new PolarisedNode<Node>(olatch, false), mappedN);
+			nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(olatch));
+			outputMapping.put(new PolarisedNode<Node>(ilatch, false), mappedN);
+		}
 		
-		//Constant 0
-		stream.println(".names "+ getConst0().getName());
-		stream.println("0");
-		stream.println();
+		for(Node and : topologicalOrderInToOut(false, false)) {
+			if (and.isGate() && and.isVisible()) {
+				ArrayList<MappedNode> mappedInputs = new ArrayList<MappedNode>();
+				BooleanFunction<MappedNode> function = new BooleanFunction<MappedNode>(nBddIdMapping, and.getBestCone().getLocalFunction());
+				MappedGate mappedN = circuit.addGate(and.getName(), function.getInputVariables(), function, and.getBestCone().getType().toString());
+				mapping.put(new PolarisedNode<Node>(and, false), mappedN);
+				nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(and));
 				
-		//Latches
-		for (Node latch : getLatches()) {
-			Edge e = latch.getI0().getTail().getI0();
-			
-			stream.println(".names "+e.getTail().getName()+" "+latch.getName()+"-edge");
-			if (e.isInverted()) {
-				stream.println("0 1");
-			} else {
-				stream.println("1 1");
-			}
-			
-			stream.print(".latch");
-			stream.print(" "+latch.getName()+"-edge");
-			stream.print(" "+latch.getName());
-			stream.println (" re pclk 2");
-		}
-		stream.println();
+				//TODO: if is outputlatch add _o
 
-		//LUTs
-		for (Node and : getAnds()) {
-			if (and.isVisible()) {						
-				Cone bestCone = and.getBestCone();
-				BooleanFunction f = bestCone.getBooleanFunction(false);
-				
-				stream.print(".names");
-				//Regular LUT inputs
-				Map<String, Node> map = new HashMap<String, Node>();
-				for (Node n : bestCone.getAllLeaves())
-					map.put(n.getName(), n);
-				for(String name : f.getInputVariable()) {
-					stream.print(" "+ name);
+//				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted
+//				        || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
+//					printLutVhdl(baseName, and, stream, nameStream, K, and.getName()+"not", true);	 
+//				}
+//				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
+//					printLutVhdl(baseName, and, stream, nameStream, K, and.getName(), false);
+//				}
+			}
+		}
+		
+		for(Node output : getAllPrimaryOutputs()) {
+			System.out.println(output.getName());
+			MappedPrimaryOutput mappedO = outputMapping.get(new PolarisedNode<Node>(output, false));
+			MappedNode mappedS = mapping.get(new PolarisedNode<Node>(output.getI0().getTail(), false));
+			MappedNode mappedS_inv = mapping.get(new PolarisedNode<Node>(output.getI0().getTail(), true));
+			if(mappedO == null)
+				throw new RuntimeException();
+			if(mappedS == null)
+				throw new RuntimeException();
+			if(output.getI0().isInverted()) {
+				if(mappedS_inv == null) {
+					BDDidMapping<MappedNode> newBddIdMapping = new BDDidMapping<MappedNode>();
+					newBddIdMapping.mapNodeToId(mappedS, 1);
+					BDD newBdd = BDDFactorySingleton.get().nithVar(1);
+					BooleanFunction<MappedNode> newBooleanFunction = new BooleanFunction<MappedNode>(newBddIdMapping, newBdd);
+					mappedS_inv = circuit.addGate(mappedS.getName()+"_not", newBooleanFunction.getInputVariables(), newBooleanFunction, "LUT");
+					mapping.put(new PolarisedNode<Node>(output.getI0().getTail(), true), mappedS_inv);
 				}
-				//Output
-				stream.println(" "+and.getName() + " #"+bestCone.getType().toString());
-				
-				stream.print(f.getBlifString());
-				f.free();
-			}
-		}
-		
-		//Output inversion (conditional)
-		//The BLIF format is a little annoying.
-		for (Node out : getOutputs()) {
-			Edge e = out.getI0();
-			Node node = e.getTail();
-			if (!node.getName().equals(out.getName())) {
-				stream.println(".names "+node.getName()+" "+out.getName());
-				if (e.isInverted()) {
-					stream.println("0 1");
-				} else {
-					stream.println("1 1");
-				}
+				mappedO.setSource(mappedS_inv);
 			} else {
-				// In some cases a latch has the same name as an output
-				// this should solve that problem.
-				if (e.isInverted())
-		            throw new RuntimeException("Unexpected inversion of edge");
+				mappedO.setSource(mappedS);
 			}
+
+//			Edge e = out.getI0();
+//			Node node = e.getTail();
+//			if (!node.getName().equals(out.getName())) {
+//				stream.println(".names "+node.getName()+" "+out.getName());
+//				if (e.isInverted()) {
+//					stream.println("0 1");
+//				} else {
+//					stream.println("1 1");
+//				}
+//			} else {
+//				// In some cases a latch has the same name as an output
+//				// this should solve that problem.
+//				if (e.isInverted())
+//		            throw new RuntimeException("Unexpected inversion of edge");
+//			}
 		}
 		
-		stream.print(".end ");
-		stream.flush();
+		return circuit;
 	}
+	
 
 
 	public void printLutStructureBlif(PrintStream stream, int K) {

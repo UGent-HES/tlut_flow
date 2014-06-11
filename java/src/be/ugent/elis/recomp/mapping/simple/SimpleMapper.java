@@ -76,6 +76,7 @@ import java.io.PrintStream;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
@@ -153,8 +154,9 @@ public class SimpleMapper {
 		System.out.println("Debug: Elapsed time after mapping: "+String.format("%3.3es", elapsed_time/1000.));
         
         // Writing a blif
-        a.printLutStructureBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))), K);
- 
+		MappedCircuit mappedCircuit = a.constructMappedCircuit(K);
+		mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
+		
         // Debug stats
         System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
         System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());

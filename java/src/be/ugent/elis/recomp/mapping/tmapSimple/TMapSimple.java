@@ -80,6 +80,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import be.ugent.elis.recomp.aig.AIG;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.modular.ActivationFunctionBuilder;
 import be.ugent.elis.recomp.mapping.modular.MappedActivationFunctionBuilder;
 import be.ugent.elis.recomp.mapping.modular.ResourceSharingCalculator;
@@ -244,8 +245,8 @@ public class TMapSimple {
         // Debug output: mapped blif file
 		if(write_mappedblif_flag) {
 	        System.out.println("Writing the mapped BLIF:"); 
-	        a.printMappedBlif(
-	    	    new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
+	        MappedCircuit mappedCircuit = a.constructMappedCircuit(K);
+	        mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
 		}
 
 		// Output: parameterised configuration and lut structure

@@ -64,67 +64,55 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
-package be.ugent.elis.recomp.synthesis;
+package be.ugent.elis.recomp.mapping.utils;
 
-import java.util.Scanner;
-import java.util.Stack;
-import java.util.Vector;
+import be.ugent.elis.recomp.aig.AbstractNode;
+import be.ugent.elis.recomp.aig.StrashKey;
 
-public class ExpressionFunction extends BooleanFunction {
-	private String expression;
-
-	public ExpressionFunction(Vector<String> inputVariables, String expression) {
-		super(inputVariables);
-		
-		this.expression = expression;
-		
+public class PolarisedNode<N extends AbstractNode<N,?>> {
+	private final N node;
+	private final boolean inverted;
+	
+	public PolarisedNode(PolarisedNode<N> pnode) {
+		this(pnode.node, pnode.inverted);
 	}
 	
-	public ExpressionFunction invert() {
-		return new ExpressionFunction(getInputVariable(), expression+ " -");
+	public PolarisedNode(N node, boolean inverted) {
+		this.node = node;
+		this.inverted = inverted;
 	}
 	
-	public void invertInput(String variable) {
-		this.expression = this.expression.replace(variable, variable+" -");
+	public N getNode() {
+		return this.node;
 	}
 	
-	public Boolean evaluate(TruthAssignment assignment) {
-		Stack<Boolean> stack = new Stack<Boolean>();
+	public boolean isInverted() {
+		return this.inverted;
+	}
+	
+	public PolarisedNode<N> toggleInverted(boolean toggle) {
+		return new PolarisedNode<N>(node, inverted ^ toggle);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof PolarisedNode<?>))
+		      return false;
 		
-		Scanner scan = new Scanner(expression);
-		while (scan.hasNext()) {
-			String next = scan.next();
-			if (assignment.contains(next)) {
-				stack.push(assignment.get(next));
-			} else if ( next.equals("+")) {
-				Boolean arg0 = stack.pop();
-				Boolean arg1 = stack.pop();
-				stack.push(arg0 || arg1);
-			} else if ( next.equals("*")) {
-				Boolean arg0 = stack.pop();
-				Boolean arg1 = stack.pop();
-				stack.push(arg0 && arg1);
-			} else if ( next.equals("-")) {
-				Boolean arg0 = stack.pop();
-				stack.push(!arg0);
-			} else {
-				System.err.println("Error: Bad Boolean expression!");
-			}
-		}
+		PolarisedNode<?> other = (PolarisedNode<?>) obj;
 		
-		return stack.pop();
+		return (this.node == other.node) && 
+				(this.inverted == other.inverted); 
+
 	}
-
-
-
-	public String getExpression() {
-		return expression;
+	
+	@Override
+	public int hashCode() {
+	    int hash =  this.node.hashCode() * 31 + (this.inverted ? 0 : 1);
+		return hash;
 	}
-
-
-	public void setExpression(String expression) {
-		this.expression = expression;
-	}
+	
 }

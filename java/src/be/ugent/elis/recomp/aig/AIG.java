@@ -87,6 +87,7 @@ import java.util.NoSuchElementException;
 import be.ugent.elis.recomp.mapping.utils.AlphanumNodeNameComparator;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.mapping.utils.PolarisedNode;
 
 
 public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
@@ -154,34 +155,14 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		}
 	}
     
-    private class PolarisedNode {
-    	private final N node;
-    	private final boolean inverted;
-    	public PolarisedNode(PolarisedNode pnode) {
-    		this(pnode.node, pnode.inverted);
-    	}
-    	public PolarisedNode(N node, boolean inverted) {
-			this.node = node;
-			this.inverted = inverted;
-		}
-		public N getNode() {
-			return this.node;
-		}
-		public boolean isInverted() {
-			return this.inverted;
-		}
-		public PolarisedNode toggleInverted(boolean toggle) {
-			return new PolarisedNode(node, inverted ^ toggle);
-		}
-    }
 
 	public void copyStrash(AIG<N,E> aig) {
-		Map<N,PolarisedNode> propagateMap = new HashMap<N,PolarisedNode>();
+		Map<N,PolarisedNode<N>> propagateMap = new HashMap<N,PolarisedNode<N>>();
 		
 		//Copy primary inputs
 		for (N node : aig.getAllPrimaryInputs()) {
 			N node_copy = addNode(node.getName(), node.getType());
-			propagateMap.put(node, new PolarisedNode(node_copy, false));
+			propagateMap.put(node, new PolarisedNode<N>(node_copy, false));
 		}
 		
 		//Propagate constants and strash and nodes at the same time
@@ -190,16 +171,16 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			E e1 = orig.getI1();
 			
 			N origI0 = e0.getTail();
-			PolarisedNode pnodeI0 = propagateMap.get(origI0);
+			PolarisedNode<N> pnodeI0 = propagateMap.get(origI0);
 			pnodeI0 = pnodeI0.toggleInverted(e0.isInverted());
 			
 			N origI1 = e1.getTail();
-			PolarisedNode pnodeI1 = propagateMap.get(origI1);
+			PolarisedNode<N> pnodeI1 = propagateMap.get(origI1);
 			pnodeI1 = pnodeI1.toggleInverted(e1.isInverted());
 			
 //			Constant propagation
 			if (pnodeI1.getNode() == this.getConst0()) {
-				PolarisedNode swap_var = pnodeI1;
+				PolarisedNode<N> swap_var = pnodeI1;
 				pnodeI1 = pnodeI0;
 				pnodeI0 = swap_var;
 			}
@@ -207,7 +188,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				if (pnodeI0.isInverted()) {
 					propagateMap.put(orig, pnodeI1);
 				} else {
-					propagateMap.put(orig, new PolarisedNode(this.getConst0(), false));
+					propagateMap.put(orig, new PolarisedNode<N>(this.getConst0(), false));
 				}
 //			No constant propagation possible
 			} else {
@@ -215,7 +196,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				if (copy == null) {
 					copy = this.addNode(orig.getName(), pnodeI0.getNode(), pnodeI0.isInverted(), pnodeI1.getNode(), pnodeI1.isInverted());
 				}
-				propagateMap.put(orig, new PolarisedNode(copy, false));
+				propagateMap.put(orig, new PolarisedNode<N>(copy, false));
 			}
 		}
 		
@@ -228,13 +209,13 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			E iedge = ilatch.getI0();
 			N inode = iedge.getTail();
 			
-			PolarisedNode olatch_cp_pn = propagateMap.get(olatch);
+			PolarisedNode<N> olatch_cp_pn = propagateMap.get(olatch);
 			N olatch_cp = olatch_cp_pn.getNode();
 			if(!olatch_cp.isOLatch())
 				throw new RuntimeException("Copy of OLatch is supposed to be OLatch");
 			N latch_cp = addNode(latch.getName(), NodeType.LATCH);
 			N ilatch_cp = addNode(ilatch.getName(), NodeType.ILATCH);
-			PolarisedNode inode_cp_pn = propagateMap.get(inode);
+			PolarisedNode<N> inode_cp_pn = propagateMap.get(inode);
 			inode_cp_pn = inode_cp_pn.toggleInverted(iedge.isInverted());
 			N inode_cp = inode_cp_pn.getNode();
 
@@ -255,7 +236,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			N inode = iedge.getTail();
 
 			N output_cp = addNode(output.getName(), NodeType.OUTPUT);
-			PolarisedNode inode_cp_pn = propagateMap.get(inode);
+			PolarisedNode<N> inode_cp_pn = propagateMap.get(inode);
 			inode_cp_pn = inode_cp_pn.toggleInverted(iedge.isInverted());
 			N inode_cp = inode_cp_pn.getNode();
 			

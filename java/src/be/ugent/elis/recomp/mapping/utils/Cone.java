@@ -74,18 +74,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Vector;
 
 import net.sf.javabdd.BDD;
-import net.sf.javabdd.BDDPairing;
 import be.ugent.elis.recomp.aig.AIG;
-import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
-import be.ugent.elis.recomp.synthesis.BDDFunction;
+import be.ugent.elis.recomp.synthesis.BooleanFunction;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class Cone implements Comparable<Cone> {
-	
-	static private final boolean feasibility_uses_activationfunction = GlobalConstants.feasibility_uses_activationfunction;
 	
 	private final Node root;
 	private final Cone parent0, parent1;
@@ -96,7 +91,7 @@ public class Cone implements Comparable<Cone> {
 	private ArrayList <Node> nodes;
 	
 	private BDD localFunction;
-	private BDDidMapping bddIdMapping;
+	private BDDidMapping<Node> bddIdMapping;
 	
 	enum ConeType {LUT, TLUT, TCON, TLC, TRIVIAL, NONE, UNMAPPED}; 
 	private ConeType type;
@@ -113,11 +108,11 @@ public class Cone implements Comparable<Cone> {
 	private int hashCode = 0;
 
 
-	public Cone(Node node, BDDidMapping bddIdMapping) {
+	public Cone(Node node, BDDidMapping<Node> bddIdMapping) {
 		this(node, bddIdMapping, null, null);
 	}
 	
-	public Cone(Node node, BDDidMapping bddIdMapping, Cone parent0, Cone parent1) {
+	public Cone(Node node, BDDidMapping<Node> bddIdMapping, Cone parent0, Cone parent1) {
 		this.root = node;
 		this.parent0 = parent0;
 		this.parent1 = parent1;
@@ -155,7 +150,7 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 	
-	public static Cone emptyCone(Node node, BDDidMapping bddIdMapping) {
+	public static Cone emptyCone(Node node, BDDidMapping<Node> bddIdMapping) {
 		Cone result = new Cone(node, bddIdMapping);
 		result.calculateSignature();
 		return result;
@@ -190,7 +185,7 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 
-	public static Cone trivialCone(Node node, BDDidMapping bddIdMapping) {
+	public static Cone trivialCone(Node node, BDDidMapping<Node> bddIdMapping) {
 		Cone result = new Cone(node, bddIdMapping);
 		result.type = ConeType.TRIVIAL;
 		result.hasParameterLeaves = node.isParameter();
@@ -200,7 +195,7 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 	
-	public static Cone twoInputCone(Node node, BDDidMapping bddIdMapping) {
+	public static Cone twoInputCone(Node node, BDDidMapping<Node> bddIdMapping) {
 		Edge edge0 = node.getI0();
 		Edge edge1 = node.getI1();
 		Node node0 = edge0.getTail();
@@ -214,7 +209,7 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 
-	public static Cone outputCone(Node node, BDDidMapping bddIdMapping) {
+	public static Cone outputCone(Node node, BDDidMapping<Node> bddIdMapping) {
 		if(!node.isPrimaryOutput())
 			throw new RuntimeException("Only call this function with primary output node");
 		Cone cone = new Cone(node, bddIdMapping);
@@ -586,30 +581,14 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 	
-	public BDDFunction getBooleanFunction(boolean paramRestricted) {
+	public BooleanFunction<Node> getBooleanFunction(boolean paramRestricted) {
 		BDD bdd;
 		if(paramRestricted)
 			bdd = getParamRestrictedLocalFunction();
 		else
 			bdd = getLocalFunction();
 		
-        Vector<String> inputVariables = new Vector<String>();
-        BDDPairing bdd_var_replacement = BDDFactorySingleton.get().makePair();
-        int i = 0;
-		BDD it = bdd.support();
-		while(!it.isOne()) {
-			Node node = bddIdMapping.getNode(it.var());
-			inputVariables.add(node.getName());
-			bdd_var_replacement.set(it.var(), i);
-			BDD it_n = it.high();
-			it.free();
-			it = it_n;
-			i++;
-		}
-		
-		bdd = bdd.replace(bdd_var_replacement);
-		
-		return new BDDFunction(inputVariables, bdd);
+		return new BooleanFunction<Node>(bddIdMapping, bdd);
 	}
 
 	private BDD calculateFunctionOfMergedCones() {

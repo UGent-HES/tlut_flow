@@ -64,127 +64,149 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
-*/
-package be.ugent.elis.recomp.mapping.utils;
+ */
 
+package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
-import net.sf.javabdd.BDD;
+import be.ugent.elis.recomp.mapping.utils.Cone;
+import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG.OutputLutInversion;
+import be.ugent.elis.recomp.synthesis.BooleanFunction;
+import be.ugent.elis.recomp.synthesis.TruthAssignment;
+import be.ugent.elis.recomp.synthesis.TruthTable;
 
-public class RegularLeafSubBDDs implements Iterator<BDD> {
-	
-	private BDDidMapping<Node> bddIdMapping;
-	/**
-	 * BDDs that are or have been on the subBDDsToAnalyse stack
-	 */
-    private HashSet<BDD> visitedBDDs;
-    /**
-     * BDDs that are scheduled to be analysed
-     */
-	private Stack<BDD> subBDDsToAnalyse;
-	/**
-	 * BDDs containing only non-parameter inputs
-	 */
-	private LinkedList<BDD> regularLeafSubBDDs;
-	/**
-	 * Queue to iterate again over regularLeafSubBDDs that have been found before
-	 */
-	private LinkedList<BDD> rerunQueue;
-	/**
-	 * hasNext() computes and stores the next regularLeafSubBDD here
-	 */
-    private BDD next;
+public class MappedGate extends MappedNode {
 
-	public RegularLeafSubBDDs(BDD bdd, BDDidMapping bddIdMapping) {
-		this.bddIdMapping = bddIdMapping;
-        this.visitedBDDs = new HashSet<BDD>();
-		this.subBDDsToAnalyse = new Stack<BDD>();
-        this.regularLeafSubBDDs = new LinkedList<BDD>();
-        this.rerunQueue = new LinkedList<BDD>();
-        
-        BDD startBDD = bdd.id();
-		this.subBDDsToAnalyse.push(startBDD);
-        this.visitedBDDs.add(startBDD);
-        
-        this.next = null;
-	}
-	
-	public void free() {
-		for(BDD bdd : this.visitedBDDs)
-			bdd.free();
-        this.visitedBDDs = null;
-		//for(BDD bdd : this.subBDDsToAnalyse)
-		//	bdd.free();
-		this.subBDDsToAnalyse = null;
-        this.next = null;
-        this.rerunQueue = null;
+	BooleanFunction<MappedNode> function;
+	ArrayList<MappedNode> sources;
+	String mapped_type;
+
+	MappedGate(MappedCircuit circuit, String name, ArrayList<MappedNode> inputs,
+			BooleanFunction<MappedNode> function, String mapped_type) {
+		super(circuit, name);
+		this.sources = inputs;
+		this.function = function;
+		this.mapped_type = mapped_type;
 	}
 
-	@Override
-	public boolean hasNext() {
-		//Iterate over the regularLeafSubBDDs that we found before (rerunQueue is filled in reset())
-		while(!rerunQueue.isEmpty()) {
-			next = rerunQueue.pop();
-			return true;
-		}
-		//Calculate new regularLeafSubBDDs
-        while(!this.subBDDsToAnalyse.empty()) {
-            BDD subBDD = this.subBDDsToAnalyse.pop();
-            if(!subBDD.isZero() && !subBDD.isOne()
-                    && bddIdMapping.getNode(subBDD.var()).isParameter()) {
-            	//Didn't find a new one; push it's children on the analysis stack if they aren't on there and haven't been analysed yet
-                BDD newSubBDD = subBDD.high();
-                if(visitedBDDs.contains(newSubBDD)) {
-                    newSubBDD.free();
-                } else {
-                    this.visitedBDDs.add(newSubBDD);
-                    this.subBDDsToAnalyse.push(newSubBDD);
-                }
-                newSubBDD = subBDD.low();
-                if(visitedBDDs.contains(newSubBDD)) {
-                    newSubBDD.free();
-                } else {
-                    this.visitedBDDs.add(newSubBDD);
-                    this.subBDDsToAnalyse.push(newSubBDD);
-                }
-            } else {
-            	//Found a new one
-                next = subBDD;
-                regularLeafSubBDDs.add(next);
-                return true;
-            }
-        }
-        next = null;
+	public String getMappedType() {
+		return mapped_type;
+	}
+	
+	public ArrayList<MappedNode> getSources() {
+		return sources;
+	}
+	
+	public boolean isTLUT() {
+		//TODO
 		return false;
 	}
 
-	private boolean bddContainsParameterLeaves(BDD bdd) {
-		if(bdd.isZero() || bdd.isOne())
-			return false;
-		if(bddIdMapping.getNode(bdd.var()).isParameter())
-			return true;
-		return bddContainsParameterLeaves(bdd.high())
-				|| bddContainsParameterLeaves(bdd.low());
+	public String getBlifString() {
+		StringBuilder builder = new StringBuilder();
+
+		// LUT inputs
+		builder.append(".names");
+		for (MappedNode var : function.getInputVariables()) {
+			builder.append(" " + var.getBlifIdentifier());
+		}
+		// Output
+		builder.append(" " + getBlifIdentifier() + " #" + getMappedType()
+				+ "\n");
+
+		ArrayList<ArrayList<String>> minterms = function.getMinterms();
+		if (minterms.size() == 0) {
+			for (@SuppressWarnings("unused")
+			MappedNode n : function.getInputVariables())
+				builder.append("-");
+			builder.append(" 0\n");
+		} else {
+			for (ArrayList<String> minterm : minterms) {
+				for (String m : minterm)
+					builder.append(m);
+				builder.append(" 1\n");
+			}
+		}
+
+		return builder.toString();
 	}
 
-	@Override
-	public BDD next() {
-//		if(bddContainsParameterLeaves(next))
-//			throw new RuntimeException("RegularLeafSubBDD contains parameter leaves");
-        return next;
+	private String getVhdlTruthTable() {
+		String result = function.getTruthTableString();
+		// Bits are reversed to adhere to Xilinx order (See
+		// http://www.markharvey.info/fpga/init/index.html#section3)
+		return new StringBuilder("\"" + result + "\"").reverse().toString();
 	}
 
-	@Override
-	public void remove() {
-		throw new RuntimeException("Not implemented");
+	public String getVhdlIdentifier() {
+		String lutOrTlut = isTLUT() ? "TLUT" : "LUT";
+		return getCircuit().getName() + "_" + lutOrTlut + getSources().size()
+				+ "_" + getVhdlSignalIdentifier();
 	}
 
-	public void reset() {
-		rerunQueue.addAll(regularLeafSubBDDs);
+	public String getVhdlHeaderString() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("signal " + getVhdlSignalIdentifier()
+				+ " : STD_ULOGIC ;\n");
+		builder.append("attribute INIT of " + getVhdlIdentifier()
+				+ " : label is \""
+				+ Integer.toString((int) java.lang.Math.pow(2, getSources().size()))
+				+ "\";\n");
+		builder.append("attribute S of " + getVhdlSignalIdentifier()
+				+ " : signal is \"YES\";\n");
+
+		return builder.toString();
 	}
+	
+	public String getVhdlString() {
+		int K = 6;
+		int lutSize = getSources().size();
+/*
+if K==6: 
+    use the LUT6_2 primitive. This prevents two smaller LUTs from being packed together into a 6LUT with two outputs.
+LUT6_2_inst : LUT6_2
+generic map (INIT => X"0000000000000000") -- Specify LUT Contents
+port map (
+    O6 => O6,  -- 6/5-LUT output (1-bit)
+    O5 => O5,  -- 5-LUT output (1-bit)
+    I0 => I0,
+    I1 => I1,
+    I2 => I2,
+    I3 => I3,
+    I4 => I4,
+    I5 => I5
+);
+*/
+		String lutInstance = "";
+		if(isTLUT()) {
+		    if(K==6)
+                lutInstance += getVhdlIdentifier() + ": LUT6_2" + 
+                    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (\n\tO6 => " + getVhdlSignalIdentifier() +
+                    ",\n\tO5 => open";
+            else
+                lutInstance += getVhdlIdentifier()+": LUT"+lutSize +
+                    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (\n\tO => " + getVhdlSignalIdentifier();
+		} else {
+			lutInstance += getVhdlIdentifier()+": LUT"+lutSize + 
+			    "\ngeneric map (\n\tINIT =>"+getVhdlTruthTable()+")\nport map (\n\tO => "+getVhdlSignalIdentifier();
+		}
+		for (int i = 0; i < lutSize ; i++) {
+			lutInstance += ",\n\tI" + Integer.toString(i) + " => " + getSources().get(i).getVhdlSignalIdentifier();
+		}
+		if(K==6 && isTLUT()) {
+		    for (int i = lutSize; i < K ; i++)
+		        lutInstance += ",\n\tI" + Integer.toString(i) + " => '0'";
+		}
+		lutInstance += ");\n";
+		
+		return lutInstance;
+	}
+	
 }

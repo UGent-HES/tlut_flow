@@ -64,127 +64,249 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
-*/
-package be.ugent.elis.recomp.mapping.utils;
+ */
 
+package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import net.sf.javabdd.BDD;
+import be.ugent.elis.recomp.aig.AbstractNode;
+import be.ugent.elis.recomp.mapping.utils.Cone;
+import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG.OutputLutInversion;
+import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
-public class RegularLeafSubBDDs implements Iterator<BDD> {
-	
-	private BDDidMapping<Node> bddIdMapping;
-	/**
-	 * BDDs that are or have been on the subBDDsToAnalyse stack
-	 */
-    private HashSet<BDD> visitedBDDs;
-    /**
-     * BDDs that are scheduled to be analysed
-     */
-	private Stack<BDD> subBDDsToAnalyse;
-	/**
-	 * BDDs containing only non-parameter inputs
-	 */
-	private LinkedList<BDD> regularLeafSubBDDs;
-	/**
-	 * Queue to iterate again over regularLeafSubBDDs that have been found before
-	 */
-	private LinkedList<BDD> rerunQueue;
-	/**
-	 * hasNext() computes and stores the next regularLeafSubBDD here
-	 */
-    private BDD next;
+public class MappedCircuit {
 
-	public RegularLeafSubBDDs(BDD bdd, BDDidMapping bddIdMapping) {
-		this.bddIdMapping = bddIdMapping;
-        this.visitedBDDs = new HashSet<BDD>();
-		this.subBDDsToAnalyse = new Stack<BDD>();
-        this.regularLeafSubBDDs = new LinkedList<BDD>();
-        this.rerunQueue = new LinkedList<BDD>();
-        
-        BDD startBDD = bdd.id();
-		this.subBDDsToAnalyse.push(startBDD);
-        this.visitedBDDs.add(startBDD);
-        
-        this.next = null;
-	}
-	
-	public void free() {
-		for(BDD bdd : this.visitedBDDs)
-			bdd.free();
-        this.visitedBDDs = null;
-		//for(BDD bdd : this.subBDDsToAnalyse)
-		//	bdd.free();
-		this.subBDDsToAnalyse = null;
-        this.next = null;
-        this.rerunQueue = null;
+	String name;
+
+	MappedConst const0;
+	ArrayList<MappedInput> inputs;
+	ArrayList<MappedLatch> latches;
+	ArrayList<MappedOutput> outputs;
+	ArrayList<MappedGate> gates;
+
+	public MappedCircuit(String name) {
+		this.name = name;
+		this.const0 = new MappedConst(this, "const0", "0");
+		this.inputs = new ArrayList<MappedInput>();
+		this.latches = new ArrayList<MappedLatch>();
+		this.outputs = new ArrayList<MappedOutput>();
+		this.gates = new ArrayList<MappedGate>();
 	}
 
-	@Override
-	public boolean hasNext() {
-		//Iterate over the regularLeafSubBDDs that we found before (rerunQueue is filled in reset())
-		while(!rerunQueue.isEmpty()) {
-			next = rerunQueue.pop();
-			return true;
+	public String getName() {
+		return name;
+	}
+
+	public ArrayList<MappedInput> getInputs() {
+		return inputs;
+	}
+
+	public ArrayList<MappedLatch> getLatches() {
+		return latches;
+	}
+
+	public ArrayList<MappedOutput> getOutputs() {
+		return outputs;
+	}
+
+	public ArrayList<MappedGate> getGates() {
+		return gates;
+	}
+
+	public void printBlif(PrintStream stream) {
+		stream.println(".model " + this.name);
+
+		// Inputs
+		stream.print(".inputs");
+		for (MappedInput in : getInputs()) {
+			stream.print(" " + in.getBlifIdentifier());
 		}
-		//Calculate new regularLeafSubBDDs
-        while(!this.subBDDsToAnalyse.empty()) {
-            BDD subBDD = this.subBDDsToAnalyse.pop();
-            if(!subBDD.isZero() && !subBDD.isOne()
-                    && bddIdMapping.getNode(subBDD.var()).isParameter()) {
-            	//Didn't find a new one; push it's children on the analysis stack if they aren't on there and haven't been analysed yet
-                BDD newSubBDD = subBDD.high();
-                if(visitedBDDs.contains(newSubBDD)) {
-                    newSubBDD.free();
-                } else {
-                    this.visitedBDDs.add(newSubBDD);
-                    this.subBDDsToAnalyse.push(newSubBDD);
-                }
-                newSubBDD = subBDD.low();
-                if(visitedBDDs.contains(newSubBDD)) {
-                    newSubBDD.free();
-                } else {
-                    this.visitedBDDs.add(newSubBDD);
-                    this.subBDDsToAnalyse.push(newSubBDD);
-                }
-            } else {
-            	//Found a new one
-                next = subBDD;
-                regularLeafSubBDDs.add(next);
-                return true;
-            }
+		stream.println();
+
+		// Outputs
+		stream.print(".outputs");
+		for (MappedOutput out : getOutputs()) {
+			stream.print(" " + out.getBlifIdentifier());
+		}
+		stream.println();
+		stream.println();
+		
+		// Const0
+		stream.println(getConst0().getBlifString());
+		stream.println();
+
+		// Latches
+		for (MappedLatch latch : getLatches()) {
+			stream.println(latch.getBlifString());
+		}
+		stream.println();
+		
+        // Outputs
+		//TODO: remove
+        for (MappedOutput output : getOutputs()) {
+            stream.println(output.getBlifString());
         }
-        next = null;
-		return false;
+        stream.println();
+
+		// LUTs
+		for (MappedGate gate : getGates()) {
+			stream.println(gate.getBlifString());
+		}
+
+		stream.print(".end ");
+		stream.flush();
 	}
 
-	private boolean bddContainsParameterLeaves(BDD bdd) {
-		if(bdd.isZero() || bdd.isOne())
-			return false;
-		if(bddIdMapping.getNode(bdd.var()).isParameter())
-			return true;
-		return bddContainsParameterLeaves(bdd.high())
-				|| bddContainsParameterLeaves(bdd.low());
+	public void printLutStructureVhdl(String inVhdFile, PrintStream stream,
+			String nameFile, int K) throws IOException {
+		PrintStream nameStream = new PrintStream(new File(nameFile));
+		
+		String baseName = inVhdFile.substring(0, inVhdFile.lastIndexOf('.'))
+				.substring(inVhdFile.lastIndexOf('/') + 1);
+
+		printVhdlHeader(stream, inVhdFile, K);
+		
+		stream.println("\nbegin");
+
+		// Latches
+		for (MappedLatch latch : getLatches()) {
+			stream.println(latch.getVhdlString());
+		}
+
+		// LUTs
+		for (MappedGate gate : getGates()) {
+			stream.println(gate.getVhdlString());
+		}
+		stream.println("\n");
+
+		// Outputs
+		for (MappedOutput out : getOutputs()) {
+			stream.println(out.getVhdlString());
+		}
+
+		stream.println("end;");
 	}
 
-	@Override
-	public BDD next() {
-//		if(bddContainsParameterLeaves(next))
-//			throw new RuntimeException("RegularLeafSubBDD contains parameter leaves");
-        return next;
+	private void printVhdlHeader(PrintStream stream, String inVhdFile, int K)
+			throws IOException {
+		// Read header old vhdl file as a String
+		String baseName = inVhdFile.substring(0, inVhdFile.lastIndexOf('.'))
+				.substring(inVhdFile.lastIndexOf('/') + 1);
+		BufferedReader vhdlFileReader = new BufferedReader(new FileReader(
+				new File(inVhdFile)));
+		String vhdlFileLine = vhdlFileReader.readLine();
+		String header = "--WARNING: Don't edit. Automatically regenerated file (TLUT flow)\n";
+		while (vhdlFileLine.toLowerCase().indexOf("architecture") == -1) {
+			header = header + vhdlFileLine + '\n';
+			vhdlFileLine = vhdlFileReader.readLine();
+		}
+
+		String[] headerArray;
+
+		// Insert unisim library declaration if necessary
+		headerArray = header.split("[e|E][n|N][t|T][i|I][t|T][y|Y]");
+		String libraryString = "-- synopsys translate_off\nlibrary UNISIM;\nuse unisim.Vcomponents.all;\n-- synopsys translate_on\n";
+		if (header.indexOf("library UNISIM;") == -1)
+			header = headerArray[0] + libraryString + "\nentity"
+					+ headerArray[1];
+
+		stream.println(header.trim());
+
+		stream.println("\n" + vhdlFileLine);
+
+		// Add component definitions
+		printVhdlComponents(stream, K);
+
+		// Add declaration of signals and init attributes
+		stream.println("attribute INIT : string;");
+		stream.println("attribute S : string;");
+
+		// LUTs
+		for (MappedGate gate : getGates()) {
+			stream.println(gate.getVhdlHeaderString());
+		}
+
+		// Latches
+		for (MappedLatch latch : getLatches()) {
+			stream.println(latch.getVhdlHeaderString());
+		}
 	}
 
-	@Override
-	public void remove() {
-		throw new RuntimeException("Not implemented");
+	private void printVhdlComponents(PrintStream stream, int K) {
+		// Add LUT templates
+		if (K == 6) {
+			stream.println("component LUT6_2\ngeneric (INIT : bit_vector := X\"1\");\n"
+					+ "port (\n\tO6 : out STD_ULOGIC;\n\tO5 : out STD_ULOGIC;\n\tI0 : in STD_ULOGIC;"
+					+ "\n\tI1 : in STD_ULOGIC;\n\tI2 : in STD_ULOGIC;\n\tI3 : in STD_ULOGIC;"
+					+ "\n\tI4 : in STD_ULOGIC;\n\tI5 : in STD_ULOGIC);\nend component;\n");
+		}
+		for (int i = 1; i <= K; i++) {
+			stream.print("component LUT"
+					+ Integer.toString(i)
+					+ "\ngeneric (INIT : bit_vector := X\"1\");\nport   (O : out STD_ULOGIC");
+			for (int j = 0; j < i; j++)
+				stream.print("; \n\tI" + Integer.toString(j)
+						+ ": in STD_ULOGIC");
+			stream.println(");\nend component;\n");
+		}
+		
+		// Add FF template
+		stream.println("component FD\ngeneric (INIT : bit:= '1');\nport   (Q : out STD_ULOGIC;\n\tC : in STD_ULOGIC;\n\tD : in STD_ULOGIC);\nend component;\n");
+
+		// Add declaration of lock attributes
+		stream.println("attribute lock_pins : string;");
+		for (int i = 1; i <= K; i++) {
+			stream.println("attribute lock_pins of LUT" + Integer.toString(i)
+					+ ": component is \"ALL\";");
+		}
+		if (K == 6)
+			stream.println("attribute lock_pins of LUT6_2: component is \"ALL\";");
+	}
+	
+	public void printTLUTNames(PrintStream stream) {
+		for(MappedGate gate : getGates()) {
+			if(gate.isTLUT())
+				stream.println(gate.getVhdlIdentifier());
+		}
+	}
+	
+	public MappedConst getConst0() {
+	    return const0;
 	}
 
-	public void reset() {
-		rerunQueue.addAll(regularLeafSubBDDs);
+	public MappedInput addInput(String name) {
+		MappedInput n = new MappedInput(this, name);
+		inputs.add(n);
+		return n;
 	}
+
+	public MappedOutput addOutput(String name) {
+		MappedOutput n = new MappedOutput(this, name);
+		outputs.add(n);
+		return n;
+	}
+
+	public MappedLatch addLatch(String name) {
+		MappedLatch n = new MappedLatch(this, name);
+		latches.add(n);
+		return n;
+	}
+
+	public MappedGate addGate(String name, ArrayList<MappedNode> inputs,
+			BooleanFunction<MappedNode> function, String mapped_type) {
+		MappedGate n = new MappedGate(this, name, inputs, function, mapped_type);
+		gates.add(n);
+		return n;
+	}
+
 }

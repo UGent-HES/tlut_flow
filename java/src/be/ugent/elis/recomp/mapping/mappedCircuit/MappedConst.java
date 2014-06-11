@@ -64,124 +64,24 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
-*/
-package be.ugent.elis.recomp.synthesis;
+ */
 
-import java.util.ArrayList;
-import java.util.Vector;
+package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import net.sf.javabdd.BDD;
-import net.sf.javabdd.BDDFactory;
-import net.sf.javabdd.BDDPairing;
+public class MappedConst extends MappedPrimaryOutput {
 
-public class BDDFunction extends BooleanFunction {
-	private BDD bdd;
-	
-	public BDDFunction(Vector<String> inputVariables, BDD bdd) {
-		super(inputVariables);
-		
-		this.bdd = bdd;
-	}
-	
-	public BDDFunction invert() {
-		return new BDDFunction(getInputVariable(), bdd.id().not());
-	}
-	
-	public void invertInput(String variable_name) {
-		int variable_id = getVariableId(variable_name);
-		if(variable_id<0)
-			throw new RuntimeException("Unknown variable name");
-		BDDFactory factory = BDDFactorySingleton.get();
-		//BDDPairing replacement = factory.makePair(variable_id, factory.nithVar(variable_id));
-		//this.bdd = this.bdd.veccompose(replacement);
-		this.bdd = this.bdd.compose(factory.nithVar(variable_id), variable_id);
-	}
-	
-	public Boolean evaluate(TruthAssignment assignment) {
-		BDD runner = getBDD();
-		while(!runner.isOne() && !runner.isZero()) {
-			String var_name = getVariableName(runner.var());
-			if(assignment.get(var_name)) 
-				runner = runner.high();
-			else
-				runner = runner.low();
-		}
-		return runner.isOne();
+	String value;
+
+	MappedConst(MappedCircuit circuit, String name, String value) {
+		super(circuit, name);
+		this.value = value;
 	}
 
-	public BDD getBDD() {
-		return this.bdd;
-	}
-
-	public void setBDD(BDD bdd) {
-		this.bdd = bdd;
-	}
-	
-	private int getVariableId(String variable_name) {
-		return getInputVariable().indexOf(variable_name);
-	}
-	
-	private String getVariableName(int variable_id) {
-		return getInputVariable().get(variable_id);
-	}
-	
-	@Override
 	public String getBlifString() {
-		String result = new String();
-		
-		ArrayList<String> baseMinterm = new ArrayList<String>();
-		for(@SuppressWarnings("unused") String in : getInputVariable())
-			baseMinterm.add("-");
-		ArrayList<ArrayList<String>> minterms = getMintermsList();
-		
-		if(minterms.size()==0) {
-			for(@SuppressWarnings("unused") String in : getInputVariable())
-				result += "-";
-			result += " 0\n";
-		} else {
-			for (ArrayList<String> m : minterms) {
-				for(String c : m)
-					result += c;
-				result += " 1\n";
-			}
-		}
-		
-		return result;
+		return ".names " + getBlifIdentifier() + "\n" + value;
 	}
-	
-	private ArrayList<ArrayList<String>> getMintermsList() {
-		ArrayList<String> baseMinterm = new ArrayList<String>();
-		for(@SuppressWarnings("unused") String in : getInputVariable())
-			baseMinterm.add("-");
-		return getMintermsRec(baseMinterm, getBDD());
-	}
-	
-	private ArrayList<ArrayList<String>> getMintermsRec(ArrayList<String> intermediate, BDD subBDD) {
-		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
-		if(subBDD.isZero()) {
-		} else if(subBDD.isOne()) {
-			result.add(new ArrayList<String>(intermediate));
-		} else {
-			ArrayList<String> subIntermediate = new ArrayList<String>(intermediate);
-			subIntermediate.set(subBDD.var(), "1");
-			result.addAll(getMintermsRec(subIntermediate, subBDD.high()));
-			subIntermediate.set(subBDD.var(), "0");
-			result.addAll(getMintermsRec(subIntermediate, subBDD.low()));
-		}
-		return result;
-	}
-	
-	public String toString() {
-		String result = this.bdd.toString() + "\nnodes:";
-		for(String name : getInputVariable())
-			result += " " + name;
-		return result;
-	}
-	
-	@Override
-	public void free() {
-		this.bdd.free();
-		this.bdd = null;
+
+	public String getVhdlSignalIdentifier() {
+		return "\"" + value + "\"";
 	}
 }
