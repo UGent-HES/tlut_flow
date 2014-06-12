@@ -518,26 +518,22 @@ public class MappingAIG extends AIG<Node, Edge> {
 
 	public void printLutBlif(Node and, PrintStream stream, String lutName, boolean inverted) {
 		Cone bestCone = and.getBestCone();
-		BooleanFunction f = bestCone.getBooleanFunction(false);
+		BooleanFunction<Node> f = bestCone.getBooleanFunction(false);
 		if(inverted) {
-			BooleanFunction f_old = f;
+			BooleanFunction<Node> f_old = f;
 			f = f_old.invert();
 			f_old.free();
 		}
 		
 		stream.print(".names");
 		//Regular LUT inputs
-		Map<String, Node> map = new HashMap<String, Node>();
-		for (Node n : bestCone.getAllLeaves())
-			map.put(n.getName(), n);
-		for(String name : f.getInputVariable()) {
-			Node n = map.get(name);
+		for(Node n : f.getInputVariables()) {
 			if (n != null &&
 					checkOutputLutInversion(n) == OutputLutInversion.AllOutsInverted) {
 				stream.print(" "+n.getName()+"not");
-				f.invertInput(n.getName());
+				f.invertInput(n);
 		    } else
-				stream.print(" "+name);
+				stream.print(" "+n.getName());
 		}
 		//Output
 		stream.println(" "+lutName + " #"+bestCone.getType().toString());
@@ -763,129 +759,6 @@ port map (
 	} 
 	
 	
-	public void printLatchVhdl(String baseName, Node olatch, PrintStream stream, int K) {
-	    assert(olatch.isOLatch());
-	    Node latch = olatch.getI0().getTail();
-	    assert(latch.isLatch());
-		String latchInstance;
-		String latchName = getNodeVHDLName(olatch);
-		latchInstance = "\n" + baseName + "_FD_" + latchName + 
-		    ": FD\ngeneric map (\n\tINIT =>\'0\')\nport map (Q => " + latchName;
-		latchInstance += ",\n\tC => clk";
-				
-		Edge e = latch.getI0().getTail().getI0();
-		
-		latchInstance += ",\n\tD => " + getEdgeVHDLName(e);	
-		latchInstance += ");\n";
-		
-		stream.print(latchInstance);
-	} 
-	
-	
-	
-	private void writeVhdlHeader(PrintStream stream, String inVhdFile, int K) throws IOException {
-		// Read header old vhdl file as a String
-		String baseName = inVhdFile.substring(0,inVhdFile.lastIndexOf('.')).substring(inVhdFile.lastIndexOf('/')+1);
-	    BufferedReader vhdlFileReader = new BufferedReader( new FileReader(new File(inVhdFile)));
-	    String vhdlFileLine = vhdlFileReader.readLine();
-	    String header = "--WARNING: Don't edit. Automatically regenerated file (TLUT flow)\n";
-	    while(vhdlFileLine.toLowerCase().indexOf("architecture") == -1){
-	        header = header + vhdlFileLine + '\n' ;
-	        vhdlFileLine = vhdlFileReader.readLine();    
-	    }
-	    
-	    String [] headerArray;
-	    
-	    // Insert unisim library declaration if necessary
-	    headerArray = header.split("[e|E][n|N][t|T][i|I][t|T][y|Y]");
-	    String libraryString = "-- synopsys translate_off\nlibrary UNISIM;\nuse unisim.Vcomponents.all;\n-- synopsys translate_on\n";
-	    if (header.indexOf("library UNISIM;")== -1)
-	        header = headerArray[0] + libraryString + "\nentity" + headerArray[1];
-
-	    stream.println(header.trim());
-	    
-	    stream.println("\n"+vhdlFileLine);
-	    
-	    // Add LUT templates 
-	    if(K==6) {
-	        stream.println("component LUT6_2\ngeneric (INIT : bit_vector := X\"1\");\n" +
-                "port (\n\tO6 : out STD_ULOGIC;\n\tO5 : out STD_ULOGIC;\n\tI0 : in STD_ULOGIC;" + 
-                "\n\tI1 : in STD_ULOGIC;\n\tI2 : in STD_ULOGIC;\n\tI3 : in STD_ULOGIC;" +
-                "\n\tI4 : in STD_ULOGIC;\n\tI5 : in STD_ULOGIC);\nend component;\n");
-	    }
-        for (int i = 1;i<=K;i++) {	
-            String lutComponent = "component LUT" + Integer.toString(i) + 
-                "\ngeneric (INIT : bit_vector := X\"1\");\nport   (O : out STD_ULOGIC";
-            for(int j = 0;j<i;j++)
-                lutComponent = lutComponent + "; \n\tI"+Integer.toString(j)+": in STD_ULOGIC";
-            lutComponent = lutComponent + ");\nend component;\n";
-            stream.println(lutComponent);
-        }
-	    // Add FF template 
-	    String ffComponent = "component FD\ngeneric (INIT : bit:= '1');\nport   (Q : out STD_ULOGIC;\n\tC : in STD_ULOGIC;\n\tD : in STD_ULOGIC);\nend component;\n";
-	    stream.println(ffComponent);
-	    
-	    // Add declaration of signals and init attributes
-	    String signalDeclarations = "";
-		String initAttributes = "\nattribute INIT : string;";
-		String sAttributes = "\nattribute S : string;";
-
-		
-	    for (Node and : getAnds()) {
-			if (and.isVisible()) {	
-				Cone bestCone = and.getBestCone();
-				ArrayList<Node> regularInputs = bestCone.getRegularLeavesInFixedOrder();
-				int lutSize = regularInputs.size();
-				String lutOrTlut = bestCone.isTLUT() ? "TLUT" : "LUT";
-				
-				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
-				        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
-					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+"not : STD_ULOGIC ;";
-					initAttributes += "\nattribute INIT of "+baseName+"_"+lutOrTlut+lutSize+"_"+and.getName()+
-					    "not: label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
-                    sAttributes += "\nattribute S of "+and.getName()+"not : signal is \"YES\";";
-					    
-				}
-				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
-					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+" : STD_ULOGIC ;";
-					initAttributes += "\nattribute INIT of "+baseName+"_"+lutOrTlut+lutSize+"_"+and.getName()+
-					    ": label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
-                    sAttributes += "\nattribute S of "+and.getName()+" : signal is \"YES\";";
-					    
-				}
-					
-			}	
-		}
-	    
-	    for (Node latch : getOLatches()) {
-	    	String nameSuffix = isOutputLatch(latch) ? "_o" : "";
-			
-			signalDeclarations +=  "\nsignal " + stripBrackets(latch.getName()) +
-			    nameSuffix + " : STD_ULOGIC ;";
-			initAttributes += "\nattribute INIT of " + baseName + "_FD_" + stripBrackets(latch.getName()) +
-			    nameSuffix + " : label is \"0\";";
-            sAttributes += "\nattribute S of "+stripBrackets(latch.getName()) + nameSuffix + " : signal is \"YES\";";
-				
-			//signalDeclarations = signalDeclarations + "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
-			//initAttributes = initAttributes + "\nattribute INIT of FD_"+stripBrackets(latch.getName())+" : label is \"0\";"; 
-				
-		}
-	    
-	    
-	    stream.println(signalDeclarations);
-	    stream.println(initAttributes);
-        stream.println(sAttributes);
-		
-	    // Add declaration of lock attributes
-		String lockAttributes = "\nattribute lock_pins : string;";
-		for (int i = 1;i<=K;i++) {	
-	    	lockAttributes = lockAttributes + "\nattribute lock_pins of LUT"+Integer.toString(i)+": component is \"ALL\";";
-	    }
-	    if(K==6)
-	    	lockAttributes = lockAttributes + "\nattribute lock_pins of LUT6_2: component is \"ALL\";";
-
-		stream.println(lockAttributes);
-	}
 
 	public double avDupl() {
 		int dupCount=0;

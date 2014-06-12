@@ -68,18 +68,9 @@ All rights reserved.
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
 
-import be.ugent.elis.recomp.mapping.utils.Cone;
-import be.ugent.elis.recomp.mapping.utils.Node;
-import be.ugent.elis.recomp.mapping.utils.MappingAIG.OutputLutInversion;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
-import be.ugent.elis.recomp.synthesis.TruthAssignment;
-import be.ugent.elis.recomp.synthesis.TruthTable;
 
 public class MappedGate extends MappedNode {
 
@@ -160,7 +151,7 @@ public class MappedGate extends MappedNode {
 				+ Integer.toString((int) java.lang.Math.pow(2, getSources().size()))
 				+ "\";\n");
 		builder.append("attribute S of " + getVhdlSignalIdentifier()
-				+ " : signal is \"YES\";\n");
+				+ " : signal is \"YES\";");
 
 		return builder.toString();
 	}
@@ -204,7 +195,7 @@ port map (
 		    for (int i = lutSize; i < K ; i++)
 		        lutInstance += ",\n\tI" + Integer.toString(i) + " => '0'";
 		}
-		lutInstance += ");\n";
+		lutInstance += ");";
 		
 		return lutInstance;
 	}

@@ -64,10 +64,9 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*/
+ */
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
-
 
 public class MappedOutput extends MappedPrimaryOutput {
 
@@ -75,12 +74,24 @@ public class MappedOutput extends MappedPrimaryOutput {
 		super(circuit, name);
 	}
 	
+	public String getVhdlSignalIdentifier() {
+		return getName().replace('[', '(').replace(']', ')');
+	}
+
 	public String getVhdlString() {
-		return getVhdlSignalIdentifier() + " <= " + getSource().getVhdlSignalIdentifier() + ";";
+		return getVhdlSignalIdentifier() + " <= "
+				+ getSource().getVhdlSignalIdentifier() + ";";
 	}
 
 	public String getBlifString() {
-		return ".names " + getSource().getBlifIdentifier() + " "
-				+ getBlifIdentifier() + "\n1 1\n";
+		//Connect the source to the output
+		if (!getSource().getBlifIdentifier().equals(getBlifIdentifier()))
+			return ".names " + getSource().getBlifIdentifier() + " "
+					+ getBlifIdentifier() + "\n1 1";
+		else
+			//Exception: it is possible that the source already has the same name as the output,
+			//this is usually the case if the source is a latch. We avoid changing the latch's name
+			//because this disturbs logical equivalence checking.
+			return "";
 	}
 }

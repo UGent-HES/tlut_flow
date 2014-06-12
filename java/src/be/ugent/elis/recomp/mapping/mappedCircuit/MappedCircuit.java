@@ -74,14 +74,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import be.ugent.elis.recomp.aig.AbstractNode;
-import be.ugent.elis.recomp.mapping.utils.Cone;
-import be.ugent.elis.recomp.mapping.utils.Edge;
-import be.ugent.elis.recomp.mapping.utils.Node;
-import be.ugent.elis.recomp.mapping.utils.MappingAIG.OutputLutInversion;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
 public class MappedCircuit {
@@ -140,7 +133,7 @@ public class MappedCircuit {
 		}
 		stream.println();
 		stream.println();
-		
+
 		// Const0
 		stream.println(getConst0().getBlifString());
 		stream.println();
@@ -150,58 +143,55 @@ public class MappedCircuit {
 			stream.println(latch.getBlifString());
 		}
 		stream.println();
-		
-        // Outputs
-		//TODO: remove
-        for (MappedOutput output : getOutputs()) {
-            stream.println(output.getBlifString());
-        }
-        stream.println();
+
+		// Outputs
+		// TODO: remove?
+		for (MappedOutput output : getOutputs()) {
+			stream.println(output.getBlifString());
+			stream.println();
+		}
 
 		// LUTs
 		for (MappedGate gate : getGates()) {
 			stream.println(gate.getBlifString());
+			stream.println();
 		}
 
-		stream.print(".end ");
+		stream.println(".end");
 		stream.flush();
 	}
 
 	public void printLutStructureVhdl(String inVhdFile, PrintStream stream,
-			String nameFile, int K) throws IOException {
-		PrintStream nameStream = new PrintStream(new File(nameFile));
-		
-		String baseName = inVhdFile.substring(0, inVhdFile.lastIndexOf('.'))
-				.substring(inVhdFile.lastIndexOf('/') + 1);
-
+			int K) throws IOException {
 		printVhdlHeader(stream, inVhdFile, K);
-		
-		stream.println("\nbegin");
 
-		// Latches
-		for (MappedLatch latch : getLatches()) {
-			stream.println(latch.getVhdlString());
-		}
-
-		// LUTs
-		for (MappedGate gate : getGates()) {
-			stream.println(gate.getVhdlString());
-		}
-		stream.println("\n");
+		stream.println("begin");
 
 		// Outputs
 		for (MappedOutput out : getOutputs()) {
 			stream.println(out.getVhdlString());
 		}
+		stream.println();
+
+		// Latches
+		for (MappedLatch latch : getLatches()) {
+			stream.println(latch.getVhdlString());
+			stream.println();
+		}
+
+		// LUTs
+		for (MappedGate gate : getGates()) {
+			stream.println(gate.getVhdlString());
+			stream.println();
+		}
 
 		stream.println("end;");
+		stream.flush();
 	}
 
 	private void printVhdlHeader(PrintStream stream, String inVhdFile, int K)
 			throws IOException {
 		// Read header old vhdl file as a String
-		String baseName = inVhdFile.substring(0, inVhdFile.lastIndexOf('.'))
-				.substring(inVhdFile.lastIndexOf('/') + 1);
 		BufferedReader vhdlFileReader = new BufferedReader(new FileReader(
 				new File(inVhdFile)));
 		String vhdlFileLine = vhdlFileReader.readLine();
@@ -210,6 +200,7 @@ public class MappedCircuit {
 			header = header + vhdlFileLine + '\n';
 			vhdlFileLine = vhdlFileReader.readLine();
 		}
+		vhdlFileReader.close();
 
 		String[] headerArray;
 
@@ -230,15 +221,18 @@ public class MappedCircuit {
 		// Add declaration of signals and init attributes
 		stream.println("attribute INIT : string;");
 		stream.println("attribute S : string;");
+		stream.println();
 
 		// LUTs
 		for (MappedGate gate : getGates()) {
 			stream.println(gate.getVhdlHeaderString());
+			stream.println();
 		}
 
 		// Latches
 		for (MappedLatch latch : getLatches()) {
 			stream.println(latch.getVhdlHeaderString());
+			stream.println();
 		}
 	}
 
@@ -259,7 +253,7 @@ public class MappedCircuit {
 						+ ": in STD_ULOGIC");
 			stream.println(");\nend component;\n");
 		}
-		
+
 		// Add FF template
 		stream.println("component FD\ngeneric (INIT : bit:= '1');\nport   (Q : out STD_ULOGIC;\n\tC : in STD_ULOGIC;\n\tD : in STD_ULOGIC);\nend component;\n");
 
@@ -272,16 +266,17 @@ public class MappedCircuit {
 		if (K == 6)
 			stream.println("attribute lock_pins of LUT6_2: component is \"ALL\";");
 	}
-	
+
 	public void printTLUTNames(PrintStream stream) {
-		for(MappedGate gate : getGates()) {
-			if(gate.isTLUT())
+		for (MappedGate gate : getGates()) {
+			if (gate.isTLUT())
 				stream.println(gate.getVhdlIdentifier());
 		}
+		stream.flush();
 	}
-	
+
 	public MappedConst getConst0() {
-	    return const0;
+		return const0;
 	}
 
 	public MappedInput addInput(String name) {

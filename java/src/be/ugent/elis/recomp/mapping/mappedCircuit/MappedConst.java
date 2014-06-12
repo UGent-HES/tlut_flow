@@ -82,6 +82,6 @@ public class MappedConst extends MappedPrimaryOutput {
 	}
 
 	public String getVhdlSignalIdentifier() {
-		return "\"" + value + "\"";
+		return "\'" + value + "\'";
 	}
 }

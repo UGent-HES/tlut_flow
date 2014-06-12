@@ -68,20 +68,10 @@ All rights reserved.
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import java.io.PrintStream;
-
-import be.ugent.elis.recomp.mapping.utils.Edge;
-import be.ugent.elis.recomp.mapping.utils.Node;
-
 public class MappedLatch extends MappedPrimaryOutput {
 
 	MappedLatch(MappedCircuit circuit, String name) {
 		super(circuit, name);
-	}
-	
-	public boolean isOutputLatch() {
-		//TODO
-		return false;
 	}
 
 	public String getBlifString() {
@@ -90,7 +80,7 @@ public class MappedLatch extends MappedPrimaryOutput {
 	}
 
 	public String getVhdlSignalIdentifier() {
-		return super.getVhdlSignalIdentifier() + (isOutputLatch() ? "_o" : "");
+		return super.getVhdlSignalIdentifier() + "_l";
 	}
 
 	public String getVhdlIdentifier() {
@@ -117,7 +107,7 @@ public class MappedLatch extends MappedPrimaryOutput {
 		builder.append("attribute INIT of " + getVhdlIdentifier()
 				+ " : label is \"0\";\n");
 		builder.append("attribute S of " + getVhdlSignalIdentifier()
-				+ " : signal is \"YES\";\n");
+				+ " : signal is \"YES\";");
 
 		// signalDeclarations = signalDeclarations +
 		// "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";

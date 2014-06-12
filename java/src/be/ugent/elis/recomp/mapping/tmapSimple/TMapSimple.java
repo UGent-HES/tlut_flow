@@ -169,14 +169,15 @@ public class TMapSimple {
 
 		// Read AIG file
 		MappingAIG a = new MappingAIG(aig_in_filename);
+		
+		// Perform a fix to the aig when outputs are connected to parameter inputs
+		a.fixAIG();
+		
 		BDDFactorySingleton.get().setVarNum(a.numNodes());
 		
 		// Mark parameters
 		a.visitAll(new ParameterMarker(new FileInputStream(parameter_in_filename)));
 		a.initBDDidMapping();
-		
-		// Perform a fix to the aig when outputs are connected to parameter inputs
-		a.fixAIG();
 		
 
 		// Start the clock!
@@ -267,7 +268,9 @@ public class TMapSimple {
         	String vhd_in_filename = arguments[5];
         	String vhd_out_filename = arguments[6];
         	String namelist_out_filename = arguments[7];
-        	a.printLutStructureVhdl(vhd_in_filename, vhd_out_filename, namelist_out_filename, K);
+	        MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
+	        mappedCircuit.printLutStructureVhdl(vhd_in_filename, new PrintStream(new BufferedOutputStream(new FileOutputStream(vhd_out_filename))), K);
+	        mappedCircuit.printTLUTNames(new PrintStream(new FileOutputStream(namelist_out_filename)));
         }
 
         // Debug stats

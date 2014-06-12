@@ -75,4 +75,8 @@ public class MappedInput extends MappedNode {
 		super(circuit, name);
 	}
 	
+	public String getVhdlSignalIdentifier() {
+		return getName().replace('[', '(').replace(']', ')');
+	}
+	
 }
