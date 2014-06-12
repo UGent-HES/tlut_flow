@@ -68,14 +68,15 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.synthesis;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class TruthAssignment{
+public class TruthAssignment<N> {
 
-	Vector<String> inputVariables;
-	Map<String,Boolean> assignmentMap;
+	ArrayList<N> inputVariables;
+	Map<N,Boolean> assignmentMap;
 
 	@Override
 	public String toString() {
@@ -90,25 +91,25 @@ public class TruthAssignment{
 		return result;
 	}
 
-	public TruthAssignment(Vector<String> inputVariables) {
+	public TruthAssignment(ArrayList<N> inputVariables) {
 		this.inputVariables = inputVariables;
-		this.assignmentMap = new HashMap<String, Boolean>();
+		this.assignmentMap = new HashMap<N, Boolean>();
 		
-		for (String in:this.inputVariables) {
+		for (N in:this.inputVariables) {
 			assignmentMap.put(in, false);
 		}
 	}
 
-	public TruthAssignment(TruthAssignment truthAssignment) {
+	public TruthAssignment(TruthAssignment<N> truthAssignment) {
 		inputVariables = truthAssignment.inputVariables;
-		assignmentMap = new HashMap<String, Boolean>();
-		for (String in:this.inputVariables) {
+		assignmentMap = new HashMap<N, Boolean>();
+		for (N in:this.inputVariables) {
 			assignmentMap.put(in, new Boolean(truthAssignment.get(in)));
 		}
 	}
 	
-	public static TruthAssignment createFrom(BooleanFunction f) {
-		return new TruthAssignment(f.getInputVariable());
+	public static <N> TruthAssignment<N> createFrom(BooleanFunction<N> f) {
+		return new TruthAssignment<N>(f.getInputVariables());
 	}
 
 	public boolean hasNext() {
@@ -119,10 +120,10 @@ public class TruthAssignment{
 		return false;
 	}
 
-	public TruthAssignment next() {
-		TruthAssignment result = new TruthAssignment(this);
+	public TruthAssignment<N> next() {
+		TruthAssignment<N> result = new TruthAssignment<N>(this);
 		
-		for (String in:this.inputVariables) {
+		for (N in : this.inputVariables) {
 			if (result.get(in).booleanValue() == true) {
 				result.put(in, false);
 			} else {
@@ -133,25 +134,24 @@ public class TruthAssignment{
 		return result;
 	}
 
-	private void put(String variable, boolean b) {
+	private void put(N variable, boolean b) {
 		if (inputVariables.contains(variable)) {
 			assignmentMap.put(variable, b);
 		}
 	}
 
-	public boolean contains(String variable) {
+	public boolean contains(N variable) {
 		return assignmentMap.containsKey(variable);
 	}
 
-	public Boolean get(String variable) {
-		return assignmentMap.get(variable);
+	public Boolean get(N variable) {
+		Boolean b = assignmentMap.get(variable);
+		if(b == null)
+			throw new RuntimeException();
+		return b;
 	}
 
-	public Minterm minterm() {
-		return new Minterm(this);
-	}
-
-	public  Vector<String> getVariables() {
+	public  ArrayList<N> getVariables() {
 		return inputVariables;
 	}
 	

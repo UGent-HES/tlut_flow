@@ -72,17 +72,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class TruthTable {
+public class TruthTable<N> {
 	
-	Vector<TruthAssignment> assignments;
-	Map<TruthAssignment, Boolean> table; 
+	Vector<TruthAssignment<N>> assignments;
+	Map<TruthAssignment<N>, Boolean> table; 
 	
 
-	public TruthTable(BooleanFunction f) {
-		assignments = new Vector<TruthAssignment>();
-		table = new HashMap<TruthAssignment, Boolean>();
+	public TruthTable(BooleanFunction<N> f) {
+		assignments = new Vector<TruthAssignment<N>>();
+		table = new HashMap<TruthAssignment<N>, Boolean>();
 		
-		TruthAssignment assignment = TruthAssignment.createFrom(f);
+		TruthAssignment<N> assignment = TruthAssignment.createFrom(f);
 		assignments.add(assignment);
 		table.put(assignment, f.evaluate(assignment));
 		while (assignment.hasNext()) {
@@ -93,13 +93,24 @@ public class TruthTable {
 	}
 
 
-	public  Vector<TruthAssignment> getAssignments() {
+	public Vector<TruthAssignment<N>> getAssignments() {
 		return assignments;
 	}
 
 
-	public boolean get(TruthAssignment assignment) {
+	public boolean get(TruthAssignment<N> assignment) {
 		return table.get(assignment);
 	}
 
+	public String getString() {
+		String result = "";
+		for (TruthAssignment<N> assignment : this.getAssignments()) {
+			if (table.get(assignment)) {
+				result += "1";
+			} else {
+				result += "0";
+			}
+		}
+		return result;
+	}
 }
