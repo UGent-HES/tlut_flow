@@ -69,12 +69,11 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.tmapSimple;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Map;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -91,7 +90,6 @@ import be.ugent.elis.recomp.mapping.simple.ConeSelection;
 import be.ugent.elis.recomp.mapping.simple.HeightCalculator;
 import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.simple.AreaflowOrientedConeComparator;
-import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
@@ -161,6 +159,8 @@ public class TMapSimple {
 		String mapped_blif_out_filename = mappedblif_option.value(options);
         String param_config_out_filename = arguments[3];
 		String lutstruct_out_filename = arguments[4];
+		String base_name = aig_in_filename.substring(aig_in_filename.lastIndexOf('/') + 1, aig_in_filename.lastIndexOf('.'));
+		
 
         boolean use_bdd_flag = tcon_mapping_flag || tlc_mapping_flag || resource_sharing_flag;
 
@@ -246,7 +246,7 @@ public class TMapSimple {
         // Debug output: mapped blif file
 		if(write_mappedblif_flag) {
 	        System.out.println("Writing the mapped BLIF:"); 
-	        MappedCircuit mappedCircuit = a.constructMappedCircuit(K);
+	        MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
 	        mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
 		}
 

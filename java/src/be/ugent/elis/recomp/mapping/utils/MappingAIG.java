@@ -207,11 +207,11 @@ public class MappingAIG extends AIG<Node, Edge> {
         boolean copyInv;
         ConfigurationEntry(String n, Node c0, boolean c1) {name = n; copy = c0; copyInv = c1;}
     }
-    
+
 	public AIG<Node, Edge> constructParamConfig(int K, boolean includeTLUTs, boolean includeLUTs) {
 		AIG<Node, Edge> aig = new MappingAIG();
 		
-		
+
 		Map<Node, PolarisedNode<Node>> parameterCopyMap = new HashMap<Node, PolarisedNode<Node>>();
 		for (Node input:this.getInputs()) {
 			if (input.isParameter()) {
@@ -348,8 +348,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 	}
 	
-	public MappedCircuit constructMappedCircuit(int K) {
-		MappedCircuit circuit = new MappedCircuit("top");
+	public MappedCircuit constructMappedCircuit(String name, int K) {
+		MappedCircuit circuit = new MappedCircuit(name);
 
 		HashMap<PolarisedNode<Node>,MappedNode> mapping = new HashMap<PolarisedNode<Node>,MappedNode>();
 		HashMap<PolarisedNode<Node>,MappedPrimaryOutput> outputMapping = new HashMap<PolarisedNode<Node>,MappedPrimaryOutput>();
@@ -380,7 +380,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 				MappedGate mappedN = circuit.addGate(and.getName(), function.getInputVariables(), function, and.getBestCone().getType().toString());
 				mapping.put(new PolarisedNode<Node>(and, false), mappedN);
 				nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(and));
-				
+
 //				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted
 //				        || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
 //					printLutVhdl(baseName, and, stream, nameStream, K, and.getName()+"not", true);	 
@@ -758,7 +758,7 @@ port map (
 		stream.print(lutInstance);
 	} 
 	
-	
+
 
 	public double avDupl() {
 		int dupCount=0;

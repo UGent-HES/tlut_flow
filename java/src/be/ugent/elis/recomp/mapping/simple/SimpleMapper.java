@@ -108,7 +108,8 @@ public class SimpleMapper {
         String aig_in_filename = arguments[0];
 		int K = Integer.parseInt(arguments[1]);
 		String mapped_blif_out_filename = arguments[2];
-		
+		String base_name = aig_in_filename.substring(aig_in_filename.lastIndexOf('/') + 1, aig_in_filename.lastIndexOf('.'));
+
 		// Initialise BDD library
 		BDDFactorySingleton.create(GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
         
@@ -154,7 +155,7 @@ public class SimpleMapper {
 		System.out.println("Debug: Elapsed time after mapping: "+String.format("%3.3es", elapsed_time/1000.));
         
         // Writing a blif
-		MappedCircuit mappedCircuit = a.constructMappedCircuit(K);
+		MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
 		mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
 		
         // Debug stats
