@@ -56,6 +56,7 @@ class CompileTest(unittest.TestCase):
         self.ret_pwd = os.getcwd()
         self.stdout = sys.stdout
         self.stderr = sys.stderr
+        setMaxMemory(4000)
         
     def tearDown(self):
         os.chdir(self.ret_pwd)
@@ -116,7 +117,7 @@ class CompileTest(unittest.TestCase):
         # Unleash TLUT mapper
         if verboseFlag:
             print "Stage: TLUT mapper"
-        numLuts, numTLUTs, depth, avDup, origAnds, paramAnds, check = \
+        numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
             simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag)
         self.assertEqual(check, 'PASSED')
         if verboseFlag:
