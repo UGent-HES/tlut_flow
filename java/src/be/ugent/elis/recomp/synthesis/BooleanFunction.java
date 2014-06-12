@@ -121,6 +121,13 @@ public class BooleanFunction<V> {
 		return new BooleanFunction<V>(getBDDidMapping(), this.bdd.id().compose(
 				factory.nithVar(variable_id), variable_id));
 	}
+	
+	public <K> BooleanFunction<K> translate(Map<V,K> map) {
+		BDDidMapping<K> newMapping = new BDDidMapping<K>();
+		for(V var : getInputVariables())
+			newMapping.mapNodeToId(map.get(var), mapping.getId(var));
+		return new BooleanFunction<K>(newMapping, getBDD().id());
+	}
 
 	public boolean evaluate(TruthAssignment<V> assignment) {
 		BDD var = bdd.id();

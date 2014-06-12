@@ -74,7 +74,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Vector;
 
+import net.sf.javabdd.BDD;
+import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
+import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.mapping.utils.PolarisedNode;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
 public class MappedCircuit {
@@ -140,32 +148,26 @@ public class MappedCircuit {
 		return gates;
 	}
 
-	public ArrayList<MappedNode> topologicalOrderInToOut(boolean includeInputs,
-			boolean includeOutputs) {
-		ArrayList<MappedNode> list = new ArrayList<MappedNode>();
+	public ArrayList<MappedGate> topologicalOrderInToOut() {
+		ArrayList<MappedGate> list = new ArrayList<MappedGate>();
 		HashSet<MappedNode> visited = new HashSet<MappedNode>();
 
 		for (MappedNode out : getPrimaryOutputs()) {
-			inToOut_rec(out, list, visited, includeInputs, includeOutputs);
+			inToOut_rec(out, list, visited);
 		}
 
 		return list;
 	}
 
-	private ArrayList<MappedNode> inToOut_rec(MappedNode node,
-			ArrayList<MappedNode> list, HashSet<MappedNode> visited,
-			boolean includeInputs, boolean includeOutputs) {
+	private ArrayList<MappedGate> inToOut_rec(MappedNode node,
+			ArrayList<MappedGate> list, HashSet<MappedNode> visited) {
 		if (!visited.contains(node)) {
 			visited.add(node);
 			for (MappedNode source : node.getSources()) {
-				inToOut_rec(source, list, visited, includeOutputs,
-						includeOutputs);
+				inToOut_rec(source, list, visited);
 			}
-			if (!includeInputs && node.isPrimaryInput())
-				return list;
-			if (!includeOutputs && node.isPrimaryOutput())
-				return list;
-			list.add(node);
+			if(node instanceof MappedGate)
+				list.add((MappedGate)node);
 		}
 		return list;
 	}
@@ -329,6 +331,48 @@ public class MappedCircuit {
 		stream.flush();
 	}
 
+	public MappedCircuit constructParameterisedMappedCircuit() {
+		MappedCircuit circuit = new MappedCircuit(getName());
+
+		HashMap<MappedNode, MappedNode> mapping = new HashMap<MappedNode, MappedNode>();
+		HashMap<MappedPrimaryOutput, MappedPrimaryOutput> outputMapping = new HashMap<MappedPrimaryOutput, MappedPrimaryOutput>();
+
+		mapping.put(getConst0(), circuit.getConst0());
+		for (MappedInput in : getInputs()) {
+			if (in.isParameter())
+				continue;
+			MappedInput mappedN = circuit.addInput(in.getName(),
+					in.isParameter());
+			mapping.put(in, mappedN);
+		}
+		for (MappedOutput out : getOutputs()) {
+			MappedOutput mappedN = circuit.addOutput(out.getName());
+			outputMapping.put(out, mappedN);
+		}
+		for (MappedOLatch olatch : getOLatches()) {
+			MappedLatchPair mappedNpair = circuit.addLatch(olatch.getName());
+			mapping.put(olatch, mappedNpair.getOLatch());
+			outputMapping.put(olatch.getILatch(), mappedNpair.getILatch());
+		}
+
+		for (MappedGate gate : topologicalOrderInToOut()) {
+			BooleanFunction<MappedNode> function = gate.getFunction().translate(mapping);
+			MappedGate mappedN = circuit.addGate(gate.getName(),
+					function.getInputVariables(), function, gate.getMappedType());
+			mapping.put(gate, mappedN);
+		}
+
+		for (MappedPrimaryOutput output : getPrimaryOutputs()) {
+			MappedPrimaryOutput mappedO = outputMapping.get(output);
+			MappedNode mappedS = mapping.get(output.getSource());
+			if (mappedO == null)
+				throw new RuntimeException();
+			if (mappedS == null)
+				throw new RuntimeException();
+			mappedO.setSource(mappedS);
+		}
+
+		return circuit;
 	}
 
 	public MappedInput addInput(String name, boolean parameter) {

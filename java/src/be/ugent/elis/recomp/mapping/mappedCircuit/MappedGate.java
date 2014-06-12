@@ -90,6 +90,10 @@ public class MappedGate extends MappedNode {
 		return mapped_type;
 	}
 	
+	public BooleanFunction<MappedNode> getFunction() {
+		return function;
+	}
+	
 	public ArrayList<MappedNode> getSources() {
 		return sources;
 	}

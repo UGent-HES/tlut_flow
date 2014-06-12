@@ -247,7 +247,8 @@ public class TMapSimple {
 		if(write_mappedblif_flag) {
 	        System.out.println("Writing the mapped BLIF:"); 
 	        MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
-	        mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
+	        MappedCircuit nmappedCircuit = mappedCircuit.constructParameterisedMappedCircuit();
+	        nmappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
 		}
 
 		// Output: parameterised configuration and lut structure
@@ -269,8 +270,9 @@ public class TMapSimple {
         	String vhd_out_filename = arguments[6];
         	String namelist_out_filename = arguments[7];
 	        MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
-	        mappedCircuit.printLutStructureVhdl(vhd_in_filename, new PrintStream(new BufferedOutputStream(new FileOutputStream(vhd_out_filename))), K);
-	        mappedCircuit.printTLUTNames(new PrintStream(new FileOutputStream(namelist_out_filename)));
+	        MappedCircuit nmappedCircuit = mappedCircuit.constructParameterisedMappedCircuit();
+	        nmappedCircuit.printLutStructureVhdl(vhd_in_filename, new PrintStream(new BufferedOutputStream(new FileOutputStream(vhd_out_filename))), K);
+	        nmappedCircuit.printTLUTNames(new PrintStream(new FileOutputStream(namelist_out_filename)));
         }
 
         // Debug stats
