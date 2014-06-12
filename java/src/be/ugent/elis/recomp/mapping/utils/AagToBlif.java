@@ -72,6 +72,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
+
 
 public class AagToBlif {
 
@@ -90,7 +92,8 @@ public class AagToBlif {
 			n.setBestCone(c);
 		}
 		
-		a.printLutStructureBlif(new PrintStream(new File(args[1])), 1);
+		MappedCircuit mappedCircuit = a.constructMappedCircuit("top", 1);
+		mappedCircuit.printBlif(new PrintStream(new File(args[1])));
 
 	}
 
