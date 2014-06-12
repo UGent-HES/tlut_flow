@@ -586,7 +586,7 @@ public class Cone implements Comparable<Cone> {
 		if(paramRestricted)
 			bdd = getParamRestrictedLocalFunction();
 		else
-			bdd = getLocalFunction();
+			bdd = getLocalFunction().id();
 		
 		return new BooleanFunction<Node>(bddIdMapping, bdd);
 	}
