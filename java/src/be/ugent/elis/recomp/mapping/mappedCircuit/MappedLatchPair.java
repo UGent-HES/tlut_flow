@@ -47,9 +47,9 @@ Licensee shall treat as Licensed Software under this Agreement any Adaptation it
 (8) Warranty Disclaimer  -  UGent has no obligation to support or maintain the Licensed Software and grants Licensee this right to use the Licensed Software "as is". Licensee, and anyone to whom Licensee provides the Licensed Software pursuant to this Agreement, assume total responsibility and risk for Licensee's use of the Licensed Software. UGent does not make, and expressly disclaims, any express or implied warranties, representations or endorsements of any kind whatsoever, including, without limitation, the implied warranties of merchantability or fitness for a particular purpose, and the warranties of title or non-infringement.
 
 In no event shall UGent be liable for 
-	(a) any incidental, consequential, or indirect damages (including, without limitation, damages for loss of profits, business interruption, loss of programs or information, and the like) arising out of the use of or inability to use the Licensed Software, even if UGent or any of its authorized representatives has been advised of the possibility of such damages, 
-	(b) any claim attributable to errors, omissions, or other inaccuracies in the Licensed Software, or 
-	(c) any claim by any third party. 
+    (a) any incidental, consequential, or indirect damages (including, without limitation, damages for loss of profits, business interruption, loss of programs or information, and the like) arising out of the use of or inability to use the Licensed Software, even if UGent or any of its authorized representatives has been advised of the possibility of such damages, 
+    (b) any claim attributable to errors, omissions, or other inaccuracies in the Licensed Software, or 
+    (c) any claim by any third party. 
 By way of example only, UGent does not warrant that the Licensed Software will be error-free. As used in this section, "UGent" includes its employees, directors, officers, agents, representatives, subcontractors, service providers and suppliers. 
 
 (9) Sole Remedy  -  If for any reason the Software is unusable or does not perform as Licensee intended or expected, then Licensee's sole remedy shall be to either terminate this Agreement or to modify the Software to create an Adaptation which is usable or performs as intended or expected. This limitation on remedies shall apply even if Licensee cannot modify the Software to make the Software usable or perform as intended or expected. Because some states do not allow the exclusion or limitation of liability for consequential or incidental damages, the above limitation may not apply to Licensee. In the event applicable state or federal law does not allow the complete exclusion of any warranties as set forth in this Agreement, UGent's liability is limited to the greatest extent permitted by law.
@@ -64,37 +64,23 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*/
-
+ */
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import java.util.ArrayList;
+public class MappedLatchPair {
+	private final MappedILatch ilatch;
+	private final MappedOLatch olatch;
 
-
-public class MappedPrimaryOutput extends MappedNode {
-	
-	private MappedNode source;
-
-	MappedPrimaryOutput(MappedCircuit circuit, String name) {
-		super(circuit, name);
-	}
-	
-	public ArrayList<MappedNode> getSources() {
-		ArrayList<MappedNode> tmp = new ArrayList<MappedNode>();
-		tmp.add(getSource());
-		return tmp;
-	}
-	
-	public void setSource(MappedNode source) {
-		this.source = source;
+	MappedLatchPair(MappedILatch ilatch, MappedOLatch olatch) {
+		this.ilatch = ilatch;
+		this.olatch = olatch;
 	}
 
-	public MappedNode getSource() {
-		return source;
+	public MappedILatch getILatch() {
+		return ilatch;
 	}
-	
-	public boolean isPrimaryOutput() {
-		return true;
+
+	public MappedOLatch getOLatch() {
+		return olatch;
 	}
-	
 }

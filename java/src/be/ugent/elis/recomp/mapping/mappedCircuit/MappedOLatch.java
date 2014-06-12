@@ -64,37 +64,64 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*/
+ */
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import java.util.ArrayList;
+public class MappedOLatch extends MappedPrimaryInput {
 
-
-public class MappedPrimaryOutput extends MappedNode {
+	final private MappedILatch ilatch;
 	
-	private MappedNode source;
-
-	MappedPrimaryOutput(MappedCircuit circuit, String name) {
+	MappedOLatch(MappedCircuit circuit, String name, MappedILatch ilatch) {
 		super(circuit, name);
+		this.ilatch = ilatch;
 	}
 	
-	public ArrayList<MappedNode> getSources() {
-		ArrayList<MappedNode> tmp = new ArrayList<MappedNode>();
-		tmp.add(getSource());
-		return tmp;
+	public MappedILatch getILatch() {
+		return ilatch;
 	}
 	
-	public void setSource(MappedNode source) {
-		this.source = source;
+	public String getBlifString() {
+		return ".latch " + getILatch().getSource().getBlifIdentifier() + " "
+				+ getBlifIdentifier() + " re pclk 2";
 	}
 
-	public MappedNode getSource() {
-		return source;
+	public String getVhdlSignalIdentifier() {
+		return super.getVhdlSignalIdentifier() + "_l";
 	}
-	
-	public boolean isPrimaryOutput() {
-		return true;
+
+	public String getVhdlIdentifier() {
+		return getCircuit().getName() + "_FD_" + getVhdlSignalIdentifier();
+	}
+
+	public String getVhdlString() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(getVhdlIdentifier() + ": FD\n");
+		builder.append("generic map (\n\tINIT =>\'0\')\n");
+		builder.append("port map (Q => " + getVhdlSignalIdentifier() + ",\n");
+		builder.append("\tC => clk,\n");
+		builder.append("\tD => " + getILatch().getSource().getVhdlSignalIdentifier() + ");");
+
+		return builder.toString();
+	}
+
+	public String getVhdlHeaderString() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("signal " + getVhdlSignalIdentifier()
+				+ " : STD_ULOGIC ;\n");
+		builder.append("attribute INIT of " + getVhdlIdentifier()
+				+ " : label is \"0\";\n");
+		builder.append("attribute S of " + getVhdlSignalIdentifier()
+				+ " : signal is \"YES\";");
+
+		// signalDeclarations = signalDeclarations +
+		// "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
+		// initAttributes = initAttributes +
+		// "\nattribute INIT of FD_"+stripBrackets(latch.getName())+" : label is \"0\";";
+
+		return builder.toString();
 	}
 	
 }

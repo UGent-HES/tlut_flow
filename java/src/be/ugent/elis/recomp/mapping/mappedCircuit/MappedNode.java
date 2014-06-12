@@ -68,6 +68,8 @@ All rights reserved.
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
+import java.util.ArrayList;
+
 
 public class MappedNode {
 	MappedCircuit circuit;
@@ -84,6 +86,18 @@ public class MappedNode {
 
 	public String getName() {
 		return name;
+	}
+	
+	public ArrayList<MappedNode> getSources() {
+		return new ArrayList<MappedNode>();
+	}
+
+	public boolean isPrimaryInput() {
+		return false;
+	}
+
+	public boolean isPrimaryOutput() {
+		return false;
 	}
 	
 	public String getBlifIdentifier() {

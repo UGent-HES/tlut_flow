@@ -80,14 +80,14 @@ import java.util.Map;
 import java.util.Vector;
 
 import net.sf.javabdd.BDD;
-
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.AbstractNode;
 import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedGate;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedInput;
-import be.ugent.elis.recomp.mapping.mappedCircuit.MappedLatch;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedLatchPair;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedOLatch;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedNode;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedOutput;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedPrimaryOutput;
@@ -357,7 +357,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 
 		mapping.put(new PolarisedNode<Node>(getConst0(), false), circuit.getConst0());
 		for(Node in : getInputs()) {
-			MappedInput mappedN = circuit.addInput(in.getName());
+			MappedInput mappedN = circuit.addInput(in.getName(), in.isParameter());
 			mapping.put(new PolarisedNode<Node>(in, false), mappedN);
 			nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(in));
 		}
@@ -368,10 +368,10 @@ public class MappingAIG extends AIG<Node, Edge> {
 		for(Node olatch : getOLatches()) {
 			Node latch = olatch.getI0().getTail();
 			Node ilatch = latch.getI0().getTail();
-			MappedLatch mappedN = circuit.addLatch(latch.getName());
-			mapping.put(new PolarisedNode<Node>(olatch, false), mappedN);
-			nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(olatch));
-			outputMapping.put(new PolarisedNode<Node>(ilatch, false), mappedN);
+			MappedLatchPair mappedNpair = circuit.addLatch(latch.getName());
+			mapping.put(new PolarisedNode<Node>(olatch, false), mappedNpair.getOLatch());
+			nBddIdMapping.mapNodeToId(mappedNpair.getOLatch(), bddIdMapping.getId(olatch));
+			outputMapping.put(new PolarisedNode<Node>(ilatch, false), mappedNpair.getILatch());
 		}
 		
 		for(Node and : topologicalOrderInToOut(false, false)) {

@@ -83,7 +83,8 @@ public class MappedCircuit {
 
 	MappedConst const0;
 	ArrayList<MappedInput> inputs;
-	ArrayList<MappedLatch> latches;
+	ArrayList<MappedILatch> ilatches;
+	ArrayList<MappedOLatch> olatches;
 	ArrayList<MappedOutput> outputs;
 	ArrayList<MappedGate> gates;
 
@@ -91,7 +92,8 @@ public class MappedCircuit {
 		this.name = name;
 		this.const0 = new MappedConst(this, "const0", "0");
 		this.inputs = new ArrayList<MappedInput>();
-		this.latches = new ArrayList<MappedLatch>();
+		this.ilatches = new ArrayList<MappedILatch>();
+		this.olatches = new ArrayList<MappedOLatch>();
 		this.outputs = new ArrayList<MappedOutput>();
 		this.gates = new ArrayList<MappedGate>();
 	}
@@ -100,20 +102,72 @@ public class MappedCircuit {
 		return name;
 	}
 
+	public MappedConst getConst0() {
+		return const0;
+	}
+
 	public ArrayList<MappedInput> getInputs() {
 		return inputs;
 	}
 
-	public ArrayList<MappedLatch> getLatches() {
-		return latches;
+	public ArrayList<MappedPrimaryInput> getPrimaryInputs() {
+		ArrayList<MappedPrimaryInput> all = new ArrayList<MappedPrimaryInput>();
+		all.addAll(getInputs());
+		all.addAll(getOLatches());
+		return all;
+	}
+
+	public ArrayList<MappedILatch> getILatches() {
+		return ilatches;
+	}
+
+	public ArrayList<MappedOLatch> getOLatches() {
+		return olatches;
 	}
 
 	public ArrayList<MappedOutput> getOutputs() {
 		return outputs;
 	}
 
+	public ArrayList<MappedPrimaryOutput> getPrimaryOutputs() {
+		ArrayList<MappedPrimaryOutput> all = new ArrayList<MappedPrimaryOutput>();
+		all.addAll(getOutputs());
+		all.addAll(getILatches());
+		return all;
+	}
+
 	public ArrayList<MappedGate> getGates() {
 		return gates;
+	}
+
+	public ArrayList<MappedNode> topologicalOrderInToOut(boolean includeInputs,
+			boolean includeOutputs) {
+		ArrayList<MappedNode> list = new ArrayList<MappedNode>();
+		HashSet<MappedNode> visited = new HashSet<MappedNode>();
+
+		for (MappedNode out : getPrimaryOutputs()) {
+			inToOut_rec(out, list, visited, includeInputs, includeOutputs);
+		}
+
+		return list;
+	}
+
+	private ArrayList<MappedNode> inToOut_rec(MappedNode node,
+			ArrayList<MappedNode> list, HashSet<MappedNode> visited,
+			boolean includeInputs, boolean includeOutputs) {
+		if (!visited.contains(node)) {
+			visited.add(node);
+			for (MappedNode source : node.getSources()) {
+				inToOut_rec(source, list, visited, includeOutputs,
+						includeOutputs);
+			}
+			if (!includeInputs && node.isPrimaryInput())
+				return list;
+			if (!includeOutputs && node.isPrimaryOutput())
+				return list;
+			list.add(node);
+		}
+		return list;
 	}
 
 	public void printBlif(PrintStream stream) {
@@ -139,7 +193,7 @@ public class MappedCircuit {
 		stream.println();
 
 		// Latches
-		for (MappedLatch latch : getLatches()) {
+		for (MappedOLatch latch : getOLatches()) {
 			stream.println(latch.getBlifString());
 		}
 		stream.println();
@@ -174,7 +228,7 @@ public class MappedCircuit {
 		stream.println();
 
 		// Latches
-		for (MappedLatch latch : getLatches()) {
+		for (MappedOLatch latch : getOLatches()) {
 			stream.println(latch.getVhdlString());
 			stream.println();
 		}
@@ -230,7 +284,7 @@ public class MappedCircuit {
 		}
 
 		// Latches
-		for (MappedLatch latch : getLatches()) {
+		for (MappedOLatch latch : getOLatches()) {
 			stream.println(latch.getVhdlHeaderString());
 			stream.println();
 		}
@@ -275,12 +329,10 @@ public class MappedCircuit {
 		stream.flush();
 	}
 
-	public MappedConst getConst0() {
-		return const0;
 	}
 
-	public MappedInput addInput(String name) {
-		MappedInput n = new MappedInput(this, name);
+	public MappedInput addInput(String name, boolean parameter) {
+		MappedInput n = new MappedInput(this, name, parameter);
 		inputs.add(n);
 		return n;
 	}
@@ -291,10 +343,12 @@ public class MappedCircuit {
 		return n;
 	}
 
-	public MappedLatch addLatch(String name) {
-		MappedLatch n = new MappedLatch(this, name);
-		latches.add(n);
-		return n;
+	public MappedLatchPair addLatch(String name) {
+		MappedILatch in = new MappedILatch(this, name);
+		MappedOLatch on = new MappedOLatch(this, name, in);
+		olatches.add(on);
+		ilatches.add(in);
+		return new MappedLatchPair(in, on);
 	}
 
 	public MappedGate addGate(String name, ArrayList<MappedNode> inputs,

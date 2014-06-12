@@ -64,37 +64,14 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*/
+ */
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import java.util.ArrayList;
+public class MappedILatch extends MappedPrimaryOutput {
 
-
-public class MappedPrimaryOutput extends MappedNode {
-	
-	private MappedNode source;
-
-	MappedPrimaryOutput(MappedCircuit circuit, String name) {
+	MappedILatch(MappedCircuit circuit, String name) {
 		super(circuit, name);
-	}
-	
-	public ArrayList<MappedNode> getSources() {
-		ArrayList<MappedNode> tmp = new ArrayList<MappedNode>();
-		tmp.add(getSource());
-		return tmp;
-	}
-	
-	public void setSource(MappedNode source) {
-		this.source = source;
-	}
-
-	public MappedNode getSource() {
-		return source;
-	}
-	
-	public boolean isPrimaryOutput() {
-		return true;
 	}
 	
 }

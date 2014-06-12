@@ -69,10 +69,17 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
 
-public class MappedInput extends MappedNode {
+public class MappedInput extends MappedPrimaryInput {
+	
+	private boolean parameter;
 
-	MappedInput(MappedCircuit circuit, String name) {
+	MappedInput(MappedCircuit circuit, String name, boolean parameter) {
 		super(circuit, name);
+		this.parameter = parameter;
+	}
+	
+	public boolean isParameter() {
+		return parameter;
 	}
 	
 	public String getVhdlSignalIdentifier() {
