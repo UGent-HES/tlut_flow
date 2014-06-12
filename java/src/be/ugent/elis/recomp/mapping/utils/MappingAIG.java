@@ -212,11 +212,11 @@ public class MappingAIG extends AIG<Node, Edge> {
 		AIG<Node, Edge> aig = new MappingAIG();
 		
 		
-		Map<Node, PolarisedNode> parameterCopyMap = new HashMap<Node, PolarisedNode>();
+		Map<Node, PolarisedNode<Node>> parameterCopyMap = new HashMap<Node, PolarisedNode<Node>>();
 		for (Node input:this.getInputs()) {
 			if (input.isParameter()) {
 				Node copy = aig.addNode(input.getName(), NodeType.INPUT);
-				parameterCopyMap.put(input, new PolarisedNode(copy, false));
+				parameterCopyMap.put(input, new PolarisedNode<Node>(copy, false));
 			}
 		}
 		
@@ -234,11 +234,11 @@ public class MappingAIG extends AIG<Node, Edge> {
 				ArrayList<ConfigurationEntry> configuration_entries_inv = new ArrayList<ConfigurationEntry>();
 								
 				for (int entry=0; entry < Math.pow(2, bestCone.size()); entry++) {
-					Map<Node,PolarisedNode> copyMap = new HashMap<Node,PolarisedNode>(parameterCopyMap);
+					Map<Node,PolarisedNode<Node>> copyMap = new HashMap<Node,PolarisedNode<Node>>(parameterCopyMap);
 
 					int temp = entry;
 					for (Node input : regularInputs) {
-						copyMap.put(input, new PolarisedNode(aig.getConst0(), 
+						copyMap.put(input, new PolarisedNode<Node>(aig.getConst0(), 
 							(temp % 2 != 0) ^
 							(checkOutputLutInversion(input) == OutputLutInversion.AllOutsInverted)));
 						temp = temp / 2;
@@ -246,16 +246,16 @@ public class MappingAIG extends AIG<Node, Edge> {
 					
 					for (Node orig: bestConeNodesInToOut) {
 						Node origI0 = orig.getI0().getTail();
-						PolarisedNode pnodeI0 = new PolarisedNode(copyMap.get(origI0));
+						PolarisedNode<Node> pnodeI0 = new PolarisedNode<Node>(copyMap.get(origI0));
 						pnodeI0.toggleInverted(orig.getI0().isInverted());
 						
 						Node origI1 = orig.getI1().getTail();
-						PolarisedNode pnodeI1 = new PolarisedNode(copyMap.get(origI1));
+						PolarisedNode<Node> pnodeI1 = new PolarisedNode<Node>(copyMap.get(origI1));
 						pnodeI1.toggleInverted(orig.getI1().isInverted());
 						
 //						Constant propagation
 						if (pnodeI1.getNode() == aig.getConst0()) {
-							PolarisedNode swap_var = pnodeI1;
+							PolarisedNode<Node> swap_var = pnodeI1;
 							pnodeI1 = pnodeI0;
 							pnodeI0 = swap_var;
 						}
@@ -277,12 +277,12 @@ public class MappingAIG extends AIG<Node, Edge> {
 							
 					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
 					        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
-						PolarisedNode pnode = copyMap.get(and);
+						PolarisedNode<Node> pnode = copyMap.get(and);
 						configuration_entries_inv.add(new ConfigurationEntry(and.getName()+"not"+"_"+entry, 
 																pnode.getNode(), !pnode.isInverted()));
 					}
 					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
-						PolarisedNode pnode = copyMap.get(and);
+						PolarisedNode<Node> pnode = copyMap.get(and);
 						configuration_entries.add(new ConfigurationEntry(and.getName()+"_"+entry, 
 																pnode.getNode(), pnode.isInverted()));
 					}
@@ -376,14 +376,11 @@ public class MappingAIG extends AIG<Node, Edge> {
 		
 		for(Node and : topologicalOrderInToOut(false, false)) {
 			if (and.isGate() && and.isVisible()) {
-				ArrayList<MappedNode> mappedInputs = new ArrayList<MappedNode>();
 				BooleanFunction<MappedNode> function = new BooleanFunction<MappedNode>(nBddIdMapping, and.getBestCone().getLocalFunction());
 				MappedGate mappedN = circuit.addGate(and.getName(), function.getInputVariables(), function, and.getBestCone().getType().toString());
 				mapping.put(new PolarisedNode<Node>(and, false), mappedN);
 				nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(and));
 				
-				//TODO: if is outputlatch add _o
-
 //				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted
 //				        || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
 //					printLutVhdl(baseName, and, stream, nameStream, K, and.getName()+"not", true);	 
@@ -395,7 +392,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 		}
 		
 		for(Node output : getAllPrimaryOutputs()) {
-			System.out.println(output.getName());
 			MappedPrimaryOutput mappedO = outputMapping.get(new PolarisedNode<Node>(output, false));
 			MappedNode mappedS = mapping.get(new PolarisedNode<Node>(output.getI0().getTail(), false));
 			MappedNode mappedS_inv = mapping.get(new PolarisedNode<Node>(output.getI0().getTail(), true));
@@ -416,22 +412,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 			} else {
 				mappedO.setSource(mappedS);
 			}
-
-//			Edge e = out.getI0();
-//			Node node = e.getTail();
-//			if (!node.getName().equals(out.getName())) {
-//				stream.println(".names "+node.getName()+" "+out.getName());
-//				if (e.isInverted()) {
-//					stream.println("0 1");
-//				} else {
-//					stream.println("1 1");
-//				}
-//			} else {
-//				// In some cases a latch has the same name as an output
-//				// this should solve that problem.
-//				if (e.isInverted())
-//		            throw new RuntimeException("Unexpected inversion of edge");
-//			}
 		}
 		
 		return circuit;

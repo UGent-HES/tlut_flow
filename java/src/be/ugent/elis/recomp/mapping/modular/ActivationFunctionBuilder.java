@@ -185,7 +185,7 @@ public class ActivationFunctionBuilder extends AbstractActivationFunctionBuilder
 			onFn = onFn0.and(onFn1);
 			offFn = offFn0.or(offFn1);
 			if(onFn.nodeCount() < g_node_max) {
-				if(node.getOnParamFunction() != null && !node.getOnParamFunction().imp(onFn).isOne())
+				if(!node.getOnParamFunction().imp(onFn).isOne())
 					throw new RuntimeException("Expected old onFn to imply the new one");
 				node.setOnParamFunction(onFn);
 				node.setUpdated(true);
@@ -193,7 +193,7 @@ public class ActivationFunctionBuilder extends AbstractActivationFunctionBuilder
 				onFn.free();
 			}
 			if(offFn.nodeCount() < g_node_max) {
-				if(node.getOffParamFunction() != null && !node.getOffParamFunction().imp(offFn).isOne())
+				if(!node.getOffParamFunction().imp(offFn).isOne())
 					throw new RuntimeException("Expected old offFn to imply the new one");
 				node.setOffParamFunction(offFn);
 				node.setUpdated(true);
