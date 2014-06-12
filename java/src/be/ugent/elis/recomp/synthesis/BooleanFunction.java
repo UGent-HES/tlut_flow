@@ -69,12 +69,12 @@ All rights reserved.
 package be.ugent.elis.recomp.synthesis;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedNode;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedParameterisedConfigurationGate;
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 
 public class BooleanFunction<V> {
@@ -83,8 +83,8 @@ public class BooleanFunction<V> {
 	 * Mapping must only contain the used variables (but may contain more for
 	 * ease of use)
 	 */
-	private BDDidMapping<V> mapping;
-	private ArrayList<V> inputVariables = null;
+	private final BDDidMapping<V> mapping;
+	private final ArrayList<V> inputVariables;
 
 	private BDD bdd;
 
@@ -121,11 +121,18 @@ public class BooleanFunction<V> {
 		return new BooleanFunction<V>(getBDDidMapping(), this.bdd.id().compose(
 				factory.nithVar(variable_id), variable_id));
 	}
-	
-	public <K> BooleanFunction<K> translate(Map<V,K> map) {
+
+	public <K> BooleanFunction<K> translate(Map<V, K> map) {
 		BDDidMapping<K> newMapping = new BDDidMapping<K>();
-		for(V var : getInputVariables())
-			newMapping.mapNodeToId(map.get(var), mapping.getId(var));
+		for (V var : getInputVariables()) {
+			K nvar = map.get(var);
+			if(nvar == null)
+				throw new RuntimeException();
+			Integer id = mapping.getId(var);
+			if(id == null)
+				throw new RuntimeException();
+			newMapping.mapNodeToId(nvar, id);
+		}
 		return new BooleanFunction<K>(newMapping, getBDD().id());
 	}
 
@@ -133,59 +140,37 @@ public class BooleanFunction<V> {
 		BDD var = bdd.id();
 		while (!var.isOne() && !var.isZero()) {
 			BDD nvar;
-			if (assignment.get(mapping.getNode(var.var())))
+			if (assignment.getValue(mapping.getNode(var.var())))
 				nvar = var.high();
 			else
 				nvar = var.low();
 			var.free();
 			var = nvar;
 		}
+		if(!partialEvaluate(assignment).bdd.equals(var))
+			throw new RuntimeException();
 		return var.isOne();
+	}
+
+	public BooleanFunction<V> partialEvaluate(TruthAssignment<V> assignment) {
+		BDD restriction = BDDFactorySingleton.get().one();
+		for (V var : assignment.getVariables()) {
+			BDD varBdd;
+			if (assignment.getValue(var))
+				varBdd = BDDFactorySingleton.get().ithVar(mapping.getId(var));
+			else
+				varBdd = BDDFactorySingleton.get().nithVar(mapping.getId(var));
+			restriction.andWith(varBdd);
+		}
+		return new BooleanFunction<V>(getBDDidMapping(), getBDD().id().restrict(
+				restriction));
 	}
 
 	public ArrayList<V> getInputVariables() {
 		return inputVariables;
 	}
 
-	// public Boolean evaluate(TruthAssignment assignment) {
-	// BDD runner = getBDD();
-	// while(!runner.isOne() && !runner.isZero()) {
-	// String var_name = getVariableName(runner.var());
-	// if(assignment.get(var_name))
-	// runner = runner.high();
-	// else
-	// runner = runner.low();
-	// }
-	// return runner.isOne();
-	// }
-
-	public ArrayList<ArrayList<String>> getMinterms() {
-		ArrayList<String> baseMinterm = new ArrayList<String>();
-		for (@SuppressWarnings("unused")
-		V in : getInputVariables())
-			baseMinterm.add("-");
-		return getMintermsRec(baseMinterm, getBDD().id());
-	}
-
-	private ArrayList<ArrayList<String>> getMintermsRec(
-			ArrayList<String> intermediate, BDD subBDD) {
-		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
-		if (subBDD.isZero()) {
-		} else if (subBDD.isOne()) {
-			result.add(new ArrayList<String>(intermediate));
-		} else {
-			ArrayList<String> subIntermediate = new ArrayList<String>(
-					intermediate);
-			subIntermediate.set(getLocalVarIndex(subBDD.var()), "1");
-			result.addAll(getMintermsRec(subIntermediate, subBDD.high()));
-			subIntermediate.set(getLocalVarIndex(subBDD.var()), "0");
-			result.addAll(getMintermsRec(subIntermediate, subBDD.low()));
-		}
-		subBDD.free();
-		return result;
-	}
-
-	private int getLocalVarIndex(int var) {
+	public int getLocalVarIndex(int var) {
 		return getInputVariables().indexOf(mapping.getNode(var));
 	}
 
@@ -201,27 +186,12 @@ public class BooleanFunction<V> {
 		this.bdd = null;
 	}
 
-	public String getTruthTableString() {
-		return new TruthTable<V>(this).getString();
+	public TruthTable<V> getTruthTable() {
+		return TruthTable.createFrom(this);
 	}
 
-	public String getBlifString() {
-		String result = new String();
-		ArrayList<ArrayList<String>> minterms = this.getMinterms();
-
-		if (minterms.size() == 0) {
-			for (@SuppressWarnings("unused")
-			V in : getInputVariables())
-				result += "-";
-			result += " 0\n";
-		} else {
-			for (ArrayList<String> minterm : minterms) {
-				for (String m : minterm)
-					result += m;
-				result += " 1\n";
-			}
-		}
-
-		return result;
+	public MintermTable<V> getMinterms() {
+		return MintermTable.createFrom(this);
 	}
+
 }

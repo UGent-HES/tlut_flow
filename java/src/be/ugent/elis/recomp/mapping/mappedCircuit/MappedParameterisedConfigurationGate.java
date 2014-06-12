@@ -64,30 +64,31 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*/
+ */
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
+import java.util.ArrayList;
 
-public class MappedInput extends MappedPrimaryInput {
-	
-	private boolean parameter;
+import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
-	MappedInput(MappedCircuit circuit, String name, boolean parameter) {
-		super(circuit, name);
-		this.parameter = parameter;
+public class MappedParameterisedConfigurationGate extends MappedGate {
+
+	MappedParameterisedConfigurationGate(MappedCircuit circuit, String name,
+			ArrayList<MappedNode> inputs, BooleanFunction<MappedNode> function) {
+		super(circuit, name, inputs, function, "CONFIGURATION");
 	}
-	
-	public boolean isParameter() {
-		return parameter;
+
+	public String getVhdlIdentifier() {
+		return "";
 	}
-	
-	public boolean isParameterInput() {
-		return isParameter();
+
+	public String getVhdlHeaderString() {
+		return "";
 	}
-	
-	public String getVhdlSignalIdentifier() {
-		return getName().replace('[', '(').replace(']', ')');
+
+	public String getVhdlString() {
+		return "";
 	}
-	
+
 }

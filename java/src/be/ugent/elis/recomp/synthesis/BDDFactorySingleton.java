@@ -69,7 +69,6 @@ All rights reserved.
 package be.ugent.elis.recomp.synthesis;
 
 import net.sf.javabdd.BDDFactory;
-import net.sf.javabdd.BDDFactory.ReorderMethod;
 
 
 public class BDDFactorySingleton {

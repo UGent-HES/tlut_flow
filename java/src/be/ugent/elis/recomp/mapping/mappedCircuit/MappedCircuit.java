@@ -76,14 +76,10 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Vector;
 
-import net.sf.javabdd.BDD;
-import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
-import be.ugent.elis.recomp.mapping.utils.Node;
-import be.ugent.elis.recomp.mapping.utils.PolarisedNode;
-import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
+import be.ugent.elis.recomp.synthesis.TruthAssignment;
+import be.ugent.elis.recomp.synthesis.TruthAssignmentIterator;
 
 public class MappedCircuit {
 
@@ -166,8 +162,8 @@ public class MappedCircuit {
 			for (MappedNode source : node.getSources()) {
 				inToOut_rec(source, list, visited);
 			}
-			if(node instanceof MappedGate)
-				list.add((MappedGate)node);
+			if (node instanceof MappedGate)
+				list.add((MappedGate) node);
 		}
 		return list;
 	}
@@ -337,10 +333,12 @@ public class MappedCircuit {
 		HashMap<MappedNode, MappedNode> mapping = new HashMap<MappedNode, MappedNode>();
 		HashMap<MappedPrimaryOutput, MappedPrimaryOutput> outputMapping = new HashMap<MappedPrimaryOutput, MappedPrimaryOutput>();
 
+		// Copy inputs, latches, outputs
 		mapping.put(getConst0(), circuit.getConst0());
 		for (MappedInput in : getInputs()) {
-			if (in.isParameter())
-				continue;
+			// Only copy regularInputs
+			// if (in.isParameter())
+			// continue;
 			MappedInput mappedN = circuit.addInput(in.getName(),
 					in.isParameter());
 			mapping.put(in, mappedN);
@@ -355,10 +353,39 @@ public class MappedCircuit {
 			outputMapping.put(olatch.getILatch(), mappedNpair.getILatch());
 		}
 
+		// Separate configuration from LUT
 		for (MappedGate gate : topologicalOrderInToOut()) {
-			BooleanFunction<MappedNode> function = gate.getFunction().translate(mapping);
-			MappedGate mappedN = circuit.addGate(gate.getName(),
-					function.getInputVariables(), function, gate.getMappedType());
+			MappedGate mappedN;
+			if (gate.getMappedType().equals("TLUT")) {
+				BooleanFunction<MappedNode> function = gate.getFunction()
+						.translate(mapping);
+				ArrayList<MappedNode> sources = function.getInputVariables();
+
+				ArrayList<MappedNode> regularInputs = new ArrayList<MappedNode>();
+				for (MappedNode node : sources)
+					if (!node.isParameterInput())
+						regularInputs.add(node);
+
+				ArrayList<MappedParameterisedConfigurationGate> configurations = new ArrayList<MappedParameterisedConfigurationGate>();
+
+				for (TruthAssignment<MappedNode> assignment : TruthAssignmentIterator
+						.createFrom(regularInputs)) {
+					BooleanFunction<MappedNode> configurationFunction = function.partialEvaluate(assignment);
+					configurations.add(circuit
+							.addParameterisedConfigurationGate(gate.getName()
+									+ "_" + assignment.getEntry(),
+									configurationFunction.getInputVariables(),
+									configurationFunction));
+				}
+
+				mappedN = circuit.addParameterisedGate(gate.getName(),
+						regularInputs, configurations, gate.getMappedType());
+			} else {
+				BooleanFunction<MappedNode> function = gate.getFunction().translate(mapping);
+				mappedN = circuit.addGate(gate.getName(),
+						function.getInputVariables(), function,
+						gate.getMappedType());
+			}
 			mapping.put(gate, mappedN);
 		}
 
@@ -398,6 +425,25 @@ public class MappedCircuit {
 	public MappedGate addGate(String name, ArrayList<MappedNode> inputs,
 			BooleanFunction<MappedNode> function, String mapped_type) {
 		MappedGate n = new MappedGate(this, name, inputs, function, mapped_type);
+		gates.add(n);
+		return n;
+	}
+
+	public MappedParameterisedGate addParameterisedGate(String name,
+			ArrayList<MappedNode> inputs,
+			ArrayList<MappedParameterisedConfigurationGate> configurations,
+			String mapped_type) {
+		MappedParameterisedGate n = new MappedParameterisedGate(this, name,
+				inputs, configurations, mapped_type);
+		gates.add(n);
+		return n;
+	}
+
+	public MappedParameterisedConfigurationGate addParameterisedConfigurationGate(
+			String name, ArrayList<MappedNode> inputs,
+			BooleanFunction<MappedNode> function) {
+		MappedParameterisedConfigurationGate n = new MappedParameterisedConfigurationGate(
+				this, name, inputs, function);
 		gates.add(n);
 		return n;
 	}

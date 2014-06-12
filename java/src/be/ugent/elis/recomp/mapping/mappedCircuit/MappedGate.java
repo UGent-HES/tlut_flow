@@ -106,34 +106,22 @@ public class MappedGate extends MappedNode {
 	public String getBlifString() {
 		StringBuilder builder = new StringBuilder();
 
-		// LUT inputs
+		// Inputs
 		builder.append(".names");
-		for (MappedNode var : function.getInputVariables()) {
+		for (MappedNode var : getSources()) {
 			builder.append(" " + var.getBlifIdentifier());
 		}
 		// Output
 		builder.append(" " + getBlifIdentifier() + " #" + getMappedType()
 				+ "\n");
 
-		ArrayList<ArrayList<String>> minterms = function.getMinterms();
-		if (minterms.size() == 0) {
-			for (@SuppressWarnings("unused")
-			MappedNode n : function.getInputVariables())
-				builder.append("-");
-			builder.append(" 0\n");
-		} else {
-			for (ArrayList<String> minterm : minterms) {
-				for (String m : minterm)
-					builder.append(m);
-				builder.append(" 1\n");
-			}
-		}
+		builder.append(function.getMinterms().getString());
 
 		return builder.toString();
 	}
 
-	private String getVhdlTruthTable() {
-		String result = function.getTruthTableString();
+	protected String getVhdlTruthTable() {
+		String result = function.getTruthTable().getString();
 		// Bits are reversed to adhere to Xilinx order (See
 		// http://www.markharvey.info/fpga/init/index.html#section3)
 		return new StringBuilder("\"" + result + "\"").reverse().toString();

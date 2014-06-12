@@ -64,30 +64,49 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*/
+ *//*
+ */
+package be.ugent.elis.recomp.synthesis;
 
-package be.ugent.elis.recomp.mapping.mappedCircuit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
+public class TruthAssignmentIterator<N> implements Iterable<TruthAssignment<N>> {
 
-public class MappedInput extends MappedPrimaryInput {
-	
-	private boolean parameter;
+	private final ArrayList<N> input_variables;
 
-	MappedInput(MappedCircuit circuit, String name, boolean parameter) {
-		super(circuit, name);
-		this.parameter = parameter;
+	public TruthAssignmentIterator(ArrayList<N> inputVariables) {
+		this.input_variables = inputVariables;
 	}
 	
-	public boolean isParameter() {
-		return parameter;
+	public static <N> TruthAssignmentIterator<N> createFrom(ArrayList<N> vars) {
+		return new TruthAssignmentIterator<N>(vars);
 	}
 	
-	public boolean isParameterInput() {
-		return isParameter();
-	}
-	
-	public String getVhdlSignalIdentifier() {
-		return getName().replace('[', '(').replace(']', ')');
-	}
-	
+	@Override
+    public Iterator<TruthAssignment<N>> iterator() {
+        Iterator<TruthAssignment<N>> it = new Iterator<TruthAssignment<N>>() {
+
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < Math.pow(2, input_variables.size());
+            }
+
+            @Override
+            public TruthAssignment<N> next() {
+                return new TruthAssignment<N>(input_variables, currentIndex++);
+            }
+
+            @Override
+            public void remove() {
+            }
+        };
+        
+        return it;
+    }
+
 }

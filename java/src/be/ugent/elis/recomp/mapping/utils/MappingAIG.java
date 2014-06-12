@@ -538,7 +538,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		//Output
 		stream.println(" "+lutName + " #"+bestCone.getType().toString());
 		
-		stream.print(f.getBlifString());
+		stream.print(f.getMinterms().getString());
 		f.free();
 	}
 

@@ -68,7 +68,7 @@ All rights reserved.
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-public class MappedConst extends MappedPrimaryOutput {
+public class MappedConst extends MappedNode {
 
 	String value;
 

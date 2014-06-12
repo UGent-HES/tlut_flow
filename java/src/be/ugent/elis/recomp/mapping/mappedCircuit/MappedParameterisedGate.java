@@ -64,30 +64,69 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*/
+ */
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
+import java.util.ArrayList;
 
-public class MappedInput extends MappedPrimaryInput {
-	
-	private boolean parameter;
+import be.ugent.elis.recomp.synthesis.TruthAssignment;
+import be.ugent.elis.recomp.synthesis.TruthAssignmentIterator;
 
-	MappedInput(MappedCircuit circuit, String name, boolean parameter) {
-		super(circuit, name);
-		this.parameter = parameter;
+public class MappedParameterisedGate extends MappedGate {
+
+	private final ArrayList<MappedParameterisedConfigurationGate> configuration_sources;
+
+	MappedParameterisedGate(MappedCircuit circuit, String name,
+			ArrayList<MappedNode> inputs,
+			ArrayList<MappedParameterisedConfigurationGate> configurations,
+			String mapped_type) {
+		super(circuit, name, inputs, null, mapped_type);
+		this.configuration_sources = configurations;
 	}
-	
-	public boolean isParameter() {
-		return parameter;
+
+	public ArrayList<MappedParameterisedConfigurationGate> getConfigurationSources() {
+		return configuration_sources;
 	}
-	
-	public boolean isParameterInput() {
-		return isParameter();
+
+	public String getBlifString() {
+		StringBuilder builder = new StringBuilder();
+
+		// Inputs
+		builder.append(".names");
+		for (MappedNode var : getConfigurationSources()) {
+			builder.append(" " + var.getBlifIdentifier());
+		}
+		for (MappedNode var : getSources()) {
+			builder.append(" " + var.getBlifIdentifier());
+		}
+		// Output
+		builder.append(" " + getBlifIdentifier() + " #" + getMappedType()
+				+ "\n");
+
+		// Implementation of LUT using mux
+		for (TruthAssignment<MappedNode> assignment : TruthAssignmentIterator
+				.createFrom(getSources())) {
+			// Select configuration bit
+			for (int i = 0; i < Math.pow(2, getSources().size()); i++) {
+				if (i == assignment.getEntry())
+					builder.append('1');
+				else
+					builder.append('-');
+			}
+			// Mux
+			builder.append(assignment.getString());
+			builder.append(" 1\n");
+		}
+
+		return builder.toString();
 	}
-	
-	public String getVhdlSignalIdentifier() {
-		return getName().replace('[', '(').replace(']', ')');
+
+	protected String getVhdlTruthTable() {
+		String str = "1";
+		for (int i = 1; i < Math.pow(2, getSources().size()); i++)
+			str += "0";
+		return "\"" + str + "\"";
 	}
-	
+
 }

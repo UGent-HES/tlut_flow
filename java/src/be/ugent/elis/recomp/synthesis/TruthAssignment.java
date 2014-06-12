@@ -64,99 +64,75 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
-*/
+ *//*
+ */
 package be.ugent.elis.recomp.synthesis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
+
+import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.mapping.utils.PolarisedNode;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG.OutputLutInversion;
 
 public class TruthAssignment<N> {
 
-	ArrayList<N> inputVariables;
-	Map<N,Boolean> assignmentMap;
+	private final ArrayList<N> inputVariables;
+	private final Map<N, Boolean> assignmentMap;
+	private final int entry;
+
+	public TruthAssignment(ArrayList<N> inputVariables, int entry) {
+		this.inputVariables = inputVariables;
+		this.assignmentMap = new HashMap<N, Boolean>();
+		this.entry = entry;
+		
+		int temp = entry;
+		for (N var : inputVariables) {
+			assignmentMap.put(var, temp % 2 != 0);
+			temp = temp / 2;
+		}
+	}
+	
+	public int getEntry() {
+		return entry;
+	}
+
+	public boolean hasVariable(N variable) {
+		return assignmentMap.containsKey(variable);
+	}
+
+	public Boolean getValue(N variable) {
+		Boolean b = assignmentMap.get(variable);
+		if (b == null)
+			throw new RuntimeException();
+		return b;
+	}
+
+	public ArrayList<N> getVariables() {
+		return inputVariables;
+	}
+
+	public String getString() {
+		StringBuilder builder = new StringBuilder();
+		for (N m : getVariables())
+			builder.append(getValue(m) ? "1" : "0");
+		return builder.toString();
+	}
 
 	@Override
 	public String toString() {
 		String result = new String();
 		result += "{";
-		result += inputVariables.get(0) + "=" + assignmentMap.get(inputVariables.get(0));
+		result += inputVariables.get(0) + "="
+				+ assignmentMap.get(inputVariables.get(0));
 
 		for (int i = 1; i < inputVariables.size(); i++) {
-			result += ", " + inputVariables.get(i) + "=" + assignmentMap.get(inputVariables.get(i));
+			result += ", " + inputVariables.get(i) + "="
+					+ assignmentMap.get(inputVariables.get(i));
 		}
 		result += "}";
 		return result;
 	}
-
-	public TruthAssignment(ArrayList<N> inputVariables) {
-		this.inputVariables = inputVariables;
-		this.assignmentMap = new HashMap<N, Boolean>();
-		
-		for (N in:this.inputVariables) {
-			assignmentMap.put(in, false);
-		}
-	}
-
-	public TruthAssignment(TruthAssignment<N> truthAssignment) {
-		inputVariables = truthAssignment.inputVariables;
-		assignmentMap = new HashMap<N, Boolean>();
-		for (N in:this.inputVariables) {
-			assignmentMap.put(in, new Boolean(truthAssignment.get(in)));
-		}
-	}
-	
-	public static <N> TruthAssignment<N> createFrom(BooleanFunction<N> f) {
-		return new TruthAssignment<N>(f.getInputVariables());
-	}
-
-	public boolean hasNext() {
-		for (Boolean b:assignmentMap.values()) {
-			if(!b) 
-			    return true;
-		}
-		return false;
-	}
-
-	public TruthAssignment<N> next() {
-		TruthAssignment<N> result = new TruthAssignment<N>(this);
-		
-		for (N in : this.inputVariables) {
-			if (result.get(in).booleanValue() == true) {
-				result.put(in, false);
-			} else {
-				result.put(in, true);
-				break;
-			}
-		}
-		return result;
-	}
-
-	private void put(N variable, boolean b) {
-		if (inputVariables.contains(variable)) {
-			assignmentMap.put(variable, b);
-		}
-	}
-
-	public boolean contains(N variable) {
-		return assignmentMap.containsKey(variable);
-	}
-
-	public Boolean get(N variable) {
-		Boolean b = assignmentMap.get(variable);
-		if(b == null)
-			throw new RuntimeException();
-		return b;
-	}
-
-	public  ArrayList<N> getVariables() {
-		return inputVariables;
-	}
-	
-	
-
-	
 
 }

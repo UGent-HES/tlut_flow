@@ -64,30 +64,68 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
+*//*
 */
+package be.ugent.elis.recomp.synthesis;
 
-package be.ugent.elis.recomp.mapping.mappedCircuit;
+import java.util.ArrayList;
 
+import net.sf.javabdd.BDD;
 
-public class MappedInput extends MappedPrimaryInput {
+public class MintermTable<N> {
+
+	ArrayList<N> variables;
+	ArrayList<ArrayList<String>> minterms;
 	
-	private boolean parameter;
-
-	MappedInput(MappedCircuit circuit, String name, boolean parameter) {
-		super(circuit, name);
-		this.parameter = parameter;
+	public MintermTable(ArrayList<N> variables,
+			ArrayList<ArrayList<String>> minterms) {
+		this.variables = variables;
+		this.minterms = minterms;
 	}
 	
-	public boolean isParameter() {
-		return parameter;
+
+	public static <N> MintermTable<N> createFrom(BooleanFunction<N> function) {
+		ArrayList<String> baseMinterm = new ArrayList<String>();
+		ArrayList<N> inputVariables = function.getInputVariables();
+		for (int i = 0; i < inputVariables.size(); i++) {
+			baseMinterm.add("-");
+		}
+		return new MintermTable<N>(function.getInputVariables(), getMintermsRec(function, baseMinterm, function.getBDD().id()));
 	}
-	
-	public boolean isParameterInput() {
-		return isParameter();
+
+	private static <N> ArrayList<ArrayList<String>> getMintermsRec(BooleanFunction<N> function,
+			ArrayList<String> intermediate, BDD subBDD) {
+		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+		if (subBDD.isZero()) {
+		} else if (subBDD.isOne()) {
+			result.add(new ArrayList<String>(intermediate));
+		} else {
+			ArrayList<String> subIntermediate = new ArrayList<String>(
+					intermediate);
+			subIntermediate.set(function.getLocalVarIndex(subBDD.var()), "1");
+			result.addAll(getMintermsRec(function, subIntermediate, subBDD.high()));
+			subIntermediate.set(function.getLocalVarIndex(subBDD.var()), "0");
+			result.addAll(getMintermsRec(function, subIntermediate, subBDD.low()));
+		}
+		subBDD.free();
+		return result;
 	}
-	
-	public String getVhdlSignalIdentifier() {
-		return getName().replace('[', '(').replace(']', ')');
+
+	public String getString() {
+		StringBuilder builder = new StringBuilder();
+		if (minterms.size() == 0) {
+			for (int i = 0; i < variables.size(); i++) {
+				builder.append("-");
+			}
+			builder.append(" 0\n");
+		} else {
+			for (ArrayList<String> minterm : minterms) {
+				for (String m : minterm)
+					builder.append(m);
+				builder.append(" 1\n");
+			}
+		}
+		return builder.toString();
 	}
 	
 }

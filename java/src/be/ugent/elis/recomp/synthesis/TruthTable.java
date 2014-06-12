@@ -78,25 +78,25 @@ public class TruthTable<N> {
 	Map<TruthAssignment<N>, Boolean> table; 
 	
 
-	public TruthTable(BooleanFunction<N> f) {
+	public TruthTable() {
 		assignments = new Vector<TruthAssignment<N>>();
 		table = new HashMap<TruthAssignment<N>, Boolean>();
-		
-		TruthAssignment<N> assignment = TruthAssignment.createFrom(f);
-		assignments.add(assignment);
-		table.put(assignment, f.evaluate(assignment));
-		while (assignment.hasNext()) {
-			assignment = assignment.next();
-			assignments.add(assignment);
-			table.put(assignment, f.evaluate(assignment));
-		}
 	}
-
+	
+	public static <N> TruthTable<N> createFrom(BooleanFunction<N> f) {
+		TruthTable<N> truthTable = new TruthTable<N>();
+		
+		for (TruthAssignment<N> assignment : TruthAssignmentIterator.createFrom(f.getInputVariables())) {
+			truthTable.assignments.add(assignment);
+			truthTable.table.put(assignment, f.evaluate(assignment));
+		}
+		
+		return truthTable;
+	}
 
 	public Vector<TruthAssignment<N>> getAssignments() {
 		return assignments;
 	}
-
 
 	public boolean get(TruthAssignment<N> assignment) {
 		return table.get(assignment);
@@ -105,12 +105,9 @@ public class TruthTable<N> {
 	public String getString() {
 		String result = "";
 		for (TruthAssignment<N> assignment : this.getAssignments()) {
-			if (table.get(assignment)) {
-				result += "1";
-			} else {
-				result += "0";
-			}
+			result += table.get(assignment) ? "1" : "0";
 		}
 		return result;
 	}
+	
 }

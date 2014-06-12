@@ -243,12 +243,13 @@ public class TMapSimple {
 		elapsed_time = System.currentTimeMillis() - start_time;
 		System.out.println("Debug: Elapsed time after resource sharing: "+String.format("%3.3es", elapsed_time/1000.));
         
+        MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
+        MappedCircuit parameterisedMappedCircuit = mappedCircuit.constructParameterisedMappedCircuit();
+
         // Debug output: mapped blif file
 		if(write_mappedblif_flag) {
 	        System.out.println("Writing the mapped BLIF:"); 
-	        MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
-	        MappedCircuit nmappedCircuit = mappedCircuit.constructParameterisedMappedCircuit();
-	        nmappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
+	        mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
 		}
 
 		// Output: parameterised configuration and lut structure
@@ -259,9 +260,8 @@ public class TMapSimple {
 			b.printAAG(new PrintStream(new BufferedOutputStream(new FileOutputStream(param_config_out_filename))));
 	
         	System.out.println("Writing the LUT structure:"); 
-        	a.printLutStructureBlif(
-	            	    new PrintStream(new BufferedOutputStream(new FileOutputStream(lutstruct_out_filename))),
-	            	    K);
+        	parameterisedMappedCircuit.printBlif(
+	            	    new PrintStream(new BufferedOutputStream(new FileOutputStream(lutstruct_out_filename))));
         }
         
         // Output: implementation files
@@ -269,10 +269,8 @@ public class TMapSimple {
         	String vhd_in_filename = arguments[5];
         	String vhd_out_filename = arguments[6];
         	String namelist_out_filename = arguments[7];
-	        MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
-	        MappedCircuit nmappedCircuit = mappedCircuit.constructParameterisedMappedCircuit();
-	        nmappedCircuit.printLutStructureVhdl(vhd_in_filename, new PrintStream(new BufferedOutputStream(new FileOutputStream(vhd_out_filename))), K);
-	        nmappedCircuit.printTLUTNames(new PrintStream(new FileOutputStream(namelist_out_filename)));
+	        parameterisedMappedCircuit.printLutStructureVhdl(vhd_in_filename, new PrintStream(new BufferedOutputStream(new FileOutputStream(vhd_out_filename))), K);
+	        parameterisedMappedCircuit.printTLUTNames(new PrintStream(new FileOutputStream(namelist_out_filename)));
         }
 
         // Debug stats

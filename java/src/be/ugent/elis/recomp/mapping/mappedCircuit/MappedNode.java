@@ -100,6 +100,10 @@ public class MappedNode {
 		return false;
 	}
 	
+	public boolean isParameterInput() {
+		return false;
+	}
+	
 	public String getBlifIdentifier() {
 		return name;
 	}
@@ -107,4 +111,5 @@ public class MappedNode {
 	public String getVhdlSignalIdentifier() {
 		return name.replace("[","").replace("]","");
 	}
+
 }
