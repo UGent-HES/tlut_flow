@@ -66,37 +66,52 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.utils;
+package be.ugent.elis.recomp.mapping.test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
+import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.mapping.utils.SimpleCone;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
 
-public class AagToBlif {
+public class AagToAagTest {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		// Initialise BDD library
 		BDDFactorySingleton.create(GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
-		
+
 		// Read AIG file
 		MappingAIG a = new MappingAIG(args[0]);
 		
 		BDDFactorySingleton.get().setVarNum(a.numNodes());
 		a.initBDDidMapping();
-		
+
 		for (Node n : a.getAnds()) {
 			n.setVisible(true);
-			n.setBestCone(SimpleCone.twoInputCone(n, null));
+			n.setBestCone(SimpleCone.twoInputCone(n, a.getBDDidMapping()));
 		}
 		
 		MappedCircuit mappedCircuit = a.constructMappedCircuit("top", 1);
-		mappedCircuit.printBlif(new PrintStream(new File(args[1])));
+		MappingAIG b = mappedCircuit.constructAIG();
+		b.printAAG(new PrintStream(new File(args[1])));
+		
 
+		BDDFactorySingleton.get().setVarNum(b.numNodes());
+		b.initBDDidMapping();
+
+		for (Node n : b.getAnds()) {
+			n.setVisible(true);
+			n.setBestCone(SimpleCone.twoInputCone(n, b.getBDDidMapping()));
+		}
+		
+		MappedCircuit mappedCircuitB = b.constructMappedCircuit("top", 1);
+		mappedCircuitB.printBlif(new PrintStream(new File("test.blif")));
 	}
 
 }

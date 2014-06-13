@@ -76,7 +76,18 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
+import net.sf.javabdd.BDD;
+import net.sf.javabdd.BDDFactory;
+import be.ugent.elis.recomp.aig.AIG;
+import be.ugent.elis.recomp.aig.NodeType;
+import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
+import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
+import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.mapping.utils.PolarisedNode;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 import be.ugent.elis.recomp.synthesis.TruthAssignment;
 import be.ugent.elis.recomp.synthesis.TruthAssignmentIterator;
@@ -450,50 +461,90 @@ public class MappedCircuit {
 		return circuit;
 	}
 
-	public MappedInput addInput(String name, boolean parameter) {
-		MappedInput n = new MappedInput(this, name, parameter);
-		inputs.add(n);
-		return n;
+	public MappingAIG constructAIG() {
+		MappingAIG aig = new MappingAIG();
+
+		HashMap<MappedNode, PolarisedNode<Node>> mapping = new HashMap<MappedNode, PolarisedNode<Node>>();
+
+		// Copy inputs, latches, outputs
+		mapping.put(getConst0(),
+				new PolarisedNode<Node>(aig.getConst0(), false));
+		for (MappedInput input : getInputs()) {
+			Node mappedN = aig.addNode(input.getName(), NodeType.INPUT);
+			mappedN.setParameter(input.isParameter());
+			mapping.put(input, new PolarisedNode<Node>(mappedN, false));
+		}
+		if (!getOLatches().isEmpty()) {
+			throw new RuntimeException(
+					"constructAIG does not allow latches yet");
 	}
 
-	public MappedOutput addOutput(String name) {
-		MappedOutput n = new MappedOutput(this, name);
-		outputs.add(n);
-		return n;
+		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
+
+			// Map every bdd node to an aig node (the mapping is local to the
+			// specific gate)
+			Map<BDD, PolarisedNode<Node>> bddMap = new HashMap<BDD, PolarisedNode<Node>>();
+
+			bddMap.put(BDDFactorySingleton.get().zero(),
+					new PolarisedNode<Node>(aig.getConst0(), false));
+			bddMap.put(BDDFactorySingleton.get().one(),
+					new PolarisedNode<Node>(aig.getConst0(), true));
+
+			// Put inputs in mapping
+			for (MappedNode n : gate.getFunction().getInputVariables()) {
+				PolarisedNode<Node> mn = mapping.get(n);
+				BDD bddn = BDDFactorySingleton.get().ithVar(
+						gate.getFunction().getBDDidMapping().getId(n));
+				bddMap.put(bddn, mn);
 	}
 
-	public MappedLatchPair addLatch(String name) {
-		MappedILatch in = new MappedILatch(this, name);
-		MappedOLatch on = new MappedOLatch(this, name, in);
-		olatches.add(on);
-		ilatches.add(in);
-		return new MappedLatchPair(in, on);
+			PolarisedNode<Node> mappedPN = bddToAig_rec(gate.getFunction()
+					.getBDD().id(), bddMap, aig, gate.getFunction()
+					.getBDDidMapping());
+
+			mapping.put(gate, mappedPN);
 	}
 
-	public MappedGate addGate(String name, ArrayList<MappedNode> inputs,
-			BooleanFunction<MappedNode> function, String mapped_type) {
-		MappedGate n = new MappedGate(this, name, inputs, function, mapped_type);
-		gates.add(n);
-		return n;
+		for (MappedOutput out : getOutputs()) {
+			Node mappedN = aig.addNode(out.getName(), NodeType.OUTPUT);
+			PolarisedNode<Node> pNode = mapping.get(out.getSource());
+			Edge e = aig.addEdge(pNode.getNode(), mappedN, pNode.isInverted());
+			mappedN.setI0(e);
+		}
+		return aig;
 	}
 
-	public MappedParameterisedGate addParameterisedGate(String name,
-			ArrayList<MappedNode> inputs,
-			ArrayList<MappedParameterisedConfigurationGate> configurations,
-			String mapped_type) {
-		MappedParameterisedGate n = new MappedParameterisedGate(this, name,
-				inputs, configurations, mapped_type);
-		gates.add(n);
-		return n;
-	}
+	private PolarisedNode<Node> bddToAig_rec(BDD bdd,
+			Map<BDD, PolarisedNode<Node>> bddMap, AIG<Node, Edge> aig,
+			BDDidMapping<MappedNode> bddIdMapping) {
+		PolarisedNode<Node> ret;
+		if (bddMap.containsKey(bdd)) {
+			ret = bddMap.get(bdd);
+		} else {
+			PolarisedNode<Node> high = bddToAig_rec(bdd.high(), bddMap, aig,
+					bddIdMapping);
+			PolarisedNode<Node> low = bddToAig_rec(bdd.low(), bddMap, aig,
+					bddIdMapping);
+			PolarisedNode<Node> varNode = bddMap.get(BDDFactorySingleton.get()
+					.ithVar(bdd.var()));
 
-	public MappedParameterisedConfigurationGate addParameterisedConfigurationGate(
-			String name, ArrayList<MappedNode> inputs,
-			BooleanFunction<MappedNode> function) {
-		MappedParameterisedConfigurationGate n = new MappedParameterisedConfigurationGate(
-				this, name, inputs, function);
-		gates.add(n);
-		return n;
-	}
+			Node highNode = aig.findNode(high.getNode(), high.isInverted(),
+					varNode.getNode(), varNode.isInverted());
+			if (highNode == null)
+				highNode = aig.addNode(null, high.getNode(), high.isInverted(),
+						varNode.getNode(), varNode.isInverted());
+			Node lowNode = aig.findNode(low.getNode(), low.isInverted(),
+					varNode.getNode(), !varNode.isInverted());
+			if (lowNode == null)
+				lowNode = aig.addNode(null, low.getNode(), low.isInverted(),
+						varNode.getNode(), !varNode.isInverted());
 
+			Node iteNode = aig.findNode(lowNode, true, highNode, true);
+			if (iteNode == null)
+				iteNode = aig.addNode(null, lowNode, true, highNode, true);
+			ret = new PolarisedNode<Node>(iteNode, true);
+		}
+		bdd.free();
+		return ret;
+	}
 }
