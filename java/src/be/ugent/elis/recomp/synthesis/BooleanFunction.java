@@ -73,8 +73,7 @@ import java.util.Map;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
-import be.ugent.elis.recomp.mapping.mappedCircuit.MappedNode;
-import be.ugent.elis.recomp.mapping.mappedCircuit.MappedParameterisedConfigurationGate;
+
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 
 public class BooleanFunction<V> {
@@ -176,8 +175,9 @@ public class BooleanFunction<V> {
 
 	public String toString() {
 		String result = this.bdd.toString() + "\nnodes:";
-		for (V var : getInputVariables())
-			result += " " + var.toString();
+		//for (V var : getInputVariables())
+		//	result += " " + var.toString();
+		result += getBDDidMapping().toString();
 		return result;
 	}
 
@@ -193,5 +193,5 @@ public class BooleanFunction<V> {
 	public MintermTable<V> getMinterms() {
 		return MintermTable.createFrom(this);
 	}
-
+	
 }

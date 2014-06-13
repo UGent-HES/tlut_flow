@@ -111,5 +111,9 @@ public class MappedNode {
 	public String getVhdlSignalIdentifier() {
 		return name.replace("[","").replace("]","");
 	}
+	
+	public String toString() {
+	    return name;
+	}
 
 }

@@ -231,19 +231,19 @@ public class Node extends AbstractNode<Node,Edge> {
 	public void setEstimatedFanout(double estimatedFanout) {
 		this.estimatedFanout = estimatedFanout;
 	}
-	public BDD getParamRestrictedBDD(BDDidMapping bddIdMapping) {
+	public BDD getParamRestrictedBDD(BDDidMapping<Node> bddIdMapping) {
 		return	getPureBDD(bddIdMapping)
 					.orWith(getOnParamFunction().id())
 					.andWith(getOffParamFunction().id().not());
 	}
-	public BDD getPureBDD(BDDidMapping bddIdMapping) {
+	public BDD getPureBDD(BDDidMapping<Node> bddIdMapping) {
 		if(isConst0())
 			return BDDFactorySingleton.get().zero();
 		else
 			return BDDFactorySingleton.get().ithVar(bddIdMapping.getId(this));
 	}
 	
-	public BDD getBDD(BDDidMapping bddIdMapping) {
+	public BDD getBDD(BDDidMapping<Node> bddIdMapping) {
 		if(GlobalConstants.feasibility_uses_activationfunction) {
 			return getParamRestrictedBDD(bddIdMapping);
 		} else {

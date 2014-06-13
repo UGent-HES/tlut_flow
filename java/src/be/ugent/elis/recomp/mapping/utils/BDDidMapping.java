@@ -37,4 +37,9 @@ public class BDDidMapping<N> {
 			throw new RuntimeException();
 		return tmp;
 	}
+	
+	public String toString() {
+		return node_map.toString();
+	}
+
 }

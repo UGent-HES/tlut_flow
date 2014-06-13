@@ -72,10 +72,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import be.ugent.elis.recomp.mapping.utils.Node;
-import be.ugent.elis.recomp.mapping.utils.PolarisedNode;
-import be.ugent.elis.recomp.mapping.utils.MappingAIG.OutputLutInversion;
-
 public class TruthAssignment<N> {
 
 	private final ArrayList<N> inputVariables;

@@ -144,7 +144,53 @@ public class MappedCircuit {
 		return gates;
 	}
 
-	public ArrayList<MappedGate> topologicalOrderInToOut() {
+	public MappedInput addInput(String name, boolean parameter) {
+		MappedInput n = new MappedInput(this, name, parameter);
+		inputs.add(n);
+		return n;
+	}
+
+	public MappedOutput addOutput(String name) {
+		MappedOutput n = new MappedOutput(this, name);
+		outputs.add(n);
+		return n;
+	}
+
+	public MappedLatchPair addLatch(String name) {
+		MappedILatch in = new MappedILatch(this, name);
+		MappedOLatch on = new MappedOLatch(this, name, in);
+		olatches.add(on);
+		ilatches.add(in);
+		return new MappedLatchPair(in, on);
+	}
+
+	public MappedGate addGate(String name, ArrayList<MappedNode> inputs,
+			BooleanFunction<MappedNode> function, String mapped_type) {
+		MappedGate n = new MappedGate(this, name, inputs, function, mapped_type);
+		gates.add(n);
+		return n;
+	}
+
+	public MappedParameterisedGate addParameterisedGate(String name,
+			ArrayList<MappedNode> inputs,
+			ArrayList<MappedParameterisedConfigurationGate> configurations,
+			String mapped_type) {
+		MappedParameterisedGate n = new MappedParameterisedGate(this, name,
+				inputs, configurations, mapped_type);
+		gates.add(n);
+		return n;
+	}
+
+	public MappedParameterisedConfigurationGate addParameterisedConfigurationGate(
+			String name, ArrayList<MappedNode> inputs,
+			BooleanFunction<MappedNode> function) {
+		MappedParameterisedConfigurationGate n = new MappedParameterisedConfigurationGate(
+				this, name, inputs, function);
+		gates.add(n);
+		return n;
+	}
+
+	public ArrayList<MappedGate> getGatesInTopologicalOrderInToOut() {
 		ArrayList<MappedGate> list = new ArrayList<MappedGate>();
 		HashSet<MappedNode> visited = new HashSet<MappedNode>();
 
@@ -354,7 +400,7 @@ public class MappedCircuit {
 		}
 
 		// Separate configuration from LUT
-		for (MappedGate gate : topologicalOrderInToOut()) {
+		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
 			MappedGate mappedN;
 			if (gate.getMappedType().equals("TLUT")) {
 				BooleanFunction<MappedNode> function = gate.getFunction()
@@ -370,7 +416,8 @@ public class MappedCircuit {
 
 				for (TruthAssignment<MappedNode> assignment : TruthAssignmentIterator
 						.createFrom(regularInputs)) {
-					BooleanFunction<MappedNode> configurationFunction = function.partialEvaluate(assignment);
+					BooleanFunction<MappedNode> configurationFunction = function
+							.partialEvaluate(assignment);
 					configurations.add(circuit
 							.addParameterisedConfigurationGate(gate.getName()
 									+ "_" + assignment.getEntry(),
@@ -381,7 +428,8 @@ public class MappedCircuit {
 				mappedN = circuit.addParameterisedGate(gate.getName(),
 						regularInputs, configurations, gate.getMappedType());
 			} else {
-				BooleanFunction<MappedNode> function = gate.getFunction().translate(mapping);
+				BooleanFunction<MappedNode> function = gate.getFunction()
+						.translate(mapping);
 				mappedN = circuit.addGate(gate.getName(),
 						function.getInputVariables(), function,
 						gate.getMappedType());

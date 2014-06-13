@@ -1305,7 +1305,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	public N addNode(String name, N node0, boolean inv0, N node1, boolean inv1) {
 		N n = factory.newAnd(this);
 		and.add(n);
+		if(name != null)
 		n.setName(name);
+		else
+			n.setName("n"+n.getID());
 		
 		E e = addEdge(node0, n, inv0);
 		node0.addOutput(e);
