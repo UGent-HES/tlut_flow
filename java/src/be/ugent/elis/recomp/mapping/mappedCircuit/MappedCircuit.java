@@ -79,7 +79,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import net.sf.javabdd.BDD;
-import net.sf.javabdd.BDDFactory;
+
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
@@ -187,7 +187,7 @@ public class MappedCircuit {
 
 	public MappedParameterisedGate addParameterisedGate(String name,
 			ArrayList<MappedNode> inputs,
-			ArrayList<MappedParameterisedConfigurationGate> configurations,
+			ArrayList<MappedNode> configurations,
 			String mapped_type) {
 		MappedParameterisedGate n = new MappedParameterisedGate(this, name,
 				inputs, configurations, mapped_type);
@@ -247,26 +247,23 @@ public class MappedCircuit {
 		stream.println();
 
 		// Const0
-		stream.println(getConst0().getBlifString());
-		stream.println();
+		stream.print(getConst0().getBlifString());
 
 		// Latches
 		for (MappedOLatch latch : getOLatches()) {
-			stream.println(latch.getBlifString());
+			stream.print(latch.getBlifString());
 		}
 		stream.println();
 
 		// Outputs
 		// TODO: remove?
 		for (MappedOutput output : getOutputs()) {
-			stream.println(output.getBlifString());
-			stream.println();
+			stream.print(output.getBlifString());
 		}
 
 		// LUTs
 		for (MappedGate gate : getGates()) {
-			stream.println(gate.getBlifString());
-			stream.println();
+			stream.print(gate.getBlifString());
 		}
 
 		stream.println(".end");
@@ -367,8 +364,10 @@ public class MappedCircuit {
 		stream.flush();
 	}
 
-	public MappedCircuit constructParameterisedMappedCircuit() {
+	public ParameterisedMappedCircuitPair constructParameterisedMappedCircuit() {
 		MappedCircuit circuit = new MappedCircuit(getName());
+		MappedCircuit configurationCircuit = new MappedCircuit(getName()
+				+ "_parconfig");
 
 		HashMap<MappedNode, MappedNode> mapping = new HashMap<MappedNode, MappedNode>();
 		HashMap<MappedPrimaryOutput, MappedPrimaryOutput> outputMapping = new HashMap<MappedPrimaryOutput, MappedPrimaryOutput>();
@@ -377,11 +376,16 @@ public class MappedCircuit {
 		mapping.put(getConst0(), circuit.getConst0());
 		for (MappedInput in : getInputs()) {
 			// Only copy regularInputs
-			// if (in.isParameter())
-			// continue;
-			MappedInput mappedN = circuit.addInput(in.getName(),
-					in.isParameter());
-			mapping.put(in, mappedN);
+			if (in.isParameter()) {
+				MappedInput mappedN = configurationCircuit.addInput(in.getName(),
+						in.isParameter());
+				// !!!
+				mapping.put(in, mappedN);
+			} else {
+				MappedInput mappedN = circuit.addInput(in.getName(),
+						in.isParameter());
+				mapping.put(in, mappedN);
+			}
 		}
 		for (MappedOutput out : getOutputs()) {
 			MappedOutput mappedN = circuit.addOutput(out.getName());
@@ -396,7 +400,9 @@ public class MappedCircuit {
 		// Separate configuration from LUT
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
 			MappedGate mappedN;
-			if (gate.getMappedType().equals("TLUT")) {
+			if (gate.getMappedType().equals("TLUT") ||
+					gate.getMappedType().equals("TLC") ||
+					gate.getMappedType().equals("TCON")) {
 				BooleanFunction<MappedNode> function = gate.getFunction()
 						.translate(mapping);
 				ArrayList<MappedNode> sources = function.getInputVariables();
@@ -406,17 +412,19 @@ public class MappedCircuit {
 					if (!node.isParameterInput())
 						regularInputs.add(node);
 
-				ArrayList<MappedParameterisedConfigurationGate> configurations = new ArrayList<MappedParameterisedConfigurationGate>();
+				ArrayList<MappedNode> configurations = new ArrayList<MappedNode>();
 
 				for (TruthAssignment<MappedNode> assignment : TruthAssignmentIterator
 						.createFrom(regularInputs)) {
+					String configName = gate.getName() + "_"
+							+ assignment.getEntry();
 					BooleanFunction<MappedNode> configurationFunction = function
 							.partialEvaluate(assignment);
-					configurations.add(circuit
-							.addParameterisedConfigurationGate(gate.getName()
-									+ "_" + assignment.getEntry(),
-									configurationFunction.getInputVariables(),
-									configurationFunction));
+					MappedNode configurationNode = configurationCircuit.addParameterisedConfigurationGate(configName,
+							configurationFunction.getInputVariables(),
+							configurationFunction);
+					configurations.add(circuit.addInput(configName, false));
+					configurationCircuit.addOutput(configName).setSource(configurationNode);
 				}
 
 				mappedN = circuit.addParameterisedGate(gate.getName(),
@@ -441,7 +449,7 @@ public class MappedCircuit {
 			mappedO.setSource(mappedS);
 		}
 
-		return circuit;
+		return new ParameterisedMappedCircuitPair(circuit, configurationCircuit);
 	}
 
 	public MappingAIG constructAIG() {
@@ -480,7 +488,7 @@ public class MappedCircuit {
 						gate.getFunction().getBDDidMapping().getId(n));
 				bddMap.put(bddn, mn);
 			}
-			
+
 			PolarisedNode<Node> mappedPN = bddToAig_rec(gate.getFunction()
 					.getBDD().id(), bddMap, aig, gate.getFunction()
 					.getBDDidMapping());

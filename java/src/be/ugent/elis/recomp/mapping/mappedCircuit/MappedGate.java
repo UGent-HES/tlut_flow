@@ -117,6 +117,7 @@ public class MappedGate extends MappedNode {
 				+ "\n");
 
 		builder.append(function.getMinterms().getString());
+		builder.append("\n");
 
 		return builder.toString();
 	}
@@ -173,7 +174,7 @@ public class MappedGate extends MappedNode {
 		    for (int i = lutSize; i < K ; i++)
 		        lutInstance += ",\n\tI" + Integer.toString(i) + " => '0'";
 		}
-		lutInstance += ");";
+		lutInstance += ");\n\n";
 		
 		return lutInstance;
 	}

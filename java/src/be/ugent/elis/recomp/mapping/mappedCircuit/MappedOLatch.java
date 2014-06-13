@@ -85,7 +85,7 @@ public class MappedOLatch extends MappedPrimaryInput {
 	
 	public String getBlifString() {
 		return ".latch " + getILatch().getSource().getBlifIdentifier() + " "
-				+ getBlifIdentifier() + " re pclk 2";
+				+ getBlifIdentifier() + " re pclk 2\n";
 	}
 
 	public String getVhdlSignalIdentifier() {
@@ -103,7 +103,7 @@ public class MappedOLatch extends MappedPrimaryInput {
 		builder.append("generic map (\n\tINIT =>\'0\')\n");
 		builder.append("port map (Q => " + getVhdlSignalIdentifier() + ",\n");
 		builder.append("\tC => clk,\n");
-		builder.append("\tD => " + getILatch().getSource().getVhdlSignalIdentifier() + ");");
+		builder.append("\tD => " + getILatch().getSource().getVhdlSignalIdentifier() + ");\n\n");
 
 		return builder.toString();
 	}

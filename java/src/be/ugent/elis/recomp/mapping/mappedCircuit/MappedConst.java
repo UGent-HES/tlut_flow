@@ -78,7 +78,7 @@ public class MappedConst extends MappedNode {
 	}
 
 	public String getBlifString() {
-		return ".names " + getBlifIdentifier() + "\n" + value;
+		return ".names " + getBlifIdentifier() + "\n" + value + "\n\n";
 	}
 
 	public String getVhdlSignalIdentifier() {

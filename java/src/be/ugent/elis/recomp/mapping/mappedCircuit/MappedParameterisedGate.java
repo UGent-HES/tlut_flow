@@ -75,17 +75,18 @@ import be.ugent.elis.recomp.synthesis.TruthAssignmentIterator;
 
 public class MappedParameterisedGate extends MappedGate {
 
-	private final ArrayList<MappedParameterisedConfigurationGate> configuration_sources;
+	//Warning: these may be part of a different circuit than this gate
+	private final ArrayList<MappedNode> configuration_sources;
 
 	MappedParameterisedGate(MappedCircuit circuit, String name,
 			ArrayList<MappedNode> inputs,
-			ArrayList<MappedParameterisedConfigurationGate> configurations,
+			ArrayList<MappedNode> configurations,
 			String mapped_type) {
 		super(circuit, name, inputs, null, mapped_type);
 		this.configuration_sources = configurations;
 	}
 
-	public ArrayList<MappedParameterisedConfigurationGate> getConfigurationSources() {
+	public ArrayList<MappedNode> getConfigurationSources() {
 		return configuration_sources;
 	}
 
@@ -118,6 +119,8 @@ public class MappedParameterisedGate extends MappedGate {
 			builder.append(assignment.getString());
 			builder.append(" 1\n");
 		}
+		
+		builder.append("\n");
 
 		return builder.toString();
 	}

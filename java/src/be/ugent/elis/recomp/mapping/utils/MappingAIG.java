@@ -194,110 +194,6 @@ public class MappingAIG extends AIG<Node, Edge> {
 		return param_id_range;
 	}
 	
-    private class ConfigurationEntry {
-        String name;
-        Node copy;
-        boolean copyInv;
-        ConfigurationEntry(String n, Node c0, boolean c1) {name = n; copy = c0; copyInv = c1;}
-    }
-
-	public AIG<Node, Edge> constructParamConfig(int K, boolean includeTLUTs, boolean includeLUTs) {
-		AIG<Node, Edge> aig = new MappingAIG();
-		
-
-		Map<Node, PolarisedNode<Node>> parameterCopyMap = new HashMap<Node, PolarisedNode<Node>>();
-		for (Node input:this.getInputs()) {
-			if (input.isParameter()) {
-				Node copy = aig.addNode(input.getName(), NodeType.INPUT);
-				parameterCopyMap.put(input, new PolarisedNode<Node>(copy, false));
-			}
-		}
-		
-		for (Node and : getAnds()) {
-			if (and.isVisible()) {
-			    if(!( (includeTLUTs &&  and.getBestCone().isTuneable()) || 
-			          (includeLUTs  && !and.getBestCone().isTLUT())    ))
-    			          continue;
-				
-				Cone bestCone = and.getBestCone();
-				ArrayList<Node> bestConeNodesInToOut = bestCone.getNodesInToOut();
-				ArrayList<Node> regularInputs = new ArrayList<Node>(bestCone.getRegularLeaves());
-				
-				ArrayList<ConfigurationEntry> configuration_entries = new ArrayList<ConfigurationEntry>();
-				ArrayList<ConfigurationEntry> configuration_entries_inv = new ArrayList<ConfigurationEntry>();
-								
-				for (int entry=0; entry < Math.pow(2, bestCone.size()); entry++) {
-					Map<Node,PolarisedNode<Node>> copyMap = new HashMap<Node,PolarisedNode<Node>>(parameterCopyMap);
-
-					int temp = entry;
-					for (Node input : regularInputs) {
-						copyMap.put(input, new PolarisedNode<Node>(aig.getConst0(), 
-							(temp % 2 != 0) ^
-							(checkOutputLutInversion(input) == OutputLutInversion.AllOutsInverted)));
-						temp = temp / 2;
-					}					
-					
-					for (Node orig: bestConeNodesInToOut) {
-						Node origI0 = orig.getI0().getTail();
-						PolarisedNode<Node> pnodeI0 = new PolarisedNode<Node>(copyMap.get(origI0));
-						pnodeI0.toggleInverted(orig.getI0().isInverted());
-						
-						Node origI1 = orig.getI1().getTail();
-						PolarisedNode<Node> pnodeI1 = new PolarisedNode<Node>(copyMap.get(origI1));
-						pnodeI1.toggleInverted(orig.getI1().isInverted());
-						
-//						Constant propagation
-						if (pnodeI1.getNode() == aig.getConst0()) {
-							PolarisedNode<Node> swap_var = pnodeI1;
-							pnodeI1 = pnodeI0;
-							pnodeI0 = swap_var;
-						}
-						if (pnodeI0.getNode() == aig.getConst0()) {
-							if (pnodeI0.isInverted()) {
-								copyMap.put(orig, pnodeI1);
-							} else {
-								copyMap.put(orig, new PolarisedNode(aig.getConst0(), false));
-							}
-//						No constant propagation possible
-						} else {
-							Node copy = aig.findNode(pnodeI0.getNode(), pnodeI0.isInverted(), pnodeI1.getNode(), pnodeI1.isInverted());
-							if (copy == null) {
-								copy = aig.addNode(and.getName()+"_"+entry+"_"+orig.getName(), pnodeI0.getNode(), pnodeI0.isInverted(), pnodeI1.getNode(), pnodeI1.isInverted());
-							}
-							copyMap.put(orig, new PolarisedNode(copy, false));
-						}
-					}
-							
-					if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
-					        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
-						PolarisedNode<Node> pnode = copyMap.get(and);
-						configuration_entries_inv.add(new ConfigurationEntry(and.getName()+"not"+"_"+entry, 
-																pnode.getNode(), !pnode.isInverted()));
-					}
-					if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
-						PolarisedNode<Node> pnode = copyMap.get(and);
-						configuration_entries.add(new ConfigurationEntry(and.getName()+"_"+entry, 
-																pnode.getNode(), pnode.isInverted()));
-					}
-				}
-				
-				configuration_entries_inv.addAll(configuration_entries);
-				for(ConfigurationEntry entry : configuration_entries_inv) {
-                    Node output = aig.addNode(entry.name, NodeType.OUTPUT);
-                    Edge e = aig.addEdge(entry.copy, output, entry.copyInv);
-                    output.setI0(e);
-                    entry.copy.addOutput(e);
-                }
-			}
-		}
-		aig.sortInputsAlphanumerically();
-		aig.sanityCheck();
-		return aig;
-	}
-
-		
-	
-	
 	public enum OutputLutInversion{
 		notAnOutputLut, AllOutsNotInverted, AllOutsInverted, MixedOuts
 	}
@@ -398,7 +294,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 					newBddIdMapping.mapNodeToId(mappedS, 1);
 					BDD newBdd = BDDFactorySingleton.get().nithVar(1);
 					BooleanFunction<MappedNode> newBooleanFunction = new BooleanFunction<MappedNode>(newBddIdMapping, newBdd);
-					mappedS_inv = circuit.addGate(mappedS.getName()+"_not", newBooleanFunction.getInputVariables(), newBooleanFunction, "LUT");
+					mappedS_inv = circuit.addGate(mappedS.getName()+"_not", newBooleanFunction.getInputVariables(), newBooleanFunction, "IOINV");
 					mapping.put(new PolarisedNode<Node>(output.getI0().getTail(), true), mappedS_inv);
 				}
 				mappedO.setSource(mappedS_inv);
