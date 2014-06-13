@@ -99,9 +99,17 @@ public class MappedGate extends MappedNode {
 		return sources;
 	}
 	
+	public boolean hasParameterSources() {
+	    for (MappedNode source : getSources()) {
+	        if (source.isParameterInput())
+	            return true;
+	    }
+	    return false;
+	}
+	
 	public boolean isTLUT() {
 		//TODO
-		return false;
+		return getMappedType().equals("TLUT");
 	}
 
 	public String getBlifString() {
@@ -140,10 +148,6 @@ public class MappedGate extends MappedNode {
 
 		builder.append("signal " + getVhdlSignalIdentifier()
 				+ " : STD_ULOGIC ;\n");
-		builder.append("attribute INIT of " + getVhdlIdentifier()
-				+ " : label is \""
-				+ Integer.toString((int) java.lang.Math.pow(2, getSources().size()))
-				+ "\";\n");
 		builder.append("attribute S of " + getVhdlSignalIdentifier()
 				+ " : signal is \"YES\";");
 
@@ -151,32 +155,13 @@ public class MappedGate extends MappedNode {
 	}
 	
 	public String getVhdlString(VhdlGenerator vhdlGenerator) {
-		int K = 6;
-		int lutSize = getSources().size();
-		
-		String lutInstance = "";
-		if(isTLUT()) {
-		    if(K==6)
-                lutInstance += getVhdlIdentifier() + ": LUT6_2" + 
-                    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (\n\tO6 => " + getVhdlSignalIdentifier() +
-                    ",\n\tO5 => open";
-            else
-                lutInstance += getVhdlIdentifier()+": LUT"+lutSize +
-                    "\ngeneric map (\n\tINIT =>X\"1\")\nport map (\n\tO => " + getVhdlSignalIdentifier();
-		} else {
-			lutInstance += getVhdlIdentifier()+": LUT"+lutSize + 
-			    "\ngeneric map (\n\tINIT =>"+getVhdlTruthTable()+")\nport map (\n\tO => "+getVhdlSignalIdentifier();
+	    if(hasParameterSources())
+	        throw new RuntimeException();
+		ArrayList<String> inputs = new ArrayList<String>();
+		for (MappedNode source : getSources()) {
+			inputs.add(source.getVhdlSignalIdentifier());
 		}
-		for (int i = 0; i < lutSize ; i++) {
-			lutInstance += ",\n\tI" + Integer.toString(i) + " => " + getSources().get(i).getVhdlSignalIdentifier();
-		}
-		if(K==6 && isTLUT()) {
-		    for (int i = lutSize; i < K ; i++)
-		        lutInstance += ",\n\tI" + Integer.toString(i) + " => '0'";
-		}
-		lutInstance += ");\n\n";
-		
-		return lutInstance;
+		return vhdlGenerator.getLUTString(getVhdlIdentifier(), getVhdlSignalIdentifier(), getVhdlTruthTable(), inputs);
 	}
 	
 }

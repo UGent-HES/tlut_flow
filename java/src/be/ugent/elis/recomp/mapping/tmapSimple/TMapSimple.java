@@ -166,14 +166,14 @@ public class TMapSimple {
 
 		// Read AIG file
 		MappingAIG a = new MappingAIG(aig_in_filename);
+
+		// Mark parameters
+		a.visitAll(new ParameterMarker(new FileInputStream(parameter_in_filename)));
 		
 		// Perform a fix to the aig when outputs are connected to parameter inputs
 		a.fixAIG();
 		
 		BDDFactorySingleton.get().setVarNum(a.numNodes());
-		
-		// Mark parameters
-		a.visitAll(new ParameterMarker(new FileInputStream(parameter_in_filename)));
 		a.initBDDidMapping();
 		
 

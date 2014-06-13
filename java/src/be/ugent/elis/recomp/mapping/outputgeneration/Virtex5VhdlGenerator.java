@@ -124,7 +124,7 @@ public class Virtex5VhdlGenerator extends VhdlGenerator {
 	    while (i < 6)
 	        lutInstance += ",\n\tI" + Integer.toString(i++) + " => '0'";
 		
-		lutInstance += ");";
+		lutInstance += ");\n\n";
 		return lutInstance;
 	}
 

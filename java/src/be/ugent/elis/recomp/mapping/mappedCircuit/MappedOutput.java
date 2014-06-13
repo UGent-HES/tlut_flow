@@ -81,8 +81,7 @@ public class MappedOutput extends MappedPrimaryOutput {
 	}
 
 	public String getVhdlString(VhdlGenerator vhdlGenerator) {
-		return getVhdlSignalIdentifier() + " <= "
-				+ getSource().getVhdlSignalIdentifier() + ";\n";
+		return vhdlGenerator.getAssignmentString(getVhdlSignalIdentifier(), getSource().getVhdlSignalIdentifier());
 	}
 
 	public String getBlifString() {

@@ -70,6 +70,7 @@ package be.ugent.elis.recomp.mapping.mappedCircuit;
 
 import java.util.ArrayList;
 
+import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 import be.ugent.elis.recomp.synthesis.TruthAssignment;
 import be.ugent.elis.recomp.synthesis.TruthAssignmentIterator;
 
@@ -124,12 +125,13 @@ public class MappedParameterisedGate extends MappedGate {
 
 		return builder.toString();
 	}
-
-	protected String getVhdlTruthTable() {
-		String str = "1";
-		for (int i = 1; i < Math.pow(2, getSources().size()); i++)
-			str += "0";
-		return "\"" + str + "\"";
+	
+	public String getVhdlString(VhdlGenerator vhdlGenerator) {
+		ArrayList<String> inputs = new ArrayList<String>();
+		for (MappedNode source : getSources()) {
+			inputs.add(source.getVhdlSignalIdentifier());
+		}
+		return vhdlGenerator.getSafeLUTString(getVhdlIdentifier(), getVhdlSignalIdentifier(), "X\"1\"", inputs);
 	}
 
 }

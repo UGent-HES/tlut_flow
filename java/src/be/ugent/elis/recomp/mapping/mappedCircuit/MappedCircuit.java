@@ -287,20 +287,19 @@ public class MappedCircuit {
 
 		// Outputs
 		for (MappedOutput out : getOutputs()) {
-			stream.println(out.getVhdlString(vhdlGenerator));
+			stream.print(out.getVhdlString(vhdlGenerator));
 		}
 		stream.println();
 
 		// Latches
 		for (MappedOLatch latch : getOLatches()) {
-			stream.println(latch.getVhdlString(vhdlGenerator));
-			stream.println();
+			stream.print(latch.getVhdlString(vhdlGenerator));
 		}
+		stream.println();
 
 		// LUTs
 		for (MappedGate gate : getGates()) {
-			stream.println(gate.getVhdlString(vhdlGenerator));
-			stream.println();
+			stream.print(gate.getVhdlString(vhdlGenerator));
 		}
 
 		stream.println("end;");
@@ -340,7 +339,6 @@ public class MappedCircuit {
 		vhdlGenerator.printConstraints(stream);
 
 		// Add declaration of signals and init attributes
-		stream.println("attribute INIT : string;");
 		stream.println("attribute S : string;");
 		stream.println();
 
@@ -401,9 +399,7 @@ public class MappedCircuit {
 		// Separate configuration from LUT
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
 			MappedGate mappedN;
-			if (gate.getMappedType().equals("TLUT") ||
-					gate.getMappedType().equals("TLC") ||
-					gate.getMappedType().equals("TCON")) {
+			if (gate.hasParameterSources()) {
 				BooleanFunction<MappedNode> function = gate.getFunction()
 						.translate(mapping);
 				ArrayList<MappedNode> sources = function.getInputVariables();

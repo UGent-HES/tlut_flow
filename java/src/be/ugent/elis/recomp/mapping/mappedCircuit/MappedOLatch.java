@@ -97,15 +97,7 @@ public class MappedOLatch extends MappedPrimaryInput {
 	}
 
 	public String getVhdlString(VhdlGenerator vhdlGenerator) {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(getVhdlIdentifier() + ": FD\n");
-		builder.append("generic map (\n\tINIT =>\'0\')\n");
-		builder.append("port map (Q => " + getVhdlSignalIdentifier() + ",\n");
-		builder.append("\tC => clk,\n");
-		builder.append("\tD => " + getILatch().getSource().getVhdlSignalIdentifier() + ");\n\n");
-
-		return builder.toString();
+		return vhdlGenerator.getFDString(getVhdlIdentifier(), getVhdlSignalIdentifier(), getILatch().getSource().getVhdlSignalIdentifier());
 	}
 
 	public String getVhdlHeaderString() {
@@ -113,15 +105,8 @@ public class MappedOLatch extends MappedPrimaryInput {
 
 		builder.append("signal " + getVhdlSignalIdentifier()
 				+ " : STD_ULOGIC ;\n");
-		builder.append("attribute INIT of " + getVhdlIdentifier()
-				+ " : label is \"0\";\n");
 		builder.append("attribute S of " + getVhdlSignalIdentifier()
 				+ " : signal is \"YES\";");
-
-		// signalDeclarations = signalDeclarations +
-		// "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
-		// initAttributes = initAttributes +
-		// "\nattribute INIT of FD_"+stripBrackets(latch.getName())+" : label is \"0\";";
 
 		return builder.toString();
 	}

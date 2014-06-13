@@ -80,15 +80,15 @@ public class MappedParameterisedConfigurationGate extends MappedGate {
 	}
 
 	public String getVhdlIdentifier() {
-		return "";
+		throw new RuntimeException();
 	}
 
 	public String getVhdlHeaderString() {
-		return "";
+		throw new RuntimeException();
 	}
 
 	public String getVhdlString() {
-		return "";
+		throw new RuntimeException();
 	}
 
 }

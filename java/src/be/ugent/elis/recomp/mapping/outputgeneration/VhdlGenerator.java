@@ -107,6 +107,8 @@ public abstract class VhdlGenerator {
 	public String getLUTString(String name, String output, String init, ArrayList<String> inputs) {
 		if(inputs.size()>K)
 			throw new RuntimeException("LUT has too many inputs for this architecture");
+		if(inputs.size()==0)
+			throw new RuntimeException("LUT must have at least one input");
 		
 		String lutInstance = "";
     	lutInstance += name+": LUT"+inputs.size() + 
@@ -118,12 +120,32 @@ public abstract class VhdlGenerator {
 			lutInstance += ",\n\tI" + Integer.toString(i++) + " => " + input;
 		}
 		
-		lutInstance += ");";
+		lutInstance += ");\n\n";
 		return lutInstance;
 	}
 	
 	public String getSafeLUTString(String name, String output, String init, ArrayList<String> inputs) {
 		return getLUTString(name, output, init, inputs);
+	}
+
+	public String getFDString(String name,
+			String input, String output) {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(name + ": FD\n");
+		builder.append("generic map (\n\tINIT =>\'0\')\n");
+		builder.append("port map (Q => " + input + ",\n");
+		builder.append("\tC => clk,\n");
+		builder.append("\tD => " + output + ");\n\n");
+
+		return builder.toString();
+
+	}
+
+	public String getAssignmentString(String output,
+			String input) {
+		return output + " <= "
+				+ input + ";\n";
 	}
 	
 }
