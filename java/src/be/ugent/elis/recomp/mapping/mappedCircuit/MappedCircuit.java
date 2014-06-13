@@ -505,6 +505,7 @@ public class MappedCircuit {
 		}
 		aig.initBDDidMapping();
 		aig.sanityCheck();
+		aig.strashCheck();
 		return aig;
 	}
 
@@ -522,21 +523,20 @@ public class MappedCircuit {
 			PolarisedNode<Node> varNode = bddMap.get(BDDFactorySingleton.get()
 					.ithVar(bdd.var()));
 
-			Node highNode = aig.findNode(high.getNode(), high.isInverted(),
-					varNode.getNode(), varNode.isInverted());
+			PolarisedNode<Node> highNode = aig.findNode(high, varNode);
 			if (highNode == null)
-				highNode = aig.addNode(null, high.getNode(), high.isInverted(),
-						varNode.getNode(), varNode.isInverted());
-			Node lowNode = aig.findNode(low.getNode(), low.isInverted(),
-					varNode.getNode(), !varNode.isInverted());
+				highNode = new PolarisedNode<Node>(aig.addNode(null, high,
+						varNode), false);
+			PolarisedNode<Node> lowNode = aig.findNode(low, varNode.toggleInverted(true));
 			if (lowNode == null)
-				lowNode = aig.addNode(null, low.getNode(), low.isInverted(),
-						varNode.getNode(), !varNode.isInverted());
+				lowNode = new PolarisedNode<Node>(aig.addNode(null, low,
+						varNode.toggleInverted(true)), false);
 
-			Node iteNode = aig.findNode(lowNode, true, highNode, true);
-			if (iteNode == null)
-				iteNode = aig.addNode(null, lowNode, true, highNode, true);
-			ret = new PolarisedNode<Node>(iteNode, true);
+			ret = aig.findNode(lowNode.toggleInverted(true), highNode.toggleInverted(true));
+			if (ret == null)
+				ret = new PolarisedNode<Node>(aig.addNode(null, 
+				    lowNode.toggleInverted(true), highNode.toggleInverted(true)), false);
+			ret = ret.toggleInverted(true);
 		}
 		bdd.free();
 		return ret;

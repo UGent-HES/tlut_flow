@@ -178,26 +178,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			PolarisedNode<N> pnodeI1 = propagateMap.get(origI1);
 			pnodeI1 = pnodeI1.toggleInverted(e1.isInverted());
 			
-//			Constant propagation
-			if (pnodeI1.getNode() == this.getConst0()) {
-				PolarisedNode<N> swap_var = pnodeI1;
-				pnodeI1 = pnodeI0;
-				pnodeI0 = swap_var;
-			}
-			if (pnodeI0.getNode() == this.getConst0()) {
-				if (pnodeI0.isInverted()) {
-					propagateMap.put(orig, pnodeI1);
-				} else {
-					propagateMap.put(orig, new PolarisedNode<N>(this.getConst0(), false));
-				}
-//			No constant propagation possible
-			} else {
-				N copy = this.findNode(pnodeI0.getNode(), pnodeI0.isInverted(), pnodeI1.getNode(), pnodeI1.isInverted());
-				if (copy == null) {
-					copy = this.addNode(orig.getName(), pnodeI0.getNode(), pnodeI0.isInverted(), pnodeI1.getNode(), pnodeI1.isInverted());
-				}
-				propagateMap.put(orig, new PolarisedNode<N>(copy, false));
-			}
+			PolarisedNode<N> copy = this.findNode(pnodeI0, pnodeI1);
+			if (copy == null)
+				copy = new PolarisedNode<N>(this.addNode(orig.getName(), pnodeI0, pnodeI1), false);
+			propagateMap.put(orig, copy);
 		}
 		
 		// Copy latches
@@ -1295,18 +1279,42 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		E e = factory.newEdge(tail, head, inverted);
 		edges.add(e);
 		return e;
-	
 	}
 
-	public N findNode(N node0, boolean inv0, N node1, boolean inv1) {
-		return strashMap.get(new StrashKey<N,E>(node0, inv0, node1, inv1));
+	public PolarisedNode<N> findNode(PolarisedNode<N> node0, PolarisedNode<N> node1) {
+//		Constant propagation
+		if (node1.getNode() == this.getConst0()) {
+			PolarisedNode<N> swap_var = node1;
+			node1 = node0;
+			node0 = swap_var;
+		}
+		if (node0.getNode() == this.getConst0()) {
+			if (node0.isInverted()) {
+				return node1;
+			} else {
+				return new PolarisedNode<N>(this.getConst0(), false);
+			}
+//		No constant propagation possible
+		} else {
+			N n = strashMap.get(new StrashKey<N,E>(node0.getNode(), node0.isInverted(), node1.getNode(), node1.isInverted()));
+			if (n == null)
+				return null;
+			else
+				return new PolarisedNode<N>(n, false);
+		}
+//		return strashMap.get(new StrashKey<N,E>(node0, inv0, node1, inv1));
+	}
+	
+	public N addNode(String name, PolarisedNode<N> node0, PolarisedNode<N> node1) {
+		return addNode(name, node0.getNode(), node0.isInverted(),
+			node1.getNode(), node1.isInverted());
 	}
 
 	public N addNode(String name, N node0, boolean inv0, N node1, boolean inv1) {
 		N n = factory.newAnd(this);
 		and.add(n);
 		if(name != null)
-		n.setName(name);
+			n.setName(name);
 		else
 			n.setName("n"+n.getID());
 		
