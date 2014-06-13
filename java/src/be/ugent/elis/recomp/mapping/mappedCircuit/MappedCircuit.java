@@ -74,17 +74,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
 import net.sf.javabdd.BDD;
-
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.Virtex2ProVhdlGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.Virtex5VhdlGenerator;
+import be.ugent.elis.recomp.mapping.utils.AlphanumMappedNodeNameComparator;
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
@@ -449,6 +450,9 @@ public class MappedCircuit {
 			mappedO.setSource(mappedS);
 		}
 
+        Collections.sort(configurationCircuit.inputs, new AlphanumMappedNodeNameComparator());
+        Collections.sort(configurationCircuit.outputs, new AlphanumMappedNodeNameComparator());
+
 		return new ParameterisedMappedCircuitPair(circuit, configurationCircuit);
 	}
 
@@ -501,7 +505,10 @@ public class MappedCircuit {
 			PolarisedNode<Node> pNode = mapping.get(out.getSource());
 			Edge e = aig.addEdge(pNode.getNode(), mappedN, pNode.isInverted());
 			mappedN.setI0(e);
+			pNode.getNode().addOutput(e);
 		}
+		aig.initBDDidMapping();
+		aig.sanityCheck();
 		return aig;
 	}
 

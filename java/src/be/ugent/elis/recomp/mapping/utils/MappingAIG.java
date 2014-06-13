@@ -67,16 +67,16 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.mapping.utils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.aig.AIG;
-import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedGate;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedInput;
@@ -339,5 +339,17 @@ public class MappingAIG extends AIG<Node, Edge> {
 		for (Node n: getAllNodes()) {
 			n.setUpdated(updated);
 		}
+	}
+	
+	public void trivialMap() {
+		for (Node n : getAnds()) {
+			n.setVisible(true);
+			n.setBestCone(SimpleCone.twoInputCone(n, getBDDidMapping()));
+		}
+	}
+	
+	public void printUnmappedBlif(PrintStream stream) {
+		trivialMap();
+		constructMappedCircuit("top", 1).printBlif(stream);
 	}
 }

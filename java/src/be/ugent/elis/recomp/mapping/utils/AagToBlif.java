@@ -72,7 +72,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
-import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
@@ -89,14 +88,7 @@ public class AagToBlif {
 		BDDFactorySingleton.get().setVarNum(a.numNodes());
 		a.initBDDidMapping();
 		
-		for (Node n : a.getAnds()) {
-			n.setVisible(true);
-			n.setBestCone(SimpleCone.twoInputCone(n, null));
-		}
-		
-		MappedCircuit mappedCircuit = a.constructMappedCircuit("top", 1);
-		mappedCircuit.printBlif(new PrintStream(new File(args[1])));
-
+		a.printUnmappedBlif(new PrintStream(new File(args[1])));
 	}
 
 }

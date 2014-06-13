@@ -72,7 +72,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
-import be.ugent.elis.recomp.aig.BasicAIG;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
@@ -93,10 +92,7 @@ public class AagToAagTest {
 		BDDFactorySingleton.get().setVarNum(a.numNodes());
 		a.initBDDidMapping();
 
-		for (Node n : a.getAnds()) {
-			n.setVisible(true);
-			n.setBestCone(SimpleCone.twoInputCone(n, a.getBDDidMapping()));
-		}
+		a.trivialMap();
 		
 		MappedCircuit mappedCircuit = a.constructMappedCircuit("top", 1);
 		MappingAIG b = mappedCircuit.constructAIG();

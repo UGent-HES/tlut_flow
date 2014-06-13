@@ -69,7 +69,6 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.tmapSimple;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -78,7 +77,6 @@ import java.io.PrintStream;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
-import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.mappedCircuit.ParameterisedMappedCircuitPair;
 import be.ugent.elis.recomp.mapping.modular.ActivationFunctionBuilder;
@@ -91,9 +89,7 @@ import be.ugent.elis.recomp.mapping.simple.ConeSelection;
 import be.ugent.elis.recomp.mapping.simple.HeightCalculator;
 import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.simple.AreaflowOrientedConeComparator;
-import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
-import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
 import be.ugent.elis.recomp.util.logging.Logger;
@@ -256,8 +252,9 @@ public class TMapSimple {
 		// Output: parameterised configuration and lut structure
         if(write_lutstruct_flag) {
 			System.out.println("Generating the parameterizable configuration:");
-			parameterisedMappedCircuit.getConfiguration().constructAIG().printAAG(new PrintStream(new BufferedOutputStream(new FileOutputStream(param_config_out_filename))));
-	
+			MappingAIG parconfig_aig = parameterisedMappedCircuit.getConfiguration().constructAIG();
+			parconfig_aig.printAAG(new PrintStream(new BufferedOutputStream(new FileOutputStream(param_config_out_filename))));
+			
         	System.out.println("Writing the LUT structure:"); 
         	parameterisedMappedCircuit.getCircuit().printBlif(
 	            	    new PrintStream(new BufferedOutputStream(new FileOutputStream(lutstruct_out_filename))));

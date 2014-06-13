@@ -64,54 +64,24 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*/
+ *//*
+ */
 package be.ugent.elis.recomp.mapping.utils;
 
-import be.ugent.elis.recomp.aig.AbstractNode;
+import java.util.Comparator;
 
-public class PolarisedNode<N extends AbstractNode<N,?>> {
-	private final N node;
-	private final boolean inverted;
-	
-	public PolarisedNode(PolarisedNode<N> pnode) {
-		this(pnode.node, pnode.inverted);
-	}
-	
-	public PolarisedNode(N node, boolean inverted) {
-		this.node = node;
-		this.inverted = inverted;
-	}
-	
-	public N getNode() {
-		return this.node;
-	}
-	
-	public boolean isInverted() {
-		return this.inverted;
-	}
-	
-	public PolarisedNode<N> toggleInverted(boolean toggle) {
-		return new PolarisedNode<N>(node, inverted ^ toggle);
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedNode;
+
+import com.daveKoelle.AlphanumComparator;
+
+public class AlphanumMappedNodeNameComparator implements Comparator<MappedNode> {
+	AlphanumComparator comp;
+
+	public AlphanumMappedNodeNameComparator() {
+		comp = new AlphanumComparator();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!(obj instanceof PolarisedNode<?>))
-		      return false;
-		
-		PolarisedNode<?> other = (PolarisedNode<?>) obj;
-		
-		return (this.node == other.node) && 
-				(this.inverted == other.inverted); 
-
+	public int compare(MappedNode o1, MappedNode o2) {
+		return comp.compare(o1.getName(), o2.getName());
 	}
-	
-	@Override
-	public int hashCode() {
-	    int hash =  this.node.hashCode() * 31 + (this.inverted ? 0 : 1);
-		return hash;
-	}
-	
 }
