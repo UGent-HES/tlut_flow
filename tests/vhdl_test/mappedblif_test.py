@@ -9,7 +9,7 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 
-class VhdlGenerationTest(unittest.TestCase):
+class MappedBlifTest(unittest.TestCase):
     def test_test1(self):
         self.build('test1/test1.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
         
@@ -68,7 +68,7 @@ class VhdlGenerationTest(unittest.TestCase):
             sys.stdout = open(os.devnull, 'w')
             sys.stderr = sys.stdout
         performCheck = True
-        generateImplementationFilesFlag = True
+        generateImplementationFilesFlag = False
     
         baseName, ext = getBasenameAndExtension(os.path.basename(module))
     
@@ -117,60 +117,14 @@ class VhdlGenerationTest(unittest.TestCase):
         # Unleash TLUT mapper
         if verboseFlag:
             print "Stage: TLUT mapper"
+        mappedblifFileName = "mapped.blif"
         numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-            simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag)
+            simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, extra_args = ['--mappedblif='+mappedblifFileName])
         self.assertEqual(check, 'PASSED', 'lutstruct+parconfig equivalence check failed')
         if verboseFlag:
             print collumnize(['Luts (TLUTS)','depth','check'],colwidth)
             print collumnize([str(numLuts)+' ('+str(numTLUTs)+')',depth,check],colwidth)
-            
-        # Second part: verify generated VHDL
-    
-        # Verifying generated VHDL
-        if verboseFlag:
-            print "Starting verification of generated VHDL"
-        os.chdir(self.ret_pwd)
-    
-        # Setup working directory
-        verificationWorkDir = "work/"+baseName+"_vhd_check"
-        if verboseFlag:
-            print "Stage: Creating %s directory and copying design"%verificationWorkDir
-        verificationModule = "%s.vhd"%baseName
-        verificationSubModules = glob.glob('primitives/*') + submodules
-        verificationWorkFiles = verificationSubModules
-        try:
-            shutil.rmtree(verificationWorkDir)
-        except:
-            pass
-        createWorkDirAndCopyFiles(verificationWorkDir, verificationWorkFiles)
-
-        # Remove some attributes from vhdl file that quartus can't handle
-        assert not os.system('pcregrep -v -e "^attribute lock_pins" -e "^attribute INIT" %s > %s'%(workDir+"/%s-simpletmap.vhd"%baseName, verificationWorkDir+"/%s.vhd"%baseName))
-
-        os.chdir(verificationWorkDir)
-    
-        # Synthesis
-        if verboseFlag:
-            print "Stage: Synthesizing"
-        qsfFileName = generateQSF(verificationModule, verificationSubModules)
-        verificationBlifFileName = synthesize(verificationModule, qsfFileName, verboseFlag)
-
-        # Verification
-        #baseBlifFileName = '%s/%s/%s.blif'%(self.ret_pwd, workDir, baseName)
-        lutstructFileName = '%s/%s/%s-lutstruct.aag'%(self.ret_pwd, workDir, baseName)
-        lutconfigFileName = '%s/%s/%s-parconfig.aag'%(self.ret_pwd, workDir, baseName)
-        evaluatedlutconfigFileName = '%s-evaluatedlutconfig.aag'%baseName
-        baseFileName = '%s-evaluatedlutstruct.aag'%baseName
-        generateEvaluatedTLutconfig(lutconfigFileName, open(evaluatedlutconfigFileName, 'w'))
-        mergeaag(evaluatedlutconfigFileName, lutstructFileName, baseFileName, verboseFlag)
-        baseAigFileName = toaig(baseFileName)
-        if containsLatches:
-            check = sequentialMiter(verificationBlifFileName, baseAigFileName, verboseFlag)
-        else:
-            check = miter(verificationBlifFileName, baseAigFileName, verboseFlag)
-        #tmp
-        toaag(verificationBlifFileName)
-        self.assertEqual(check, 'PASSED', 'vhdl equivalence check failed')
+        self.assertEqual(miter(mappedblifFileName, aagFileName, verboseFlag), 'PASSED', 'mappedblif verification failed')
 
 
 def sequentialMiter(file1, file2, verboseFlag):
