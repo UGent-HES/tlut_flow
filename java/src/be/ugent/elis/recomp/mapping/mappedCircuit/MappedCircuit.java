@@ -82,6 +82,9 @@ import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.NodeType;
+import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
+import be.ugent.elis.recomp.mapping.outputgeneration.Virtex2ProVhdlGenerator;
+import be.ugent.elis.recomp.mapping.outputgeneration.Virtex5VhdlGenerator;
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
@@ -272,25 +275,33 @@ public class MappedCircuit {
 
 	public void printLutStructureVhdl(String inVhdFile, PrintStream stream,
 			int K) throws IOException {
-		printVhdlHeader(stream, inVhdFile, K);
+		VhdlGenerator vhdlGenerator;
+		if (K == 4)
+			vhdlGenerator = new Virtex2ProVhdlGenerator();
+		else if (K == 6)
+			vhdlGenerator = new Virtex5VhdlGenerator();
+		else
+			throw new RuntimeException("Unsupported LUT size: " + K);
+
+		printVhdlHeader(stream, inVhdFile, vhdlGenerator);
 
 		stream.println("begin");
 
 		// Outputs
 		for (MappedOutput out : getOutputs()) {
-			stream.println(out.getVhdlString());
+			stream.println(out.getVhdlString(vhdlGenerator));
 		}
 		stream.println();
 
 		// Latches
 		for (MappedOLatch latch : getOLatches()) {
-			stream.println(latch.getVhdlString());
+			stream.println(latch.getVhdlString(vhdlGenerator));
 			stream.println();
 		}
 
 		// LUTs
 		for (MappedGate gate : getGates()) {
-			stream.println(gate.getVhdlString());
+			stream.println(gate.getVhdlString(vhdlGenerator));
 			stream.println();
 		}
 
@@ -298,8 +309,8 @@ public class MappedCircuit {
 		stream.flush();
 	}
 
-	private void printVhdlHeader(PrintStream stream, String inVhdFile, int K)
-			throws IOException {
+	private void printVhdlHeader(PrintStream stream, String inVhdFile,
+			VhdlGenerator vhdlGenerator) throws IOException {
 		// Read header old vhdl file as a String
 		BufferedReader vhdlFileReader = new BufferedReader(new FileReader(
 				new File(inVhdFile)));
@@ -325,7 +336,10 @@ public class MappedCircuit {
 		stream.println("\n" + vhdlFileLine);
 
 		// Add component definitions
-		printVhdlComponents(stream, K);
+		vhdlGenerator.printComponentDefinitions(stream);
+
+		// Add constraints
+		vhdlGenerator.printConstraints(stream);
 
 		// Add declaration of signals and init attributes
 		stream.println("attribute INIT : string;");
@@ -343,37 +357,6 @@ public class MappedCircuit {
 			stream.println(latch.getVhdlHeaderString());
 			stream.println();
 		}
-	}
-
-	private void printVhdlComponents(PrintStream stream, int K) {
-		// Add LUT templates
-		if (K == 6) {
-			stream.println("component LUT6_2\ngeneric (INIT : bit_vector := X\"1\");\n"
-					+ "port (\n\tO6 : out STD_ULOGIC;\n\tO5 : out STD_ULOGIC;\n\tI0 : in STD_ULOGIC;"
-					+ "\n\tI1 : in STD_ULOGIC;\n\tI2 : in STD_ULOGIC;\n\tI3 : in STD_ULOGIC;"
-					+ "\n\tI4 : in STD_ULOGIC;\n\tI5 : in STD_ULOGIC);\nend component;\n");
-		}
-		for (int i = 1; i <= K; i++) {
-			stream.print("component LUT"
-					+ Integer.toString(i)
-					+ "\ngeneric (INIT : bit_vector := X\"1\");\nport   (O : out STD_ULOGIC");
-			for (int j = 0; j < i; j++)
-				stream.print("; \n\tI" + Integer.toString(j)
-						+ ": in STD_ULOGIC");
-			stream.println(");\nend component;\n");
-		}
-
-		// Add FF template
-		stream.println("component FD\ngeneric (INIT : bit:= '1');\nport   (Q : out STD_ULOGIC;\n\tC : in STD_ULOGIC;\n\tD : in STD_ULOGIC);\nend component;\n");
-
-		// Add declaration of lock attributes
-		stream.println("attribute lock_pins : string;");
-		for (int i = 1; i <= K; i++) {
-			stream.println("attribute lock_pins of LUT" + Integer.toString(i)
-					+ ": component is \"ALL\";");
-		}
-		if (K == 6)
-			stream.println("attribute lock_pins of LUT6_2: component is \"ALL\";");
 	}
 
 	public void printTLUTNames(PrintStream stream) {
@@ -477,7 +460,7 @@ public class MappedCircuit {
 		if (!getOLatches().isEmpty()) {
 			throw new RuntimeException(
 					"constructAIG does not allow latches yet");
-	}
+		}
 
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
 
@@ -496,14 +479,14 @@ public class MappedCircuit {
 				BDD bddn = BDDFactorySingleton.get().ithVar(
 						gate.getFunction().getBDDidMapping().getId(n));
 				bddMap.put(bddn, mn);
-	}
-
+			}
+			
 			PolarisedNode<Node> mappedPN = bddToAig_rec(gate.getFunction()
 					.getBDD().id(), bddMap, aig, gate.getFunction()
 					.getBDDidMapping());
 
 			mapping.put(gate, mappedPN);
-	}
+		}
 
 		for (MappedOutput out : getOutputs()) {
 			Node mappedN = aig.addNode(out.getName(), NodeType.OUTPUT);

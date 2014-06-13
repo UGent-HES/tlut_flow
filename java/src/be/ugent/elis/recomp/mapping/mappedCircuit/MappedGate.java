@@ -70,6 +70,7 @@ package be.ugent.elis.recomp.mapping.mappedCircuit;
 
 import java.util.ArrayList;
 
+import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
 public class MappedGate extends MappedNode {
@@ -148,25 +149,10 @@ public class MappedGate extends MappedNode {
 		return builder.toString();
 	}
 	
-	public String getVhdlString() {
+	public String getVhdlString(VhdlGenerator vhdlGenerator) {
 		int K = 6;
 		int lutSize = getSources().size();
-/*
-if K==6: 
-    use the LUT6_2 primitive. This prevents two smaller LUTs from being packed together into a 6LUT with two outputs.
-LUT6_2_inst : LUT6_2
-generic map (INIT => X"0000000000000000") -- Specify LUT Contents
-port map (
-    O6 => O6,  -- 6/5-LUT output (1-bit)
-    O5 => O5,  -- 5-LUT output (1-bit)
-    I0 => I0,
-    I1 => I1,
-    I2 => I2,
-    I3 => I3,
-    I4 => I4,
-    I5 => I5
-);
-*/
+		
 		String lutInstance = "";
 		if(isTLUT()) {
 		    if(K==6)

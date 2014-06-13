@@ -66,64 +66,66 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
  */
 
-package be.ugent.elis.recomp.mapping.mappedCircuit;
+package be.ugent.elis.recomp.mapping.outputgeneration;
 
-import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
+import java.io.PrintStream;
+import java.util.ArrayList;
 
-public class MappedOLatch extends MappedPrimaryInput {
+public class Virtex5VhdlGenerator extends VhdlGenerator {
 
-	final private MappedILatch ilatch;
-	
-	MappedOLatch(MappedCircuit circuit, String name, MappedILatch ilatch) {
-		super(circuit, name);
-		this.ilatch = ilatch;
+	public Virtex5VhdlGenerator() {
+		super(6);
+	}
+
+	public void printComponentDefinitions(PrintStream stream) {
+		// Add LUT templates
+		super.printComponentDefinitions(stream);
+		stream.println("component LUT6_2\ngeneric (INIT : bit_vector := X\"1\");\n"
+				+ "port (\n\tO6 : out STD_ULOGIC;\n\tO5 : out STD_ULOGIC;\n\tI0 : in STD_ULOGIC;"
+				+ "\n\tI1 : in STD_ULOGIC;\n\tI2 : in STD_ULOGIC;\n\tI3 : in STD_ULOGIC;"
+				+ "\n\tI4 : in STD_ULOGIC;\n\tI5 : in STD_ULOGIC);\nend component;\n");
+	}
+
+	public void printConstraints(PrintStream stream) {
+		// Add declaration of lock attributes
+		super.printConstraints(stream);
+		stream.println("attribute lock_pins of LUT6_2: component is \"ALL\";");
 	}
 	
-	public MappedILatch getILatch() {
-		return ilatch;
+	public String getSafeLUTString(String name, String output, String init, ArrayList<String> inputs) {
+		/*if K==6: 
+	    use the LUT6_2 primitive. This prevents two smaller LUTs from being packed together into a 6LUT with two outputs.
+	LUT6_2_inst : LUT6_2
+	generic map (INIT => X"0000000000000000") -- Specify LUT Contents
+	port map (
+	    O6 => O6,  -- 6/5-LUT output (1-bit)
+	    O5 => O5,  -- 5-LUT output (1-bit)
+	    I0 => I0,
+	    I1 => I1,
+	    I2 => I2,
+	    I3 => I3,
+	    I4 => I4,
+	    I5 => I5
+	);*/
+		
+		if(inputs.size() > 6)
+			throw new RuntimeException("LUT has too many inputs for this architecture");
+		
+		String lutInstance = "";
+    	lutInstance += name+": LUT6_2" + 
+    				    "\ngeneric map (\n\tINIT => "+init+")\n"
+    				    +"port map (\n\tO6 => "+output
+	    				+",\n\tO5 => open";	
+
+    	int i=0;
+		for (String input : inputs) {
+			lutInstance += ",\n\tI" + Integer.toString(i++) + " => " + input;
+		}
+	    while (i < 6)
+	        lutInstance += ",\n\tI" + Integer.toString(i++) + " => '0'";
+		
+		lutInstance += ");";
+		return lutInstance;
 	}
-	
-	public String getBlifString() {
-		return ".latch " + getILatch().getSource().getBlifIdentifier() + " "
-				+ getBlifIdentifier() + " re pclk 2";
-	}
 
-	public String getVhdlSignalIdentifier() {
-		return super.getVhdlSignalIdentifier() + "_l";
-	}
-
-	public String getVhdlIdentifier() {
-		return getCircuit().getName() + "_FD_" + getVhdlSignalIdentifier();
-	}
-
-	public String getVhdlString(VhdlGenerator vhdlGenerator) {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(getVhdlIdentifier() + ": FD\n");
-		builder.append("generic map (\n\tINIT =>\'0\')\n");
-		builder.append("port map (Q => " + getVhdlSignalIdentifier() + ",\n");
-		builder.append("\tC => clk,\n");
-		builder.append("\tD => " + getILatch().getSource().getVhdlSignalIdentifier() + ");");
-
-		return builder.toString();
-	}
-
-	public String getVhdlHeaderString() {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("signal " + getVhdlSignalIdentifier()
-				+ " : STD_ULOGIC ;\n");
-		builder.append("attribute INIT of " + getVhdlIdentifier()
-				+ " : label is \"0\";\n");
-		builder.append("attribute S of " + getVhdlSignalIdentifier()
-				+ " : signal is \"YES\";");
-
-		// signalDeclarations = signalDeclarations +
-		// "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
-		// initAttributes = initAttributes +
-		// "\nattribute INIT of FD_"+stripBrackets(latch.getName())+" : label is \"0\";";
-
-		return builder.toString();
-	}
-	
 }

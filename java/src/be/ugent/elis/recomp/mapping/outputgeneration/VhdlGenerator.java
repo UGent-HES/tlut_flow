@@ -66,64 +66,64 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
  */
 
-package be.ugent.elis.recomp.mapping.mappedCircuit;
+package be.ugent.elis.recomp.mapping.outputgeneration;
 
-import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
+import java.io.PrintStream;
+import java.util.ArrayList;
 
-public class MappedOLatch extends MappedPrimaryInput {
+public abstract class VhdlGenerator {
 
-	final private MappedILatch ilatch;
-	
-	MappedOLatch(MappedCircuit circuit, String name, MappedILatch ilatch) {
-		super(circuit, name);
-		this.ilatch = ilatch;
+	protected final int K;
+
+	VhdlGenerator(int K) {
+		this.K = K;
+	}
+
+	public void printComponentDefinitions(PrintStream stream) {
+		// Add LUT templates
+		for (int i = 1; i <= K; i++) {
+			stream.print("component LUT"
+					+ Integer.toString(i)
+					+ "\ngeneric (INIT : bit_vector := X\"1\");\nport   (O : out STD_ULOGIC");
+			for (int j = 0; j < i; j++)
+				stream.print("; \n\tI" + Integer.toString(j)
+						+ ": in STD_ULOGIC");
+			stream.println(");\nend component;\n");
+		}
+
+		// Add FF template
+		stream.println("component FD\ngeneric (INIT : bit:= '1');\nport   (Q : out STD_ULOGIC;\n\tC : in STD_ULOGIC;\n\tD : in STD_ULOGIC);\nend component;\n");
+	}
+
+	public void printConstraints(PrintStream stream) {
+		// Add declaration of lock attributes
+		stream.println("attribute lock_pins : string;");
+		for (int i = 1; i <= K; i++) {
+			stream.println("attribute lock_pins of LUT" + Integer.toString(i)
+					+ ": component is \"ALL\";");
+		}
 	}
 	
-	public MappedILatch getILatch() {
-		return ilatch;
+	public String getLUTString(String name, String output, String init, ArrayList<String> inputs) {
+		if(inputs.size()>K)
+			throw new RuntimeException("LUT has too many inputs for this architecture");
+		
+		String lutInstance = "";
+    	lutInstance += name+": LUT"+inputs.size() + 
+    				    "\ngeneric map (\n\tINIT =>"+init+")\n"
+    				    +"port map (\n\tO => "+output;
+
+    	int i=0;
+		for (String input : inputs) {
+			lutInstance += ",\n\tI" + Integer.toString(i++) + " => " + input;
+		}
+		
+		lutInstance += ");";
+		return lutInstance;
 	}
 	
-	public String getBlifString() {
-		return ".latch " + getILatch().getSource().getBlifIdentifier() + " "
-				+ getBlifIdentifier() + " re pclk 2";
-	}
-
-	public String getVhdlSignalIdentifier() {
-		return super.getVhdlSignalIdentifier() + "_l";
-	}
-
-	public String getVhdlIdentifier() {
-		return getCircuit().getName() + "_FD_" + getVhdlSignalIdentifier();
-	}
-
-	public String getVhdlString(VhdlGenerator vhdlGenerator) {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(getVhdlIdentifier() + ": FD\n");
-		builder.append("generic map (\n\tINIT =>\'0\')\n");
-		builder.append("port map (Q => " + getVhdlSignalIdentifier() + ",\n");
-		builder.append("\tC => clk,\n");
-		builder.append("\tD => " + getILatch().getSource().getVhdlSignalIdentifier() + ");");
-
-		return builder.toString();
-	}
-
-	public String getVhdlHeaderString() {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("signal " + getVhdlSignalIdentifier()
-				+ " : STD_ULOGIC ;\n");
-		builder.append("attribute INIT of " + getVhdlIdentifier()
-				+ " : label is \"0\";\n");
-		builder.append("attribute S of " + getVhdlSignalIdentifier()
-				+ " : signal is \"YES\";");
-
-		// signalDeclarations = signalDeclarations +
-		// "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
-		// initAttributes = initAttributes +
-		// "\nattribute INIT of FD_"+stripBrackets(latch.getName())+" : label is \"0\";";
-
-		return builder.toString();
+	public String getSafeLUTString(String name, String output, String init, ArrayList<String> inputs) {
+		return getLUTString(name, output, init, inputs);
 	}
 	
 }

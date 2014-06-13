@@ -68,6 +68,8 @@ All rights reserved.
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
+import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
+
 public class MappedOutput extends MappedPrimaryOutput {
 
 	MappedOutput(MappedCircuit circuit, String name) {
@@ -78,7 +80,7 @@ public class MappedOutput extends MappedPrimaryOutput {
 		return getName().replace('[', '(').replace(']', ')');
 	}
 
-	public String getVhdlString() {
+	public String getVhdlString(VhdlGenerator vhdlGenerator) {
 		return getVhdlSignalIdentifier() + " <= "
 				+ getSource().getVhdlSignalIdentifier() + ";";
 	}
