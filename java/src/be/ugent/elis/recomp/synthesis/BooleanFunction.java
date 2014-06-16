@@ -122,8 +122,14 @@ public class BooleanFunction<V> {
 	}
 	
 	public BooleanFunction<V> replaceInput(V node, V repl) {
-	    BDDidMapping<V> newMapping = new BDDidMapping<V>(getBDDidMapping());
-	    newMapping.mapNodeToId(repl, newMapping.getId(node));
+		BDDidMapping<V> newMapping = new BDDidMapping<V>();
+		for (V var : getInputVariables()) {
+			int id = mapping.getId(var);
+			if(var == node)
+				newMapping.mapNodeToId(repl, id);
+			else
+				newMapping.mapNodeToId(var, id);
+		}
 	    return new BooleanFunction<V>(newMapping, getBDD().id());
 	}
 

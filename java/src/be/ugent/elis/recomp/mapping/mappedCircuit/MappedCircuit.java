@@ -483,6 +483,8 @@ public class MappedCircuit {
 		// Copy inputs, latches, outputs
 		mapping.put(getConst0(),
 				new PolarisedNode<Node>(aig.getConst0(), false));
+		mapping.put(getConst1(),
+				new PolarisedNode<Node>(aig.getConst0(), true));
 		for (MappedInput input : getInputs()) {
 			Node mappedN = aig.addNode(input.getName(), NodeType.INPUT);
 			mappedN.setParameter(input.isParameter());
