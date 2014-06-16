@@ -126,7 +126,7 @@ public class MappedCircuit {
 	public MappedConst getConst0() {
 		return const0;
 	}
-
+	
 	public MappedConst getConst1() {
 		return const1;
 	}
@@ -341,7 +341,7 @@ public class MappedCircuit {
 		String[] headerArray;
 
 		// Insert unisim library declaration if necessary
-		headerArray = header.split("[e|E][n|N][t|T][i|I][t|T][y|Y]");
+		headerArray = header.split("entity", java.util.regex.Pattern.CASE_INSENSITIVE);
 		String libraryString = "-- synopsys translate_off\nlibrary UNISIM;\nuse unisim.Vcomponents.all;\n-- synopsys translate_on\n";
 		if (header.indexOf("library UNISIM;") == -1)
 			header = headerArray[0] + libraryString + "\nentity"
