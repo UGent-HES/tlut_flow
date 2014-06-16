@@ -117,8 +117,14 @@ public class BooleanFunction<V> {
 		if (variable_id < 0)
 			throw new RuntimeException("Unknown variable name");
 		BDDFactory factory = BDDFactorySingleton.get();
-		return new BooleanFunction<V>(getBDDidMapping(), this.bdd.id().compose(
+		return new BooleanFunction<V>(getBDDidMapping(), getBDD().id().compose(
 				factory.nithVar(variable_id), variable_id));
+	}
+	
+	public BooleanFunction<V> replaceInput(V node, V repl) {
+	    BDDidMapping<V> newMapping = new BDDidMapping<V>(getBDDidMapping());
+	    newMapping.mapNodeToId(repl, newMapping.getId(node));
+	    return new BooleanFunction<V>(newMapping, getBDD().id());
 	}
 
 	public <K> BooleanFunction<K> translate(Map<V, K> map) {

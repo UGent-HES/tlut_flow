@@ -14,6 +14,11 @@ public class BDDidMapping<N> {
 		node_map = new HashMap<Integer, N>();
 	}
 	
+	public BDDidMapping(BDDidMapping<N> orig) {
+	    id_map = new HashMap<N, Integer>(orig.id_map);
+	    node_map = new HashMap<Integer, N>(orig.node_map);
+	}
+	
 	public <K> BDDidMapping<K> translateMapping(Map<N,K> mapping) {
 		BDDidMapping<K> new_mapping = new BDDidMapping<K>();
 		for(Map.Entry<N, K> entry : mapping.entrySet()) {

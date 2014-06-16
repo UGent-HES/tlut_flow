@@ -208,7 +208,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		Edge firstEdge = null;
 		for(Edge e : node.getOutputEdges()) {
 			Node head = e.getHead();
-			if (head.isOutput() || head.isILatch()) {
+			if (head.isPrimaryOutput()) {
 				isOutput = true;
 				firstEdge = e;
 				break;
@@ -218,22 +218,17 @@ public class MappingAIG extends AIG<Node, Edge> {
 			return OutputLutInversion.notAnOutputLut; 
 		} else {
 			// Determine the outputLutInversion
-			OutputLutInversion outlutInv;
-			if(firstEdge.isInverted())
-			    outlutInv = OutputLutInversion.AllOutsInverted;
-			else
-			    outlutInv = OutputLutInversion.AllOutsNotInverted;
 			for(Edge e : node.getOutputEdges()) {
 				Node head = e.getHead();
-				if (head.isOutput() || head.isILatch()) {
-					if (e.isInverted() && outlutInv == OutputLutInversion.AllOutsNotInverted || 
-					        (!e.isInverted() && outlutInv == OutputLutInversion.AllOutsInverted)) {
-						outlutInv = OutputLutInversion.MixedOuts;
-						break;
-					}
+				if (head.isPrimaryOutput()) {
+					if (e.isInverted() != firstEdge.isInverted())
+						return OutputLutInversion.MixedOuts;
 				}
 			}
-			return outlutInv;
+			if(firstEdge.isInverted())
+			    return OutputLutInversion.AllOutsInverted;
+			else
+			    return OutputLutInversion.AllOutsNotInverted;
 		}
 	}
 	
@@ -266,44 +261,56 @@ public class MappingAIG extends AIG<Node, Edge> {
 		for(Node and : topologicalOrderInToOut(false, false)) {
 			if (and.isGate() && and.isVisible()) {
 				BooleanFunction<MappedNode> function = new BooleanFunction<MappedNode>(nBddIdMapping, and.getBestCone().getLocalFunction());
-				MappedGate mappedN = circuit.addGate(and.getName(), function.getInputVariables(), function, and.getBestCone().getType().toString());
-				mapping.put(new PolarisedNode<Node>(and, false), mappedN);
-				nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(and));
+				for (Node input : and.getBestCone().getRegularLeaves()) {
+				    if (checkOutputLutInversion(input) == OutputLutInversion.AllOutsInverted) {
+				        BooleanFunction<MappedNode> nfunction = function.invertInput(mapping.get(new PolarisedNode<Node>(input, false)));
+				        function.free();
+				        function = nfunction;
+				        nfunction = function.replaceInput(mapping.get(new PolarisedNode<Node>(input, false)), 
+				            mapping.get(new PolarisedNode<Node>(input, true)));
+				    }
+				}
+				
+				//if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
+                    MappedGate mappedN = circuit.addGate(and.getName(), 
+                        function.getInputVariables(), function, 
+                        and.getBestCone().getType().toString());
+                    mapping.put(new PolarisedNode<Node>(and, false), mappedN);
+                    nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(and));
+                //}
 
-//				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted
-//				        || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
-//					printLutVhdl(baseName, and, stream, nameStream, K, and.getName()+"not", true);	 
-//				}
-//				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
-//					printLutVhdl(baseName, and, stream, nameStream, K, and.getName(), false);
-//				}
+				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted
+				        || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
+				    BooleanFunction<MappedNode> invfunction = function.invert();
+                    mappedN = circuit.addGate(and.getName()+"_not", 
+                        invfunction.getInputVariables(), invfunction, 
+                        and.getBestCone().getType().toString());
+                    mapping.put(new PolarisedNode<Node>(and, true), mappedN);
+                    //nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(and));
+				}
 			}
 		}
 		
 		for(Node output : getAllPrimaryOutputs()) {
 			MappedPrimaryOutput mappedO = outputMapping.get(new PolarisedNode<Node>(output, false));
-			MappedNode mappedS = mapping.get(new PolarisedNode<Node>(output.getI0().getTail(), false));
-			MappedNode mappedS_inv = mapping.get(new PolarisedNode<Node>(output.getI0().getTail(), true));
-			if(mappedO == null)
-				throw new RuntimeException();
-			if(mappedS == null)
-				throw new RuntimeException();
-			if(output.getI0().isInverted()) {
-				if(mappedS_inv == null) {
-					BDDidMapping<MappedNode> newBddIdMapping = new BDDidMapping<MappedNode>();
-					newBddIdMapping.mapNodeToId(mappedS, 1);
-					BDD newBdd = BDDFactorySingleton.get().nithVar(1);
-					BooleanFunction<MappedNode> newBooleanFunction = new BooleanFunction<MappedNode>(newBddIdMapping, newBdd);
-					mappedS_inv = circuit.addGate(mappedS.getName()+"_not", newBooleanFunction.getInputVariables(), newBooleanFunction, "IOINV");
-					mapping.put(new PolarisedNode<Node>(output.getI0().getTail(), true), mappedS_inv);
-				}
-				mappedO.setSource(mappedS_inv);
-			} else {
-				mappedO.setSource(mappedS);
+			MappedNode mappedS = mapping.get(new PolarisedNode<Node>(output.getI0().getTail(), output.getI0().isInverted()));
+			if(mappedS == null) {
+				MappedNode mappedS_inv = mapping.get(new PolarisedNode<Node>(output.getI0().getTail(), !output.getI0().isInverted()));
+				if(mappedS_inv == null)
+    				throw new RuntimeException("Construct MappedCircuit error: node not found: "+output.getI0().getTail().getName() + " " + !output.getI0().isInverted());
+                BDDidMapping<MappedNode> newBddIdMapping = new BDDidMapping<MappedNode>();
+                newBddIdMapping.mapNodeToId(mappedS_inv, 1);
+                BDD newBdd = BDDFactorySingleton.get().nithVar(1);
+                BooleanFunction<MappedNode> newBooleanFunction = new BooleanFunction<MappedNode>(newBddIdMapping, newBdd);
+                mappedS = circuit.addGate(mappedS_inv.getName()+"_not", newBooleanFunction.getInputVariables(), newBooleanFunction, "IOINV");
+                mapping.put(new PolarisedNode<Node>(output.getI0().getTail(), output.getI0().isInverted()), mappedS);
 			}
+			mappedO.setSource(mappedS);
 		}
-		circuit.sanityCheck();
 		
+		circuit.removeUnusedGates();
+		circuit.sanityCheck();
+
 		return circuit;
 	}
 	
