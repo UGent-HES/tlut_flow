@@ -28,7 +28,6 @@ class MappedBlifTest(unittest.TestCase):
     def test_matrix(self):
         self.build('matrix/matrix.vhd', ['matrix/matrix_type_pkg.vhd'], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
     
-    @unittest.expectedFailure
     def test_matrix2(self):
         self.build('matrix2/matrix2.vhd', ['matrix2/matrix_type_pkg.vhd'], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
 
@@ -39,6 +38,7 @@ class MappedBlifTest(unittest.TestCase):
     def test_rom_noparam(self):
         self.build('rom/rom.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False, parameterFileName='empty.par')
 
+    @unittest.skip('Out of memory: to fix') 
     def test_rom(self):
         self.build('rom/rom.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
         
