@@ -302,6 +302,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 				mappedO.setSource(mappedS);
 			}
 		}
+		circuit.sanityCheck();
 		
 		return circuit;
 	}

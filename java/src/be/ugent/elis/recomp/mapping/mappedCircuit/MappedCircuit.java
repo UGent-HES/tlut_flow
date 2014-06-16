@@ -98,14 +98,14 @@ import be.ugent.elis.recomp.synthesis.TruthAssignmentIterator;
 
 public class MappedCircuit {
 
-	String name;
+	private String name;
 
-	MappedConst const0;
-	ArrayList<MappedInput> inputs;
-	ArrayList<MappedILatch> ilatches;
-	ArrayList<MappedOLatch> olatches;
-	ArrayList<MappedOutput> outputs;
-	ArrayList<MappedGate> gates;
+	private MappedConst const0;
+	private ArrayList<MappedInput> inputs;
+	private ArrayList<MappedILatch> ilatches;
+	private ArrayList<MappedOLatch> olatches;
+	private ArrayList<MappedOutput> outputs;
+	private ArrayList<MappedGate> gates;
 
 	public MappedCircuit(String name) {
 		this.name = name;
@@ -157,6 +157,17 @@ public class MappedCircuit {
 
 	public ArrayList<MappedGate> getGates() {
 		return gates;
+	}
+	
+	public ArrayList<MappedNode> getAllNodes() {
+		ArrayList<MappedNode> all = new ArrayList<MappedNode>();
+		all.addAll(getOutputs());
+		all.addAll(getILatches());
+		all.addAll(getOLatches());
+		all.addAll(getInputs());
+		all.addAll(getGates());
+		all.add(getConst0());
+		return all;
 	}
 
 	public MappedInput addInput(String name, boolean parameter) {
@@ -449,6 +460,9 @@ public class MappedCircuit {
         Collections.sort(configurationCircuit.inputs, new AlphanumMappedNodeNameComparator());
         Collections.sort(configurationCircuit.outputs, new AlphanumMappedNodeNameComparator());
 
+        circuit.sanityCheck();
+        configurationCircuit.sanityCheck();
+        
 		return new ParameterisedMappedCircuitPair(circuit, configurationCircuit);
 	}
 
@@ -540,5 +554,49 @@ public class MappedCircuit {
 		}
 		bdd.free();
 		return ret;
+	}
+	
+	public void sanityCheck() {
+	    HashSet<String> names = new HashSet<String>();
+	    ArrayList<MappedNode> all_except_outputs = new ArrayList<MappedNode>();
+	    all_except_outputs.addAll(getInputs());
+	    all_except_outputs.addAll(getOLatches());
+	    all_except_outputs.addAll(getGates());
+	    for (MappedNode node : all_except_outputs) {
+	        if (names.contains(node.getName()))
+	            throw new RuntimeException("MappedCircuit sanitycheck error: name already in use: " + node.getName());
+	        names.add(node.getName());
+	    }
+
+      	HashSet<MappedNode> used_nodes = listUsedNodes();
+      	HashSet<MappedNode> known_nodes = new HashSet<MappedNode>(getAllNodes());
+	    for (MappedNode node : used_nodes)
+	        if (!known_nodes.contains(node))
+	            throw new RuntimeException("MappedCircuit sanitycheck error: MappedNode referenced but not in circuit's known nodes: "+node.getName());
+	}
+	
+	public void removeUnusedGates() {
+	    HashSet<MappedNode> used_nodes = listUsedNodes();
+	    ArrayList<MappedGate> gates = new ArrayList<MappedGate>();
+	    for (MappedGate gate : getGates())
+	        if (used_nodes.contains(gate))
+    	        gates.add(gate);
+    	this.gates = gates;
+    	//TODO: free unused MappedGates
+	}
+	
+	private HashSet<MappedNode> listUsedNodes() {
+	    HashSet<MappedNode> used_nodes = new HashSet<MappedNode>();
+	    for (MappedNode output : getPrimaryOutputs())
+	        listUsedNodes_rec(output, used_nodes);
+	    return used_nodes;
+	}
+	
+	private void listUsedNodes_rec(MappedNode node, HashSet<MappedNode> used_nodes) {
+	    if (used_nodes.contains(node))
+	        return;
+	    used_nodes.add(node);
+	    for (MappedNode source : node.getSources())
+	        listUsedNodes_rec(source, used_nodes);
 	}
 }
