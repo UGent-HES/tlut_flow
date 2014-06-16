@@ -269,6 +269,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 				        function = nfunction;
 				        nfunction = function.replaceInput(mapping.get(new PolarisedNode<Node>(input, false)), 
 				            mapping.get(new PolarisedNode<Node>(input, true)));
+				        function.free();
+				        function = nfunction;
 				    }
 				}
 				
