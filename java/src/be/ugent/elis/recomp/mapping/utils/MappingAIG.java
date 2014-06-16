@@ -240,6 +240,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 		BDDidMapping<MappedNode> nBddIdMapping = new BDDidMapping<MappedNode>(); 
 
 		mapping.put(new PolarisedNode<Node>(getConst0(), false), circuit.getConst0());
+		mapping.put(new PolarisedNode<Node>(getConst0(), true), circuit.getConst1());
 		for(Node in : getInputs()) {
 			MappedInput mappedN = circuit.addInput(in.getName(), in.isParameter());
 			mapping.put(new PolarisedNode<Node>(in, false), mappedN);

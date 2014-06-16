@@ -101,6 +101,7 @@ public class MappedCircuit {
 	private String name;
 
 	private MappedConst const0;
+	private MappedConst const1;
 	private ArrayList<MappedInput> inputs;
 	private ArrayList<MappedILatch> ilatches;
 	private ArrayList<MappedOLatch> olatches;
@@ -110,6 +111,7 @@ public class MappedCircuit {
 	public MappedCircuit(String name) {
 		this.name = name;
 		this.const0 = new MappedConst(this, "const0", "0");
+		this.const1 = new MappedConst(this, "const1", "1");
 		this.inputs = new ArrayList<MappedInput>();
 		this.ilatches = new ArrayList<MappedILatch>();
 		this.olatches = new ArrayList<MappedOLatch>();
@@ -123,6 +125,10 @@ public class MappedCircuit {
 
 	public MappedConst getConst0() {
 		return const0;
+	}
+
+	public MappedConst getConst1() {
+		return const1;
 	}
 
 	public ArrayList<MappedInput> getInputs() {
@@ -167,6 +173,7 @@ public class MappedCircuit {
 		all.addAll(getInputs());
 		all.addAll(getGates());
 		all.add(getConst0());
+		all.add(getConst1());
 		return all;
 	}
 
@@ -258,8 +265,9 @@ public class MappedCircuit {
 		stream.println();
 		stream.println();
 
-		// Const0
+		// Const
 		stream.print(getConst0().getBlifString());
+		stream.print(getConst1().getBlifString());
 
 		// Latches
 		for (MappedOLatch latch : getOLatches()) {
@@ -384,6 +392,7 @@ public class MappedCircuit {
 
 		// Copy inputs, latches, outputs
 		mapping.put(getConst0(), circuit.getConst0());
+		mapping.put(getConst1(), circuit.getConst1());
 		for (MappedInput in : getInputs()) {
 			// Only copy regularInputs
 			if (in.isParameter()) {
