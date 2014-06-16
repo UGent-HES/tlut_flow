@@ -5,9 +5,12 @@ use ieee.std_logic_unsigned.all;
 
 entity const is
     port(
+--PARAM
     p : in  std_logic_vector(31 downto 0);
+--PARAM
     b : in  std_logic_vector(31 downto 0);
-    x : out std_logic_vector(31 downto 0)
+    x : out std_logic_vector(31 downto 0);
+    dummy_out : out std_logic
 );
 end const;
 
@@ -26,6 +29,7 @@ begin
     for i in 23 downto 0 loop
         x(i) <= b(i) xor p(i);
     end loop;
+    dummy_out <= b(0) xor b(1);
 end process;
 
 end behavior;
