@@ -355,13 +355,13 @@ public class MappedCircuit {
 
 		// LUTs
 		for (MappedGate gate : getGates()) {
-			stream.println(gate.getVhdlHeaderString());
+			stream.print(gate.getVhdlHeaderString(vhdlGenerator));
 			stream.println();
 		}
 
 		// Latches
 		for (MappedOLatch latch : getOLatches()) {
-			stream.println(latch.getVhdlHeaderString());
+			stream.println(latch.getVhdlHeaderString(vhdlGenerator));
 			stream.println();
 		}
 	}

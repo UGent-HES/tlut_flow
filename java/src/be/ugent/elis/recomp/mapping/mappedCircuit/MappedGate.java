@@ -143,15 +143,9 @@ public class MappedGate extends MappedNode {
 				+ "_" + getVhdlSignalIdentifier();
 	}
 
-	public String getVhdlHeaderString() {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("signal " + getVhdlSignalIdentifier()
-				+ " : STD_ULOGIC ;\n");
-		builder.append("attribute S of " + getVhdlSignalIdentifier()
-				+ " : signal is \"YES\";");
-
-		return builder.toString();
+	public String getVhdlHeaderString(VhdlGenerator vhdlGenerator) {
+		return vhdlGenerator.getSignalDeclarationString(getVhdlSignalIdentifier())
+				+vhdlGenerator.getSignalAttributeString(getVhdlSignalIdentifier(), "S", "\"YES\"");
 	}
 	
 	public String getVhdlString(VhdlGenerator vhdlGenerator) {

@@ -100,15 +100,9 @@ public class MappedOLatch extends MappedPrimaryInput {
 		return vhdlGenerator.getFDString(getVhdlIdentifier(), getVhdlSignalIdentifier(), getILatch().getSource().getVhdlSignalIdentifier());
 	}
 
-	public String getVhdlHeaderString() {
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("signal " + getVhdlSignalIdentifier()
-				+ " : STD_ULOGIC ;\n");
-		builder.append("attribute S of " + getVhdlSignalIdentifier()
-				+ " : signal is \"YES\";");
-
-		return builder.toString();
+	public String getVhdlHeaderString(VhdlGenerator vhdlGenerator) {
+		return vhdlGenerator.getSignalDeclarationString(getVhdlSignalIdentifier())
+				+vhdlGenerator.getSignalAttributeString(getVhdlSignalIdentifier(), "S", "\"YES\"");
 	}
 	
 }

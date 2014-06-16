@@ -103,33 +103,35 @@ public abstract class VhdlGenerator {
 					+ ": component is \"ALL\";");
 		}
 	}
-	
-	public String getLUTString(String name, String output, String init, ArrayList<String> inputs) {
-		if(inputs.size()>K)
-			throw new RuntimeException("LUT has too many inputs for this architecture");
-		if(inputs.size()==0)
-			throw new RuntimeException("LUT must have at least one input");
-		
-		String lutInstance = "";
-    	lutInstance += name+": LUT"+inputs.size() + 
-    				    "\ngeneric map (\n\tINIT =>"+init+")\n"
-    				    +"port map (\n\tO => "+output;
 
-    	int i=0;
+	public String getLUTString(String name, String output, String init,
+			ArrayList<String> inputs) {
+		if (inputs.size() > K)
+			throw new RuntimeException(
+					"LUT has too many inputs for this architecture");
+		if (inputs.size() == 0)
+			throw new RuntimeException("LUT must have at least one input");
+
+		String lutInstance = "";
+		lutInstance += name + ": LUT" + inputs.size()
+				+ "\ngeneric map (\n\tINIT =>" + init + ")\n"
+				+ "port map (\n\tO => " + output;
+
+		int i = 0;
 		for (String input : inputs) {
 			lutInstance += ",\n\tI" + Integer.toString(i++) + " => " + input;
 		}
-		
+
 		lutInstance += ");\n\n";
 		return lutInstance;
 	}
-	
-	public String getSafeLUTString(String name, String output, String init, ArrayList<String> inputs) {
+
+	public String getSafeLUTString(String name, String output, String init,
+			ArrayList<String> inputs) {
 		return getLUTString(name, output, init, inputs);
 	}
 
-	public String getFDString(String name,
-			String input, String output) {
+	public String getFDString(String name, String input, String output) {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(name + ": FD\n");
@@ -142,10 +144,17 @@ public abstract class VhdlGenerator {
 
 	}
 
-	public String getAssignmentString(String output,
-			String input) {
-		return output + " <= "
-				+ input + ";\n";
+	public String getAssignmentString(String output, String input) {
+		return output + " <= " + input + ";\n";
 	}
-	
+
+	public String getSignalDeclarationString(String signal) {
+		return "signal " + signal + " : STD_ULOGIC ;\n";
+	}
+
+	public String getSignalAttributeString(String signal, String attribute,
+			String value) {
+		return "attribute " + attribute + " of " + signal + " : signal is "
+				+ value + ";\n";
+	}
 }
