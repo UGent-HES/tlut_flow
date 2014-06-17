@@ -261,6 +261,7 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		return input.indexOf(e);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void replace(N node) {
 		for (E out: node.fanOut()) {
 			out.setTail( (N) this);

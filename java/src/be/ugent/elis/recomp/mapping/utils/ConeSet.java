@@ -147,16 +147,6 @@ public class ConeSet implements Iterable<Cone> {
 		return this.cones.contains(cone);
 	}
 
-	public Cone getCone(String root, String rleaves, String pleaves) {
-		for (Cone c:this.cones) {
-			if (c.equals(root, rleaves, pleaves)) {
-				return c;
-			}
-		}
-		
-		return null;
-	}
-
 	public void reduceMemoryUsage() {
 		for (Cone c:this.cones) {
 			c.reduceMemoryUsage();

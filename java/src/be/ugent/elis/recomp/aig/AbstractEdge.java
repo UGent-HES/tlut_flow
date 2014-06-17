@@ -116,9 +116,9 @@ public abstract class AbstractEdge< N extends AbstractNode<N,E>, E extends Abstr
 		return inverted;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public int getInputIndex() {
 		return head.inputIndex((E) this);
 	}
-
 	
 }

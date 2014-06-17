@@ -73,7 +73,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.ArrayList;
 
-import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
@@ -86,7 +85,6 @@ import be.ugent.elis.recomp.util.GlobalConstants;
 import be.ugent.elis.recomp.util.logging.ConeConsideredStats;
 import be.ugent.elis.recomp.util.logging.ConeFeasibilityStats;
 import be.ugent.elis.recomp.util.logging.ConeNotConsideredToMerge;
-import be.ugent.elis.recomp.util.logging.ConeNotConsidered_BDDSize;
 import be.ugent.elis.recomp.util.logging.ConeNumToConsiderReached;
 import be.ugent.elis.recomp.util.logging.ConeNumToSaveReached;
 import be.ugent.elis.recomp.util.logging.Logger;
@@ -107,7 +105,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	protected int nmbrFeasibleCones;
 	protected int nmbrDominatedCones;
 	protected int nmbrCones;
-	protected BDDidMapping bddIdMapping;
+	protected BDDidMapping<Node> bddIdMapping;
 
 	public ConeEnumeration(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag) {
 		nmbrConsideredCones = 0;

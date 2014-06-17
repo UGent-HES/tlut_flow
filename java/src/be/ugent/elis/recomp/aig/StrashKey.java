@@ -91,7 +91,7 @@ public class StrashKey < N extends AbstractNode<N,E>, E extends AbstractEdge<N,E
 		if (!(obj instanceof StrashKey<?,?>))
 		      return false;
 		
-		StrashKey<N,E> other = (StrashKey<N,E>) obj;
+		StrashKey<?,?> other = (StrashKey<?,?>) obj;
 		
 		return ((this.node0 == other.node0) && 
 				(this.inv0 == other.inv0) && 

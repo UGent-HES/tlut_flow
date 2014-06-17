@@ -135,18 +135,18 @@ public class Cone implements Comparable<Cone> {
 	public static Cone createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
 		Cone result = new Cone(aig.getNode(root), null);
 		
-		Scanner scan;
-		
-		scan = new Scanner(rleaves);
+		Scanner scan = new Scanner(rleaves);
 		while (scan.hasNext()) {
 			result.addRegularLeave(aig.getNode(scan.next()));
 		}
+		scan.close();
 
 		scan = new Scanner(pLeaves);
 		while (scan.hasNext()) {
 			result.addParameterLeave(aig.getNode(scan.next()));
 		}
 		
+		scan.close();
 		return result;
 	}
 	
@@ -169,7 +169,7 @@ public class Cone implements Comparable<Cone> {
 
 		Cone result = new Cone(root, cone0.bddIdMapping, cone0, cone1);
 		
-		result.signature = cone0.signature | cone1.signature;
+		result.setSignature(cone0.signature | cone1.signature);
 		
 		result.addLeaves(cone0);
 		result.addLeaves(cone1);
@@ -469,6 +469,7 @@ public class Cone implements Comparable<Cone> {
 		return hasParameterLeaves;
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean hasParameterLeavesRec(Node node) {
 		if(node.isParameter()) return true;
 		if(hasRegularLeaf(node)) return false;
@@ -493,6 +494,7 @@ public class Cone implements Comparable<Cone> {
 		return size() <= K;
 	}
 	
+	@SuppressWarnings("unused")
 	private static int countNonZero(int[] array) {
 		int count = 0;
 		for(int e : array)
@@ -620,7 +622,7 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public boolean dominates(Cone cone) {
-		long test = this.signature & (~ cone.signature);
+		long test = this.getSignature() & (~ cone.getSignature());
 		if (test==0)
 			return cone.regularLeaves.containsAll(this.regularLeaves);
 		else
@@ -708,43 +710,6 @@ public class Cone implements Comparable<Cone> {
 		return false;
 	}
 
-	public boolean equals(String root, String rleaves, String pleaves) {
-		
-		Scanner scan;
-		
-		Set<String> regularLeaveNames = new HashSet<String>();
-		for (Node n:this.regularLeaves) {
-			regularLeaveNames.add(n.getName());
-		}
-		
-		Set<String> rLeaveNames = new HashSet<String>();		
-		scan = new Scanner(rleaves);
-		while (scan.hasNext()) {
-			rLeaveNames.add(scan.next());
-		}
-		
-//		Set<String> parameterLeaveNames = new HashSet<String>();
-//		for (Node n:this.parameterLeaves) {
-//			parameterLeaveNames.add(n.getName());
-//		}
-		
-		Set<String> pLeaveNames = new HashSet<String>();		
-		scan = new Scanner(pleaves);
-		while (scan.hasNext()) {
-			pLeaveNames.add(scan.next());
-		}
-		
-//		if (this.root.getName().equals(root)) {
-//			if (regularLeaveNames.equals(rLeaveNames) && parameterLeaveNames.equals(pLeaveNames)) {
-//				return true;
-//			}
-//		} 
-
-		return false;
-		
-	}
-
-	
 
 	@Override
 	public int hashCode() {

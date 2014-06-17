@@ -83,6 +83,7 @@ public class ParameterReader {
 		while (scanner.hasNext()) {
 			parameter.add(scanner.next());
 		}
+		scanner.close();
 		return parameter;
 	}
 

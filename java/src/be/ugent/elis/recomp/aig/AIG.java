@@ -71,7 +71,6 @@ package be.ugent.elis.recomp.aig;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -313,11 +312,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
                     word = scan.next();
             }
         } catch (NoSuchElementException e) {}
-		try {
-			stream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		scan.close();
 		
 		
 		//Second pass: setting the edges
@@ -387,6 +382,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			edge0.getTail().addOutput(edge0);
 			edge1.getTail().addOutput(edge1);
 		}
+		scan.close();
 		
 		sanityCheck();
 	}
@@ -1172,8 +1168,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			findOutput.put(out.getName(), out);
 		}
 		
-		Set<N> allInputs = (Set<N>)inputSet.clone();
-		for (N in : allInputs) {
+		for (N in : new ArrayList<N>(inputSet)) {
 			if (findOutput.containsKey(in.getName())) {
 				N out = findOutput.get(in.getName());
 				E outEdge = out.getI0();

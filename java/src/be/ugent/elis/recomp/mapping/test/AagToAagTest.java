@@ -74,8 +74,6 @@ import java.io.PrintStream;
 
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
-import be.ugent.elis.recomp.mapping.utils.Node;
-import be.ugent.elis.recomp.mapping.utils.SimpleCone;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
 

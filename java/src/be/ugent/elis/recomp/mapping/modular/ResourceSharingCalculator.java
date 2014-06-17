@@ -144,11 +144,10 @@ public class ResourceSharingCalculator {
 			this.activationsets = activationsets;
 			this.totalNumLUTResources = total_size;
 		}
-
+		@SuppressWarnings("unused")
 		public Collection<ActivationSet> getActivationsets() {
 			return activationsets;
 		}
-
 		public int getTotalNumLUTResources() {
 			return totalNumLUTResources;
 		}

@@ -42,6 +42,7 @@ public class ConeSelectedStats extends AbstractMessage {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	static void finalLog() {
 		if(numBDDs>0 && GlobalConstants.binizeStatsFlag) {
 			for(int j = 0; j<bins.length; j++)
