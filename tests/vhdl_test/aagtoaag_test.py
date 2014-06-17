@@ -13,7 +13,6 @@ class AagToAagTest(unittest.TestCase):
     def test_test1(self):
         self.build('test1/test1.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
         
-    @unittest.skip('AagToAagTest currently can\'t handle latches') 
     def test_test2(self):
         self.build('test2/test2.vhd', [], K=6, virtexFamily='virtex5', containsLatches=True, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
     
@@ -32,7 +31,6 @@ class AagToAagTest(unittest.TestCase):
     def test_matrix2(self):
         self.build('matrix2/matrix2.vhd', ['matrix2/matrix_type_pkg.vhd'], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
 
-    @unittest.skip('AagToAagTest currently can\'t handle latches') 
     def test_sbox(self):
         self.build('sbox/sbox.vhd', ['sbox/aes_pkg.vhd'], K=6, virtexFamily='virtex5', containsLatches=True, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
         
@@ -42,11 +40,9 @@ class AagToAagTest(unittest.TestCase):
     def test_rom(self):
         self.build('rom/rom.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
         
-    @unittest.skip('AagToAagTest currently can\'t handle latches') 
     def test_fir_noparam(self):
         self.build('FIRTree32Tap8Bit/firTree32tap.vhd', ['FIRTree32Tap8Bit/mult8bit.vhd', 'FIRTree32Tap8Bit/treeMult4b.vhd'], K=4, virtexFamily='virtex2pro', containsLatches=True, resynthesizeFlag=False, targetDepth=None, verboseFlag=False, parameterFileName='empty.par')
     
-    @unittest.skip('AagToAagTest currently can\'t handle latches') 
     def test_fir(self):
         self.build('FIRTree32Tap8Bit/firTree32tap.vhd', ['FIRTree32Tap8Bit/mult8bit.vhd', 'FIRTree32Tap8Bit/treeMult4b.vhd'], K=6, virtexFamily='virtex5', containsLatches=True, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
 

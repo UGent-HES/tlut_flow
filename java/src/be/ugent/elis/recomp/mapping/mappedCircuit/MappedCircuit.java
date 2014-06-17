@@ -478,26 +478,29 @@ public class MappedCircuit {
 	public MappingAIG constructAIG() {
 		MappingAIG aig = new MappingAIG();
 
+		// Map (the output of) each mappednode to an AIG node
 		HashMap<MappedNode, PolarisedNode<Node>> mapping = new HashMap<MappedNode, PolarisedNode<Node>>();
 
-		// Copy inputs, latches, outputs
+		// Copy consts, inputs, latches
 		mapping.put(getConst0(),
 				new PolarisedNode<Node>(aig.getConst0(), false));
 		mapping.put(getConst1(),
 				new PolarisedNode<Node>(aig.getConst0(), true));
 		for (MappedInput input : getInputs()) {
-			Node mappedN = aig.addNode(input.getName(), NodeType.INPUT);
-			mappedN.setParameter(input.isParameter());
-			mapping.put(input, new PolarisedNode<Node>(mappedN, false));
+			Node input_cp = aig.addNode(input.getName(), NodeType.INPUT);
+			input_cp.setParameter(input.isParameter());
+			mapping.put(input, new PolarisedNode<Node>(input_cp, false));
 		}
-		if (!getOLatches().isEmpty()) {
-			throw new RuntimeException(
-					"constructAIG does not allow latches yet");
+		for (MappedOLatch olatch : getOLatches()) {
+			Node olatch_cp = aig.addNode(olatch.getName(), NodeType.OLATCH);
+			mapping.put(olatch, new PolarisedNode<Node>(olatch_cp, false));
 		}
 
+		// Convert the function of every gate into a piece of the aig
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
-
-			// Map every bdd node to an aig node (the mapping is local to the
+			BooleanFunction<MappedNode> functionToTranslate = gate.getFunction();
+			
+			// Map each bdd node to an aig node (this mapping is local to the
 			// specific gate)
 			Map<BDD, PolarisedNode<Node>> bddMap = new HashMap<BDD, PolarisedNode<Node>>();
 
@@ -506,28 +509,50 @@ public class MappedCircuit {
 			bddMap.put(BDDFactorySingleton.get().one(),
 					new PolarisedNode<Node>(aig.getConst0(), true));
 
-			// Put inputs in mapping
-			for (MappedNode n : gate.getFunction().getInputVariables()) {
-				PolarisedNode<Node> mn = mapping.get(n);
+			// Put gate inputs in mapping
+			for (MappedNode n : functionToTranslate.getInputVariables()) {
+				PolarisedNode<Node> source_cp = mapping.get(n);
 				BDD bddn = BDDFactorySingleton.get().ithVar(
-						gate.getFunction().getBDDidMapping().getId(n));
-				bddMap.put(bddn, mn);
+						functionToTranslate.getBDDidMapping().getId(n));
+				bddMap.put(bddn, source_cp);
 			}
 
-			PolarisedNode<Node> mappedPN = bddToAig_rec(gate.getFunction()
-					.getBDD().id(), bddMap, aig, gate.getFunction()
+			PolarisedNode<Node> gate_cp = bddToAig_rec(functionToTranslate
+					.getBDD().id(), bddMap, aig, functionToTranslate
 					.getBDDidMapping());
 
-			mapping.put(gate, mappedPN);
+			mapping.put(gate, gate_cp);
 		}
 
+		// Copy outputs
 		for (MappedOutput out : getOutputs()) {
-			Node mappedN = aig.addNode(out.getName(), NodeType.OUTPUT);
-			PolarisedNode<Node> pNode = mapping.get(out.getSource());
-			Edge e = aig.addEdge(pNode.getNode(), mappedN, pNode.isInverted());
-			mappedN.setI0(e);
-			pNode.getNode().addOutput(e);
+			Node output_cp = aig.addNode(out.getName(), NodeType.OUTPUT);
+			PolarisedNode<Node> inode_cp = mapping.get(out.getSource());
+			
+			Edge e = aig.addEdge(inode_cp.getNode(), output_cp, inode_cp.isInverted());
+			output_cp.setI0(e);
+			inode_cp.getNode().addOutput(e);
 		}
+		// Copy latches
+		for (MappedOLatch olatch : getOLatches()) {
+			MappedILatch ilatch = olatch.getILatch();
+
+			PolarisedNode<Node> olatch_cp = mapping.get(olatch);
+			Node latch_cp = aig.addNode(olatch.getName(), NodeType.LATCH);
+			Node ilatch_cp = aig.addNode(ilatch.getName(), NodeType.ILATCH);
+			PolarisedNode<Node> inode_cp = mapping.get(ilatch.getSource());
+
+			Edge olatch_e_cp = aig.addEdge(latch_cp, olatch_cp.getNode(), false);
+			latch_cp.addOutput(olatch_e_cp);
+			olatch_cp.getNode().setI0(olatch_e_cp);
+			Edge latch_e_cp = aig.addEdge(ilatch_cp, latch_cp, false);
+			ilatch_cp.addOutput(latch_e_cp);
+			latch_cp.setI0(latch_e_cp);
+			Edge ilatch_e_cp = aig.addEdge(inode_cp.getNode(), ilatch_cp, inode_cp.isInverted());
+			inode_cp.getNode().addOutput(ilatch_e_cp);
+			ilatch_cp.setI0(ilatch_e_cp);
+		}
+		
 		aig.initBDDidMapping();
 		aig.sanityCheck();
 		aig.strashCheck();
@@ -535,7 +560,8 @@ public class MappedCircuit {
 	}
 
 	private PolarisedNode<Node> bddToAig_rec(BDD bdd,
-			Map<BDD, PolarisedNode<Node>> bddMap, AIG<Node, Edge> aig,
+			Map<BDD, PolarisedNode<Node>> bddMap, 
+			AIG<Node, Edge> aig,
 			BDDidMapping<MappedNode> bddIdMapping) {
 		PolarisedNode<Node> ret;
 		if (bddMap.containsKey(bdd)) {
