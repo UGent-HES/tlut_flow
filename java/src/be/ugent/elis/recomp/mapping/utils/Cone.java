@@ -101,7 +101,7 @@ public class Cone implements Comparable<Cone> {
 	private int area;
 	private boolean hasParameterLeaves;
 
-	private RegularLeafSubBDDs regularLeafSubBDDIterator;
+	private UniqueRegularLeafSubBDDIterator regularLeafSubBDDIterator;
 
 	private BDD feasibilityFunction;
 	
@@ -534,7 +534,7 @@ public class Cone implements Comparable<Cone> {
 	public void initFeasibilityCalculation(boolean bddsUsed) {
 		if(bddsUsed) {
 			feasibilityFunction = getParamRestrictedLocalFunction();
-			regularLeafSubBDDIterator = new RegularLeafSubBDDs(feasibilityFunction, this.bddIdMapping);
+			regularLeafSubBDDIterator = new UniqueRegularLeafSubBDDIterator(feasibilityFunction, this.bddIdMapping);
 		}
 		
 	}

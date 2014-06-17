@@ -66,7 +66,7 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.modular;
+package be.ugent.elis.recomp.mapping.utils;
 
 import net.sf.javabdd.BDD;
 

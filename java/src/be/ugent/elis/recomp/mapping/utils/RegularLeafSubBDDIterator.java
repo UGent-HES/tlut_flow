@@ -64,20 +64,24 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
-package be.ugent.elis.recomp.mapping.modular;
+package be.ugent.elis.recomp.mapping.utils;
 
 
 import java.util.Iterator;
 import java.util.Stack;
 
-import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
-import be.ugent.elis.recomp.mapping.utils.Node;
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
 
-public class RegularLeafSubBDDs implements Iterator<BDDPair> {
+/**
+ * Descends the BDD graph until it reaches a variable that is not a parameter.
+ * If variable ordering in the BDD is correctly enforced, this node is the root of a subBDD 
+ * that does only contain regular (non-parameter) variables.
+ * Iterate over all such subBDDs. Return the subBDD and the combination of parameter values
+ * that produced it.
+ */
+public class RegularLeafSubBDDIterator implements Iterator<BDDPair> {
 	
 	private BDDidMapping<Node> bddIdMapping;
 	private BDDFactory factory;
@@ -90,7 +94,7 @@ public class RegularLeafSubBDDs implements Iterator<BDDPair> {
 	 */
     private BDDPair next;
 
-	public RegularLeafSubBDDs(BDD bdd, BDDidMapping bddIdMapping) {
+	public RegularLeafSubBDDIterator(BDD bdd, BDDidMapping<Node> bddIdMapping) {
 		this.bddIdMapping = bddIdMapping;
 		this.factory = bdd.getFactory();
 		this.subBDDsToAnalyse = new Stack<BDDPair>();
@@ -132,6 +136,7 @@ public class RegularLeafSubBDDs implements Iterator<BDDPair> {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean bddContainsParameterLeaves(BDD bdd) {
 		if(bdd.isZero() || bdd.isOne())
 			return false;
@@ -144,8 +149,9 @@ public class RegularLeafSubBDDs implements Iterator<BDDPair> {
 	@Override
 	public BDDPair next() {
 //		if(bddContainsParameterLeaves(next))
-//			throw new RuntimeException("RegularLeafSubBDD contains parameter leaves");
-        return next;
+		// throw new
+		// RuntimeException("RegularLeafSubBDD contains parameter leaves");
+		return next;
 	}
 
 	@Override

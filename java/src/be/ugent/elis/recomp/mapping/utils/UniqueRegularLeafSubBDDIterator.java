@@ -64,7 +64,6 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
 package be.ugent.elis.recomp.mapping.utils;
 
@@ -76,7 +75,13 @@ import java.util.Stack;
 
 import net.sf.javabdd.BDD;
 
-public class RegularLeafSubBDDs implements Iterator<BDD> {
+/**
+ * Descends the BDD graph until it reaches a variable that is not a parameter.
+ * If variable ordering in the BDD is correctly enforced, this node is the root of a subBDD 
+ * that does only contain regular (non-parameter) variables.
+ * Iterate over all such subBDDs. Each unique subBDD is returned only once.
+ */
+public class UniqueRegularLeafSubBDDIterator implements Iterator<BDD> {
 	
 	private BDDidMapping<Node> bddIdMapping;
 	/**
@@ -100,7 +105,7 @@ public class RegularLeafSubBDDs implements Iterator<BDD> {
 	 */
     private BDD next;
 
-	public RegularLeafSubBDDs(BDD bdd, BDDidMapping bddIdMapping) {
+	public UniqueRegularLeafSubBDDIterator(BDD bdd, BDDidMapping<Node> bddIdMapping) {
 		this.bddIdMapping = bddIdMapping;
         this.visitedBDDs = new HashSet<BDD>();
 		this.subBDDsToAnalyse = new Stack<BDD>();
@@ -163,6 +168,7 @@ public class RegularLeafSubBDDs implements Iterator<BDD> {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean bddContainsParameterLeaves(BDD bdd) {
 		if(bdd.isZero() || bdd.isOne())
 			return false;

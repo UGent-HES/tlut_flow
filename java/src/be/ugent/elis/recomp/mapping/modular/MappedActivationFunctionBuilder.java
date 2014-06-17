@@ -69,8 +69,10 @@ package be.ugent.elis.recomp.mapping.modular;
 
 
 import net.sf.javabdd.BDD;
+import be.ugent.elis.recomp.mapping.utils.BDDPair;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.mapping.utils.RegularLeafSubBDDIterator;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
@@ -300,7 +302,7 @@ public class MappedActivationFunctionBuilder extends AbstractActivationFunctionB
 			local_function = node.getBestCone().getLocalFunction().and(node.getOutputActivationFunction());
 		else
 			local_function = node.getBestCone().getLocalFunction();
-		RegularLeafSubBDDs regularLeafSubBDDIterator = new RegularLeafSubBDDs(local_function, aig.getBDDidMapping());
+		RegularLeafSubBDDIterator regularLeafSubBDDIterator = new RegularLeafSubBDDIterator(local_function, aig.getBDDidMapping());
 		
 
 		BDD new_activation_function = BDDFactorySingleton.get().zero(); 
