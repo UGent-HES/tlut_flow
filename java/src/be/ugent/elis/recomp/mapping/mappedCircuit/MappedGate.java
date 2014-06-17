@@ -75,9 +75,9 @@ import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
 public class MappedGate extends MappedNode {
 
-	BooleanFunction<MappedNode> function;
-	ArrayList<MappedNode> sources;
-	String mapped_type;
+	private final BooleanFunction<MappedNode> function;
+	private final ArrayList<MappedNode> sources;
+	private final String mapped_type;
 
 	MappedGate(MappedCircuit circuit, String name, ArrayList<MappedNode> inputs,
 			BooleanFunction<MappedNode> function, String mapped_type) {

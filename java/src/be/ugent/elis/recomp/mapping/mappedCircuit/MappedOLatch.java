@@ -72,7 +72,7 @@ import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 
 public class MappedOLatch extends MappedPrimaryInput {
 
-	final private MappedILatch ilatch;
+	private final MappedILatch ilatch;
 	
 	MappedOLatch(MappedCircuit circuit, String name, MappedILatch ilatch) {
 		super(circuit, name);

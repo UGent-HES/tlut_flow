@@ -72,8 +72,8 @@ import java.util.ArrayList;
 
 
 public class MappedNode {
-	MappedCircuit circuit;
-	String name;
+	private final MappedCircuit circuit;
+	private final String name;
 
 	MappedNode(MappedCircuit circuit, String name) {
 		this.circuit = circuit;

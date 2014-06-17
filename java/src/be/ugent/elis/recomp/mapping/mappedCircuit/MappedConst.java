@@ -70,7 +70,7 @@ package be.ugent.elis.recomp.mapping.mappedCircuit;
 
 public class MappedConst extends MappedNode {
 
-	String value;
+	private final String value;
 
 	MappedConst(MappedCircuit circuit, String name, String value) {
 		super(circuit, name);

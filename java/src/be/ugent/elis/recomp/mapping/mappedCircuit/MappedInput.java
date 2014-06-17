@@ -71,7 +71,7 @@ package be.ugent.elis.recomp.mapping.mappedCircuit;
 
 public class MappedInput extends MappedPrimaryInput {
 	
-	private boolean parameter;
+	private final boolean parameter;
 
 	MappedInput(MappedCircuit circuit, String name, boolean parameter) {
 		super(circuit, name);
