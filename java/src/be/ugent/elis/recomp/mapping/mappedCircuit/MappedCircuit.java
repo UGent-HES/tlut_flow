@@ -197,16 +197,15 @@ public class MappedCircuit {
 		return new MappedLatchPair(in, on);
 	}
 
-	public MappedGate addGate(String name, ArrayList<MappedNode> inputs,
+	public MappedGate addGate(String name,
 			BooleanFunction<MappedNode> function, String mapped_type) {
-		MappedGate n = new MappedGate(this, name, inputs, function, mapped_type);
+		MappedGate n = new MappedGate(this, name, function, mapped_type);
 		gates.add(n);
 		return n;
 	}
 
 	public MappedParameterisedGate addParameterisedGate(String name,
-			ArrayList<MappedNode> inputs,
-			ArrayList<MappedNode> configurations,
+			ArrayList<MappedNode> inputs, ArrayList<MappedNode> configurations,
 			String mapped_type) {
 		MappedParameterisedGate n = new MappedParameterisedGate(this, name,
 				inputs, configurations, mapped_type);
@@ -215,10 +214,9 @@ public class MappedCircuit {
 	}
 
 	public MappedParameterisedConfigurationGate addParameterisedConfigurationGate(
-			String name, ArrayList<MappedNode> inputs,
-			BooleanFunction<MappedNode> function) {
+			String name, BooleanFunction<MappedNode> function) {
 		MappedParameterisedConfigurationGate n = new MappedParameterisedConfigurationGate(
-				this, name, inputs, function);
+				this, name, function);
 		gates.add(n);
 		return n;
 	}
@@ -341,7 +339,8 @@ public class MappedCircuit {
 		String[] headerArray;
 
 		// Insert unisim library declaration if necessary
-		headerArray = header.split("entity", java.util.regex.Pattern.CASE_INSENSITIVE);
+		headerArray = header.split("entity",
+				java.util.regex.Pattern.CASE_INSENSITIVE);
 		String libraryString = "-- synopsys translate_off\nlibrary UNISIM;\nuse unisim.Vcomponents.all;\n-- synopsys translate_on\n";
 		if (header.indexOf("library UNISIM;") == -1)
 			header = headerArray[0] + libraryString + "\nentity"
@@ -382,6 +381,11 @@ public class MappedCircuit {
 		stream.flush();
 	}
 
+	/**
+	 * Construct two mapped circuits from another mapped circuit.
+	 * One circuit representing the lutstructure of the input circuit
+	 * and one circuit representing the configuration of the parameterised primitives.
+	 */
 	public ParameterisedMappedCircuitPair constructParameterisedMappedCircuit() {
 		MappedCircuit circuit = new MappedCircuit(getName());
 		MappedCircuit configurationCircuit = new MappedCircuit(getName()
@@ -396,8 +400,8 @@ public class MappedCircuit {
 		for (MappedInput in : getInputs()) {
 			// Only copy regularInputs
 			if (in.isParameter()) {
-				MappedInput mappedN = configurationCircuit.addInput(in.getName(),
-						in.isParameter());
+				MappedInput mappedN = configurationCircuit.addInput(
+						in.getName(), in.isParameter());
 				// !!!
 				mapping.put(in, mappedN);
 			} else {
@@ -437,11 +441,12 @@ public class MappedCircuit {
 							+ assignment.getEntry();
 					BooleanFunction<MappedNode> configurationFunction = function
 							.partialEvaluate(assignment);
-					MappedNode configurationNode = configurationCircuit.addParameterisedConfigurationGate(configName,
-							configurationFunction.getInputVariables(),
+					MappedNode configurationNode = configurationCircuit
+							.addParameterisedConfigurationGate(configName,
 							configurationFunction);
 					configurations.add(circuit.addInput(configName, false));
-					configurationCircuit.addOutput(configName).setSource(configurationNode);
+					configurationCircuit.addOutput(configName).setSource(
+							configurationNode);
 				}
 
 				mappedN = circuit.addParameterisedGate(gate.getName(),
@@ -449,8 +454,7 @@ public class MappedCircuit {
 			} else {
 				BooleanFunction<MappedNode> function = gate.getFunction()
 						.translate(mapping);
-				mappedN = circuit.addGate(gate.getName(),
-						function.getInputVariables(), function,
+				mappedN = circuit.addGate(gate.getName(), function,
 						gate.getMappedType());
 			}
 			mapping.put(gate, mappedN);
@@ -466,8 +470,10 @@ public class MappedCircuit {
 			mappedO.setSource(mappedS);
 		}
 
-        Collections.sort(configurationCircuit.inputs, new AlphanumMappedNodeNameComparator());
-        Collections.sort(configurationCircuit.outputs, new AlphanumMappedNodeNameComparator());
+		Collections.sort(configurationCircuit.inputs,
+				new AlphanumMappedNodeNameComparator());
+		Collections.sort(configurationCircuit.outputs,
+				new AlphanumMappedNodeNameComparator());
 
         circuit.sanityCheck();
         configurationCircuit.sanityCheck();
@@ -484,8 +490,7 @@ public class MappedCircuit {
 		// Copy consts, inputs, latches
 		mapping.put(getConst0(),
 				new PolarisedNode<Node>(aig.getConst0(), false));
-		mapping.put(getConst1(),
-				new PolarisedNode<Node>(aig.getConst0(), true));
+		mapping.put(getConst1(), new PolarisedNode<Node>(aig.getConst0(), true));
 		for (MappedInput input : getInputs()) {
 			Node input_cp = aig.addNode(input.getName(), NodeType.INPUT);
 			input_cp.setParameter(input.isParameter());
@@ -498,7 +503,8 @@ public class MappedCircuit {
 
 		// Convert the function of every gate into a piece of the aig
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
-			BooleanFunction<MappedNode> functionToTranslate = gate.getFunction();
+			BooleanFunction<MappedNode> functionToTranslate = gate
+					.getFunction();
 			
 			// Map each bdd node to an aig node (this mapping is local to the
 			// specific gate)
@@ -518,8 +524,8 @@ public class MappedCircuit {
 			}
 
 			PolarisedNode<Node> gate_cp = bddToAig_rec(functionToTranslate
-					.getBDD().id(), bddMap, aig, functionToTranslate
-					.getBDDidMapping());
+					.getBDD().id(), bddMap, aig,
+					functionToTranslate.getBDDidMapping());
 
 			mapping.put(gate, gate_cp);
 		}
@@ -529,7 +535,8 @@ public class MappedCircuit {
 			Node output_cp = aig.addNode(out.getName(), NodeType.OUTPUT);
 			PolarisedNode<Node> inode_cp = mapping.get(out.getSource());
 			
-			Edge e = aig.addEdge(inode_cp.getNode(), output_cp, inode_cp.isInverted());
+			Edge e = aig.addEdge(inode_cp.getNode(), output_cp,
+					inode_cp.isInverted());
 			output_cp.setI0(e);
 			inode_cp.getNode().addOutput(e);
 		}
@@ -542,13 +549,15 @@ public class MappedCircuit {
 			Node ilatch_cp = aig.addNode(ilatch.getName(), NodeType.ILATCH);
 			PolarisedNode<Node> inode_cp = mapping.get(ilatch.getSource());
 
-			Edge olatch_e_cp = aig.addEdge(latch_cp, olatch_cp.getNode(), false);
+			Edge olatch_e_cp = aig
+					.addEdge(latch_cp, olatch_cp.getNode(), false);
 			latch_cp.addOutput(olatch_e_cp);
 			olatch_cp.getNode().setI0(olatch_e_cp);
 			Edge latch_e_cp = aig.addEdge(ilatch_cp, latch_cp, false);
 			ilatch_cp.addOutput(latch_e_cp);
 			latch_cp.setI0(latch_e_cp);
-			Edge ilatch_e_cp = aig.addEdge(inode_cp.getNode(), ilatch_cp, inode_cp.isInverted());
+			Edge ilatch_e_cp = aig.addEdge(inode_cp.getNode(), ilatch_cp,
+					inode_cp.isInverted());
 			inode_cp.getNode().addOutput(ilatch_e_cp);
 			ilatch_cp.setI0(ilatch_e_cp);
 		}
@@ -560,8 +569,7 @@ public class MappedCircuit {
 	}
 
 	private PolarisedNode<Node> bddToAig_rec(BDD bdd,
-			Map<BDD, PolarisedNode<Node>> bddMap, 
-			AIG<Node, Edge> aig,
+			Map<BDD, PolarisedNode<Node>> bddMap, AIG<Node, Edge> aig,
 			BDDidMapping<MappedNode> bddIdMapping) {
 		PolarisedNode<Node> ret;
 		if (bddMap.containsKey(bdd)) {
@@ -578,15 +586,18 @@ public class MappedCircuit {
 			if (highNode == null)
 				highNode = new PolarisedNode<Node>(aig.addNode(null, high,
 						varNode), false);
-			PolarisedNode<Node> lowNode = aig.findNode(low, varNode.toggleInverted(true));
+			PolarisedNode<Node> lowNode = aig.findNode(low,
+					varNode.toggleInverted(true));
 			if (lowNode == null)
 				lowNode = new PolarisedNode<Node>(aig.addNode(null, low,
 						varNode.toggleInverted(true)), false);
 
-			ret = aig.findNode(lowNode.toggleInverted(true), highNode.toggleInverted(true));
+			ret = aig.findNode(lowNode.toggleInverted(true),
+					highNode.toggleInverted(true));
 			if (ret == null)
 				ret = new PolarisedNode<Node>(aig.addNode(null, 
-				    lowNode.toggleInverted(true), highNode.toggleInverted(true)), false);
+						lowNode.toggleInverted(true),
+						highNode.toggleInverted(true)), false);
 			ret = ret.toggleInverted(true);
 		}
 		bdd.free();
@@ -601,7 +612,9 @@ public class MappedCircuit {
 	    all_except_outputs.addAll(getGates());
 	    for (MappedNode node : all_except_outputs) {
 	        if (names.contains(node.getName()))
-	            throw new RuntimeException("MappedCircuit sanitycheck error: name already in use: " + node.getName());
+				throw new RuntimeException(
+						"MappedCircuit sanitycheck error: name already in use: "
+								+ node.getName());
 	        names.add(node.getName());
 	    }
 
@@ -609,7 +622,9 @@ public class MappedCircuit {
       	HashSet<MappedNode> known_nodes = new HashSet<MappedNode>(getAllNodes());
 	    for (MappedNode node : used_nodes)
 	        if (!known_nodes.contains(node))
-	            throw new RuntimeException("MappedCircuit sanitycheck error: MappedNode referenced but not in circuit's known nodes: "+node.getName());
+				throw new RuntimeException(
+						"MappedCircuit sanitycheck error: MappedNode referenced but not in circuit's known nodes: "
+								+ node.getName());
 	}
 	
 	public void removeUnusedGates() {
@@ -629,7 +644,8 @@ public class MappedCircuit {
 	    return used_nodes;
 	}
 	
-	private void listUsedNodes_rec(MappedNode node, HashSet<MappedNode> used_nodes) {
+	private void listUsedNodes_rec(MappedNode node,
+			HashSet<MappedNode> used_nodes) {
 	    if (used_nodes.contains(node))
 	        return;
 	    used_nodes.add(node);

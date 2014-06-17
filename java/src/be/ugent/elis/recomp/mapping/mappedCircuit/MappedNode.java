@@ -115,5 +115,8 @@ public class MappedNode {
 	public String toString() {
 	    return name;
 	}
+	
+	public void free() {
+	}
 
 }

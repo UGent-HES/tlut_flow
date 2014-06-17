@@ -274,8 +274,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 				}
 				
 				//if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted) {
-                    MappedGate mappedN = circuit.addGate(and.getName(), 
-                        function.getInputVariables(), function, 
+                    MappedGate mappedN = circuit.addGate(and.getName(), function, 
                         and.getBestCone().getType().toString());
                     mapping.put(new PolarisedNode<Node>(and, false), mappedN);
                     nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(and));
@@ -284,8 +283,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted
 				        || checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
 				    BooleanFunction<MappedNode> invfunction = function.invert();
-                    mappedN = circuit.addGate(and.getName()+"_not", 
-                        invfunction.getInputVariables(), invfunction, 
+                    mappedN = circuit.addGate(and.getName()+"_not", invfunction, 
                         and.getBestCone().getType().toString());
                     mapping.put(new PolarisedNode<Node>(and, true), mappedN);
                     //nBddIdMapping.mapNodeToId(mappedN, bddIdMapping.getId(and));
@@ -304,7 +302,7 @@ public class MappingAIG extends AIG<Node, Edge> {
                 newBddIdMapping.mapNodeToId(mappedS_inv, 1);
                 BDD newBdd = BDDFactorySingleton.get().nithVar(1);
                 BooleanFunction<MappedNode> newBooleanFunction = new BooleanFunction<MappedNode>(newBddIdMapping, newBdd);
-                mappedS = circuit.addGate(mappedS_inv.getName()+"_not", newBooleanFunction.getInputVariables(), newBooleanFunction, "IOINV");
+                mappedS = circuit.addGate(mappedS_inv.getName()+"_not", newBooleanFunction, "IOINV");
                 mapping.put(new PolarisedNode<Node>(output.getI0().getTail(), output.getI0().isInverted()), mappedS);
 			}
 			mappedO.setSource(mappedS);

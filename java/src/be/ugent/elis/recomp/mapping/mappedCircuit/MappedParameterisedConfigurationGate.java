@@ -68,15 +68,13 @@ All rights reserved.
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
-import java.util.ArrayList;
-
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
 public class MappedParameterisedConfigurationGate extends MappedGate {
 
 	MappedParameterisedConfigurationGate(MappedCircuit circuit, String name,
-			ArrayList<MappedNode> inputs, BooleanFunction<MappedNode> function) {
-		super(circuit, name, inputs, function, "CONFIGURATION");
+			BooleanFunction<MappedNode> function) {
+		super(circuit, name, function, "CONFIGURATION");
 	}
 
 	public String getVhdlIdentifier() {

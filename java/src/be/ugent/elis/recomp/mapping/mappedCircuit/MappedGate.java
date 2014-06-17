@@ -79,10 +79,15 @@ public class MappedGate extends MappedNode {
 	private final ArrayList<MappedNode> sources;
 	private final String mapped_type;
 
-	MappedGate(MappedCircuit circuit, String name, ArrayList<MappedNode> inputs,
+	MappedGate(MappedCircuit circuit, String name,
+			BooleanFunction<MappedNode> function, String mapped_type) {
+		this(circuit, name, function.getInputVariables(), function, mapped_type);
+	}
+	
+	protected MappedGate(MappedCircuit circuit, String name, ArrayList<MappedNode> inputs,
 			BooleanFunction<MappedNode> function, String mapped_type) {
 		super(circuit, name);
-		this.sources = inputs;
+		this.sources = function.getInputVariables();
 		this.function = function;
 		this.mapped_type = mapped_type;
 	}
@@ -90,25 +95,29 @@ public class MappedGate extends MappedNode {
 	public String getMappedType() {
 		return mapped_type;
 	}
-	
+
 	public BooleanFunction<MappedNode> getFunction() {
 		return function;
 	}
-	
+
 	public ArrayList<MappedNode> getSources() {
 		return sources;
 	}
-	
-	public boolean hasParameterSources() {
-	    for (MappedNode source : getSources()) {
-	        if (source.isParameterInput())
-	            return true;
-	    }
-	    return false;
+
+	public void free() {
+		function.free();
 	}
-	
+
+	public boolean hasParameterSources() {
+		for (MappedNode source : getSources()) {
+			if (source.isParameterInput())
+				return true;
+		}
+		return false;
+	}
+
 	public boolean isTLUT() {
-		//TODO
+		// TODO
 		return getMappedType().equals("TLUT");
 	}
 
@@ -144,18 +153,21 @@ public class MappedGate extends MappedNode {
 	}
 
 	public String getVhdlHeaderString(VhdlGenerator vhdlGenerator) {
-		return vhdlGenerator.getSignalDeclarationString(getVhdlSignalIdentifier())
-				+vhdlGenerator.getSignalAttributeString(getVhdlSignalIdentifier(), "S", "\"YES\"");
+		return vhdlGenerator
+				.getSignalDeclarationString(getVhdlSignalIdentifier())
+				+ vhdlGenerator.getSignalAttributeString(
+						getVhdlSignalIdentifier(), "S", "\"YES\"");
 	}
-	
+
 	public String getVhdlString(VhdlGenerator vhdlGenerator) {
-	    if(hasParameterSources())
-	        throw new RuntimeException();
+		if (hasParameterSources())
+			throw new RuntimeException();
 		ArrayList<String> inputs = new ArrayList<String>();
 		for (MappedNode source : getSources()) {
 			inputs.add(source.getVhdlSignalIdentifier());
 		}
-		return vhdlGenerator.getLUTString(getVhdlIdentifier(), getVhdlSignalIdentifier(), getVhdlTruthTable(), inputs);
+		return vhdlGenerator.getLUTString(getVhdlIdentifier(),
+				getVhdlSignalIdentifier(), getVhdlTruthTable(), inputs);
 	}
-	
+
 }
