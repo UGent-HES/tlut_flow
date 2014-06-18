@@ -123,8 +123,6 @@ public class UniqueRegularLeafSubBDDIterator implements Iterator<BDD> {
 		for(BDD bdd : this.visitedBDDs)
 			bdd.free();
         this.visitedBDDs = null;
-		//for(BDD bdd : this.subBDDsToAnalyse)
-		//	bdd.free();
 		this.subBDDsToAnalyse = null;
         this.next = null;
         this.rerunQueue = null;

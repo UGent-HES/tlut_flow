@@ -71,6 +71,7 @@ package be.ugent.elis.recomp.mapping.utils;
 import java.util.Iterator;
 import java.util.Stack;
 
+import be.ugent.elis.recomp.util.IsParameterInterface;
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
 
@@ -83,7 +84,7 @@ import net.sf.javabdd.BDDFactory;
  */
 public class RegularLeafSubBDDIterator implements Iterator<BDDPair> {
 	
-	private BDDidMapping<Node> bddIdMapping;
+	private BDDidMapping<? extends IsParameterInterface> bddIdMapping;
 	private BDDFactory factory;
     /**
      * BDDs that are scheduled to be analysed
@@ -94,7 +95,7 @@ public class RegularLeafSubBDDIterator implements Iterator<BDDPair> {
 	 */
     private BDDPair next;
 
-	public RegularLeafSubBDDIterator(BDD bdd, BDDidMapping<Node> bddIdMapping) {
+	public RegularLeafSubBDDIterator(BDD bdd, BDDidMapping<? extends IsParameterInterface> bddIdMapping) {
 		this.bddIdMapping = bddIdMapping;
 		this.factory = bdd.getFactory();
 		this.subBDDsToAnalyse = new Stack<BDDPair>();
@@ -106,6 +107,10 @@ public class RegularLeafSubBDDIterator implements Iterator<BDDPair> {
 	}
 	
 	public void free() {
+		for(BDDPair pair : this.subBDDsToAnalyse) {
+			pair.first.free();
+			pair.second.free();
+		}
 		this.subBDDsToAnalyse = null;
         this.next = null;
 	}

@@ -70,8 +70,10 @@ package be.ugent.elis.recomp.mapping.mappedCircuit;
 
 import java.util.ArrayList;
 
+import be.ugent.elis.recomp.util.IsParameterInterface;
 
-public class MappedNode {
+
+public class MappedNode implements IsParameterInterface {
 	private final MappedCircuit circuit;
 	private final String name;
 
@@ -101,6 +103,10 @@ public class MappedNode {
 	}
 	
 	public boolean isParameterInput() {
+		return false;
+	}
+	
+	public boolean isParameter() {
 		return false;
 	}
 	
