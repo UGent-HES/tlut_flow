@@ -130,8 +130,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 			bddIdMapping.mapNodeToId(node, id_runner++);
 		
 		//Parameters should stay together and at the front during reordering
-		if(param_id_range >= 0)
-			BDDFactorySingleton.get().addVarBlock(0, param_id_range, false);
+		if(param_id_range >= 0) {
+			BDDFactorySingleton.splitVarRange(param_id_range);
+		}
 	}
 	
 	public BDDidMapping<Node> getBDDidMapping() {

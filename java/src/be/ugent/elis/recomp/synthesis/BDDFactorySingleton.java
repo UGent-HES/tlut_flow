@@ -76,6 +76,12 @@ public class BDDFactorySingleton {
 	static private BDDFactorySingleton singleton;
 	
     private BDDFactory B;
+    
+    // We will typically use two varblocks. These are two ranges of variables 
+    // of which variables of the first will always come before variables of the second
+    // in a bdd.
+    static private int secondRangeStart = 0;
+    static private boolean rangesDefined = false;
 
     public class NullHandler {
     	public void nullFunction() {}
@@ -114,4 +120,18 @@ public class BDDFactorySingleton {
 		return singleton.B;
 	}
 	
+	public static void splitVarRange(int firstRangeEnd) {
+		BDDFactorySingleton.get().addVarBlock(0, firstRangeEnd, false);
+		BDDFactorySingleton.secondRangeStart = firstRangeEnd + 1;
+		BDDFactorySingleton.rangesDefined = true;
+	}
+
+	public static int getSecondRangeStart() {
+		return secondRangeStart;
+	}
+
+	public static boolean isRangesDefined() {
+		return rangesDefined;
+	}
+
 }
