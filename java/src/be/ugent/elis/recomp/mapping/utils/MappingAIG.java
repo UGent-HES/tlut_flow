@@ -300,8 +300,9 @@ public class MappingAIG extends AIG<Node, Edge> {
 				if(mappedS_inv == null)
     				throw new RuntimeException("Construct MappedCircuit error: node not found: "+output.getI0().getTail().getName() + " " + !output.getI0().isInverted());
                 BDDidMapping<MappedNode> newBddIdMapping = new BDDidMapping<MappedNode>();
-                newBddIdMapping.mapNodeToId(mappedS_inv, 1);
-                BDD newBdd = BDDFactorySingleton.get().nithVar(1);
+                int id = newBddIdMapping.getNextUnusedId();
+                newBddIdMapping.mapNodeToId(mappedS_inv, id);
+                BDD newBdd = BDDFactorySingleton.get().nithVar(id);
                 BooleanFunction<MappedNode> newBooleanFunction = new BooleanFunction<MappedNode>(newBddIdMapping, newBdd);
                 mappedS = circuit.addGate(mappedS_inv.getName()+"_not", newBooleanFunction, "IOINV");
                 mapping.put(new PolarisedNode<Node>(output.getI0().getTail(), output.getI0().isInverted()), mappedS);
