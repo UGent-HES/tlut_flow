@@ -80,21 +80,26 @@ import java.util.HashSet;
 import java.util.Map;
 
 import net.sf.javabdd.BDD;
+import net.sf.javabdd.BDDFactory;
+import net.sf.javabdd.BDDPairing;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.Virtex2ProVhdlGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.Virtex5VhdlGenerator;
 import be.ugent.elis.recomp.mapping.utils.AlphanumMappedNodeNameComparator;
+import be.ugent.elis.recomp.mapping.utils.BDDPair;
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.mapping.utils.PolarisedNode;
+import be.ugent.elis.recomp.mapping.utils.RegularLeafSubBDDIterator;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 import be.ugent.elis.recomp.synthesis.TruthAssignment;
 import be.ugent.elis.recomp.synthesis.TruthAssignmentIterator;
+import be.ugent.elis.recomp.util.IsParameterInterface;
 
 public class MappedCircuit {
 
@@ -129,7 +134,7 @@ public class MappedCircuit {
 	public MappedConst getConst0() {
 		return const0;
 	}
-	
+
 	public MappedConst getConst1() {
 		return const1;
 	}
@@ -167,7 +172,7 @@ public class MappedCircuit {
 	public ArrayList<MappedGate> getGates() {
 		return gates;
 	}
-	
+
 	public ArrayList<MappedNode> getAllNodes() {
 		ArrayList<MappedNode> all = new ArrayList<MappedNode>();
 		all.addAll(getOutputs());
@@ -427,6 +432,8 @@ public class MappedCircuit {
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
 			MappedGate mappedN;
 			if (gate.hasParameterSources()) {
+				// TODO: treat TCON and TLUT differently, TLC should not exist
+				// anymore
 				BooleanFunction<MappedNode> function = gate.getFunction()
 						.translate(mapping);
 				ArrayList<MappedNode> sources = function.getInputVariables();
@@ -446,7 +453,7 @@ public class MappedCircuit {
 							.partialEvaluate(assignment);
 					MappedNode configurationNode = configurationCircuit
 							.addParameterisedConfigurationGate(configName,
-							configurationFunction);
+									configurationFunction);
 					configurations.add(circuit.addInput(configName, false));
 					configurationCircuit.addOutput(configName).setSource(
 							configurationNode);
@@ -478,12 +485,170 @@ public class MappedCircuit {
 		Collections.sort(configurationCircuit.outputs,
 				new AlphanumMappedNodeNameComparator());
 
-        circuit.sanityCheck();
-        configurationCircuit.sanityCheck();
-        
+		circuit.sanityCheck();
+		configurationCircuit.sanityCheck();
+
 		return new ParameterisedMappedCircuitPair(circuit, configurationCircuit);
 	}
 
+	/**
+	 * Construct a mapped circuit from another mapped circuit. The new circuit
+	 * will only have LUT, TLUT and TCON gates. TLC gates in the original
+	 * circuit will be transformed into TLUT and TCON gates. Inversion as part
+	 * of a TCON will be extracted from the TCON.
+	 */
+	public MappedCircuit constructPrimitiveMappedCircuit() {
+		MappedCircuit circuit = new MappedCircuit(getName(), K);
+
+		HashMap<MappedNode, MappedNode> mapping = new HashMap<MappedNode, MappedNode>();
+		HashMap<MappedPrimaryOutput, MappedPrimaryOutput> outputMapping = new HashMap<MappedPrimaryOutput, MappedPrimaryOutput>();
+
+		// Copy inputs, latches, outputs
+		mapping.put(getConst0(), circuit.getConst0());
+		mapping.put(getConst1(), circuit.getConst1());
+		for (MappedInput in : getInputs()) {
+			MappedInput mappedN = circuit.addInput(in.getName(),
+					in.isParameter());
+			mapping.put(in, mappedN);
+		}
+		for (MappedOutput out : getOutputs()) {
+			MappedOutput mappedN = circuit.addOutput(out.getName());
+			outputMapping.put(out, mappedN);
+		}
+		for (MappedOLatch olatch : getOLatches()) {
+			MappedLatchPair mappedNpair = circuit.addLatch(olatch.getName());
+			mapping.put(olatch, mappedNpair.getOLatch());
+			outputMapping.put(olatch.getILatch(), mappedNpair.getILatch());
+		}
+		
+		BDDFactory factory = BDDFactorySingleton.get();
+		
+		// Create K temporary dummy LUT inputs
+		ArrayList<MappedNode> dummyLutInputs = new ArrayList<MappedNode>();
+		for(int i=0; i<K; i++)
+			dummyLutInputs.add(circuit.addGate("dummy_lut_input"+i, new BooleanFunction<MappedNode>(new BDDidMapping<MappedNode>(), factory.one()), "DUMMY"));
+
+
+		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
+			MappedGate mappedN;
+			// Separate the K TCONs connected to the K inputs of the TLUT
+			if (gate.getMappedType().equals("TLC")) {
+				BooleanFunction<MappedNode> function = gate.getFunction()
+						.translate(mapping);
+				
+				BDDidMapping<MappedNode> bddIdMapping = function.getBDDidMapping();
+				// Add dummy LUT inputs to bdd id mapping
+				// They will be replaced once the real input MappedGates are created
+				for(int i=0; i<K; i++)
+					bddIdMapping.mapNodeToId(dummyLutInputs.get(i), 
+							bddIdMapping.getNextUnusedId());
+				
+				// Initialise the function of the TLUT and TCONs
+				BDD tlutFunction = factory.zero();
+				ArrayList<BDD> tlutInputFunctions = new ArrayList<BDD>();
+				for(int i=0; i<K; i++)
+					tlutInputFunctions.add(factory.zero());
+
+				// Warning: this is a bit dangerous. RegularLeafSubBDDIterator requires
+				// that all parameters have a lower id than non-parameters. This may not 
+				// be the case if the local function of a mappedgate has been constructed
+				// in some way. This is fine if the bddidmapping still corresponds
+				// to the one used in the MappingAIG.
+				verifyBDDParamVarMapping(function);
+				RegularLeafSubBDDIterator regularLeafSubBDDIterator = new RegularLeafSubBDDIterator(function.getBDD(), 
+						function.getBDDidMapping());
+				while(regularLeafSubBDDIterator.hasNext()) {
+					BDDPair pair = regularLeafSubBDDIterator.next();
+					BDD param_condition = pair.first;
+					BDD subBDD = pair.second;
+					BDD lut_support_it = subBDD.support();
+					BDDPairing var_replacement = factory.makePair();
+					
+					// TODO: improve mapping of input signals to physical TLUT inputs
+					// Iterate over the support of the subBDD
+					int i=0;
+					while(!lut_support_it.isOne()) {
+						if(i>K) throw new RuntimeException();
+						int var_id = lut_support_it.var();
+						BDD n_lut_support_it = lut_support_it.high();
+						lut_support_it.free();
+						lut_support_it = n_lut_support_it;
+						
+						tlutInputFunctions.get(i).orWith(param_condition.and(factory.ithVar(var_id)));
+						var_replacement.set(var_id, bddIdMapping.getId(dummyLutInputs.get(i)));
+
+						i++;
+					}
+					
+					BDD subBDDrepl = subBDD.replace(var_replacement);
+					tlutFunction.orWith(param_condition.and(subBDDrepl));
+					
+					subBDDrepl.free();
+					param_condition.free();
+					subBDD.free();
+				}
+				regularLeafSubBDDIterator.free();
+				
+				// Create the TCONs that connect to the inputs of the TLUT
+				for(int i=0; i<K; i++) {
+					MappedGate lutInput = circuit.addGate(gate.getName() + "_in"+i,
+							new BooleanFunction<MappedNode>(bddIdMapping, tlutInputFunctions.get(i)), "pureTCON");
+					
+					// Replace dummy LUT inputs now that the real inputs are finally created
+					bddIdMapping.mapNodeToId(lutInput, 
+							bddIdMapping.getId(dummyLutInputs.get(i)));
+				}
+				
+				// Create the TLUT
+				mappedN = circuit.addGate(gate.getName(),
+						new BooleanFunction<MappedNode>(bddIdMapping, tlutFunction), "TLUT");
+				// TODO: turn TCON into pure/primitive TCON: primitive TCON does never perform inversion on its inputs
+			} else {
+				BooleanFunction<MappedNode> function = gate.getFunction()
+						.translate(mapping);
+				mappedN = circuit.addGate(gate.getName(), function,
+						gate.getMappedType());
+			}
+			mapping.put(gate, mappedN);
+		}
+
+		// Connect primary outputs
+		for (MappedPrimaryOutput output : getPrimaryOutputs()) {
+			MappedPrimaryOutput mappedO = outputMapping.get(output);
+			MappedNode mappedS = mapping.get(output.getSource());
+			if (mappedO == null)
+				throw new RuntimeException();
+			if (mappedS == null)
+				throw new RuntimeException();
+			mappedO.setSource(mappedS);
+		}
+
+		circuit.removeUnusedGates();
+		circuit.sanityCheck();
+
+		return circuit;
+	}
+
+	private void verifyBDDParamVarMapping(BooleanFunction<? extends IsParameterInterface> function) {
+		BDD lut_support_it = function.getBDD().support();
+		boolean wasParam = true;
+		while(!lut_support_it.isOne()) {
+			int var_id = lut_support_it.var();
+			BDD n_lut_support_it = lut_support_it.high();
+			lut_support_it.free();
+			lut_support_it = n_lut_support_it;
+			
+			
+			boolean isParam = function.getBDDidMapping().getNode(var_id).isParameter();
+			if(!wasParam && isParam)
+				throw new RuntimeException("BDD var ordering error");
+			wasParam &= isParam;
+		}
+	}
+
+	/**
+	 * Turn a mappedcircuit into an unmapped AIG.
+	 */
 	public MappingAIG constructAIG() {
 		MappingAIG aig = new MappingAIG();
 
@@ -508,7 +673,7 @@ public class MappedCircuit {
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
 			BooleanFunction<MappedNode> functionToTranslate = gate
 					.getFunction();
-			
+
 			// Map each bdd node to an aig node (this mapping is local to the
 			// specific gate)
 			Map<BDD, PolarisedNode<Node>> bddMap = new HashMap<BDD, PolarisedNode<Node>>();
@@ -537,7 +702,7 @@ public class MappedCircuit {
 		for (MappedOutput out : getOutputs()) {
 			Node output_cp = aig.addNode(out.getName(), NodeType.OUTPUT);
 			PolarisedNode<Node> inode_cp = mapping.get(out.getSource());
-			
+
 			Edge e = aig.addEdge(inode_cp.getNode(), output_cp,
 					inode_cp.isInverted());
 			output_cp.setI0(e);
@@ -564,7 +729,7 @@ public class MappedCircuit {
 			inode_cp.getNode().addOutput(ilatch_e_cp);
 			ilatch_cp.setI0(ilatch_e_cp);
 		}
-		
+
 		aig.initBDDidMapping();
 		aig.sanityCheck();
 		aig.strashCheck();
@@ -598,7 +763,7 @@ public class MappedCircuit {
 			ret = aig.findNode(lowNode.toggleInverted(true),
 					highNode.toggleInverted(true));
 			if (ret == null)
-				ret = new PolarisedNode<Node>(aig.addNode(null, 
+				ret = new PolarisedNode<Node>(aig.addNode(null,
 						lowNode.toggleInverted(true),
 						highNode.toggleInverted(true)), false);
 			ret = ret.toggleInverted(true);
@@ -606,53 +771,53 @@ public class MappedCircuit {
 		bdd.free();
 		return ret;
 	}
-	
+
 	public void sanityCheck() {
-	    HashSet<String> names = new HashSet<String>();
-	    ArrayList<MappedNode> all_except_outputs = new ArrayList<MappedNode>();
-	    all_except_outputs.addAll(getInputs());
-	    all_except_outputs.addAll(getOLatches());
-	    all_except_outputs.addAll(getGates());
-	    for (MappedNode node : all_except_outputs) {
-	        if (names.contains(node.getName()))
+		HashSet<String> names = new HashSet<String>();
+		ArrayList<MappedNode> all_except_outputs = new ArrayList<MappedNode>();
+		all_except_outputs.addAll(getInputs());
+		all_except_outputs.addAll(getOLatches());
+		all_except_outputs.addAll(getGates());
+		for (MappedNode node : all_except_outputs) {
+			if (names.contains(node.getName()))
 				throw new RuntimeException(
 						"MappedCircuit sanitycheck error: name already in use: "
 								+ node.getName());
-	        names.add(node.getName());
-	    }
+			names.add(node.getName());
+		}
 
-      	HashSet<MappedNode> used_nodes = listUsedNodes();
-      	HashSet<MappedNode> known_nodes = new HashSet<MappedNode>(getAllNodes());
-	    for (MappedNode node : used_nodes)
-	        if (!known_nodes.contains(node))
+		HashSet<MappedNode> used_nodes = listUsedNodes();
+		HashSet<MappedNode> known_nodes = new HashSet<MappedNode>(getAllNodes());
+		for (MappedNode node : used_nodes)
+			if (!known_nodes.contains(node))
 				throw new RuntimeException(
 						"MappedCircuit sanitycheck error: MappedNode referenced but not in circuit's known nodes: "
 								+ node.getName());
 	}
-	
+
 	public void removeUnusedGates() {
-	    HashSet<MappedNode> used_nodes = listUsedNodes();
-	    ArrayList<MappedGate> gates = new ArrayList<MappedGate>();
-	    for (MappedGate gate : getGates())
-	        if (used_nodes.contains(gate))
-    	        gates.add(gate);
-    	this.gates = gates;
+		HashSet<MappedNode> used_nodes = listUsedNodes();
+		ArrayList<MappedGate> gates = new ArrayList<MappedGate>();
+		for (MappedGate gate : getGates())
+			if (used_nodes.contains(gate))
+				gates.add(gate);
+		this.gates = gates;
     	//TODO: free unused MappedGates
 	}
-	
+
 	private HashSet<MappedNode> listUsedNodes() {
-	    HashSet<MappedNode> used_nodes = new HashSet<MappedNode>();
-	    for (MappedNode output : getPrimaryOutputs())
-	        listUsedNodes_rec(output, used_nodes);
-	    return used_nodes;
+		HashSet<MappedNode> used_nodes = new HashSet<MappedNode>();
+		for (MappedNode output : getPrimaryOutputs())
+			listUsedNodes_rec(output, used_nodes);
+		return used_nodes;
 	}
-	
+
 	private void listUsedNodes_rec(MappedNode node,
 			HashSet<MappedNode> used_nodes) {
-	    if (used_nodes.contains(node))
-	        return;
-	    used_nodes.add(node);
-	    for (MappedNode source : node.getSources())
-	        listUsedNodes_rec(source, used_nodes);
+		if (used_nodes.contains(node))
+			return;
+		used_nodes.add(node);
+		for (MappedNode source : node.getSources())
+			listUsedNodes_rec(source, used_nodes);
 	}
 }

@@ -240,7 +240,8 @@ public class TMapSimple {
 		elapsed_time = System.currentTimeMillis() - start_time;
 		System.out.println("Debug: Elapsed time after resource sharing: "+String.format("%3.3es", elapsed_time/1000.));
         
-        MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
+        MappedCircuit premappedCircuit = a.constructMappedCircuit(base_name, K);
+        MappedCircuit mappedCircuit = premappedCircuit.constructPrimitiveMappedCircuit();
         ParameterisedMappedCircuitPair parameterisedMappedCircuit = mappedCircuit.constructParameterisedMappedCircuit();
 
         // Debug output: mapped blif file
