@@ -84,10 +84,10 @@ public class MappedGate extends MappedNode {
 		this(circuit, name, function.getInputVariables(), function, mapped_type);
 	}
 	
-	protected MappedGate(MappedCircuit circuit, String name, ArrayList<MappedNode> inputs,
+	protected MappedGate(MappedCircuit circuit, String name, ArrayList<MappedNode> sources,
 			BooleanFunction<MappedNode> function, String mapped_type) {
 		super(circuit, name);
-		this.sources = function.getInputVariables();
+		this.sources = sources;
 		this.function = function;
 		this.mapped_type = mapped_type;
 	}
