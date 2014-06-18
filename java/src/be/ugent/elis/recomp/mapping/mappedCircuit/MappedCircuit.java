@@ -108,8 +108,11 @@ public class MappedCircuit {
 	private ArrayList<MappedOutput> outputs;
 	private ArrayList<MappedGate> gates;
 
-	public MappedCircuit(String name) {
+	private int K;
+
+	public MappedCircuit(String name, int K) {
 		this.name = name;
+		this.K = K;
 		this.const0 = new MappedConst(this, "const0", "0");
 		this.const1 = new MappedConst(this, "const1", "1");
 		this.inputs = new ArrayList<MappedInput>();
@@ -382,14 +385,14 @@ public class MappedCircuit {
 	}
 
 	/**
-	 * Construct two mapped circuits from another mapped circuit.
-	 * One circuit representing the lutstructure of the input circuit
-	 * and one circuit representing the configuration of the parameterised primitives.
+	 * Construct two mapped circuits from another mapped circuit. One circuit
+	 * representing the lutstructure of the input circuit and one circuit
+	 * representing the configuration of the parameterised primitives.
 	 */
 	public ParameterisedMappedCircuitPair constructParameterisedMappedCircuit() {
-		MappedCircuit circuit = new MappedCircuit(getName());
+		MappedCircuit circuit = new MappedCircuit(getName(), K);
 		MappedCircuit configurationCircuit = new MappedCircuit(getName()
-				+ "_parconfig");
+				+ "_parconfig", -1);
 
 		HashMap<MappedNode, MappedNode> mapping = new HashMap<MappedNode, MappedNode>();
 		HashMap<MappedPrimaryOutput, MappedPrimaryOutput> outputMapping = new HashMap<MappedPrimaryOutput, MappedPrimaryOutput>();

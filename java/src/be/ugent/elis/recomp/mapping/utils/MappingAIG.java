@@ -232,7 +232,7 @@ public class MappingAIG extends AIG<Node, Edge> {
 	}
 	
 	public MappedCircuit constructMappedCircuit(String name, int K) {
-		MappedCircuit circuit = new MappedCircuit(name);
+		MappedCircuit circuit = new MappedCircuit(name, K);
 
 		HashMap<PolarisedNode<Node>,MappedNode> mapping = new HashMap<PolarisedNode<Node>,MappedNode>();
 		HashMap<PolarisedNode<Node>,MappedPrimaryOutput> outputMapping = new HashMap<PolarisedNode<Node>,MappedPrimaryOutput>();
