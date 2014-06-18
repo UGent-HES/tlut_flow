@@ -76,7 +76,6 @@ import be.ugent.elis.recomp.synthesis.TruthAssignmentIterator;
 
 public class MappedParameterisedGate extends MappedGate {
 
-	//Warning: these may be part of a different circuit than this gate
 	private final ArrayList<MappedNode> configuration_sources;
 
 	MappedParameterisedGate(MappedCircuit circuit, String name,
@@ -85,6 +84,8 @@ public class MappedParameterisedGate extends MappedGate {
 			String mapped_type) {
 		super(circuit, name, inputs, null, mapped_type);
 		this.configuration_sources = configurations;
+		if(getConfigurationSources().size() != Math.pow(2, getSources().size()))
+			throw new RuntimeException("Number of configuration inputs of MappedParameterisedGate doesn't match number of inputs");
 	}
 
 	public ArrayList<MappedNode> getConfigurationSources() {
