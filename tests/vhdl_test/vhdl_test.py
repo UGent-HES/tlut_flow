@@ -4,6 +4,7 @@ import sys, glob, os, unittest, shutil
 from mapping import *
 from genParameters import extract_parameter_signals, extract_parameter_names 
 
+workDirBase="work_VhdlGeneration"
 colwidth=16
 def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
@@ -66,7 +67,7 @@ class VhdlGenerationTest(unittest.TestCase):
         sys.stdout = self.stdout
         sys.stderr = self.stderr
         
-    def build(self, module, submodules, K, virtexFamily, containsLatches, resynthesizeFlag, targetDepth, verboseFlag, parameterFileName=None):
+    def build(self, module, submodules, K, virtexFamily, containsLatches, resynthesizeFlag, targetDepth, verboseFlag, parameterFileName=None, extraArgs=[]):
         if not verboseFlag:
             sys.stdout = open(os.devnull, 'w')
             sys.stderr = sys.stdout
@@ -78,7 +79,7 @@ class VhdlGenerationTest(unittest.TestCase):
         # First part: generate vhdl
     
         # Setup working directory
-        workDir = "work/"+baseName
+        workDir = workDirBase + "/" + baseName
         if verboseFlag:
             print "Stage: Creating %s directory and copying design"%workDir
         workFiles = [module] + submodules
@@ -121,7 +122,7 @@ class VhdlGenerationTest(unittest.TestCase):
         if verboseFlag:
             print "Stage: TLUT mapper"
         numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-            simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag)
+            simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, extra_args = extraArgs)
         self.assertEqual(check, 'PASSED', 'lutstruct+parconfig equivalence check failed')
         if verboseFlag:
             print collumnize(['Luts (TLUTS)','depth','check'],colwidth)

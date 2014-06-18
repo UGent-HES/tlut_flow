@@ -4,6 +4,7 @@ import sys, glob, os, unittest, shutil
 from mapping import *
 from genParameters import extract_parameter_signals, extract_parameter_names 
 
+workDirBase="work_MappedBlif"
 colwidth=16
 def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
@@ -18,6 +19,12 @@ class MappedBlifTest(unittest.TestCase):
     
     def test_test3(self):
         self.build('test3/test3.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
+
+    def test_tcon(self):
+        self.build('tcon/tcon.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False, extraArgs=['--tcon'])
+
+    def test_tlc(self):
+        self.build('tlc/tlc.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False, extraArgs=['--tcon', '--tlc'])
 
     def test_const(self):
         self.build('const/const.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
@@ -63,7 +70,7 @@ class MappedBlifTest(unittest.TestCase):
         sys.stdout = self.stdout
         sys.stderr = self.stderr
         
-    def build(self, module, submodules, K, virtexFamily, containsLatches, resynthesizeFlag, targetDepth, verboseFlag, parameterFileName=None):
+    def build(self, module, submodules, K, virtexFamily, containsLatches, resynthesizeFlag, targetDepth, verboseFlag, parameterFileName=None, extraArgs=[]):
         if not verboseFlag:
             sys.stdout = open(os.devnull, 'w')
             sys.stderr = sys.stdout
@@ -75,7 +82,7 @@ class MappedBlifTest(unittest.TestCase):
         # First part: generate vhdl
     
         # Setup working directory
-        workDir = "work/"+baseName
+        workDir = workDirBase + "/" + baseName
         if verboseFlag:
             print "Stage: Creating %s directory and copying design"%workDir
         workFiles = [module] + submodules
@@ -119,7 +126,7 @@ class MappedBlifTest(unittest.TestCase):
             print "Stage: TLUT mapper"
         mappedblifFileName = "mapped.blif"
         numLuts, numTLUTs, numTCONs, depth, avDup, origAnds, paramAnds, check = \
-            simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, extra_args = ['--mappedblif='+mappedblifFileName])
+            simpleTMapper(baseName, aagFileName, parameterFileName, K, performCheck, generateImplementationFilesFlag, module, verboseFlag, extra_args = extraArgs + ['--mappedblif='+mappedblifFileName])
         self.assertEqual(check, 'PASSED', 'lutstruct+parconfig equivalence check failed')
         if verboseFlag:
             print collumnize(['Luts (TLUTS)','depth','check'],colwidth)

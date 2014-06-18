@@ -4,6 +4,7 @@ import sys, glob, os, unittest, shutil
 from mapping import *
 from genParameters import extract_parameter_signals, extract_parameter_names 
 
+workDirBase="work_AagToAag"
 colwidth=16
 def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
@@ -18,6 +19,12 @@ class AagToAagTest(unittest.TestCase):
     
     def test_test3(self):
         self.build('test3/test3.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
+
+    def test_tcon(self):
+        self.build('tcon/tcon.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
+
+    def test_tlc(self):
+        self.build('tlc/tlc.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
 
     def test_const(self):
         self.build('const/const.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
@@ -75,7 +82,7 @@ class AagToAagTest(unittest.TestCase):
         # First part: generate vhdl
     
         # Setup working directory
-        workDir = "work/"+baseName
+        workDir = workDirBase + "/" + baseName
         if verboseFlag:
             print "Stage: Creating %s directory and copying design"%workDir
         workFiles = [module] + submodules
