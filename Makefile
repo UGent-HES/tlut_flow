@@ -5,7 +5,7 @@ HESSIAN_VERSION = 4.0.6
 JAVABDD_VERSION = 1.0b2
 JOPT_SIMPLE_VERSION = 4.5
 
-javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java java/src/be/ugent/elis/recomp/aig/MergeAag.java java/src/be/ugent/elis/recomp/mapping/simple/SimpleMapper.java java/src/be/ugent/elis/recomp/aig/MakeCEvaluator.java java/src/be/ugent/elis/recomp/aig/MakeCEvaluator.java java/src/be/ugent/elis/recomp/util/ExtractInfo.java 
+javaClasses = java/src/be/ugent/elis/recomp/mapping/tmapSimple/TMapSimple.java java/src/be/ugent/elis/recomp/aig/MergeAag.java java/src/be/ugent/elis/recomp/mapping/simple/SimpleMapper.java java/src/be/ugent/elis/recomp/aig/MakeCEvaluator.java java/src/be/ugent/elis/recomp/aig/MakeCEvaluator.java java/src/be/ugent/elis/recomp/util/ExtractInfo.java java/src/be/ugent/elis/recomp/mapping/test/AagToAagTest.java
 
 
 .PHONY : java third_party all aigtoaig abc javabdd jopt_simple source
@@ -16,7 +16,7 @@ all : java source third_party
 
 
 java : $(javaClasses:.java=.class)
-$(javaClasses:.java=.class) : rapidSmith
+$(javaClasses:.java=.class) : rapidSmith javabdd jopt_simple
 .java.class :
 	mkdir -p java/bin
 	javac -d java/bin -classpath java/src:third_party/rapidSmith:third_party/rapidSmith/jars/hessian-${HESSIAN_VERSION}.jar:third_party/javabdd_src_1.0b2/JavaBDD/:third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar $<
@@ -97,7 +97,7 @@ third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz :
 #	touch third_party/JavaBDD/javabdd-${JAVABDD_VERSION}.jar
 
 third_party/javabdd_src_1.0b2 :
-	git clone git@github.ugent.be:kheyse/javabdd.git javabdd_src_1.0b2
+	cd third_party && git clone git@github.ugent.be:kheyse/javabdd.git javabdd_src_1.0b2
 
 third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar : 
 	cd third_party && curl -O http://central.maven.org/maven2/net/sf/jopt-simple/jopt-simple/${JOPT_SIMPLE_VERSION}/jopt-simple-${JOPT_SIMPLE_VERSION}.jar
