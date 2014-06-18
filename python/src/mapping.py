@@ -70,7 +70,7 @@ import os, sys, shutil, commands, subprocess, re
 from itertools import islice
 
 
-maxMemory = 1024
+maxMemory = 4096
 #set maximum memory usage of Java tools, in MB
 def setMaxMemory(mm):
     global maxMemory
