@@ -532,7 +532,7 @@ public class MappedCircuit {
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
 			MappedGate mappedN;
 			// Separate the K TCONs connected to the K inputs of the TLUT
-			if (gate.getMappedType().equals("TLC")) {
+			if (gate.getMappedType().equals("TLC") || gate.getMappedType().equals("TCON")) {
 				BooleanFunction<MappedNode> function = gate.getFunction()
 						.translate(mapping);
 				

@@ -83,8 +83,9 @@ public class MappedGate extends MappedNode {
 			BooleanFunction<MappedNode> function, String mapped_type) {
 		this(circuit, name, function.getInputVariables(), function, mapped_type);
 	}
-	
-	protected MappedGate(MappedCircuit circuit, String name, ArrayList<MappedNode> sources,
+
+	protected MappedGate(MappedCircuit circuit, String name,
+			ArrayList<MappedNode> sources,
 			BooleanFunction<MappedNode> function, String mapped_type) {
 		super(circuit, name);
 		this.sources = sources;
@@ -134,6 +135,13 @@ public class MappedGate extends MappedNode {
 				+ "\n");
 
 		builder.append(function.getMinterms().getString());
+
+		String blifMapType;
+		if(getMappedType().equals("pureTCON"))
+			blifMapType = "TCON";
+		else
+			blifMapType = getMappedType();
+		builder.append(".map " + blifMapType + " " + getBlifIdentifier());
 		builder.append("\n");
 
 		return builder.toString();
