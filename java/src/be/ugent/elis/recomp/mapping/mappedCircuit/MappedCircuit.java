@@ -801,8 +801,9 @@ public class MappedCircuit {
 		for (MappedGate gate : getGates())
 			if (used_nodes.contains(gate))
 				gates.add(gate);
+			else
+				gate.free();
 		this.gates = gates;
-    	//TODO: free unused MappedGates
 	}
 
 	private HashSet<MappedNode> listUsedNodes() {
