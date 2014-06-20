@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, glob, os, unittest, shutil
+import sys, glob, os, unittest, shutil, random, itertools, re
 from mapping import *
 from genParameters import extract_parameter_signals, extract_parameter_names 
 
@@ -139,85 +139,167 @@ class VhdlGenerationTest(unittest.TestCase):
         os.chdir(self.ret_pwd)
     
         # Setup working directory
-        verificationWorkDir = "work/"+baseName+"_vhd_check"
+        verificationWorkDir = workDirBase + "/" + baseName + "_vhd_check"
         if verboseFlag:
             print "Stage: Creating %s directory and copying design"%verificationWorkDir
         verificationModule = "%s.vhd"%baseName
-        verificationSubModules = glob.glob('primitives/*') + submodules
-        verificationWorkFiles = verificationSubModules
+        verificationSubModules = glob.glob('primitives/*.vhd') + submodules
+        verificationWorkFiles = glob.glob('primitives/*')  + submodules
         try:
             shutil.rmtree(verificationWorkDir)
         except:
             pass
         createWorkDirAndCopyFiles(verificationWorkDir, verificationWorkFiles)
+        
+        namesFileName = "%s-names.txt"%baseName
+        lutstructFileName = '%s-lutstruct.aag'%baseName
+        parconfigFileName = '%s-parconfig.aag'%baseName
+        shutil.copy("%s/%s"%(workDir, namesFileName), verificationWorkDir)
+        shutil.copy("%s/%s"%(workDir, lutstructFileName), verificationWorkDir)
+        shutil.copy("%s/%s"%(workDir, parconfigFileName), verificationWorkDir)
+        shutil.copy("%s/%s"%(workDir, parameterFileName), verificationWorkDir)
 
-        # Remove some attributes from vhdl file that quartus can't handle
-        assert not os.system('pcregrep -v -e "^attribute lock_pins" -e "^attribute INIT" %s > %s'%(workDir+"/%s-simpletmap.vhd"%baseName, verificationWorkDir+"/%s.vhd"%baseName))
+        # Copy vhdl and remove some attributes from vhdl file that quartus can't handle
+        assert not os.system('pcregrep -v -e "^attribute lock_pins" -e "^attribute INIT" %s > %s'%(workDir+"/%s-simpletmap.vhd"%baseName, verificationWorkDir+"/"+verificationModule))
 
         os.chdir(verificationWorkDir)
+        
+        tlutNames = readTLUTnames(namesFileName)
+        tlutNames.sort()
+        paramNames = readParamNames(parameterFileName)
+        
+        # Generate configuration.vhd
+        configurationFileName = 'configuration.vhd'
+        generateVhdConfiguration(baseName, tlutNames, open(configurationFileName, 'w'))
+        verificationSubModules.append(configurationFileName)
     
+        # Verification
+        parvaluationFileName = '%s-parvaluation.aag'%baseName
+        evaluatedlutconfigFileName = '%s-evaluatedlutconfig.aag'%baseName
+        baseFileName = '%s-evaluatedlutstruct.aag'%baseName
+
+        # create a random param valuation aig
+        generateParamValuation(parvaluationFileName, paramNames)
+        # evaluate the lutconfiguration using these parameter values
+        mergeaag(parvaluationFileName, parconfigFileName, evaluatedlutconfigFileName, verboseFlag)
+        # use this lutconfiguration with the lutstruct
+        mergeaag(evaluatedlutconfigFileName, lutstructFileName, baseFileName, verboseFlag)
+
+        # use the same lutconfiguration to generate configured lut vhdl implementations
+        tlutConfigurations = extractTLUTConfigurations(evaluatedlutconfigFileName, tlutNames)
+        os.mkdir('tluts')
+        for tlutName in tlutNames:
+            verificationSubModules.append(generateEvaluatedTLUT(tlutName, getTLUTConfiguration(tlutName, tlutConfigurations)))
+
         # Synthesis
         if verboseFlag:
             print "Stage: Synthesizing"
         qsfFileName = generateQSF(verificationModule, verificationSubModules)
         verificationBlifFileName = synthesize(verificationModule, qsfFileName, verboseFlag)
-
-        # Verification
-        #baseBlifFileName = '%s/%s/%s.blif'%(self.ret_pwd, workDir, baseName)
-        lutstructFileName = '%s/%s/%s-lutstruct.aag'%(self.ret_pwd, workDir, baseName)
-        lutconfigFileName = '%s/%s/%s-parconfig.aag'%(self.ret_pwd, workDir, baseName)
-        evaluatedlutconfigFileName = '%s-evaluatedlutconfig.aag'%baseName
-        baseFileName = '%s-evaluatedlutstruct.aag'%baseName
-        generateEvaluatedTLutconfig(lutconfigFileName, open(evaluatedlutconfigFileName, 'w'))
-        mergeaag(evaluatedlutconfigFileName, lutstructFileName, baseFileName, verboseFlag)
-        baseAigFileName = toaig(baseFileName)
+        
         if containsLatches:
-            check = sequentialMiter(verificationBlifFileName, baseAigFileName, verboseFlag)
+            check = sequentialMiter(verificationBlifFileName, baseFileName, verboseFlag)
         else:
-            check = miter(verificationBlifFileName, baseAigFileName, verboseFlag)
-        #tmp
-        toaag(verificationBlifFileName)
+            check = miter(verificationBlifFileName, baseFileName, verboseFlag)
         self.assertEqual(check, 'PASSED', 'vhdl equivalence check failed')
 
 
-def sequentialMiter(file1, file2, verboseFlag):
-    cmd = ['abc', '-c', 'dsec ' + file1 + ' ' + file2]
-    if verboseFlag:
-        print ' '.join(cmd)
-    try:
-        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError as ex: 
-        print >> sys.stderr, ex.output
-        raise Exception('Verification failed')
-    if verboseFlag:
-        print output,
-    if "Networks are equivalent" in output:
-        return "PASSED"
-    elif "NOT EQUIVALENT" in output:
-        return "FAILED"
-    else:
-        if not verboseFlag:
-            print ' '.join(cmd)
-            print output,
-        raise Exception("Unexpected output from miter computation (verification)")
+def readTLUTnames(filename):
+    stream = open(filename, 'r')
+    names = stream.readlines()
+    stream.close()
+    names = map(lambda s:s.strip('\n\r'), names)
+    names = filter(bool, names)
+    return names
+    
+    
+def readParamNames(filename):
+    stream = open(filename, 'r')
+    names = stream.readlines()
+    stream.close()
+    names = map(lambda s:s.strip('\n\r'), names)
+    names = filter(bool, names)
+    return names
+    
+
+def generateParamValuation(paramconfigFileName, paramNames):
+    stream = open(paramconfigFileName, 'w')
+    print >>stream, 'aag %d 0 0 %d 0'%(len(paramNames), len(paramNames))
+    for param in paramNames:
+        print >>stream, random.randint(0, 1)
+    for literal, param in enumerate(paramNames):
+        print >>stream, 'o%d %s'%(literal, param)
 
 
-def generateEvaluatedTLutconfig(lutconfig, stream):
-    aag_file = open(lutconfig,'r')
-    inputs = []
-    for line in aag_file:
-        if line.rstrip('\r\n') == 'c': break
-        if line.startswith('o'): inputs.append(line.rstrip('\r\n').split())
+def extractTLUTConfigurations(evaluatedlutconfigFileName, tlutNames):
+    stream = open(evaluatedlutconfigFileName, 'r')
+    elms = stream.readline().split()
+    assert elms[0] == 'aag'
+    ninputs = int(elms[1])
+    nlatches = int(elms[3])
+    assert nlatches == 0
+    noutputs = int(elms[4])
+    assert noutputs == len(tlutNames) * 64
+    nands = int(elms[5])
+    assert nands == 0
+    
+    #skip inputs
+    for _ in xrange(ninputs):
+        stream.readline()
+    
+    values = []
+    for _ in xrange(noutputs):
+        values.append(int(stream.readline()))
+   
+    #read the names of the outputs in the form of:
+    #o12 shortlutname_1
+    lines = stream.readlines()
+    lines = itertools.dropwhile(lambda s:not s.startswith('o'), lines)
+    lines = itertools.takewhile(lambda s:s.startswith('o'), lines)
+    lines = itertools.imap(lambda s:s.split()[-1], lines) #drop the o12
+    lines = itertools.imap(lambda s:s.rsplit('_', 1), lines) #split shortlutname from 1 (lutconfig index)
+    lines = itertools.imap(lambda (n,i):(n,int(i)), lines)
+    lines = list(lines)
+    assert len(lines) == noutputs
+    
+    values = zip(lines, values)
+    
+    convert = lambda text: int(text) if text.isdigit() else text.lower() 
+    alphanum_key = lambda ((a, b), c): [ convert(c) for c in re.split('([0-9]+)', a) ] + [ b ]
+    values.sort(key=alphanum_key)
+    
+    n = 64
+    ret = dict()
+    for tlutName, i in zip(tlutNames, range(0, len(values), n)):
+        lutvalues = values[i:i + n]
+        assert all(map(lambda s: s[0][0]==lutvalues[0][0][0], lutvalues))
+        ret[lutvalues[0][0][0]] = map(lambda e:e[1], lutvalues)
+    
+    return ret
+    
 
-    print >>stream, 'aag %d 0 0 %d 0'%(len(inputs), len(inputs))
-    literal = 1
-    values = [0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1]
-    for input in inputs:
-        bit_nr = int(input[1].split('_')[-1])
-        print >>stream, values[bit_nr]
-    for literal, input in enumerate(inputs):
-        print >>stream, 'o%d %s'%(literal, input[1])
+def getTLUTConfiguration(tlutName, tlutConfigurations):
+    for shortTlutName, tlutConfiguration in tlutConfigurations.items():
+        if tlutName.endswith(shortTlutName):
+            return tlutConfiguration
+    assert False
+    
 
+def generateVhdConfiguration(baseName, tlutNames, stream):
+    print >>stream, "configuration tlut_configuration of %s is"%baseName
+    print >>stream, "for rtl"
+    for tlutName in tlutNames:
+        print >>stream, "    for %s : LUT6_2 use entity work.LUT6_2(%s); end for;"% \
+            (tlutName, tlutName)
+    print >>stream, "end for;"
+    print >>stream, "end configuration tlut_configuration;"
+
+
+def generateEvaluatedTLUT(tlutName, config):
+    assert len(config) == 64
+    assert not os.system('sed -e "s/####/%s/" -e "s/&&&&/%s/" "%s" > "%s"'% \
+        (''.join(map(str, config)), tlutName, 'primitives/LUT6_2_template.vhd_templ', 'tluts/LUT6_2_%s.vhd'%tlutName))
+    return 'tluts/LUT6_2_%s.vhd'%tlutName
 
 
 def main():

@@ -137,28 +137,6 @@ class MappedBlifTest(unittest.TestCase):
         self.assertEqual(miter(mappedblifFileName, aagFileName, verboseFlag), 'PASSED', 'mappedblif verification failed')
 
 
-def sequentialMiter(file1, file2, verboseFlag):
-    cmd = ['abc', '-c', 'dsec ' + file1 + ' ' + file2]
-    if verboseFlag:
-        print ' '.join(cmd)
-    try:
-        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError as ex: 
-        print >> sys.stderr, ex.output
-        raise Exception('Verification failed')
-    if verboseFlag:
-        print output,
-    if "Networks are equivalent" in output:
-        return "PASSED"
-    elif "NOT EQUIVALENT" in output:
-        return "FAILED"
-    else:
-        if not verboseFlag:
-            print ' '.join(cmd)
-            print output,
-        raise Exception("Unexpected output from miter computation (verification)")
-
-
 def generateEvaluatedTLutconfig(lutconfig, stream):
     aag_file = open(lutconfig,'r')
     inputs = []

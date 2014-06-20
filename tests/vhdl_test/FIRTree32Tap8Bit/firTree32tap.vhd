@@ -54,7 +54,7 @@ port(
 );
 end firTree32tap;
 
-architecture behavior of firTree32tap is
+architecture rtl of firTree32tap is
     constant numLevels      : integer := integer(CEIL(LOG(real(DATA_WIDTH), 2.0)))+1;
 
     type intermediate_t is array (0 to 32) of std_logic_vector((2*DATA_WIDTH)-1+31 downto 0);
@@ -103,12 +103,12 @@ begin
    
     intermediate(0) <= (others => '0');
     
-                BUF:process(clk)
-        begin
-            if clk'event and clk='1' then
-                i_buffered <= i;
-            end if;
-        end process BUF;
+    BUF:process(clk)
+    begin
+        if clk'event and clk='1' then
+            i_buffered <= i;
+        end if;
+    end process BUF;
 
     TAPS: for index in 1 to 32 generate
 
@@ -131,6 +131,6 @@ begin
 
     end generate TAPS;
 
-    o <= intermediate(32);
+    o <= intermediate(6); -- and ((2*DATA_WIDTH)-1+31 downto 41 => '0', 40 downto 10 => '1', 9 downto 0 => '0');
 
-end behavior;
+end rtl;

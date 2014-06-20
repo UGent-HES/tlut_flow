@@ -14,7 +14,7 @@ entity matrix is
 );
 end matrix;
 
-architecture behavior of matrix is
+architecture rtl of matrix is
 begin
 
 
@@ -25,4 +25,4 @@ begin
     end loop;
 end process;
 
-end behavior;
+end rtl;

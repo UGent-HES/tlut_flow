@@ -389,6 +389,29 @@ def miter(circuit0, circuit1, verboseFlag=False):
             print output,
         raise Exception("Unexpected output from miter computation (verification)")
 
+def sequentialMiter(circuit0, circuit1, verboseFlag):
+    circuit0 = toaig(circuit0)
+    circuit1 = toaig(circuit1)
+    cmd = ['abc', '-c', 'dsec ' + circuit0 + ' ' + circuit1]
+    if verboseFlag:
+        print ' '.join(cmd)
+    try:
+        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as ex: 
+        print >> sys.stderr, ex.output
+        raise Exception('Verification failed')
+    if verboseFlag:
+        print output,
+    if "Networks are equivalent" in output:
+        return "PASSED"
+    elif "NOT EQUIVALENT" in output:
+        return "FAILED"
+    else:
+        if not verboseFlag:
+            print ' '.join(cmd)
+            print output,
+        raise Exception("Unexpected output from miter computation (verification)")
+
 def resynthesize(basename, fname, script='resyn2'):
     fname = toaig(fname)
     basefname, ext = getBasenameAndExtension(fname)

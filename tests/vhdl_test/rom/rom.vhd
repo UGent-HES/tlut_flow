@@ -20,10 +20,10 @@ entity rom is
 );
 end rom;
 
-architecture behavior of rom is
+architecture rtl of rom is
 begin
 
     d <= p(to_integer(unsigned(a)));
 
-end behavior;
+end rtl;
  

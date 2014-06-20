@@ -14,7 +14,7 @@ entity const is
 );
 end const;
 
-architecture behavior of const is
+architecture rtl of const is
     constant c : std_logic_vector(31 downto 0) := X"aa000000";
 begin
 
@@ -32,5 +32,5 @@ begin
     dummy_out <= b(0) xor b(1);
 end process;
 
-end behavior;
+end rtl;
  
