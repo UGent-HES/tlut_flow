@@ -228,6 +228,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			output_cp.setI0(copy_e);
 		}
 		
+		removeUnusedNodes();
 		sanityCheck();
 		strashCheck();
 	}
@@ -1197,6 +1198,22 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		sanityCheck();
 	}
 	
+	public void removeUnusedNodes() {
+		HashSet<N> unused_ands = new HashSet<N>(getAnds());
+		unused_ands.removeAll(topologicalOrderInToOut(false, false));
+		for(N n : unused_ands) {
+			for(E edge : n.getOutputEdges())
+				if(!unused_ands.contains(edge.getHead()))
+					throw new RuntimeException("Output of unused and is not unused: "+edge.getHead().getName());
+			for(E edge : n.getInputEdges()) {
+				edge.getTail().removeOutput(edge);
+				edges.remove(edge);
+			}
+			System.out.println("unused: "+n.getName());
+			and.remove(n);
+		}
+	}
+	
 	public void removeNode(N node) {
 	    switch(node.getType()) {
 		case AND:
@@ -1370,6 +1387,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
     	for(N o : getOutputs())
     		if(o.getOutputEdges().size() != 0)
     			throw new RuntimeException("Output node "+o.toString()+" has an output edge");
+    	HashSet<N> allNodes = new HashSet<N>(getAllNodes());
     	for(N n : getAllNodes()) {
     		for(E e : n.getOutputEdges()) {
     			num_output_edges++;
@@ -1382,6 +1400,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
     				throw new RuntimeException("Head of edge "+e.toString()+" is null");
     			if(!head.getInputEdges().contains(e))
     				throw new RuntimeException("Edge "+e.toString()+" is not one of the input edges of its head");
+    			if(!allNodes.contains(head))
+    				throw new RuntimeException("Head of edge "+e.toString()+" is not a node of this AIG");
     		}
     		for(E e : n.getInputEdges()) {
     			num_input_edges++;
@@ -1394,6 +1414,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
     				throw new RuntimeException("Tail of edge "+e.toString()+" is null");
     			if(!tail.getOutputEdges().contains(e))
     				throw new RuntimeException("Edge "+e.toString()+" is not one of the output edges of its tail");
+    			if(!allNodes.contains(tail))
+    				throw new RuntimeException("Tail of edge "+e.toString()+" is not a node of this AIG");
     		}
     	}
     	if(num_output_edges != edges.size())
