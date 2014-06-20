@@ -20,6 +20,9 @@ class VhdlGenerationTest(unittest.TestCase):
     def test_test3(self):
         self.build('test3/test3.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
 
+    def test_test4(self):
+        self.build('test4/test4.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
+
     def test_const(self):
         self.build('const/const.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
 
