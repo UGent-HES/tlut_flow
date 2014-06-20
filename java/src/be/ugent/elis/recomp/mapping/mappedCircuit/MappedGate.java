@@ -121,6 +121,15 @@ public class MappedGate extends MappedNode {
 		// TODO
 		return getMappedType().equals("TLUT");
 	}
+	
+	public String getBlifMapString() {
+		String blifMapType;
+		if(getMappedType().equals("pureTCON"))
+			blifMapType = "TCON";
+		else
+			blifMapType = getMappedType();
+		return ".map " + blifMapType + " " + getBlifIdentifier() + "\n";
+	}
 
 	public String getBlifString() {
 		StringBuilder builder = new StringBuilder();
@@ -135,13 +144,8 @@ public class MappedGate extends MappedNode {
 				+ "\n");
 
 		builder.append(function.getMinterms().getString());
-
-		String blifMapType;
-		if(getMappedType().equals("pureTCON"))
-			blifMapType = "TCON";
-		else
-			blifMapType = getMappedType();
-		builder.append(".map " + blifMapType + " " + getBlifIdentifier());
+		
+		builder.append(getBlifMapString());
 		builder.append("\n");
 
 		return builder.toString();

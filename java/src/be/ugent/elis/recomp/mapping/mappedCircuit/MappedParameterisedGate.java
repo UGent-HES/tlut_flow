@@ -121,7 +121,9 @@ public class MappedParameterisedGate extends MappedGate {
 			builder.append(assignment.getString());
 			builder.append(" 1\n");
 		}
+
 		
+		builder.append(getBlifMapString());
 		builder.append("\n");
 
 		return builder.toString();
