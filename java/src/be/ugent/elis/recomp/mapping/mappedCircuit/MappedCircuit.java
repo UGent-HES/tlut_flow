@@ -382,6 +382,8 @@ public class MappedCircuit {
 	}
 
 	public void printTLUTNames(PrintStream stream) {
+		ArrayList<MappedNode> gates = new ArrayList<MappedNode>(getGates());
+		Collections.sort(gates, new AlphanumMappedNodeNameComparator());
 		for (MappedGate gate : getGates()) {
 			if (gate.isTLUT())
 				stream.println(gate.getVhdlIdentifier());
@@ -500,6 +502,10 @@ public class MappedCircuit {
 			mappedO.setSource(mappedS);
 		}
 
+		// Sort inputs and outputs to match expected order in ExtractInfo and
+		// CGenerator
+		// May not be completely safe if gate names end with a number and may be
+		// confused with a similar gate name without that number at the end.
 		Collections.sort(configurationCircuit.inputs,
 				new AlphanumMappedNodeNameComparator());
 		Collections.sort(configurationCircuit.outputs,
