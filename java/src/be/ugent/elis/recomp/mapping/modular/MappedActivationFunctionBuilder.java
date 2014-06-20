@@ -93,7 +93,7 @@ import be.ugent.elis.recomp.util.GlobalConstants;
 public class MappedActivationFunctionBuilder extends AbstractActivationFunctionBuilder {
 	
 	static final int g_node_max = GlobalConstants.maxActivationFunctionSize;
-	static final boolean traverse_latches = true;
+	static final boolean traverse_latches = GlobalConstants.parametersTraverseLatches;
 	
     public MappedActivationFunctionBuilder(MappingAIG aig) {
     	super(aig);
