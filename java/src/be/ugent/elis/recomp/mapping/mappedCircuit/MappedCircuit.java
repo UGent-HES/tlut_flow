@@ -443,20 +443,40 @@ public class MappedCircuit {
 					if (!node.isParameterInput())
 						regularInputs.add(node);
 
-				ArrayList<MappedNode> configurations = new ArrayList<MappedNode>();
-
+				// Calculate the truth table of the TLUT by performing partial
+				// evaluation of the local function
+				ArrayList<MappedNode> configurationNodes = new ArrayList<MappedNode>();
 				for (TruthAssignment<MappedNode> assignment : TruthAssignmentIterator
 						.createFrom(regularInputs)) {
-					String configName = gate.getName() + "_"
+					String configNodeName = gate.getName() + "_"
 							+ assignment.getEntry();
 					BooleanFunction<MappedNode> configurationFunction = function
 							.partialEvaluate(assignment);
 					MappedNode configurationNode = configurationCircuit
-							.addParameterisedConfigurationGate(configName,
+							.addParameterisedConfigurationGate(configNodeName,
 									configurationFunction);
-					configurations.add(circuit.addInput(configName, false));
+					configurationNodes.add(configurationNode);
+				}
+
+				// For practical reasons, even a LUT with x used inputs needs
+				// 2^K configuration entries. We duplicate the configuration
+				// entries here for compatibility with the existing C-code
+				// generator.
+				int entry = 0;
+				ArrayList<MappedNode> configurations = new ArrayList<MappedNode>();
+				for (int i = 0; i < Math.pow(2, K - regularInputs.size()); i++) {
+					for (int j = 0; j < Math.pow(2, regularInputs.size()); j++) {
+						String configName = gate.getName() + "_" + entry;
+						MappedInput configInput = circuit.addInput(configName,
+								false);
 					configurationCircuit.addOutput(configName).setSource(
-							configurationNode);
+								configurationNodes.get(j));
+						// The mappedparameterisedgate only expects 2^x
+						// configuration entries.
+						if (i == 0)
+							configurations.add(configInput);
+						entry++;
+					}
 				}
 
 				mappedN = circuit.addParameterisedGate(gate.getName(),
