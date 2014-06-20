@@ -11,9 +11,9 @@ entity vector is
 );
 end vector;
 
-architecture behavior of vector is
+architecture rtl of vector is
 begin
 
     x <= a xor b;
 
-end behavior;
+end rtl;

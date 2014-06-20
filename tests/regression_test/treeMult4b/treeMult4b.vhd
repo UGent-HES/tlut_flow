@@ -17,14 +17,12 @@ port(
 	 );
 end treeMult4b;
 
-architecture behavior of treeMult4b is
+architecture rtl of treeMult4b is
     constant numLevels      : integer := integer(CEIL(LOG(real(DATA_WIDTH), 2.0)))+1;
 
     type intermediateLevel_t is array (0 to DATA_WIDTH-1) of std_logic_vector(3*DATA_WIDTH-1 downto 0);
     type intermediate_t is array (0 to numLevels-1) of intermediateLevel_t;
     signal intermediate : intermediate_t;
-
-    
 
 begin
 
@@ -56,4 +54,4 @@ begin
 
     o <= intermediate(numLevels-1)(0);
 	 
-end behavior;
+end rtl;

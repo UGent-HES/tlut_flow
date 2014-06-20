@@ -9,7 +9,7 @@ colwidth=16
 def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
-
+#Warning: Every run of VhdlGenerationTest tests a different random combination of parameter values
 class VhdlGenerationTest(unittest.TestCase):
     def test_test1(self):
         self.build('test1/test1.vhd', [], K=6, virtexFamily='virtex5', containsLatches=False, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
@@ -50,8 +50,6 @@ class VhdlGenerationTest(unittest.TestCase):
     def test_fir_noparam(self):
         self.build('FIRTree32Tap8Bit/firTree32tap.vhd', ['FIRTree32Tap8Bit/mult8bit.vhd', 'FIRTree32Tap8Bit/treeMult4b.vhd'], K=4, virtexFamily='virtex2pro', containsLatches=True, resynthesizeFlag=False, targetDepth=None, verboseFlag=False, parameterFileName='empty.par')
     
-    # parameter valuation not yet adapted (param_config only has 2^K entries per K-LUT now, instead of fixed 2^6 or 2^4)
-    @unittest.expectedFailure
     def test_fir(self):
         self.build('FIRTree32Tap8Bit/firTree32tap.vhd', ['FIRTree32Tap8Bit/mult8bit.vhd', 'FIRTree32Tap8Bit/treeMult4b.vhd'], K=6, virtexFamily='virtex5', containsLatches=True, resynthesizeFlag=False, targetDepth=None, verboseFlag=False)
 
