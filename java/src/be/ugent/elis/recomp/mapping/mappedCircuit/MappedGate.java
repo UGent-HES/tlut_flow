@@ -123,12 +123,7 @@ public class MappedGate extends MappedNode {
 	}
 	
 	public String getBlifMapString() {
-		String blifMapType;
-		if(getMappedType().equals("pureTCON"))
-			blifMapType = "TCON";
-		else
-			blifMapType = getMappedType();
-		return ".map " + blifMapType + " " + getBlifIdentifier() + "\n";
+		return ".map " + getMappedType() + " " + getBlifIdentifier() + "\n";
 	}
 
 	public String getBlifString() {

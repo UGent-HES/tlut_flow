@@ -630,7 +630,7 @@ public class MappedCircuit {
 					MappedGate lutInput = circuit.addGate(gate.getName()
 							+ "_in" + i, new BooleanFunction<MappedNode>(
 							bddIdMapping, tlutInputFunctions.get(i)),
-							"pureTCON");
+							"TMUX");
 
 					// Replace dummy LUT inputs now that the real inputs are
 					// finally created

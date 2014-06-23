@@ -84,11 +84,15 @@ public class MappedOutput extends MappedPrimaryOutput {
 		return vhdlGenerator.getAssignmentString(getVhdlSignalIdentifier(), getSource().getVhdlSignalIdentifier());
 	}
 
+	public String getBlifMapString() {
+		return ".map CONNECTION " + getBlifIdentifier() + "\n";
+	}
+
 	public String getBlifString() {
 		//Connect the source to the output
 		if (!getSource().getBlifIdentifier().equals(getBlifIdentifier()))
 			return ".names " + getSource().getBlifIdentifier() + " "
-					+ getBlifIdentifier() + "\n1 1\n\n";
+					+ getBlifIdentifier() + "\n1 1\n" + getBlifMapString() + "\n";
 		else
 			//Exception: it is possible that the source already has the same name as the output,
 			//this is usually the case if the source is a latch. We avoid changing the latch's name
