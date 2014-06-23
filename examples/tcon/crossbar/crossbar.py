@@ -12,8 +12,7 @@ def main():
         performCheck=True, 
         verboseFlag=False,
         synthesizedFileName=module, 
-        parameterFileName="parameters_cross16.par",
-        extraArgs=['--nolutstruct'])
+        parameterFileName="parameters_cross16.par")
 
 if __name__=="__main__":
     main()

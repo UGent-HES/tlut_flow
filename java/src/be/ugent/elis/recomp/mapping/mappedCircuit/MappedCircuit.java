@@ -229,6 +229,14 @@ public class MappedCircuit {
 		return n;
 	}
 
+	public MappedParameterisedMux addParameterisedMux(String name,
+			ArrayList<MappedNode> inputs, ArrayList<MappedNode> configurations) {
+		MappedParameterisedMux n = new MappedParameterisedMux(this, name,
+				inputs, configurations);
+		gates.add(n);
+		return n;
+	}
+
 	public ArrayList<MappedGate> getGatesInTopologicalOrderInToOut() {
 		ArrayList<MappedGate> list = new ArrayList<MappedGate>();
 		HashSet<MappedNode> visited = new HashSet<MappedNode>();
@@ -433,9 +441,84 @@ public class MappedCircuit {
 		// Separate configuration from LUT
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
 			MappedGate mappedN;
-			if (gate.hasParameterSources()) {
-				// TODO: treat TCON and TLUT differently, TLC should not exist
-				// anymore
+			BDDFactory factory = BDDFactorySingleton.get();
+
+			if (gate.getMappedType().equals("TMUX")) {
+				BooleanFunction<MappedNode> function = gate.getFunction()
+						.translate(mapping);
+
+				BDDidMapping<MappedNode> bddIdMapping = function
+						.getBDDidMapping();
+
+				ArrayList<MappedNode> regularInputs = new ArrayList<MappedNode>();
+				for (MappedNode node : function.getInputVariables())
+					if (!node.isParameterInput())
+						regularInputs.add(node);
+
+				// Initialise the configuration functions of the TMUX
+				ArrayList<BDD> tconConfigurations = new ArrayList<BDD>();
+				for (int i = 0; i < regularInputs.size(); i++)
+					tconConfigurations.add(factory.zero());
+
+				// Warning: this is a bit dangerous. RegularLeafSubBDDIterator
+				// requires that all parameters have a lower id than
+				// non-parameters. This may not be the case if the local
+				// function of a mappedgate has been constructed in some way.
+				// This is fine if the bddidmapping still corresponds to the one
+				// used in the MappingAIG.
+				verifyBDDParamVarMapping(function);
+				RegularLeafSubBDDIterator regularLeafSubBDDIterator = new RegularLeafSubBDDIterator(
+						function.getBDD(), function.getBDDidMapping());
+				while (regularLeafSubBDDIterator.hasNext()) {
+					BDDPair pair = regularLeafSubBDDIterator.next();
+					BDD param_condition = pair.first;
+					BDD subBDD = pair.second;
+					if (subBDD.nodeCount() == 0 && subBDD.isZero()) {
+						param_condition.free();
+						subBDD.free();
+						continue;
+					}
+					if (subBDD.nodeCount() > 1)
+						throw new RuntimeException();
+					if (subBDD.nodeCount() == 0 && !subBDD.isZero())
+						throw new RuntimeException();
+					if (!subBDD.high().isOne())
+						throw new RuntimeException();
+					if (!subBDD.low().isZero())
+						throw new RuntimeException();
+
+					int var_id = subBDD.var();
+					MappedNode var = bddIdMapping.getNode(var_id);
+					tconConfigurations.get(regularInputs.indexOf(var)).orWith(
+							param_condition);
+
+					subBDD.free();
+				}
+				regularLeafSubBDDIterator.free();
+
+				// Create the TCONs that connect to the inputs of the TLUT
+				ArrayList<MappedNode> configurations = new ArrayList<MappedNode>();
+				for (int i = 0; i < tconConfigurations.size(); i++) {
+					String configName = gate.getName() + "_in" + i;
+					MappedGate configurationNode = configurationCircuit
+							.addParameterisedConfigurationGate(
+									configName,
+									new BooleanFunction<MappedNode>(
+											bddIdMapping, tconConfigurations
+													.get(i)));
+
+					MappedInput configInput = circuit.addInput(configName,
+							false);
+					configurations.add(configInput);
+					configurationCircuit.addOutput(configName).setSource(
+							configurationNode);
+				}
+
+				// Create the TLUT
+				mappedN = circuit.addParameterisedMux(gate.getName(),
+						regularInputs, configurations);
+
+			} else if (gate.hasParameterSources()) {
 				BooleanFunction<MappedNode> function = gate.getFunction()
 						.translate(mapping);
 				ArrayList<MappedNode> sources = function.getInputVariables();
@@ -618,7 +701,7 @@ public class MappedCircuit {
 
 					BDD subBDDrepl = subBDD.replace(var_replacement);
 					tlutFunction.orWith(param_condition.and(subBDDrepl));
-
+					
 					subBDDrepl.free();
 					param_condition.free();
 					subBDD.free();
@@ -642,8 +725,6 @@ public class MappedCircuit {
 				mappedN = circuit.addGate(gate.getName(),
 						new BooleanFunction<MappedNode>(bddIdMapping,
 								tlutFunction), "TLUT");
-				// TODO: turn TCON into pure/primitive TCON: primitive TCON does
-				// never perform inversion on its inputs
 			} else {
 				BooleanFunction<MappedNode> function = gate.getFunction()
 						.translate(mapping);
@@ -670,7 +751,8 @@ public class MappedCircuit {
 		return circuit;
 	}
 
-	private void verifyBDDParamVarMapping(BooleanFunction<? extends IsParameterInterface> function) {
+	private void verifyBDDParamVarMapping(
+			BooleanFunction<? extends IsParameterInterface> function) {
 		BDD lut_support_it = function.getBDD().support();
 		boolean wasParam = true;
 		while (!lut_support_it.isOne()) {
@@ -679,8 +761,8 @@ public class MappedCircuit {
 			lut_support_it.free();
 			lut_support_it = n_lut_support_it;
 
-			
-			boolean isParam = function.getBDDidMapping().getNode(var_id).isParameter();
+			boolean isParam = function.getBDDidMapping().getNode(var_id)
+					.isParameter();
 			if (!wasParam && isParam)
 				throw new RuntimeException("BDD var ordering error");
 			wasParam &= isParam;
@@ -846,7 +928,8 @@ public class MappedCircuit {
 				gate.free();
 		for (MappedOLatch olatch : getOLatches())
 			if (!used_nodes.contains(olatch))
-				System.out.println("WARNING: unused latch: "+olatch.getName());
+				System.out
+						.println("WARNING: unused latch: " + olatch.getName());
 		this.gates = gates;
 	}
 
