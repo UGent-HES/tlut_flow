@@ -261,13 +261,16 @@ public class MappingAIG extends AIG<Node, Edge> {
 		
 		for(Node and : topologicalOrderInToOut(false, false)) {
 			if (and.isGate() && and.isVisible()) {
-				BooleanFunction<MappedNode> function = new BooleanFunction<MappedNode>(nBddIdMapping, and.getBestCone().getLocalFunction());
+				BooleanFunction<MappedNode> function = new BooleanFunction<MappedNode>(nBddIdMapping, and.getBestCone().getLocalFunction().id());
 				for (Node input : and.getBestCone().getRegularLeaves()) {
 				    if (checkOutputLutInversion(input) == OutputLutInversion.AllOutsInverted) {
-				        BooleanFunction<MappedNode> nfunction = function.invertInput(mapping.get(new PolarisedNode<Node>(input, false)));
+				    	MappedNode mappedIn = mapping.get(new PolarisedNode<Node>(input, false));
+				    	if (!function.hasInputVariable(mappedIn))
+				    		continue;
+				        BooleanFunction<MappedNode> nfunction = function.invertInput(mappedIn);
 				        function.free();
 				        function = nfunction;
-				        nfunction = function.replaceInput(mapping.get(new PolarisedNode<Node>(input, false)), 
+				        nfunction = function.replaceInput(mappedIn, 
 				            mapping.get(new PolarisedNode<Node>(input, true)));
 				        function.free();
 				        function = nfunction;

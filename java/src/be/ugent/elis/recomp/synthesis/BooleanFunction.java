@@ -73,7 +73,6 @@ import java.util.Map;
 
 import net.sf.javabdd.BDD;
 import net.sf.javabdd.BDDFactory;
-
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 
 public class BooleanFunction<V> {
@@ -120,27 +119,27 @@ public class BooleanFunction<V> {
 		return new BooleanFunction<V>(getBDDidMapping(), getBDD().id().compose(
 				factory.nithVar(variable_id), variable_id));
 	}
-	
+
 	public BooleanFunction<V> replaceInput(V node, V repl) {
 		BDDidMapping<V> newMapping = new BDDidMapping<V>();
 		for (V var : getInputVariables()) {
 			int id = mapping.getId(var);
-			if(var == node)
+			if (var == node)
 				newMapping.mapNodeToId(repl, id);
 			else
 				newMapping.mapNodeToId(var, id);
 		}
-	    return new BooleanFunction<V>(newMapping, getBDD().id());
+		return new BooleanFunction<V>(newMapping, getBDD().id());
 	}
 
 	public <K> BooleanFunction<K> translate(Map<V, K> map) {
 		BDDidMapping<K> newMapping = new BDDidMapping<K>();
 		for (V var : getInputVariables()) {
 			K nvar = map.get(var);
-			if(nvar == null)
+			if (nvar == null)
 				throw new RuntimeException();
 			Integer id = mapping.getId(var);
-			if(id == null)
+			if (id == null)
 				throw new RuntimeException();
 			newMapping.mapNodeToId(nvar, id);
 		}
@@ -158,7 +157,7 @@ public class BooleanFunction<V> {
 			var.free();
 			var = nvar;
 		}
-		if(!partialEvaluate(assignment).bdd.equals(var))
+		if (!partialEvaluate(assignment).bdd.equals(var))
 			throw new RuntimeException();
 		return var.isOne();
 	}
@@ -173,8 +172,8 @@ public class BooleanFunction<V> {
 				varBdd = BDDFactorySingleton.get().nithVar(mapping.getId(var));
 			restriction.andWith(varBdd);
 		}
-		return new BooleanFunction<V>(getBDDidMapping(), getBDD().id().restrict(
-				restriction));
+		return new BooleanFunction<V>(getBDDidMapping(), getBDD().id()
+				.restrict(restriction));
 	}
 
 	public ArrayList<V> getInputVariables() {
@@ -187,8 +186,8 @@ public class BooleanFunction<V> {
 
 	public String toString() {
 		String result = this.bdd.toString() + "\nnodes:";
-		//for (V var : getInputVariables())
-		//	result += " " + var.toString();
+		// for (V var : getInputVariables())
+		// result += " " + var.toString();
 		result += getBDDidMapping().toString();
 		return result;
 	}
@@ -205,7 +204,7 @@ public class BooleanFunction<V> {
 	public MintermTable<V> getMinterms() {
 		return MintermTable.createFrom(this);
 	}
-	
+
 	public boolean isIdentityFunction() {
 		if (bdd.nodeCount() != 1)
 			return false;
@@ -213,4 +212,9 @@ public class BooleanFunction<V> {
 			return true;
 		return false;
 	}
+
+	public boolean hasInputVariable(V node) {
+		return getInputVariables().contains(node);
+	}
+
 }

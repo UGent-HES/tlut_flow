@@ -34,7 +34,10 @@ public class BDDidMapping<N> {
 	}
 
 	public int getId(N node) {
-		return id_map.get(node);
+		Integer id = id_map.get(node);
+		if (id == null)
+			throw new RuntimeException();
+		return (int)id;
 	}
 
 	public N getNode(int id) {
