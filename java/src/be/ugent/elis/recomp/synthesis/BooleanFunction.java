@@ -206,4 +206,11 @@ public class BooleanFunction<V> {
 		return MintermTable.createFrom(this);
 	}
 	
+	public boolean isIdentityFunction() {
+		if (bdd.nodeCount() != 1)
+			return false;
+		if (bdd.high().isOne() && bdd.low().isZero())
+			return true;
+		return false;
+	}
 }

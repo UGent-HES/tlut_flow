@@ -641,7 +641,7 @@ public class MappedCircuit {
 					"DUMMY"));
 
 		for (MappedGate gate : getGatesInTopologicalOrderInToOut()) {
-			MappedGate mappedN;
+			MappedNode mappedN;
 			// Separate the K TCONs connected to the K inputs of the TLUT
 			if (gate.getMappedType().equals("TLC")
 					|| gate.getMappedType().equals("TCON")) {
@@ -712,8 +712,7 @@ public class MappedCircuit {
 				for (int i = 0; i < K; i++) {
 					MappedGate lutInput = circuit.addGate(gate.getName()
 							+ "_in" + i, new BooleanFunction<MappedNode>(
-							bddIdMapping, tlutInputFunctions.get(i)),
-							"TMUX");
+							bddIdMapping, tlutInputFunctions.get(i)), "TMUX");
 
 					// Replace dummy LUT inputs now that the real inputs are
 					// finally created
@@ -722,9 +721,14 @@ public class MappedCircuit {
 				}
 
 				// Create the TLUT
+				BooleanFunction<MappedNode> tlutBooleanFunction = new BooleanFunction<MappedNode>(
+						bddIdMapping, tlutFunction);
+				if (tlutBooleanFunction.isIdentityFunction()) {
+					mappedN = tlutBooleanFunction.getInputVariables().get(0);
+				} else {
 				mappedN = circuit.addGate(gate.getName(),
-						new BooleanFunction<MappedNode>(bddIdMapping,
-								tlutFunction), "TLUT");
+							tlutBooleanFunction, "TLUT");
+				}
 			} else {
 				BooleanFunction<MappedNode> function = gate.getFunction()
 						.translate(mapping);
