@@ -85,6 +85,7 @@ import be.ugent.elis.recomp.mapping.mappedCircuit.MappedOutput;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedPrimaryOutput;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class MappingAIG extends AIG<Node, Edge> {
 
@@ -261,7 +262,12 @@ public class MappingAIG extends AIG<Node, Edge> {
 		
 		for(Node and : topologicalOrderInToOut(false, false)) {
 			if (and.isGate() && and.isVisible()) {
-				BooleanFunction<MappedNode> function = new BooleanFunction<MappedNode>(nBddIdMapping, and.getBestCone().getLocalFunction().id());
+				BDD nbdd;
+				if(GlobalConstants.paramRestrictBlifPrimitives)
+					nbdd = and.getBestCone().getParamRestrictedLocalFunction();
+				else
+					nbdd = and.getBestCone().getLocalFunction().id();
+				BooleanFunction<MappedNode> function = new BooleanFunction<MappedNode>(nBddIdMapping, nbdd);
 				for (Node input : and.getBestCone().getRegularLeaves()) {
 				    if (checkOutputLutInversion(input) == OutputLutInversion.AllOutsInverted) {
 				    	MappedNode mappedIn = mapping.get(new PolarisedNode<Node>(input, false));

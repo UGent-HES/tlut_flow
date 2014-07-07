@@ -74,11 +74,12 @@ import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
 /**
- * Activation functions (boolean function of parameters) computed using this class 
- * will be false when the value of a node can be calculated using only the parameters, 
- * and the node can thus be implemented by tying it to ground or vcc, or the output is 
- * not used by another node (e.g. because the value of that node can be calculated using
- * only the parameters).
+ * The output activation functions (boolean function of parameters) of the AIG nodes
+ * are true when the output of this node is used as an input of another node.
+ * Activation functions computed using this class 
+ * will be true when the output of a node is used and the value of the node cannot
+ * be calculated using only the parameters, and the node can thus not be implemented 
+ * by tying it to ground or vcc.
  * When traverse_latches is true, activation and deactivation functions can be transferred
  * across latches. Eg. when the output of a latch is inactive, the input is too.
  * Parameter values are assumed to be constant. This may therefore change the function
@@ -87,10 +88,9 @@ import be.ugent.elis.recomp.util.GlobalConstants;
 public class ActivationFunctionBuilder extends AbstractActivationFunctionBuilder {
 	
 	static final int g_node_max = GlobalConstants.maxActivationFunctionSize;
-	static final boolean traverse_latches = GlobalConstants.parametersTraverseLatches;
 	
-    public ActivationFunctionBuilder(MappingAIG aig) {
-    	super(aig);
+    public ActivationFunctionBuilder(MappingAIG aig, boolean traverse_latches_a) {
+    	super(aig, traverse_latches_a);
     }
 	
 	protected void calculateDeactivationFunctions() {

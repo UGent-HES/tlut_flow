@@ -76,7 +76,7 @@ import be.ugent.elis.recomp.mapping.utils.Node;
 public class DummyActivationFunctionBuilder extends AbstractActivationFunctionBuilder {
 	
     public DummyActivationFunctionBuilder(MappingAIG aig) {
-    	super(aig);
+    	super(aig, false);
     }
 	
 	protected void calculateDeactivationFunctions() {

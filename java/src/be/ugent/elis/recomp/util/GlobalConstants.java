@@ -73,7 +73,13 @@ public class GlobalConstants {
 	public static final boolean binizeStatsFlag = false;
 	public static final boolean freeBDDafterEnumeration = true;
 	public static final boolean feasibility_uses_activationfunction = true;
+	/**
+	 * If both parametersTraverseLatches and paramRestrictBlifPrimitives are true,
+	 * ABC verification may fail. The reason for this is that ABC verification
+	 * assumes that parameters are variable, while we assume they are constant.
+	 */
 	public static final boolean parametersTraverseLatches = true;
+	public static final boolean paramRestrictBlifPrimitives = false;
 	
 	public static final int maxConeSizeConsidered = Integer.MAX_VALUE;
 	public static final int maxBddSizeConsidered = Integer.MAX_VALUE;

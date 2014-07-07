@@ -257,8 +257,8 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public BDD getParamRestrictedLocalFunction() {
-		if(GlobalConstants.feasibility_uses_activationfunction && getRoot().getActivationFunction()!=null)
-			return getLocalFunction().and(getRoot().getActivationFunction())
+		if(GlobalConstants.feasibility_uses_activationfunction && getRoot().getOutputActivationFunction()!=null)
+			return getLocalFunction().and(getRoot().getOutputActivationFunction())
 				.orWith(getRoot().getOnParamFunction().id())
 				.andWith(getRoot().getOffParamFunction().id().not());
 		else

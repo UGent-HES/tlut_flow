@@ -183,7 +183,7 @@ public class TMapSimple {
 		// Build activation functions for resource sharing and TLC/TCON feasibility calculation
 		if(use_bdd_flag) {
 	        System.out.println("Activation Function Builder:");
-	        new ActivationFunctionBuilder(a).run();
+	        new ActivationFunctionBuilder(a, GlobalConstants.parametersTraverseLatches).run();
 	        //new DummyActivationFunctionBuilder(a).run();
 		}
         
@@ -227,7 +227,7 @@ public class TMapSimple {
 		// Build activation functions for resource sharing again
 		if(use_bdd_flag) {
 	        System.out.println("Mapped AIG Activation Function Builder:");
-	        new MappedActivationFunctionBuilder(a).run();
+	        new MappedActivationFunctionBuilder(a, GlobalConstants.parametersTraverseLatches).run();
 		}
 		
 		// Resource sharing

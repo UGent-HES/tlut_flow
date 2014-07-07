@@ -77,13 +77,16 @@ import be.ugent.elis.recomp.util.logging.UnusedLatchOrInput;
 
 public abstract class AbstractActivationFunctionBuilder {
 	
-	static final int g_node_max = GlobalConstants.maxActivationFunctionSize;
+	static final protected int g_node_max = GlobalConstants.maxActivationFunctionSize;
+	final protected boolean traverse_latches;
+	
 	protected final MappingAIG aig;
 	protected final BDDFactory B;
 	
-    public AbstractActivationFunctionBuilder(MappingAIG aig) {
+    public AbstractActivationFunctionBuilder(MappingAIG aig, boolean traverse_latches_a) {
     	this.aig = aig;
 		this.B = BDDFactorySingleton.get();
+		traverse_latches = traverse_latches_a;
     }
 	
 	public void run() {
@@ -105,11 +108,6 @@ public abstract class AbstractActivationFunctionBuilder {
 	}
 	
 	protected void finalise() {
-		for (Node node : aig.getAllNodes()) {
-			if(node.getOnParamFunction()!=null) {
-				node.setOutputActivationFunction(null);
-			}
-		}
 	}
 	
 	public void unsetActivationFunctions() {
