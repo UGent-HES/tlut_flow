@@ -12,7 +12,8 @@ def main():
         performCheck=True, 
         verboseFlag=False,
         synthesizedFileName=module, 
-        parameterFileName="parameters_ps.par")
+        parameterFileName="parameters_ps.par",
+        extraArgs=['--mappedblif=mapped.blif'])
 
 if __name__=="__main__":
     main()
