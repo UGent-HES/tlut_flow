@@ -126,6 +126,16 @@ public class MappedCircuit {
 		this.outputs = new ArrayList<MappedOutput>();
 		this.gates = new ArrayList<MappedGate>();
 	}
+	
+	public void free() {
+		for (MappedNode node : getAllNodes())
+			node.free();
+		this.inputs.clear();
+		this.ilatches.clear();
+		this.olatches.clear();
+		this.outputs.clear();
+		this.gates.clear();
+	}
 
 	public String getName() {
 		return name;
@@ -631,6 +641,7 @@ public class MappedCircuit {
 		}
 
 		BDDFactory factory = BDDFactorySingleton.get();
+		BDDPairing var_replacement = factory.makePair();
 
 		// Create K temporary dummy LUT inputs
 		ArrayList<MappedNode> dummyLutInputs = new ArrayList<MappedNode>();
@@ -677,14 +688,14 @@ public class MappedCircuit {
 					BDD param_condition = pair.first;
 					BDD subBDD = pair.second;
 					BDD lut_support_it = subBDD.support();
-					BDDPairing var_replacement = factory.makePair();
+					var_replacement.reset();
 
 					// TODO: improve mapping of input signals to physical TLUT
 					// inputs
 					// Iterate over the support of the subBDD
 					int i = 0;
 					while (!lut_support_it.isOne()) {
-						if (i > K)
+						if (i >= K)
 							throw new RuntimeException();
 						int var_id = lut_support_it.var();
 						BDD n_lut_support_it = lut_support_it.high();
@@ -701,7 +712,7 @@ public class MappedCircuit {
 
 					BDD subBDDrepl = subBDD.replace(var_replacement);
 					tlutFunction.orWith(param_condition.and(subBDDrepl));
-					
+
 					subBDDrepl.free();
 					param_condition.free();
 					subBDD.free();
@@ -726,7 +737,7 @@ public class MappedCircuit {
 				if (tlutBooleanFunction.isIdentityFunction()) {
 					mappedN = tlutBooleanFunction.getInputVariables().get(0);
 				} else {
-				mappedN = circuit.addGate(gate.getName(),
+					mappedN = circuit.addGate(gate.getName(),
 							tlutBooleanFunction, "TLUT");
 				}
 			} else {
