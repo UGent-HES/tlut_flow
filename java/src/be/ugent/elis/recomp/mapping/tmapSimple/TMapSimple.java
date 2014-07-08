@@ -294,7 +294,7 @@ public class TMapSimple {
 		BDDFactorySingleton.destroy();
 
 		System.out.println(a.numLUTResourcesUsed() + "\t" + a.getDepth() + "\t"
-				+ a.numTLUTResourcesUsed() + "\t" + a.numTCONResourcesUsed() + "\t" + a.avDupl() + "\t"
+				+ a.numTLUTResourcesUsed() + "\t" + a.numTCONConesUsed() + "\t" + a.avDupl() + "\t"
 				+ enumerator.getNmbrConsideredCones() + "\t"
 				+ enumerator.getNmbrFeasibleCones() + "\t"
 				+ enumerator.getNmbrCones());

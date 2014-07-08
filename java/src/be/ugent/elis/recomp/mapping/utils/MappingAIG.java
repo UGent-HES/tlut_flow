@@ -171,6 +171,14 @@ public class MappingAIG extends AIG<Node, Edge> {
 					result++;
 		return result;
 	}
+	
+	public int numTCONConesUsed() {
+		int result = 0;
+		for (Cone cone : getVisibleCones())
+				if (cone.isTCON())
+					result++;
+		return result;
+	}
 
 	public double getDepth() {
 		Vector<Node> PO = new Vector<Node>();
