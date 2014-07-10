@@ -68,11 +68,28 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.mapping.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
+import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
+import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 
 public class PrintNameVisitor implements Visitor<Node, Edge> {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		// Initialise BDD library
+		BDDFactorySingleton.create(GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
+
+		// Read AIG file
+		MappingAIG a = new MappingAIG(args[0]);
+		
+		a.visitAllInverse(new PrintNameVisitor());
+	}
 
 	@Override
 	public void init(AIG<Node, Edge> aig) {
@@ -80,7 +97,7 @@ public class PrintNameVisitor implements Visitor<Node, Edge> {
 
 	@Override
 	public void visit(Node node) {
-		System.out.println(node.getName());	
+		System.out.println(node.toString());	
 	}
 
 	@Override
