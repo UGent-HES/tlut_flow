@@ -178,8 +178,8 @@ public class UniqueRegularLeafSubBDDIterator implements Iterator<BDD> {
 
 	@Override
 	public BDD next() {
-		if(bddContainsParameterLeaves(next))
-			throw new RuntimeException("RegularLeafSubBDD contains parameter leaves");
+		//if(bddContainsParameterLeaves(next))
+		//	throw new RuntimeException("RegularLeafSubBDD contains parameter leaves");
         return next;
 	}
 
