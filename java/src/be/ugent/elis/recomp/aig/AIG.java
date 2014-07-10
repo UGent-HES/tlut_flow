@@ -384,7 +384,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			edge1.getTail().addOutput(edge1);
 		}
 		scan.close();
-		
+
+		removeUnusedNodes();
 		sanityCheck();
 	}
 
@@ -485,7 +486,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		return intoout;
 	}
 
-	Vector<N> inToOut_rec(N node, Vector<N> vec, boolean includeInputs, boolean includeOutputs) {
+	private Vector<N> inToOut_rec(N node, Vector<N> vec, boolean includeInputs, boolean includeOutputs) {
 		if (!node.isMarked()) {
 			switch (node.getType()) {
 			case AND:
@@ -496,6 +497,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				break;
 			case INPUT:
 			case OLATCH:
+			case CONST0:
 				if (includeInputs)
 					vec.add(node);
 				node.setMarked(true);
@@ -507,10 +509,6 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 					vec.add(node);
 				node.setMarked(true);
 				break;
-			case CONST0:
-				if (includeInputs)
-					vec.add(node);
-				node.setMarked(true);
 			default:
 				break;
 			}
@@ -540,10 +538,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 
 	private Vector<N> outToIn_rec(N node, Vector<N> vec) {
-		
-
 		if (!node.isMarked()) {
-			
 			switch (node.getType()) {
 			case AND:
 				if(node.allFanoutIsMarked()) {
@@ -1210,7 +1205,6 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				edge.getTail().removeOutput(edge);
 				edges.remove(edge);
 			}
-			System.out.println("unused: "+n.getName());
 			and.remove(n);
 		}
 	}

@@ -137,7 +137,7 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		return (this.isConst0() || this.isInput() || this.isOLatch());
 	}
 
-	public double fanout() {
+	public int fanout() {
 		return output.size();
 	}
 
@@ -194,7 +194,7 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 
 	@Override
 	public String toString() {
-		return name;
+		return name + " ("+type+","+fanout()+")";
 	}
 
 	N in1Node() {
@@ -240,7 +240,20 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		return marked;
 	}
 
+    public boolean allFaninIsMarked() {
+        if(isPrimaryInput())
+            return true;
+        for (E edge:getInputEdges()) {
+            if (!edge.getTail().isMarked()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 	public boolean allFanoutIsMarked() {
+	    if(isPrimaryOutput())
+	        return true;
 		for (E edge:output) {
 			if (!edge.getHead().isMarked()) {
 				return false;
@@ -252,10 +265,24 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 	public List<E> getInputEdges() {
 		return input.subList(0, getNumInputs());
 	}
+
+    public ArrayList<N> getInputNodes() {
+        ArrayList<N> output_nodes = new ArrayList<N>();
+        for(E e:getInputEdges())
+            output_nodes.add(e.getTail());
+        return output_nodes;
+    }
 	
 	public ArrayList<E> getOutputEdges() {
 		return output;
 	}
+
+    public ArrayList<N> getOutputNodes() {
+        ArrayList<N> output_nodes = new ArrayList<N>();
+        for(E e:getOutputEdges())
+            output_nodes.add(e.getHead());
+        return output_nodes;
+    }
 	
 	public int inputIndex(E e) {
 		return input.indexOf(e);

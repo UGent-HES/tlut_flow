@@ -68,13 +68,10 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.mapping.utils;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
-import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
 

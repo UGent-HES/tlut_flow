@@ -241,7 +241,7 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	private void setLocalFunction(BDD function) {
-		if(this.localFunction != null && this.localFunction != function)
+		if(this.localFunction != null)
 			this.localFunction.free();
 		this.localFunction = function;
 	}
@@ -536,7 +536,6 @@ public class Cone implements Comparable<Cone> {
 			feasibilityFunction = getParamRestrictedLocalFunction();
 			regularLeafSubBDDIterator = new UniqueRegularLeafSubBDDIterator(feasibilityFunction, this.bddIdMapping);
 		}
-		
 	}
 	
 	public void finishFeasibilityCalculation() {
@@ -763,7 +762,10 @@ public class Cone implements Comparable<Cone> {
 //				result += ",";
 //			result += nodesNames.get(i);
 //		}
-		result += "})";
+		result += "},";
+		result += getRoot().isParameter() + ",";
+		result += getType();
+		result += ")";
 
 		return result;
 	}

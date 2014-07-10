@@ -166,14 +166,15 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		} else {
 		}
 		result.reduceMemoryUsage();
+		if(node.isConesEnumerated())
+			throw new RuntimeException();
 		node.setConeSet(result);
 		node.setConesEnumerated();
 		
 		if(GlobalConstants.freeBDDafterEnumeration) {
-			for(Edge e : node.getInputEdges()) {
-				Node parent = e.getTail();
-				if(parent.isFanoutConeEnumerationDone()) {
-					parent.getConeSet().free();
+			for(Node n : node.getInputNodes()) {
+				if(n.isFanoutConeEnumerationDone()) {
+					n.getConeSet().free();
 				}
 			}
 		}
@@ -186,7 +187,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	
 	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {
 		if(!node.isGate())
-			throw new RuntimeException("This function expects a AND node");
+			throw new RuntimeException("This function expects an AND node");
 		
 		//if node has a primary output as parent, this node will be the root of a selected cone anyway
 		for(Edge edge : node.getOutputEdges()) {
@@ -237,6 +238,11 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		// Get the two child nodes of the current node
 		Node node0 = node.getI0().getTail();
 		Node node1 = node.getI1().getTail();
+		
+		if(!node0.isConesEnumerated())
+			throw new RuntimeException("Cones of input node: "+node0.toString()+" not enumerated");
+		if(!node1.isConesEnumerated())
+			throw new RuntimeException("Cones of input node: "+node1.toString()+" not enumerated");
 
 		// Get the cone sets of the child nodes
 		ConeSet coneSet0 = node0.getConeSet();
