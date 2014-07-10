@@ -108,7 +108,7 @@ public class BooleanFunction<V> {
 	}
 
 	public BooleanFunction<V> invert() {
-		return new BooleanFunction<V>(getBDDidMapping(), bdd.id().not());
+		return new BooleanFunction<V>(getBDDidMapping(), bdd.not());
 	}
 
 	public BooleanFunction<V> invertInput(V node) {

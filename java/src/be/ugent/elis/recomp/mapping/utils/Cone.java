@@ -260,7 +260,7 @@ public class Cone implements Comparable<Cone> {
 		if(GlobalConstants.feasibility_uses_activationfunction && getRoot().getOutputActivationFunction()!=null)
 			return getLocalFunction().and(getRoot().getOutputActivationFunction())
 				.orWith(getRoot().getOnParamFunction().id())
-				.andWith(getRoot().getOffParamFunction().id().not());
+				.andWith(getRoot().getOffParamFunction().not());
 		else
 			return getLocalFunction().id();
 	}
@@ -597,10 +597,16 @@ public class Cone implements Comparable<Cone> {
 		BDD function0 = parent0.getLocalFunction().id();
 		BDD function1 = parent1.getLocalFunction().id();
 		
-		if(root.getI0().isInverted())
-			function0 = function0.not();
-		if(root.getI1().isInverted())
-			function1 = function1.not();
+		if(root.getI0().isInverted()) {
+			BDD nfunction0 = function0.not();
+			function0.free();
+			function0 = nfunction0;
+		}
+		if(root.getI1().isInverted()) {
+			BDD nfunction1 = function1.not();
+			function1.free();
+			function1 = nfunction1;
+		}
 		
 		BDD result = function0.andWith(function1);
 		return result;
@@ -610,7 +616,9 @@ public class Cone implements Comparable<Cone> {
 		if(root.isPrimaryOutput()) {
 			BDD tmp = root.getI0().getTail().getBDD(bddIdMapping);
 			if(root.getI0().isInverted()) {
-				tmp = tmp.not();
+				BDD ntmp = tmp.not();
+				tmp.free();
+				tmp = ntmp;
 			}
 			return tmp;
 		} else if(root.isPrimaryInput() || isTrivial()) {

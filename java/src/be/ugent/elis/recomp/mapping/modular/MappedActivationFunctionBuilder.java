@@ -335,10 +335,12 @@ public class MappedActivationFunctionBuilder extends AbstractActivationFunctionB
 		}
 		if(node.isPrimaryOutput() || node.isPrimaryInput()) { //primary inputs and outputs should be active if at least one "input" is needed
 			new_activation_function.free();
+
+	        BDD local_deacfn = node.getOnParamFunction().or(node.getOffParamFunction());
+	        BDD local_deacfn_not = local_deacfn.not();
+	        local_deacfn.free();
 			new_activation_function = node.getOutputActivationFunction().id()
-					.andWith(
-							node.getOnParamFunction()
-									.or(node.getOffParamFunction()).not());
+	                .andWith(local_deacfn_not);
 		}
 		if(node.getActivationFunction().equals(new_activation_function)) {
 			new_activation_function.free();

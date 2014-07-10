@@ -273,10 +273,11 @@ public class ActivationFunctionBuilder extends AbstractActivationFunctionBuilder
 			return;
 		node.setUpdated(false);
 
+		BDD local_deacfn = node.getOnParamFunction().or(node.getOffParamFunction());
+		BDD local_deacfn_not = local_deacfn.not();
+		local_deacfn.free();
 		BDD new_activation_function = node.getOutputActivationFunction().id()
-				.andWith(
-						node.getOnParamFunction()
-								.or(node.getOffParamFunction()).not());
+				.andWith(local_deacfn_not);
 		if(node.getActivationFunction() != null
 				&& node.getActivationFunction().equals(new_activation_function)) {
 			new_activation_function.free();

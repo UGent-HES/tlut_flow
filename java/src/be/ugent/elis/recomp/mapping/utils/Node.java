@@ -235,7 +235,7 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	public BDD getParamRestrictedBDD(BDDidMapping<Node> bddIdMapping) {
 		return	getPureBDD(bddIdMapping)
 					.orWith(getOnParamFunction().id())
-					.andWith(getOffParamFunction().id().not());
+					.andWith(getOffParamFunction().not());
 	}
 	public BDD getPureBDD(BDDidMapping<Node> bddIdMapping) {
 		if(isConst0())
