@@ -69,13 +69,14 @@ All rights reserved.
 package be.ugent.elis.recomp.synthesis;
 
 import net.sf.javabdd.BDDFactory;
+import net.sf.javabdd.JFactory;
 
 
 public class BDDFactorySingleton {
 	
 	static private BDDFactorySingleton singleton;
 	
-    private BDDFactory B;
+    private JFactory B;
     
     // We will typically use two varblocks. These are two ranges of variables 
     // of which variables of the first will always come before variables of the second
@@ -88,7 +89,7 @@ public class BDDFactorySingleton {
     }
     
     private BDDFactorySingleton(int node_num, int cache_size) {
-        B = BDDFactory.init("java", node_num, cache_size);
+        B = (JFactory)BDDFactory.init("java", node_num, cache_size);
         try {
 //			B.registerGCCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
 //			B.registerResizeCallback(new NullHandler(), NullHandler.class.getMethod("nullFunction"));
@@ -132,6 +133,11 @@ public class BDDFactorySingleton {
 
 	public static boolean isRangesDefined() {
 		return rangesDefined;
+	}
+	
+	public static void logNodeCount() {
+        singleton.B.bdd_gbc();
+        System.out.println("Debug: BDD nodecount: "+BDDFactorySingleton.get().getNodeNum());
 	}
 
 }

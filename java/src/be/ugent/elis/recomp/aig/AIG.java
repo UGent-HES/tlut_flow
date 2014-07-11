@@ -485,6 +485,10 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		setMarkedAll(false);
 		return intoout;
 	}
+	
+	public Vector<N> getAllVisibleAnds() {
+		return topologicalOrderInToOut(false, false);
+	}
 
 	private Vector<N> inToOut_rec(N node, Vector<N> vec, boolean includeInputs, boolean includeOutputs) {
 		if (!node.isMarked()) {
@@ -1196,7 +1200,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	
 	public void removeUnusedNodes() {
 		HashSet<N> unused_ands = new HashSet<N>(getAnds());
-		unused_ands.removeAll(topologicalOrderInToOut(false, false));
+		unused_ands.removeAll(getAllVisibleAnds());
 		for(N n : unused_ands) {
 			for(E edge : n.getOutputEdges())
 				if(!unused_ands.contains(edge.getHead()))

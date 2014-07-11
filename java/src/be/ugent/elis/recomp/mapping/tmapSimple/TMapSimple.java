@@ -241,9 +241,13 @@ public class TMapSimple {
 		System.out.println("Debug: Elapsed time after resource sharing: "+String.format("%3.3es", elapsed_time/1000.));
         
         MappedCircuit premappedCircuit = a.constructMappedCircuit(base_name, K);
-        MappedCircuit mappedCircuit = premappedCircuit.constructPrimitiveMappedCircuit();
-        ParameterisedMappedCircuitPair parameterisedMappedCircuit = mappedCircuit.constructParameterisedMappedCircuit();
-
+        MappedCircuit mappedCircuit = null;
+        ParameterisedMappedCircuitPair parameterisedMappedCircuit = null;
+    	if(write_mappedblif_flag || write_lutstruct_flag) {
+	        mappedCircuit = premappedCircuit.constructPrimitiveMappedCircuit();
+	        parameterisedMappedCircuit = mappedCircuit.constructParameterisedMappedCircuit();
+    	}
+	        
         // Debug output: mapped blif file
 		if(write_mappedblif_flag) {
 	        System.out.println("Writing the mapped BLIF:"); 

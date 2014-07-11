@@ -132,6 +132,14 @@ public class Cone implements Comparable<Cone> {
 		setLocalFunction(null);
 	}
 	
+	public void freeRec() {
+		setLocalFunction(null);
+		if(parent0!=null)
+			parent0.freeRec();
+		if(parent1!=null)
+			parent1.freeRec();
+	}
+	
 	public static Cone createCone(AIG<Node, Edge> aig, String root, String rleaves, String pLeaves) {
 		Cone result = new Cone(aig.getNode(root), null);
 		
