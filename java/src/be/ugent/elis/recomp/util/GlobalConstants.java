@@ -87,7 +87,7 @@ public class GlobalConstants {
 	public static final int maxNumConesPerNodeConsidered = 2000;
 	public static final int maxNumConesPerNodeSaved = 1000;
 	
-	public static final int bddNodeTableSize = 40000000;
+	public static final int bddNodeTableSize = 5000000;
 	public static final int bddCacheSize = 1000000;
 	
 	public static final int maxActivationFunctionSize = Integer.MAX_VALUE;
