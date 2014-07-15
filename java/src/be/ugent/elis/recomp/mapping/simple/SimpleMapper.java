@@ -80,6 +80,7 @@ import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
+import be.ugent.elis.recomp.util.logging.Logger;
 
 
 public class SimpleMapper {
@@ -162,6 +163,8 @@ public class SimpleMapper {
         System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
         System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());
 
+		Logger.getLogger().finalLog();
+		
 		// Cleanup
 		BDDFactorySingleton.destroy();
 		

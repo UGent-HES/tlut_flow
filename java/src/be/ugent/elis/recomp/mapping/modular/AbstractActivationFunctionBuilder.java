@@ -115,6 +115,7 @@ public abstract class AbstractActivationFunctionBuilder {
 			node.setOnParamFunction(BDDFactorySingleton.get().zero());
 			node.setOffParamFunction(BDDFactorySingleton.get().zero());
 			node.setActivationFunction(null);
+			node.setOutputActivationFunction(null);
 		}
 	}
 	
