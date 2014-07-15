@@ -97,7 +97,7 @@ third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz :
 #	touch third_party/JavaBDD/javabdd-${JAVABDD_VERSION}.jar
 
 third_party/javabdd_src_1.0b2 :
-	cd third_party && git clone git@github.ugent.be:kheyse/javabdd.git javabdd_src_1.0b2
+	cd third_party && git clone git@github.com:UGent-HES/javabdd.git javabdd_src_1.0b2
 
 third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar : 
 	cd third_party && curl -O http://central.maven.org/maven2/net/sf/jopt-simple/jopt-simple/${JOPT_SIMPLE_VERSION}/jopt-simple-${JOPT_SIMPLE_VERSION}.jar
