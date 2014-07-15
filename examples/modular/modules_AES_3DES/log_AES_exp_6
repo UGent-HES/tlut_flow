@@ -1,30 +1,30 @@
-Stage: Creating work/k_AES directory and copying design
+Stage: Creating work/AES directory and copying design
 Stage: Synthesizing
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
     Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
-    Info: Your use of Altera Corporation's design tools, logic functions 
-    Info: and other software and tools, and its AMPP partner logic 
-    Info: functions, and any output files from any of the foregoing 
-    Info: (including device programming or simulation files), and any 
-    Info: associated documentation or information are expressly subject 
-    Info: to the terms and conditions of the Altera Program License 
-    Info: Subscription Agreement, Altera MegaCore Function License 
-    Info: Agreement, or other applicable license agreement, including, 
-    Info: without limitation, that your use is for the sole purpose of 
-    Info: programming logic devices manufactured by Altera and sold by 
-    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: Your use of Altera Corporation's design tools, logic functions
+    Info: and other software and tools, and its AMPP partner logic
+    Info: functions, and any output files from any of the foregoing
+    Info: (including device programming or simulation files), and any
+    Info: associated documentation or information are expressly subject
+    Info: to the terms and conditions of the Altera Program License
+    Info: Subscription Agreement, Altera MegaCore Function License
+    Info: Agreement, or other applicable license agreement, including,
+    Info: without limitation, that your use is for the sole purpose of
+    Info: programming logic devices manufactured by Altera and sold by
+    Info: Altera or its authorized distributors.  Please refer to the
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Nov  5 16:11:17 2013
-Info: Command: quartus_map k_AES.qsf
+    Info: Processing started: Tue Jul 15 13:29:52 2014
+Info: Command: quartus_map AES.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file AES/addRoundKey.vhd
     Info: Found design unit 1: AddRoundKey-Behavioral
     Info: Found entity 1: AddRoundKey
-Info: Found 2 design units, including 1 entities, in source file AES/AES.vhd
-    Info: Found design unit 1: AES-Behavioral
-    Info: Found entity 1: AES
+Info: Found 2 design units, including 1 entities, in source file AES/k_AES.vhd
+    Info: Found design unit 1: k_AES-Behavioral
+    Info: Found entity 1: k_AES
 Warning (10639): VHDL warning at kround.vhd(33): constant value overflow
 Info: Found 2 design units, including 1 entities, in source file AES/kround.vhd
     Info: Found design unit 1: kround-Behavioral
@@ -56,43 +56,34 @@ Info: Found 2 design units, including 1 entities, in source file AES/subByte.vhd
 Info: Found 2 design units, including 1 entities, in source file AES/subWord.vhd
     Info: Found design unit 1: subword-behavioural
     Info: Found entity 1: subword
-Info: Found 2 design units, including 1 entities, in source file AES/k_AES.vhd
-    Info: Found design unit 1: k_AES-Behavioral
-    Info: Found entity 1: k_AES
-Info: Elaborating entity "k_AES" for the top level hierarchy
-Info: Elaborating entity "kround" using architecture "A:behavioral" for hierarchy "kround:\KROUNDS:1:KR"
-Info: Elaborating entity "rotword" using architecture "A:behavioural" for hierarchy "kround:\KROUNDS:1:KR|rotword:RT"
-Info: Elaborating entity "subword" using architecture "A:behavioural" for hierarchy "kround:\KROUNDS:1:KR|subword:SW"
-Info: Elaborating entity "subByte" for hierarchy "kround:\KROUNDS:1:KR|subword:SW|subByte:\GEN:0:SUB"
-Info: Elaborating entitABC command line: "strash; zero; write k_AES_resyn.aig".
-
-Converting 1408 flops from don't-care to zero initial value.
-ABC command line: "strash; zero; write k_AES_resyn.aig".
-
-Converting 1408 flops from don't-care to zero initial value.
-y "round0" for hierarchy "round0:R"
+Info: Found 2 design units, including 1 entities, in source file AES/AES.vhd
+    Info: Found design unit 1: AES-Behavioral
+    Info: Found entity 1: AES
+Info: Elaborating entity "AES" for the top level hierarchy
+Info: Elaborating entity "round0" for hierarchy "round0:R"
 Info: Elaborating entity "AddRoundKey" for hierarchy "round0:R|AddRoundKey:addroundkey0"
 Info: Elaborating entity "round" for hierarchy "round:\ROUNDS:1:R"
 Info: Elaborating entity "subBytes" for hierarchy "round:\ROUNDS:1:R|subBytes:SB"
+Info: Elaborating entity "subByte" for hierarchy "round:\ROUNDS:1:R|subBytes:SB|subByte:\GEN:0:SUB"
 Info: Elaborating entity "shiftRows" for hierarchy "round:\ROUNDS:1:R|shiftRows:SR"
 Info: Elaborating entity "mixColumns" for hierarchy "round:\ROUNDS:1:R|mixColumns:MC"
 Info: Elaborating entity "mixColumn" for hierarchy "round:\ROUNDS:1:R|mixColumns:MC|mixColumn:MIXCOLUMN0"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 1 warning
-    Error: Peak virtual memory: 480 megabytes
-    Error: Processing ended: Tue Nov  5 16:23:44 2013
-    Error: Elapsed time: 00:12:27
-    Error: Total CPU time (on all processors): 00:12:20
+    Error: Peak virtual memory: 503 megabytes
+    Error: Processing ended: Tue Jul 15 13:34:33 2014
+    Error: Elapsed time: 00:04:41
+    Error: Total CPU time (on all processors): 00:04:38
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
 Stage: Generating parameters
-Attention: Verify the detected parameters by inspecting work/k_AES/k_AES.par
+Warning: No parameters ('--PARAM' ) found in design
+Attention: Verify the detected parameters by inspecting work/AES/AES.par
+Stage: Resynthesizing
 Stage: TLUT mapper
-Please ignore the error message "Error: The current network is combinational".
-Luts (TLUTS)    depth           check           
-78853 (0)       58              SKIPPED         
+Luts (TLUTS)    depth           check
+15634 (0)       5               SKIPPED
 Stage: SimpleMAP
-Please ignore the error message "Error: The current network is combinational".
-Luts            depth           check           
-78845           58              SKIPPED         
+Luts            depth           check
+15634           5               SKIPPED
 Stage: ABC fpga
-Luts            depth           check           
-45164           63              SKIPPED         
+Luts            depth           check
+14629           4               SKIPPED

@@ -226,8 +226,8 @@ public class TMapSimple {
 
 		// Build activation functions for resource sharing again
 		if(use_bdd_flag) {
-	        System.out.println("Mapped AIG Activation Function Builder:");
-	        new MappedActivationFunctionBuilder(a, GlobalConstants.parametersTraverseLatches).run();
+	        //System.out.println("Mapped AIG Activation Function Builder:");
+	        //new MappedActivationFunctionBuilder(a, GlobalConstants.parametersTraverseLatches).run();
 		}
 		
 		// Resource sharing

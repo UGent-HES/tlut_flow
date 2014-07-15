@@ -6,7 +6,7 @@ import glob
 from fast_tconmap import run, setMaxMemory
 
 
-K = 4
+K = 6
 
 #setMaxMemory(5000)
 setMaxMemory(4000)

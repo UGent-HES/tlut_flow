@@ -5,7 +5,8 @@ from fast_tconmap import run, setMaxMemory
 
 def main():
     setMaxMemory(2048)
-    run('modules_exp.vhd', glob.glob('*/*.vhd'), K=4, performCheck=False, verboseFlag=False, resynthesizeFlag=True)
+    run('modules_exp.vhd', glob.glob('*/*.vhd'), K=6, 
+        performCheck=False, verboseFlag=False, resynthesizeFlag=True)
 
 if __name__=="__main__":
     main()

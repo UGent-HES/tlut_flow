@@ -5,7 +5,8 @@ from fast_tlutmap import run, setMaxMemory
 
 def main():
     setMaxMemory(2048)
-    run('3DES/tdes_top.vhd', glob.glob('3DES/*.vhd'), K=4, performCheck=False, verboseFlag=False, resynthesizeFlag=True)
+    run('3DES/tdes_top.vhd', glob.glob('3DES/*.vhd'), K=6, 
+        performCheck=False, verboseFlag=False, resynthesizeFlag=True)
 
 if __name__=="__main__":
     main()

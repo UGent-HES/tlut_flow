@@ -16,7 +16,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Nov  5 15:28:57 2013
+    Info: Processing started: Tue Jul 15 13:53:42 2014
 Info: Command: quartus_map tdes_top.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file 3DES/add_key.vhd
@@ -67,13 +67,7 @@ Info: Found 2 design units, including 1 entities, in source file 3DES/s6_box.vhd
 Info: Found 2 design units, including 1 entities, in source file 3DES/s7_box.vhd
     Info: Found design unit 1: s7_box-Behavioral
     Info: Found entity 1: s7_box
-Info: Found 2 design units, including 1 ABC command line: "strash; zero; write tdes_top_resyn.aig".
-
-Converting 1186 flops from don't-care to zero initial value.
-ABC command line: "strash; zero; write tdes_top_resyn.aig".
-
-Converting 1186 flops from don't-care to zero initial value.
-entities, in source file 3DES/s8_box.vhd
+Info: Found 2 design units, including 1 entities, in source file 3DES/s8_box.vhd
     Info: Found design unit 1: s8_box-Behavioral
     Info: Found entity 1: s8_box
 Info: Found 2 design units, including 1 entities, in source file 3DES/tdes_top.vhd
@@ -99,21 +93,20 @@ Info: Elaborating entity "p_box" for hierarchy "des_cipher_top:DESCIPHERTOP1|des
 Info: Elaborating entity "add_left" for hierarchy "des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|add_left:ADDLEFT"
 Warning: 3 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 1 warning
-    Error: Peak virtual memory: 383 megabytes
-    Error: Processing ended: Tue Nov  5 15:29:29 2013
-    Error: Elapsed time: 00:00:32
-    Error: Total CPU time (on all processors): 00:00:27
+    Error: Peak virtual memory: 425 megabytes
+    Error: Processing ended: Tue Jul 15 13:54:00 2014
+    Error: Elapsed time: 00:00:18
+    Error: Total CPU time (on all processors): 00:00:17
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
 Stage: Generating parameters
 Attention: Verify the detected parameters by inspecting work/tdes_top/tdes_top.par
+Stage: Resynthesizing
 Stage: TLUT mapper
-Please ignore the error message "Error: The current network is combinational".
 Luts (TLUTS)    depth           check           
-4063 (280)      10              SKIPPED         
+2622 (0)        7               SKIPPED         
 Stage: SimpleMAP
-Please ignore the error message "Error: The current network is combinational".
 Luts            depth           check           
-4175            10              SKIPPED         
+2622            7               SKIPPED         
 Stage: ABC fpga
 Luts            depth           check           
-3554            13              SKIPPED         
+2231            6               SKIPPED         

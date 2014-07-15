@@ -1,6 +1,5 @@
-Stage: Creating work/modules directory and copying design
+Stage: Creating work/modules_exp directory and copying design
 Stage: Synthesizing
-quartus_map --64bit modules.qsf
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
@@ -17,8 +16,8 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Nov  5 15:29:03 2013
-Info: Command: quartus_map modules.qsf
+    Info: Processing started: Wed Jul 16 11:41:59 2014
+Info: Command: quartus_map modules_exp.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file 3DES/add_key.vhd
     Info: Found design unit 1: add_key-Behavioral
@@ -26,6 +25,9 @@ Info: Found 2 design units, including 1 entities, in source file 3DES/add_key.vh
 Info: Found 2 design units, including 1 entities, in source file 3DES/add_left.vhd
     Info: Found design unit 1: add_left-Behavioral
     Info: Found entity 1: add_left
+Info: Found 2 design units, including 1 entities, in source file 3DES/tdes_top.vhd
+    Info: Found design unit 1: tdes_top-Behavioral
+    Info: Found entity 1: tdes_top
 Info: Found 2 design units, including 1 entities, in source file 3DES/block_top.vhd
     Info: Found design unit 1: block_top-Behavioral
     Info: Found entity 1: block_top
@@ -71,9 +73,6 @@ Info: Found 2 design units, including 1 entities, in source file 3DES/s7_box.vhd
 Info: Found 2 design units, including 1 entities, in source file 3DES/s8_box.vhd
     Info: Found design unit 1: s8_box-Behavioral
     Info: Found entity 1: s8_box
-Info: Found 2 design units, including 1 entities, in source file 3DES/tdes_top.vhd
-    Info: Found design unit 1: tdes_top-Behavioral
-    Info: Found entity 1: tdes_top
 Info: Found 2 design units, including 1 entities, in source file AES/addRoundKey.vhd
     Info: Found design unit 1: AddRoundKey-Behavioral
     Info: Found entity 1: AddRoundKey
@@ -114,10 +113,10 @@ Info: Found 2 design units, including 1 entities, in source file AES/subByte.vhd
 Info: Found 2 design units, including 1 entities, in source file AES/subWord.vhd
     Info: Found design unit 1: subword-behavioural
     Info: Found entity 1: subword
-Info: Found 2 design units, including 1 entities, in source file modules.vhd
-    Info: Found design unit 1: modules-behavior
-    Info: Found entity 1: modules
-Info: Elaborating entity "modules" for the top level hierarchy
+Info: Found 2 design units, including 1 entities, in source file modules_exp.vhd
+    Info: Found design unit 1: modules_exp-behavior
+    Info: Found entity 1: modules_exp
+Info: Elaborating entity "modules_exp" for the top level hierarchy
 Info: Elaborating entity "tdes_top" for hierarchy "tdes_top:TDES"
 Info: Elaborating entity "des_cipher_top" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1"
 Info: Elaborating entity "key_schedule" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|key_schedule:KEYSCHEDULE"
@@ -128,11 +127,7 @@ Info: Elaborating entity "add_key" for hierarchy "tdes_top:TDES|des_cipher_top:D
 Info: Elaborating entity "s_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX"
 Info: Elaborating entity "s1_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s1_box:S1"
 Info: Elaborating entity "s2_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s2_box:S2"
-Info: Elaborating entity "s3_box" for p
-ABC command line: "strash; zero; write modules_resyn.aig".
-
-Converting 2481 flops from don't-care to zero initial value.
-hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s3_box:S3"
+Info: Elaborating entity "s3_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s3_box:S3"
 Info: Elaborating entity "s4_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s4_box:S4"
 Info: Elaborating entity "s5_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s5_box:S5"
 Info: Elaborating entity "s6_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s6_box:S6"
@@ -140,76 +135,76 @@ Info: Elaborating entity "s7_box" for hierarchy "tdes_top:TDES|des_cipher_top:DE
 Info: Elaborating entity "s8_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|s_box:SBOX|s8_box:S8"
 Info: Elaborating entity "p_box" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|p_box:PBOX"
 Info: Elaborating entity "add_left" for hierarchy "tdes_top:TDES|des_cipher_top:DESCIPHERTOP1|des_top:DESTOP|block_top:BLOCKTOP|add_left:ADDLEFT"
-Info: Elaborating entity "k_AES" for hierarchy "k_AES:AES"
-Info: Elaborating entity "kround" using architecture "A:behavioral" for hierarchy "k_AES:AES|kround:\KROUNDS:1:KR"
-Info: Elaborating entity "rotword" using architecture "A:behavioural" for hierarchy "k_AES:AES|kround:\KROUNDS:1:KR|rotword:RT"
-Info: Elaborating entity "subword" using architecture "A:behavioural" for hierarchy "k_AES:AES|kround:\KROUNDS:1:KR|subword:SW"
-Info: Elaborating entity "subByte" for hierarchy "k_AES:AES|kround:\KROUNDS:1:KR|subword:SW|subByte:\GEN:0:SUB"
-Info: Elaborating entity "round0" for hierarchy "k_AES:AES|round0:R"
-Info: Elaborating entity "AddRoundKey" for hierarchy "k_AES:AES|round0:R|AddRoundKey:addroundkey0"
-Info: Elaborating entity "round" for hierarchy "k_AES:AES|round:\ROUNDS:1:R"
-Info: Elaborating entity "subBytes" for hierarchy "k_AES:AES|round:\ROUNDS:1:R|subBytes:SB"
-Info: Elaborating entity "shiftRows" for hierarchy "k_AES:AES|round:\ROUNDS:1:R|shiftRows:SR"
-Info: Elaborating entity "mixColumns" for hierarchy "k_AES:AES|round:\ROUNDS:1:R|mixColumns:MC"
-Info: Elaborating entity "mixColumn" for hierarchy "k_AES:AES|round:\ROUNDS:1:R|mixColumns:MC|mixColumn:MIXCOLUMN0"
+Info: Elaborating entity "AES" for hierarchy "AES:AES"
+Info: Elaborating entity "round0" for hierarchy "AES:AES|round0:R"
+Info: Elaborating entity "AddRoundKey" for hierarchy "AES:AES|round0:R|AddRoundKey:addroundkey0"
+Info: Elaborating entity "round" for hierarchy "AES:AES|round:\ROUNDS:1:R"
+Info: Elaborating entity "subBytes" for hierarchy "AES:AES|round:\ROUNDS:1:R|subBytes:SB"
+Info: Elaborating entity "subByte" for hierarchy "AES:AES|round:\ROUNDS:1:R|subBytes:SB|subByte:\GEN:0:SUB"
+Info: Elaborating entity "shiftRows" for hierarchy "AES:AES|round:\ROUNDS:1:R|shiftRows:SR"
+Info: Elaborating entity "mixColumns" for hierarchy "AES:AES|round:\ROUNDS:1:R|mixColumns:MC"
+Info: Elaborating entity "mixColumn" for hierarchy "AES:AES|round:\ROUNDS:1:R|mixColumns:MC|mixColumn:MIXCOLUMN0"
 Warning: 3 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 2 warnings
-    Error: Peak virtual memory: 496 megabytes
-    Error: Processing ended: Tue Nov  5 15:42:17 2013
-    Error: Elapsed time: 00:13:14
-    Error: Total CPU time (on all processors): 00:13:08
+    Error: Peak virtual memory: 521 megabytes
+    Error: Processing ended: Wed Jul 16 11:47:03 2014
+    Error: Elapsed time: 00:05:04
+    Error: Total CPU time (on all processors): 00:05:00
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
 Stage: Generating parameters
-Attention: Verify the detected parameters by inspecting work/modules/modules.par
-Parameters:
+Attention: Verify the detected parameters by inspecting work/modules_exp/modules_exp.par
+Stage: Resynthesizing
 Stage: TLUT mapper
-Please ignore the error message "Error: The current network is combinational".
-java -server -Xms2048m -Xmx2048m be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple modules_resyn.aag modules.par 4 modules-tlutconfig.aag modules-parconfig.aag modules-lutstruct.blif
-Cone Enumeration:
-Cone Ranking:
-Cone Selection:
-Activation Function Builder:
-Resizing node table from 11 to 19
-Resizing node table from 19 to 37
-Warning: Unused latch or input: clk
-Resource Sharing:
-Number of activationsets: 2
-Number of activationsets with visible nodes: 2
-ActivationSet(activation_function{<0:1>},share_with{<0:0>,},num_nodes{4941},nodes{})
-ActivationSet(activation_function{<0:0>},share_with{<0:1>,},num_nodes{80423},nodes{})
-
-Generating the parameterizable configuration:
-Writing the LUT structure:
-82889	57.0	128	1.6522159851778475	11750311	1563658	0
-
-abc -c print_stats modules_resyn.aig
-ABC command line: "print_stats".
-
-modules_resyn: i/o =  317/  129  lat = 2497  and = 218052  lev =172
-abc -c print_stats modules-tlutconfig_resyn.aig
-ABC command line: "print_stats".
-
-modules-tlutconfig_resyn: i/o =    1/ 2048  lat =    0  and =      0  lev =  0
-LutsABC command line: "strash; zero; write modules_resyn.aig".
-
-Converting 2481 flops from don't-care to zero initial value.
- (TLUTS)    depth           check           
-82889 (128)     57              SKIPPED         
+Debug: Elapsed time after mapping: 2,503e+01s
+Debug: Elapsed time after resource sharing: 2,503e+01s
+Debug: Num Cones considered: 62664660
+Debug: Num Cones retained: 4212933
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 18267
+Debug: Times max cone num to save reached: 0
+Luts (TLUTS)    depth           check           
+18077 (1704)    7               SKIPPED         
+Stage: TCON mapper + TLC
+Debug: Elapsed time after mapping: 1,909e+02s
+ActivationSet(activation_function{2},share_with{3,},num_luts{2534},bdd_vars{p,})
+ActivationSet(activation_function{3},share_with{2,},num_luts{15103},bdd_vars{p,})
+Num LUT resources used with sharing: 15142
+Debug: Share: 2 (2534)  -> 3 (15103)
+Debug: Elapsed time after resource sharing: 1,910e+02s
+Debug: Num Cones considered: 62567342
+Debug: Num Cones retained: 4083045
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 16250
+Debug: Times max cone num to save reached: 0
+Luts (TLUT/TCON)depth           check           
+17676 (1448/256)7               SKIPPED         
+Stage: TCON mapper
+Debug: Elapsed time after mapping: 1,832e+02s
+ActivationSet(activation_function{2},share_with{3,},num_luts{2534},bdd_vars{p,})
+ActivationSet(activation_function{3},share_with{2,},num_luts{15133},bdd_vars{p,})
+Num LUT resources used with sharing: 15172
+Debug: Share: 2 (2534)  -> 3 (15133)
+Debug: Elapsed time after resource sharing: 1,833e+02s
+Debug: Num Cones considered: 62627280
+Debug: Num Cones retained: 4173583
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 17662
+Debug: Times max cone num to save reached: 0
+Luts (TLUT/TCON)depth           check           
+17706 (686/1018)7               SKIPPED         
 Stage: SimpleMAP
-Please ignore the error message "Error: The current network is combinational".
-java -server -Xms2048m -Xmx2048m be.ugent.elis.recomp.mapping.simple.SimpleMapper modules_resyn.aag 4 modules-simple.blif
-Cone Enumeration:
-Cone Ranking:
-Cone Selection:
-82887	57.0	11750311	1563658	0
-
+Debug: Elapsed time after mapping: 2,310e+01s
+Debug: Num Cones considered: 58288936
+Debug: Num Cones retained: 3954739
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 15134
+Debug: Times max cone num to save reached: 0
 Luts            depth           check           
-82887           57              SKIPPED         
+18205           7               SKIPPED         
 Stage: ABC fpga
-['abc', '-c', 'strash; fpga -K 4; write modules-fpga.blif; print_stats', 'modules.blif']
-ABC command line: "strash; fpga -K 4; write modules-fpga.blif; print_stats".
-
-modules      : i/o =  317/  129  lat = 2497  nd = 48621  edge = 190412  bdd  =276298  lev = 62
-
 Luts            depth           check           
-48621           62              SKIPPED         
+16053           6               SKIPPED         
