@@ -489,7 +489,7 @@ public class Cone implements Comparable<Cone> {
 	protected void calculateSignature() {
 		signature = 0;
 		for (Node n: regularLeaves) {
-			signature |= (1 << (n.hashCode() % 64));
+			signature |= (1l << (n.hashCode() % 64));
 		}
 	}
 	
