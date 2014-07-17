@@ -1,5 +1,6 @@
 package be.ugent.elis.recomp.util.logging;
 
+import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
@@ -26,12 +27,16 @@ public class ConeComputedStats extends AbstractMessage {
 		super();
 		this.cone = cone;
 		
-		if(cone.isLocalFunctionDefined()) {
+		if(true) { //cone.isLocalFunctionDefined()) {
+			BDD tmp = cone.getParamRestrictedLocalFunction();
+			int nodeCount = tmp.nodeCount();
+			tmp.free();
+			cone.freeRec();
 			if(GlobalConstants.binizeStatsFlag) {
-				int bin = getBin(cone.getLocalFunction().nodeCount());
+				int bin = getBin(nodeCount);
 				hist[bin]++;
 			}
-			sumSize += cone.getLocalFunction().nodeCount();
+			sumSize += nodeCount;
 			numBDDs++;
 		}
 		numMessages++;

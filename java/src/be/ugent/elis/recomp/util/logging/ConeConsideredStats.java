@@ -8,6 +8,8 @@ public class ConeConsideredStats extends AbstractMessage {
 	static int maxBddSize = 0;
 	static int sumBddSize = 0;
 	static int numBdd = 0;
+	static int numCones = 0;
+	static int sumConeSize = 0;
 	
 	Cone cone;
 	
@@ -18,15 +20,17 @@ public class ConeConsideredStats extends AbstractMessage {
 	public ConeConsideredStats(Cone cone) {
 		super();
 		this.cone = cone;
+
+		BDD tmp = cone.getParamRestrictedLocalFunction();
+		int nodeCount = tmp.nodeCount();
+		tmp.free();
+		cone.freeRec();
+		sumBddSize += nodeCount;
+		numBdd += 1;
+		maxBddSize = Math.max(maxBddSize, nodeCount);
 		
-		BDD bdd = cone.getLocalFunction();
-		
-		if(bdd != null) {
-			int nodeCount = bdd.nodeCount();
-			sumBddSize += nodeCount;
-			numBdd += 1;
-			maxBddSize = Math.max(maxBddSize, nodeCount);
-		}
+		numCones += 1;
+		sumConeSize += cone.size();
 		
 		numMessages++;
 	}
@@ -40,6 +44,7 @@ public class ConeConsideredStats extends AbstractMessage {
 		if(numBdd != 0) {
 			System.out.println("Debug: Avg BDD size considered: "+(sumBddSize/(float)numBdd));
 			System.out.println("Debug: Max BDD size considered: "+maxBddSize);
+			System.out.println("Debug: Avg Cone size considered: "+(sumConeSize/(float)numCones));
 		}
 	}
 }
