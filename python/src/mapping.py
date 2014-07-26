@@ -228,11 +228,16 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
     
         # Resynthesize Parameterizable Configuration
         parconfbasename, parext = getBasenameAndExtension(parconfFile)
+        if os.path.exists(parconfFile):
         parconfFile = resynthesize(parconfbasename, parconfFile, 
             'rw; rf; rw; rwz; rfz; rwz')
         
         # Extracting results: Parameterizable Configuration
         paramAnds = getAIGStats(parconfFile, verboseFlag)
+        else:
+            parconfFile = None
+            paramAnds = -1
+        
         
         # Verification of resulting mapping using satsolver
         if checkFunctionality:
