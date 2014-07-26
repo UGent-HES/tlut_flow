@@ -1,0 +1,402 @@
+.model top_genericblock
+.inputs counter_en dummy_en Ff_In Ff_en fastforward_en Fb_In Fb_en Op_In condition reset loopback_en clk cntr_N[7] cntr_N[6] cntr_N[5] cntr_N[4] cntr_N[3] cntr_N[2] cntr_N[0] cntr_N[1] cntr_M[7] cntr_M[6] cntr_M[5] cntr_M[4] cntr_M[3] cntr_M[2] cntr_M[0] cntr_M[1]
+.outputs Op_Out Ff_out Fb_Out
+
+# g6 = Op_out_var~synth
+.names g6 Op_Out
+1 1
+
+.names Op_In Ff_out
+1 1
+
+# g6 = Op_out_var~synth
+.names g6 Fb_Out
+1 1
+
+#g1 = flipflop
+.latch g8 g1 re clk 2
+
+#g1 = flipflop
+#g2 = state_out~synth
+.names g1 counter_en dummy_en g2
+100 1
+
+#g3 = countDecoder:CountDecoder_ent|counter_flipflop
+.latch g31 g3 re clk 2
+
+#g3 = countDecoder:CountDecoder_ent|counter_flipflop
+#g4 = Op_out_var~synth
+.names counter_en Ff_In Ff_en g3 g4
+0110 1
+1110 1
+1001 1
+1101 1
+1011 1
+0111 1
+1111 1
+
+#g5 = Op_out_var~synth
+.names Fb_In Fb_en Op_In g5
+000 1
+100 1
+010 1
+
+#g2 = state_out~synth
+#g4 = Op_out_var~synth
+#g5 = Op_out_var~synth
+#g6 = Op_out_var~synth
+.names g2 g4 fastforward_en g5 g6
+1000 1
+0100 1
+1100 1
+0010 1
+1010 1
+0110 1
+1110 1
+1001 1
+0101 1
+1101 1
+1011 1
+0111 1
+1111 1
+
+#g7 = flipflop~synth
+.names condition reset g7
+10 1
+
+#g7 = flipflop~synth
+#g1 = flipflop
+#g5 = Op_out_var~synth
+#g8 = flipflop~synth
+.names g7 g1 loopback_en g5 g8
+1000 1
+1100 1
+1010 1
+1110 1
+1111 1
+
+#g9 = counter:Counter_ent|Pre_Q[7]
+.latch g34 g9 re clk 0
+
+#g10 = counter:Counter_ent|Pre_Q[6]
+.latch g35 g10 re clk 0
+
+#g11 = counter:Counter_ent|Pre_Q[5]
+.latch g38 g11 re clk 0
+
+#g12 = counter:Counter_ent|Pre_Q[4]
+.latch g39 g12 re clk 0
+
+#g13 = counter:Counter_ent|Pre_Q[3]
+.latch g41 g13 re clk 0
+
+#g14 = counter:Counter_ent|Pre_Q[2]
+.latch g43 g14 re clk 0
+
+#g15 = counter:Counter_ent|Pre_Q[0]
+.latch g44 g15 re clk 0
+
+#g16 = counter:Counter_ent|Pre_Q[1]
+.latch g45 g16 re clk 0
+
+#g15 = counter:Counter_ent|Pre_Q[0]
+#g16 = counter:Counter_ent|Pre_Q[1]
+#g17 = countDecoder:CountDecoder_ent|LessThan0~synth
+.names g15 cntr_N[0] g16 cntr_N[1] g17
+0100 1
+0001 1
+1001 1
+0101 1
+1101 1
+0111 1
+
+#g14 = counter:Counter_ent|Pre_Q[2]
+#g17 = countDecoder:CountDecoder_ent|LessThan0~synth
+#g18 = countDecoder:CountDecoder_ent|LessThan0
+.names g14 cntr_N[2] g17 g18
+010 1
+001 1
+011 1
+111 1
+
+#g13 = counter:Counter_ent|Pre_Q[3]
+#g18 = countDecoder:CountDecoder_ent|LessThan0
+#g19 = countDecoder:CountDecoder_ent|LessThan0
+.names g13 cntr_N[3] g18 g19
+010 1
+001 1
+011 1
+111 1
+
+#g12 = counter:Counter_ent|Pre_Q[4]
+#g19 = countDecoder:CountDecoder_ent|LessThan0
+#g20 = countDecoder:CountDecoder_ent|LessThan0
+.names g12 cntr_N[4] g19 g20
+010 1
+001 1
+011 1
+111 1
+
+#g11 = counter:Counter_ent|Pre_Q[5]
+#g20 = countDecoder:CountDecoder_ent|LessThan0
+#g21 = countDecoder:CountDecoder_ent|LessThan0
+.names g11 cntr_N[5] g20 g21
+010 1
+001 1
+011 1
+111 1
+
+#g10 = counter:Counter_ent|Pre_Q[6]
+#g21 = countDecoder:CountDecoder_ent|LessThan0
+#g22 = countDecoder:CountDecoder_ent|LessThan0
+.names g10 cntr_N[6] g21 g22
+010 1
+001 1
+011 1
+111 1
+
+#g9 = counter:Counter_ent|Pre_Q[7]
+#g22 = countDecoder:CountDecoder_ent|LessThan0
+#g23 = countDecoder:CountDecoder_ent|LessThan0
+.names g9 cntr_N[7] g22 g23
+010 1
+001 1
+011 1
+111 1
+
+#g15 = counter:Counter_ent|Pre_Q[0]
+#g16 = counter:Counter_ent|Pre_Q[1]
+#g24 = countDecoder:CountDecoder_ent|LessThan1~synth
+.names cntr_M[0] g15 cntr_M[1] g16 g24
+0100 1
+0001 1
+1001 1
+0101 1
+1101 1
+0111 1
+
+#g14 = counter:Counter_ent|Pre_Q[2]
+#g24 = countDecoder:CountDecoder_ent|LessThan1~synth
+#g25 = countDecoder:CountDecoder_ent|LessThan1
+.names cntr_M[2] g14 g24 g25
+010 1
+001 1
+011 1
+111 1
+
+#g13 = counter:Counter_ent|Pre_Q[3]
+#g25 = countDecoder:CountDecoder_ent|LessThan1
+#g26 = countDecoder:CountDecoder_ent|LessThan1
+.names cntr_M[3] g13 g25 g26
+010 1
+001 1
+011 1
+111 1
+
+#g12 = counter:Counter_ent|Pre_Q[4]
+#g26 = countDecoder:CountDecoder_ent|LessThan1
+#g27 = countDecoder:CountDecoder_ent|LessThan1
+.names cntr_M[4] g12 g26 g27
+010 1
+001 1
+011 1
+111 1
+
+#g11 = counter:Counter_ent|Pre_Q[5]
+#g27 = countDecoder:CountDecoder_ent|LessThan1
+#g28 = countDecoder:CountDecoder_ent|LessThan1
+.names cntr_M[5] g11 g27 g28
+010 1
+001 1
+011 1
+111 1
+
+#g10 = counter:Counter_ent|Pre_Q[6]
+#g28 = countDecoder:CountDecoder_ent|LessThan1
+#g29 = countDecoder:CountDecoder_ent|LessThan1
+.names cntr_M[6] g10 g28 g29
+010 1
+001 1
+011 1
+111 1
+
+#g9 = counter:Counter_ent|Pre_Q[7]
+#g29 = countDecoder:CountDecoder_ent|LessThan1
+#g30 = countDecoder:CountDecoder_ent|LessThan1
+.names cntr_M[7] g9 g29 g30
+010 1
+001 1
+011 1
+111 1
+
+#g8 = flipflop~synth
+#g23 = countDecoder:CountDecoder_ent|LessThan0
+#g30 = countDecoder:CountDecoder_ent|LessThan1
+#g31 = countDecoder:CountDecoder_ent|counter_flipflop~synth
+.names g8 g23 g30 g31
+100 1
+
+#g13 = counter:Counter_ent|Pre_Q[3]
+#g14 = counter:Counter_ent|Pre_Q[2]
+#g16 = counter:Counter_ent|Pre_Q[1]
+#g15 = counter:Counter_ent|Pre_Q[0]
+#g32 = counter:Counter_ent|Pre_Q[7]~synth
+.names g13 g14 g16 g15 g32
+1111 1
+
+#g11 = counter:Counter_ent|Pre_Q[5]
+#g12 = counter:Counter_ent|Pre_Q[4]
+#g32 = counter:Counter_ent|Pre_Q[7]~synth
+#g33 = counter:Counter_ent|Pre_Q[7]~synth
+.names g11 g12 g32 g33
+111 1
+
+#g8 = flipflop~synth
+#g9 = counter:Counter_ent|Pre_Q[7]
+#g10 = counter:Counter_ent|Pre_Q[6]
+#g33 = counter:Counter_ent|Pre_Q[7]~synth
+#g34 = counter:Counter_ent|Pre_Q[7]~synth
+.names g8 g9 g10 g33 g34
+1100 1
+1110 1
+1101 1
+1011 1
+1111 1
+
+#g8 = flipflop~synth
+#g9 = counter:Counter_ent|Pre_Q[7]
+#g10 = counter:Counter_ent|Pre_Q[6]
+#g33 = counter:Counter_ent|Pre_Q[7]~synth
+#g35 = counter:Counter_ent|Pre_Q[6]~synth
+.names g8 g9 g10 g33 g35
+1010 1
+1110 1
+1001 1
+1101 1
+1111 1
+
+#g8 = flipflop~synth
+#g9 = counter:Counter_ent|Pre_Q[7]
+#g10 = counter:Counter_ent|Pre_Q[6]
+#g33 = counter:Counter_ent|Pre_Q[7]~synth
+#g36 = counter:Counter_ent|Pre_Q[7]~synth
+.names g8 g9 g10 g33 g36
+1111 1
+
+#g12 = counter:Counter_ent|Pre_Q[4]
+#g32 = counter:Counter_ent|Pre_Q[7]~synth
+#g37 = counter:Counter_ent|Pre_Q[7]~synth
+.names g12 g32 g37
+11 1
+
+#g36 = counter:Counter_ent|Pre_Q[7]~synth
+#g8 = flipflop~synth
+#g11 = counter:Counter_ent|Pre_Q[5]
+#g37 = counter:Counter_ent|Pre_Q[7]~synth
+#g38 = counter:Counter_ent|Pre_Q[5]~synth
+.names g36 g8 g11 g37 g38
+1000 1
+1100 1
+1010 1
+0110 1
+1110 1
+1001 1
+0101 1
+1101 1
+1011 1
+1111 1
+
+#g36 = counter:Counter_ent|Pre_Q[7]~synth
+#g8 = flipflop~synth
+#g12 = counter:Counter_ent|Pre_Q[4]
+#g32 = counter:Counter_ent|Pre_Q[7]~synth
+#g39 = counter:Counter_ent|Pre_Q[4]~synth
+.names g36 g8 g12 g32 g39
+1000 1
+1100 1
+1010 1
+0110 1
+1110 1
+1001 1
+0101 1
+1101 1
+1011 1
+1111 1
+
+#g14 = counter:Counter_ent|Pre_Q[2]
+#g16 = counter:Counter_ent|Pre_Q[1]
+#g15 = counter:Counter_ent|Pre_Q[0]
+#g40 = counter:Counter_ent|Pre_Q[7]~synth
+.names g14 g16 g15 g40
+111 1
+
+#g36 = counter:Counter_ent|Pre_Q[7]~synth
+#g8 = flipflop~synth
+#g13 = counter:Counter_ent|Pre_Q[3]
+#g40 = counter:Counter_ent|Pre_Q[7]~synth
+#g41 = counter:Counter_ent|Pre_Q[3]~synth
+.names g36 g8 g13 g40 g41
+1000 1
+1100 1
+1010 1
+0110 1
+1110 1
+1001 1
+0101 1
+1101 1
+1011 1
+1111 1
+
+#g16 = counter:Counter_ent|Pre_Q[1]
+#g15 = counter:Counter_ent|Pre_Q[0]
+#g42 = counter:Counter_ent|Add0~synth
+.names g16 g15 g42
+11 1
+
+#g36 = counter:Counter_ent|Pre_Q[7]~synth
+#g8 = flipflop~synth
+#g14 = counter:Counter_ent|Pre_Q[2]
+#g42 = counter:Counter_ent|Add0~synth
+#g43 = counter:Counter_ent|Pre_Q[2]~synth
+.names g36 g8 g14 g42 g43
+1000 1
+1100 1
+1010 1
+0110 1
+1110 1
+1001 1
+0101 1
+1101 1
+1011 1
+1111 1
+
+#g36 = counter:Counter_ent|Pre_Q[7]~synth
+#g8 = flipflop~synth
+#g15 = counter:Counter_ent|Pre_Q[0]
+#g44 = counter:Counter_ent|Pre_Q[0]~synth
+.names g36 g8 g15 g44
+100 1
+010 1
+110 1
+101 1
+111 1
+
+#g36 = counter:Counter_ent|Pre_Q[7]~synth
+#g8 = flipflop~synth
+#g16 = counter:Counter_ent|Pre_Q[1]
+#g15 = counter:Counter_ent|Pre_Q[0]
+#g45 = counter:Counter_ent|Pre_Q[1]~synth
+.names g36 g8 g16 g15 g45
+1000 1
+1100 1
+1010 1
+0110 1
+1110 1
+1001 1
+0101 1
+1101 1
+1011 1
+1111 1
+
+.end
+
