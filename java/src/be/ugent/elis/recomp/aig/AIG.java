@@ -1201,16 +1201,20 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	public void removeUnusedNodes() {
 		HashSet<N> unused_ands = new HashSet<N>(getAnds());
 		unused_ands.removeAll(getAllVisibleAnds());
+		ArrayList<E> unused_edges = new ArrayList<E>();
 		for(N n : unused_ands) {
 			for(E edge : n.getOutputEdges())
 				if(!unused_ands.contains(edge.getHead()))
 					throw new RuntimeException("Output of unused and is not unused: "+edge.getHead().getName());
 			for(E edge : n.getInputEdges()) {
 				edge.getTail().removeOutput(edge);
-				edges.remove(edge);
+				//edges.remove(edge);
+				unused_edges.add(edge);
 			}
-			and.remove(n);
+			//and.remove(n);
 		}
+		edges.removeAll(unused_edges);
+		and.removeAll(unused_ands);
 	}
 	
 	public void removeNode(N node) {

@@ -87,6 +87,7 @@ import be.ugent.elis.recomp.util.logging.ConeFeasibilityStats;
 import be.ugent.elis.recomp.util.logging.ConeNotConsideredToMerge;
 import be.ugent.elis.recomp.util.logging.ConeNumToConsiderReached;
 import be.ugent.elis.recomp.util.logging.ConeNumToSaveReached;
+import be.ugent.elis.recomp.util.logging.ConeSetConsideredStats;
 import be.ugent.elis.recomp.util.logging.Logger;
 
 public class ConeEnumeration implements Visitor<Node, Edge> {
@@ -325,6 +326,8 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				coneSkipped = true;
 			}
 		}
+		if(GlobalConstants.enableStatsFlag)
+			Logger.getLogger().log(new ConeSetConsideredStats(result));
 		
 		/*
 		 * If two cones are not merged (because of heuristic optimisation) then
