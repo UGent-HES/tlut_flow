@@ -131,12 +131,12 @@ public class ResourceSharingOpportunitiesCalculator {
 		//Classify nodes
 		for(Node node : aig.getAllNodes())
 			classifyNode(aig, node);
-		if(activationSets.containsKey(B.one())) {
+		/*if(activationSets.containsKey(B.one())) {
 			activationSets.remove(B.one());	
 		}
 		if(activationSets.containsKey(B.zero())) {
 			activationSets.remove(B.zero());	//parameter nodes have activation function 0
-		}
+		}*/
 		sanityCheck();
 
 		//Calculate sharing opportunities
@@ -182,6 +182,7 @@ public class ResourceSharingOpportunitiesCalculator {
 			if(set.getActivationFunction().isOne()) continue;
 			if(set.getSharingOpportunities().size()!=0) continue;
 			activationSets.remove(set.getActivationFunction());
+			activationSets.get(B.one()).addNodes(set.getNodes());
 		}
 	}
 	
@@ -191,44 +192,6 @@ public class ResourceSharingOpportunitiesCalculator {
 		ActivationSet set1 = activationSets.get(node1.getActivationFunction());
 		if(set1 == null) return false;
 		return set0.canShareWith(set1);
-	}
-	
-	public ResourceSharingOpportunitiesCalculator getReducedSharingOpportunities() {
-		ResourceSharingOpportunitiesCalculator reduced_opportunities = new ResourceSharingOpportunitiesCalculator();
-		
-		//Copy activationsets and the visible nodes they contain, skip empty sets
-		for(ActivationSet set : activationSets.values()) {
-			ActivationSet new_set = new ActivationSet(set.getAIG(), set.getActivationFunction());
-			for(Node node : set.getNodes())
-				if(node.isVisible())
-					new_set.addNode(node);
-			
-			new_set.setSharingOpportunities(set.getSharingOpportunities());
-
-			if(new_set.numLUTResources() != 0)
-				reduced_opportunities.activationSets.put(set.getActivationFunction(), new_set);
-		}
-		
-		//Copy sharing opportunities
-		for(ActivationSet set : reduced_opportunities.activationSets.values()) {
-			Set<ActivationSet> sharing_opportunities = new HashSet<ActivationSet>();
-			for(ActivationSet original_set : set.getSharingOpportunities()) {
-				if(reduced_opportunities.activationSets.containsKey(original_set.getActivationFunction()))
-						sharing_opportunities.add(reduced_opportunities.activationSets.get(original_set.getActivationFunction()));
-			}
-			set.setSharingOpportunities(sharing_opportunities);
-		}
-		reduced_opportunities.cleanUpUselessSets();
-		reduced_opportunities.sanityCheck();
-		for(ActivationSet set : reduced_opportunities.activationSets.values()) {
-			for(Node node : set.getNodes()) {
-				if(!node.isVisible()) {
-					System.err.println("Error: ResourceSharingOpportunitiesCalculator not sane (3)");
-					System.exit(1);
-				}
-			}
-		}
-		return reduced_opportunities;
 	}
 	
 	public String toString() {

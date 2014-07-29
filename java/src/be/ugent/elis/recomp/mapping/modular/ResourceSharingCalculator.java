@@ -68,8 +68,6 @@ All rights reserved.
  */
 package be.ugent.elis.recomp.mapping.modular;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -79,21 +77,9 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import be.ugent.elis.recomp.mapping.tmapSimple.ParameterMarker;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 
 public class ResourceSharingCalculator {
-
-	public static void main(String[] args) throws IOException {
-
-		MappingAIG a = new MappingAIG(args[0]);
-
-		a.visitAll(new ParameterMarker(new FileInputStream(args[1])));
-
-		new ActivationFunctionBuilder(a, true).run();
-		new ResourceSharingCalculator().run(a);
-
-	}
 
 	public ResourceSharingCalculator() {
 	}
@@ -103,30 +89,32 @@ public class ResourceSharingCalculator {
 
 		ResourceSharingOpportunitiesCalculator sharing_opportunities = new ResourceSharingOpportunitiesCalculator();
 		sharing_opportunities.run(aig);
-		System.out.println("Number of activationsets: "
-				+ sharing_opportunities.getActivationSets().size());
+		System.out.println("Number of activationsets: " + sharing_opportunities.getActivationSets().size());
 		System.out.println(sharing_opportunities.toString());
+		
+		Collection<ActivationSet> activation_sets = sharing_opportunities.getActivationSets().values();
+		Collection<Collection<ActivationSet>> activation_sets_components = find_components(activation_sets);
 
-		// ResourceSharingOpportunitiesCalculator reduced =
-		// sharing_opportunities.getReducedSharingOpportunities();
-		// System.out.println("Number of activationsets with visible nodes: "+reduced.activationSets.size());
-		// System.out.println(reduced.toString());
-
-		SubsetSolution solution = find_largest_notconnected_subset(sharing_opportunities
-				.getActivationSets().values());
-		int numLUTsSaved = sharing_opportunities.totalNumLUTResources()
-				- solution.getTotalNumLUTResources();
+		
+		SubsetSolution solution = new SubsetSolution();
+		
+		for(Collection<ActivationSet> component : activation_sets_components) {
+			SubsetSolution sub_solution = find_largest_notconnected_subset(component);
+			solution = solution.combineWith(sub_solution);
+		}
+		
+		int total_num_lut_resources_used = solution.getTotalNumLUTResources();
+		
+		int numLUTsSaved = sharing_opportunities.totalNumLUTResources() - total_num_lut_resources_used;
 		System.out.println("Num LUTs in all activationsets: "
 				+ sharing_opportunities.totalNumLUTResources());
-		System.out
-				.println("Max LUTs active at any time (except those not in an activationset): "
-						+ solution.getTotalNumLUTResources());
+		System.out.println("Max LUTs active at any time (except those not in an activationset): "
+						+ total_num_lut_resources_used);
 		System.out.println("Num LUTs saved by sharing: " + numLUTsSaved);
 		System.out.println("Num LUT resources used with sharing: "
 				+ (aig.numLUTResourcesUsed() - numLUTsSaved));
 		//System.out.println("Debug: Min activation sets: "+solution);
-		map_resources(sharing_opportunities.getActivationSets().values(),
-				solution);
+		map_resources(activation_sets, solution);
 		finalise(aig);
 	}
 
@@ -137,12 +125,21 @@ public class ResourceSharingCalculator {
 	}
 
 	private class SubsetSolution {
-		private final Collection<ActivationSet> activationsets;
 		private final int totalNumLUTResources;
-
+		private final Collection<ActivationSet> activationsets;
+		
+		SubsetSolution() {
+			this.totalNumLUTResources = 0;
+			this.activationsets = new HashSet<ActivationSet>();
+		}
 		SubsetSolution(int total_size, Collection<ActivationSet> activationsets) {
-			this.activationsets = activationsets;
 			this.totalNumLUTResources = total_size;
+			this.activationsets = activationsets;
+		}
+		public SubsetSolution combineWith(SubsetSolution other) {
+			HashSet<ActivationSet> tmp = new HashSet<ActivationSet>(this.activationsets);
+			tmp.addAll(other.activationsets);
+			return new SubsetSolution(this.totalNumLUTResources + other.totalNumLUTResources, tmp);
 		}
 		@SuppressWarnings("unused")
 		public Collection<ActivationSet> getActivationsets() {
@@ -158,6 +155,31 @@ public class ResourceSharingCalculator {
 				res.append(set.toString() + ", ");
 			res.append("}");
 			return res.toString();
+		}
+	}
+	
+	/**
+	 * Extract component subgraphs. A path exists between every two nodes of the subgraphs and no exists path between a node of the subgraph and another node.
+	 */
+	private Collection<Collection<ActivationSet>> find_components(Collection<ActivationSet> graph) {
+		Collection<ActivationSet> work = new HashSet<ActivationSet>(graph);
+		Collection<Collection<ActivationSet>> components = new HashSet<Collection<ActivationSet>>();
+		
+		while(!work.isEmpty()) {
+			Collection<ActivationSet> component = new HashSet<ActivationSet>();
+			expand_component(component, work.iterator().next());
+			work.removeAll(component);
+			components.add(component);
+		}
+		
+		return components;
+	}
+	
+	private void expand_component(Collection<ActivationSet> component, ActivationSet node) {
+		if(!component.contains(node)) {
+			component.add(node);
+			for(ActivationSet n : node.getSharingOpportunities())
+				expand_component(component, n);
 		}
 	}
 

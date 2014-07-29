@@ -1,6 +1,8 @@
 package be.ugent.elis.recomp.mapping.modular;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,6 +48,11 @@ class ActivationSet {
 			throw new RuntimeException("Not a valid node for an activationset");
 		nodes.add(node);
 	}
+
+	public void addNodes(Set<Node> nodes) {
+		for(Node n : nodes)
+			addNode(n);
+	}
 	
 	public Set<Node> getNodes() {
 		return nodes;
@@ -88,7 +95,9 @@ class ActivationSet {
 		else
 			sb.append(getActivationFunction().toString());
 		sb.append("},share_with{");
-		for(ActivationSet set : getSharingOpportunities()) {
+		ArrayList<ActivationSet> sharing_opportunities = new ArrayList<ActivationSet>(getSharingOpportunities());
+		Collections.sort(sharing_opportunities, new Comparator<ActivationSet>() { public int compare(ActivationSet a, ActivationSet b) {return Integer.valueOf(a.getActivationFunction().hashCode()).compareTo(b.getActivationFunction().hashCode());} });
+		for(ActivationSet set : sharing_opportunities) {
 			if(short_activation_function)
 				sb.append(set.getActivationFunction().hashCode());
 			else
