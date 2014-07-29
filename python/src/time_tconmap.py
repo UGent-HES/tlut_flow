@@ -71,7 +71,7 @@ from mapping import *
 from genParameters import extract_parameter_signals, extract_parameter_names 
 from cStringIO import StringIO
 
-N = 10
+N = 50
 
 colwidth=16
 def collumnize(items,width):

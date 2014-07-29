@@ -6,10 +6,10 @@ import glob
 from fast_tconmap import run, setMaxMemory
 
 
-K = 6
+K = 4
 
 #setMaxMemory(5000)
-setMaxMemory(4000)
+setMaxMemory(1024)
 
 # os.chdir('barrelshift')
 # ./barrelshift.py
