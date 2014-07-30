@@ -124,8 +124,8 @@ public class Cone implements Comparable<Cone> {
 		this.hasParameterLeaves = false;
 //		this.parameterLeaves = new HashSet<Node>();
 		
-		this.areaflow = 0;
-		this.depth = 0;
+		this.areaflow = Double.POSITIVE_INFINITY;
+		this.depth = Double.POSITIVE_INFINITY;
 	}
 	
 	public void free() {

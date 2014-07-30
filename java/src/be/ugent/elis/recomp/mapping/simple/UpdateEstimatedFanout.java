@@ -67,40 +67,28 @@ All rights reserved.
 *//*
 */
 package be.ugent.elis.recomp.mapping.simple;
+import be.ugent.elis.recomp.aig.AIG;
+import be.ugent.elis.recomp.aig.Visitor;
+import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.Node;
 
-import java.util.Comparator;
 
-import be.ugent.elis.recomp.mapping.utils.Cone;
+public class UpdateEstimatedFanout implements Visitor<Node, Edge> {
 
-public class AreaflowOrientedConeComparator implements Comparator<Cone> {
-	 
-	// Cones are ordered by their depth. Cones with equal depth are
-	// ordered by area flow.
-	public int compare(Cone o1, Cone o2) {
-		double requiredTime = o1.getRoot().getRequiredTime();
-		assert requiredTime!=Double.POSITIVE_INFINITY;
-		boolean o1Feasible = o1.getDepth() <= requiredTime && o1.getDepth()!=Double.POSITIVE_INFINITY;
-		boolean o2Feasible = o2.getDepth() <= requiredTime && o2.getDepth()!=Double.POSITIVE_INFINITY;
-		if (o1Feasible && !o2Feasible)
-			return -1;
-		else if (o2Feasible && !o1Feasible)
-			return 1;
-		else if (o1.getAreaflow() > o2.getAreaflow())
-			return 1;
-		else if (o1.getAreaflow() < o2.getAreaflow())
-			return -1;
-		else if (o1.getDepth() > o2.getDepth())
-			return 1;
-		else if (o1.getDepth() < o2.getDepth())
-			return -1;
-		else {
-			if(o1.hashCode() < o2.hashCode())
-				return -1;
-			else if(o1.hashCode() > o2.hashCode())
-				return 1;
-			else
-				return 0;
+	public void init(AIG<Node, Edge> aig) {
+		for(Node n:aig.getAllNodes())
+			n.resetReferences();
+		for (Node n : aig.getAllPrimaryOutputs()) {
+            n.getI0().getTail().incrementReferences();
+			n.getI0().getTail().referenceMFFC();
 		}
+	}	
+	
+	public void visit(Node node) {
+		node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getReferences()) / 3.);
 	}
+
+	@Override
+	public void finish(AIG<Node,Edge> aig) {}
 
 }

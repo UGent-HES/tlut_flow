@@ -79,8 +79,8 @@ public class AreaOrientedConeComparator implements Comparator<Cone> {
 	public int compare(Cone o1, Cone o2) {
 		double requiredTime = o1.getRoot().getRequiredTime();
 		assert requiredTime!=Double.POSITIVE_INFINITY;
-		boolean o1Feasible = o1.getDepth() <= requiredTime;
-		boolean o2Feasible = o2.getDepth() <= requiredTime;
+		boolean o1Feasible = o1.getDepth() <= requiredTime && o1.getDepth()!=Double.POSITIVE_INFINITY;
+		boolean o2Feasible = o2.getDepth() <= requiredTime && o2.getDepth()!=Double.POSITIVE_INFINITY;
 		if (o1Feasible && !o2Feasible)
 			return -1;
 		else if (o2Feasible && !o1Feasible)

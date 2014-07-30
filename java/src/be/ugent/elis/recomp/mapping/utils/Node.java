@@ -117,6 +117,7 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	}
 
 	public void setConeSet(ConeSet coneSet) {
+		removeConeSet();
 		this.coneSet = coneSet;
 	}
 
@@ -172,11 +173,12 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	}
 	
 	public boolean isParameterInput() {
-		
 		return isParameter() && isInput();
 	}
 
 	public void removeConeSet() {
+		if(this.coneSet != null)
+			this.coneSet.free();
 		this.coneSet = null;
 	}
 
@@ -310,6 +312,10 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	
 	public void setConesEnumerated() {
 		conesEnumerated = true;
+	}
+	
+	public void setConesEnumerated(boolean val) {
+		conesEnumerated = val;
 	}
 	
 	public boolean isConesEnumerated() {
