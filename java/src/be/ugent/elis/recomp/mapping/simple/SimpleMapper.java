@@ -105,7 +105,7 @@ public class SimpleMapper {
 		// -d<int> : optional target depth
 
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
-        int target_depth = depth_option.value(options);
+        double target_depth = depth_option.value(options);
         String aig_in_filename = arguments[0];
 		int K = Integer.parseInt(arguments[1]);
 		String mapped_blif_out_filename = arguments[2];
@@ -132,6 +132,8 @@ public class SimpleMapper {
         
 		System.out.println("Area Recovery:");
         double depthBeforeAreaRecovery = a.getDepth();
+        if(target_depth == -1.)
+        	target_depth = depthBeforeAreaRecovery;
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));
         a.visitAllInverse(new ConeSelection());

@@ -141,12 +141,12 @@ public class TMapSimple {
         OptionSet options = parser.parse(args);
         
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
-        int target_depth = depth_option.value(options);
+        double target_depth = depth_option.value(options);
         boolean resource_sharing_flag = options.has(resource_sharing_option);
         boolean tcon_mapping_flag = options.has(tcon_mapping_option);
         boolean tlc_mapping_flag = options.has(tlc_mapping_option);
         boolean allow_depth_increase_flag = options.has(allow_depth_increase_option);
-        allow_depth_increase_flag |= target_depth != -1;
+        allow_depth_increase_flag |= target_depth != -1.;
         boolean write_mappedblif_flag = options.has(mappedblif_option);
         boolean write_lutstruct_flag = !options.has(no_lutstruct_option);
         boolean write_vhdstruct_flag = arguments.length > 5;
@@ -196,6 +196,8 @@ public class TMapSimple {
 
 		System.out.println("Area Recovery:");
         double depthBeforeAreaRecovery = a.getDepth();
+        if(target_depth == -1)
+        	target_depth = depthBeforeAreaRecovery;
         a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));

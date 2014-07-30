@@ -83,14 +83,16 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 	
 	public HeightCalculator(double depth) {
 		this.targetDepth = depth;
-		// Target depth will be overridden by the maximum depth of the circuit if larger.
 	}
 
 	public void init(AIG<Node, Edge> aig) {
 		for (Node n : aig.getAllNodes())
 			n.setRequiredTime(Double.POSITIVE_INFINITY);
+		double depth = 0.;
 		for (Node n : aig.getAllPrimaryOutputs())
-			targetDepth = Math.max(targetDepth, n.getDepth());
+			depth = Math.max(depth, n.getDepth());
+		if(targetDepth<depth)
+			throw new RuntimeException("Target depth smaller than minimal depth of circuit");
 	}
 
 	public void visit(Node node) {
