@@ -160,97 +160,19 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			// prepare for exact area calculation
 			if (areaCalculation && node.getReferences() != 0)
 				node.dereferenceMFFC();
-			
-			/*
-		    // get the current assigned best cut
-		    pCut = If_ObjCutBest(pObj);
-		    if ( pCut->nLeaves > 0 )
-		    {
-		        // recompute the parameters of the best cut
-		        pCut->Delay = If_CutDelay( p, pCut );
-		        assert( pCut->Delay <= pObj->Required + p->fEpsilon );
-		        pCut->Area = (Mode == 2)? If_CutAreaDerefed( p, pCut, IF_INFINITY ) : If_CutFlow( p, pCut );
-		        // save the best cut from the previous iteration
-		        if ( !fPreprocess )
-		            If_CutCopy( p, pCutSet->ppCuts[pCutSet->nCuts++], pCut );
-		    }*/
-			Cone prevBestCone = node.getBestCone();
-			if(prevBestCone != null) {
-				if(areaCalculation)
-					prevBestCone.calculateArea();
-				prevBestCone.calculateDepth();
-				prevBestCone.calculateAreaflow();
-				result.add(prevBestCone);
-			}
-			
-			/*
-	
-		    // generate cuts
-		    If_ObjForEachCut( pObj->pFanin0, pCut0, i )
-		    If_ObjForEachCut( pObj->pFanin1, pCut1, k )
-		    {
-		        // get the next free cut
-		        assert( pCutSet->nCuts <= pCutSet->nCutsMax );
-		        pCut = pCutSet->ppCuts[pCutSet->nCuts];
-		        // make sure K-feasible cut exists
-		        if ( If_WordCountOnes(pCut0->uSign | pCut1->uSign) > p->pPars->nLutSize )
-		            continue;
-		        // merge the nodes
-		        if ( !If_CutMerge( pCut0, pCut1, pCut ) )
-		            continue;
-		        assert( p->pPars->fSeqMap || pCut->nLeaves > 1 );
-		        p->nCutsMerged++;
-		        // check if this cut is contained in any of the available cuts
-	//	        if ( p->pPars->pFuncCost == NULL && If_CutFilter( p, pCut ) ) // do not filter functionality cuts
-		        if ( If_CutFilter( pCutSet, pCut ) )
-		            continue;
-		        // compute the truth table
-		        pCut->fCompl = 0;
-		        if ( p->pPars->fTruth )
-		            If_CutComputeTruth( p, pCut, pCut0, pCut1, pObj->fCompl0, pObj->fCompl1 );
-		        // compute the application-specific cost and depth
-		        pCut->fUser = (p->pPars->pFuncCost != NULL);
-		        pCut->Cost = p->pPars->pFuncCost? p->pPars->pFuncCost(pCut) : 0;
-		        if ( pCut->Cost == IF_COST_MAX )
-		            continue;
-		        // check if the cut satisfies the required times
-		        pCut->Delay = If_CutDelay( p, pCut );
-	//	        printf( "%.2f ", pCut->Delay );
-		        if ( Mode && pCut->Delay > pObj->Required + p->fEpsilon )
-		            continue;
-		        // compute area of the cut (this area may depend on the application specific cost)
-		        pCut->Area = (Mode == 2)? If_CutAreaDerefed( p, pCut, IF_INFINITY ) : If_CutFlow( p, pCut );
-		        pCut->AveRefs = (Mode == 0)? (float)0.0 : If_CutAverageRefs( p, pCut );
-		        // insert the cut into storage
-		        If_CutSort( p, pCutSet, pCut );
-		    } 
-		    assert( pCutSet->nCuts > 0 );
-	
-		    // add the trivial cut to the set
-		    If_ManSetupCutTriv( p, pCutSet->ppCuts[pCutSet->nCuts++], pObj->Id );
-		    assert( pCutSet->nCuts <= pCutSet->nCutsMax+1 );
-	
-		    // update the best cut
-		    if ( !fPreprocess || pCutSet->ppCuts[0]->Delay <= pObj->Required + p->fEpsilon )
-		        If_CutCopy( p, If_ObjCutBest(pObj), pCutSet->ppCuts[0] );
-		    assert( p->pPars->fSeqMap || If_ObjCutBest(pObj)->nLeaves > 1 );
-	
-		    // ref the selected cut
-		    if ( Mode && pObj->nRefs > 0 )
-		        If_CutRef( p, If_ObjCutBest(pObj), IF_INFINITY );
-	
-		    // call the user specified function for each cut
-		    if ( p->pPars->pFuncUser )
-		        If_ObjForEachCut( pObj, pCut, i )
-		            p->pPars->pFuncUser( p, pObj, pCut );
-	
-		    // free the cuts
-		    If_ManDerefNodeCutSet( p, pObj );
-		    */
 			 
 			if (node.isParameter())
 				result.addAll(mergeParameterConeSets(node));
 			else {
+				Cone prevBestCone = node.getBestCone();
+				if(prevBestCone != null) {
+					if(areaCalculation)
+						prevBestCone.calculateArea();
+					prevBestCone.calculateDepth();
+					prevBestCone.calculateAreaflow();
+					result.add(prevBestCone);
+				}
+				
 				ConeSet cones = mergeInputConeSets(node);
 				cones = retainFeasibleCones(cones);
 				nmbrFeasibleCones += cones.size();

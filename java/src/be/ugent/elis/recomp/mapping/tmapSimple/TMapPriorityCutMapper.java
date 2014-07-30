@@ -66,111 +66,249 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.simple;
+package be.ugent.elis.recomp.mapping.tmapSimple;
 
 import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
+import be.ugent.elis.recomp.mapping.mappedCircuit.ParameterisedMappedCircuitPair;
+import be.ugent.elis.recomp.mapping.modular.ActivationFunctionBuilder;
+import be.ugent.elis.recomp.mapping.modular.MappedActivationFunctionBuilder;
+import be.ugent.elis.recomp.mapping.modular.ResourceSharingCalculator;
+import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
+import be.ugent.elis.recomp.mapping.simple.ConeRanking;
+import be.ugent.elis.recomp.mapping.simple.ConeSelection;
+import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator2;
+import be.ugent.elis.recomp.mapping.simple.HeightCalculator;
+import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.simple.AreaflowOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.simple.PriorityConeEnumeration;
+import be.ugent.elis.recomp.mapping.simple.UpdateEstimatedFanout;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
 import be.ugent.elis.recomp.util.logging.Logger;
 
+public class TMapPriorityCutMapper {
 
-public class SimplePriorityCutMapper {
-
-	public static void main(String[] args) throws FileNotFoundException {
+	/**
+	 * @param args
+	 * @throws IOException 
+	 */
+	public static void main(String[] args) throws IOException {
+		
+		//Usage:
+		// <0> : input file with aig
+		// <1> : input file with names of all parameter signals
+		// <2> : integer/number of inputs per LUT
+		// <3> : output file with configuration aig for TLUTs
+		// <4> : output file with (T)LUT structure in blif (configuration of (T)LUTs stored separately)
+		
+		// optional
+		// <5> : input VHDL file (used to copy VHDL header)
+		// <6> : output VHDL file with (T)LUT structure
+		// <7> : output file with VHDL names of TLUT instances
+        //
+		// -d<int>   : optional target depth
+		// --sharing : turn on resource/LUT sharing
+		// --tcon    : turn on TCON mapping
+		// --tlc     : turn on TLC mapping
+		// --allow_depth_increase    : disable error on depth increase during area recovery
+		// --nolutstruct : disable output of (T)LUT structure in blif
+		// --mappedblif=<filename> : enable output of mapped blif, output will be written to filename
 
 		OptionParser parser = new OptionParser();
         OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
         OptionSpec<Integer> depth_option =
                 parser.accepts("depth").withRequiredArg().ofType( Integer.class ).defaultsTo(-1);
+        OptionSpec<Void> resource_sharing_option =
+                parser.accepts("sharing");
+        OptionSpec<Void> tcon_mapping_option =
+                parser.accepts("tcon");
+        OptionSpec<Void> tlc_mapping_option =
+                parser.accepts("tlc");
+        OptionSpec<Void> allow_depth_increase_option =
+                parser.accepts("allowDepthIncrease");
+        OptionSpec<Void> no_lutstruct_option =
+                parser.accepts("nolutstruct");
+        OptionSpec<String> mappedblif_option =
+                parser.accepts("mappedblif").withRequiredArg().ofType(String.class);
         OptionSet options = parser.parse(args);
-
-		// Usage:
-		// <0> : input file with aag
-		// <1> : integer/number of inputs per LUT
-		// <2> : output file with mapped blif
-        //
-		// -d<int> : optional target depth
-
+        
         String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
         double target_depth = depth_option.value(options);
+        boolean resource_sharing_flag = options.has(resource_sharing_option);
+        boolean tcon_mapping_flag = options.has(tcon_mapping_option);
+        boolean tlc_mapping_flag = options.has(tlc_mapping_option);
+        boolean allow_depth_increase_flag = options.has(allow_depth_increase_option);
+        allow_depth_increase_flag |= target_depth != -1.;
+        boolean write_mappedblif_flag = options.has(mappedblif_option);
+        boolean write_lutstruct_flag = !options.has(no_lutstruct_option);
+        boolean write_vhdstruct_flag = arguments.length > 5;
         String aig_in_filename = arguments[0];
-		int K = Integer.parseInt(arguments[1]);
+        String parameter_in_filename = arguments[1];
+		int K = Integer.parseInt(arguments[2]);
 		int C = 8;
-		String mapped_blif_out_filename = arguments[2];
+		String mapped_blif_out_filename = mappedblif_option.value(options);
+        String param_config_out_filename = arguments[3];
+		String lutstruct_out_filename = arguments[4];
 		String base_name = aig_in_filename.substring(aig_in_filename.lastIndexOf('/') + 1, aig_in_filename.lastIndexOf('.'));
+		
+
+        boolean use_bdd_flag = tcon_mapping_flag || tlc_mapping_flag || resource_sharing_flag;
 
 		// Initialise BDD library
 		BDDFactorySingleton.create(GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
-        
-        // Read AIG file
+
+		// Read AIG file
 		MappingAIG a = new MappingAIG(aig_in_filename);
+
+		// Mark parameters
+		a.visitAll(new ParameterMarker(new FileInputStream(parameter_in_filename)));
+		
+		// Perform a fix to the aig when outputs are connected to parameter inputs
+		a.fixAIG();
+		
 		BDDFactorySingleton.get().setVarNum(a.numNodes());
 		a.initBDDidMapping();
 		
+
 		// Start the clock!
 		long start_time = System.currentTimeMillis();
 		
-		// Mapping
+		// Build activation functions for resource sharing and TLC/TCON feasibility calculation
+		if(use_bdd_flag) {
+	        System.out.println("Activation Function Builder:");
+	        new ActivationFunctionBuilder(a, GlobalConstants.parametersTraverseLatches).run();
+	        //new DummyActivationFunctionBuilder(a).run();
+		}
+        
+        // Mapping
 		System.out.println("Priority Cone Enumeration:");
-		PriorityConeEnumeration enumerator = new PriorityConeEnumeration(K, C, false, false, new DepthOrientedConeComparator()); 
+		PriorityConeEnumeration enumerator = new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new DepthOrientedConeComparator2()); 
         a.visitAll(enumerator);
-        a.visitAll(new PriorityConeEnumeration(K, C, false, false, new DepthOrientedConeComparator2()));
+        a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new DepthOrientedConeComparator())); 
         a.visitAllInverse(new ConeSelection());
         a.visitAll(new UpdateEstimatedFanout());
-        
-        double depthBeforeAreaRecovery = a.getDepth();
-        if(target_depth == -1.)
-        	target_depth = depthBeforeAreaRecovery;
 
+        double depthBeforeAreaRecovery = a.getDepth();
+        if(target_depth == -1)
+        	target_depth = depthBeforeAreaRecovery;
+        
         System.out.println("Area Recovery:");
         a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new PriorityConeEnumeration(K, C, false, false, new AreaflowOrientedConeComparator()));
+        a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new AreaflowOrientedConeComparator()));
         a.visitAllInverse(new ConeSelection());
         a.visitAll(new UpdateEstimatedFanout());
  
         a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new PriorityConeEnumeration(K, C, false, false, new AreaOrientedConeComparator()));
+        a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new AreaOrientedConeComparator()));
  		a.visitAllInverse(new ConeSelection());
 
         // Compare depth before and after area recovery
-        if(target_depth == -1 && depthBeforeAreaRecovery != a.getDepth()) {
-    		System.err.println("Error: Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
-    		System.exit(1);
+        if(depthBeforeAreaRecovery != a.getDepth()) {
+    		if(!allow_depth_increase_flag) {
+        		System.err.println("Error: Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
+        		System.exit(1);
+    		} else {
+        		System.err.println("Warning: Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
+        	}
         } 
         if(target_depth != -1 && a.getDepth() > target_depth) {
     		System.err.println("Error: Depth ("+a.getDepth()+") greater than target depth: "+target_depth);
         	System.exit(1);
         }
-        
+
         // Stop the clock!
 		long elapsed_time = System.currentTimeMillis() - start_time;
 		System.out.println("Debug: Elapsed time after mapping: "+String.format("%3.3es", elapsed_time/1000.));
-        
-        // Writing a blif
-		MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
-		mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
+
+		// Build activation functions for resource sharing again
+		if(use_bdd_flag) {
+	        //System.out.println("Mapped AIG Activation Function Builder:");
+	        //new MappedActivationFunctionBuilder(a, GlobalConstants.parametersTraverseLatches).run();
+		}
 		
+		// Resource sharing
+		if(resource_sharing_flag) {
+	        System.out.println("Resource Sharing:");
+	        new ResourceSharingCalculator().run(a);
+		}
+
+        // Stop the clock!
+		elapsed_time = System.currentTimeMillis() - start_time;
+		System.out.println("Debug: Elapsed time after resource sharing: "+String.format("%3.3es", elapsed_time/1000.));
+        
+        MappedCircuit mappedCircuit = null;
+        ParameterisedMappedCircuitPair parameterisedMappedCircuit = null;
+    	if(write_mappedblif_flag || write_lutstruct_flag) {
+            MappedCircuit premappedCircuit = a.constructMappedCircuit(base_name, K);
+	        mappedCircuit = premappedCircuit.constructPrimitiveMappedCircuit();
+	        parameterisedMappedCircuit = mappedCircuit.constructParameterisedMappedCircuit();
+    	}
+	        
+        // Debug output: mapped blif file
+		if(write_mappedblif_flag) {
+	        System.out.println("Writing the mapped BLIF:"); 
+	        mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
+		}
+
+		// Output: parameterised configuration and lut structure
+        if(write_lutstruct_flag) {
+			System.out.println("Generating the parameterizable configuration:");
+			MappingAIG parconfig_aig = parameterisedMappedCircuit.getConfiguration().constructAIG();
+			parconfig_aig.printAAG(new PrintStream(new BufferedOutputStream(new FileOutputStream(param_config_out_filename))));
+			
+        	System.out.println("Writing the LUT structure:"); 
+        	parameterisedMappedCircuit.getCircuit().printBlif(
+	            	    new PrintStream(new BufferedOutputStream(new FileOutputStream(lutstruct_out_filename))));
+        }
+        
+        // Output: implementation files
+        if(write_vhdstruct_flag) {
+        	String vhd_in_filename = arguments[5];
+        	String vhd_out_filename = arguments[6];
+        	String namelist_out_filename = arguments[7];
+	        parameterisedMappedCircuit.getCircuit().printLutStructureVhdl(vhd_in_filename, new PrintStream(new BufferedOutputStream(new FileOutputStream(vhd_out_filename))), K);
+	        parameterisedMappedCircuit.getCircuit().printTLUTNames(new PrintStream(new FileOutputStream(namelist_out_filename)));
+        }
+
         // Debug stats
+//        if(use_bdd_flag) {
+//	        int numCones = 0;
+//	        int sumBddSize = 0;
+//	        for(Node n : a.getAllNodes()) {
+//	        	for(Cone cone : n.getConeSet().getCones()) {
+//		    		if(cone.getFunction() != null)
+//		    			sumBddSize += cone.getFunction().nodeCount();
+//		    		numCones += 1;
+//	        	}
+//	        }
+//	        System.out.println("Debug: Avg BDD size: "+(sumBddSize/(float)(numCones)));
+//	        System.out.println("Debug: Avg BDD size considered: "+enumerator.getBddSizeAverage());
+//        }
+        
         System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
         System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());
-
-		Logger.getLogger().finalLog();
 		
+		Logger.getLogger().finalLog();
+
 		// Cleanup
 		BDDFactorySingleton.destroy();
-		
+
 		System.out.println(a.numLUTResourcesUsed() + "\t" + a.getDepth() + "\t"
+				+ a.numTLUTResourcesUsed() + "\t" + a.numTCONConesUsed() + "\t" + a.avDupl() + "\t"
 				+ enumerator.getNmbrConsideredCones() + "\t"
 				+ enumerator.getNmbrFeasibleCones() + "\t"
 				+ enumerator.getNmbrCones());
 	}
+	
 }
