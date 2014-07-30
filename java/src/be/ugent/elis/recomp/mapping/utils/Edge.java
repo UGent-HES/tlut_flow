@@ -72,28 +72,18 @@ import be.ugent.elis.recomp.aig.AbstractEdge;
 
 public class Edge extends AbstractEdge<Node,Edge> {
 
-	double depth;
-	private double areaflow;
 	private double height;
 	
 	public Edge(Node tail, Node head, boolean inverted) {
 		super(tail, head, inverted);
 	}
 	
-	public void setDepth(double depth) {
-		this.depth = depth;
-	}
-	
 	public double getDepth() {
-		return depth;
-	}
-	
-	public void setAreaflow(double areaflow) {
-		this.areaflow = areaflow;
+		return getTail().getDepth();
 	}
 	
 	public double getAreaflow() {
-		return areaflow;
+		return getTail().getAreaflow();
 	}
 	
 	public void setHeight(double height) {

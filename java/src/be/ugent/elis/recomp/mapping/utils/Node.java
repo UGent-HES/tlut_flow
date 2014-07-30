@@ -83,8 +83,6 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 
 	private Cone  bestCone;
 	
-	double depth;
-	private double areaflow;
 	private double requiredTime;
 	private int references;
 	private double estimatedFanout = -1.;
@@ -102,8 +100,6 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	public Node(AIG<Node, Edge> aig, NodeType type, int id) {
 		super(aig, type, id);
 		this.coneSet = new ConeSet(this);
-		this.depth = 0;
-		this.areaflow = 0;
 		this.requiredTime = Double.POSITIVE_INFINITY;
 		this.setVisible(false);
 		this.setParameter(false);
@@ -124,21 +120,12 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 		this.coneSet = coneSet;
 	}
 
-	
-	public void setDepth(double depth) {
-		this.depth = depth;
-	}
-
-	public void setAreaflow(double areaflow) {
-		this.areaflow = areaflow;
-	}
-
 	public double getDepth() {
-		return depth;
+		return getBestCone().getDepth();
 	}
 
 	public double getAreaflow() {
-		return areaflow;
+		return getBestCone().getAreaflow();
 	}
 
 	public void addCone(SimpleCone cone) {
@@ -222,6 +209,23 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 		references = 0;
 	}
 
+	/*
+	 * Dereference Maximum Fanout Free Clone
+	 */
+	public int dereferenceMFFC() {
+		if(isGate())
+			return getBestCone().dereferenceMFFC();
+		else 
+			return 0;
+	}
+	
+	public int referenceMFFC() {
+		if(isGate())
+			return getBestCone().referenceMFFC();
+		else 
+			return 0;
+	}
+
 	public double getEstimatedFanout() {
 		if(estimatedFanout < 0.)
 			estimatedFanout = fanout(); //nRefs;
@@ -232,11 +236,13 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	public void setEstimatedFanout(double estimatedFanout) {
 		this.estimatedFanout = estimatedFanout;
 	}
+	
 	public BDD getParamRestrictedBDD(BDDidMapping<Node> bddIdMapping) {
 		return	getPureBDD(bddIdMapping)
 					.orWith(getOnParamFunction().id())
 					.andWith(getOffParamFunction().not());
 	}
+	
 	public BDD getPureBDD(BDDidMapping<Node> bddIdMapping) {
 		if(isConst0())
 			return BDDFactorySingleton.get().zero();

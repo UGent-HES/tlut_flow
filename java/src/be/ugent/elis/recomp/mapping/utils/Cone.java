@@ -289,7 +289,7 @@ public class Cone implements Comparable<Cone> {
 		return depth;
 	}
 
-	private void setAreaflow(double areaflow) {
+	public void setAreaflow(double areaflow) {
 		this.areaflow = areaflow;
 	}
 
@@ -643,6 +643,20 @@ public class Cone implements Comparable<Cone> {
 		else
 			return false;
 	}
+	
+	public int getAreaCostOfCone() {
+		if (usesLUTResource())
+			return 1;
+		else 
+			return 0;
+	}
+	
+	public int getDepthCostOfCone() {
+		if (usesLUTResource())
+			return 1;
+		else 
+			return 0;
+	}
 
 //	public int numParameters() {
 //		return parameterLeaves.size();
@@ -652,8 +666,8 @@ public class Cone implements Comparable<Cone> {
 		double result=0;
 		
 		for (Node n: regularLeaves) {
-			if (n.depth>result)
-				result = n.depth;
+			if (n.getDepth()>result)
+				result = n.getDepth();
 		}
 		return result;
 	}
@@ -669,7 +683,7 @@ public class Cone implements Comparable<Cone> {
 			for (Node n: getRegularLeaves())
 				areaflow += n.getAreaflow()/n.getEstimatedFanout();
 
-			setAreaflow(areaflow + getAreaOfCone());
+			setAreaflow(areaflow + getAreaCostOfCone());
 		}
 	}
 	
@@ -680,26 +694,47 @@ public class Cone implements Comparable<Cone> {
 			setDepth(Double.POSITIVE_INFINITY);
 
 		} else {
-			setDepth(getMaximumInputDepth() + getDepthOfCone());
+			setDepth(getMaximumInputDepth() + getDepthCostOfCone());
 		}
 	}
-	
-	public int getAreaOfCone() {
-		if (usesLUTResource())
-			return 1;
-		else 
-			return 0;
-	}
-	
-	public int getDepthOfCone() {
-		if (usesLUTResource())
-			return 1;
-		else 
-			return 0;
+
+	public int dereferenceMFFC() {
+		int a = getAreaCostOfCone();
+		for (Node n : getRegularLeaves()) {
+			int r = n.decrementReferences();
+			if (r == 0) {
+				a += n.dereferenceMFFC();
+			}
+		}
+		return a;
 	}
 
+	public int referenceMFFC() {
+		int a = getAreaCostOfCone();
+		for (Node n : getRegularLeaves()) {
+			int r = n.incrementReferences();
+			if (r == 1) {
+				a += n.referenceMFFC();
+			}
+		}
+		return a;
+	}
 
-	
+	/* exact area calculation algorithm:
+	 * calculating the number of LUTs used in the fanin cone of a node/cone, 
+	 * that are NOT used in the fanin of any other currently "visible" (selected) node
+	 * 
+	 * Start by calculating the number of references/uses of all nodes for the current mapping
+	 * In the cone ranking stage: if the current node is part of the mapping, dereference its fanin
+	 * for every feasible cone, reference the nodes in its fanin and count those that are not used
+	 * by any other node
+	 */	
+	public void calculateArea() {
+		int a = referenceMFFC();
+		int a2 = dereferenceMFFC();
+		assert (a == a2);
+		setArea(a);
+	}
 	
 	public int compareTo(Cone o) {
 		if (this.root == o.root) {

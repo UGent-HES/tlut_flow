@@ -110,7 +110,7 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 //					if(!n.isVisible())
 //						n.updateRequiredTime(requiredTime);
 				for (Node n : bestCone.getRegularLeaves())
-					n.updateRequiredTime(requiredTime - bestCone.getDepthOfCone());
+					n.updateRequiredTime(requiredTime - bestCone.getDepthCostOfCone());
 			}
 
 		// Set the required time of the primary inputs
