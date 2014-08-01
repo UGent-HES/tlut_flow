@@ -84,6 +84,7 @@ import be.ugent.elis.recomp.mapping.modular.MappedActivationFunctionBuilder;
 import be.ugent.elis.recomp.mapping.modular.ResourceSharingCalculator;
 import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
+import be.ugent.elis.recomp.mapping.simple.ConeExpansion;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
 import be.ugent.elis.recomp.mapping.simple.ConeSelection;
 import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator2;
@@ -161,6 +162,7 @@ public class TMapPriorityCutMapper {
         String param_config_out_filename = arguments[3];
 		String lutstruct_out_filename = arguments[4];
 		String base_name = aig_in_filename.substring(aig_in_filename.lastIndexOf('/') + 1, aig_in_filename.lastIndexOf('.'));
+		boolean cone_expand_flag = true;
 		
 
         boolean use_bdd_flag = tcon_mapping_flag || tlc_mapping_flag || resource_sharing_flag;
@@ -197,6 +199,8 @@ public class TMapPriorityCutMapper {
         a.visitAll(enumerator);
         a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new DepthOrientedConeComparator())); 
         a.visitAllInverse(new ConeSelection());
+        if(cone_expand_flag)
+        	a.visitAll(new ConeExpansion(K, false, false, new AreaOrientedConeComparator()));
         a.visitAll(new UpdateEstimatedFanout());
 
         double depthBeforeAreaRecovery = a.getDepth();
@@ -207,11 +211,15 @@ public class TMapPriorityCutMapper {
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new AreaflowOrientedConeComparator()));
         a.visitAllInverse(new ConeSelection());
+        if(cone_expand_flag)
+        	a.visitAll(new ConeExpansion(K, false, false, new AreaOrientedConeComparator()));
         a.visitAll(new UpdateEstimatedFanout());
  
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new AreaOrientedConeComparator()));
  		a.visitAllInverse(new ConeSelection());
+        if(cone_expand_flag)
+        	a.visitAll(new ConeExpansion(K, false, false, new AreaOrientedConeComparator()));
 
         // Compare depth before and after area recovery
         if(depthBeforeAreaRecovery != a.getDepth()) {

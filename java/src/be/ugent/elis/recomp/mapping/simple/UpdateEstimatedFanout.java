@@ -64,13 +64,13 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
 package be.ugent.elis.recomp.mapping.simple;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 
 public class UpdateEstimatedFanout implements Visitor<Node, Edge> {
@@ -79,12 +79,14 @@ public class UpdateEstimatedFanout implements Visitor<Node, Edge> {
 		for(Node n:aig.getAllNodes())
 			n.resetReferences();
 		for (Node n : aig.getAllPrimaryOutputs()) {
-            n.getI0().getTail().incrementReferences();
-			n.getI0().getTail().referenceMFFC();
+            n.incrementReferences();
+			n.referenceMFFC();
 		}
 	}	
 	
 	public void visit(Node node) {
+		if(GlobalConstants.assertFlag && (node.getReferences()>0) != node.isVisible())
+			throw new RuntimeException();
 		node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getReferences()) / 3.);
 	}
 

@@ -67,45 +67,120 @@ All rights reserved.
 *//*
 */
 package be.ugent.elis.recomp.mapping.simple;
+
+import java.util.Comparator;
+
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
-import be.ugent.elis.recomp.util.GlobalConstants;
-import be.ugent.elis.recomp.util.logging.ConeSelectedStats;
-import be.ugent.elis.recomp.util.logging.Logger;
 
+public class ConeExpansion implements Visitor<Node, Edge> {
 
-public class ConeSelection implements Visitor<Node, Edge> {
+	public int K;
+	protected boolean tcon_mapping_flag;
+	protected boolean tlc_mapping_flag;
+	protected Comparator<Cone> coneComparator;
+
+	public ConeExpansion(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag, Comparator<Cone> coneComparator) {
+		this.K = K;
+		this.coneComparator = coneComparator;
+		this.tcon_mapping_flag = tcon_mapping_flag;
+		this.tlc_mapping_flag = tlc_mapping_flag;
+	}
 
 	public void init(AIG<Node, Edge> aig) {
-		for(Node node : aig.getAllNodes())
-			node.setVisible(false);
-	}	
-	
+	}
+
 	public void visit(Node node) {
-		
-		// Set the child nodes of the outputs visible.
-		if (node.isPrimaryOutput()) {
-			node.setVisible(true);
-			node.getN0().setVisible(true);
-		
-		// Make source nodes of the bestcones of visible nodes visible.
-		} else if (node.isGate()) {
+
+		if (node.isGate() && node.isVisible()) {
 			
-			if (node.isVisible()) {
-				Cone bestCone = node.getBestCone();
-				for (Node n:bestCone.getRegularLeaves()) {
-					n.setVisible(true);
-				}
-				if(GlobalConstants.enableStatsFlag)
-					Logger.getLogger().log(new ConeSelectedStats(bestCone));
-			}
+			Cone prevBestCone = node.getBestCone();
+
+			// prepare for exact area calculation
+			prevBestCone.dereferenceMFFC();
+
+			// Expand the best cone
+			Cone bestCone = expandCone(prevBestCone);
+			if(bestCone.isTrivial())
+				throw new RuntimeException("Best cone is trivial");
+			if(bestCone.isUnmapped())
+				throw new RuntimeException("Best cone is unmapped");
+			node.setBestCone(bestCone);
+			if(node.getDepth() > node.getRequiredTime())
+				throw new RuntimeException("New best cone does not meet depth requirements");
+
+			// reset environment for exact area calculation
+			bestCone.referenceMFFC();
 		}
 	}
 
 	@Override
 	public void finish(AIG<Node,Edge> aig) {}
+
+	/**
+	 * Expand the Cone without growing the area
+	 */
+	protected Cone expandCone(Cone c) {
+		Cone res = c;
+		c.markConeAndLeaves(true);
+		boolean expanded = true;
+		while(expanded) {
+			expanded = false;
+			for(Node n : res.getRegularLeaves()) {
+				if(!n.isGate())
+					continue;
+				if(!n.getN0().isMarked() && !n.getN1().isMarked()) // cut would grow
+					continue;
+	
+			    if(expandNodeCost(n) <= 0) {
+			    	res = res.expandLeafNode(n);
+			    	expanded = true;
+			    }
+			}
+			/*for(Node n : res.getRegularLeaves()) {
+				if(!n.isGate())
+					continue;
+			    if(expandNodeCost(n) < 0) {
+			    	res = res.expandLeafNode(n);
+			    	expanded = true;
+			    }
+			}
+			for(Node n : res.getRegularLeaves()) {
+				if(!n.isGate())
+					continue;
+			    if(expandNodeCost(n) <= 0) {
+			    	res = res.expandLeafNode(n);
+			    	expanded = true;
+			    }
+			}*/
+		}
+		c.getRoot().setMarkedRecursive(false);
+		
+		boolean feasible = res.mapCone(this.K, this.tcon_mapping_flag, this.tlc_mapping_flag);
+		if(!feasible)
+			return c;
+			//throw new RuntimeException("Expanded cone not feasible");
+		if(coneComparator.compare(c, res) < 0)
+			return c;
+		res.calculateConeProperties();
+		return res;
+	}
+
+	private int expandNodeCost(Node n) {
+		int Counter = 0;
+		// check if the node has external refs
+		if ( n.getReferences() == 0 )
+		    Counter--;
+		// increment the number of fanins without external refs
+		if ( !n.getN0().isMarked() && n.getN0().getReferences() == 0 )
+		    Counter++;
+		// increment the number of fanins without external refs
+		if ( !n.getN1().isMarked() && n.getN1().getReferences() == 0 )
+		    Counter++;
+		return Counter;
+	}
 
 }

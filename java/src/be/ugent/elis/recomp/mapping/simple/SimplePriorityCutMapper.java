@@ -107,7 +107,9 @@ public class SimplePriorityCutMapper {
 		int C = 8;
 		String mapped_blif_out_filename = arguments[2];
 		String base_name = aig_in_filename.substring(aig_in_filename.lastIndexOf('/') + 1, aig_in_filename.lastIndexOf('.'));
+		boolean cone_expand_flag = true;
 
+		
 		// Initialise BDD library
 		BDDFactorySingleton.create(GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
         
@@ -125,6 +127,8 @@ public class SimplePriorityCutMapper {
         a.visitAll(enumerator);
         a.visitAll(new PriorityConeEnumeration(K, C, false, false, new DepthOrientedConeComparator2()));
         a.visitAllInverse(new ConeSelection());
+        if(cone_expand_flag)
+        	a.visitAll(new ConeExpansion(K, false, false, new AreaOrientedConeComparator()));
         a.visitAll(new UpdateEstimatedFanout());
         
         double depthBeforeAreaRecovery = a.getDepth();
@@ -135,11 +139,15 @@ public class SimplePriorityCutMapper {
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new PriorityConeEnumeration(K, C, false, false, new AreaflowOrientedConeComparator()));
         a.visitAllInverse(new ConeSelection());
+        if(cone_expand_flag)
+        	a.visitAll(new ConeExpansion(K, false, false, new AreaOrientedConeComparator()));
         a.visitAll(new UpdateEstimatedFanout());
  
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new PriorityConeEnumeration(K, C, false, false, new AreaOrientedConeComparator()));
  		a.visitAllInverse(new ConeSelection());
+        if(cone_expand_flag)
+        	a.visitAll(new ConeExpansion(K, false, false, new AreaOrientedConeComparator()));
 
         // Compare depth before and after area recovery
         if(target_depth == -1 && depthBeforeAreaRecovery != a.getDepth()) {

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class BDDidMapping<N> {
 
@@ -35,14 +36,14 @@ public class BDDidMapping<N> {
 
 	public int getId(N node) {
 		Integer id = id_map.get(node);
-		if (id == null)
+		if (GlobalConstants.assertFlag && id == null)
 			throw new RuntimeException();
 		return (int)id;
 	}
 
 	public N getNode(int id) {
 		N tmp = node_map.get(id);
-		if (tmp == null)
+		if (GlobalConstants.assertFlag && tmp == null)
 			throw new RuntimeException();
 		return tmp;
 	}

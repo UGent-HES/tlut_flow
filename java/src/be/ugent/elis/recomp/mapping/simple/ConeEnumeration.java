@@ -167,7 +167,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		} else {
 		}
 		result.reduceMemoryUsage();
-		if(node.isConesEnumerated())
+		if(GlobalConstants.assertFlag && node.isConesEnumerated())
 			throw new RuntimeException();
 		node.setConeSet(result);
 		node.setConesEnumerated();
@@ -433,22 +433,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
 		ConeSet feasibleCones = new ConeSet(mergedConeSet.getNode());
 		for (Cone c : mergedConeSet) {
-			c.initFeasibilityCalculation(this.tcon_mapping_flag);
-			boolean feasible = true;
-			if(c.isUnmapped()) {
-				if(this.tcon_mapping_flag && c.isTCONfeasible()) {
-					c.mapToTCON();
-				} else if(c.isTLUTfeasible(K)) {
-					if(c.isLUTfeasible(K))
-						c.mapToLUT();
-					else
-						c.mapToTLUT();
-				} else if(this.tlc_mapping_flag && c.isTLCfeasible(K)) {
-					c.mapToTLC();
-				} else {// infeasible
-					feasible = false;
-				}
-			}
+			boolean feasible = c.mapCone(this.K, this.tcon_mapping_flag, this.tlc_mapping_flag);
 			if(GlobalConstants.enableStatsFlag)
 				Logger.getLogger().log(new ConeFeasibilityStats(c));
 			if(feasible) {
@@ -456,7 +441,6 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			} else {
 				c.free();
 			}
-			c.finishFeasibilityCalculation();
 		}
 		return feasibleCones;
 	}

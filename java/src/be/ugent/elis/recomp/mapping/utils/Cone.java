@@ -71,12 +71,14 @@ package be.ugent.elis.recomp.mapping.utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
 import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.aig.AIG;
+import be.ugent.elis.recomp.mapping.simple.PriorityConeEnumeration;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
@@ -170,9 +172,9 @@ public class Cone implements Comparable<Cone> {
 			cone0 = cone1;
 			cone1 = tmp;
 		}
-		if(root.getI0().getTail() != cone0.getRoot())
+		if(GlobalConstants.assertFlag && root.getI0().getTail() != cone0.getRoot())
 			throw new RuntimeException();
-		if(root.getI1().getTail() != cone1.getRoot())
+		if(GlobalConstants.assertFlag && root.getI1().getTail() != cone1.getRoot())
 			throw new RuntimeException();
 
 		Cone result = new Cone(root, cone0.bddIdMapping, cone0, cone1);
@@ -226,6 +228,19 @@ public class Cone implements Comparable<Cone> {
 		cone.calculateSignature();
 		cone.mapToNone();
 		return cone;
+	}
+	
+	public Cone expandLeafNode(Node node) {
+		if(!hasRegularLeaf(node))
+			throw new RuntimeException("Can only expand leaf node");
+		if(!node.isGate())
+			throw new RuntimeException("Can only expand AND gate");
+		Cone res = new Cone(getRoot(), bddIdMapping);
+		res.addLeaves(this);
+		res.removeRegularLeave(node);
+		res.addLeave(node.getN0());
+		res.addLeave(node.getN1());
+		return res;
 	}
 	
 	private void setSignature(long signature) {
@@ -458,6 +473,13 @@ public class Cone implements Comparable<Cone> {
 
 //		parameterLeaves.add(node);
 	}
+	
+	private void removeRegularLeave(Node node) {
+		nodes = null;
+		hashCode = 0;
+
+		regularLeaves.remove(node);
+	}
 
 	private void addLeaves(Cone cone0) {
 		nodes = null;
@@ -601,6 +623,8 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	private BDD calculateFunctionOfMergedCones() {
+		if(parent0 == null || parent1 == null)
+			return calculateFunctionOfCone();
 		BDD function0 = parent0.getLocalFunction().id();
 		BDD function1 = parent1.getLocalFunction().id();
 		
@@ -617,6 +641,32 @@ public class Cone implements Comparable<Cone> {
 		
 		BDD result = function0.andWith(function1);
 		return result;
+	}
+
+	private BDD calculateFunctionOfCone() {
+		HashMap<Node, BDD> map = new HashMap<Node, BDD>();
+		for(Node n : getAllLeaves())
+			map.put(n, n.getBDD(bddIdMapping));
+		BDD bdd = calculateFunctionOfConeRec(getRoot(), map).id();
+		for(BDD b : map.values())
+			b.free();
+		return bdd;
+	}
+	
+	private BDD calculateFunctionOfConeRec(Node n, HashMap<Node, BDD> map) {
+		if(map.containsKey(n))
+			return map.get(n);
+		if(!n.isGate())
+			throw new RuntimeException("Expecting an AND gate");
+		BDD bdd0 = calculateFunctionOfConeRec(n.getN0(), map);
+		BDD bdd0_ci = n.getI0().isInverted() ? bdd0.not() : bdd0.id();
+		BDD bdd1 = calculateFunctionOfConeRec(n.getN1(), map);
+		BDD bdd1_ci = n.getI1().isInverted() ? bdd1.not() : bdd1.id();
+		BDD bdd = bdd0_ci.and(bdd1_ci);
+		bdd0_ci.free();
+		bdd1_ci.free();
+		map.put(n, bdd);
+		return bdd;
 	}
 
 	private BDD calculateLocalFunction() {
@@ -699,6 +749,8 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public int dereferenceMFFC() {
+		if(root.isPrimaryInput())
+			return 0;
 		int a = getAreaCostOfCone();
 		for (Node n : getRegularLeaves()) {
 			int r = n.decrementReferences();
@@ -710,6 +762,8 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public int referenceMFFC() {
+		if(root.isPrimaryInput())
+			return 0;
 		int a = getAreaCostOfCone();
 		for (Node n : getRegularLeaves()) {
 			int r = n.incrementReferences();
@@ -734,6 +788,12 @@ public class Cone implements Comparable<Cone> {
 		int a2 = dereferenceMFFC();
 		assert (a == a2);
 		setArea(a);
+	}
+	
+	public void markConeAndLeaves(boolean marked) {
+		for(Node n : getRegularLeaves())
+			n.setMarked(marked);
+		getRoot().setMarkedRecursive(marked);
 	}
 	
 	public int compareTo(Cone o) {
@@ -816,5 +876,37 @@ public class Cone implements Comparable<Cone> {
 	public void reduceMemoryUsage() {
 		regularLeaves = new ArrayList<Node>(regularLeaves);
 		((ArrayList<Node>)regularLeaves).trimToSize();
+	}
+
+	public boolean mapCone(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag) {
+		if(isUnmapped()) {
+			initFeasibilityCalculation(tcon_mapping_flag);
+			if(tcon_mapping_flag && isTCONfeasible()) {
+				mapToTCON();
+			} else if(isTLUTfeasible(K)) {
+				if(isLUTfeasible(K))
+					mapToLUT();
+				else
+					mapToTLUT();
+			} else if(tlc_mapping_flag && isTLCfeasible(K)) {
+				mapToTLC();
+			} else {// infeasible
+				finishFeasibilityCalculation();
+				return false;
+			}
+			finishFeasibilityCalculation();
+		}
+		return true;
+	}
+	
+	public void calculateConeProperties() {
+		calculateConeProperties(true);
+	}
+	
+	public void calculateConeProperties(boolean area_calculation_flag) {
+		if(area_calculation_flag)
+			calculateArea();
+		calculateDepth();
+		calculateAreaflow();
 	}
 }

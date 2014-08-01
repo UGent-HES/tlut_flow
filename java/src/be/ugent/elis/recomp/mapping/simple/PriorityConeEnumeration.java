@@ -64,7 +64,6 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
 package be.ugent.elis.recomp.mapping.simple;
 
@@ -99,8 +98,8 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 	protected int numPriorityCones;
 	protected boolean tcon_mapping_flag;
 	protected boolean tlc_mapping_flag;
-	protected boolean build_bdd_function;
-	protected boolean areaCalculation;
+	protected boolean build_bdd_function_flag;
+	public boolean area_calculation_flag;
 	protected Comparator<Cone> coneComparator;
 	protected int nmbrConsideredCones;
 	protected int nmbrFeasibleCones;
@@ -117,8 +116,8 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		this.coneComparator = coneComparator;
 		this.tcon_mapping_flag = tcon_mapping_flag;
 		this.tlc_mapping_flag = tlc_mapping_flag;
-		this.build_bdd_function = tcon_mapping_flag || tlc_mapping_flag;
-		this.areaCalculation = true;
+		this.build_bdd_function_flag = tcon_mapping_flag || tlc_mapping_flag;
+		this.area_calculation_flag = true;
 	}
 	
 	public int getNmbrConsideredCones() {
@@ -157,19 +156,17 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			result.add(bestCone);
 			
 		} else if(node.isGate()) {
+			Cone prevBestCone = node.getBestCone();
+			
 			// prepare for exact area calculation
-			if (areaCalculation && node.getReferences() != 0)
-				node.dereferenceMFFC();
+			if (area_calculation_flag && node.getReferences() != 0)
+				prevBestCone.dereferenceMFFC();
 			 
 			if (node.isParameter())
 				result.addAll(mergeParameterConeSets(node));
 			else {
-				Cone prevBestCone = node.getBestCone();
 				if(prevBestCone != null) {
-					if(areaCalculation)
-						prevBestCone.calculateArea();
-					prevBestCone.calculateDepth();
-					prevBestCone.calculateAreaflow();
+					prevBestCone.calculateConeProperties();
 					result.add(prevBestCone);
 				}
 				
@@ -195,7 +192,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 				throw new RuntimeException("New best cone does not meet depth requirements");
 
 			// reset environment for exact area calculation
-			if (areaCalculation && node.getReferences() != 0)
+			if (area_calculation_flag && node.getReferences() != 0)
 				node.referenceMFFC();
 			
 		} else if(node.isPrimaryOutput()) {
@@ -268,10 +265,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			throw new RuntimeException("Parameter coneset should contain one cone");
 		merge.mapToNone();
 
-		if(areaCalculation)
-			merge.calculateArea();
-		merge.calculateDepth();
-		merge.calculateAreaflow();
+		merge.calculateConeProperties();
 		
 		ConeSet result = new ConeSet(node);
 		result.add(merge);
@@ -461,38 +455,19 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
 		ConeSet feasibleCones = new ConeSet(mergedConeSet.getNode());
 		for (Cone c : mergedConeSet) {
-			c.initFeasibilityCalculation(this.tcon_mapping_flag);
-			boolean feasible = true;
-			if(c.isUnmapped()) {
-				if(this.tcon_mapping_flag && c.isTCONfeasible()) {
-					c.mapToTCON();
-				} else if(c.isTLUTfeasible(K)) {
-					if(c.isLUTfeasible(K))
-						c.mapToLUT();
-					else
-						c.mapToTLUT();
-				} else if(this.tlc_mapping_flag && c.isTLCfeasible(K)) {
-					c.mapToTLC();
-				} else {// infeasible
-					feasible = false;
-				}
-			}
+			boolean feasible = c.mapCone(this.K, this.tcon_mapping_flag, this.tlc_mapping_flag);
 			if(GlobalConstants.enableStatsFlag)
 				Logger.getLogger().log(new ConeFeasibilityStats(c));
 			if(feasible) {
-				if(areaCalculation)
-					c.calculateArea();
-				c.calculateDepth();
-				c.calculateAreaflow();
+				c.calculateConeProperties();
 				feasibleCones.add(c);
 			} else {
 				c.free();
 			}
-			c.finishFeasibilityCalculation();
 		}
 		return feasibleCones;
 	}
-	
+
 	protected Cone bestCone(ConeSet set) {
 		return Collections.min(set.getCones(), coneComparator);
 	}

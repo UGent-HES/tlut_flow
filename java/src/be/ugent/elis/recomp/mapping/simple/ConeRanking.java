@@ -127,10 +127,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 
 			// Calculate depth, exact area and area flow for each cone.
 			for (Cone c : node.getConeSet()) {
-				if(areaCalculation)
-					c.calculateArea();
-				c.calculateDepth();
-				c.calculateAreaflow();
+				c.calculateConeProperties(areaCalculation);
 			}
 
 			// Select the best cone in the coneset.

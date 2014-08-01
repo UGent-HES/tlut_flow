@@ -93,4 +93,6 @@ public class GlobalConstants {
 	public static final int maxActivationFunctionSize = Integer.MAX_VALUE;
 	
 	public static final boolean logLongActivationFunctionDescription = false;
+
+	public static final boolean assertFlag = true;
 }

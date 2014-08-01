@@ -188,26 +188,26 @@ public class TMapSimple {
 		}
         
         // Mapping
-		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag, tlc_mapping_flag);
 		System.out.println("Cone Enumeration:");
+		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag, tlc_mapping_flag);
         a.visitAll(enumerator);
 		System.out.println("Cone Ranking:");
         a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
+        a.visitAllInverse(new ConeSelection());
 
-		System.out.println("Area Recovery:");
         double depthBeforeAreaRecovery = a.getDepth();
         if(target_depth == -1)
         	target_depth = depthBeforeAreaRecovery;
-        a.visitAllInverse(new ConeSelection());
+        
+		System.out.println("Area Recovery:");
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));
         a.visitAllInverse(new ConeSelection());
+        
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
-        
-        System.out.println("Cone Selection:");
         a.visitAllInverse(new ConeSelection());
-
+        
         // Compare depth before and after area recovery
         if(depthBeforeAreaRecovery != a.getDepth()) {
     		if(!allow_depth_increase_flag) {

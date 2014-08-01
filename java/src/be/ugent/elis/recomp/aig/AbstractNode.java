@@ -231,9 +231,26 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" cannot have I1 edge");
 		return input.get(1);
 	}
+	
+	public N getN0() {
+		return getI0().getTail();
+	}
+	
+	public N getN1() {
+		return getI1().getTail();
+	}
 
 	public void setMarked(boolean marked) {
 		this.marked = marked;
+	}
+	
+	public void setMarkedRecursive(boolean marked) {
+		if(this.marked != marked) {
+			setMarked(marked);
+			for(N n : getInputNodes()) {
+				n.setMarkedRecursive(marked);
+			}
+		}
 	}
 
 	public boolean isMarked() {

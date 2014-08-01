@@ -222,9 +222,9 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	}
 	
 	public int referenceMFFC() {
-		if(isGate())
+		if(isGate() || isPrimaryOutput())
 			return getBestCone().referenceMFFC();
-		else 
+		else
 			return 0;
 	}
 
