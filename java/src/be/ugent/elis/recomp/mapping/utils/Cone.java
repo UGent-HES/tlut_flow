@@ -231,16 +231,16 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public Cone expandLeafNode(Node node) {
-		if(!hasRegularLeaf(node))
+		if(GlobalConstants.assertFlag && !hasRegularLeaf(node))
 			throw new RuntimeException("Can only expand leaf node");
-		if(!node.isGate())
+		if(GlobalConstants.assertFlag && !node.isGate())
 			throw new RuntimeException("Can only expand AND gate");
 		Cone res = new Cone(getRoot(), bddIdMapping);
 		res.addLeaves(this);
 		res.removeRegularLeave(node);
-		if(!getNodesInToOut().contains(node.getN0()))
+		if(!getNodesInToOut().contains(node.getN0()) && !node.getN0().isParameter())
 			res.addLeave(node.getN0());
-		if(!getNodesInToOut().contains(node.getN1()))
+		if(!getNodesInToOut().contains(node.getN1()) && !node.getN1().isParameter())
 			res.addLeave(node.getN1());
 		return res;
 	}
