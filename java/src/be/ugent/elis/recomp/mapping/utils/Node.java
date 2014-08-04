@@ -229,7 +229,7 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	}
 
 	public double getEstimatedFanout() {
-		if(estimatedFanout < 0.)
+		if(estimatedFanout < 0.) //not yet calculated
 			estimatedFanout = fanout();
 		//System.out.println(""+fanout()+","+estimatedFanout);
 		return estimatedFanout;

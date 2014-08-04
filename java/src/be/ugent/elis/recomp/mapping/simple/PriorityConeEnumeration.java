@@ -225,6 +225,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		((MappingAIG)aig).setConeEnumerationPerformed(true);
 		((MappingAIG)aig).setConeSelectionPerformed(true);
 		((MappingAIG)aig).setEstimatedFanoutCalculationPerformed(false);
+		((MappingAIG)aig).setHeightCalculationPerformed(false);
 	}
 	
 	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {

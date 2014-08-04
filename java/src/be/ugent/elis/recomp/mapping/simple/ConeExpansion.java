@@ -127,7 +127,10 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 	}
 
 	@Override
-	public void finish(AIG<Node,Edge> aig) {}
+	public void finish(AIG<Node,Edge> aig) {
+		((MappingAIG)aig).setEstimatedFanoutCalculationPerformed(false);
+		((MappingAIG)aig).setHeightCalculationPerformed(false);
+	}
 
 	/**
 	 * Expand the Cone without growing the area
@@ -153,7 +156,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 			    	expanded = true;
 			    }
 			}
-			if(GlobalConstants.assertFlag && !res.isLUTfeasible(K))
+			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isLUTfeasible(K)))
 				throw new RuntimeException();
 			for(Node n : res.getRegularLeaves()) {
 				if(!res.isLUTfeasible(K-1))
@@ -167,7 +170,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 			    	n.getN1().setMarked(true);
 			    }
 			}
-			if(GlobalConstants.assertFlag && !res.isLUTfeasible(K))
+			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isLUTfeasible(K)))
 				throw new RuntimeException();
 			for(Node n : res.getRegularLeaves()) {
 				if(!res.isLUTfeasible(K-1))
@@ -181,7 +184,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 			    	n.getN1().setMarked(true);
 			    }
 			}
-			if(GlobalConstants.assertFlag && !res.isLUTfeasible(K))
+			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isLUTfeasible(K)))
 				throw new RuntimeException();
 		}
 		c.getRoot().setMarkedRecursive(false);

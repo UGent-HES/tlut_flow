@@ -76,6 +76,8 @@ public class AreaOrientedConeComparator implements AbstractConeComparator {
 	 
 	@Override
 	public void performPreCheck(MappingAIG aig) {
+		if(GlobalConstants.assertFlag && !aig.isHeightCalculationPerformed())
+			throw new RuntimeException("Cone height must be calculated before using AreaOrientedConeComparator");
 		if(GlobalConstants.assertFlag && !aig.isConePropertiesCalculated())
 			throw new RuntimeException("Cone properties must be calculated before using AreaOrientedConeComparator");
 		if(GlobalConstants.assertFlag && !aig.isConeDepthsCalculated())
