@@ -94,10 +94,10 @@ public class DepthOrientedConeComparator implements AbstractConeComparator {
 				return 1;
 			else if (o1.getAreaflow() < o2.getAreaflow())
 				return -1;
-//			if (o1.size() > o2.size())
-//				return 1;
-//			else if (o1.size() < o2.size())
-//				return -1;
+			if (o1.size() > o2.size())
+				return 1;
+			else if (o1.size() < o2.size())
+				return -1;
 			else {
 				if(o1.hashCode() < o2.hashCode())
 					return -1;
