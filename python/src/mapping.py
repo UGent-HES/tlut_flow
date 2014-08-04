@@ -69,6 +69,13 @@ All rights reserved.
 import os, sys, shutil, commands, subprocess, re
 from itertools import islice
 
+conventional_mode = 0
+prioritycut_mode = 1
+mapping_mode = conventional_mode
+
+abc_fpga_cmd = ['fpga', 'if'][mapping_mode]
+simplemap_cmd = ['SimpleMapper', 'SimplePriorityCutMapper'][mapping_mode]
+tmap_cmd = ['TMapSimple', 'TMapPriorityCutMapper'][mapping_mode]
 
 maxMemory = 4096
 #set maximum memory usage of Java tools, in MB
@@ -103,7 +110,7 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False, targ
                 raise Exception('Missing input file for simpleMapper: %s'%file)
 
         # Actual mapping using Java tool
-        cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.simple.SimpleMapper']
+        cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.simple.%s'%simplemap_cmd]
         # args: input aag file, inputs per LUT, output blif file
         args = [aagFile, str(K), outFile] + extra_args
         if target_depth != None:
@@ -185,7 +192,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
                 raise Exception('Missing input file for simpleTMapper: %s'%file)
         
         # Using TMAP to map the circuit
-        cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
+        cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.%s'%tmap_cmd]
         # args: input aag of design, input file with parameters, number of inputs per LUT, output configuration bits of tluts as aag, output parameterised configuration bits luts and tluts as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
         args = [aagFile, paramFileName, str(K), parconfFile, lutstructFile] + extra_args
         if target_depth != None:
@@ -261,7 +268,7 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False, target
         inFile = toaig(fname)
         outFile =  basename + "-fpga.blif"
         
-        abc_cmd =  'strash; fpga -K %d'%K
+        abc_cmd =  'strash; %s -K %d'%(abc_fpga_cmd, K)
         if target_depth != None:
             abc_cmd += ' -D %f'%target_depth
         abc_cmd += '; write %s; print_stats'%outFile
