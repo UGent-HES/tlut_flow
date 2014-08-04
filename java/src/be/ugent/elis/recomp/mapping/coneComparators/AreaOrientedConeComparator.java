@@ -66,20 +66,43 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.simple;
-
-import java.util.Comparator;
+package be.ugent.elis.recomp.mapping.coneComparators;
 
 import be.ugent.elis.recomp.mapping.utils.Cone;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
-public class SizeConeComparator implements Comparator<Cone> {
-
+public class AreaOrientedConeComparator implements AbstractConeComparator {
+	 
+	@Override
+	public void performPreCheck(MappingAIG aig) {
+		if(GlobalConstants.assertFlag && !aig.isConePropertiesCalculated())
+			throw new RuntimeException("Cone properties must be calculated before using AreaOrientedConeComparator");
+		if(GlobalConstants.assertFlag && !aig.isConeDepthsCalculated())
+			throw new RuntimeException("Cone depths must be calculated before using AreaOrientedConeComparator");
+	}
+	 
+	// Cones are ordered by their depth. Cones with equal depth are
+	// ordered by area flow.
 	public int compare(Cone o1, Cone o2) {
-		if (o1.size() > o2.size()) {
-			return 1;
-		} else if (o1.size() < o2.size()) {
+		double requiredTime = o1.getRoot().getRequiredTime();
+		if(requiredTime==Double.POSITIVE_INFINITY)
+			throw new RuntimeException();
+		boolean o1Feasible = o1.getDepth() <= requiredTime && o1.getDepth()!=Double.POSITIVE_INFINITY;
+		boolean o2Feasible = o2.getDepth() <= requiredTime && o2.getDepth()!=Double.POSITIVE_INFINITY;
+		if (o1Feasible && !o2Feasible)
 			return -1;
-		} else {
+		else if (o2Feasible && !o1Feasible)
+			return 1;
+		else if (o1.getArea() > o2.getArea())
+			return 1;
+		else if (o1.getArea() < o2.getArea())
+			return -1;
+		else if (o1.getDepth() > o2.getDepth())
+			return 1;
+		else if (o1.getDepth() < o2.getDepth())
+			return -1;
+		else {
 			if(o1.hashCode() < o2.hashCode())
 				return -1;
 			else if(o1.hashCode() > o2.hashCode())

@@ -92,6 +92,13 @@ public class MappingAIG extends AIG<Node, Edge> {
 	private BDDidMapping<Node> bddIdMapping = null;
 	private int param_id_range = -1;
 
+	private boolean coneEnumerationPerformed = false;
+	private boolean coneSelectionPerformed = false;
+	private boolean coneDepthsCalculated = false;
+	private boolean conePropertiesCalculated = false;
+	private boolean estimatedFanoutCalculationPerformed = false;
+	private boolean heightCalculationPerformed = false;
+
 	public MappingAIG(String fileName) throws FileNotFoundException {
 		super(new SimpleElementFactory(), fileName);
 	}
@@ -378,5 +385,54 @@ public class MappingAIG extends AIG<Node, Edge> {
 	public void printUnmappedBlif(PrintStream stream) {
 		trivialMap();
 		constructMappedCircuit("top", 1).printBlif(stream);
+	}
+
+	public boolean isConeEnumerationPerformed() {
+		return coneEnumerationPerformed;
+	}
+
+	public void setConeEnumerationPerformed(boolean coneEnumerationPerformed) {
+		this.coneEnumerationPerformed = coneEnumerationPerformed;
+	}
+
+	public boolean isConeSelectionPerformed() {
+		return coneSelectionPerformed;
+	}
+
+	public void setConeSelectionPerformed(boolean coneSelectionPerformed) {
+		this.coneSelectionPerformed = coneSelectionPerformed;
+	}
+
+	public boolean isEstimatedFanoutCalculationPerformed() {
+		return estimatedFanoutCalculationPerformed;
+	}
+
+	public void setEstimatedFanoutCalculationPerformed(
+			boolean estimatedFanoutCalculationPerformed) {
+		this.estimatedFanoutCalculationPerformed = estimatedFanoutCalculationPerformed;
+	}
+
+	public boolean isConePropertiesCalculated() {
+		return conePropertiesCalculated;
+	}
+
+	public boolean isConeDepthsCalculated() {
+		return coneDepthsCalculated;
+	}
+
+	public void setConeDepthsCalculated(boolean coneDepthsCalculated) {
+		this.coneDepthsCalculated = coneDepthsCalculated;
+	}
+
+	public void setConePropertiesCalculated(boolean conePropertiesCalculated) {
+		this.conePropertiesCalculated = conePropertiesCalculated;
+	}
+
+	public boolean isHeightCalculationPerformed() {
+		return heightCalculationPerformed;
+	}
+
+	public void setHeightCalculationPerformed(boolean heightCalculationPerformed) {
+		this.heightCalculationPerformed = heightCalculationPerformed;
 	}
 }

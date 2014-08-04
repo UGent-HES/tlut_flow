@@ -71,6 +71,7 @@ import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
 import be.ugent.elis.recomp.util.logging.ConeSelectedStats;
@@ -80,6 +81,9 @@ import be.ugent.elis.recomp.util.logging.Logger;
 public class ConeSelection implements Visitor<Node, Edge> {
 
 	public void init(AIG<Node, Edge> aig) {
+		if(GlobalConstants.assertFlag && !((MappingAIG)aig).isConeEnumerationPerformed())
+			throw new RuntimeException("ConeEnumeration must be performed before ConeSelection");
+
 		for(Node node : aig.getAllNodes())
 			node.setVisible(false);
 	}	
@@ -106,6 +110,11 @@ public class ConeSelection implements Visitor<Node, Edge> {
 	}
 
 	@Override
-	public void finish(AIG<Node,Edge> aig) {}
+	public void finish(AIG<Node,Edge> aig) {
+		((MappingAIG)aig).setConeSelectionPerformed(true);
+		((MappingAIG)aig).setEstimatedFanoutCalculationPerformed(false);
+		//((MappingAIG)aig).setConePropertiesCalculated(false);
+		((MappingAIG)aig).setHeightCalculationPerformed(false);
+	}
 
 }

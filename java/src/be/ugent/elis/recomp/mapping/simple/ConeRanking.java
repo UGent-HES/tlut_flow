@@ -69,42 +69,34 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.simple;
 
 import java.util.Collections;
-import java.util.Comparator;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
+import be.ugent.elis.recomp.mapping.coneComparators.AbstractConeComparator;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class ConeRanking implements Visitor<Node, Edge> {
 
-	private Comparator<Cone> coneComparator;
+	private AbstractConeComparator coneComparator;
 	private boolean areaCalculation;
-	private boolean areaFlowCalculation;
 
-	public ConeRanking(Comparator<Cone> coneComparator, 
-			boolean areaFlowCalculation,
+	public ConeRanking(AbstractConeComparator coneComparator, 
 			boolean areaCalculation) {
 		this.coneComparator = coneComparator;
-		this.areaFlowCalculation = areaFlowCalculation;
 		this.areaCalculation = areaCalculation;
-	}
-	public ConeRanking(Comparator<Cone> coneComparator) {
-		this(coneComparator,false,false);
 	}
 
 	public void init(AIG<Node, Edge> aig) {
-		if (areaFlowCalculation || areaCalculation) {
-			for(Node n:aig.getAllNodes())
-				n.resetReferences();
-			for (Node n : aig.getAllPrimaryOutputs()) {
-                n.getI0().getTail().incrementReferences();
-				n.getI0().getTail().referenceMFFC();
-			}
-			for (Node node : aig.getAllNodes())
-				node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getReferences()) / 3.);
-		}
+		if(GlobalConstants.assertFlag && !((MappingAIG)aig).isConeEnumerationPerformed())
+			throw new RuntimeException("ConeEnumeration must be performed before ConeRanking");
+
+		((MappingAIG)aig).setConeDepthsCalculated(true);	//Cone depths and properties will be calculated during ranking, just in time for cone comparison
+		((MappingAIG)aig).setConePropertiesCalculated(true);
+		this.coneComparator.performPreCheck((MappingAIG)aig);
 	}
 
 	public void visit(Node node) {
@@ -113,8 +105,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 		// primary inputs and there output edges.
 		if (node.isPrimaryInput()) {
 			Cone bestCone = node.getConeSet().getOnlyCone();
-			bestCone.setDepth(0.0);
-			bestCone.setAreaflow(0.0);
+			bestCone.calculateConeProperties(areaCalculation);
 			node.setBestCone(bestCone);
 
 			// Set the area flow and the depth of the gates
@@ -148,8 +139,7 @@ public class ConeRanking implements Visitor<Node, Edge> {
 			// primary outputs.
 		} else if (node.isPrimaryOutput()) {
 			Cone bestCone = node.getConeSet().getOnlyCone();
-			bestCone.setDepth(node.getI0().getDepth());
-			bestCone.setAreaflow(node.getI0().getAreaflow());
+			bestCone.calculateConeProperties(areaCalculation);
 			node.setBestCone(bestCone);
 		}
 
@@ -157,7 +147,8 @@ public class ConeRanking implements Visitor<Node, Edge> {
 	}
 
 	@Override
-	public void finish(AIG<Node,Edge> aig) {}
+	public void finish(AIG<Node,Edge> aig) {
+	}
 
 	protected Cone bestCone(Node node) {
 		return Collections.min(node.getConeSet().getCones(), coneComparator);

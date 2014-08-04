@@ -75,6 +75,7 @@ import java.util.ArrayList;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
+import be.ugent.elis.recomp.mapping.coneComparators.SizeConeComparator;
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.ConeSet;
@@ -143,6 +144,9 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		
 		for(Node n : aig.getAllNodes())
 			n.setConesEnumerated(false);
+
+		((MappingAIG)aig).setConeDepthsCalculated(true);
+		((MappingAIG)aig).setConePropertiesCalculated(true);
 	}
 
 	public void visit(Node node) {
@@ -150,8 +154,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 
 		if (node.isPrimaryInput()) {
 			Cone bestCone = Cone.trivialCone(node, bddIdMapping);
-			bestCone.setDepth(0.0);
-			bestCone.setAreaflow(0.0);
+			bestCone.calculateConeProperties();
 			node.setBestCone(bestCone);
 			result.add(bestCone);
 			
@@ -197,8 +200,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			
 		} else if(node.isPrimaryOutput()) {
 			Cone bestCone = Cone.outputCone(node, bddIdMapping);
-			bestCone.setDepth(node.getI0().getDepth());
-			bestCone.setAreaflow(node.getI0().getAreaflow());
+			bestCone.calculateConeProperties();
 			node.setBestCone(bestCone);
 			result.add(bestCone);
 			
@@ -219,7 +221,11 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 	}
 
 	@Override
-	public void finish(AIG<Node,Edge> aig) {}
+	public void finish(AIG<Node,Edge> aig) {
+		((MappingAIG)aig).setConeEnumerationPerformed(true);
+		((MappingAIG)aig).setConeSelectionPerformed(true);
+		((MappingAIG)aig).setEstimatedFanoutCalculationPerformed(false);
+	}
 	
 	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {
 		if(!node.isGate())

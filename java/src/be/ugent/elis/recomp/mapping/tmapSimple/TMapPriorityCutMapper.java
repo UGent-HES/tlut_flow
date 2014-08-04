@@ -77,20 +77,20 @@ import java.io.PrintStream;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+import be.ugent.elis.recomp.mapping.coneComparators.AreaOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.coneComparators.AreaflowOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.coneComparators.DepthOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.coneComparators.DepthOrientedConeComparator2;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.mappedCircuit.ParameterisedMappedCircuitPair;
 import be.ugent.elis.recomp.mapping.modular.ActivationFunctionBuilder;
 import be.ugent.elis.recomp.mapping.modular.MappedActivationFunctionBuilder;
 import be.ugent.elis.recomp.mapping.modular.ResourceSharingCalculator;
-import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.ConeExpansion;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
 import be.ugent.elis.recomp.mapping.simple.ConeSelection;
-import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator2;
 import be.ugent.elis.recomp.mapping.simple.HeightCalculator;
-import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator;
-import be.ugent.elis.recomp.mapping.simple.AreaflowOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.simple.PriorityConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.UpdateEstimatedFanout;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
@@ -100,10 +100,6 @@ import be.ugent.elis.recomp.util.logging.Logger;
 
 public class TMapPriorityCutMapper {
 
-	/**
-	 * @param args
-	 * @throws IOException 
-	 */
 	public static void main(String[] args) throws IOException {
 		
 		//Usage:

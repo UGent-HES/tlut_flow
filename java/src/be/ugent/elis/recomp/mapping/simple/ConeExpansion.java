@@ -74,6 +74,7 @@ import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
@@ -92,6 +93,9 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 	}
 
 	public void init(AIG<Node, Edge> aig) {
+		if(GlobalConstants.assertFlag && !((MappingAIG)aig).isConeSelectionPerformed())
+			throw new RuntimeException("Cone selection must be performed before ConeExpansion");
+
 		if(GlobalConstants.assertFlag)
 			for(Node n : aig.getAllNodes())
 				if(n.isMarked())

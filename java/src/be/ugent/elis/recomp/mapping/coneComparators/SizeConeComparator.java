@@ -66,115 +66,27 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.simple;
+package be.ugent.elis.recomp.mapping.coneComparators;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.util.Comparator;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
-import joptsimple.OptionSpec;
-import be.ugent.elis.recomp.mapping.coneComparators.AreaOrientedConeComparator;
-import be.ugent.elis.recomp.mapping.coneComparators.AreaflowOrientedConeComparator;
-import be.ugent.elis.recomp.mapping.coneComparators.DepthOrientedConeComparator;
-import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
-import be.ugent.elis.recomp.mapping.utils.MappingAIG;
-import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
-import be.ugent.elis.recomp.util.GlobalConstants;
-import be.ugent.elis.recomp.util.logging.Logger;
+import be.ugent.elis.recomp.mapping.utils.Cone;
 
+public class SizeConeComparator implements Comparator<Cone> {
 
-public class SimpleMapper {
-
-	public static void main(String[] args) throws FileNotFoundException {
-
-		OptionParser parser = new OptionParser();
-        OptionSpec<String> files_option = parser.nonOptions().ofType( String.class );
-        OptionSpec<Integer> depth_option =
-                parser.accepts("depth").withRequiredArg().ofType( Integer.class ).defaultsTo(-1);
-        OptionSet options = parser.parse(args);
-
-		// Usage:
-		// <0> : input file with aag
-		// <1> : integer/number of inputs per LUT
-		// <2> : output file with mapped blif
-        //
-		// -d<int> : optional target depth
-
-        String[] arguments = options.valuesOf(files_option).toArray(new String[1]);
-        double target_depth = depth_option.value(options);
-        String aig_in_filename = arguments[0];
-		int K = Integer.parseInt(arguments[1]);
-		String mapped_blif_out_filename = arguments[2];
-		String base_name = aig_in_filename.substring(aig_in_filename.lastIndexOf('/') + 1, aig_in_filename.lastIndexOf('.'));
-
-		// Initialise BDD library
-		BDDFactorySingleton.create(GlobalConstants.bddNodeTableSize, GlobalConstants.bddCacheSize);
-        
-        // Read AIG file
-		MappingAIG a = new MappingAIG(aig_in_filename);
-		BDDFactorySingleton.get().setVarNum(a.numNodes());
-		a.initBDDidMapping();
-		
-		// Start the clock!
-		long start_time = System.currentTimeMillis();
-		
-		// Mapping
-		System.out.println("Cone Enumeration:");
-		ConeEnumeration enumerator = new ConeEnumeration(K, false, false); 
-        a.visitAll(enumerator);        
-		System.out.println("Cone Ranking:");
-        a.visitAll(new ConeRanking(new DepthOrientedConeComparator(), false));
-        a.visitAllInverse(new ConeSelection());
-        a.visitAll(new UpdateEstimatedFanout());
-
-        double depthBeforeAreaRecovery = a.getDepth();
-        if(target_depth == -1.)
-        	target_depth = depthBeforeAreaRecovery;
-        
-		System.out.println("Area Recovery:");
-        a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(), false));
-        a.visitAllInverse(new ConeSelection());
-        a.visitAll(new UpdateEstimatedFanout());
-
-        a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new ConeRanking(new AreaOrientedConeComparator(), true));
-   		a.visitAllInverse(new ConeSelection());
-        a.visitAll(new UpdateEstimatedFanout());
-
-        // Compare depth before and after area recovery
-        if(target_depth == -1 && depthBeforeAreaRecovery != a.getDepth()) {
-    		System.err.println("Error: Depth increased during area recovery: from "+depthBeforeAreaRecovery+" to "+a.getDepth());
-    		System.exit(1);
-        } 
-        if(target_depth != -1 && a.getDepth() > target_depth) {
-    		System.err.println("Error: Depth ("+a.getDepth()+") greater than target depth: "+target_depth);
-        	System.exit(1);
-        }
-        
-        // Stop the clock!
-		long elapsed_time = System.currentTimeMillis() - start_time;
-		System.out.println("Debug: Elapsed time after mapping: "+String.format("%3.3es", elapsed_time/1000.));
-        
-        // Writing a blif
-		MappedCircuit mappedCircuit = a.constructMappedCircuit(base_name, K);
-		mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
-		
-        // Debug stats
-        System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
-        System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());
-
-		Logger.getLogger().finalLog();
-		
-		// Cleanup
-		BDDFactorySingleton.destroy();
-		
-		System.out.println(a.numLUTResourcesUsed() + "\t" + a.getDepth() + "\t"
-				+ enumerator.getNmbrConsideredCones() + "\t"
-				+ enumerator.getNmbrFeasibleCones() + "\t"
-				+ enumerator.getNmbrCones());
+	public int compare(Cone o1, Cone o2) {
+		if (o1.size() > o2.size()) {
+			return 1;
+		} else if (o1.size() < o2.size()) {
+			return -1;
+		} else {
+			if(o1.hashCode() < o2.hashCode())
+				return -1;
+			else if(o1.hashCode() > o2.hashCode())
+				return 1;
+			else
+				return 0;
+		}
 	}
+
 }

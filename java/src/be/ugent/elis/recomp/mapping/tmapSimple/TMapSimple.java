@@ -77,18 +77,19 @@ import java.io.PrintStream;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+import be.ugent.elis.recomp.mapping.coneComparators.AreaOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.coneComparators.AreaflowOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.coneComparators.DepthOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.mappedCircuit.MappedCircuit;
 import be.ugent.elis.recomp.mapping.mappedCircuit.ParameterisedMappedCircuitPair;
 import be.ugent.elis.recomp.mapping.modular.ActivationFunctionBuilder;
 import be.ugent.elis.recomp.mapping.modular.MappedActivationFunctionBuilder;
 import be.ugent.elis.recomp.mapping.modular.ResourceSharingCalculator;
-import be.ugent.elis.recomp.mapping.simple.AreaOrientedConeComparator;
 import be.ugent.elis.recomp.mapping.simple.ConeEnumeration;
 import be.ugent.elis.recomp.mapping.simple.ConeRanking;
 import be.ugent.elis.recomp.mapping.simple.ConeSelection;
 import be.ugent.elis.recomp.mapping.simple.HeightCalculator;
-import be.ugent.elis.recomp.mapping.simple.DepthOrientedConeComparator;
-import be.ugent.elis.recomp.mapping.simple.AreaflowOrientedConeComparator;
+import be.ugent.elis.recomp.mapping.simple.UpdateEstimatedFanout;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.synthesis.BDDFactorySingleton;
 import be.ugent.elis.recomp.util.GlobalConstants;
@@ -96,10 +97,6 @@ import be.ugent.elis.recomp.util.logging.Logger;
 
 public class TMapSimple {
 
-	/**
-	 * @param args
-	 * @throws IOException 
-	 */
 	public static void main(String[] args) throws IOException {
 		
 		//Usage:
@@ -192,8 +189,9 @@ public class TMapSimple {
 		ConeEnumeration enumerator = new ConeEnumeration(K, tcon_mapping_flag, tlc_mapping_flag);
         a.visitAll(enumerator);
 		System.out.println("Cone Ranking:");
-        a.visitAll(new ConeRanking(new DepthOrientedConeComparator()));
+        a.visitAll(new ConeRanking(new DepthOrientedConeComparator(), false));
         a.visitAllInverse(new ConeSelection());
+        a.visitAll(new UpdateEstimatedFanout());
 
         double depthBeforeAreaRecovery = a.getDepth();
         if(target_depth == -1)
@@ -201,13 +199,15 @@ public class TMapSimple {
         
 		System.out.println("Area Recovery:");
         a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(),true,false));
+        a.visitAll(new ConeRanking(new AreaflowOrientedConeComparator(), false));
         a.visitAllInverse(new ConeSelection());
+        a.visitAll(new UpdateEstimatedFanout());
         
         a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new ConeRanking(new AreaOrientedConeComparator(),false,true));
+        a.visitAll(new ConeRanking(new AreaOrientedConeComparator(), true));
         a.visitAllInverse(new ConeSelection());
-        
+        a.visitAll(new UpdateEstimatedFanout());
+       
         // Compare depth before and after area recovery
         if(depthBeforeAreaRecovery != a.getDepth()) {
     		if(!allow_depth_increase_flag) {

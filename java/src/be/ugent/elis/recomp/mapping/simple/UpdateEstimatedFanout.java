@@ -69,6 +69,7 @@ package be.ugent.elis.recomp.mapping.simple;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
@@ -76,6 +77,11 @@ import be.ugent.elis.recomp.util.GlobalConstants;
 public class UpdateEstimatedFanout implements Visitor<Node, Edge> {
 
 	public void init(AIG<Node, Edge> aig) {
+		if(GlobalConstants.assertFlag && !((MappingAIG)aig).isConeSelectionPerformed())
+			throw new RuntimeException("ConeSelection must be performed before estimated fanout updating");
+		if(GlobalConstants.assertFlag && ((MappingAIG)aig).isEstimatedFanoutCalculationPerformed())
+			throw new RuntimeException("Estimated fanout already calculated");
+
 		for(Node n:aig.getAllNodes())
 			n.resetReferences();
 		for (Node n : aig.getAllPrimaryOutputs()) {
@@ -87,10 +93,15 @@ public class UpdateEstimatedFanout implements Visitor<Node, Edge> {
 	public void visit(Node node) {
 		if(GlobalConstants.assertFlag && (node.getReferences()>0) != node.isVisible())
 			throw new RuntimeException();
-		node.setEstimatedFanout((2. * node.getEstimatedFanout() + node.getReferences()) / 3.);
+		double estimatedFanout = (2. * node.getEstimatedFanout() + node.getReferences()) / 3.;
+		//if(estimatedFanout < 1.)
+		//	estimatedFanout = 1.;
+		node.setEstimatedFanout(estimatedFanout);
 	}
 
 	@Override
-	public void finish(AIG<Node,Edge> aig) {}
+	public void finish(AIG<Node,Edge> aig) {
+		((MappingAIG)aig).setEstimatedFanoutCalculationPerformed(true);
+	}
 
 }

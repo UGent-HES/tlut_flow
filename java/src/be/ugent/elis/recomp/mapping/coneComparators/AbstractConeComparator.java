@@ -64,41 +64,16 @@ By way of example only, UGent does not warrant that the Licensed Software will b
 
 Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
-*//*
 */
-package be.ugent.elis.recomp.mapping.simple;
+package be.ugent.elis.recomp.mapping.coneComparators;
 
 import java.util.Comparator;
 
 import be.ugent.elis.recomp.mapping.utils.Cone;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 
-public class DepthOrientedConeComparator2 implements Comparator<Cone> {
+public interface AbstractConeComparator extends Comparator<Cone> {
 	 
-	// Cones are ordered by their depth. Cones with equal depth are
-	// ordered by area flow.
-	public int compare(Cone o1, Cone o2) {
-		if (o1.getDepth() > o2.getDepth())
-			return 1;
-		else if (o1.getDepth() < o2.getDepth())
-			return -1;
-		else {
-			if (o1.size() > o2.size())
-				return 1;
-			else if (o1.size() < o2.size())
-				return -1;
-			else if (o1.getAreaflow() > o2.getAreaflow())
-				return 1;
-			else if (o1.getAreaflow() < o2.getAreaflow())
-				return -1;
-			else {
-				if(o1.hashCode() < o2.hashCode())
-					return -1;
-				else if(o1.hashCode() > o2.hashCode())
-					return 1;
-				else
-					return 0;
-			}
-		}
-	}
+	abstract public void performPreCheck(MappingAIG aig);
 
 }

@@ -290,7 +290,7 @@ public class Cone implements Comparable<Cone> {
 			return getLocalFunction().id();
 	}
 
-	public void setArea(int area) {
+	private void setArea(int area) {
 		this.area = area;
 	}
 
@@ -298,7 +298,7 @@ public class Cone implements Comparable<Cone> {
 		return area;
 	}
 
-	public void setDepth(double depth) {
+	private void setDepth(double depth) {
 		this.depth = depth;
 	}
 
@@ -306,7 +306,7 @@ public class Cone implements Comparable<Cone> {
 		return depth;
 	}
 
-	public void setAreaflow(double areaflow) {
+	private void setAreaflow(double areaflow) {
 		this.areaflow = areaflow;
 	}
 
@@ -724,10 +724,16 @@ public class Cone implements Comparable<Cone> {
 		return result;
 	}
 	
-	public void calculateAreaflow() {
-		// Trivial cones should never be chosen they are only used
-		// for cone enumeration.
-		if (isTrivial()) {
+	private void calculateAreaflow() {
+		if (getRoot().isPrimaryInput()) {
+			setAreaflow(0.);
+			
+		} else if (getRoot().isPrimaryOutput()) {
+			setAreaflow(getRoot().getI0().getAreaflow());
+			
+		} else if (isTrivial()) {
+			// Trivial cones should never be chosen they are only used
+			// for cone enumeration.
 			setAreaflow(Double.POSITIVE_INFINITY);
 			
 		} else {
@@ -740,9 +746,15 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public void calculateDepth() {
-		// Trivial cones should never be chosen they are only used
-		// for cone enumeration.
-		if (isTrivial()) {
+		if (getRoot().isPrimaryInput()) {
+			setDepth(0.);
+		
+		} else if (getRoot().isPrimaryOutput()) {
+			setDepth(getRoot().getI0().getDepth());
+			
+		} else if (isTrivial()) {
+			// Trivial cones should never be chosen they are only used
+			// for cone enumeration.
 			setDepth(Double.POSITIVE_INFINITY);
 
 		} else {
@@ -785,7 +797,7 @@ public class Cone implements Comparable<Cone> {
 	 * for every feasible cone, reference the nodes in its fanin and count those that are not used
 	 * by any other node
 	 */	
-	public void calculateArea() {
+	private void calculateArea() {
 		int a = referenceMFFC();
 		int a2 = dereferenceMFFC();
 		assert (a == a2);
@@ -907,9 +919,9 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public void calculateConeProperties(boolean area_calculation_flag) {
+		calculateDepth();
 		if(area_calculation_flag)
 			calculateArea();
-		calculateDepth();
 		calculateAreaflow();
 	}
 }

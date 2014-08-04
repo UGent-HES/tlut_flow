@@ -72,7 +72,9 @@ import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class HeightCalculator implements Visitor<Node, Edge> {
 	double targetDepth;
@@ -86,6 +88,9 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 	}
 
 	public void init(AIG<Node, Edge> aig) {
+		if(GlobalConstants.assertFlag && !((MappingAIG)aig).isConeDepthsCalculated())
+			throw new RuntimeException("Cone depth must be calculated before HeightCalculation");
+
 		for (Node n : aig.getAllNodes())
 			n.setRequiredTime(Double.POSITIVE_INFINITY);
 		double depth = 0.;
@@ -122,6 +127,8 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 	}
 
 	@Override
-	public void finish(AIG<Node,Edge> aig) {}
+	public void finish(AIG<Node,Edge> aig) {
+		((MappingAIG)aig).setHeightCalculationPerformed(true);
+	}
 
 }

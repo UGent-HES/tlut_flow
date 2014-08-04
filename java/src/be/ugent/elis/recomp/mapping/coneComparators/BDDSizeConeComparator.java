@@ -66,22 +66,29 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.simple;
+package be.ugent.elis.recomp.mapping.coneComparators;
 
 import java.util.Comparator;
 
-import be.ugent.elis.recomp.mapping.utils.Edge;
+import be.ugent.elis.recomp.mapping.utils.Cone;
 
-public class DepthEdgeComparator implements Comparator<Edge> {
+public class BDDSizeConeComparator implements Comparator<Cone> {
 
-	public int compare(Edge o1, Edge o2) {
-		
-		if (o1.getDepth() < o2.getDepth())
-			return -1;
-		else if (o1.getDepth() > o2.getDepth())
+	public int compare(Cone o1, Cone o2) {
+		int o1size = o1.isLocalFunctionDefined() ? o1.getLocalFunction().nodeCount() : o1.size();
+		int o2size = o2.isLocalFunctionDefined() ? o2.getLocalFunction().nodeCount() : o2.size();
+		if (o1size > o2size) {
 			return 1;
-		else
-			return 0;
+		} else if (o1size < o2size) {
+			return -1;
+		} else {
+			if(o1.hashCode() < o2.hashCode())
+				return -1;
+			else if(o1.hashCode() > o2.hashCode())
+				return 1;
+			else
+				return 0;
+		}
 	}
 
 }

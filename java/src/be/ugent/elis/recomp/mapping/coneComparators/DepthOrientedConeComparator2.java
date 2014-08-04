@@ -66,28 +66,46 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.simple;
-
-import java.util.Comparator;
+package be.ugent.elis.recomp.mapping.coneComparators;
 
 import be.ugent.elis.recomp.mapping.utils.Cone;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
-public class BDDSizeConeComparator implements Comparator<Cone> {
-
+public class DepthOrientedConeComparator2 implements AbstractConeComparator {
+	 
+	@Override
+	public void performPreCheck(MappingAIG aig) {
+		if(GlobalConstants.assertFlag && !aig.isConePropertiesCalculated())
+			throw new RuntimeException("Cone properties must be calculated before using DepthOrientedConeComparator2");
+		if(GlobalConstants.assertFlag && !aig.isConeDepthsCalculated())
+			throw new RuntimeException("Cone depths must be calculated before using DepthOrientedConeComparator2");
+	}
+	 
+	// Cones are ordered by their depth. Cones with equal depth are
+	// ordered by area flow.
 	public int compare(Cone o1, Cone o2) {
-		int o1size = o1.isLocalFunctionDefined() ? o1.getLocalFunction().nodeCount() : o1.size();
-		int o2size = o2.isLocalFunctionDefined() ? o2.getLocalFunction().nodeCount() : o2.size();
-		if (o1size > o2size) {
+		if (o1.getDepth() > o2.getDepth())
 			return 1;
-		} else if (o1size < o2size) {
+		else if (o1.getDepth() < o2.getDepth())
 			return -1;
-		} else {
-			if(o1.hashCode() < o2.hashCode())
-				return -1;
-			else if(o1.hashCode() > o2.hashCode())
+		else {
+			if (o1.size() > o2.size())
 				return 1;
-			else
-				return 0;
+			else if (o1.size() < o2.size())
+				return -1;
+			else if (o1.getAreaflow() > o2.getAreaflow())
+				return 1;
+			else if (o1.getAreaflow() < o2.getAreaflow())
+				return -1;
+			else {
+				if(o1.hashCode() < o2.hashCode())
+					return -1;
+				else if(o1.hashCode() > o2.hashCode())
+					return 1;
+				else
+					return 0;
+			}
 		}
 	}
 

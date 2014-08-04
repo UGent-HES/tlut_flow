@@ -66,13 +66,21 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
 *//*
 */
-package be.ugent.elis.recomp.mapping.simple;
-
-import java.util.Comparator;
+package be.ugent.elis.recomp.mapping.coneComparators;
 
 import be.ugent.elis.recomp.mapping.utils.Cone;
+import be.ugent.elis.recomp.mapping.utils.MappingAIG;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
-public class AreaflowOrientedConeComparator implements Comparator<Cone> {
+public class AreaflowOrientedConeComparator implements AbstractConeComparator {
+
+	@Override
+	public void performPreCheck(MappingAIG aig) {
+		if(GlobalConstants.assertFlag && !aig.isConePropertiesCalculated())
+			throw new RuntimeException("Cone properties must be calculated before using AreaflowOrientedConeComparator");
+		if(GlobalConstants.assertFlag && !aig.isConeDepthsCalculated())
+			throw new RuntimeException("Cone depths must be calculated before using AreaflowOrientedConeComparator");
+	}
 	 
 	// Cones are ordered by their depth. Cones with equal depth are
 	// ordered by area flow.

@@ -75,6 +75,7 @@ import java.util.ArrayList;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
+import be.ugent.elis.recomp.mapping.coneComparators.SizeConeComparator;
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.ConeSet;
@@ -166,6 +167,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 			result.add(Cone.outputCone(node, bddIdMapping));
 		} else {
 		}
+		
 		result.reduceMemoryUsage();
 		if(GlobalConstants.assertFlag && node.isConesEnumerated())
 			throw new RuntimeException();
@@ -184,7 +186,9 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 	}
 
 	@Override
-	public void finish(AIG<Node,Edge> aig) {}
+	public void finish(AIG<Node,Edge> aig) {
+		((MappingAIG)aig).setConeEnumerationPerformed(true);
+	}
 	
 	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {
 		if(!node.isGate())
