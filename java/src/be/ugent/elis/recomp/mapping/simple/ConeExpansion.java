@@ -75,6 +75,7 @@ import be.ugent.elis.recomp.aig.Visitor;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.Node;
+import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class ConeExpansion implements Visitor<Node, Edge> {
 
@@ -91,6 +92,10 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 	}
 
 	public void init(AIG<Node, Edge> aig) {
+		if(GlobalConstants.assertFlag)
+			for(Node n : aig.getAllNodes())
+				if(n.isMarked())
+					throw new RuntimeException();
 	}
 
 	public void visit(Node node) {
@@ -129,6 +134,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 		boolean expanded = true;
 		while(expanded) {
 			expanded = false;
+			Cone pres = res;
 			for(Node n : res.getRegularLeaves()) {
 				if(!n.isGate())
 					continue;
@@ -136,33 +142,53 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 					continue;
 	
 			    if(expandNodeCost(n) <= 0) {
+			    	pres = res;
 			    	res = res.expandLeafNode(n);
+			    	n.getN0().setMarked(true);
+			    	n.getN1().setMarked(true);
 			    	expanded = true;
 			    }
 			}
-			/*for(Node n : res.getRegularLeaves()) {
+			if(GlobalConstants.assertFlag && !res.isLUTfeasible(K))
+				throw new RuntimeException();
+			for(Node n : res.getRegularLeaves()) {
+				if(!res.isLUTfeasible(K-1))
+					break;
 				if(!n.isGate())
 					continue;
 			    if(expandNodeCost(n) < 0) {
 			    	res = res.expandLeafNode(n);
 			    	expanded = true;
+			    	n.getN0().setMarked(true);
+			    	n.getN1().setMarked(true);
 			    }
 			}
+			if(GlobalConstants.assertFlag && !res.isLUTfeasible(K))
+				throw new RuntimeException();
 			for(Node n : res.getRegularLeaves()) {
+				if(!res.isLUTfeasible(K-1))
+					break;
 				if(!n.isGate())
 					continue;
 			    if(expandNodeCost(n) <= 0) {
 			    	res = res.expandLeafNode(n);
 			    	expanded = true;
+			    	n.getN0().setMarked(true);
+			    	n.getN1().setMarked(true);
 			    }
-			}*/
+			}
+			if(GlobalConstants.assertFlag && !res.isLUTfeasible(K))
+				throw new RuntimeException();
 		}
 		c.getRoot().setMarkedRecursive(false);
 		
 		boolean feasible = res.mapCone(this.K, this.tcon_mapping_flag, this.tlc_mapping_flag);
-		if(!feasible)
+		if(!feasible) {
+			if(!this.tcon_mapping_flag && !this.tlc_mapping_flag)
+				throw new RuntimeException();
 			return c;
 			//throw new RuntimeException("Expanded cone not feasible");
+		}
 		if(coneComparator.compare(c, res) < 0)
 			return c;
 		res.calculateConeProperties();

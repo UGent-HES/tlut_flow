@@ -91,6 +91,8 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 		double depth = 0.;
 		for (Node n : aig.getAllPrimaryOutputs())
 			depth = Math.max(depth, n.getDepth());
+		if(targetDepth<0)
+			throw new RuntimeException("Target depth must be greater than or equal to 0");
 		if(targetDepth<depth)
 			throw new RuntimeException("Target depth smaller than minimal depth of circuit");
 	}
@@ -106,9 +108,9 @@ public class HeightCalculator implements Visitor<Node, Edge> {
 			if(node.isVisible()) {
 				Cone bestCone = node.getBestCone();
 				double requiredTime = node.getRequiredTime();
-//				for (Node n : bestCone.getNodes())
-//					if(!n.isVisible())
-//						n.updateRequiredTime(requiredTime);
+				for (Node n : bestCone.getNodesInToOut())
+					if(!n.isVisible())
+						n.updateRequiredTime(requiredTime);
 				for (Node n : bestCone.getRegularLeaves())
 					n.updateRequiredTime(requiredTime - bestCone.getDepthCostOfCone());
 			}

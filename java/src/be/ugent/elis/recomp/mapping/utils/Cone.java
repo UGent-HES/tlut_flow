@@ -238,8 +238,10 @@ public class Cone implements Comparable<Cone> {
 		Cone res = new Cone(getRoot(), bddIdMapping);
 		res.addLeaves(this);
 		res.removeRegularLeave(node);
-		res.addLeave(node.getN0());
-		res.addLeave(node.getN1());
+		if(!getNodesInToOut().contains(node.getN0()))
+			res.addLeave(node.getN0());
+		if(!getNodesInToOut().contains(node.getN1()))
+			res.addLeave(node.getN1());
 		return res;
 	}
 	
@@ -823,14 +825,15 @@ public class Cone implements Comparable<Cone> {
 
 	@Override
 	public int hashCode() {
-		if(hashCode == 0) {
-			hashCode = root.hashCode();
-			for (Node n : regularLeaves)
-				hashCode ^= n.hashCode();
-//			for (Node n : parameterLeaves)
-//				hashCode ^= n.hashCode();	
-		}
-		return hashCode;
+		return Long.valueOf(getSignature()).hashCode();
+//		if(hashCode == 0) {
+//			hashCode = root.hashCode();
+//			for (Node n : regularLeaves)
+//				hashCode ^= n.hashCode();
+////			for (Node n : parameterLeaves)
+////				hashCode ^= n.hashCode();	
+//		}
+//		return hashCode;
 	}
 
 	@Override

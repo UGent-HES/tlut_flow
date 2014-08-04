@@ -72,6 +72,7 @@ public class GlobalConstants {
 	public static final boolean enableStatsFlag = false;
 	public static final boolean binizeStatsFlag = false;
 	public static final boolean freeBDDafterEnumeration = true;
+	public static final boolean coneExpandFlag = true;
 	public static final boolean feasibility_uses_activationfunction = true;
 	/**
 	 * If both parametersTraverseLatches and paramRestrictBlifPrimitives are true,
