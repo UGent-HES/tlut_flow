@@ -195,13 +195,15 @@ public class TMapPriorityCutMapper {
         a.visitAll(enumerator);
         a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new DepthOrientedConeComparator())); 
         a.visitAllInverse(new ConeSelection());
+        
         double depthBeforeAreaRecovery = a.getDepth();
         if(target_depth == -1)
         	target_depth = depthBeforeAreaRecovery;
-        
-        a.visitAllInverse(new HeightCalculator(target_depth));
-        if(cone_expand_flag)
-        	a.visitAll(new ConeExpansion(K, false, false, new AreaOrientedConeComparator()));
+
+        if(cone_expand_flag) {
+            a.visitAllInverse(new HeightCalculator(target_depth));
+        	a.visitAll(new ConeExpansion(K, tcon_mapping_flag, tlc_mapping_flag, new AreaOrientedConeComparator()));
+        }
         a.visitAll(new UpdateEstimatedFanout());
 
         System.out.println("Area Recovery:");
@@ -209,16 +211,19 @@ public class TMapPriorityCutMapper {
         a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new AreaflowOrientedConeComparator()));
         a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator(target_depth));
-        if(cone_expand_flag)
-        	a.visitAll(new ConeExpansion(K, false, false, new AreaOrientedConeComparator()));
+        if(cone_expand_flag) {
+            a.visitAllInverse(new HeightCalculator(target_depth));
+        	a.visitAll(new ConeExpansion(K, tcon_mapping_flag, tlc_mapping_flag, new AreaOrientedConeComparator()));
+        }
         a.visitAll(new UpdateEstimatedFanout());
  
         a.visitAllInverse(new HeightCalculator(target_depth));
         a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new AreaOrientedConeComparator()));
  		a.visitAllInverse(new ConeSelection());
-        a.visitAllInverse(new HeightCalculator(target_depth));
-        if(cone_expand_flag)
-        	a.visitAll(new ConeExpansion(K, false, false, new AreaOrientedConeComparator()));
+        if(cone_expand_flag) {
+            a.visitAllInverse(new HeightCalculator(target_depth));
+        	a.visitAll(new ConeExpansion(K, tcon_mapping_flag, tlc_mapping_flag, new AreaOrientedConeComparator()));
+        }
 
         // Compare depth before and after area recovery
         if(depthBeforeAreaRecovery != a.getDepth()) {
