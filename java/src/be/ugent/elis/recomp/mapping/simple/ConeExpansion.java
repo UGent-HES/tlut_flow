@@ -68,10 +68,9 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.mapping.simple;
 
-import java.util.Comparator;
-
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
+import be.ugent.elis.recomp.mapping.coneComparators.AbstractConeComparator;
 import be.ugent.elis.recomp.mapping.utils.Cone;
 import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
@@ -83,9 +82,9 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 	public int K;
 	protected boolean tcon_mapping_flag;
 	protected boolean tlc_mapping_flag;
-	protected Comparator<Cone> coneComparator;
+	protected AbstractConeComparator coneComparator;
 
-	public ConeExpansion(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag, Comparator<Cone> coneComparator) {
+	public ConeExpansion(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag, AbstractConeComparator coneComparator) {
 		this.K = K;
 		this.coneComparator = coneComparator;
 		this.tcon_mapping_flag = tcon_mapping_flag;
@@ -95,6 +94,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 	public void init(AIG<Node, Edge> aig) {
 		if(GlobalConstants.assertFlag && !((MappingAIG)aig).isConeSelectionPerformed())
 			throw new RuntimeException("Cone selection must be performed before ConeExpansion");
+		this.coneComparator.performPreCheck((MappingAIG)aig);
 
 		if(GlobalConstants.assertFlag)
 			for(Node n : aig.getAllNodes())
@@ -113,13 +113,11 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 
 			// Expand the best cone
 			Cone bestCone = expandCone(prevBestCone);
-			if(bestCone.isTrivial())
-				throw new RuntimeException("Best cone is trivial");
 			if(bestCone.isUnmapped())
-				throw new RuntimeException("Best cone is unmapped");
+				throw new RuntimeException("Expanded cone is unmapped");
 			node.setBestCone(bestCone);
 			if(node.getDepth() > node.getRequiredTime())
-				throw new RuntimeException("New best cone does not meet depth requirements");
+				throw new RuntimeException("Expanded cone does not meet depth requirements");
 
 			// reset environment for exact area calculation
 			bestCone.referenceMFFC();
@@ -156,7 +154,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 			    	expanded = true;
 			    }
 			}
-			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isLUTfeasible(K)))
+			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isTLUTfeasible(K)))
 				throw new RuntimeException();
 			for(Node n : res.getRegularLeaves()) {
 				if(!res.isLUTfeasible(K-1))
@@ -170,7 +168,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 			    	n.getN1().setMarked(true);
 			    }
 			}
-			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isLUTfeasible(K)))
+			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isTLUTfeasible(K)))
 				throw new RuntimeException();
 			for(Node n : res.getRegularLeaves()) {
 				if(!res.isLUTfeasible(K-1))
@@ -184,7 +182,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 			    	n.getN1().setMarked(true);
 			    }
 			}
-			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isLUTfeasible(K)))
+			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isTLUTfeasible(K)))
 				throw new RuntimeException();
 		}
 		c.getRoot().setMarkedRecursive(false);

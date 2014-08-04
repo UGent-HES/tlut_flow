@@ -68,13 +68,13 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.simple;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.ArrayList;
 
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.Visitor;
+import be.ugent.elis.recomp.mapping.coneComparators.AbstractConeComparator;
 import be.ugent.elis.recomp.mapping.coneComparators.SizeConeComparator;
 import be.ugent.elis.recomp.mapping.utils.BDDidMapping;
 import be.ugent.elis.recomp.mapping.utils.Cone;
@@ -101,14 +101,14 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 	protected boolean tlc_mapping_flag;
 	protected boolean build_bdd_function_flag;
 	public boolean area_calculation_flag;
-	protected Comparator<Cone> coneComparator;
+	protected AbstractConeComparator coneComparator;
 	protected int nmbrConsideredCones;
 	protected int nmbrFeasibleCones;
 	protected int nmbrDominatedCones;
 	protected int nmbrCones;
 	protected BDDidMapping<Node> bddIdMapping;
 
-	public PriorityConeEnumeration(int K, int numPriorityCones, boolean tcon_mapping_flag, boolean tlc_mapping_flag, Comparator<Cone> coneComparator) {
+	public PriorityConeEnumeration(int K, int numPriorityCones, boolean tcon_mapping_flag, boolean tlc_mapping_flag, AbstractConeComparator coneComparator) {
 		nmbrConsideredCones = 0;
 		nmbrDominatedCones = 0;
 		nmbrCones = 0;
@@ -147,6 +147,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 
 		((MappingAIG)aig).setConeDepthsCalculated(true);
 		((MappingAIG)aig).setConePropertiesCalculated(true);
+		this.coneComparator.performPreCheck((MappingAIG)aig);
 	}
 
 	public void visit(Node node) {
@@ -191,7 +192,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			if(bestCone.isUnmapped())
 				throw new RuntimeException("Best cone is unmapped");
 			node.setBestCone(bestCone);
-			if(node.getDepth() > node.getRequiredTime())
+			if(node.isVisible() && node.getDepth() > node.getRequiredTime())
 				throw new RuntimeException("New best cone does not meet depth requirements");
 
 			// reset environment for exact area calculation
