@@ -81,18 +81,9 @@ public class UpdateEstimatedFanout implements Visitor<Node, Edge> {
 			throw new RuntimeException("ConeSelection must be performed before estimated fanout updating");
 		if(GlobalConstants.assertFlag && ((MappingAIG)aig).isEstimatedFanoutCalculationPerformed())
 			throw new RuntimeException("Estimated fanout already calculated");
-
-		for(Node n:aig.getAllNodes())
-			n.resetReferences();
-		for (Node n : aig.getAllPrimaryOutputs()) {
-            n.incrementReferences();
-			n.referenceMFFC();
-		}
 	}	
 	
 	public void visit(Node node) {
-		if(GlobalConstants.assertFlag && (node.getReferences()>0) != node.isVisible())
-			throw new RuntimeException();
 		double estimatedFanout = (2. * node.getEstimatedFanout() + node.getReferences()) / 3.;
 		if(estimatedFanout < 1.)
 			estimatedFanout = 1.;

@@ -85,15 +85,15 @@ public class ConeSelection implements Visitor<Node, Edge> {
 			throw new RuntimeException("ConeEnumeration must be performed before ConeSelection");
 
 		for(Node node : aig.getAllNodes())
-			node.setVisible(false);
+			node.resetReferences();
 	}	
 	
 	public void visit(Node node) {
 		
 		// Set the child nodes of the outputs visible.
 		if (node.isPrimaryOutput()) {
-			node.setVisible(true);
-			node.getN0().setVisible(true);
+			node.incrementReferences();
+			node.getN0().incrementReferences();
 		
 		// Make source nodes of the bestcones of visible nodes visible.
 		} else if (node.isGate()) {
@@ -101,7 +101,7 @@ public class ConeSelection implements Visitor<Node, Edge> {
 			if (node.isVisible()) {
 				Cone bestCone = node.getBestCone();
 				for (Node n:bestCone.getRegularLeaves()) {
-					n.setVisible(true);
+					n.incrementReferences();
 				}
 				if(GlobalConstants.enableStatsFlag)
 					Logger.getLogger().log(new ConeSelectedStats(bestCone));

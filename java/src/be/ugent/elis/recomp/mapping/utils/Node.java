@@ -85,9 +85,8 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	
 	private double requiredTime;
 	private int references;
-	private double estimatedFanout = -1.;
+	private double estimatedFanout;
 	
-	private boolean visible;
 	
 	private boolean parameter;
 	private BDD onParamFunction;
@@ -101,12 +100,13 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 		super(aig, type, id);
 		this.coneSet = new ConeSet(this);
 		this.requiredTime = Double.POSITIVE_INFINITY;
-		this.setVisible(false);
 		this.setParameter(false);
 		this.onParamFunction = BDDFactorySingleton.get().zero();
 		this.offParamFunction = BDDFactorySingleton.get().zero();
 		this.activationFunction = null;
 		this.updated = false;
+		this.references = 0;
+		this.estimatedFanout = -1.;
 	}
 
 	public void free() {
@@ -141,12 +141,8 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 		return coneSet;
 	}
 
-	public void setVisible(boolean visable) {
-		this.visible = visable;
-	}
-
 	public boolean isVisible() {
-		return visible;
+		return getReferences()>0;
 	}
 
 	public void setBestCone(Cone bestCone) {
