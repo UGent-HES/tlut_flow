@@ -283,7 +283,13 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		return input.subList(0, getNumInputs());
 	}
 
+	/**
+	 * Returns input nodes of input edges.
+	 * Warning: Does not return the LATCH node of a OLATCH.
+	 */
     public ArrayList<N> getInputNodes() {
+    	if(isOLatch())
+    		return new ArrayList<N>();
         ArrayList<N> output_nodes = new ArrayList<N>();
         for(E e:getInputEdges())
             output_nodes.add(e.getTail());

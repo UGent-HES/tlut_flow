@@ -361,7 +361,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ArrayList<Cone> temp = new ArrayList<Cone>(cones.getCones());
 		Collections.sort(temp, new SizeConeComparator());
 		
-		result.addAll(temp.subList(0, maxNumConesPerNodeSaved-1));
+		result.addAll(temp.subList(0, maxNumConesPerNodeSaved));
 		
 		for(Cone cone : temp.subList(maxNumConesPerNodeSaved, temp.size()))
 			cone.free();

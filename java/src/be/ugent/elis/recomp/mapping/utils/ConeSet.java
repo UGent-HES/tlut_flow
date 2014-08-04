@@ -76,12 +76,11 @@ import java.util.Iterator;
 
 public class ConeSet implements Iterable<Cone> {
 
-	protected Node node;
+	protected final Node node;
 	
 	protected Collection<Cone> cones;
 
 	public ConeSet(Node node) {
-		
 		cones = new HashSet<Cone>();
 		this.node = node;
 	}
@@ -101,10 +100,6 @@ public class ConeSet implements Iterable<Cone> {
 		return node;
 	}
 
-	public void setNode(Node node) {
-		this.node = node;
-	}
-
 	public void add(Cone cone) {
 		cones.add(cone);
 	}
@@ -115,6 +110,18 @@ public class ConeSet implements Iterable<Cone> {
 	
 	public void addAll(Collection<Cone> addCones) {
 		cones.addAll(addCones);
+	}
+	
+	public void remove(Cone cone) {
+		this.cones.remove(cone);
+	}
+
+	public void removeAll(Collection<Cone> cones) {
+		this.cones.removeAll(cones);
+	}
+
+	public boolean contains(Cone cone) {
+		return this.cones.contains(cone);
 	}
 
 	public Iterator<Cone> iterator() {
@@ -139,21 +146,12 @@ public class ConeSet implements Iterable<Cone> {
 		this.cones = cones;
 	}
 
-	public void removeAll(Collection<Cone> cones) {
-		this.cones.removeAll(cones);
-	}
-
-	public boolean contains(Cone cone) {
-		return this.cones.contains(cone);
-	}
-
 	public void reduceMemoryUsage() {
-		for (Cone c:this.cones) {
+		for (Cone c : this.cones) {
 			c.reduceMemoryUsage();
 		}
 		this.cones = new ArrayList<Cone>(this.cones);
 		((ArrayList<Cone>)this.cones).trimToSize();
 	}
-	
 	
 }

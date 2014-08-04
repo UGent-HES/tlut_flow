@@ -85,7 +85,7 @@ import be.ugent.elis.recomp.util.GlobalConstants;
 public class Cone implements Comparable<Cone> {
 	
 	private final Node root;
-	private final Cone parent0, parent1;
+	private Cone parent0, parent1;
 	protected Collection<Node> regularLeaves;
 //	protected Set<Node> parameterLeaves;
 	protected long signature;
@@ -263,6 +263,11 @@ public class Cone implements Comparable<Cone> {
 
 	public Cone getParent1() {
 		return parent1;
+	}
+
+	public void resetParents() {
+		parent0 = null;
+		parent1 = null;
 	}
 
 	private void setLocalFunction(BDD function) {
@@ -895,7 +900,7 @@ public class Cone implements Comparable<Cone> {
 
 	public boolean mapCone(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag) {
 		if(isUnmapped()) {
-			initFeasibilityCalculation(tcon_mapping_flag);
+			initFeasibilityCalculation(tcon_mapping_flag || tlc_mapping_flag);
 			if(tcon_mapping_flag && isTCONfeasible()) {
 				mapToTCON();
 			} else if(isTLUTfeasible(K)) {

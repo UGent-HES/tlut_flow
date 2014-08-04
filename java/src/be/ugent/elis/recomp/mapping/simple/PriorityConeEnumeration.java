@@ -215,6 +215,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		for(Node n : node.getInputNodes()) {
 			if(n.isFanoutConeEnumerationDone()) {
 				n.removeConeSet();
+				//n.getBestCone().resetParents();
 			}
 		}
 		
@@ -227,6 +228,10 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		((MappingAIG)aig).setConeSelectionPerformed(true);
 		((MappingAIG)aig).setEstimatedFanoutCalculationPerformed(false);
 		((MappingAIG)aig).setHeightCalculationPerformed(false);
+		
+		for(Node n : aig.getAllNodes())
+			if(n.getConeSet() != null && n.isGate())
+				throw new RuntimeException();
 	}
 	
 	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {
@@ -390,7 +395,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		ArrayList<Cone> temp = new ArrayList<Cone>(cones.getCones());
 		Collections.sort(temp, coneComparator);
 		
-		result.addAll(temp.subList(0, numConesSaved-1));
+		result.addAll(temp.subList(0, numConesSaved));
 		
 		for(Cone cone : temp.subList(numConesSaved, temp.size()))
 			cone.free();
