@@ -94,8 +94,8 @@ public class UpdateEstimatedFanout implements Visitor<Node, Edge> {
 		if(GlobalConstants.assertFlag && (node.getReferences()>0) != node.isVisible())
 			throw new RuntimeException();
 		double estimatedFanout = (2. * node.getEstimatedFanout() + node.getReferences()) / 3.;
-		//if(estimatedFanout < 1.)
-		//	estimatedFanout = 1.;
+		if(estimatedFanout < 1.)
+			estimatedFanout = 1.;
 		node.setEstimatedFanout(estimatedFanout);
 	}
 
