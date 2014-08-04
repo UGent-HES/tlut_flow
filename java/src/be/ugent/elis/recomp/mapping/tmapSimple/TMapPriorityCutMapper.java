@@ -153,12 +153,12 @@ public class TMapPriorityCutMapper {
         String aig_in_filename = arguments[0];
         String parameter_in_filename = arguments[1];
 		int K = Integer.parseInt(arguments[2]);
-		int C = 8;
+		int C = GlobalConstants.priorityConesPerNode;
 		String mapped_blif_out_filename = mappedblif_option.value(options);
         String param_config_out_filename = arguments[3];
 		String lutstruct_out_filename = arguments[4];
 		String base_name = aig_in_filename.substring(aig_in_filename.lastIndexOf('/') + 1, aig_in_filename.lastIndexOf('.'));
-		boolean cone_expand_flag = GlobalConstants.coneExpandFlag;
+		boolean cone_expand_flag = GlobalConstants.priorityConeExpandFlag;
 		
 
         boolean use_bdd_flag = tcon_mapping_flag || tlc_mapping_flag || resource_sharing_flag;

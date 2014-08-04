@@ -69,8 +69,11 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.utils;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+
+import be.ugent.elis.recomp.mapping.coneComparators.SizeConeComparator;
 
 
 
@@ -152,6 +155,13 @@ public class ConeSet implements Iterable<Cone> {
 		}
 		this.cones = new ArrayList<Cone>(this.cones);
 		((ArrayList<Cone>)this.cones).trimToSize();
+		Collections.sort((ArrayList<Cone>)this.cones, new SizeConeComparator());
+	}
+
+	public ArrayList<Cone> getConesSortedBySize() {
+		if(!(this.cones instanceof ArrayList<?>))
+			throw new RuntimeException();
+		return (ArrayList<Cone>)this.cones;
 	}
 	
 }

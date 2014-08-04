@@ -108,10 +108,10 @@ public class SimplePriorityCutMapper {
         double target_depth = depth_option.value(options);
         String aig_in_filename = arguments[0];
 		int K = Integer.parseInt(arguments[1]);
-		int C = 8;
+		int C = GlobalConstants.priorityConesPerNode;
 		String mapped_blif_out_filename = arguments[2];
 		String base_name = aig_in_filename.substring(aig_in_filename.lastIndexOf('/') + 1, aig_in_filename.lastIndexOf('.'));
-		boolean cone_expand_flag = GlobalConstants.coneExpandFlag;
+		boolean cone_expand_flag = GlobalConstants.priorityConeExpandFlag;
 
 		
 		// Initialise BDD library

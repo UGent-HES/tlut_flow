@@ -249,9 +249,6 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		if(!node1.isConesEnumerated())
 			throw new RuntimeException("Cones of input node: "+node1.toString()+" not enumerated");
 
-		// Get the cone sets of the child nodes
-		ConeSet coneSet0 = node0.getConeSet();
-		ConeSet coneSet1 = node1.getConeSet();
 
 		// Merge the cone sets of the child nodes
 		class TwoCones {
@@ -264,11 +261,12 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		ArrayList<TwoCones> mergesToConsider = new ArrayList<TwoCones>();
 
 		boolean coneSkipped = false;
-
+		
+		// Get the cone sets of the child nodes
 		// Filter cones that are not considered to merge
 		ArrayList<Cone> cones0 = new ArrayList<Cone>();
 		ArrayList<Cone> cones1 = new ArrayList<Cone>();
-		for(Cone c : coneSet0.getCones()) {
+		for(Cone c : node0.getConeSet().getConesSortedBySize()) {
 			if(considerToMergeCone(c))
 				cones0.add(c);
 			else {
@@ -276,7 +274,7 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				Logger.getLogger().log(new ConeNotConsideredToMerge(c));
 			}
 		}
-		for(Cone c : coneSet1.getCones()) {
+		for(Cone c : node1.getConeSet().getConesSortedBySize()) {
 			if(considerToMergeCone(c))
 				cones1.add(c);
 			else {
@@ -284,11 +282,6 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 				Logger.getLogger().log(new ConeNotConsideredToMerge(c));
 			}
 		}
-		
-		Collections.sort(cones0, new SizeConeComparator());
-		Collections.sort(cones1, new SizeConeComparator());
-//		Collections.sort(cones0, new BDDSizeConeComparator());
-//		Collections.sort(cones1, new BDDSizeConeComparator());
 		
 		
 		if(cones0.size() > cones1.size()) {

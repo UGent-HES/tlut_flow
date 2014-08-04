@@ -295,10 +295,6 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		if(!node1.isConesEnumerated())
 			throw new RuntimeException("Cones of input node: "+node1.toString()+" not enumerated");
 
-		// Get the cone sets of the child nodes
-		ConeSet coneSet0 = node0.getConeSet();
-		ConeSet coneSet1 = node1.getConeSet();
-
 		// Merge the cone sets of the child nodes
 		class TwoCones {
 			public Cone cone0, cone1;
@@ -311,10 +307,11 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 
 		boolean coneSkipped = false;
 
+		// Get the cone sets of the child nodes
 		// Filter cones that are not considered to merge
 		ArrayList<Cone> cones0 = new ArrayList<Cone>();
 		ArrayList<Cone> cones1 = new ArrayList<Cone>();
-		for(Cone c : coneSet0.getCones()) {
+		for(Cone c : node0.getConeSet().getConesSortedBySize()) {
 			if(considerToMergeCone(c))
 				cones0.add(c);
 			else {
@@ -322,7 +319,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 				Logger.getLogger().log(new ConeNotConsideredToMerge(c));
 			}
 		}
-		for(Cone c : coneSet1.getCones()) {
+		for(Cone c : node1.getConeSet().getConesSortedBySize()) {
 			if(considerToMergeCone(c))
 				cones1.add(c);
 			else {
