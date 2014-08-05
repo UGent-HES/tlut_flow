@@ -176,5 +176,9 @@ public class MappedGate extends MappedNode {
 		return vhdlGenerator.getLUTString(getVhdlIdentifier(),
 				getVhdlSignalIdentifier(), getVhdlTruthTable(), inputs);
 	}
+	
+	public int numLUTResources() {
+		return 1;
+	}
 
 }

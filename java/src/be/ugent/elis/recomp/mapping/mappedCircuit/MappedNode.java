@@ -124,5 +124,9 @@ public class MappedNode implements IsParameterInterface {
 	
 	public void free() {
 	}
+	
+	public int numLUTResources() {
+		return 0;
+	}
 
 }

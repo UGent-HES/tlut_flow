@@ -963,4 +963,11 @@ public class MappedCircuit {
 		for (MappedNode source : node.getSources())
 			listUsedNodes_rec(source, used_nodes);
 	}
+	
+	public int numLUTResourcesUsed() {
+		int num_LUT_resources = 0;
+		for (MappedNode node : getAllNodes())
+			num_LUT_resources += node.numLUTResources();
+		return num_LUT_resources;
+	}
 }
