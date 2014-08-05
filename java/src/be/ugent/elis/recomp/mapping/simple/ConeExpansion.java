@@ -76,6 +76,8 @@ import be.ugent.elis.recomp.mapping.utils.Edge;
 import be.ugent.elis.recomp.mapping.utils.MappingAIG;
 import be.ugent.elis.recomp.mapping.utils.Node;
 import be.ugent.elis.recomp.util.GlobalConstants;
+import be.ugent.elis.recomp.util.logging.ConeExpandedStats;
+import be.ugent.elis.recomp.util.logging.Logger;
 
 public class ConeExpansion implements Visitor<Node, Edge> {
 
@@ -197,6 +199,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 		if(coneComparator.compare(c, res) < 0)
 			return c;
 		res.calculateConeProperties();
+		Logger.getLogger().log(new ConeExpandedStats(res));
 		return res;
 	}
 

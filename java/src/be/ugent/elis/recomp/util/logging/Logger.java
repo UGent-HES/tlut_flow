@@ -91,6 +91,7 @@ public class Logger {
 		ConeNumToSaveReached.finalLog();
 		ConeComputedStats.finalLog();
 		ConeConsideredStats.finalLog();
+		ConeExpandedStats.finalLog();
 		ConeSetConsideredStats.finalLog();
 		ConeFeasibilityStats.finalLog();
 		ConeSelectedStats.finalLog();
