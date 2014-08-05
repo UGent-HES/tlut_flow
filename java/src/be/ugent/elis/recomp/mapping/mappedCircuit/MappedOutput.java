@@ -68,6 +68,9 @@ All rights reserved.
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
+import java.util.ArrayList;
+
+import be.ugent.elis.recomp.mapping.outputgeneration.BlifGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 
 public class MappedOutput extends MappedPrimaryOutput {
@@ -84,15 +87,14 @@ public class MappedOutput extends MappedPrimaryOutput {
 		return vhdlGenerator.getAssignmentString(getVhdlSignalIdentifier(), getSource().getVhdlSignalIdentifier());
 	}
 
-	public String getBlifMapString() {
-		return ".map CONNECTION " + getBlifIdentifier() + "\n";
-	}
-
-	public String getBlifString() {
+	public String getBlifString(BlifGenerator blifGenerator) {
 		//Connect the source to the output
-		if (!getSource().getBlifIdentifier().equals(getBlifIdentifier()))
-			return ".names " + getSource().getBlifIdentifier() + " "
-					+ getBlifIdentifier() + "\n1 1\n" + getBlifMapString() + "\n";
+		if (!getSource().getBlifIdentifier().equals(getBlifIdentifier())) {
+			ArrayList<String> sources = new ArrayList<String>();
+			sources.add(getSource().getBlifIdentifier());
+			return blifGenerator.getGateString(getBlifIdentifier(), sources, "1 1", "OUTPUT") + "\n"
+					+ blifGenerator.getMapString(getBlifIdentifier(), "CONNECTION");
+		}
 		else
 			//Exception: it is possible that the source already has the same name as the output,
 			//this is usually the case if the source is a latch. We avoid changing the latch's name

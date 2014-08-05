@@ -68,6 +68,7 @@ All rights reserved.
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
+import be.ugent.elis.recomp.mapping.outputgeneration.BlifGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 
 public class MappedOLatch extends MappedPrimaryInput {
@@ -83,9 +84,8 @@ public class MappedOLatch extends MappedPrimaryInput {
 		return ilatch;
 	}
 	
-	public String getBlifString() {
-		return ".latch " + getILatch().getSource().getBlifIdentifier() + " "
-				+ getBlifIdentifier() + " re pclk 2\n";
+	public String getBlifString(BlifGenerator blifGenerator) {
+		return blifGenerator.getLatchString(getBlifIdentifier(), getILatch().getSource().getBlifIdentifier(), "pclk") + "\n";
 	}
 
 	public String getVhdlSignalIdentifier() {

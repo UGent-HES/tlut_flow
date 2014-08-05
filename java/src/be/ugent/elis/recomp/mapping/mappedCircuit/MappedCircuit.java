@@ -84,6 +84,7 @@ import net.sf.javabdd.BDDFactory;
 import net.sf.javabdd.BDDPairing;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.aig.NodeType;
+import be.ugent.elis.recomp.mapping.outputgeneration.BlifGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.Virtex2ProVhdlGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.Virtex5VhdlGenerator;
@@ -272,45 +273,41 @@ public class MappedCircuit {
 	}
 
 	public void printBlif(PrintStream stream) {
-		stream.println(".model " + this.name);
+		BlifGenerator blifGenerator = new BlifGenerator();
+		
+		stream.println(blifGenerator.getModelDefinitionString(this.name));
 
 		// Inputs
-		stream.print(".inputs");
-		for (MappedInput in : getInputs()) {
-			stream.print(" " + in.getBlifIdentifier());
-		}
+		stream.print(blifGenerator.getInputDefinitionString(MappedNode.getBlifIdentifiers(getInputs())));
 		stream.println();
 
 		// Outputs
-		stream.print(".outputs");
-		for (MappedOutput out : getOutputs()) {
-			stream.print(" " + out.getBlifIdentifier());
-		}
+		stream.print(blifGenerator.getOutputDefinitionString(MappedNode.getBlifIdentifiers(getOutputs())));
 		stream.println();
 		stream.println();
 
 		// Const
-		stream.print(getConst0().getBlifString());
-		stream.print(getConst1().getBlifString());
+		stream.print(getConst0().getBlifString(blifGenerator));
+		stream.print(getConst1().getBlifString(blifGenerator));
 
 		// Latches
 		for (MappedOLatch latch : getOLatches()) {
-			stream.print(latch.getBlifString());
+			stream.print(latch.getBlifString(blifGenerator));
 		}
 		stream.println();
 
 		// Outputs
 		// TODO: remove?
 		for (MappedOutput output : getOutputs()) {
-			stream.print(output.getBlifString());
+			stream.print(output.getBlifString(blifGenerator));
 		}
 
 		// LUTs
 		for (MappedGate gate : getGates()) {
-			stream.print(gate.getBlifString());
+			stream.print(gate.getBlifString(blifGenerator));
 		}
 
-		stream.println(".end");
+		stream.println(blifGenerator.getFooterString());
 		stream.flush();
 	}
 

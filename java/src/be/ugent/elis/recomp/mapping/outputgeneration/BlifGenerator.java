@@ -66,75 +66,69 @@ Copyright (c) 2012, Ghent University - HES group
 All rights reserved.
  */
 
-package be.ugent.elis.recomp.mapping.mappedCircuit;
+package be.ugent.elis.recomp.mapping.outputgeneration;
 
 import java.util.ArrayList;
 
-import be.ugent.elis.recomp.mapping.outputgeneration.BlifGenerator;
-import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
-import be.ugent.elis.recomp.synthesis.TruthAssignment;
-import be.ugent.elis.recomp.synthesis.TruthAssignmentIterator;
+public class BlifGenerator {
 
-public class MappedParameterisedGate extends MappedGate {
-
-	private final ArrayList<MappedNode> configuration_sources;
-
-	MappedParameterisedGate(MappedCircuit circuit, String name,
-			ArrayList<MappedNode> inputs,
-			ArrayList<MappedNode> configurations,
-			String mapped_type) {
-		super(circuit, name, inputs, null, mapped_type);
-		this.configuration_sources = configurations;
-		if(getConfigurationSources().size() != Math.pow(2, getSources().size()))
-			throw new RuntimeException("Number of configuration inputs of MappedParameterisedGate doesn't match number of inputs");
+	public String getInputDefinitionString(ArrayList<String> signals) {
+		return ".inputs" + signalListString(signals);
 	}
 
-	public ArrayList<MappedNode> getConfigurationSources() {
-		return configuration_sources;
+	public String getOutputDefinitionString(ArrayList<String> signals) {
+		return ".outputs" + signalListString(signals);
 	}
 
-	public String getTruthTable() {
+	public String getClockDefinitionString(ArrayList<String> signals) {
+		return ".clock" + signalListString(signals);
+	}
+	
+	public String getClockDefinitionString(String signal) {
+		return ".clock " + signal;
+	}
+
+	public String signalListString(ArrayList<String> signals) {
 		StringBuilder builder = new StringBuilder();
-
-		// Implementation of LUT using mux
-		for (TruthAssignment<MappedNode> assignment : TruthAssignmentIterator
-				.createFrom(getSources())) {
-			// Select configuration bit
-			for (int i = 0; i < Math.pow(2, getSources().size()); i++) {
-				if (i == assignment.getEntry())
-					builder.append('1');
-				else
-					builder.append('-');
+		int i = 0;
+		for (String s : signals) {
+			i += s.length();
+			if (i > 80) {
+				i = 0;
+				builder.append("\\\n");
 			}
-			// Mux
-			builder.append(assignment.getString());
-			builder.append(" 1\n");
+			builder.append(" " + s);
 		}
-		
 		return builder.toString();
 	}
 
-	public String getBlifString(BlifGenerator blifGenerator) {
+	public String getModelDefinitionString(String name) {
+		return ".model " + name;
+	}
+
+	public String getFooterString() {
+		return ".end";
+	}
+
+	public String getGateString(String output, ArrayList<String> inputs,
+			String truthTable, String comment) {
 		StringBuilder builder = new StringBuilder();
+		// Inputs
+		builder.append(".names");
+		builder.append(signalListString(inputs));
+		// Output
+		builder.append(" " + output + " #" + comment + "\n");
 
-		ArrayList<String> inputs = new ArrayList<String>();
-		inputs.addAll(MappedNode.getBlifIdentifiers(getConfigurationSources()));
-		inputs.addAll(MappedNode.getBlifIdentifiers(getSources()));
-		builder.append(blifGenerator.getGateString(getBlifIdentifier(), inputs, getTruthTable(), getMappedType()));
-
-
-		builder.append(blifGenerator.getMapString(getBlifIdentifier(), getMappedType()));
-		builder.append("\n");
-
+		builder.append(truthTable);
 		return builder.toString();
 	}
 	
-	public String getVhdlString(VhdlGenerator vhdlGenerator) {
-		ArrayList<String> inputs = new ArrayList<String>();
-		for (MappedNode source : getSources()) {
-			inputs.add(source.getVhdlSignalIdentifier());
-		}
-		return vhdlGenerator.getSafeLUTString(getVhdlIdentifier(), getVhdlSignalIdentifier(), "X\"1\"", inputs);
+	public String getMapString(String name, String type) {
+		return ".map " + type + " " + name + "\n";
+	}
+
+	public String getLatchString(String name, String source, String clk) {
+		return ".latch " + source + " " + name + " re " + clk + " 2";
 	}
 
 }

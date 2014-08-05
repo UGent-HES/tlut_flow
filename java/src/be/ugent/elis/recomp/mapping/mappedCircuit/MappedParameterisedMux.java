@@ -70,6 +70,7 @@ package be.ugent.elis.recomp.mapping.mappedCircuit;
 
 import java.util.ArrayList;
 
+import be.ugent.elis.recomp.mapping.outputgeneration.BlifGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 
 public class MappedParameterisedMux extends MappedGate {
@@ -89,22 +90,9 @@ public class MappedParameterisedMux extends MappedGate {
 	public ArrayList<MappedNode> getConfigurationSources() {
 		return configuration_sources;
 	}
-
-	public String getBlifString() {
+	
+	private String getTruthTable() {
 		StringBuilder builder = new StringBuilder();
-
-		// Inputs
-		builder.append(".names");
-		for (MappedNode var : getConfigurationSources()) {
-			builder.append(" " + var.getBlifIdentifier());
-		}
-		for (MappedNode var : getSources()) {
-			builder.append(" " + var.getBlifIdentifier());
-		}
-		// Output
-		builder.append(" " + getBlifIdentifier() + " #" + getMappedType()
-				+ "\n");
-
 		// Implementation of MUX with one-hot encoding
 		for (int entry = 0; entry < getSources().size(); entry++) {
 			// Select configuration bit
@@ -123,8 +111,19 @@ public class MappedParameterisedMux extends MappedGate {
 			}
 			builder.append(" 1\n");
 		}
+		return builder.toString();
+	}
 
-		builder.append(getBlifMapString());
+	public String getBlifString(BlifGenerator blifGenerator) {
+		StringBuilder builder = new StringBuilder();
+
+		ArrayList<String> inputs = new ArrayList<String>();
+		inputs.addAll(MappedNode.getBlifIdentifiers(getConfigurationSources()));
+		inputs.addAll(MappedNode.getBlifIdentifiers(getSources()));
+		builder.append(blifGenerator.getGateString(getBlifIdentifier(), inputs, getTruthTable(), getMappedType()));
+
+
+		builder.append(blifGenerator.getMapString(getBlifIdentifier(), getMappedType()));
 		builder.append("\n");
 
 		return builder.toString();

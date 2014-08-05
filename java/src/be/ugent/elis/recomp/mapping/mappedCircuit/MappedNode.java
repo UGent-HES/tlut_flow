@@ -128,5 +128,12 @@ public class MappedNode implements IsParameterInterface {
 	public int numLUTResources() {
 		return 0;
 	}
+	
+	public static ArrayList<String> getBlifIdentifiers(ArrayList<? extends MappedNode> nodes) {
+		ArrayList<String> names = new ArrayList<String>();
+		for(MappedNode n : nodes)
+			names.add(n.getBlifIdentifier());
+		return names;
+	}
 
 }

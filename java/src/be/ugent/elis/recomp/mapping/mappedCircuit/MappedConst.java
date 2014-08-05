@@ -68,6 +68,10 @@ All rights reserved.
 
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
+import java.util.ArrayList;
+
+import be.ugent.elis.recomp.mapping.outputgeneration.BlifGenerator;
+
 public class MappedConst extends MappedNode {
 
 	private final String value;
@@ -77,10 +81,12 @@ public class MappedConst extends MappedNode {
 		this.value = value;
 	}
 
-	public String getBlifString() {
-		return ".names " + getBlifIdentifier() + "\n" + value + "\n\n";
+	public String getBlifString(BlifGenerator blifGenerator) {
+		return blifGenerator.getGateString(getBlifIdentifier(),
+				new ArrayList<String>(), "" + value, "CONST") + "\n\n";
 	}
 
+	@Override
 	public String getVhdlSignalIdentifier() {
 		return "\'" + value + "\'";
 	}

@@ -70,6 +70,7 @@ package be.ugent.elis.recomp.mapping.mappedCircuit;
 
 import java.util.ArrayList;
 
+import be.ugent.elis.recomp.mapping.outputgeneration.BlifGenerator;
 import be.ugent.elis.recomp.mapping.outputgeneration.VhdlGenerator;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 
@@ -121,26 +122,15 @@ public class MappedGate extends MappedNode {
 		// TODO
 		return getMappedType().equals("TLUT");
 	}
-	
-	public String getBlifMapString() {
-		return ".map " + getMappedType() + " " + getBlifIdentifier() + "\n";
-	}
 
-	public String getBlifString() {
+	public String getBlifString(BlifGenerator blifGenerator) {
 		StringBuilder builder = new StringBuilder();
 
-		// Inputs
-		builder.append(".names");
-		for (MappedNode var : getSources()) {
-			builder.append(" " + var.getBlifIdentifier());
-		}
-		// Output
-		builder.append(" " + getBlifIdentifier() + " #" + getMappedType()
-				+ "\n");
+		builder.append(blifGenerator.getGateString(getBlifIdentifier(),
+				MappedNode.getBlifIdentifiers(getSources()), 
+				function.getMinterms().getString(), getMappedType()));
 
-		builder.append(function.getMinterms().getString());
-		
-		builder.append(getBlifMapString());
+		builder.append(blifGenerator.getMapString(getBlifIdentifier(), getMappedType()));
 		builder.append("\n");
 
 		return builder.toString();
