@@ -120,6 +120,10 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 		removeConeSet();
 		this.coneSet = coneSet;
 	}
+	
+	public double getArea() {
+		return getBestCone().getArea();
+	}
 
 	public double getDepth() {
 		return getBestCone().getDepth();

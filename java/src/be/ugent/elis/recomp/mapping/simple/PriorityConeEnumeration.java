@@ -155,7 +155,6 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 
 		if (node.isPrimaryInput()) {
 			Cone bestCone = Cone.trivialCone(node, bddIdMapping);
-			bestCone.calculateConeProperties();
 			node.setBestCone(bestCone);
 			result.add(bestCone);
 			
@@ -177,8 +176,10 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 				ConeSet cones = mergeInputConeSets(node);
 				cones = retainFeasibleCones(cones);
 				nmbrFeasibleCones += cones.size();
-				cones = removeDominatedCones(cones);
+				//cones = removeDominatedCones(cones);
 				//cones = customFilterCones(cones);
+				for(Cone c : cones.getCones())
+					c.calculateConeProperties();
 				cones = limitNumCones(cones, numPriorityCones);
 				nmbrCones += cones.size();
 				result.addAll(cones);
@@ -469,7 +470,6 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			if(GlobalConstants.enableStatsFlag)
 				Logger.getLogger().log(new ConeFeasibilityStats(c));
 			if(feasible) {
-				c.calculateConeProperties();
 				feasibleCones.add(c);
 			} else {
 				c.free();

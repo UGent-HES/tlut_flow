@@ -107,8 +107,6 @@ public class Cone implements Comparable<Cone> {
 
 	private BDD feasibilityFunction;
 	
-	private int hashCode = 0;
-
 
 	public Cone(Node node, BDDidMapping<Node> bddIdMapping) {
 		this(node, bddIdMapping, null, null);
@@ -126,8 +124,9 @@ public class Cone implements Comparable<Cone> {
 		this.hasParameterLeaves = false;
 //		this.parameterLeaves = new HashSet<Node>();
 		
-		this.areaflow = Double.POSITIVE_INFINITY;
-		this.depth = Double.POSITIVE_INFINITY;
+		this.area = -1;
+		this.areaflow = -1.;
+		this.depth = -1.; 
 	}
 	
 	public void free() {
@@ -202,6 +201,16 @@ public class Cone implements Comparable<Cone> {
 		if(!node.isParameter())
 			result.addLeave(node);
 		result.calculateSignature();
+
+		if(node.isPrimaryInput()) {
+			result.setArea(0);
+			result.setAreaflow(0);
+			result.setDepth(0);
+		} else {
+			result.setArea(Integer.MAX_VALUE);
+			result.setAreaflow(Double.POSITIVE_INFINITY);
+			result.setDepth(Double.POSITIVE_INFINITY);
+		}
 		return result;
 	}
 	
@@ -300,6 +309,8 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public int getArea() {
+		if(GlobalConstants.assertFlag && area<0)
+			throw new RuntimeException("Area has not been calculated");
 		return area;
 	}
 
@@ -308,6 +319,8 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public double getDepth() {
+		if(GlobalConstants.assertFlag && depth<0)
+			throw new RuntimeException("Depth has not been calculated");
 		return depth;
 	}
 
@@ -316,6 +329,8 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public double getAreaflow() {
+		if(GlobalConstants.assertFlag && areaflow<0)
+			throw new RuntimeException("Areaflow has not been calculated");
 		return areaflow;
 	}
 	
@@ -469,7 +484,6 @@ public class Cone implements Comparable<Cone> {
 
 	private void addRegularLeave(Node node) {
 		nodes = null;
-		hashCode = 0;
 
 		regularLeaves.add(node);
 	}
@@ -483,14 +497,12 @@ public class Cone implements Comparable<Cone> {
 	
 	private void removeRegularLeave(Node node) {
 		nodes = null;
-		hashCode = 0;
 
 		regularLeaves.remove(node);
 	}
 
 	private void addLeaves(Cone cone0) {
 		nodes = null;
-		hashCode = 0;
 
 		this.regularLeaves.addAll(cone0.regularLeaves);
 //		this.parameterLeaves.addAll(cone0.parameterLeaves);
@@ -803,6 +815,8 @@ public class Cone implements Comparable<Cone> {
 	 * by any other node
 	 */	
 	private void calculateArea() {
+		if(isTrivial())
+			return;
 		int a = referenceMFFC();
 		int a2 = dereferenceMFFC();
 		assert (a == a2);

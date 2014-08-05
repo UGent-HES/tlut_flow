@@ -377,7 +377,8 @@ public class MappingAIG extends AIG<Node, Edge> {
 	
 	public void trivialMap() {
 		for (Node n : getAnds()) {
-			n.setVisible(true);
+			n.resetReferences();
+			n.incrementReferences();
 			n.setBestCone(SimpleCone.twoInputCone(n, getBDDidMapping()));
 		}
 	}
