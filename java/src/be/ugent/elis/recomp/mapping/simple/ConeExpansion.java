@@ -106,11 +106,11 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 
 	public void visit(Node node) {
 
-		if (node.isGate() && node.isVisible()) {
+		if (node.isGate() && node.isVisible()) { // only for the selected best cones
 			
 			Cone prevBestCone = node.getBestCone();
 
-			// prepare for exact area calculation
+			// prepare for exact area calculation, pretend the current best cone is NOT selected
 			prevBestCone.dereferenceMFFC();
 
 			// Expand the best cone
@@ -137,15 +137,18 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 	 */
 	protected Cone expandCone(Cone c) {
 		Cone res = c;
+		// nodes of the cone and corresponding leaves are marked
 		c.markConeAndLeaves(true);
 		boolean expanded = true;
 		while(expanded) {
 			expanded = false;
+			@SuppressWarnings("unused")
 			Cone pres = res;
 			for(Node n : res.getRegularLeaves()) {
 				if(!n.isGate())
 					continue;
-				if(!n.getN0().isMarked() && !n.getN1().isMarked()) // cut would grow
+				// expanding n would remove one node from the cut and add two (not already part of the cut or cone), the cut would grow
+				if(!n.getN0().isMarked() && !n.getN1().isMarked())
 					continue;
 	
 			    if(expandNodeCost(n) <= 0) {
@@ -159,62 +162,95 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isTLUTfeasible(K)))
 				throw new RuntimeException();
 			for(Node n : res.getRegularLeaves()) {
-				if(!res.isLUTfeasible(K-1))
-					break;
 				if(!n.isGate())
 					continue;
+				if(!res.isTLUTfeasible(K-1))
+					break;
+				
 			    if(expandNodeCost(n) < 0) {
+			    	pres = res;
 			    	res = res.expandLeafNode(n);
-			    	expanded = true;
 			    	n.getN0().setMarked(true);
 			    	n.getN1().setMarked(true);
+			    	expanded = true;
 			    }
 			}
 			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isTLUTfeasible(K)))
 				throw new RuntimeException();
 			for(Node n : res.getRegularLeaves()) {
-				if(!res.isLUTfeasible(K-1))
-					break;
 				if(!n.isGate())
 					continue;
+				if(!res.isTLUTfeasible(K-1))
+					break;
+				
 			    if(expandNodeCost(n) <= 0) {
+			    	pres = res;
 			    	res = res.expandLeafNode(n);
-			    	expanded = true;
 			    	n.getN0().setMarked(true);
 			    	n.getN1().setMarked(true);
+			    	expanded = true;
 			    }
 			}
 			if(GlobalConstants.assertFlag && !(tcon_mapping_flag || tlc_mapping_flag || res.isTLUTfeasible(K)))
 				throw new RuntimeException();
 		}
+		
+		if(GlobalConstants.assertFlag) {
+			int prevCost = coneCost(c);
+			int newCost = coneCost(res);
+			if(prevCost < newCost)
+				throw new RuntimeException("ConeExpansion increased cone cost");
+		}
+		
+		//unmark all
 		c.getRoot().setMarkedRecursive(false);
 		
+		//map the new cone to primitive
 		boolean feasible = res.mapCone(this.K, this.tcon_mapping_flag, this.tlc_mapping_flag);
+		
+		//return old best cone if new one not feasible
 		if(!feasible) {
+			res.free();
 			if(!this.tcon_mapping_flag && !this.tlc_mapping_flag)
 				throw new RuntimeException();
 			return c;
-			//throw new RuntimeException("Expanded cone not feasible");
 		}
-		if(coneComparator.compare(c, res) < 0)
-			return c;
+		
 		res.calculateConeProperties();
+		
+		//return old best cone if new one is worse according to coneComparator
+		if(coneComparator.compare(c, res) < 0) {
+			res.free();
+			return c;
+		}
+		
 		Logger.getLogger().log(new ConeExpandedStats(res));
 		return res;
 	}
 
 	private int expandNodeCost(Node n) {
-		int Counter = 0;
-		// check if the node has external refs
-		if ( n.getReferences() == 0 )
-		    Counter--;
-		// increment the number of fanins without external refs
-		if ( !n.getN0().isMarked() && n.getN0().getReferences() == 0 )
-		    Counter++;
-		// increment the number of fanins without external refs
-		if ( !n.getN1().isMarked() && n.getN1().getReferences() == 0 )
-		    Counter++;
-		return Counter;
+		int cost = 0;
+		// removing this node from the cut will make one visible node invisible
+		// (-1 LUT)
+		if (!n.isVisible())
+			cost--;
+		// adding this node to the cut will make one previously invisible node
+		// visible (+1 LUT)
+		if (!n.getN0().isMarked() && !n.getN0().isVisible())
+			cost++;
+		// adding this node to the cut will make one previously invisible node
+		// visible (+1 LUT)
+		if (!n.getN1().isMarked() && !n.getN1().isVisible())
+			cost++;
+		return cost;
+	}
+
+	private int coneCost(Cone c) {
+		int cost = 0;
+		for (Node n : c.getRegularLeaves())
+			if (!n.isVisible())
+				cost++;
+		return cost;
 	}
 
 }
