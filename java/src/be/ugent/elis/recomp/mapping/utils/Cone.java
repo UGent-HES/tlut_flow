@@ -111,11 +111,11 @@ public class Cone implements Comparable<Cone> {
 		this(node, bddIdMapping, null, null);
 	}
 	
-	public Cone(Node node, BDDidMapping<Node> bddIdMapping, Cone parent0, Cone parent1) {
+	public Cone(Node node, Collection<Node> regularLeaves, BDDidMapping<Node> bddIdMapping, Cone parent0, Cone parent1) {
 		this.root = node;
 		this.parent0 = parent0;
 		this.parent1 = parent1;
-		this.regularLeaves = new HashSet<Node>();
+		this.regularLeaves = regularLeaves;
 		this.signature = 0;
 		this.localFunction = null;
 		this.bddIdMapping = bddIdMapping;
@@ -127,6 +127,11 @@ public class Cone implements Comparable<Cone> {
 		this.areaflow = -1.;
 		this.depth = -1.; 
 	}
+	
+	public Cone(Node node, BDDidMapping<Node> bddIdMapping, Cone parent0, Cone parent1) {
+		this(node, new HashSet<Node>(), bddIdMapping, parent0, parent1);
+	}
+
 	
 	public void free() {
 		setLocalFunction(null);
@@ -165,30 +170,31 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public static Cone mergeCones(Node root, Cone cone0, Cone cone1, int maxConeSizeConsidered, int maxBddSizeConsidered) {
-		if(root.getI0().getTail() != cone0.getRoot()) {
+		if(root.getN0() != cone0.getRoot()) {
 			Cone tmp = cone0;
 			cone0 = cone1;
 			cone1 = tmp;
 		}
-		if(GlobalConstants.assertFlag && root.getI0().getTail() != cone0.getRoot())
+		if(GlobalConstants.assertFlag && root.getN0() != cone0.getRoot())
 			throw new RuntimeException();
-		if(GlobalConstants.assertFlag && root.getI1().getTail() != cone1.getRoot())
+		if(GlobalConstants.assertFlag && root.getN1() != cone1.getRoot())
 			throw new RuntimeException();
 		
 		if(Long.bitCount(cone0.signature | cone1.signature) > maxConeSizeConsidered)
 			return null;
+		
+		int initial_size = (cone0.getRegularLeaves().size() + cone1.getRegularLeaves().size())*(4/3)+1;
+		Collection<Node> regularLeaves = new HashSet<Node>(initial_size, (float) 1.0);
+		regularLeaves.addAll(cone0.getRegularLeaves());
+		regularLeaves.addAll(cone1.getRegularLeaves());
+		
+		if(regularLeaves.size() > maxConeSizeConsidered)
+			return null;
 
-		Cone result = new Cone(root, cone0.bddIdMapping, cone0, cone1);
+		Cone result = new Cone(root, regularLeaves, cone0.bddIdMapping, cone0, cone1);
 		
 		result.setSignature(cone0.signature | cone1.signature);
-		
-		result.hasParameterLeaves = cone0.hasParameterLeaves || cone1.hasParameterLeaves;
-		
-		result.addLeaves(cone0);
-		result.addLeaves(cone1);
-		
-		if(result.size() > maxConeSizeConsidered)
-			return null;
+		result.setHasParameterLeaves(cone0.hasParameterLeaves || cone1.hasParameterLeaves);
 		
 		//if(GlobalConstants.enableStatsFlag)
 		//	Logger.getLogger().log(new ConeComputedStats(result));
@@ -512,6 +518,10 @@ public class Cone implements Comparable<Cone> {
 	
 	public boolean hasRegularLeaf(Node node) {
 		return this.regularLeaves.contains(node);
+	}
+	
+	private void setHasParameterLeaves(boolean val) {
+		hasParameterLeaves = val;
 	}
 	
 	public boolean hasParameterLeaves() {

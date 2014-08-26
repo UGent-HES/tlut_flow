@@ -349,20 +349,16 @@ public class ConeEnumeration implements Visitor<Node, Edge> {
 		if(cones.size() <= maxNumConesPerNodeSaved)
 			return cones;
 		
-		ConeSet result = new ConeSet(cones.getNode());
-
-		ArrayList<Cone> temp = new ArrayList<Cone>(cones.getCones());
+		ArrayList<Cone> temp = cones.getConesAsArrayList();
 		Collections.sort(temp, new SizeConeComparator());
-		
-		result.addAll(temp.subList(0, maxNumConesPerNodeSaved));
 		
 		for(Cone cone : temp.subList(maxNumConesPerNodeSaved, temp.size()))
 			cone.free();
-
+		
 		if(cones.getCones().size() > maxNumConesPerNodeSaved)
 			Logger.getLogger().log(new ConeNumToSaveReached(cones.getNode()));
 		
-		return result;
+		return new ConeSet(cones.getNode(), temp.subList(0, maxNumConesPerNodeSaved));
 	}
 
 	

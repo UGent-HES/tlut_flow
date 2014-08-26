@@ -306,7 +306,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		// Filter cones that are not considered to merge
 		ArrayList<Cone> cones0 = new ArrayList<Cone>();
 		ArrayList<Cone> cones1 = new ArrayList<Cone>();
-		for(Cone c : node0.getConeSet().getConesSortedBySize()) {
+		for(Cone c : node0.getConeSet().getCones()) {
 			if(considerToMergeCone(c))
 				cones0.add(c);
 			else {
@@ -314,7 +314,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 				Logger.getLogger().log(new ConeNotConsideredToMerge(c));
 			}
 		}
-		for(Cone c : node1.getConeSet().getConesSortedBySize()) {
+		for(Cone c : node1.getConeSet().getCones()) {
 			if(considerToMergeCone(c))
 				cones1.add(c);
 			else {

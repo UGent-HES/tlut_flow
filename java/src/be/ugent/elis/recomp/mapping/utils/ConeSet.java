@@ -162,15 +162,15 @@ public class ConeSet implements Iterable<Cone> {
 		if(!(this.cones instanceof ArrayList<?>))
 			this.cones = new ArrayList<Cone>(this.cones);
 		((ArrayList<Cone>)this.cones).trimToSize();
-		Collections.sort((ArrayList<Cone>)this.cones, new SizeConeComparator());
-		sortedBySize = true;
 	}
 
 	public ArrayList<Cone> getConesSortedBySize() {
 		if(!(this.cones instanceof ArrayList<?>))
 			throw new RuntimeException();
-		if(!this.sortedBySize)
-			throw new RuntimeException();
+		if(!this.sortedBySize) {
+			Collections.sort((ArrayList<Cone>)this.cones, new SizeConeComparator());
+			sortedBySize = true;
+		}
 		return (ArrayList<Cone>)this.cones;
 	}
 

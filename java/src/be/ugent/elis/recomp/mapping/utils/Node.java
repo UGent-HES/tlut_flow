@@ -95,6 +95,7 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	private BDD outputActivationFunction;
 	private boolean updated;
 	private boolean conesEnumerated;
+	private int fanoutConesEnumerated;
 	
 	public Node(AIG<Node, Edge> aig, NodeType type, int id) {
 		super(aig, type, id);
@@ -107,6 +108,8 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 		this.updated = false;
 		this.references = 0;
 		this.estimatedFanout = -1.;
+		this.conesEnumerated = false;
+		this.fanoutConesEnumerated = 0;
 	}
 
 	public void free() {
@@ -312,10 +315,15 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	}
 	
 	public void setConesEnumerated() {
-		conesEnumerated = true;
+		setConesEnumerated(true);
 	}
 	
 	public void setConesEnumerated(boolean val) {
+		if(val != conesEnumerated) {
+			for (Node node : getInputNodes()) {
+				node.fanoutConesEnumerated += val ? 1 : -1;
+			}
+		}
 		conesEnumerated = val;
 	}
 	
@@ -324,12 +332,17 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	}
 
 	public boolean isFanoutConeEnumerationDone() {
-		for (Edge edge : getOutputEdges()) {
-			if (!edge.getHead().isConesEnumerated()) {
-				return false;
-			}
-		}
-		return true;
+		return fanoutConesEnumerated == fanout();
+//		boolean result = true;
+//		for (Edge edge : getOutputEdges()) {
+//			if (!edge.getHead().isConesEnumerated()) {
+//				result = false;
+//				break;
+//			}
+//		}
+//		if(result != (fanoutConesEnumerated == fanout()))
+//			throw new RuntimeException();
+//		return result;
 	}
 	
 	@Override
