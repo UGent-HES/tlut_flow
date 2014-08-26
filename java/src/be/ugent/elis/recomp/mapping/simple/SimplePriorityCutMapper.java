@@ -130,10 +130,10 @@ public class SimplePriorityCutMapper {
 		
 		// Mapping
 		System.out.println("Priority Cone Enumeration:");
-		PriorityConeEnumeration enumerator = new PriorityConeEnumeration(K, C, false, false, new DepthOrientedConeComparator()); 
+		PriorityConeEnumeration enumerator = new PriorityConeEnumeration(K, C, false, false, false, new DepthOrientedConeComparator()); 
         a.visitAll(enumerator);
         enumerators.add(enumerator);
-        enumerator = new PriorityConeEnumeration(K, C, false, false, new DepthOrientedConeComparator2());
+        enumerator = new PriorityConeEnumeration(K, C, false, false, false, new DepthOrientedConeComparator2());
         a.visitAll(enumerator);
         enumerators.add(enumerator);
         a.visitAllInverse(new ConeSelection());
@@ -150,7 +150,7 @@ public class SimplePriorityCutMapper {
         
         System.out.println("Area Recovery:");
         a.visitAllInverse(new HeightCalculator(target_depth));
-        enumerator = new PriorityConeEnumeration(K, C, false, false, new AreaflowOrientedConeComparator());
+        enumerator = new PriorityConeEnumeration(K, C, false, false, false, new AreaflowOrientedConeComparator());
         a.visitAll(enumerator);
         enumerators.add(enumerator);
         a.visitAllInverse(new ConeSelection());
@@ -161,7 +161,7 @@ public class SimplePriorityCutMapper {
         a.visitAll(new UpdateEstimatedFanout());
  
         a.visitAllInverse(new HeightCalculator(target_depth));
-        enumerator = new PriorityConeEnumeration(K, C, false, false, new AreaOrientedConeComparator());
+        enumerator = new PriorityConeEnumeration(K, C, false, false, true, new AreaOrientedConeComparator());
         a.visitAll(enumerator);
         enumerators.add(enumerator);
  		a.visitAllInverse(new ConeSelection());

@@ -191,9 +191,9 @@ public class TMapPriorityCutMapper {
         
         // Mapping
 		System.out.println("Priority Cone Enumeration:");
-		PriorityConeEnumeration enumerator = new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new DepthOrientedConeComparator2()); 
+		PriorityConeEnumeration enumerator = new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, false, new DepthOrientedConeComparator2()); 
         a.visitAll(enumerator);
-        a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new DepthOrientedConeComparator())); 
+        a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, false, new DepthOrientedConeComparator())); 
         a.visitAllInverse(new ConeSelection());
         
         double depthBeforeAreaRecovery = a.getDepth();
@@ -208,7 +208,7 @@ public class TMapPriorityCutMapper {
 
         System.out.println("Area Recovery:");
         a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new AreaflowOrientedConeComparator()));
+        a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, false, new AreaflowOrientedConeComparator()));
         a.visitAllInverse(new ConeSelection());
         a.visitAllInverse(new HeightCalculator(target_depth));
         if(cone_expand_flag) {
@@ -218,7 +218,7 @@ public class TMapPriorityCutMapper {
         a.visitAll(new UpdateEstimatedFanout());
  
         a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, new AreaOrientedConeComparator()));
+        a.visitAll(new PriorityConeEnumeration(K, C, tcon_mapping_flag, tlc_mapping_flag, true, new AreaOrientedConeComparator()));
  		a.visitAllInverse(new ConeSelection());
         if(cone_expand_flag) {
             a.visitAllInverse(new HeightCalculator(target_depth));

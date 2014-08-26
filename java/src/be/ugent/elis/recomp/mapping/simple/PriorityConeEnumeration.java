@@ -109,7 +109,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 	protected int nmbrCones;
 	protected BDDidMapping<Node> bddIdMapping;
 
-	public PriorityConeEnumeration(int K, int numPriorityCones, boolean tcon_mapping_flag, boolean tlc_mapping_flag, AbstractConeComparator coneComparator) {
+	public PriorityConeEnumeration(int K, int numPriorityCones, boolean tcon_mapping_flag, boolean tlc_mapping_flag, boolean area_calculate_flag, AbstractConeComparator coneComparator) {
 		nmbrConsideredCones = 0;
 		nmbrDominatedCones = 0;
 		nmbrCones = 0;
@@ -119,7 +119,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		this.tcon_mapping_flag = tcon_mapping_flag;
 		this.tlc_mapping_flag = tlc_mapping_flag;
 		this.build_bdd_function_flag = tcon_mapping_flag || tlc_mapping_flag;
-		this.area_calculation_flag = true;
+		this.area_calculation_flag = area_calculate_flag;
 	}
 	
 	public int getNmbrConsideredCones() {
@@ -149,6 +149,8 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		((MappingAIG)aig).setConeDepthsCalculated(true);
 		((MappingAIG)aig).setConePropertiesCalculated(true);
 		this.coneComparator.performPreCheck((MappingAIG)aig);
+		if(area_calculation_flag && !((MappingAIG)aig).isConeSelectionPerformed())
+			throw new RuntimeException();
 	}
 
 	public void visit(Node node) {
@@ -175,12 +177,12 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 				removeDominatedCones(result);
 				//cones = customFilterCones(cones);
 				for(Cone c : result.getCones())
-					c.calculateConeProperties();
+					c.calculateConeProperties(area_calculation_flag);
 				result = limitNumCones(result, numPriorityCones);
 				nmbrCones += result.size();
 
 				if(prevBestCone != null && !result.contains(prevBestCone)) {
-					prevBestCone.calculateConeProperties();
+					prevBestCone.calculateConeProperties(area_calculation_flag);
 					result.add(prevBestCone);
 				}
 				
@@ -204,7 +206,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			
 		} else if(node.isPrimaryOutput()) {
 			Cone bestCone = Cone.outputCone(node, bddIdMapping);
-			bestCone.calculateConeProperties();
+			bestCone.calculateConeProperties(area_calculation_flag);
 			node.setBestCone(bestCone);
 			result.add(bestCone);
 			
@@ -281,7 +283,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			throw new RuntimeException("Parameter coneset should contain one cone");
 		merge.mapToNone();
 
-		merge.calculateConeProperties();
+		merge.calculateConeProperties(area_calculation_flag);
 		
 		ConeSet result = new ConeSet(node);
 		result.add(merge);

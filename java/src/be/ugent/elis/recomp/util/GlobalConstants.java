@@ -74,7 +74,7 @@ public class GlobalConstants {
 	public static final boolean freeBDDafterEnumeration = true;
 	public static final boolean feasibility_uses_activationfunction = true;
 	
-	public static final boolean priorityConeExpandFlag = true;
+	public static final boolean priorityConeExpandFlag = false;
 	public static final int priorityConesPerNode = 8;
 	/**
 	 * If both parametersTraverseLatches and paramRestrictBlifPrimitives are true,
