@@ -175,15 +175,18 @@ public class Cone implements Comparable<Cone> {
 			throw new RuntimeException();
 		if(GlobalConstants.assertFlag && root.getI1().getTail() != cone1.getRoot())
 			throw new RuntimeException();
+		
+		if(Long.bitCount(cone0.signature | cone1.signature) > maxConeSizeConsidered)
+			return null;
 
 		Cone result = new Cone(root, cone0.bddIdMapping, cone0, cone1);
 		
 		result.setSignature(cone0.signature | cone1.signature);
 		
+		result.hasParameterLeaves = cone0.hasParameterLeaves || cone1.hasParameterLeaves;
+		
 		result.addLeaves(cone0);
 		result.addLeaves(cone1);
-		
-		result.hasParameterLeaves = cone0.hasParameterLeaves || cone1.hasParameterLeaves;
 		
 		if(result.size() > maxConeSizeConsidered)
 			return null;

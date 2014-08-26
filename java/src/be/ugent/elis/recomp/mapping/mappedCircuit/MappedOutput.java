@@ -93,7 +93,7 @@ public class MappedOutput extends MappedPrimaryOutput {
 			ArrayList<String> sources = new ArrayList<String>();
 			sources.add(getSource().getBlifIdentifier());
 			return blifGenerator.getGateString(getBlifIdentifier(), sources, "1 1", "OUTPUT") + "\n"
-					+ blifGenerator.getMapString(getBlifIdentifier(), "CONNECTION");
+					+ blifGenerator.getMapString(getBlifIdentifier(), "CONNECTION") + "\n";
 		}
 		else
 			//Exception: it is possible that the source already has the same name as the output,

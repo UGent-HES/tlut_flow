@@ -86,6 +86,8 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     elif virtexFamily != None:
         raise Exception("Unknown virtex family: %s"%virtexFamily)
     
+    setDebugOutputFlag(True)
+    
     # Setup working directory
     if not workDir:
         workDir = "work/%s"%baseName
@@ -98,8 +100,6 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     
     ret_pwd = os.getcwd()
     os.chdir(workDir)
-    
-    setDebugOutputFlag(True)
     
     # Synthesis
     if synthesizedFileName == None:

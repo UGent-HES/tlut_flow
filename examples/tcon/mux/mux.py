@@ -12,8 +12,7 @@ def main():
         verboseFlag=False,
         resynthesizeFlag=True,
         synthesizedFileName=module, 
-        parameterFileName="parameters_mux.par",
-        extraArgs=['--nolutstruct'])
+        parameterFileName="parameters_mux.par")
 
 if __name__=="__main__":
     main()

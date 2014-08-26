@@ -72,9 +72,10 @@ public class GlobalConstants {
 	public static final boolean enableStatsFlag = false;
 	public static final boolean binizeStatsFlag = false;
 	public static final boolean freeBDDafterEnumeration = true;
+	public static final boolean feasibility_uses_activationfunction = true;
+	
 	public static final boolean priorityConeExpandFlag = true;
 	public static final int priorityConesPerNode = 8;
-	public static final boolean feasibility_uses_activationfunction = true;
 	/**
 	 * If both parametersTraverseLatches and paramRestrictBlifPrimitives are true,
 	 * ABC verification may fail. The reason for this is that ABC verification
