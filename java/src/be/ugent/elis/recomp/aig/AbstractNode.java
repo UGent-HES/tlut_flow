@@ -71,6 +71,8 @@ package be.ugent.elis.recomp.aig;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.ugent.elis.recomp.util.GlobalConstants;
+
 public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 	protected String name = null;
@@ -186,48 +188,39 @@ public abstract class AbstractNode< N extends AbstractNode<N,E>, E extends Abstr
 		else
 			return false;
 	}
-	
-	
-	N in0Node() {
-		return this.getI0().getTail();
-	}
 
 	@Override
 	public String toString() {
 		return name + " ("+type+","+fanout()+")";
 	}
 
-	N in1Node() {
-		return this.getI1().getTail();
-	}
-
 	public void setI0(E i0) {
-		if(getNumInputs()<1)
+		if(GlobalConstants.assertFlag && getNumInputs()<1)
 			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" cannot have I0 edge");
 		input.set(0, i0);
 	}
 	
 	public void setI(int i, E e) {
-		if(i<0 || getNumInputs()<=i)
+		if(GlobalConstants.assertFlag && (i<0 || getNumInputs()<=i))
 			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" does not have edge "+i);
 		input.set(i, e);
 	}
 	
 
 	public E getI0() {
-		if(getNumInputs()<1)
+		if(GlobalConstants.assertFlag && getNumInputs()<1)
 			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" cannot have I0 edge");
 		return input.get(0);
 	}
 
 	public void setI1(E i1) {
-		if(getNumInputs()<2)
+		if(GlobalConstants.assertFlag && getNumInputs()<2)
 			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" cannot have I1 edge");
 		input.set(1, i1);
 	}
 
 	public E getI1() {
-		if(getNumInputs()<2)
+		if(GlobalConstants.assertFlag && getNumInputs()<2)
 			throw new RuntimeException("Node "+getName()+" of type "+getType().toString()+" cannot have I1 edge");
 		return input.get(1);
 	}

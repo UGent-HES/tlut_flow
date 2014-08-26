@@ -494,8 +494,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		if (!node.isMarked()) {
 			switch (node.getType()) {
 			case AND:
-				inToOut_rec(node.in0Node(), vec, includeOutputs, includeOutputs);
-				inToOut_rec(node.in1Node(), vec, includeOutputs, includeOutputs);
+				inToOut_rec(node.getN0(), vec, includeOutputs, includeOutputs);
+				inToOut_rec(node.getN1(), vec, includeOutputs, includeOutputs);
 				vec.add(node);
 				node.setMarked(true);
 				break;
@@ -508,7 +508,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				break;
 			case OUTPUT:
 			case ILATCH:
-				inToOut_rec(node.in0Node(), vec, includeOutputs, includeOutputs);
+				inToOut_rec(node.getN0(), vec, includeOutputs, includeOutputs);
 				if (includeOutputs)
 					vec.add(node);
 				node.setMarked(true);
@@ -548,8 +548,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 				if(node.allFanoutIsMarked()) {
 					vec.add(node);
 					node.setMarked(true);
-					outToIn_rec(node.in0Node(), vec);
-					outToIn_rec(node.in1Node(), vec);
+					outToIn_rec(node.getN0(), vec);
+					outToIn_rec(node.getN1(), vec);
 				}
 				break;
 			case INPUT:
@@ -564,7 +564,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 			case ILATCH:
 				vec.add(node);
 				node.setMarked(true);
-				outToIn_rec(node.in0Node(), vec);
+				outToIn_rec(node.getN0(), vec);
 				break;
 			default:
 				break;

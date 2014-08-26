@@ -78,7 +78,6 @@ import java.util.Set;
 
 import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.aig.AIG;
-import be.ugent.elis.recomp.mapping.simple.PriorityConeEnumeration;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 import be.ugent.elis.recomp.util.GlobalConstants;
 
@@ -342,7 +341,7 @@ public class Cone implements Comparable<Cone> {
 	}
 	
 	public void checkMapped() {
-		if(type == ConeType.UNMAPPED)
+		if(GlobalConstants.assertFlag && type == ConeType.UNMAPPED)
 			throw new RuntimeException("Cone is not mapped to specific primitive yet");
 	}
 	
@@ -822,7 +821,8 @@ public class Cone implements Comparable<Cone> {
 			return;
 		int a = referenceMFFC();
 		int a2 = dereferenceMFFC();
-		assert (a == a2);
+		if(GlobalConstants.assertFlag && a != a2)
+			throw new RuntimeException();
 		setArea(a);
 	}
 	

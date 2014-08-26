@@ -1,8 +1,6 @@
 package be.ugent.elis.recomp.util.logging;
 
-import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.mapping.utils.Cone;
-import be.ugent.elis.recomp.util.GlobalConstants;
 
 public class ConeExpandedStats extends AbstractMessage {
 	static int numMessages = 0;

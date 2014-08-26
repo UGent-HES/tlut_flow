@@ -203,7 +203,8 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	}
 	
 	public int decrementReferences() {
-		assert(references>0);
+		if(GlobalConstants.assertFlag && references<=0)
+			throw new RuntimeException();
 		return --references;
 	}
 	
