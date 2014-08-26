@@ -72,6 +72,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -125,11 +126,16 @@ public class SimplePriorityCutMapper {
 		// Start the clock!
 		long start_time = System.currentTimeMillis();
 		
+		ArrayList<PriorityConeEnumeration> enumerators = new ArrayList<PriorityConeEnumeration>();
+		
 		// Mapping
 		System.out.println("Priority Cone Enumeration:");
 		PriorityConeEnumeration enumerator = new PriorityConeEnumeration(K, C, false, false, new DepthOrientedConeComparator()); 
         a.visitAll(enumerator);
-        a.visitAll(new PriorityConeEnumeration(K, C, false, false, new DepthOrientedConeComparator2()));
+        enumerators.add(enumerator);
+        enumerator = new PriorityConeEnumeration(K, C, false, false, new DepthOrientedConeComparator2());
+        a.visitAll(enumerator);
+        enumerators.add(enumerator);
         a.visitAllInverse(new ConeSelection());
         
         double depthBeforeAreaRecovery = a.getDepth();
@@ -144,7 +150,9 @@ public class SimplePriorityCutMapper {
         
         System.out.println("Area Recovery:");
         a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new PriorityConeEnumeration(K, C, false, false, new AreaflowOrientedConeComparator()));
+        enumerator = new PriorityConeEnumeration(K, C, false, false, new AreaflowOrientedConeComparator());
+        a.visitAll(enumerator);
+        enumerators.add(enumerator);
         a.visitAllInverse(new ConeSelection());
         if(cone_expand_flag) {
             a.visitAllInverse(new HeightCalculator(target_depth));
@@ -153,7 +161,9 @@ public class SimplePriorityCutMapper {
         a.visitAll(new UpdateEstimatedFanout());
  
         a.visitAllInverse(new HeightCalculator(target_depth));
-        a.visitAll(new PriorityConeEnumeration(K, C, false, false, new AreaOrientedConeComparator()));
+        enumerator = new PriorityConeEnumeration(K, C, false, false, new AreaOrientedConeComparator());
+        a.visitAll(enumerator);
+        enumerators.add(enumerator);
  		a.visitAllInverse(new ConeSelection());
         if(cone_expand_flag) {
             a.visitAllInverse(new HeightCalculator(target_depth));
@@ -179,8 +189,10 @@ public class SimplePriorityCutMapper {
 		mappedCircuit.printBlif(new PrintStream(new BufferedOutputStream(new FileOutputStream(mapped_blif_out_filename))));
 		
         // Debug stats
-        System.out.println("Debug: Num Cones considered: " + enumerator.getNmbrConsideredCones());
-        System.out.println("Debug: Num Cones retained: " + enumerator.getNmbrCones());
+		for(PriorityConeEnumeration enumerat : enumerators) {
+	        System.out.println("Debug: Num Cones considered: " + enumerat.getNmbrConsideredCones());
+	        System.out.println("Debug: Num Cones retained: " + enumerat.getNmbrCones());
+		}
 
 		Logger.getLogger().finalLog();
 		

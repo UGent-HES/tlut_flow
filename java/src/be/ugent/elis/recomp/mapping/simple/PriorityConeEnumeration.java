@@ -67,6 +67,7 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.mapping.simple;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -166,31 +167,32 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 				prevBestCone.dereferenceMFFC();
 			 
 			if (node.isParameter())
-				result.addAll(mergeParameterConeSets(node));
+				result = mergeParameterConeSets(node);
 			else {
-				if(prevBestCone != null) {
+				result = mergeInputConeSets(node);
+				result = retainFeasibleCones(result);
+				nmbrFeasibleCones += result.size();
+				removeDominatedCones(result);
+				//cones = customFilterCones(cones);
+				for(Cone c : result.getCones())
+					c.calculateConeProperties();
+				result = limitNumCones(result, numPriorityCones);
+				nmbrCones += result.size();
+
+				if(prevBestCone != null && !result.contains(prevBestCone)) {
 					prevBestCone.calculateConeProperties();
 					result.add(prevBestCone);
 				}
 				
-				ConeSet cones = mergeInputConeSets(node);
-				cones = retainFeasibleCones(cones);
-				nmbrFeasibleCones += cones.size();
-				//cones = removeDominatedCones(cones);
-				//cones = customFilterCones(cones);
-				for(Cone c : cones.getCones())
-					c.calculateConeProperties();
-				cones = limitNumCones(cones, numPriorityCones);
-				nmbrCones += cones.size();
-				result.addAll(cones);
-				if(nodeNeedsTrivialCone(node, result))
-					result.add(Cone.trivialCone(node, bddIdMapping));
+				Cone trivialCone = Cone.trivialCone(node, bddIdMapping);
+				if(nodeNeedsTrivialCone(node, result) && !result.contains(trivialCone))
+					result.add(trivialCone);
 			}
 
 			Cone bestCone = bestCone(result);
 			if(bestCone.isTrivial())
 				throw new RuntimeException("Best cone is trivial");
-			if(bestCone.isUnmapped())
+			if(GlobalConstants.assertFlag && bestCone.isUnmapped())
 				throw new RuntimeException("Best cone is unmapped");
 			node.setBestCone(bestCone);
 			if(node.isVisible() && node.getDepth() > node.getRequiredTime())
@@ -296,16 +298,6 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		if(!node1.isConesEnumerated())
 			throw new RuntimeException("Cones of input node: "+node1.toString()+" not enumerated");
 
-		// Merge the cone sets of the child nodes
-		class TwoCones {
-			public Cone cone0, cone1;
-			public TwoCones(Cone cone0, Cone cone1) {
-				this.cone0 = cone0;
-				this.cone1 = cone1;
-			}
-		}
-		ArrayList<TwoCones> mergesToConsider = new ArrayList<TwoCones>();
-
 		boolean coneSkipped = false;
 
 		// Get the cone sets of the child nodes
@@ -329,41 +321,24 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			}
 		}
 		
-		if(cones0.size() > cones1.size()) {
-			ArrayList<Cone> tmp = cones0;
-			cones0 = cones1;
-			cones1 = tmp;
-		}
-		
-		for(int i=0; i<cones0.size(); i++) {
-			for(int j=0; j<=i; j++) {
-				mergesToConsider.add(new TwoCones(cones0.get(i), cones1.get(j)));
-				if(i!=j)
-					mergesToConsider.add(new TwoCones(cones0.get(j), cones1.get(i)));
-			}
-		}
-		for(int i=cones0.size(); i<cones1.size(); i++) {
-			for(Cone cone0 : cones0) {
-				mergesToConsider.add(new TwoCones(cone0, cones1.get(i)));
-			}
-		}
-		nmbrConsideredCones += mergesToConsider.size();
-		
 		ConeSet result = new ConeSet(node);
-		for(TwoCones twoCones : mergesToConsider) {
-			Cone merge = Cone.mergeCones(node, twoCones.cone0, twoCones.cone1, 
-					tcon_mapping_flag ? maxConeSizeConsidered : K,
-					maxBddSizeConsidered);
-			if(merge != null) {
-				result.add(merge);
-				if(GlobalConstants.enableStatsFlag)
-					Logger.getLogger().log(new ConeConsideredStats(merge));
-			} else {
-				coneSkipped = true;
+		for(int i=0; i<cones0.size(); i++) {
+			for(int j=0; j<cones1.size(); j++) {
+				Cone merge = Cone.mergeCones(node, cones0.get(i), cones1.get(j), 
+						tcon_mapping_flag ? maxConeSizeConsidered : K,
+						maxBddSizeConsidered);
+				if(merge != null) {
+					result.add(merge);
+					if(GlobalConstants.enableStatsFlag)
+						Logger.getLogger().log(new ConeConsideredStats(merge));
+				} else {
+					coneSkipped = true;
+				}
 			}
 		}
 		if(GlobalConstants.enableStatsFlag)
 			Logger.getLogger().log(new ConeSetConsideredStats(result));
+		nmbrConsideredCones += cones0.size() * cones1.size();
 		
 		/*
 		 * If two cones are not merged (because of heuristic optimisation) then
@@ -373,7 +348,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		 * trivial cone of one of the inputs is not available (due to heuristic
 		 * optimisation)
 		 */
-		if(coneSkipped)
+		if(coneSkipped && tcon_mapping_flag)
 			result.add(Cone.twoInputCone(node, bddIdMapping));
 		return result;
 	}
@@ -388,23 +363,18 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		if(cones.size() <= numConesSaved)
 			return cones;
 		
-		ConeSet result = new ConeSet(cones.getNode());
-
-		ArrayList<Cone> temp = new ArrayList<Cone>(cones.getCones());
+		ArrayList<Cone> temp = cones.getConesAsArrayList();
 		Collections.sort(temp, coneComparator);
-		
-		result.addAll(temp.subList(0, numConesSaved));
 		
 		for(Cone cone : temp.subList(numConesSaved, temp.size()))
 			cone.free();
 		
-		return result;
+		return new ConeSet(cones.getNode(), temp.subList(0, numConesSaved));
 	}
 
 	
-	protected ConeSet removeDominatedCones(ConeSet feasibleCones) {
-		ConeSet result = new ConeSet(feasibleCones.getNode());
-		result.addAll(feasibleCones);
+	protected void removeDominatedCones(ConeSet feasibleCones) {
+		ConeSet result = feasibleCones;
 
 		Set<Cone> dominatedCones = new HashSet<Cone>();
 		ArrayList<Cone> temp = new ArrayList<Cone>(result.getCones());
@@ -429,7 +399,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		for(Cone c : dominatedCones)
 			c.free();
 		
-		return result;
+		//return result;
 	}
 	
 	protected ConeSet customFilterCones(ConeSet cones) {
@@ -464,7 +434,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 	}
 
 	protected ConeSet retainFeasibleCones(ConeSet mergedConeSet) {
-		ConeSet feasibleCones = new ConeSet(mergedConeSet.getNode());
+		Collection<Cone> feasibleCones = new ArrayList<Cone>();
 		for (Cone c : mergedConeSet) {
 			boolean feasible = c.mapCone(this.K, this.tcon_mapping_flag, this.tlc_mapping_flag);
 			if(GlobalConstants.enableStatsFlag)
@@ -475,7 +445,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 				c.free();
 			}
 		}
-		return feasibleCones;
+		return new ConeSet(mergedConeSet.getNode(), feasibleCones);
 	}
 
 	protected Cone bestCone(ConeSet set) {

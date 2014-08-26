@@ -82,16 +82,22 @@ public class ConeSet implements Iterable<Cone> {
 	protected final Node node;
 	
 	protected Collection<Cone> cones;
+	protected boolean sortedBySize = false;
 
 	public ConeSet(Node node) {
-		cones = new HashSet<Cone>();
+		this.cones = new HashSet<Cone>();
+		this.node = node;
+	}
+	
+	public ConeSet(Node node, Collection<Cone> cones) {
+		this.cones = cones;
 		this.node = node;
 	}
 
 	public ConeSet(ConeSet input) {
-		super();
-		this.node=input.getNode();
-		cones.addAll(input.cones);
+		this.cones = new HashSet<Cone>(input.cones);
+		this.node = input.getNode();
+		this.sortedBySize = input.sortedBySize;
 	}
 	
 	public void free() {
@@ -153,14 +159,24 @@ public class ConeSet implements Iterable<Cone> {
 		for (Cone c : this.cones) {
 			c.reduceMemoryUsage();
 		}
-		this.cones = new ArrayList<Cone>(this.cones);
+		if(!(this.cones instanceof ArrayList<?>))
+			this.cones = new ArrayList<Cone>(this.cones);
 		((ArrayList<Cone>)this.cones).trimToSize();
 		Collections.sort((ArrayList<Cone>)this.cones, new SizeConeComparator());
+		sortedBySize = true;
 	}
 
 	public ArrayList<Cone> getConesSortedBySize() {
 		if(!(this.cones instanceof ArrayList<?>))
 			throw new RuntimeException();
+		if(!this.sortedBySize)
+			throw new RuntimeException();
+		return (ArrayList<Cone>)this.cones;
+	}
+
+	public ArrayList<Cone> getConesAsArrayList() {
+		if(!(this.cones instanceof ArrayList<?>))
+			this.cones = new ArrayList<Cone>(this.cones);
 		return (ArrayList<Cone>)this.cones;
 	}
 	
