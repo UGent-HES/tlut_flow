@@ -73,19 +73,19 @@ import java.util.ArrayList;
 public class BlifGenerator {
 
 	public String getInputDefinitionString(ArrayList<String> signals) {
-		return ".inputs" + signalListString(signals);
+		return ".inputs" + signalListString(signals) + "\n";
 	}
 
 	public String getOutputDefinitionString(ArrayList<String> signals) {
-		return ".outputs" + signalListString(signals);
+		return ".outputs" + signalListString(signals) + "\n";
 	}
 
 	public String getClockDefinitionString(ArrayList<String> signals) {
-		return ".clock" + signalListString(signals);
+		return ".clock" + signalListString(signals) + "\n";
 	}
 	
 	public String getClockDefinitionString(String signal) {
-		return ".clock " + signal;
+		return ".clock " + signal + "\n";
 	}
 
 	public String signalListString(ArrayList<String> signals) {
@@ -103,11 +103,11 @@ public class BlifGenerator {
 	}
 
 	public String getModelDefinitionString(String name) {
-		return ".model " + name;
+		return ".model " + name + "\n";
 	}
 
 	public String getFooterString() {
-		return ".end";
+		return ".end" + "\n";
 	}
 
 	public String getGateString(String output, ArrayList<String> inputs,
@@ -120,6 +120,10 @@ public class BlifGenerator {
 		builder.append(" " + output + " #" + comment + "\n");
 
 		builder.append(truthTable);
+		
+		if(truthTable.charAt(truthTable.length()-1) != '\n')
+			builder.append('\n');
+		
 		return builder.toString();
 	}
 	
@@ -128,7 +132,7 @@ public class BlifGenerator {
 	}
 
 	public String getLatchString(String name, String source, String clk) {
-		return ".latch " + source + " " + name + " re " + clk + " 2";
+		return ".latch " + source + " " + name + " re " + clk + " 2" + "\n";
 	}
 
 }

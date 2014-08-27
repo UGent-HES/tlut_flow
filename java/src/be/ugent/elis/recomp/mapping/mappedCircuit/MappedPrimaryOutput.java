@@ -86,7 +86,10 @@ public class MappedPrimaryOutput extends MappedNode {
 	}
 	
 	public void setSource(MappedNode source) {
+		if(this.source != null)
+			this.source.removeFanout(this);
 		this.source = source;
+		this.source.addFanout(this);
 	}
 
 	public MappedNode getSource() {

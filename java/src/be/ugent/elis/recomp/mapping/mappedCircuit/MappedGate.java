@@ -92,6 +92,7 @@ public class MappedGate extends MappedNode {
 		this.sources = sources;
 		this.function = function;
 		this.mapped_type = mapped_type;
+		addToFanoutOfNodes(this.sources);
 	}
 
 	public String getMappedType() {
@@ -108,6 +109,12 @@ public class MappedGate extends MappedNode {
 
 	public void free() {
 		function.free();
+	}
+	
+	public void removeGate() {
+		free();
+		for(MappedNode node : getSources())
+			node.removeFanout(this);
 	}
 
 	public boolean hasParameterSources() {
@@ -131,7 +138,6 @@ public class MappedGate extends MappedNode {
 				function.getMinterms().getString(), getMappedType()));
 
 		builder.append(blifGenerator.getMapString(getBlifIdentifier(), getMappedType()));
-		builder.append("\n");
 
 		return builder.toString();
 	}

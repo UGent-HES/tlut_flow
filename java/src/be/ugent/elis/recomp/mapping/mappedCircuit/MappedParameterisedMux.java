@@ -122,9 +122,7 @@ public class MappedParameterisedMux extends MappedGate {
 		inputs.addAll(MappedNode.getBlifIdentifiers(getSources()));
 		builder.append(blifGenerator.getGateString(getBlifIdentifier(), inputs, getTruthTable(), getMappedType()));
 
-
 		builder.append(blifGenerator.getMapString(getBlifIdentifier(), getMappedType()));
-		builder.append("\n");
 
 		return builder.toString();
 	}

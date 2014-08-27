@@ -83,7 +83,8 @@ public class MappedConst extends MappedNode {
 
 	public String getBlifString(BlifGenerator blifGenerator) {
 		return blifGenerator.getGateString(getBlifIdentifier(),
-				new ArrayList<String>(), "" + value, "CONST") + "\n\n";
+				new ArrayList<String>(), "" + value, "CONST")
+				+ blifGenerator.getMapString(getBlifIdentifier(), "LUT");
 	}
 
 	@Override

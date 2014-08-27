@@ -92,13 +92,13 @@ public class MappedOutput extends MappedPrimaryOutput {
 		if (!getSource().getBlifIdentifier().equals(getBlifIdentifier())) {
 			ArrayList<String> sources = new ArrayList<String>();
 			sources.add(getSource().getBlifIdentifier());
-			return blifGenerator.getGateString(getBlifIdentifier(), sources, "1 1", "OUTPUT") + "\n"
-					+ blifGenerator.getMapString(getBlifIdentifier(), "CONNECTION") + "\n";
+			return blifGenerator.getGateString(getBlifIdentifier(), sources, "1 1", "OUTPUT")
+					+ blifGenerator.getMapString(getBlifIdentifier(), "CONNECTION");
 		}
 		else
 			//Exception: it is possible that the source already has the same name as the output,
 			//this is usually the case if the source is a latch. We avoid changing the latch's name
 			//because this disturbs logical equivalence checking.
-			return "";
+			return null;
 	}
 }

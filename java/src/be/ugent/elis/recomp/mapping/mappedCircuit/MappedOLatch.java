@@ -78,6 +78,7 @@ public class MappedOLatch extends MappedPrimaryInput {
 	MappedOLatch(MappedCircuit circuit, String name, MappedILatch ilatch) {
 		super(circuit, name);
 		this.ilatch = ilatch;
+		this.ilatch.addFanout(this);
 	}
 	
 	public MappedILatch getILatch() {
@@ -85,7 +86,7 @@ public class MappedOLatch extends MappedPrimaryInput {
 	}
 	
 	public String getBlifString(BlifGenerator blifGenerator) {
-		return blifGenerator.getLatchString(getBlifIdentifier(), getILatch().getSource().getBlifIdentifier(), "pclk") + "\n";
+		return blifGenerator.getLatchString(getBlifIdentifier(), getILatch().getSource().getBlifIdentifier(), "pclk");
 	}
 
 	public String getVhdlSignalIdentifier() {

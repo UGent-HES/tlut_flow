@@ -69,6 +69,7 @@ All rights reserved.
 package be.ugent.elis.recomp.mapping.mappedCircuit;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import be.ugent.elis.recomp.util.IsParameterInterface;
 
@@ -76,10 +77,12 @@ import be.ugent.elis.recomp.util.IsParameterInterface;
 public class MappedNode implements IsParameterInterface {
 	private final MappedCircuit circuit;
 	private final String name;
+	private final Collection<MappedNode> fanout;
 
 	MappedNode(MappedCircuit circuit, String name) {
 		this.circuit = circuit;
 		this.name = name;
+		this.fanout = new ArrayList<MappedNode>();
 	}
 	
 	public MappedCircuit getCircuit() {
@@ -135,5 +138,25 @@ public class MappedNode implements IsParameterInterface {
 			names.add(n.getBlifIdentifier());
 		return names;
 	}
+	
+	public void addFanout(MappedNode node) {
+		this.fanout.add(node);
+	}
+	
+	public void addToFanoutOfNodes(Collection<MappedNode> nodes) {
+		for(MappedNode node : nodes)
+			node.addFanout(this);
+	}
+	
+	public void removeFanout(MappedNode node) {
+		this.fanout.remove(node);
+	}
 
+	public Collection<MappedNode> getFanout() {
+		return this.fanout;
+	}
+	
+	public boolean hasFanout() {
+		return !this.fanout.isEmpty();
+	}
 }

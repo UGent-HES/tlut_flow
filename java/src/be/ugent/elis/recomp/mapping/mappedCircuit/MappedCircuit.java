@@ -275,39 +275,44 @@ public class MappedCircuit {
 	public void printBlif(PrintStream stream) {
 		BlifGenerator blifGenerator = new BlifGenerator();
 		
-		stream.println(blifGenerator.getModelDefinitionString(this.name));
+		stream.print(blifGenerator.getModelDefinitionString(this.name));
 
 		// Inputs
 		stream.print(blifGenerator.getInputDefinitionString(MappedNode.getBlifIdentifiers(getInputs())));
-		stream.println();
 
 		// Outputs
 		stream.print(blifGenerator.getOutputDefinitionString(MappedNode.getBlifIdentifiers(getOutputs())));
 		stream.println();
-		stream.println();
 
 		// Const
-		stream.print(getConst0().getBlifString(blifGenerator));
-		stream.print(getConst1().getBlifString(blifGenerator));
+		//if(getConst0().hasFanout())
+			stream.println(getConst0().getBlifString(blifGenerator));
+		//if(getConst1().hasFanout()) {
+			stream.println(getConst1().getBlifString(blifGenerator));
+		stream.println();
 
 		// Latches
 		for (MappedOLatch latch : getOLatches()) {
 			stream.print(latch.getBlifString(blifGenerator));
 		}
 		stream.println();
+		stream.println();
 
 		// Outputs
 		// TODO: remove?
 		for (MappedOutput output : getOutputs()) {
-			stream.print(output.getBlifString(blifGenerator));
+			String s = output.getBlifString(blifGenerator);
+			if(s != null)
+				stream.println(s);
 		}
+		stream.println();
 
 		// LUTs
 		for (MappedGate gate : getGates()) {
-			stream.print(gate.getBlifString(blifGenerator));
+			stream.println(gate.getBlifString(blifGenerator));
 		}
 
-		stream.println(blifGenerator.getFooterString());
+		stream.print(blifGenerator.getFooterString());
 		stream.flush();
 	}
 
@@ -937,7 +942,7 @@ public class MappedCircuit {
 			if (used_nodes.contains(gate))
 				gates.add(gate);
 			else
-				gate.free();
+				gate.removeGate();
 		for (MappedOLatch olatch : getOLatches())
 			if (!used_nodes.contains(olatch))
 				System.out
