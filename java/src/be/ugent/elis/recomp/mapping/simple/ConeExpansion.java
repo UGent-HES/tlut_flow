@@ -96,6 +96,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 	public void init(AIG<Node, Edge> aig) {
 		if(GlobalConstants.assertFlag && !((MappingAIG)aig).isConeSelectionPerformed())
 			throw new RuntimeException("Cone selection must be performed before ConeExpansion");
+		((MappingAIG)aig).setConePropertiesCalculated(true);
 		this.coneComparator.performPreCheck((MappingAIG)aig);
 
 		if(GlobalConstants.assertFlag)
@@ -105,7 +106,6 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 	}
 
 	public void visit(Node node) {
-
 		if (node.isGate() && node.isVisible()) { // only for the selected best cones
 			
 			Cone prevBestCone = node.getBestCone();
@@ -114,6 +114,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 			prevBestCone.dereferenceMFFC();
 
 			// Expand the best cone
+			prevBestCone.calculateConeProperties(true);
 			Cone bestCone = expandCone(prevBestCone);
 			if(bestCone.isUnmapped())
 				throw new RuntimeException("Expanded cone is unmapped");
@@ -123,7 +124,9 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 
 			// reset environment for exact area calculation
 			bestCone.referenceMFFC();
-		}
+		} else
+			node.getBestCone().calculateConeProperties(true);
+		
 	}
 
 	@Override
@@ -216,7 +219,7 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 			return c;
 		}
 		
-		res.calculateConeProperties();
+		res.calculateConeProperties(true);
 		
 		//return old best cone if new one is worse according to coneComparator
 		if(coneComparator.compare(c, res) < 0) {
@@ -233,15 +236,15 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 		// removing this node from the cut will make one visible node invisible
 		// (-1 LUT)
 		if (!n.isVisible())
-			cost--;
+			cost -= n.getBestCone().getArea();
 		// adding this node to the cut will make one previously invisible node
 		// visible (+1 LUT)
 		if (!n.getN0().isMarked() && !n.getN0().isVisible())
-			cost++;
+			cost += n.getN0().getBestCone().getArea();
 		// adding this node to the cut will make one previously invisible node
 		// visible (+1 LUT)
 		if (!n.getN1().isMarked() && !n.getN1().isVisible())
-			cost++;
+			cost += n.getN1().getBestCone().getArea();
 		return cost;
 	}
 
@@ -249,8 +252,33 @@ public class ConeExpansion implements Visitor<Node, Edge> {
 		int cost = 0;
 		for (Node n : c.getRegularLeaves())
 			if (!n.isVisible())
-				cost++;
+				cost += n.getBestCone().getArea();
 		return cost;
 	}
+	
+//	private int expandNodeCost(Node n) {
+//		int cost = 0;
+//		// removing this node from the cut will make one visible node invisible
+//		// (-1 LUT)
+//		if (!n.isVisible())
+//			cost--;
+//		// adding this node to the cut will make one previously invisible node
+//		// visible (+1 LUT)
+//		if (!n.getN0().isMarked() && !n.getN0().isVisible())
+//			cost++;
+//		// adding this node to the cut will make one previously invisible node
+//		// visible (+1 LUT)
+//		if (!n.getN1().isMarked() && !n.getN1().isVisible())
+//			cost++;
+//		return cost;
+//	}
+//
+//	private int coneCost(Cone c) {
+//		int cost = 0;
+//		for (Node n : c.getRegularLeaves())
+//			if (!n.isVisible())
+//				cost++;
+//		return cost;
+//	}
 
 }

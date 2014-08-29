@@ -86,13 +86,12 @@ public class Cone implements Comparable<Cone> {
 	private final Node root;
 	private Cone parent0, parent1;
 	protected Collection<Node> regularLeaves;
-//	protected Set<Node> parameterLeaves;
 	protected long signature;
 
 	private ArrayList <Node> nodes;
 	
 	private BDD localFunction;
-	private BDDidMapping<Node> bddIdMapping;
+	private final BDDidMapping<Node> bddIdMapping;
 	
 	enum ConeType {LUT, TLUT, TCON, TLC, TRIVIAL, NONE, UNMAPPED}; 
 	private ConeType type;
@@ -121,8 +120,6 @@ public class Cone implements Comparable<Cone> {
 		this.bddIdMapping = bddIdMapping;
 		this.type = ConeType.UNMAPPED;
 		this.hasParameterLeaves = false;
-//		this.parameterLeaves = new HashSet<Node>();
-		
 		this.area = -1;
 		this.areaflow = -1.;
 		this.depth = -1.; 

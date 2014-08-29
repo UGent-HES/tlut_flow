@@ -76,11 +76,9 @@ import be.ugent.elis.recomp.util.GlobalConstants;
 import be.ugent.elis.recomp.util.IsParameterInterface;
 
 
-public class Node extends AbstractNode<Node,Edge> implements IsParameterInterface {
+public class Node extends AbstractNode<Node,Edge> implements IsParameterInterface, Comparable<Node> {
 
-	ConeSet coneSet;
-	
-
+	private ConeSet coneSet;
 	private Cone  bestCone;
 	
 	private double requiredTime;
@@ -348,5 +346,15 @@ public class Node extends AbstractNode<Node,Edge> implements IsParameterInterfac
 	@Override
 	public int hashCode() {
 		return getID();
+	}
+
+	@Override
+	public int compareTo(Node o) {
+		if(this.getID() < o.getID())
+			return -1;
+		else if (this.getID() > o.getID())
+			return 1;
+		else
+			return 0;
 	}
 }
