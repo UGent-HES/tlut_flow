@@ -80,6 +80,7 @@ import net.sf.javabdd.BDD;
 import be.ugent.elis.recomp.aig.AIG;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 import be.ugent.elis.recomp.util.GlobalConstants;
+import be.ugent.elis.recomp.util.SortedArrayList;
 
 public class Cone implements Comparable<Cone> {
 	
@@ -106,29 +107,42 @@ public class Cone implements Comparable<Cone> {
 	private BDD feasibilityFunction;
 	
 
-	public Cone(Node node, BDDidMapping<Node> bddIdMapping) {
-		this(node, bddIdMapping, null, null);
+	public Cone(Node root, BDDidMapping<Node> bddIdMapping) {
+		this(root, bddIdMapping, new SortedArrayList<Node>());
 	}
 	
-	public Cone(Node node, Collection<Node> regularLeaves, BDDidMapping<Node> bddIdMapping, Cone parent0, Cone parent1) {
-		this.root = node;
-		this.parent0 = parent0;
-		this.parent1 = parent1;
+	public Cone(Node root, BDDidMapping<Node> bddIdMapping, Collection<Node> regularLeaves) {
+		this.root = root;
+		this.bddIdMapping = bddIdMapping;
 		this.regularLeaves = regularLeaves;
+		
 		this.signature = 0;
 		this.localFunction = null;
-		this.bddIdMapping = bddIdMapping;
 		this.type = ConeType.UNMAPPED;
 		this.hasParameterLeaves = false;
 		this.area = -1;
 		this.areaflow = -1.;
-		this.depth = -1.; 
+		this.depth = -1.;
 	}
 	
-	public Cone(Node node, BDDidMapping<Node> bddIdMapping, Cone parent0, Cone parent1) {
-		this(node, new HashSet<Node>(), bddIdMapping, parent0, parent1);
+	private Cone(Node root, BDDidMapping<Node> bddIdMapping, Cone parent0, Cone parent1, Collection<Node> regularLeaves) {
+		this(root, bddIdMapping, regularLeaves);
+
+		this.parent0 = parent0;
+		this.parent1 = parent1;
+		
+		setSignature(parent0.signature | parent1.signature);
+		setHasParameterLeaves(parent0.hasParameterLeaves || parent1.hasParameterLeaves);
 	}
 
+	private static Cone createMergedCone(Node root, BDDidMapping<Node> bddIdMapping, Cone parent0, Cone parent1) {
+//		Collection<Node> regularLeaves = new HashSet<Node>(initial_size, (float) 1.0);
+//		regularLeaves.addAll(parent0.getRegularLeaves());
+//		regularLeaves.addAll(parent1.getRegularLeaves());
+		SortedArrayList<Node> regularLeaves = new SortedArrayList<Node>(parent0.size()+parent1.size());		
+		regularLeaves.merge(parent0.getRegularLeaves(), parent1.getRegularLeaves());
+		return new Cone(root, bddIdMapping, parent0, parent1, regularLeaves);
+	}
 	
 	public void free() {
 		setLocalFunction(null);
@@ -180,18 +194,10 @@ public class Cone implements Comparable<Cone> {
 		if(Long.bitCount(cone0.signature | cone1.signature) > maxConeSizeConsidered)
 			return null;
 		
-		int initial_size = (cone0.getRegularLeaves().size() + cone1.getRegularLeaves().size())*(4/3)+1;
-		Collection<Node> regularLeaves = new HashSet<Node>(initial_size, (float) 1.0);
-		regularLeaves.addAll(cone0.getRegularLeaves());
-		regularLeaves.addAll(cone1.getRegularLeaves());
+		Cone result = createMergedCone(root, cone0.bddIdMapping, cone0, cone1);
 		
-		if(regularLeaves.size() > maxConeSizeConsidered)
+		if(result.size() > maxConeSizeConsidered)
 			return null;
-
-		Cone result = new Cone(root, regularLeaves, cone0.bddIdMapping, cone0, cone1);
-		
-		result.setSignature(cone0.signature | cone1.signature);
-		result.setHasParameterLeaves(cone0.hasParameterLeaves || cone1.hasParameterLeaves);
 		
 		//if(GlobalConstants.enableStatsFlag)
 		//	Logger.getLogger().log(new ConeComputedStats(result));
@@ -918,8 +924,9 @@ public class Cone implements Comparable<Cone> {
 	}
 
 	public void reduceMemoryUsage() {
-		regularLeaves = new ArrayList<Node>(regularLeaves);
-		((ArrayList<Node>)regularLeaves).trimToSize();
+//		regularLeaves = new ArrayList<Node>(regularLeaves);
+//		((ArrayList<Node>)regularLeaves).trimToSize();
+		((SortedArrayList<Node>)regularLeaves).trimToSize();
 	}
 
 	public boolean mapCone(int K, boolean tcon_mapping_flag, boolean tlc_mapping_flag) {
