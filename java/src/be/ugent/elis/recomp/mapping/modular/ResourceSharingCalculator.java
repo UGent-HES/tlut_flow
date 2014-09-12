@@ -90,7 +90,7 @@ public class ResourceSharingCalculator {
 		ResourceSharingOpportunitiesCalculator sharing_opportunities = new ResourceSharingOpportunitiesCalculator();
 		sharing_opportunities.run(aig);
 		System.out.println("Number of activationsets: " + sharing_opportunities.getActivationSets().size());
-		System.out.println(sharing_opportunities.toString());
+		//System.out.println(sharing_opportunities.toString());
 		
 		Collection<ActivationSet> activation_sets = sharing_opportunities.getActivationSets().values();
 		Collection<Collection<ActivationSet>> activation_sets_components = find_components(activation_sets);
@@ -317,12 +317,12 @@ public class ResourceSharingCalculator {
 			if (s.getNumNodesToMap() != 0) {
 				System.out.println("Warning: Resource sharing incomplete: " + s);
 			}
-			for (ActivationSet s2 : s.getResourceSharing()) {
-				System.out.println("Debug: Share: "
-						+ s.getActivationFunction().hashCode() + " (" + s.numLUTResources() + ") "
-						+ " -> "
-						+ s2.getActivationFunction().hashCode() + " (" + s2.numLUTResources() + ")");
-			}
+//			for (ActivationSet s2 : s.getResourceSharing()) {
+//				System.out.println("Debug: Share: "
+//						+ s.getActivationFunction().hashCode() + " (" + s.numLUTResources() + ") "
+//						+ " -> "
+//						+ s2.getActivationFunction().hashCode() + " (" + s2.numLUTResources() + ")");
+//			}
 		}
 	}
 }
