@@ -155,6 +155,7 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 
 	public void visit(Node node) {
 		ConeSet result = new ConeSet(node);
+		Cone prevBestCone = node.getBestCone();
 
 		if (node.isPrimaryInput()) {
 			Cone bestCone = Cone.trivialCone(node, bddIdMapping);
@@ -162,15 +163,14 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			result.add(bestCone);
 			
 		} else if(node.isGate()) {
-			Cone prevBestCone = node.getBestCone();
 			
 			// prepare for exact area calculation
 			if (area_calculation_flag && node.getReferences() != 0)
 				prevBestCone.dereferenceMFFC();
 			 
-			if (node.isParameter())
+			if (node.isParameter()) {
 				result = mergeParameterConeSets(node);
-			else {
+			} else {
 				result = mergeInputConeSets(node);
 				result = retainFeasibleCones(result);
 				nmbrFeasibleCones += result.size();
@@ -192,8 +192,9 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 			}
 
 			Cone bestCone = bestCone(result);
-			if(bestCone.isTrivial())
+			if(bestCone.isTrivial()) {
 				throw new RuntimeException("Best cone is trivial");
+			}
 			if(GlobalConstants.assertFlag && bestCone.isUnmapped())
 				throw new RuntimeException("Best cone is unmapped");
 			node.setBestCone(bestCone);
@@ -219,12 +220,15 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		
 		for(Node n : node.getInputNodes()) {
 			if(n.isFanoutConeEnumerationDone()) {
+				//n.getConeSet().remove(n.getBestCone());
+				n.getBestCone().resetParents();
 				n.removeConeSet();
-				//n.getBestCone().resetParents();
 			}
 		}
 		
-		// System.out.println(node.getName() + ": " + nmbrCones);
+		if(prevBestCone!=null && !result.contains(prevBestCone))
+			prevBestCone.free();
+		
 	}
 
 	@Override
@@ -234,9 +238,12 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		((MappingAIG)aig).setEstimatedFanoutCalculationPerformed(false);
 		((MappingAIG)aig).setHeightCalculationPerformed(false);
 		
-		for(Node n : aig.getAllNodes())
+		for(Node n : aig.getAllNodes()) {
 			if(n.getConeSet() != null && n.isGate())
 				throw new RuntimeException();
+			if(!n.isILatch() && !n.isLatch() && !n.isFanoutConeEnumerationDone())
+				throw new RuntimeException(n.toString());
+		}
 	}
 	
 	protected boolean nodeNeedsTrivialCone(Node node, ConeSet coneset) {
@@ -251,9 +258,9 @@ public class PriorityConeEnumeration implements Visitor<Node, Edge> {
 		
 		if (node.isParameter())
 			return false;
-		if (node.getI0().getTail().isParameter() ||
-		 		node.getI1().getTail().isParameter() )
-		 	return false;
+//		if (node.getI0().getTail().isParameter() ||
+//		 		node.getI1().getTail().isParameter() )
+//		 	return false;
 		
 		
 		//if TLCs are enabled, every TCON cone can be merged with a TLUT or TCON cone at the output of the node
