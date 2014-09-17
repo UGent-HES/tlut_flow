@@ -1,0 +1,248 @@
+cross16-sweep.blif
+Stage: Creating work/cross16-sweep directory and copying design
+Stage: TLUT mapper
+Debug: Elapsed time after mapping: 2,340e-01s
+Debug: Elapsed time after resource sharing: 2,370e-01s
+Debug: Num Cones considered: 45616
+Debug: Num Cones retained: 7024
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 16
+Debug: Times max cone num to save reached: 0
+Luts (TLUTS)    depth           check           
+80 (80)         2               PASSED          
+Stage: TCON mapper + TLC
+Debug: Elapsed time after mapping: 2,320e-01s
+Num LUT resources used with sharing: 0
+Debug: Elapsed time after resource sharing: 2,380e-01s
+Debug: Num Cones considered: 800
+Debug: Num Cones retained: 800
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 0
+Debug: Times max cone num to save reached: 0
+Luts (TLUT/TCON)depth           check           
+0 (0/16)        0               PASSED          
+Stage: TCON mapper
+Debug: Elapsed time after mapping: 1,588e+00s
+Num LUT resources used with sharing: 0
+Debug: Elapsed time after resource sharing: 1,594e+00s
+Debug: Num Cones considered: 52688
+Debug: Num Cones retained: 24757
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 16
+Debug: Times max cone num to save reached: 0
+Luts (TLUT/TCON)depth           check           
+0 (0/150)       0               PASSED          
+Stage: SimpleMAP
+Debug: Elapsed time after mapping: 2,780e-01s
+Debug: Num Cones considered: 95040
+Debug: Num Cones retained: 12752
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 16
+Debug: Times max cone num to save reached: 0
+Luts            depth           check           
+80              2               PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+80              2               PASSED          
+tlc2
+Stage: Creating work/tlc2-sweep directory and copying design
+Stage: TLUT mapper
+Debug: Elapsed time after mapping: 2,470e-01s
+Debug: Elapsed time after resource sharing: 2,500e-01s
+Debug: Num Cones considered: 99167
+Debug: Num Cones retained: 9779
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 27
+Debug: Times max cone num to save reached: 0
+Luts (TLUTS)    depth           check           
+30 (19)         3               SKIPPED         
+Stage: TCON mapper + TLC
+Debug: Elapsed time after mapping: 1,479e+00s
+Num LUT resources used with sharing: 17
+Debug: Elapsed time after resource sharing: 1,485e+00s
+Debug: Num Cones considered: 102997
+Debug: Num Cones retained: 21870
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 31
+Debug: Times max cone num to save reached: 6
+Luts (TLUT/TCON)depth           check           
+22 (12/1)       3               SKIPPED         
+Stage: TCON mapper
+Debug: Elapsed time after mapping: 1,419e+00s
+Num LUT resources used with sharing: 19
+Debug: Elapsed time after resource sharing: 1,426e+00s
+Debug: Num Cones considered: 97132
+Debug: Num Cones retained: 8709
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 25
+Debug: Times max cone num to save reached: 0
+Luts (TLUT/TCON)depth           check           
+25 (15/5)       3               SKIPPED         
+Stage: SimpleMAP
+Debug: Elapsed time after mapping: 2,450e-01s
+Debug: Num Cones considered: 117031
+Debug: Num Cones retained: 8594
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 33
+Debug: Times max cone num to save reached: 0
+Luts            depth           check           
+62              4               SKIPPED         
+Stage: ABC fpga
+Luts            depth           check           
+66              4               SKIPPED         
+tlc4
+Stage: Creating work/tlc4-sweep directory and copying design
+Stage: TLUT mapper
+Debug: Elapsed time after mapping: 5,300e-02s
+Debug: Elapsed time after resource sharing: 5,500e-02s
+Debug: Num Cones considered: 921
+Debug: Num Cones retained: 386
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 0
+Debug: Times max cone num to save reached: 0
+Luts (TLUTS)    depth           check           
+16 (16)         1               PASSED          
+Stage: TCON mapper + TLC
+Debug: Elapsed time after mapping: 1,100e-01s
+Num LUT resources used with sharing: 13
+Debug: Elapsed time after resource sharing: 1,150e-01s
+Debug: Num Cones considered: 554
+Debug: Num Cones retained: 308
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 0
+Debug: Times max cone num to save reached: 0
+Luts (TLUT/TCON)depth           check           
+14 (14/4)       1               PASSED          
+Stage: TCON mapper
+Debug: Elapsed time after mapping: 1,400e-01s
+Num LUT resources used with sharing: 13
+Debug: Elapsed time after resource sharing: 1,450e-01s
+Debug: Num Cones considered: 921
+Debug: Num Cones retained: 386
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 0
+Debug: Times max cone num to save reached: 0
+Luts (TLUT/TCON)depth           check           
+14 (14/8)       1               PASSED          
+Stage: SimpleMAP
+Debug: Elapsed time after mapping: 1,350e-01s
+Debug: Num Cones considered: 9496
+Debug: Num Cones retained: 1416
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 2
+Debug: Times max cone num to save reached: 0
+Luts            depth           check           
+20              2               PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+20              2               PASSED          
+regex
+Stage: Creating work/grid_tile directory and copying design
+Stage: Synthesizing
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Tue Sep 16 15:30:24 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file design/countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file design/counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file design/test.vhd
+    Info: Found design unit 1: test-RTL
+    Info: Found entity 1: test
+Info: Found 2 design units, including 1 entities, in source file design/top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file design/grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 0 warnings
+    Error: Peak virtual memory: 398 megabytes
+    Error: Processing ended: Tue Sep 16 15:30:27 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+Stage: Generating parameters
+Attention: Verify the detected parameters by inspecting work/grid_tile/grid_tile.par
+Stage: Resynthesizing
+Stage: TLUT mapper
+Debug: Elapsed time after mapping: 7,900e-02s
+Debug: Elapsed time after resource sharing: 8,100e-02s
+Debug: Num Cones considered: 4402
+Debug: Num Cones retained: 955
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 0
+Debug: Times max cone num to save reached: 0
+Luts (TLUTS)    depth           check           
+17 (6)          3               PASSED          
+Stage: TCON mapper + TLC
+Debug: Elapsed time after mapping: 6,090e-01s
+Num LUT resources used with sharing: 17
+Debug: Elapsed time after resource sharing: 6,140e-01s
+Debug: Num Cones considered: 3339
+Debug: Num Cones retained: 851
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 0
+Debug: Times max cone num to save reached: 0
+Luts (TLUT/TCON)depth           check           
+17 (5/1)        2               PASSED          
+Stage: TCON mapper
+Debug: Elapsed time after mapping: 4,950e-01s
+Num LUT resources used with sharing: 17
+Debug: Elapsed time after resource sharing: 5,000e-01s
+Debug: Num Cones considered: 3875
+Debug: Num Cones retained: 886
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 0
+Debug: Times max cone num to save reached: 0
+Luts (TLUT/TCON)depth           check           
+17 (5/4)        2               PASSED          
+Stage: SimpleMAP
+Debug: Elapsed time after mapping: 1,310e-01s
+Debug: Num Cones considered: 8087
+Debug: Num Cones retained: 1357
+Debug: Num cones not considered because of excessive BDD size: 0
+Debug: Num cones not considered to merge because of excessive BDD size: 0
+Debug: Times max cone num to consider reached: 1
+Debug: Times max cone num to save reached: 0
+Luts            depth           check           
+33              3               PASSED          
+Stage: ABC fpga
+Luts            depth           check           
+34              3               PASSED          
