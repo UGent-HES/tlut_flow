@@ -17,7 +17,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Mar 11 14:25:20 2014
+    Info: Processing started: Thu Sep 18 10:03:25 2014
 Info: Command: quartus_map tlc2.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
@@ -34,11 +34,11 @@ Warning: Output pins are stuck at VCC or GND
     Warning (13410): Pin "output[15]" is stuck at GND
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
     Error: Peak virtual memory: 390 megabytes
-    Error: Processing ended: Tue Mar 11 14:25:22 2014
+    Error: Processing ended: Thu Sep 18 10:03:27 2014
     Error: Elapsed time: 00:00:02
-    Error: Total CPU time (on all processors): 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-0               11              3               
+0               12              2               
 [('p', '001')]
 Parameter configuration: (('p', '001'),) (-6FD919C7F0435D9D)
 Info: *******************************************************************
@@ -57,7 +57,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Mar 11 14:25:24 2014
+    Info: Processing started: Thu Sep 18 10:03:28 2014
 Info: Command: quartus_map tlc2.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
@@ -73,11 +73,11 @@ Warning: Output pins are stuck at VCC or GND
     Warning (13410): Pin "output[15]" is stuck at GND
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 7 warnings
     Error: Peak virtual memory: 389 megabytes
-    Error: Processing ended: Tue Mar 11 14:25:27 2014
+    Error: Processing ended: Thu Sep 18 10:03:31 2014
     Error: Elapsed time: 00:00:03
-    Error: Total CPU time (on all processors): 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-1               13              5               
+1               10              2               
 [('p', '010')]
 Parameter configuration: (('p', '010'),) (-6350ABD42B1F76FF)
 Info: *******************************************************************
@@ -96,7 +96,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Mar 11 14:25:28 2014
+    Info: Processing started: Thu Sep 18 10:03:33 2014
 Info: Command: quartus_map tlc2.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
@@ -113,11 +113,11 @@ Warning: Output pins are stuck at VCC or GND
     Warning (13410): Pin "output[15]" is stuck at GND
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
     Error: Peak virtual memory: 389 megabytes
-    Error: Processing ended: Tue Mar 11 14:25:32 2014
-    Error: Elapsed time: 00:00:04
-    Error: Total CPU time (on all processors): 00:00:02
+    Error: Processing ended: Thu Sep 18 10:03:35 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-2               11              3               
+2               12              2               
 [('p', '011')]
 Parameter configuration: (('p', '011'),) (-6350B2889212FD56)
 Info: *******************************************************************
@@ -136,7 +136,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Mar 11 14:25:33 2014
+    Info: Processing started: Thu Sep 18 10:03:36 2014
 Info: Command: quartus_map tlc2.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
@@ -159,9 +159,9 @@ Info: Implemented 24 device resources after synthesis - the final resource count
     Info: Implemented 16 output pins
 Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 10 warnings
     Info: Peak virtual memory: 389 megabytes
-    Info: Processing ended: Tue Mar 11 14:25:37 2014
-    Info: Elapsed time: 00:00:04
-    Info: Total CPU time (on all processors): 00:00:02
+    Info: Processing ended: Thu Sep 18 10:03:38 2014
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:01
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
 quartus_map missing output file: tlc2.blif
 [('p', '100')]
@@ -182,7 +182,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Mar 11 14:25:38 2014
+    Info: Processing started: Thu Sep 18 10:03:39 2014
 Info: Command: quartus_map tlc2.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
@@ -199,11 +199,11 @@ Warning: Output pins are stuck at VCC or GND
     Warning (13410): Pin "output[15]" is stuck at GND
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
     Error: Peak virtual memory: 389 megabytes
-    Error: Processing ended: Tue Mar 11 14:25:41 2014
+    Error: Processing ended: Thu Sep 18 10:03:42 2014
     Error: Elapsed time: 00:00:03
-    Error: Total CPU time (on all processors): 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-4               18              5               
+4               13              3               
 [('p', '101')]
 Parameter configuration: (('p', '101'),) (-78A898DAAC28D73C)
 Info: *******************************************************************
@@ -222,7 +222,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Mar 11 14:25:43 2014
+    Info: Processing started: Thu Sep 18 10:03:44 2014
 Info: Command: quartus_map tlc2.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
@@ -238,12 +238,12 @@ Warning: Output pins are stuck at VCC or GND
     Warning (13410): Pin "output[14]" is stuck at GND
     Warning (13410): Pin "output[15]" is stuck at GND
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
-    Error: Peak virtual memory: 389 megabytes
-    Error: Processing ended: Tue Mar 11 14:25:46 2014
-    Error: Elapsed time: 00:00:03
-    Error: Total CPU time (on all processors): 00:00:02
+    Error: Peak virtual memory: 390 megabytes
+    Error: Processing ended: Thu Sep 18 10:03:46 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-5               11              3               
+5               12              2               
 [('p', '110')]
 Parameter configuration: (('p', '110'),) (44145A47245C38B6)
 Info: *******************************************************************
@@ -262,7 +262,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Mar 11 14:25:48 2014
+    Info: Processing started: Thu Sep 18 10:03:47 2014
 Info: Command: quartus_map tlc2.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
@@ -279,10 +279,10 @@ Warning: Output pins are stuck at VCC or GND
     Warning (13410): Pin "output[15]" is stuck at GND
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
     Error: Peak virtual memory: 389 megabytes
-    Error: Processing ended: Tue Mar 11 14:25:52 2014
-    Error: Elapsed time: 00:00:04
-    Error: Total CPU time (on all processors): 00:00:02
+    Error: Processing ended: Thu Sep 18 10:03:49 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-6               18              5               
-Counter({(11, 3): 3, (18, 5): 2, (13, 5): 1})
+6               13              3               
+Counter({(12, 2): 3, (13, 3): 2, (10, 2): 1})
 failed (1): [([('p', '011')], Exception('quartus_map missing output file: tlc2.blif',))]

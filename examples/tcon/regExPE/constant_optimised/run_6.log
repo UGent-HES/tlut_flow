@@ -1,0 +1,851 @@
+Stage: Creating work/grid_tile directory and copying design
+[('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')]
+Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')) (2EF8E89A3C66FE3D)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:05:56 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 398 megabytes
+    Error: Processing ended: Thu Sep 18 10:05:58 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+0               15              2               
+[('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')]
+Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')) (-DDE167E9F9800FC)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:00 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:03 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+1               16              2               
+[('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')]
+Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')) (4946FD810FA613C)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:04 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:06 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+2               16              2               
+[('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')]
+Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')) (-1C930A8E4E9AF78B)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:08 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:10 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+3               18              2               
+[('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')]
+Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')) (12AEE517B039AB3C)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:11 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:14 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+4               16              2               
+[('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')]
+Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')) (38EADA26F545BE75)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:16 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:18 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+5               15              3               
+[('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')]
+Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')) (1BB813895420203D)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:20 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:23 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+6               17              2               
+[('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')]
+Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')) (7C75400D93A7DD04)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:24 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:27 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+7               20              2               
+[('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')]
+Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')) (-3AF734D113D439C6)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:29 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:31 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+8               16              2               
+[('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')]
+Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')) (-424FCCC84AC3D831)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:33 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:36 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+9               17              2               
+[('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')]
+Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')) (-2AB645F49FB74F09)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:38 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:40 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+10              17              2               
+[('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')]
+Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')) (-72EB132EB35B615E)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:41 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:44 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+11              20              2               
+[('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')]
+Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')) (185559CDB5B8E9F7)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:46 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:49 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+12              16              2               
+[('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')]
+Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')) (5C0C02DA28F833A2)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:50 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:53 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+13              17              2               
+[('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')]
+Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')) (-1BE68FE6A70934C6)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:55 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 397 megabytes
+    Error: Processing ended: Thu Sep 18 10:06:58 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+14              15              2               
+[('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')]
+Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')) (-291C293149B78F31)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Thu Sep 18 10:06:59 2014
+Info: Command: quartus_map grid_tile.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
+    Info: Found design unit 1: top_genericblock-RTL
+    Info: Found entity 1: top_genericblock
+Info: Found 2 design units, including 1 entities, in source file counter.vhd
+    Info: Found design unit 1: counter-rtl
+    Info: Found entity 1: counter
+Info: Found 2 design units, including 1 entities, in source file countDecoder.vhd
+    Info: Found design unit 1: countDecoder-RTL
+    Info: Found entity 1: countDecoder
+Info: Found 2 design units, including 1 entities, in source file grid_tile.vhd
+    Info: Found design unit 1: grid_tile-RTL
+    Info: Found entity 1: grid_tile
+Info: Elaborating entity "grid_tile" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(28): used explicit default value for signal "in_sel" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(29): used explicit default value for signal "Ff_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(30): used explicit default value for signal "Fb_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(31): used explicit default value for signal "loopback_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(32): used explicit default value for signal "fastforward_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(33): used explicit default value for signal "counter_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(34): used explicit default value for signal "dummy_en" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(35): used explicit default value for signal "cntr_N" because signal was never assigned a value
+Warning (10540): VHDL Signal Declaration warning at grid_tile.vhd(36): used explicit default value for signal "cntr_M" because signal was never assigned a value
+Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
+Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
+Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
+    Error: Peak virtual memory: 398 megabytes
+    Error: Processing ended: Thu Sep 18 10:07:01 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:02
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+15              20              2               
+Counter({(16, 2): 5, (17, 2): 4, (20, 2): 3, (15, 2): 2, (18, 2): 1, (15, 3): 1})
+failed (0): []
