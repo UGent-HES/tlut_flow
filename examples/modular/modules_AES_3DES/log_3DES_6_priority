@@ -4,19 +4,19 @@ Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
     Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
-    Info: Your use of Altera Corporation's design tools, logic functions
-    Info: and other software and tools, and its AMPP partner logic
-    Info: functions, and any output files from any of the foregoing
-    Info: (including device programming or simulation files), and any
-    Info: associated documentation or information are expressly subject
-    Info: to the terms and conditions of the Altera Program License
-    Info: Subscription Agreement, Altera MegaCore Function License
-    Info: Agreement, or other applicable license agreement, including,
-    Info: without limitation, that your use is for the sole purpose of
-    Info: programming logic devices manufactured by Altera and sold by
-    Info: Altera or its authorized distributors.  Please refer to the
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Jul 15 13:49:01 2014
+    Info: Processing started: Wed Sep 17 16:14:51 2014
 Info: Command: quartus_map tdes_top.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file 3DES/add_key.vhd
@@ -94,20 +94,19 @@ Info: Elaborating entity "add_left" for hierarchy "des_cipher_top:DESCIPHERTOP1|
 Warning: 3 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 1 warning
     Error: Peak virtual memory: 424 megabytes
-    Error: Processing ended: Tue Jul 15 13:49:20 2014
-    Error: Elapsed time: 00:00:19
-    Error: Total CPU time (on all processors): 00:00:17
+    Error: Processing ended: Wed Sep 17 16:15:09 2014
+    Error: Elapsed time: 00:00:18
+    Error: Total CPU time (on all processors): 00:00:16
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
 Stage: Generating parameters
-Warning: No parameters ('--PARAM' ) found in design
 Attention: Verify the detected parameters by inspecting work/tdes_top/tdes_top.par
 Stage: Resynthesizing
 Stage: TLUT mapper
-Luts (TLUTS)    depth           check
-4249 (0)        10              SKIPPED
+Luts (TLUTS)    depth           check           
+2217 (0)        6               SKIPPED         
 Stage: SimpleMAP
-Luts            depth           check
-4249            10              SKIPPED
+Luts            depth           check           
+2232            6               SKIPPED         
 Stage: ABC fpga
-Luts            depth           check
-4261            10              SKIPPED
+Luts            depth           check           
+2243            6               SKIPPED         
