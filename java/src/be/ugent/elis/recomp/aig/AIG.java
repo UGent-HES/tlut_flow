@@ -1055,7 +1055,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		cfile.append("//reconfigure one instance"+newLine);
 		cfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] ) {"+newLine);
 		cfile.append("	//reconfigure all the TLUTs one by one"+newLine);
-		cfile.append("	Xuint8 i;"+newLine);
+		cfile.append("	Xuint32 i;"+newLine);
 		cfile.append("	for(i =0;i<NUMBER_OF_TLUTS_PER_INSTANCE;i++) {"+newLine);
 		cfile.append("		XStatus Status;"+newLine);
 		String withM = "";
@@ -1079,7 +1079,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
             cfile.append("	static XHwIcap HwIcap;"+newLine);
             cfile.append("	XHwIcap_Initialize(&HwIcap, HWICAP_DEVICEID, XHI_TARGET_DEVICEID);"+newLine);
             cfile.append("	//Run-time reconfiguration"+newLine);
-            cfile.append("	Xuint8 i;"+newLine);
+            cfile.append("	Xuint32 i;"+newLine);
             cfile.append("	Xuint8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
             cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][LUT_CONFIG_WIDTH];"+newLine);
             cfile.append("	xil_printf(\"Configuring the LUTs for p=0...\\n\\r\");"+newLine);
@@ -1108,7 +1108,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
             cfile.append("	Status = XHwIcap_SelfTest(&HwIcap);"+newLine);
             cfile.append("	if (Status != XST_SUCCESS) return XST_FAILURE;"+newLine);
             cfile.append("	//Run-time reconfiguration"+newLine);
-            cfile.append("	Xuint8 i;"+newLine);
+            cfile.append("	Xuint32 i;"+newLine);
             cfile.append("	Xuint8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
             cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][LUT_CONFIG_WIDTH];"+newLine);
             cfile.append("	xil_printf(\"Configuring the LUTs for p=0...\\n\\r\");"+newLine);
