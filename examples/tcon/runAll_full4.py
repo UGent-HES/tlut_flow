@@ -3,13 +3,14 @@
 import sys
 import os
 import glob
-from fast_tconmap import run, setMaxMemory
+from fast_tconmap import run, setMaxMemory, setMappingMode
 
 
 K = 4
 
 #setMaxMemory(5000)
 setMaxMemory(1024)
+setMappingMode('conventional')
 
 # os.chdir('barrelshift')
 # ./barrelshift.py
@@ -80,7 +81,7 @@ os.chdir('..')
 
 os.chdir('regExPE')
 print "regex"
-setMaxMemory(5000)
+#setMaxMemory(5000)
 run("design/grid_tile.vhd", 
     glob.glob("design/*.vhd"), 
     K=K, 

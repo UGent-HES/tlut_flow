@@ -1,0 +1,288 @@
+Stage: Creating work/tlc2 directory and copying design
+[('p', '000')]
+Parameter configuration: (('p', '000'),) (-6FD918DDE45CAAF4)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Fri Sep 19 11:14:07 2014
+Info: Command: quartus_map tlc2.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
+    Info: Found design unit 1: tlc2-RTL
+    Info: Found entity 1: tlc2
+Info: Elaborating entity "tlc2" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at tlc2.vhd(26): used explicit default value for signal "p" because signal was never assigned a value
+Warning: Output pins are stuck at VCC or GND
+    Warning (13410): Pin "output[10]" is stuck at GND
+    Warning (13410): Pin "output[11]" is stuck at GND
+    Warning (13410): Pin "output[12]" is stuck at GND
+    Warning (13410): Pin "output[13]" is stuck at GND
+    Warning (13410): Pin "output[14]" is stuck at GND
+    Warning (13410): Pin "output[15]" is stuck at GND
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
+    Error: Peak virtual memory: 389 megabytes
+    Error: Processing ended: Fri Sep 19 11:14:09 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+0               12              2               
+[('p', '001')]
+Parameter configuration: (('p', '001'),) (-6FD919C7F0435D9D)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Fri Sep 19 11:14:10 2014
+Info: Command: quartus_map tlc2.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
+    Info: Found design unit 1: tlc2-RTL
+    Info: Found entity 1: tlc2
+Info: Elaborating entity "tlc2" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at tlc2.vhd(26): used explicit default value for signal "p" because signal was never assigned a value
+Warning: Output pins are stuck at VCC or GND
+    Warning (13410): Pin "output[11]" is stuck at GND
+    Warning (13410): Pin "output[12]" is stuck at GND
+    Warning (13410): Pin "output[13]" is stuck at GND
+    Warning (13410): Pin "output[14]" is stuck at GND
+    Warning (13410): Pin "output[15]" is stuck at GND
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 7 warnings
+    Error: Peak virtual memory: 390 megabytes
+    Error: Processing ended: Fri Sep 19 11:14:12 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+1               10              2               
+[('p', '010')]
+Parameter configuration: (('p', '010'),) (-6350ABD42B1F76FF)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Fri Sep 19 11:14:13 2014
+Info: Command: quartus_map tlc2.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
+    Info: Found design unit 1: tlc2-RTL
+    Info: Found entity 1: tlc2
+Info: Elaborating entity "tlc2" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at tlc2.vhd(26): used explicit default value for signal "p" because signal was never assigned a value
+Warning: Output pins are stuck at VCC or GND
+    Warning (13410): Pin "output[0]" is stuck at GND
+    Warning (13410): Pin "output[11]" is stuck at GND
+    Warning (13410): Pin "output[12]" is stuck at GND
+    Warning (13410): Pin "output[13]" is stuck at GND
+    Warning (13410): Pin "output[14]" is stuck at GND
+    Warning (13410): Pin "output[15]" is stuck at GND
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
+    Error: Peak virtual memory: 389 megabytes
+    Error: Processing ended: Fri Sep 19 11:14:16 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:01
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+2               12              2               
+[('p', '011')]
+Parameter configuration: (('p', '011'),) (-6350B2889212FD56)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Fri Sep 19 11:14:17 2014
+Info: Command: quartus_map tlc2.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
+    Info: Found design unit 1: tlc2-RTL
+    Info: Found entity 1: tlc2
+Info: Elaborating entity "tlc2" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at tlc2.vhd(26): used explicit default value for signal "p" because signal was never assigned a value
+Warning: Output pins are stuck at VCC or GND
+    Warning (13410): Pin "output[0]" is stuck at GND
+    Warning (13410): Pin "output[9]" is stuck at GND
+    Warning (13410): Pin "output[10]" is stuck at GND
+    Warning (13410): Pin "output[11]" is stuck at GND
+    Warning (13410): Pin "output[12]" is stuck at GND
+    Warning (13410): Pin "output[13]" is stuck at GND
+    Warning (13410): Pin "output[14]" is stuck at GND
+    Warning (13410): Pin "output[15]" is stuck at GND
+Info: Generating hard_block partition "hard_block:auto_generated_inst"
+Info: Implemented 24 device resources after synthesis - the final resource count might be different
+    Info: Implemented 8 input pins
+    Info: Implemented 16 output pins
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 10 warnings
+    Info: Peak virtual memory: 389 megabytes
+    Info: Processing ended: Fri Sep 19 11:14:19 2014
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:01
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+quartus_map missing output file: tlc2.blif
+[('p', '100')]
+Parameter configuration: (('p', '100'),) (-78A899C7947C19E5)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Fri Sep 19 11:14:20 2014
+Info: Command: quartus_map tlc2.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
+    Info: Found design unit 1: tlc2-RTL
+    Info: Found entity 1: tlc2
+Info: Elaborating entity "tlc2" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at tlc2.vhd(26): used explicit default value for signal "p" because signal was never assigned a value
+Warning: Output pins are stuck at VCC or GND
+    Warning (13410): Pin "output[0]" is stuck at VCC
+    Warning (13410): Pin "output[11]" is stuck at GND
+    Warning (13410): Pin "output[12]" is stuck at GND
+    Warning (13410): Pin "output[13]" is stuck at GND
+    Warning (13410): Pin "output[14]" is stuck at GND
+    Warning (13410): Pin "output[15]" is stuck at GND
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
+    Error: Peak virtual memory: 389 megabytes
+    Error: Processing ended: Fri Sep 19 11:14:22 2014
+    Error: Elapsed time: 00:00:02
+    Error: Total CPU time (on all processors): 00:00:01
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+4               12              2               
+[('p', '101')]
+Parameter configuration: (('p', '101'),) (-78A898DAAC28D73C)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Fri Sep 19 11:14:23 2014
+Info: Command: quartus_map tlc2.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
+    Info: Found design unit 1: tlc2-RTL
+    Info: Found entity 1: tlc2
+Info: Elaborating entity "tlc2" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at tlc2.vhd(26): used explicit default value for signal "p" because signal was never assigned a value
+Warning: Output pins are stuck at VCC or GND
+    Warning (13410): Pin "output[10]" is stuck at GND
+    Warning (13410): Pin "output[11]" is stuck at GND
+    Warning (13410): Pin "output[12]" is stuck at GND
+    Warning (13410): Pin "output[13]" is stuck at GND
+    Warning (13410): Pin "output[14]" is stuck at GND
+    Warning (13410): Pin "output[15]" is stuck at GND
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
+    Error: Peak virtual memory: 389 megabytes
+    Error: Processing ended: Fri Sep 19 11:14:26 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:01
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+5               12              2               
+[('p', '110')]
+Parameter configuration: (('p', '110'),) (44145A47245C38B6)
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Analysis & Synthesis
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Fri Sep 19 11:14:27 2014
+Info: Command: quartus_map tlc2.qsf
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info: Found 2 design units, including 1 entities, in source file tlc2.vhd
+    Info: Found design unit 1: tlc2-RTL
+    Info: Found entity 1: tlc2
+Info: Elaborating entity "tlc2" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at tlc2.vhd(26): used explicit default value for signal "p" because signal was never assigned a value
+Warning: Output pins are stuck at VCC or GND
+    Warning (13410): Pin "output[0]" is stuck at GND
+    Warning (13410): Pin "output[11]" is stuck at GND
+    Warning (13410): Pin "output[12]" is stuck at GND
+    Warning (13410): Pin "output[13]" is stuck at GND
+    Warning (13410): Pin "output[14]" is stuck at GND
+    Warning (13410): Pin "output[15]" is stuck at GND
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 8 warnings
+    Error: Peak virtual memory: 389 megabytes
+    Error: Processing ended: Fri Sep 19 11:14:30 2014
+    Error: Elapsed time: 00:00:03
+    Error: Total CPU time (on all processors): 00:00:01
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
+6               12              2               
+Counter({(12, 2): 5, (10, 2): 1})
+failed (1): [([('p', '011')], Exception('quartus_map missing output file: tlc2.blif',))]

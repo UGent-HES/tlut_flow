@@ -42,6 +42,7 @@ public class ConeConsideredStats extends AbstractMessage {
 	
 	static void finalLog() {
 		if(numBdd != 0) {
+			System.out.println("Debug: Total BDD size considered: "+(sumBddSize));
 			System.out.println("Debug: Avg BDD size considered: "+(sumBddSize/(float)numBdd));
 			System.out.println("Debug: Max BDD size considered: "+maxBddSize);
 			System.out.println("Debug: Avg Cone size considered: "+(sumConeSize/(float)numCones));

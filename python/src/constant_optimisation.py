@@ -152,7 +152,7 @@ def run_VHDL_configuration(id, par_configuration, baseName, vhdl_filename, submo
     qsfFileName = generateQSF(conf_vhdl_filename, submodules)
     
     conf_blif_filename = synthesize(conf_vhdl_filename, qsfFileName, verboseFlag)
-    conf_blif_filename = resynthesize(baseName, conf_blif_filename)
+    conf_blif_filename = resynthesize(baseName, conf_blif_filename, "resyn2;resyn2;resyn2")
     
     # Run regular abc fpga
     #print "Stage: ABC fpga",

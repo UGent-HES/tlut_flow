@@ -17,7 +17,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:03 2014
+    Info: Processing started: Wed Sep 24 11:03:30 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -47,11 +47,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:05 2014
-    Error: Elapsed time: 00:00:02
+    Error: Processing ended: Wed Sep 24 11:03:40 2014
+    Error: Elapsed time: 00:00:10
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-0               25              3               
+0               16              2               
 [('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')]
 Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')) (-DDE167E9F9800FC)
 Info: *******************************************************************
@@ -70,7 +70,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:07 2014
+    Info: Processing started: Wed Sep 24 11:03:46 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -100,11 +100,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:12 2014
-    Error: Elapsed time: 00:00:05
+    Error: Processing ended: Wed Sep 24 11:03:49 2014
+    Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-1               26              4               
+1               16              2               
 [('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')]
 Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')) (4946FD810FA613C)
 Info: *******************************************************************
@@ -123,7 +123,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:14 2014
+    Info: Processing started: Wed Sep 24 11:03:52 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -153,11 +153,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:16 2014
-    Error: Elapsed time: 00:00:02
+    Error: Processing ended: Wed Sep 24 11:03:55 2014
+    Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-2               26              4               
+2               16              2               
 [('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')]
 Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')) (-1C930A8E4E9AF78B)
 Info: *******************************************************************
@@ -176,7 +176,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:18 2014
+    Info: Processing started: Wed Sep 24 11:03:57 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -206,11 +206,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:22 2014
-    Error: Elapsed time: 00:00:04
+    Error: Processing ended: Wed Sep 24 11:04:00 2014
+    Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-3               25              3               
+3               17              2               
 [('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')]
 Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')) (12AEE517B039AB3C)
 Info: *******************************************************************
@@ -229,7 +229,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:24 2014
+    Info: Processing started: Wed Sep 24 11:04:02 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -259,11 +259,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:26 2014
+    Error: Processing ended: Wed Sep 24 11:04:04 2014
     Error: Elapsed time: 00:00:02
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-4               26              3               
+4               17              2               
 [('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')]
 Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')) (38EADA26F545BE75)
 Info: *******************************************************************
@@ -282,7 +282,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:28 2014
+    Info: Processing started: Wed Sep 24 11:04:07 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -312,11 +312,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:32 2014
-    Error: Elapsed time: 00:00:04
+    Error: Processing ended: Wed Sep 24 11:04:10 2014
+    Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-5               27              4               
+5               17              2               
 [('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')]
 Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')) (1BB813895420203D)
 Info: *******************************************************************
@@ -335,7 +335,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:34 2014
+    Info: Processing started: Wed Sep 24 11:04:12 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -365,11 +365,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:36 2014
-    Error: Elapsed time: 00:00:02
+    Error: Processing ended: Wed Sep 24 11:04:15 2014
+    Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-6               27              4               
+6               17              2               
 [('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')]
 Parameter configuration: (('fastforward_en', '0'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')) (7C75400D93A7DD04)
 Info: *******************************************************************
@@ -388,7 +388,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:39 2014
+    Info: Processing started: Wed Sep 24 11:04:17 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -418,11 +418,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:42 2014
+    Error: Processing ended: Wed Sep 24 11:04:20 2014
     Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-7               26              3               
+7               18              2               
 [('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')]
 Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')) (-3AF734D113D439C6)
 Info: *******************************************************************
@@ -441,7 +441,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:44 2014
+    Info: Processing started: Wed Sep 24 11:04:22 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -471,11 +471,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:47 2014
+    Error: Processing ended: Wed Sep 24 11:04:25 2014
     Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-8               26              3               
+8               17              2               
 [('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')]
 Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')) (-424FCCC84AC3D831)
 Info: *******************************************************************
@@ -494,7 +494,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:49 2014
+    Info: Processing started: Wed Sep 24 11:04:27 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -524,11 +524,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:52 2014
+    Error: Processing ended: Wed Sep 24 11:04:30 2014
     Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-9               27              4               
+9               17              2               
 [('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')]
 Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')) (-2AB645F49FB74F09)
 Info: *******************************************************************
@@ -547,7 +547,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:54 2014
+    Info: Processing started: Wed Sep 24 11:04:33 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -577,11 +577,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:46:57 2014
+    Error: Processing ended: Wed Sep 24 11:04:36 2014
     Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-10              23              3               
+10              16              2               
 [('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')]
 Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '0'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')) (-72EB132EB35B615E)
 Info: *******************************************************************
@@ -600,7 +600,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:46:59 2014
+    Info: Processing started: Wed Sep 24 11:04:39 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -630,11 +630,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:47:02 2014
-    Error: Elapsed time: 00:00:03
+    Error: Processing ended: Wed Sep 24 11:04:41 2014
+    Error: Elapsed time: 00:00:02
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-11              26              3               
+11              18              2               
 [('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')]
 Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '0')) (185559CDB5B8E9F7)
 Info: *******************************************************************
@@ -653,7 +653,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:47:04 2014
+    Info: Processing started: Wed Sep 24 11:04:43 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -683,11 +683,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:47:07 2014
+    Error: Processing ended: Wed Sep 24 11:04:46 2014
     Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-12              26              3               
+12              17              2               
 [('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')]
 Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '0'), ('counter_en', '1'), ('loopback_en', '1')) (5C0C02DA28F833A2)
 Info: *******************************************************************
@@ -706,7 +706,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:47:09 2014
+    Info: Processing started: Wed Sep 24 11:04:48 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -736,11 +736,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:47:12 2014
+    Error: Processing ended: Wed Sep 24 11:04:51 2014
     Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-13              26              3               
+13              17              2               
 [('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')]
 Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '0')) (-1BE68FE6A70934C6)
 Info: *******************************************************************
@@ -759,7 +759,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:47:14 2014
+    Info: Processing started: Wed Sep 24 11:04:53 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -789,11 +789,11 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:47:16 2014
-    Error: Elapsed time: 00:00:02
+    Error: Processing ended: Wed Sep 24 11:04:56 2014
+    Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-14              23              3               
+14              16              2               
 [('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')]
 Parameter configuration: (('fastforward_en', '1'), ('Ff_en', '1'), ('dummy_en', '0'), ('Fb_en', '1'), ('counter_en', '1'), ('loopback_en', '1')) (-291C293149B78F31)
 Info: *******************************************************************
@@ -812,7 +812,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 24 10:47:19 2014
+    Info: Processing started: Wed Sep 24 11:04:58 2014
 Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file top_genericblock.vhd
@@ -842,10 +842,10 @@ Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|c
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 9 warnings
     Error: Peak virtual memory: 356 megabytes
-    Error: Processing ended: Wed Sep 24 10:47:22 2014
+    Error: Processing ended: Wed Sep 24 11:05:01 2014
     Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
-15              26              3               
-Counter({(26, 3): 7, (27, 4): 3, (25, 3): 2, (26, 4): 2, (23, 3): 2})
+15              18              2               
+Counter({(17, 2): 8, (16, 2): 5, (18, 2): 3})
 failed (0): []

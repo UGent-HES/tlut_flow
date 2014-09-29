@@ -1,46 +1,46 @@
-cross16-sweep,blif
+cross16-sweep.blif
 Stage: Creating work/cross16-sweep directory and copying design
 Stage: TLUT mapper
-Execution time: 0,45924s
+Execution time: 0.45804s
 Stage: TCON mapper + TLC
-Execution time: 0,51888s
-Execution time sharing: 0,52472s
+Execution time: 0.52262s
+Execution time sharing: 0.52872s
 Stage: TCON mapper
-Execution time: 1,67802s
-Execution time sharing: 1,68358s
+Execution time: 1.38524s
+Execution time sharing: 1.39106s
 Stage: SimpleMAP
-Execution time: 0,36204s
+Execution time: 0.35974s
 tlc2
 Stage: Creating work/tlc2-sweep directory and copying design
 Stage: TLUT mapper
-Execution time: 0,2841s
+Execution time: 0.27968s
 Stage: TCON mapper + TLC
-Execution time: 0,63544s
-Execution time sharing: 0,6416s
+Execution time: 0.633s
+Execution time sharing: 0.6391s
 Stage: TCON mapper
-Execution time: 0,69728s
-Execution time sharing: 0,70354s
+Execution time: 0.69046s
+Execution time sharing: 0.69664s
 Stage: SimpleMAP
-Execution time: 0,25456s
+Execution time: 0.25004s
 tlc4
 Stage: Creating work/tlc4-sweep directory and copying design
 Stage: TLUT mapper
-Execution time: 0,17982s
+Execution time: 0.18292s
 Stage: TCON mapper + TLC
-Execution time: 0,27826s
-Execution time sharing: 0,28382s
+Execution time: 0.2786s
+Execution time sharing: 0.28418s
 Stage: TCON mapper
-Execution time: 0,36776s
-Execution time sharing: 0,3733s
+Execution time: 0.35574s
+Execution time sharing: 0.36114s
 Stage: SimpleMAP
-Execution time: 0,15694s
+Execution time: 0.1572s
 regex
 Stage: Creating work/grid_tile directory and copying design
 Stage: Synthesizing
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
-    Info: Version 10,0 Build 218 06/27/2010 SJ Full Version
-    Info: Copyright (C) 1991-2010 Altera Corporation, All rights reserved,
+    Info: Version 10.0 Build 218 06/27/2010 SJ Full Version
+    Info: Copyright (C) 1991-2010 Altera Corporation. All rights reserved.
     Info: Your use of Altera Corporation's design tools, logic functions 
     Info: and other software and tools, and its AMPP partner logic 
     Info: functions, and any output files from any of the foregoing 
@@ -51,46 +51,46 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Agreement, or other applicable license agreement, including, 
     Info: without limitation, that your use is for the sole purpose of 
     Info: programming logic devices manufactured by Altera and sold by 
-    Info: Altera or its authorized distributors,  Please refer to the 
-    Info: applicable agreement for further details,
-    Info: Processing started: Tue Sep 16 14:47:10 2014
-Info: Command: quartus_map grid_tile,qsf
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Mon Sep 29 10:22:43 2014
+Info: Command: quartus_map grid_tile.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
-Info: Found 2 design units, including 1 entities, in source file design/countDecoder,vhd
+Info: Found 2 design units, including 1 entities, in source file design/countDecoder.vhd
     Info: Found design unit 1: countDecoder-RTL
     Info: Found entity 1: countDecoder
-Info: Found 2 design units, including 1 entities, in source file design/counter,vhd
+Info: Found 2 design units, including 1 entities, in source file design/counter.vhd
     Info: Found design unit 1: counter-rtl
     Info: Found entity 1: counter
-Info: Found 2 design units, including 1 entities, in source file design/test,vhd
+Info: Found 2 design units, including 1 entities, in source file design/test.vhd
     Info: Found design unit 1: test-RTL
     Info: Found entity 1: test
-Info: Found 2 design units, including 1 entities, in source file design/top_genericblock,vhd
+Info: Found 2 design units, including 1 entities, in source file design/top_genericblock.vhd
     Info: Found design unit 1: top_genericblock-RTL
     Info: Found entity 1: top_genericblock
-Info: Found 2 design units, including 1 entities, in source file design/grid_tile,vhd
+Info: Found 2 design units, including 1 entities, in source file design/grid_tile.vhd
     Info: Found design unit 1: grid_tile-RTL
     Info: Found entity 1: grid_tile
 Info: Elaborating entity "grid_tile" for the top level hierarchy
 Info: Elaborating entity "top_genericblock" for hierarchy "top_genericblock:Counter_ent"
 Info: Elaborating entity "counter" for hierarchy "top_genericblock:Counter_ent|counter:Counter_ent"
 Info: Elaborating entity "countDecoder" for hierarchy "top_genericblock:Counter_ent|countDecoder:CountDecoder_ent"
-Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful, 0 errors, 0 warnings
+Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 0 warnings
     Error: Peak virtual memory: 397 megabytes
-    Error: Processing ended: Tue Sep 16 14:47:12 2014
-    Error: Elapsed time: 00:00:02
+    Error: Processing ended: Mon Sep 29 10:22:46 2014
+    Error: Elapsed time: 00:00:03
     Error: Total CPU time (on all processors): 00:00:02
-Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found,
+Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
 Stage: Generating parameters
-Attention: Verify the detected parameters by inspecting work/grid_tile/grid_tile,par
+Attention: Verify the detected parameters by inspecting work/grid_tile/grid_tile.par
 Stage: Resynthesizing
 Stage: TLUT mapper
-Execution time: 0,14298s
+Execution time: 0.13974s
 Stage: TCON mapper + TLC
-Execution time: 0,45064s
-Execution time sharing: 0,45628s
+Execution time: 0.43772s
+Execution time sharing: 0.44316s
 Stage: TCON mapper
-Execution time: 0,49686s
-Execution time sharing: 0,50246s
+Execution time: 0.49164s
+Execution time sharing: 0.4975s
 Stage: SimpleMAP
-Execution time: 0,14028s
+Execution time: 0.13596s

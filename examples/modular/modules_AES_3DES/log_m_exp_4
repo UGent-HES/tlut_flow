@@ -16,7 +16,7 @@ Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Wed Sep 17 08:59:09 2014
+    Info: Processing started: Mon Sep 29 11:21:36 2014
 Info: Command: quartus_map modules_exp.qsf
 Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 2 design units, including 1 entities, in source file 3DES/add_key.vhd
@@ -147,16 +147,16 @@ Info: Elaborating entity "mixColumn" for hierarchy "AES:AES|round:\ROUNDS:1:R|mi
 Warning: 3 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 0 errors, 2 warnings
     Error: Peak virtual memory: 521 megabytes
-    Error: Processing ended: Wed Sep 17 09:04:11 2014
-    Error: Elapsed time: 00:05:02
+    Error: Processing ended: Mon Sep 29 11:26:37 2014
+    Error: Elapsed time: 00:05:01
     Error: Total CPU time (on all processors): 00:04:58
 Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.
 Stage: Generating parameters
 Attention: Verify the detected parameters by inspecting work/modules_exp/modules_exp.par
 Stage: Resynthesizing
 Stage: TLUT mapper
-Debug: Elapsed time after mapping: 5,358e+00s
-Debug: Elapsed time after resource sharing: 5,360e+00s
+Debug: Elapsed time after mapping: 3,066e+00s
+Debug: Elapsed time after resource sharing: 3,068e+00s
 Debug: Num Cones considered: 5467501
 Debug: Num Cones retained: 1084439
 Debug: Num cones not considered because of excessive BDD size: 0
@@ -166,9 +166,9 @@ Debug: Times max cone num to save reached: 0
 Luts (TLUTS)    depth           check           
 64633 (1704)    10              SKIPPED         
 Stage: TCON mapper + TLC
-Debug: Elapsed time after mapping: 1,594e+01s
+Debug: Elapsed time after mapping: 1,557e+01s
 Num LUT resources used with sharing: 60370
-Debug: Elapsed time after resource sharing: 1,602e+01s
+Debug: Elapsed time after resource sharing: 1,564e+01s
 Debug: Num Cones considered: 4965696
 Debug: Num Cones retained: 1046796
 Debug: Num cones not considered because of excessive BDD size: 0
@@ -178,9 +178,9 @@ Debug: Times max cone num to save reached: 0
 Luts (TLUT/TCON)depth           check           
 64375 (1448/256)10              SKIPPED         
 Stage: TCON mapper
-Debug: Elapsed time after mapping: 1,696e+01s
+Debug: Elapsed time after mapping: 1,530e+01s
 Num LUT resources used with sharing: 60372
-Debug: Elapsed time after resource sharing: 1,703e+01s
+Debug: Elapsed time after resource sharing: 1,537e+01s
 Debug: Num Cones considered: 5269451
 Debug: Num Cones retained: 1071369
 Debug: Num cones not considered because of excessive BDD size: 0
@@ -190,7 +190,7 @@ Debug: Times max cone num to save reached: 0
 Luts (TLUT/TCON)depth           check           
 64377 (947/757) 10              SKIPPED         
 Stage: SimpleMAP
-Debug: Elapsed time after mapping: 3,984e+00s
+Debug: Elapsed time after mapping: 2,924e+00s
 Debug: Num Cones considered: 4863035
 Debug: Num Cones retained: 1037017
 Debug: Num cones not considered because of excessive BDD size: 0
