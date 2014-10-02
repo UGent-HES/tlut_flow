@@ -993,7 +993,8 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
                 if (freeVariablePool.peek() > max)
                     max = freeVariablePool.peek();
                     
-				cfile.append("	node["+variableIndex.get(n)+"] = parameter["+input.indexOf(n)+"];"+newLine);//
+				cfile.append("	node["+variableIndex.get(n)+"] = parameter["+input.indexOf(n)+"];");
+			    cfile.append("\t//"+n+newLine);
 				break;
 				
 			case AND:

@@ -198,7 +198,7 @@ public class ExtractInfo {
 				System.out.println(logicalName2Instances.get(lutName).getLut(path));*/
                 x = logicalName2Instances.get(lutName).getSite(path).getInstanceX();
                 y = logicalName2Instances.get(lutName).getSite(path).getInstanceY();
-				cFile.append(",{"+x+","+y);
+				cFile.append(",\n\t{"+x+","+y);
                 if(design.getFamilyName().equals("virtex2p")) {
                     cFile.append(","+(((x % 2) << 1) + (y % 2))); //((X % 2) << 1) + (Y % 2) )
                 } else if(design.getFamilyName().equals("virtex5")) {
