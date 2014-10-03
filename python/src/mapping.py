@@ -85,7 +85,7 @@ def getBasenameAndExtension(filename):
     assert baseName
     return baseName, ext
 
-def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
+def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False, extraArgs=[]):
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
@@ -101,7 +101,7 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
         # Actual mapping using Java tool
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.simple.SimpleMapper']
         # args: input aag file, inputs per LUT, output blif file
-        args = [aagFile, str(K), outFile]
+        args = [aagFile, str(K), outFile] + extraArgs
         if verboseFlag:
             print ' '.join(cmd + args)
         output = subprocess.check_output(cmd + args)
@@ -123,7 +123,7 @@ def simpleMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
         raise
     return (numLuts, depth, check)
 
-def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generateImplementationFilesFlag, inVhdFileName=None, verboseFlag=False):
+def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generateImplementationFilesFlag, inVhdFileName=None, verboseFlag=False, extraArgs=[]):
     try:
         basefname, ext = getBasenameAndExtension(fname)
         
@@ -149,7 +149,7 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
         # Using TMAP to map the circuit
         cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.mapping.tmapSimple.TMapSimple']
         # args: input aag of design, input file with parameters, number of inputs per LUT, output configuration bits of tluts as aag, output parameterised configuration bits luts and tluts as aag, output lutstructure as blif, optional: input vhdl to copy header from, output vhdl with lutstructure
-        args = [aagFile, paramFileName, str(K), parconfFile, lutstructFile]
+        args = [aagFile, paramFileName, str(K), parconfFile, lutstructFile] + extraArgs
         if generateImplementationFilesFlag: args.extend([inVhdFile, outVhdFile, nameFile])
         if verboseFlag:
             print ' '.join(cmd + args)
