@@ -1201,7 +1201,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 	public void removeUnusedNodes() {
 		HashSet<N> unused_ands = new HashSet<N>(getAnds());
 		unused_ands.removeAll(getAllVisibleAnds());
-		ArrayList<E> unused_edges = new ArrayList<E>();
+		HashSet<E> unused_edges = new HashSet<E>();
 		for(N n : unused_ands) {
 			for(E edge : n.getOutputEdges())
 				if(!unused_ands.contains(edge.getHead()))
