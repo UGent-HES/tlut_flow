@@ -742,8 +742,6 @@ port map (
 			
 			signalDeclarations +=  "\nsignal " + stripBrackets(latch.getName()) +
 			    nameSuffix + " : STD_ULOGIC ;";
-			initAttributes += "\nattribute INIT of " + baseName + "_FD_" + stripBrackets(latch.getName()) +
-			    nameSuffix + " : label is \"0\";";
             sAttributes += "\nattribute S of "+stripBrackets(latch.getName()) + nameSuffix + " : signal is \"YES\";";
 				
 			//signalDeclarations = signalDeclarations + "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
@@ -753,7 +751,6 @@ port map (
 	    
 	    
 	    stream.println(signalDeclarations);
-	    stream.println(initAttributes);
         stream.println(sAttributes);
 		
 	    // Add declaration of lock attributes
