@@ -978,7 +978,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 
 		if(fpgaFamily.equals("virtex2pro") || fpgaFamily.equals("virtex5")){
-			hfile.append("void evaluate(Xuint8 parameter[NUMBER_OF_PARAMETERS], Xunit8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]);"+newLine);
+			hfile.append("void evaluate(Xuint8 parameter[NUMBER_OF_PARAMETERS], Xuint8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]);"+newLine);
 			hfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] );"+newLine);
 		} else if(fpgaFamily.equals("zynq") || fpgaFamily.equals("kintex7")){
 			hfile.append("void evaluate(u8 parameter[NUMBER_OF_PARAMETERS], u8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]);"+newLine);

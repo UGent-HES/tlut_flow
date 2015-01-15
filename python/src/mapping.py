@@ -432,8 +432,8 @@ def synthesize(top, qsfFileName, verboseFlag=False):
     return blifFileName
     
 def printCFunction(fileName, CFileName, headerFileName, virtexFamily, verboseFlag=False):
-    if virtexFamily not in ("virtex2pro","virtex5",):
-        raise Exception('Unsupported FPGA family:%s, Supported FPGA families: virtex2pro, virtex5'%virtexFamily)
+    if virtexFamily not in ("virtex2pro","virtex5","zynq","kintex7"):
+        raise Exception('Unsupported FPGA family:%s, Supported FPGA families: virtex2pro, virtex5, zynq, kintex7'%virtexFamily)
     cmd  = ['java','-server','-Xms%dm'%maxMemory,'-Xmx%dm'%maxMemory,'be.ugent.elis.recomp.aig.MakeCEvaluator']
     args = [toaag(fileName), CFileName, headerFileName, virtexFamily]
     if verboseFlag:
