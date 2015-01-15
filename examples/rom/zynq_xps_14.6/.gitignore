@@ -20,14 +20,6 @@
 /*.log
 /pcores/*/design/abc.rc
 
-/swReconfiguration/xhwicap_custom.c
-/swReconfiguration/xhwicap_custom.h
-/swReconfiguration/xhwicap_custom_i.h
-/swReconfiguration/xhwicap_getset_clb_7series.c
-/swReconfiguration/xhwicap_getset_clb_7series.h
-/swReconfiguration/xhwicap_multiframe.c
-/swReconfiguration/xhwicap_multiframe.h
-
 *.bit
 *.elf
 *.bak
