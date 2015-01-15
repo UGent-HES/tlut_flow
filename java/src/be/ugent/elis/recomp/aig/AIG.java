@@ -938,7 +938,7 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		int lutSize = 0;
 		if(fpgaFamily.equals("virtex2pro"))
 		    lutSize = 16; /* 4 input LUT, LUT size should be 2^4 = 16*/
-		else if(fpgaFamily.equals("virtex5") || fpgaFamily.equals("zynq"))
+		else if(fpgaFamily.equals("virtex5") || fpgaFamily.equals("zynq")|| fpgaFamily.equals("kintex7"))
 		    lutSize = 64; /* 6 input LUT, LUT size should be 2^6 = 64 */
 		else {
 		    System.err.println("Error: Unsupported FPGA family: "+fpgaFamily);
@@ -948,27 +948,43 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		Map<N,Integer> variableIndex = new HashMap<N,Integer>();
 		
 		hfile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
-		hfile.append("#include \"xutil.h\""+newLine);
-		hfile.append("#include \"xbasic_types.h\""+newLine);
-		hfile.append("#include \"locations.h\""+newLine+newLine);
-		hfile.append("#include <xhwicap.h>"+newLine+
-		    "#include <xstatus.h>"+newLine+
-		    "#include <xparameters.h>"+newLine+newLine);
+		if(fpgaFamily.equals("virtex2pro") || fpgaFamily.equals("virtex5")){
+			hfile.append("#include \"xutil.h\""+newLine);
+			hfile.append("#include \"xbasic_types.h\""+newLine);
+			hfile.append("#include \"locations.h\""+newLine+newLine);
+			hfile.append("#include <xhwicap.h>"+newLine+
+				"#include <xstatus.h>"+newLine+
+				"#include <xparameters.h>"+newLine+newLine);
+		}else if(fpgaFamily.equals("zynq") || fpgaFamily.equals("kintex7")){
+			/*hfile.append("#include \"xil_testmem.h\""+newLine);*/
+			hfile.append("#include \"xil_assert.h\""+newLine);
+			hfile.append("#include \"locations.h\""+newLine+newLine);
+			hfile.append("#include <xhwicap.h>"+newLine+
+				"#include \"xhwicap_custom.h\""+newLine+
+				"#include <xstatus.h>"+newLine+
+				"#include <xparameters.h>"+newLine+newLine);
+		}
 		
 		if(fpgaFamily.equals("virtex2pro"))
 		    hfile.append("#define HWICAP_DEVICEID       XPAR_OPB_HWICAP_0_DEVICE_ID"+newLine);
-		else if(fpgaFamily.equals("virtex5"))
+		else if(fpgaFamily.equals("virtex5") || fpgaFamily.equals("zynq") || 
+		        fpgaFamily.equals("kintex7"))
 		    hfile.append("#define HWICAP_DEVICEID       XPAR_HWICAP_0_DEVICE_ID"+newLine);
+
 		hfile.append("#define XHI_TARGET_DEVICEID   XHI_READ_DEVICEID_FROM_ICAP"+newLine);
 		hfile.append(
 		    "#define LUT_CONFIG_WIDTH   "+lutSize+newLine+
 		    "#define NUMBER_OF_PARAMETERS  "+this.input.size()+newLine+newLine);
 		
 
+		if(fpgaFamily.equals("virtex2pro") || fpgaFamily.equals("virtex5")){
+			hfile.append("void evaluate(Xuint8 parameter[NUMBER_OF_PARAMETERS], Xunit8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]);"+newLine);
+			hfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] );"+newLine);
+		} else if(fpgaFamily.equals("zynq") || fpgaFamily.equals("kintex7")){
+			hfile.append("void evaluate(u8 parameter[NUMBER_OF_PARAMETERS], u8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]);"+newLine);
+			hfile.append("void reconfigure(XHwIcap *HwIcap, u8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] );"+newLine);
 
-		hfile.append("void evaluate(Xuint8 parameter[NUMBER_OF_PARAMETERS], Xuint8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]);"+newLine);
-		hfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] );"+newLine);
-		
+		}
 		
 		cfile.append("//WARNING: Don't edit. Automatically regenerated file (TLUT flow)"+newLine);
 		cfile.append("#include \""+headerFileName+"\""+newLine);
@@ -976,10 +992,17 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		    cfile.append("#include <xhwicap_clb_lut.h>"+newLine+newLine);
 		else if(fpgaFamily.equals("virtex5"))
 		    cfile.append("#include \"xhwicap_clb_lut_replacement.h\""+newLine+newLine);
-        cfile.append("void evaluate(Xuint8 parameter[NUMBER_OF_PARAMETERS], Xuint8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]) {"+newLine);
+		else if(fpgaFamily.equals("zynq") || fpgaFamily.equals("kintex7"))
+		    cfile.append("#include \"xhwicap_clb_lut_replacement.h\""+newLine+newLine);   
 		
-		cfile.append("	Xuint8 node[??];"+newLine);
-
+		if(fpgaFamily.equals("virtex2pro") || fpgaFamily.equals("virtex5") ){    
+			cfile.append("void evaluate(Xuint8 parameter[NUMBER_OF_PARAMETERS], Xuint8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]) {"+newLine);
+			cfile.append("	Xuint8 node[??];"+newLine);
+		}
+		else if(fpgaFamily.equals("zynq") || fpgaFamily.equals("kintex7")){
+			cfile.append("void evaluate(u8 parameter[NUMBER_OF_PARAMETERS], u8 output[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH]) {"+newLine);
+			cfile.append("	u8 node[??];"+newLine);
+		}
 		variableIndex.put(const0, freeVariablePool.poll());
 		cfile.append("	node["+variableIndex.get(const0)+"] = 0;"+newLine);
 
@@ -1054,9 +1077,16 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 
 		cfile.append("}"+newLine+newLine);
 		cfile.append("//reconfigure one instance"+newLine);
-		cfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] ) {"+newLine);
-		cfile.append("	//reconfigure all the TLUTs one by one"+newLine);
-		cfile.append("	Xuint32 i;"+newLine);
+		if(fpgaFamily.equals("virtex2pro") || fpgaFamily.equals("virtex5")){
+			cfile.append("void reconfigure(XHwIcap *HwIcap, Xuint8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] ) {"+newLine);
+			cfile.append("	//reconfigure all the TLUTs one by one"+newLine);
+			cfile.append("	Xuint32 i;"+newLine);
+		} else if (fpgaFamily.equals("zynq") || (fpgaFamily.equals("kintex7"))) {
+			cfile.append("void reconfigure(XHwIcap *HwIcap, u8 newtruthtables[NUMBER_OF_TLUTS_PER_INSTANCE][LUT_CONFIG_WIDTH], const lutlocation location[] ) {"+newLine);
+			cfile.append("	//reconfigure all the TLUTs one by one"+newLine);
+			cfile.append("	u32 i;"+newLine);
+		}
+		
 		cfile.append("	for(i =0;i<NUMBER_OF_TLUTS_PER_INSTANCE;i++) {"+newLine);
 		cfile.append("		XStatus Status;"+newLine);
 		String withM = "";
@@ -1064,11 +1094,21 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		    withM = "m";
 		else if(fpgaFamily.equals("virtex5"))
 		    withM = "";
-		cfile.append("		Xuint32 ColNum = XHwIcap_"+withM+"SliceX2Col(location[i].lutCol);"+newLine);
-		cfile.append("		Xuint32 RowNum = XHwIcap_"+withM+"SliceY2Row(HwIcap, location[i].lutRow);"+newLine);
-		cfile.append("		Status = XHwIcap_SetClbBits(HwIcap, RowNum, ColNum, XHI_CLB_LUT.CONTENTS[location[i].sliceType][location[i].lutType], newtruthtables[i], LUT_CONFIG_WIDTH);"+newLine);
-		cfile.append("	}"+newLine);
-		
+		else if(fpgaFamily.equals("zynq") || fpgaFamily.equals("kintex7"))
+		    withM = "";
+
+		if(fpgaFamily.equals("virtex2pro") || (fpgaFamily.equals("virtex5"))) {
+				cfile.append("		Xuint32 ColNum = XHwIcap_"+withM+"SliceX2Col(location[i].lutCol);"+newLine);
+				cfile.append("		Xuint32 RowNum = XHwIcap_"+withM+"SliceY2Row(HwIcap, location[i].lutRow);"+newLine);
+				cfile.append("		Status = XHwIcap_SetClbBits(HwIcap, RowNum, ColNum, XHI_CLB_LUT.CONTENTS[location[i].sliceType][location[i].lutType], newtruthtables[i], LUT_CONFIG_WIDTH);"+newLine);
+				cfile.append("	}"+newLine);
+		}else if(fpgaFamily.equals("zynq") || fpgaFamily.equals("kintex7")) {
+				cfile.append("		u32 ColNum = location[i].lutCol;"+newLine);
+				cfile.append("		u32 RowNum = location[i].lutRow;"+newLine);
+				cfile.append("		Status = XHwIcap_Custom_SetClbBits(HwIcap, RowNum, ColNum, XHI_CLB_LUT_replacement.CONTENTS[location[i].sliceType][location[i].lutType], newtruthtables[i], LUT_CONFIG_WIDTH);"+newLine);
+				cfile.append("	}"+newLine);
+		}			
+			
 		cfile.append("}"+newLine+newLine);
 		
 		cfile.append("/*"+newLine);
@@ -1109,9 +1149,15 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
             cfile.append("	Status = XHwIcap_SelfTest(&HwIcap);"+newLine);
             cfile.append("	if (Status != XST_SUCCESS) return XST_FAILURE;"+newLine);
             cfile.append("	//Run-time reconfiguration"+newLine);
-            cfile.append("	Xuint32 i;"+newLine);
-            cfile.append("	Xuint8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
-            cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][LUT_CONFIG_WIDTH];"+newLine);
+       		if(fpgaFamily.equals("virtex2pro") || fpgaFamily.equals("virtex5")) {
+				cfile.append("	Xuint32 i;"+newLine);
+				cfile.append("	Xuint8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
+				cfile.append("	Xuint8 output[NUMBER_OF_INSTANCES][LUT_CONFIG_WIDTH];"+newLine);
+            } else if(fpgaFamily.equals("zynq") || (fpgaFamily.equals("kintex7"))) {
+				cfile.append("	u32 i;"+newLine);
+				cfile.append("	u8 parameter[NUMBER_OF_PARAMETERS];"+newLine);
+				cfile.append("	u8 output[NUMBER_OF_INSTANCES][LUT_CONFIG_WIDTH];"+newLine);
+            }
             cfile.append("	xil_printf(\"Configuring the LUTs for p=0...\\n\\r\");"+newLine);
             cfile.append("	for (i=0;i<NUMBER_OF_INSTANCES;i++) {"+newLine);
             cfile.append("		//Reconfigure one instance"+newLine);

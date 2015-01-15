@@ -1,0 +1,11 @@
+##############################################################################
+## Filename:          /home/akulkarn/private/Desktop/git/tlut_flow/examples/rom/zynq_xps_14.6/pcores/axi_rom_v1_00_a/data/axi_rom_v2_1_0.pao
+## Description:       Peripheral Analysis Order
+## Date:              Wed Oct 30 16:22:27 2013 (by Create and Import Peripheral Wizard)
+##############################################################################
+
+lib axi_rom_v1_00_a rom.vhd vhdl
+lib proc_common_v3_00_a  all 
+lib axi_lite_ipif_v1_01_a  all 
+lib axi_rom_v1_00_a user_logic vhdl
+lib axi_rom_v1_00_a axi_rom vhdl

@@ -81,9 +81,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         
     if virtexFamily in ("virtex2pro",):
         K = 4
-    elif virtexFamily in ("virtex5",):
-        K = 6
-    elif virtexFamily in ("zynq",):
+    elif virtexFamily in ("virtex5", "zynq", "kintex7"):
         K = 6
     elif virtexFamily != None:
         raise Exception("Unknown virtex family: %s"%virtexFamily)

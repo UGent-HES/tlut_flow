@@ -743,10 +743,6 @@ port map (
 			signalDeclarations +=  "\nsignal " + stripBrackets(latch.getName()) +
 			    nameSuffix + " : STD_ULOGIC ;";
             sAttributes += "\nattribute S of "+stripBrackets(latch.getName()) + nameSuffix + " : signal is \"YES\";";
-				
-			//signalDeclarations = signalDeclarations + "\nsignal "+stripBrackets(latch.getName()) +" : STD_ULOGIC ;";
-			//initAttributes = initAttributes + "\nattribute INIT of FD_"+stripBrackets(latch.getName())+" : label is \"0\";"; 
-				
 		}
 	    
 	    

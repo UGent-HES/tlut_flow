@@ -1,0 +1,29 @@
+*.pydevproject
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+.metadata/
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PDT-specific
+.buildpath
+
+ps7_cortexa9_*
+*.elf.elfcheck
+*.elf.size
+*.elf
+*.bit
+*.bmm
