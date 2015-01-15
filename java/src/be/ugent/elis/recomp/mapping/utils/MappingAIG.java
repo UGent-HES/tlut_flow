@@ -68,12 +68,14 @@ All rights reserved.
 */
 package be.ugent.elis.recomp.mapping.utils;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -85,6 +87,7 @@ import be.ugent.elis.recomp.aig.ElementFactory;
 import be.ugent.elis.recomp.aig.NodeType;
 import be.ugent.elis.recomp.synthesis.BooleanFunction;
 import be.ugent.elis.recomp.synthesis.Minterm;
+import be.ugent.elis.recomp.util.ExtractInfo;
 
 public class MappingAIG extends AIG<Node, Edge> {
 
@@ -712,10 +715,8 @@ port map (
 	    
 	    // Add declaration of signals and init attributes
 	    String signalDeclarations = "";
-		String initAttributes = "\nattribute INIT : string;";
 		String sAttributes = "\nattribute S : string;";
 
-		
 	    for (Node and : getAnds()) {
 			if (and.isVisible()) {	
 				ConeInterface bestCone = and.getBestCone();
@@ -726,17 +727,11 @@ port map (
 				if(checkOutputLutInversion(and) == OutputLutInversion.AllOutsInverted || 
 				        checkOutputLutInversion(and) == OutputLutInversion.MixedOuts) {
 					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+"not : STD_ULOGIC ;";
-					initAttributes += "\nattribute INIT of "+baseName+"_"+lutOrTlut+lutSize+"_"+and.getName()+
-					    "not: label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
                     sAttributes += "\nattribute S of "+and.getName()+"not : signal is \"YES\";";
-					    
 				}
 				if(checkOutputLutInversion(and) != OutputLutInversion.AllOutsInverted){
 					signalDeclarations = signalDeclarations + "\nsignal "+and.getName()+" : STD_ULOGIC ;";
-					initAttributes += "\nattribute INIT of "+baseName+"_"+lutOrTlut+lutSize+"_"+and.getName()+
-					    ": label is \""+Integer.toString((int) java.lang.Math.pow(2, lutSize))+"\";";
                     sAttributes += "\nattribute S of "+and.getName()+" : signal is \"YES\";";
-					    
 				}
 					
 			}	

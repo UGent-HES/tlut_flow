@@ -937,9 +937,9 @@ public class AIG< N extends AbstractNode<N,E>, E extends AbstractEdge<N,E>> {
 		
 		int lutSize = 0;
 		if(fpgaFamily.equals("virtex2pro"))
-		    lutSize = 16;
-		else if(fpgaFamily.equals("virtex5"))
-		    lutSize = 64;
+		    lutSize = 16; /* 4 input LUT, LUT size should be 2^4 = 16*/
+		else if(fpgaFamily.equals("virtex5") || fpgaFamily.equals("zynq"))
+		    lutSize = 64; /* 6 input LUT, LUT size should be 2^6 = 64 */
 		else {
 		    System.err.println("Error: Unsupported FPGA family: "+fpgaFamily);
 		    System.exit(1);

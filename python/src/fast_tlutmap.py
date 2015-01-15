@@ -83,6 +83,8 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
         K = 4
     elif virtexFamily in ("virtex5",):
         K = 6
+    elif virtexFamily in ("zynq",):
+        K = 6
     elif virtexFamily != None:
         raise Exception("Unknown virtex family: %s"%virtexFamily)
     

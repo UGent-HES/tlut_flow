@@ -188,12 +188,12 @@ def generateMake(makefileName, virtexFamily):
 
 def main():
     if len(sys.argv)!=2:
-        print >>sys.stderr, "Error: No virtex family argument. Possibilities: virtex2Pro, virtex5"
+        print >>sys.stderr, "Error: No virtex family argument. Possibilities: virtex2Pro, virtex5, zynq"
         exit(1)
     virtexFamily = sys.argv[1].lower()
-    if virtexFamily not in ("virtex2pro","virtex5"):
+    if virtexFamily not in ("virtex2pro","virtex5", "zynq"):
         print >> sys.stderr, "Error: Unsupported FPGA family:", virtexFamily
-        print >> sys.stderr, "Supported FPGA families: virtex2pro, virtex5"
+        print >> sys.stderr, "Supported FPGA families: virtex2pro, virtex5, zynq"
         exit(1)
         
     generateMake("tmap.make", virtexFamily)

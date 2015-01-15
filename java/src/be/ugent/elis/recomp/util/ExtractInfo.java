@@ -71,7 +71,7 @@ public class ExtractInfo {
 		if(design.getFamilyName().equals("virtex2p")) {
 			lutsInSite.add("F");
 			lutsInSite.add("G");
-		} else if(design.getFamilyName().equals("virtex5")) {
+		} else if(design.getFamilyName().equals("virtex5") || design.getFamilyName().equals("zynq")) {
 			lutsInSite.add("A6LUT");
 			lutsInSite.add("B6LUT");
 			lutsInSite.add("C6LUT");
@@ -244,7 +244,7 @@ public class ExtractInfo {
 		if(design.getFamilyName().equals("virtex2p")) {
             stream.println("#define XHI_CLB_LUT_F 0");
             stream.println("#define XHI_CLB_LUT_G 1"+newLine);
-		} else if(design.getFamilyName().equals("virtex5")) {
+		} else if(design.getFamilyName().equals("virtex5") || design.getFamilyName().equals("zynq")) {
             stream.println("#define XHI_CLB_SLICEM_EVEN 0");
             stream.println("#define XHI_CLB_SLICEL_ODD 1");
             stream.println("#define XHI_CLB_SLICEL_EVEN 2");
