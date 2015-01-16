@@ -82,7 +82,7 @@ All rights reserved.
 * Created by Ghent University
 * 
 *******************************************************************************************************
-
+**/
 #ifndef XHWICAP_MULTIFRAME_H_
 #define XHWICAP_MULTIFRAME_H_
 
