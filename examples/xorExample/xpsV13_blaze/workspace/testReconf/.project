@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>testReconf_0</name>
-	<comment>testReconf_bsp_0 - microblaze_0</comment>
+	<comment></comment>
 	<projects>
+		<project>hello_world_bsp_0</project>
 		<project>testReconf_bsp_0</project>
 	</projects>
 	<buildSpec>
@@ -83,7 +84,7 @@
 		<link>
 			<name>src/swReconfiguration</name>
 			<type>2</type>
-			<locationURI>PARENT-2-PROJECT_LOC/git/tlut/examples/xorExample/xpsV13_blaze/swReconfiguration</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/swReconfiguration</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

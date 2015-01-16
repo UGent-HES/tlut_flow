@@ -12,8 +12,8 @@ make all
 cd -
 
 #downloading
-elfcheck -hw workspace/microblaze/system.xml -mode bootload -mem BRAM -pe microblaze_0 workspace/testReconf/Debug/testReconf_0.elf
+elfcheck -hw workspace/microblaze/system.xml -mode bootload -mem BRAM -pe microblaze_0 workspace/testReconf/Debug/testReconf.elf
 
-data2mem -bm implementation/system_bd.bmm -bt implementation/system.bit -bd workspace/testReconf/Debug/testReconf_0.elf tag microblaze_0 -o b implementation/download.bit
+data2mem -bm implementation/system_bd.bmm -bt implementation/system.bit -bd workspace/testReconf/Debug/testReconf.elf tag microblaze_0 -o b implementation/download.bit
 
 impact -batch etc/download.cmd
