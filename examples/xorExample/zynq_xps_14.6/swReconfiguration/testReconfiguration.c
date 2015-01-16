@@ -1,4 +1,4 @@
-*******************************************************************************************************
+/*******************************************************************************************************
 SOFTWARE LICENSE AGREEMENT
 
 This software license agreement (hereinafter referred to as the "Agreement") provides the terms and conditions under which Universiteit Gent - Ghent University (hereinafter referred to as "UGent") is willing to grant you (being the person or entity installing and using the Licensed Software for Non-Commercial Purposes, hereinafter referred to as the "Licensee")  a non-exclusive, limited right to use the Licensed Software under UGent Copyright.
