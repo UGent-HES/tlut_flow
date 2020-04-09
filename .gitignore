@@ -7,6 +7,8 @@
 /third_party/etc
 /third_party/aiger-*
 /third_party/abc_*
+!/third_party/abc_810ba683c042.tar.gz
+/third_party/jopt*
 /third_party/hessian-*.jar
 /third_party/rapidSmith-*.gz
 /third_party/rapidSmith

@@ -74,8 +74,7 @@ third_party/abc_${ABC_VERSION} : third_party/abc_${ABC_VERSION}.tar.gz
 	touch third_party/abc_${ABC_VERSION}
 
 third_party/abc_${ABC_VERSION}.tar.gz :
-	cd third_party && curl -O https://bitbucket.org/alanmi/abc/get/${ABC_VERSION}.tar.gz
-	cd third_party && mv ${ABC_VERSION}.tar.gz abc_${ABC_VERSION}.tar.gz
+	cd third_party
 
 
 third_party/rapidSmith : third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
@@ -86,4 +85,4 @@ third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz :
 	cd third_party && curl -L -O http://downloads.sourceforge.net/project/rapidsmith/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
 
 third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar : 
-	cd third_party && curl -O http://central.maven.org/maven2/net/sf/jopt-simple/jopt-simple/${JOPT_SIMPLE_VERSION}/jopt-simple-${JOPT_SIMPLE_VERSION}.jar
+	cd third_party && curl -O https://repo1.maven.org/maven2/net/sf/jopt-simple/jopt-simple/4.5/jopt-simple-4.5.jar
