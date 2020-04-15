@@ -5,7 +5,7 @@ from fast_tlutmap import run
 
 def main():
     try:
-        run('subst_row_mem.vhd', K=4, performCheck=True, verboseFlag=False, virtexFamily='virtex2pro', generateImplementationFilesFlag=True)
+        run('subst_row_mem.vhd', K=4, performCheck=False, verboseFlag=False, virtexFamily='virtex2pro', generateImplementationFilesFlag=True)
     except Exception as e:
         print >>sys.stderr, e
         exit(1)

@@ -1,5 +1,4 @@
 AIGER_VERSION = 1.9.4
-ABC_VERSION = 810ba683c042
 RAPIDSMITH_VERSION = 0.5.2-linux64
 HESSIAN_VERSION = 4.0.6
 JOPT_SIMPLE_VERSION = 4.5
@@ -33,7 +32,7 @@ source :
 
 third_party : aigtoaig abc rapidSmith jopt_simple
 aigtoaig : third_party/aiger-${AIGER_VERSION}/aigtoaig third_party/bin/aigtoaig
-abc : third_party/abc_${ABC_VERSION}/abc third_party/bin/abc third_party/etc/abc.rc
+abc : third_party/abc third_party/bin/abc third_party/etc/abc.rc
 rapidSmith : third_party/rapidSmith
 jopt_simple : third_party/jopt-simple-${JOPT_SIMPLE_VERSION}.jar
 
@@ -58,24 +57,17 @@ third_party/aiger-${AIGER_VERSION}.tar.gz :
 
 third_party/bin/abc :
 	mkdir -p third_party/bin
-	ln -s ../abc_${ABC_VERSION}/abc third_party/bin/abc
+	ln -s ../abc/abc third_party/bin/abc
 
 third_party/etc/abc.rc :
 	mkdir -p third_party/etc
-	ln -s ../abc_${ABC_VERSION}/abc.rc third_party/etc/abc.rc
+	ln -s ../abc/abc.rc third_party/etc/abc.rc
 
-third_party/abc_${ABC_VERSION}/abc : third_party/abc_${ABC_VERSION}
-	cd third_party/abc_${ABC_VERSION} && make
+third_party/abc : third_party/abc_git
+	cd third_party/abc && make
 
-third_party/abc_${ABC_VERSION} : third_party/abc_${ABC_VERSION}.tar.gz
-	tar -xzf third_party/abc_${ABC_VERSION}.tar.gz -C third_party/
-	cd third_party && mv alanmi-abc-${ABC_VERSION} abc_${ABC_VERSION}
-	cd third_party/abc_${ABC_VERSION} && patch < ../abc_makefile.patch
-	touch third_party/abc_${ABC_VERSION}
-
-third_party/abc_${ABC_VERSION}.tar.gz :
-	cd third_party
-
+third_party/abc_git:
+	cd third_party && git clone https://github.com/berkeley-abc/abc.git
 
 third_party/rapidSmith : third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz
 	tar -xzf third_party/rapidSmith-${RAPIDSMITH_VERSION}.tar.gz -C third_party/

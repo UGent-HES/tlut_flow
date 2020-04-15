@@ -1,8 +1,7 @@
 --TMAP
 library ieee;
 use ieee.numeric_std.all;
-use IEEE.math_real.CEIL;
-use IEEE.math_real.LOG;
+use IEEE.math_real.all;
 use ieee.std_logic_1164.all;
 
 library work;
@@ -55,7 +54,7 @@ port(
 end firTree32tap;
 
 architecture behavior of firTree32tap is
-    constant numLevels      : integer := integer(CEIL(LOG(real(DATA_WIDTH), 2.0)))+1;
+    constant numLevels      : integer := integer(CEIL(LOG2(2.0)))+1;
 
     type intermediate_t is array (0 to 32) of std_logic_vector((2*DATA_WIDTH)-1+31 downto 0);
     signal intermediate : intermediate_t := (others => (others => '0'));

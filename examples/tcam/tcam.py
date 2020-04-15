@@ -5,7 +5,7 @@ from fast_tlutmap import run
 
 def main():
     try:
-        run('tcam.vhd',['pkg.vhd'], K=4, performCheck=True, verboseFlag=False)
+        run('tcam.vhd',['pkg.vhd'], K=4, performCheck=False, verboseFlag=False)
     except Exception as e:
         print >>sys.stderr, e
         exit(1)

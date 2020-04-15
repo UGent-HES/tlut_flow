@@ -76,7 +76,7 @@ def collumnize(items,width):
     return ''.join([str(item).ljust(width) for item in items])
 
 #Copy and edit this function, or call it with your vhdl module as its argument (optional list of submodules as second argument)
-def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, qsfFileName=None, parameterFileName=None, synthesizedFileName=None, verboseFlag=False):
+def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, generateImplementationFilesFlag=False, resynthesizeFlag=False, parameterFileName=None, synthesizedFileName=None, verboseFlag=False):
     baseName, ext = getBasenameAndExtension(os.path.basename(module))
         
     if virtexFamily in ("virtex2pro",):
@@ -90,7 +90,6 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     workDir = "work/"+baseName
     print "Stage: Creating %s directory and copying design"%workDir
     workFiles = [module] + submodules
-    if qsfFileName: workFiles.append(qsfFileName)
     if parameterFileName: workFiles.append(parameterFileName)
     if synthesizedFileName: workFiles.append(synthesizedFileName)
     createWorkDirAndCopyFiles(workDir, workFiles)
@@ -101,9 +100,7 @@ def run(module, submodules=[], K=4, virtexFamily=None, performCheck=True, genera
     # Synthesis
     if synthesizedFileName == None:
         print "Stage: Synthesizing"
-        if qsfFileName == None:
-            qsfFileName = generateQSF(module, submodules)
-        synthesizedFileName = synthesize(module, qsfFileName, verboseFlag)
+        synthesizedFileName = synthesize(module, K, verboseFlag, workFiles)
     
     # Automatically extract parameters from VHDL
     print "Stage: Generating parameters"

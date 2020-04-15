@@ -5,7 +5,7 @@ from fast_tlutmap import run
 
 def main():
     try:
-        run('firTree32tap.vhd', ['mult8bit.vhd', 'treeMult4b.vhd'], K=4, performCheck=True,verboseFlag=False)
+        run('firTree32tap.vhd', ['mult8bit.vhd', 'treeMult4b.vhd'], K=6, performCheck=False, verboseFlag=False)
     except Exception as e:
         print >>sys.stderr, e
         exit(1)

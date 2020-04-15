@@ -236,11 +236,13 @@ def simpleTMapper(basename, fname, paramFileName, K, checkFunctionality, generat
 
 def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
     try:
+        ext = '.blif'
+        assert fname.endswith(ext)
         assert basename
-        inFile = toaig(fname)
+        inFile = fname
         outFile =  basename + "-fpga.blif"
         
-        cmd = ['abc', '-c', 'strash; fpga -K '+str(K)+'; write '+outFile+'; print_stats', inFile]
+        cmd = ['abc', '-c', 'strash; if -K '+str(K)+'; write '+outFile+'; print_stats', inFile]
         if verboseFlag:
             print cmd
         output = subprocess.check_output(cmd)
@@ -256,18 +258,18 @@ def fpgaMapper(basename, fname, K, checkFunctionality, verboseFlag=False):
             if not verboseFlag:
                 print cmd
                 print output
-            raise Exception('Unexpected output from abc print_stats')
+            print >> sys.stderr, "Error: unexpected output from abc print_stats (3)."
+            exit(2)
         if checkFunctionality:
-            check = miter(inFile, outFile, verboseFlag)
+            check   = miter(inFile, outFile, verboseFlag)
         else:
             check = "SKIPPED"
     except subprocess.CalledProcessError as e:
-        if not verboseFlag:
-            print cmd
-            print output
-        print >> sys.stderr, e.output
-        raise
+        print >> sys.stderr, e
+        #raise
+        exit(2)
     return (numLuts, depth, check)
+
 
 def aagtoaig(aagFileName):
     basename, ext = getBasenameAndExtension(aagFileName)
@@ -298,6 +300,7 @@ def bliftoaig(blifFileName):
 
     os.system("rm -f "+aigFileName)
     cmd = ['abc', '-c', 'strash; zero; write '+aigFileName, blifFileName]
+
     output = subprocess.check_output(cmd)
     if not os.path.exists(aigFileName):
         print output
@@ -382,52 +385,24 @@ def resynthesize(basename, fname, script='resyn2', verboseFlag=False):
         raise Exception("abc unsuccesful: resynthesized blif/aag file %s was not created"%outFileName)
     
     return outFileName
-
-def generateQSF(top, submodules):
-    basename, ext = getBasenameAndExtension(os.path.basename(top))
-    qsfFileName = basename + '.qsf'
     
-    with open(qsfFileName, "w") as fout:
-        for file in submodules + [top]:
-            if getBasenameAndExtension(file)[1] in ('vhd','vhdl'):
-                fout.write('set_global_assignment -name VHDL_FILE ' + file + '\n')
-            elif getBasenameAndExtension(file)[1] in ('v',):
-                fout.write('set_global_assignment -name VERILOG_FILE ' + file + '\n')
-            else:
-                raise Exception('File does not have vhdl, vhd or v file extension: %s'%file)
-        
-        fout.write('set_global_assignment -name FAMILY Stratix \n');
-        fout.write('set_global_assignment -name TOP_LEVEL_ENTITY ' + basename + '\n');
-        fout.write('set_global_assignment -name DEVICE_FILTER_SPEED_GRADE FASTEST\n');
-    
-        fout.write('set_global_assignment -name INI_VARS \"no_add_ops=on\;opt_dont_use_mac=on\;dump_blif_after_lut_map=on\;abort_after_dumping_blif=on\"\n');
-    
-        fout.write('set_global_assignment -name DEVICE AUTO\n');
-        fout.write('set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1\n');
-        fout.write('set_global_assignment -name AUTO_RAM_RECOGNITION off\n')
-        fout.write('set_global_assignment -name AUTO_ROM_RECOGNITION off\n')
-        fout.write('set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION off\n')
-        #fout.write('set_global_assignment -name AUTO_DSP_RECOGNITION off\n')
-        fout.close()
-    return qsfFileName
-    
-def synthesize(top, qsfFileName, verboseFlag=False):
+def synthesize(top, K, verboseFlag=False, workFiles=[]):
     basename, ext = getBasenameAndExtension(os.path.basename(top))
 
     blifFileName  = basename + ".blif"
     os.system("rm -f "+blifFileName)
 
-    cmd = 'quartus_map ' + qsfFileName
+    workFiles = ' '.join(workFiles)
+    print(workFiles)
+    cmd =  "docker run --rm -t   -v $(pwd):/src   -w /src   ghdl/synth:beta   yosys -m ghdl -p 'ghdl -fsynopsys "+workFiles+ " -e "+basename+"; synth -lut "+str(K)+" ; write_blif "+basename+".blif'"
+
     if verboseFlag:
         print cmd
     output = commands.getoutput(cmd);
     print output
-    if output.find(' 0 errors')==-1:
-        raise Exception('quartus_map unsuccesful on: %s'%basename)
-    print 'Please ignore the error message "Error: Quartus II Analysis & Synthesis was unsuccessful" if 0 errors and 0 warnings are found.'
-    
+
     if not os.path.exists(blifFileName):
-        raise Exception('quartus_map missing output file: %s'%blifFileName)
+        raise Exception('Yosys: missing output file: %s'%blifFileName)
     
     return blifFileName
     
