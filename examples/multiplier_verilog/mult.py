@@ -5,7 +5,7 @@ from fast_tlutmap import run
 
 def main():
     try:
-        run('mult.v', K=4, performCheck=True, generateImplementationFilesFlag=False, verboseFlag=False)
+        run('mult.v', K=4, performCheck=False, generateImplementationFilesFlag=False, verboseFlag=False)
     except Exception as e:
         print >>sys.stderr, e
         exit(1)
