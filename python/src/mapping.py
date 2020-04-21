@@ -395,7 +395,8 @@ def synthesize(top, K, verboseFlag=False, workFiles=[]):
     workFiles = ' '.join(workFiles)
     print(workFiles)
     if ext == "vhd" or ext == "vhdl":
-        cmd =  "docker run --rm -t   -v $(pwd):/src   -w /src   ghdl/synth:beta   yosys -m ghdl -p 'ghdl -fsynopsys "+workFiles+ " -e "+basename+"; synth -lut "+str(K)+" ; write_blif "+basename+".blif'"
+        #cmd =  "docker run --rm -t   -v $(pwd):/src   -w /src   ghdl/synth:beta   yosys -m ghdl -p 'ghdl -fsynopsys "+workFiles+ " -e "+basename+"; synth -lut "+str(K)+" ; write_blif "+basename+".blif'"
+        cmd =  "yosys -m ghdl -p 'ghdl -fsynopsys "+workFiles+ " -e "+basename+"; synth -lut "+str(K)+" ; write_blif "+basename+".blif'"
     elif ext == "v":
         with open("synthesis.ys", "w") as sfile:
             sfile.write("read_verilog "+workFiles+"\n")
